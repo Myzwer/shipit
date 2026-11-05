@@ -87,11 +87,24 @@ dev_resolve_bounty_eligibility_at('cocktail', <utc>) # includes grace
 get_my_current_cocktail_bounty()                   # always now()
 ```
 
-## Remaining after Phase 2D-B1
+## Fixed daily (Phase 2D-B2)
 
-- Phase 2D-B2: Bar / Daily Challenge Home wiring
+- `bar_bounties` / `daily_challenges` — one assignment per cruise day
+- Player: `get_my_current_bar_bounty`, `get_my_current_daily_challenge`, `get_my_drinkit_home_board`
+- Seed: `dev_seed_daily_assignments` (development-only fixtures)
+- Timed sim: `dev_get_current_bar_bounty_at` / `dev_get_current_daily_challenge_at` (service_role)
+
+## Admin Pause/Resume
+
+- `admin_set_drinkit_paused(p_paused, p_client_request_id)` — idempotent; audited
+- `admin_get_drinkit_pause_status`
+- Does not affect Ship It!; cannot reopen after finale
+
+## Remaining after Phase 2D-B2
+
 - Scoring / claim resolution using grace (Phase 3)
 - Admin Skip
 - Production Publish/Rollback (not `dev_*`)
+- Final production Bar/Daily content
 
-Home Cocktail/Ingredient UI: [`docs/HOME_BOUNTIES.md`](./HOME_BOUNTIES.md).
+Home UI: [`docs/HOME_BOUNTIES.md`](./HOME_BOUNTIES.md).

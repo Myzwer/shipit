@@ -20,6 +20,10 @@ describe('approved copy', () => {
       'Drink It! is temporarily paused while we check the menus. Check back soon!',
     )
     expect(copy.bounty.availableAt).toBe('Available at {barCount} {barOrBars}')
+    expect(copy.admin.pauseDrinkIt).toBe('Pause Drink It!')
+    expect(copy.admin.resumeDrinkIt).toBe('Resume Drink It!')
+    expect(copy.admin.confirmPauseTitle).toBe('Pause Drink It!?')
+    expect(copy.admin.drinkItRunning).toBe('Drink It! is running.')
   })
 
   it('formats placeholders', () => {

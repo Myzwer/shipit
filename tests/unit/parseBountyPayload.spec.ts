@@ -13,6 +13,7 @@ describe('parseBountyPayload', () => {
     expect(parseCocktailBountyPayload({ status: 'paused', reason: 'drinkit_paused' })).toEqual({
       status: 'paused',
       reason: 'drinkit_paused',
+      cruise_day: null,
     })
   })
 

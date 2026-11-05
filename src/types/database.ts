@@ -128,6 +128,26 @@ export interface Database {
         Args: Record<string, never>
         Returns: Record<string, unknown>
       }
+      get_my_current_bar_bounty: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      get_my_current_daily_challenge: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      get_my_drinkit_home_board: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      admin_get_drinkit_pause_status: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      admin_set_drinkit_paused: {
+        Args: { p_paused: boolean; p_client_request_id: string | null }
+        Returns: Record<string, unknown>
+      }
       admin_get_clock_diagnostics: {
         Args: Record<string, never>
         Returns: Record<string, unknown>

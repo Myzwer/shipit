@@ -7,9 +7,13 @@ import {
 } from '@/lib/bounty/tierLabels'
 import { copy, formatCopy } from '@/ui/copy'
 import type {
+  ActiveBarBounty,
   ActiveCocktailBounty,
+  ActiveDailyChallenge,
   ActiveIngredientBounty,
+  BarBountyPayload,
   CocktailBountyPayload,
+  DailyChallengePayload,
   HomeBoardPhase,
   HomeBountyCardView,
   IngredientBountyPayload,
@@ -17,40 +21,6 @@ import type {
 import type { ShipClockState } from '@/types/shipClock'
 
 const CLAIM_TITLE = 'Claim flow arrives in a later phase — Claim It is disabled for now.'
-
-function shellBarCard(): HomeBountyCardView {
-  return {
-    id: 'bar',
-    heading: copy.bounty.bar,
-    presentation: 'shell',
-    tierOrEyebrow: '+10 Per Friend You Bring',
-    title: 'Featured Bar',
-    detail: 'Daily Bar Bounty wiring arrives in Phase 2D-B2.',
-    pointsLabel: '35–95 Points',
-    footer: copy.bounty.bar,
-    timerLabel: copy.bounty.availableUntil,
-    timerValue: '—',
-    claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
-  }
-}
-
-function shellDailyCard(): HomeBountyCardView {
-  return {
-    id: 'daily',
-    heading: copy.bounty.daily,
-    presentation: 'shell',
-    tierOrEyebrow: 'Coming soon',
-    title: 'Daily Challenge',
-    detail: 'Daily Challenge wiring arrives in Phase 2D-B2.',
-    pointsLabel: '50 Points',
-    footer: copy.bounty.daily,
-    timerLabel: copy.bounty.availableUntil,
-    timerValue: '—',
-    claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
-  }
-}
 
 function closedCard(
   id: 'cocktail' | 'ingredient' | 'bar' | 'daily',
@@ -68,7 +38,7 @@ function closedCard(
     detail: isPre ? copy.bounty.preOpeningDetail : copy.bounty.overnightDetail,
     pointsLabel: '',
     footer: heading,
-    timerLabel: isPre ? copy.bounty.opensIn : copy.bounty.opensIn,
+    timerLabel: copy.bounty.opensIn,
     timerValue,
     claimEnabled: false,
     claimTitle: CLAIM_TITLE,
@@ -207,6 +177,66 @@ function ingredientActiveCard(
   }
 }
 
+function availableUntilLabel(cruiseDay: number | null | undefined): string {
+  return cruiseDay === 7 ? '6:00 PM' : '11:00 PM'
+}
+
+function barActiveCard(offer: ActiveBarBounty): HomeBountyCardView {
+  return {
+    id: 'bar',
+    heading: copy.bounty.bar,
+    presentation: 'active',
+    tierOrEyebrow: copy.bounty.barCompanionEyebrow,
+    title: offer.bar_display_name,
+    detail: copy.bounty.barDetail,
+    pointsLabel: copy.bounty.barPointsRange,
+    footer: copy.bounty.bar,
+    timerLabel: formatCopy(copy.bounty.availableUntilTemplate, {
+      time: availableUntilLabel(offer.cruise_day),
+    }),
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: CLAIM_TITLE,
+  }
+}
+
+function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
+  const bits: string[] = [offer.instructions]
+  if (offer.location_name) bits.push(`Location: ${offer.location_name}`)
+  if (offer.meeting_time_ship_local) {
+    bits.push(`Meet at ${formatMeetingTime(offer.meeting_time_ship_local)}`)
+  }
+  if (offer.is_all_hands) bits.push('All-Hands')
+
+  return {
+    id: 'daily',
+    heading: copy.bounty.daily,
+    presentation: 'active',
+    tierOrEyebrow: offer.is_all_hands ? 'All-Hands' : copy.bounty.dailyEyebrow,
+    title: offer.title,
+    detail: bits.join(' · '),
+    pointsLabel: pointsLabel(offer.points),
+    footer: copy.bounty.daily,
+    timerLabel: formatCopy(copy.bounty.availableUntilTemplate, {
+      time: availableUntilLabel(offer.cruise_day),
+    }),
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: CLAIM_TITLE,
+  }
+}
+
+/** Format Postgres `time` / `HH:MM:SS` as 12-hour Ship Time label. */
+function formatMeetingTime(raw: string): string {
+  const m = /^(\d{1,2}):(\d{2})/.exec(raw)
+  if (!m) return raw
+  let h = Number(m[1])
+  const min = m[2]
+  const period = h >= 12 ? 'PM' : 'AM'
+  h = h % 12 === 0 ? 12 : h % 12
+  return `${h}:${min} ${period}`
+}
+
 function countdownValue(
   targetUtc: string | null,
   clock: ShipClockState | null,
@@ -215,7 +245,6 @@ function countdownValue(
 ): string {
   if (!targetUtc || !clock?.at_utc || fetchedAtMs == null) return '—'
   const ms = remainingUntilUtc(targetUtc, clock.at_utc, fetchedAtMs, nowMs)
-  // Sanity: public openings are within ~13h; absurd values mean inconsistent snapshot.
   if (ms > 36 * 60 * 60_000) return '—'
   return formatRemainingMs(ms)
 }
@@ -223,13 +252,20 @@ function countdownValue(
 export function mapHomeBountyCards(input: {
   cocktail: CocktailBountyPayload | null
   ingredient: IngredientBountyPayload | null
+  bar?: BarBountyPayload | null
+  daily?: DailyChallengePayload | null
   clock: ShipClockState | null
   fetchStatus: 'loading' | 'ready' | 'unavailable' | 'error' | 'stale' | 'idle'
   fetchedAtMs: number | null
   nowMs?: number
 }): { phase: HomeBoardPhase; cards: HomeBountyCardView[] } {
   const nowMs = input.nowMs ?? Date.now()
-  const phase = deriveHomeBoardPhase(input)
+  const phase = deriveHomeBoardPhase({
+    cocktail: input.cocktail,
+    ingredient: input.ingredient,
+    clock: input.clock,
+    fetchStatus: input.fetchStatus,
+  })
   const headings = {
     cocktail: copy.bounty.cocktail,
     ingredient: copy.bounty.ingredient,
@@ -303,7 +339,6 @@ export function mapHomeBountyCards(input: {
     }
   }
 
-  // Active board hours: live Cocktail/Ingredient; Bar/Daily remain Phase 0 shells.
   const cocktail =
     input.cocktail?.status === 'active'
       ? cocktailActiveCard(
@@ -340,9 +375,29 @@ export function mapHomeBountyCards(input: {
           copy.bounty.unavailableDetail,
         )
 
+  const bar =
+    input.bar?.status === 'active'
+      ? barActiveCard(input.bar)
+      : unavailableCard(
+          'bar',
+          headings.bar,
+          copy.bounty.unavailableTitle,
+          copy.bounty.unavailableDetail,
+        )
+
+  const daily =
+    input.daily?.status === 'active'
+      ? dailyActiveCard(input.daily)
+      : unavailableCard(
+          'daily',
+          headings.daily,
+          copy.bounty.unavailableTitle,
+          copy.bounty.unavailableDetail,
+        )
+
   return {
     phase,
-    cards: [cocktail, ingredient, shellBarCard(), shellDailyCard()],
+    cards: [cocktail, ingredient, bar, daily],
   }
 }
 
@@ -350,6 +405,8 @@ export function mapHomeBountyCards(input: {
 export function nextRefreshBoundaryUtc(input: {
   cocktail: CocktailBountyPayload | null
   ingredient: IngredientBountyPayload | null
+  bar?: BarBountyPayload | null
+  daily?: DailyChallengePayload | null
   clock: ShipClockState | null
   phase: HomeBoardPhase
 }): string | null {
@@ -360,6 +417,12 @@ export function nextRefreshBoundaryUtc(input: {
     }
     if (input.ingredient?.status === 'active') {
       ends.push(Date.parse(input.ingredient.public_end_utc))
+    }
+    if (input.bar?.status === 'active') {
+      ends.push(Date.parse(input.bar.public_end_utc))
+    }
+    if (input.daily?.status === 'active') {
+      ends.push(Date.parse(input.daily.public_end_utc))
     }
     const valid = ends.filter((n) => Number.isFinite(n))
     if (!valid.length) return null

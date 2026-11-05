@@ -30,10 +30,8 @@ export const copy = {
     teamLine: 'Team: {teamName}',
     logOut: 'Log Out',
     admin: 'Admin',
-    /** Shown while Cocktail/Ingredient are live and Bar/Daily still use shells. */
-    partialLiveNote: 'Cocktail and Ingredient bounties are live. Bar and Daily Challenge arrive next.',
-    /** Shown when the rotating board is closed/paused/finale but Bar/Daily remain shells. */
-    barDailyShellNote: 'Bar Bounty and Daily Challenge wiring arrive in a later phase.',
+    /** Shown only while the board is in an open/active window. */
+    partialLiveNote: 'Daily bounties update with Ship Time. Claim It opens in a later phase.',
     /** Ship It! Home remains a layout shell until Phase 4. */
     mockShellNote: 'Phase 0 layout shell — mock demonstration data only.',
     retryLoad: 'Retry',
@@ -107,6 +105,25 @@ export const copy = {
     previewProposed: 'Proposed',
     setTimeLabel: 'New Ship Time',
     gameStatus: 'Game Status',
+    drinkItRunning: 'Drink It! is running.',
+    drinkItPaused: 'Drink It! is paused for all players.',
+    pauseDrinkIt: 'Pause Drink It!',
+    resumeDrinkIt: 'Resume Drink It!',
+    confirmPauseTitle: 'Pause Drink It!?',
+    confirmPauseBody:
+      'All Drink It! logging and scoring will stop until you resume. Ship It! will continue.',
+    confirmResumeTitle: 'Resume Drink It!?',
+    confirmResumeBody:
+      'Drink It! will reopen using the current Ship Time and active game data.',
+    pauseSuccess: 'Drink It! is paused for all players.',
+    resumeSuccess: 'Drink It! is running.',
+    pauseFailureTitle: 'Change Not Saved',
+    pauseFailureBody: "The change didn't save. Nothing was updated. Please try again.",
+    pauseUnknownTitle: 'Confirm Game Status',
+    pauseUnknownBody:
+      'We could not confirm whether that change was saved. Refresh status before trying again.',
+    refreshGameStatus: 'Refresh Status',
+    shipItUnaffected: 'Ship It! remains available.',
   },
   shipTime: {
     label: 'Ship Time',
@@ -128,8 +145,14 @@ export const copy = {
     claimIt: 'Claim It',
     timeRemaining: 'Time Remaining',
     availableUntil: 'Available until',
+    availableUntilTemplate: 'Available until {time}',
     location: 'Location: {barName}',
     availableAt: 'Available at {barCount} {barOrBars}',
+    barCompanionEyebrow: '+10 Per Friend You Bring',
+    barDetail:
+      'Order an alcoholic drink with at least one other Drink It! player. Nonalcoholic drinks do not qualify.',
+    barPointsRange: '35–95 Points',
+    dailyEyebrow: 'Photo required',
     claimed: 'Claimed',
     seeYouTomorrow: 'See You Tomorrow',
     preOpening: 'Game begins at 12:00 PM',

@@ -29,6 +29,7 @@ export interface ActiveCocktailBounty {
   points: number
   listed_ingredients: ListedIngredient[]
   public_end_utc: string
+  cruise_day?: number | null
 }
 
 export interface ActiveIngredientBounty {
@@ -41,17 +42,48 @@ export interface ActiveIngredientBounty {
   points: number
   known_bar_count: number
   public_end_utc: string
+  cruise_day?: number | null
+}
+
+export interface ActiveBarBounty {
+  status: 'active'
+  assignment_id: string
+  cruise_day: number
+  bar_id: string
+  bar_canonical_key: string
+  bar_display_name: string
+  points_base: number
+  points_per_companion: number
+  points_cap: number
+  public_end_utc: string
+}
+
+export interface ActiveDailyChallenge {
+  status: 'active'
+  challenge_id: string
+  cruise_day: number
+  title: string
+  instructions: string
+  location_name: string | null
+  meeting_time_ship_local: string | null
+  is_all_hands: boolean
+  photo_required: boolean
+  points: number
+  public_end_utc: string
 }
 
 export interface NonActiveBounty {
   status: Exclude<HomeBountyRpcStatus, 'active'>
   reason?: string
+  cruise_day?: number | null
 }
 
 export type CocktailBountyPayload = ActiveCocktailBounty | NonActiveBounty
 export type IngredientBountyPayload = ActiveIngredientBounty | NonActiveBounty
+export type BarBountyPayload = ActiveBarBounty | NonActiveBounty
+export type DailyChallengePayload = ActiveDailyChallenge | NonActiveBounty
 
-/** Shared board lifecycle derived from clock + rotating bounty RPCs. */
+/** Shared board lifecycle derived from clock + bounty RPCs. */
 export type HomeBoardPhase =
   | 'loading'
   | 'active'
@@ -82,7 +114,7 @@ export interface HomeBountyCardView {
   footer: string
   timerLabel: string
   timerValue: string
-  /** Phase 2D-B1: always false until Phase 3 wizard. */
+  /** Always false until Phase 3 wizard / Daily photo path. */
   claimEnabled: false
   claimTitle: string
 }
@@ -90,7 +122,10 @@ export interface HomeBountyCardView {
 export interface HomeBountySnapshot {
   cocktail: CocktailBountyPayload | null
   ingredient: IngredientBountyPayload | null
+  bar: BarBountyPayload | null
+  daily: DailyChallengePayload | null
   clock: ShipClockState | null
+  cruiseDay: number | null
   fetchedAtMs: number
   serverAtUtc: string | null
 }

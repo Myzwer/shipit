@@ -80,6 +80,8 @@ Historical nights that already applied explain that plan edits will not rewrite 
 
 `src/lib/shipClock.ts` fetches `get_ship_clock_state()` (server `clock_timestamp()` only). Home shells show a compact Ship Time indicator that may tick visually between syncs; refresh reconciles to the server snapshot. Phone timezone never authorizes eligibility.
 
+Drink It! Pause/Resume is **not** a clock operation. Organizer controls live under Admin → Game Status (`admin_set_drinkit_paused`). Do not reuse manual clock correction RPCs to pause the game.
+
 ## RPCs
 
 | Function | Who | Purpose |
@@ -126,5 +128,5 @@ Screenshots: `docs/phase2b-screenshots/`.
 
 1. **Plan delta `0`:** stored but does not create a `ship_clock_events` row.
 2. **Simulated evaluation:** service-role `dev_*` only.
-3. **Pause/Resume Drink It!:** deferred (approved later operational feature).
+3. **Pause/Resume Drink It!:** shipped in Phase 2D-B2 (Admin → Game Status; not a clock mutation).
 4. **Bounty countdowns / slot eligibility:** not in Phase 2B.

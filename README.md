@@ -19,7 +19,7 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phases 0 → 2D-B1.** Auth/membership, server Ship Clock + Admin clock UI, catalog contracts, durable Cocktail/Ingredient schedule (2D-A), and Drink It! Home wiring for live Cocktail/Ingredient cards (2D-B1). Bar/Daily Home cards remain shells; scoring/Claim It wizard is Phase 3.
+**Phases 0 → 2D-B2.** Auth/membership, Ship Clock + Admin clock UI, catalog contracts, Cocktail/Ingredient schedule, full four-card Drink It! Home board (Cocktail, Ingredient, Bar, Daily), and Admin Pause/Resume. Scoring/Claim It wizard is Phase 3.
 
 Authoritative product specs and mockups live in [`handoff/`](./handoff/). Home bounty data flow: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
 
@@ -108,11 +108,13 @@ npm run test:bounty         # schedule + Home player reads
 npm run test:e2e:phase1b    # Playwright login/refresh/logout journey
 npm run test:e2e:phase2b    # Playwright Admin Ship Clock (Vite + provision)
 npm run test:e2e:phase2db1  # Playwright Home Cocktail/Ingredient (seed + Vite)
+npm run test:e2e:phase2db2  # Playwright four cards + Pause/Resume
 npm run db:start | db:stop | db:reset | db:provision
-npm run db:seed-bounty-now  # align local clock + schedule to wall-clock now()
+npm run db:seed-bounty-now  # align local clock + schedule + daily fixtures to now()
 npm run screenshots:phase1b
 npm run screenshots:phase2b # Admin clock overview / preview / schedule
 npm run screenshots:phase2db1
+npm run screenshots:phase2db2
 ```
 
 Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.

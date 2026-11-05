@@ -5,6 +5,8 @@ export { deriveHomeBoardPhase, nextOpeningUtcIso } from '@/lib/bounty/boardPhase
 export { formatRemainingMs, remainingUntilUtc } from '@/lib/bounty/formatCountdown'
 export { cocktailTierLabel, ingredientTierLabel, pointsLabel } from '@/lib/bounty/tierLabels'
 export {
+  parseBarBountyPayload,
   parseCocktailBountyPayload,
+  parseDailyChallengePayload,
   parseIngredientBountyPayload,
 } from '@/lib/bounty/parseBountyPayload'

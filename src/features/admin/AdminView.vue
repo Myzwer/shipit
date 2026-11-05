@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import GameStatusSection from '@/features/admin/GameStatusSection.vue'
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
 import { copy } from '@/ui/copy'
 import { useSessionStore } from '@/stores/session'
@@ -23,6 +24,7 @@ function backHome() {
     </header>
     <main class="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-2">
       <ShipClockSection />
+      <GameStatusSection />
 
       <button
         type="button"

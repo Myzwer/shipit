@@ -51,6 +51,31 @@ describe('mapHomeBountyCards', () => {
         known_bar_count: 5,
         public_end_utc: '2026-11-05T19:00:00.000Z',
       },
+      bar: {
+        status: 'active',
+        assignment_id: 'b1',
+        cruise_day: 1,
+        bar_id: 'uuid-bar',
+        bar_canonical_key: 'wake-view',
+        bar_display_name: 'Wake View',
+        points_base: 25,
+        points_per_companion: 10,
+        points_cap: 95,
+        public_end_utc: '2026-11-05T23:00:00.000Z',
+      },
+      daily: {
+        status: 'active',
+        challenge_id: 'd1',
+        cruise_day: 1,
+        title: 'Fixture Easy Stretch',
+        instructions: 'Stretch and photograph.',
+        location_name: null,
+        meeting_time_ship_local: null,
+        is_all_hands: false,
+        photo_required: true,
+        points: 50,
+        public_end_utc: '2026-11-05T23:00:00.000Z',
+      },
     })
 
     expect(phase).toBe('active')
@@ -68,9 +93,18 @@ describe('mapHomeBountyCards', () => {
     expect(ingredient.tierOrEyebrow).toBe('Less Common')
     expect(ingredient.detail).toBe('Available at 5 bars')
     expect(ingredient.detail).not.toMatch(/wake|piazza|qualifying/i)
-    expect(cards.filter((c) => c.id === 'bar' || c.id === 'daily').every((c) => c.presentation === 'shell')).toBe(
-      true,
-    )
+
+    const bar = cards.find((c) => c.id === 'bar')!
+    expect(bar.presentation).toBe('active')
+    expect(bar.title).toBe('Wake View')
+    expect(bar.pointsLabel).toBe('35–95 Points')
+    expect(bar.timerLabel).toContain('11:00 PM')
+
+    const daily = cards.find((c) => c.id === 'daily')!
+    expect(daily.presentation).toBe('active')
+    expect(daily.title).toBe('Fixture Easy Stretch')
+    expect(daily.pointsLabel).toBe('50 Points')
+    expect(daily.claimEnabled).toBe(false)
   })
 
   it('E pre-opening hides objectives', () => {

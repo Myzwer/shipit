@@ -1,12 +1,20 @@
 /**
  * Home bounty sync: presentation ticking + authoritative server refresh.
- * Device timezone never selects offers. Stale responses cannot overwrite newer state.
+ *
+ * Refresh strategy (Phase 2D-B2):
+ * - Single-flight: at most one network fetch in progress.
+ * - Coalesce: focus/visibility/interval/boundary while in-flight queue one follow-up
+ *   so a slot boundary is never dropped because an older request is still running.
+ * - Generation: stop() invalidates in-flight apply; queued work after stop is ignored.
+ * - Device timezone never selects offers.
  */
 import { fetchHomeBountySnapshot, HomeBountyError } from '@/lib/bounty/fetchHomeBounties'
 import { mapHomeBountyCards, nextRefreshBoundaryUtc } from '@/lib/bounty/mapHomeCards'
 import { remainingUntilUtc } from '@/lib/bounty/formatCountdown'
 import type {
+  BarBountyPayload,
   CocktailBountyPayload,
+  DailyChallengePayload,
   HomeBoardPhase,
   HomeBountyCardView,
   HomeBountyFetchStatus,
@@ -20,11 +28,16 @@ export interface HomeBountySyncSnapshot {
   cards: HomeBountyCardView[]
   cocktail: CocktailBountyPayload | null
   ingredient: IngredientBountyPayload | null
+  bar: BarBountyPayload | null
+  daily: DailyChallengePayload | null
   clock: ShipClockState | null
+  cruiseDay: number | null
   fetchedAtMs: number | null
   errorMessage: string | null
   /** Monotonic generation — useful for tests. */
   generation: number
+  /** True while a network refresh is in flight. */
+  inFlight: boolean
 }
 
 export type HomeBountySyncListener = (snap: HomeBountySyncSnapshot) => void
@@ -47,10 +60,16 @@ export function createHomeBountySync(options?: {
   let status: HomeBountyFetchStatus = 'idle'
   let cocktail: CocktailBountyPayload | null = null
   let ingredient: IngredientBountyPayload | null = null
+  let bar: BarBountyPayload | null = null
+  let daily: DailyChallengePayload | null = null
   let clock: ShipClockState | null = null
+  let cruiseDay: number | null = null
   let fetchedAtMs: number | null = null
   let errorMessage: string | null = null
   let generation = 0
+  let inFlight = false
+  let queuedReason: string | null = null
+  let stopped = false
   let tickTimer: ReturnType<typeof setInterval> | null = null
   let refreshTimer: ReturnType<typeof setInterval> | null = null
   let boundaryTimer: ReturnType<typeof setTimeout> | null = null
@@ -62,6 +81,8 @@ export function createHomeBountySync(options?: {
     return mapHomeBountyCards({
       cocktail,
       ingredient,
+      bar,
+      daily,
       clock,
       fetchStatus: status === 'idle' ? 'loading' : status,
       fetchedAtMs,
@@ -77,10 +98,14 @@ export function createHomeBountySync(options?: {
       cards,
       cocktail,
       ingredient,
+      bar,
+      daily,
       clock,
+      cruiseDay,
       fetchedAtMs,
       errorMessage,
       generation,
+      inFlight,
     }
     for (const fn of listeners) fn(payload)
   }
@@ -96,10 +121,16 @@ export function createHomeBountySync(options?: {
     clearBoundaryTimer()
     if (!clock?.at_utc || fetchedAtMs == null) return
     const { phase } = buildCards()
-    const boundary = nextRefreshBoundaryUtc({ cocktail, ingredient, clock, phase })
+    const boundary = nextRefreshBoundaryUtc({
+      cocktail,
+      ingredient,
+      bar,
+      daily,
+      clock,
+      phase,
+    })
     if (!boundary) return
     const remaining = remainingUntilUtc(boundary, clock.at_utc, fetchedAtMs, nowFn())
-    // Refresh slightly after the boundary so the server has crossed it.
     const delay = Math.max(250, Math.min(remaining + 400, 60 * 60_000))
     boundaryTimer = setTimeout(() => {
       void refresh('boundary')
@@ -114,26 +145,38 @@ export function createHomeBountySync(options?: {
     return false
   }
 
-  async function refresh(_reason: string = 'manual') {
+  async function refresh(reason: string = 'manual') {
+    if (stopped) return
+
+    if (inFlight) {
+      // Coalesce: keep the latest reason so a boundary after focus is not lost.
+      queuedReason = reason
+      return
+    }
+
+    inFlight = true
     const myGen = ++generation
+    queuedReason = null
 
     if (status === 'idle' || status === 'loading') {
       status = 'loading'
       emit()
+    } else {
+      emit() // surface inFlight
     }
 
     try {
       const snap = await fetchSnapshot()
-      if (myGen !== generation) {
-        // Newer refresh supersedes this response — do not apply.
-        return
-      }
+      if (stopped || myGen !== generation) return
 
-      const adjusted = snap.clock ? clockAdjusted(snap.clock) : false
+      void (snap.clock ? clockAdjusted(snap.clock) : false)
 
       cocktail = snap.cocktail
       ingredient = snap.ingredient
+      bar = snap.bar
+      daily = snap.daily
       clock = snap.clock
+      cruiseDay = snap.cruiseDay
       fetchedAtMs = snap.fetchedAtMs
       status = 'ready'
       errorMessage = null
@@ -141,14 +184,14 @@ export function createHomeBountySync(options?: {
       lastConfigId = snap.clock?.config_id ?? lastConfigId
       emit()
       scheduleBoundaryRefresh()
-      // Offset/config change already reflected in this snapshot; flag retained for tests/diagnostics.
-      void adjusted
     } catch (err) {
-      if (myGen !== generation) return
+      if (stopped || myGen !== generation) return
 
-      // Do not present a prior offer as definitely current after a failed refresh.
       cocktail = null
       ingredient = null
+      bar = null
+      daily = null
+      cruiseDay = null
       if (err instanceof HomeBountyError && err.code === 'not_configured') {
         status = 'unavailable'
         clock = { configured: false, at_utc: new Date().toISOString(), error: err.message }
@@ -156,6 +199,10 @@ export function createHomeBountySync(options?: {
       } else if (err instanceof HomeBountyError && err.code === 'unavailable') {
         status = 'unavailable'
         errorMessage = err.message
+      } else if (err instanceof HomeBountyError && err.code === 'inconsistent') {
+        status = 'error'
+        errorMessage = err.message
+        // One immediate retry is handled by queueing below if requested.
       } else {
         status = 'error'
         errorMessage =
@@ -164,6 +211,14 @@ export function createHomeBountySync(options?: {
       fetchedAtMs = null
       clearBoundaryTimer()
       emit()
+    } finally {
+      inFlight = false
+      if (!stopped) emit()
+      if (!stopped && queuedReason) {
+        const next = queuedReason
+        queuedReason = null
+        void refresh(next)
+      }
     }
   }
 
@@ -178,6 +233,7 @@ export function createHomeBountySync(options?: {
   }
 
   function start() {
+    stopped = false
     void refresh('start')
     if (tickMs > 0 && !tickTimer) {
       tickTimer = setInterval(() => {
@@ -198,12 +254,13 @@ export function createHomeBountySync(options?: {
   }
 
   function stop() {
+    stopped = true
+    queuedReason = null
     if (tickTimer) clearInterval(tickTimer)
     if (refreshTimer) clearInterval(refreshTimer)
     clearBoundaryTimer()
     tickTimer = null
     refreshTimer = null
-    // Invalidate any in-flight apply.
     generation += 1
     if (typeof document !== 'undefined') {
       document.removeEventListener('visibilitychange', onVisibility)
@@ -222,10 +279,14 @@ export function createHomeBountySync(options?: {
       cards,
       cocktail,
       ingredient,
+      bar,
+      daily,
       clock,
+      cruiseDay,
       fetchedAtMs,
       errorMessage,
       generation,
+      inFlight,
     })
     return () => listeners.delete(fn)
   }
@@ -243,10 +304,14 @@ export function createHomeBountySync(options?: {
         cards,
         cocktail,
         ingredient,
+        bar,
+        daily,
         clock,
+        cruiseDay,
         fetchedAtMs,
         errorMessage,
         generation,
+        inFlight,
       }
     },
   }

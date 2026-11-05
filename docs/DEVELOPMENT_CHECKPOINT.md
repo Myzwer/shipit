@@ -2,25 +2,27 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Phase:** 2D-B1 complete (pending Director review of this commit)
+**Phase:** 2D-B2 complete — awaiting Development Director review before Phase 3
 
-## Baseline before 2D-B1
+## Baseline → closeout
 
-- Commit `b1f0d92` — Phase 2D-A closeout (player time lockdown); CI green
+| Phase | Commit |
+|---|---|
+| 2D-A closeout | `b1f0d92` |
+| 2D-B1 | `9ac4933` |
+| 2D-B2 | _(this push)_ |
 
-## Phase 2D-B1 delivered
+## 2D-B2 delivered
 
-Drink It! Home Cocktail + Ingredient cards use:
+- `bar_bounties` / `daily_challenges` + `get_my_current_*` / `get_my_drinkit_home_board`
+- Development-only daily fixtures (`dev_seed_daily_assignments`)
+- Admin Pause/Resume (`admin_set_drinkit_paused`, audited, idempotent)
+- Single-flight Home refresh + coalesce; consistent cruise-day board
+- Claim It still disabled
 
-- `get_my_current_cocktail_bounty()`
-- `get_my_current_ingredient_bounty()`
-- `get_ship_clock_state()`
+## Security
 
-Four-card carousel preserved. Bar/Daily remain shells. Claim It disabled. Docs: `docs/HOME_BOUNTIES.md`.
-
-## Security rule (do not regress)
-
-No production-facing **authenticated** RPC may honor caller-controlled authoritative time (`p_at_utc`).
+No authenticated player RPC honors caller-controlled `p_at_utc`. Timed simulation is `dev_*` + `service_role` only.
 
 ## Verify
 
@@ -30,10 +32,11 @@ npm run lint && npm run typecheck && npm test
 npm run test:integration
 npm run test:bounty
 npm run db:seed-bounty-now
-npm run test:e2e:phase2db1   # Vite running
+npm run test:e2e:phase2db2
+npm run screenshots:phase2db2
 npm run build
 ```
 
 ## Next (when authorized)
 
-**Phase 2D-B2** — Bar + Daily Challenge Home wiring. Still out: scoring/claims, Admin Skip, Publish/Rollback, galleries, Ship It! challenges, Phase 3 wizard.
+**Phase 3** — Drink It! logging wizard, claims, scoring. Still out: Admin Skip, Publish/Rollback, galleries, Ship It! scavenger, Achievements/Wrapped.

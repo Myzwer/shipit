@@ -32,7 +32,10 @@ export async function activateReadyCatalogAndSchedule(
   })
   if (sErr) throw sErr
 
-  return { catalog, activated, schedule }
+  const { data: daily, error: dErr } = await service.rpc('dev_seed_daily_assignments')
+  if (dErr) throw dErr
+
+  return { catalog, activated, schedule, daily }
 }
 
 export function noonDay1Utc(offset = DEV_BASE_OFFSET_MIN) {

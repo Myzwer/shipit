@@ -15,8 +15,9 @@ const status = ref<HomeBountyFetchStatus>('idle')
 const errorMessage = ref<string | null>(null)
 
 const boardNote = computed(() => {
+  // Never contradict paused / closed / finale with a "live" development notice.
   if (phase.value === 'active') return copy.home.partialLiveNote
-  return copy.home.barDailyShellNote
+  return null
 })
 
 const sync = createHomeBountySync({ tickMs: 1000, refreshMs: 60_000 })
@@ -45,12 +46,22 @@ function retry() {
 <template>
   <GameShell game="drinkit" :title="copy.home.drinkDailyBounties">
     <p
+      v-if="boardNote"
       class="px-4 pt-3 text-center text-xs font-medium uppercase tracking-wide text-amber-800/80"
       data-testid="home-board-note"
       :data-board-phase="phase"
       :data-board-status="status"
     >
       {{ boardNote }}
+    </p>
+    <p
+      v-else
+      class="sr-only"
+      data-testid="home-board-note"
+      :data-board-phase="phase"
+      :data-board-status="status"
+    >
+      {{ phase }}
     </p>
 
     <div
