@@ -121,7 +121,7 @@ export const copy = {
     pauseFailureBody: "The change didn't save. Nothing was updated. Please try again.",
     pauseUnknownTitle: 'Confirm Game Status',
     pauseUnknownBody:
-      'We could not confirm whether that change was saved. Refresh status before trying again.',
+      'We could not confirm whether that change was saved. Refresh status, or retry the same change. Do not apply a different Pause or Resume yet.',
     refreshGameStatus: 'Refresh Status',
     shipItUnaffected: 'Ship It! remains available.',
   },

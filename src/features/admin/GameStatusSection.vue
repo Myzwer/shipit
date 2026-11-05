@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import {
+  applyDrinkItPaused,
   fetchDrinkItPauseStatus,
   newPauseRequestId,
-  setDrinkItPaused,
+  reconcileDrinkItPause,
   type DrinkItPauseStatus,
 } from '@/lib/adminPause'
+import {
+  clearPendingDrinkItPause,
+  readPendingDrinkItPause,
+  writePendingDrinkItPause,
+  type PendingDrinkItPause,
+} from '@/lib/pendingDrinkItPause'
 import { copy } from '@/ui/copy'
 
 const status = ref<DrinkItPauseStatus | null>(null)
@@ -17,86 +24,196 @@ const feedback = ref<{
   title: string
   body: string
 } | null>(null)
-/** Last uncertain request — reconcile before another mutation. */
-const pendingRequestId = ref<string | null>(null)
 
-async function load() {
-  loadStatus.value = status.value ? 'ready' : 'loading'
+/** Unresolved operation — mirrored to localStorage before mutate. */
+const pending = ref<PendingDrinkItPause | null>(null)
+
+const locked = computed(() => busy.value || Boolean(pending.value))
+const paused = computed(() => Boolean(status.value?.drinkit.paused))
+const finalized = computed(() => Boolean(status.value?.drinkit.finalized_at_utc))
+
+async function loadStatusOnly(): Promise<boolean> {
   try {
     status.value = await fetchDrinkItPauseStatus()
     loadStatus.value = 'ready'
+    return true
   } catch (err) {
-    loadStatus.value = 'error'
-    feedback.value = {
-      kind: 'error',
-      title: copy.admin.pauseFailureTitle,
-      body: err instanceof Error ? err.message : copy.admin.pauseFailureBody,
+    loadStatus.value = status.value ? 'ready' : 'error'
+    // Never clear pending here — caller decides.
+    if (!pending.value) {
+      feedback.value = {
+        kind: 'error',
+        title: copy.admin.pauseFailureTitle,
+        body: err instanceof Error ? err.message : copy.admin.pauseFailureBody,
+      }
     }
+    return false
   }
 }
 
-onMounted(() => {
-  void load()
+function persistPending(next: PendingDrinkItPause) {
+  pending.value = next
+  writePendingDrinkItPause({
+    clientRequestId: next.clientRequestId,
+    desiredPaused: next.desiredPaused,
+    cruiseConfigId: next.cruiseConfigId,
+  })
+}
+
+function clearPendingResolved() {
+  pending.value = null
+  clearPendingDrinkItPause()
+}
+
+function restorePendingFromStorage(): PendingDrinkItPause | null {
+  const stored = readPendingDrinkItPause()
+  if (!stored) return null
+  pending.value = stored
+  feedback.value = {
+    kind: 'unknown',
+    title: copy.admin.pauseUnknownTitle,
+    body: copy.admin.pauseUnknownBody,
+  }
+  return stored
+}
+
+function applyOutcome(
+  outcome: Awaited<ReturnType<typeof applyDrinkItPaused>>,
+) {
+  if (outcome.pauseStatus) {
+    status.value = outcome.pauseStatus
+    loadStatus.value = 'ready'
+  }
+
+  if (outcome.status === 'ok') {
+    clearPendingResolved()
+    feedback.value = {
+      kind: 'success',
+      title: outcome.result.paused ? copy.admin.pauseSuccess : copy.admin.resumeSuccess,
+      body: copy.admin.shipItUnaffected,
+    }
+    return
+  }
+
+  if (outcome.status === 'failed') {
+    // Confirmed non-application (finale / auth / mismatch) — unlock.
+    clearPendingResolved()
+    feedback.value = {
+      kind: 'error',
+      title: copy.admin.pauseFailureTitle,
+      body:
+        outcome.code === 'finale'
+          ? 'Drink It! is finalized. Pause and Resume are closed.'
+          : outcome.message || copy.admin.pauseFailureBody,
+    }
+    return
+  }
+
+  // Unknown — keep pending locked.
+  feedback.value = {
+    kind: 'unknown',
+    title: copy.admin.pauseUnknownTitle,
+    body: outcome.message || copy.admin.pauseUnknownBody,
+  }
+}
+
+onMounted(async () => {
+  const restored = restorePendingFromStorage()
+  await loadStatusOnly()
+
+  if (restored && pending.value) {
+    // Scope guard: if cruise config changed under us, keep locked and show unknown.
+    const currentCruise = status.value?.cruise_config_id ?? null
+    if (
+      restored.cruiseConfigId &&
+      currentCruise &&
+      restored.cruiseConfigId !== currentCruise
+    ) {
+      feedback.value = {
+        kind: 'unknown',
+        title: copy.admin.pauseUnknownTitle,
+        body: copy.admin.pauseUnknownBody,
+      }
+      return
+    }
+
+    busy.value = true
+    try {
+      const outcome = await reconcileDrinkItPause(
+        restored.clientRequestId,
+        restored.desiredPaused,
+      )
+      applyOutcome(outcome)
+    } finally {
+      busy.value = false
+    }
+  }
 })
 
 function openConfirm(mode: 'pause' | 'resume') {
-  if (busy.value || pendingRequestId.value) return
+  if (locked.value || finalized.value) return
   feedback.value = null
   confirm.value = mode
 }
 
 async function applyConfirmed() {
-  if (!confirm.value || busy.value) return
+  if (!confirm.value || busy.value || pending.value) return
   const wantPaused = confirm.value === 'pause'
   const requestId = newPauseRequestId()
   busy.value = true
   confirm.value = null
   feedback.value = null
+
+  // Persist BEFORE the network call so reload cannot drop the lock.
+  persistPending({
+    version: 1,
+    clientRequestId: requestId,
+    desiredPaused: wantPaused,
+    cruiseConfigId: status.value?.cruise_config_id ?? null,
+    createdAt: new Date().toISOString(),
+  })
+
   try {
-    const result = await setDrinkItPaused(wantPaused, requestId)
-    pendingRequestId.value = null
-    await load()
-    feedback.value = {
-      kind: 'success',
-      title: result.paused ? copy.admin.pauseSuccess : copy.admin.resumeSuccess,
-      body: copy.admin.shipItUnaffected,
-    }
-  } catch {
-    // Lost/uncertain: reconcile before claiming outcome.
-    pendingRequestId.value = requestId
-    try {
-      await load()
-      pendingRequestId.value = null
-      feedback.value = {
-        kind: 'unknown',
-        title: copy.admin.pauseUnknownTitle,
-        body: copy.admin.pauseUnknownBody,
-      }
-    } catch {
-      feedback.value = {
-        kind: 'unknown',
-        title: copy.admin.pauseUnknownTitle,
-        body: copy.admin.pauseUnknownBody,
-      }
-    }
+    const outcome = await applyDrinkItPaused(wantPaused, requestId)
+    applyOutcome(outcome)
   } finally {
     busy.value = false
   }
 }
 
+/** Refresh Game Status — reconcile ledger; never clear pending on failure. */
 async function reconcileOnly() {
+  if (!pending.value || busy.value) return
   busy.value = true
   feedback.value = null
   try {
-    await load()
-    pendingRequestId.value = null
+    const outcome = await reconcileDrinkItPause(
+      pending.value.clientRequestId,
+      pending.value.desiredPaused,
+    )
+    applyOutcome(outcome)
   } finally {
     busy.value = false
   }
 }
 
-const paused = () => Boolean(status.value?.drinkit.paused)
-const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
+/** Retry Same Change — same request id + fingerprint; never mint a new operation. */
+async function retrySameChange() {
+  if (!pending.value || busy.value) return
+  busy.value = true
+  feedback.value = null
+  try {
+    // Re-persist (same ids) so navigation mid-retry keeps protection.
+    persistPending(pending.value)
+    const outcome = await applyDrinkItPaused(
+      pending.value.desiredPaused,
+      pending.value.clientRequestId,
+    )
+    applyOutcome(outcome)
+  } finally {
+    busy.value = false
+  }
+}
 </script>
 
 <template>
@@ -106,7 +223,7 @@ const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
     </h2>
 
     <p
-      v-if="loadStatus === 'loading'"
+      v-if="loadStatus === 'loading' && !status"
       class="mt-3 text-sm"
       style="color: #5c6670"
       data-testid="game-status-loading"
@@ -114,26 +231,27 @@ const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
       Loading…
     </p>
 
-    <template v-else-if="status">
+    <template v-if="status">
       <p
         class="mt-3 text-sm font-semibold"
         style="color: #2f3a44"
         data-testid="drinkit-pause-state"
-        :data-paused="paused() ? 'true' : 'false'"
-        :data-finalized="finalized() ? 'true' : 'false'"
+        :data-paused="paused ? 'true' : 'false'"
+        :data-finalized="finalized ? 'true' : 'false'"
+        :data-pending="pending ? 'true' : 'false'"
       >
-        {{ paused() ? copy.admin.drinkItPaused : copy.admin.drinkItRunning }}
+        {{ paused ? copy.admin.drinkItPaused : copy.admin.drinkItRunning }}
       </p>
       <p class="mt-1 text-xs" style="color: #5c6670">{{ copy.admin.shipItUnaffected }}</p>
 
       <div class="mt-4 flex flex-wrap gap-2">
         <button
-          v-if="!paused()"
+          v-if="!paused"
           type="button"
           class="rounded-full px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
           style="background: #8b2942"
           data-testid="pause-drinkit"
-          :disabled="busy || Boolean(pendingRequestId) || finalized()"
+          :disabled="locked || finalized"
           @click="openConfirm('pause')"
         >
           {{ copy.admin.pauseDrinkIt }}
@@ -144,13 +262,13 @@ const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
           class="rounded-full px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
           style="background: #0a5c6b"
           data-testid="resume-drinkit"
-          :disabled="busy || Boolean(pendingRequestId) || finalized()"
+          :disabled="locked || finalized"
           @click="openConfirm('resume')"
         >
           {{ copy.admin.resumeDrinkIt }}
         </button>
         <button
-          v-if="pendingRequestId"
+          v-if="pending"
           type="button"
           class="rounded-full px-4 py-2 text-sm font-semibold"
           style="background: #e8e2d9; color: #2f3a44"
@@ -160,6 +278,17 @@ const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
         >
           {{ copy.admin.refreshGameStatus }}
         </button>
+        <button
+          v-if="pending"
+          type="button"
+          class="rounded-full px-4 py-2 text-sm font-semibold"
+          style="background: #e8e2d9; color: #2f3a44"
+          data-testid="retry-same-pause"
+          :disabled="busy"
+          @click="retrySameChange"
+        >
+          {{ copy.admin.retrySameChange }}
+        </button>
       </div>
     </template>
 
@@ -167,7 +296,8 @@ const finalized = () => Boolean(status.value?.drinkit.finalized_at_utc)
       v-if="feedback"
       class="mt-4 rounded-xl px-3 py-2 text-sm"
       :style="{
-        background: feedback.kind === 'success' ? '#e7f3ef' : '#f8ecec',
+        background:
+          feedback.kind === 'success' ? '#e7f3ef' : feedback.kind === 'unknown' ? '#f5f0e6' : '#f8ecec',
         color: '#2f3a44',
       }"
       data-testid="game-status-feedback"

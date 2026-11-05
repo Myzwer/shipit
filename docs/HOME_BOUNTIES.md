@@ -57,10 +57,14 @@ Ordinary players cannot `SELECT` assignment tables directly — only current-day
 
 Organizer Admin → **Game Status**:
 
-- `admin_get_drinkit_pause_status`
-- `admin_set_drinkit_paused(p_paused, p_client_request_id)` — idempotent desired state
+- `admin_get_drinkit_pause_status` — latches Friday finale before reporting
+- `admin_set_drinkit_paused(p_paused, p_client_request_id)` — desired-state mutation
+- `admin_find_drinkit_pause_request_by_id` — durable ledger lookup for lost-response reconcile
+- Table `admin_drinkit_pause_requests` — one outcome per request id + fingerprint (`drinkit_paused:true|false`)
 
-Pause affects Drink It! only. Ship It! stays up. Resume is manual. Finale cannot reopen. Mutations are audited.
+**Reliability (2D-B2.1):** Persist request id + desired state to localStorage *before* mutate. Failed status reads never clear an unresolved operation. Same id + same fingerprint replays the original result (no second audit / no re-apply). Same id + opposite fingerprint → `REQUEST_ID_OPERATION_MISMATCH`. Refresh Status / Retry Same Change keep conflicting controls disabled until the ledger confirms.
+
+Pause affects Drink It! only. Ship It! stays up. Resume is manual. Finale cannot reopen (latched even if no prior player read). Mutations are audited once per successful change.
 
 ## Card states
 

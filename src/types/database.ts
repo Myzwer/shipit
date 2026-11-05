@@ -148,6 +148,10 @@ export interface Database {
         Args: { p_paused: boolean; p_client_request_id: string | null }
         Returns: Record<string, unknown>
       }
+      admin_find_drinkit_pause_request_by_id: {
+        Args: { p_client_request_id: string }
+        Returns: Record<string, unknown> | null
+      }
       admin_get_clock_diagnostics: {
         Args: Record<string, never>
         Returns: Record<string, unknown>

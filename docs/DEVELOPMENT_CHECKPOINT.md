@@ -2,27 +2,27 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Phase:** 2D-B2 complete — awaiting Development Director review before Phase 3
+**Phase:** 2D-B2.1 (Pause/Resume reliability) — verify then closeout
 
-## Baseline → closeout
+## Baseline
 
 | Phase | Commit |
 |---|---|
-| 2D-A closeout | `b1f0d92` |
 | 2D-B1 | `9ac4933` |
-| 2D-B2 | `c6ebc80` |
+| 2D-B2 | `c6ebc80` / tip was `0f9fc46` |
+| 2D-B2.1 | _(this push)_ |
 
-## 2D-B2 delivered
+## 2D-B2.1 scope
 
-- `bar_bounties` / `daily_challenges` + `get_my_current_*` / `get_my_drinkit_home_board`
-- Development-only daily fixtures (`dev_seed_daily_assignments`)
-- Admin Pause/Resume (`admin_set_drinkit_paused`, audited, idempotent)
-- Single-flight Home refresh + coalesce; consistent cruise-day board
-- Claim It still disabled
+- Durable request-id + fingerprint ledger for Pause/Resume
+- Failed reconciliation never clears unresolved ops
+- Persist pending request across reload/navigation
+- Finale latch on mutation/status even without a prior read
+- Claim It still disabled; no Phase 3 gameplay
 
 ## Security
 
-No authenticated player RPC honors caller-controlled `p_at_utc`. Timed simulation is `dev_*` + `service_role` only.
+No authenticated player RPC honors caller-controlled `p_at_utc`.
 
 ## Verify
 
@@ -33,10 +33,10 @@ npm run test:integration
 npm run test:bounty
 npm run db:seed-bounty-now
 npm run test:e2e:phase2db2
-npm run screenshots:phase2db2
+npm run test:e2e:phase2db2_1
 npm run build
 ```
 
 ## Next (when authorized)
 
-**Phase 3** — Drink It! logging wizard, claims, scoring. Still out: Admin Skip, Publish/Rollback, galleries, Ship It! scavenger, Achievements/Wrapped.
+**Phase 3** — Drink It! logging wizard, claims, scoring.

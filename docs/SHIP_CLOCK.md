@@ -128,5 +128,5 @@ Screenshots: `docs/phase2b-screenshots/`.
 
 1. **Plan delta `0`:** stored but does not create a `ship_clock_events` row.
 2. **Simulated evaluation:** service-role `dev_*` only.
-3. **Pause/Resume Drink It!:** shipped in Phase 2D-B2 (Admin → Game Status; not a clock mutation).
+3. **Pause/Resume Drink It!:** shipped in Phase 2D-B2; reliability closeout in 2D-B2.1 (durable request-id ledger + pending persist; not a clock mutation).
 4. **Bounty countdowns / slot eligibility:** not in Phase 2B.

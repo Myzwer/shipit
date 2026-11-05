@@ -94,10 +94,13 @@ get_my_current_cocktail_bounty()                   # always now()
 - Seed: `dev_seed_daily_assignments` (development-only fixtures)
 - Timed sim: `dev_get_current_bar_bounty_at` / `dev_get_current_daily_challenge_at` (service_role)
 
-## Admin Pause/Resume
+## Admin Pause/Resume (incl. 2D-B2.1)
 
-- `admin_set_drinkit_paused(p_paused, p_client_request_id)` — idempotent; audited
-- `admin_get_drinkit_pause_status`
+- `admin_set_drinkit_paused(p_paused, p_client_request_id)` — desired-state; audited once per change
+- `admin_get_drinkit_pause_status` / `admin_find_drinkit_pause_request_by_id`
+- Durable `admin_drinkit_pause_requests` ledger keyed by `client_request_id` + fingerprint
+- `ensure_finale_latched(now())` runs inside Pause/Resume and pause-status reads
+- Replay after an intervening Resume returns the original Pause payload but does **not** re-pause
 - Does not affect Ship It!; cannot reopen after finale
 
 ## Remaining after Phase 2D-B2
