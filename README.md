@@ -19,7 +19,7 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phase 1B complete (local).** Players can log in against local Supabase Auth, sessions persist across refresh, membership-aware routing and game switching work, and Account / Log Out / organizer Admin entry are live on Home. Scoring, real roster content, galleries, and hosted production are later phases.
+**Phase 2A complete (local Ship Clock).** Phase 1B auth and membership routing remain. The server-authoritative Ship Clock, seven-day calendar, finale latch, and admin clock RPCs are in local Supabase. Bounty rotations, catalog import, scoring RPCs, and Admin clock UI are later Phase 2 slices.
 
 Authoritative product specs and mockups live in [`handoff/`](./handoff/).
 
@@ -102,11 +102,14 @@ npm run typecheck
 npm run test                # unit tests
 npm run test:rls            # RLS integration (needs local Supabase + provision)
 npm run test:auth           # Auth integration (needs local Supabase + provision)
-npm run test:integration    # all integration tests
+npm run test:clock          # Ship Clock + finale lifecycle (needs local Supabase + provision)
+npm run test:integration    # all integration suites
 npm run test:e2e:phase1b    # Playwright login/refresh/logout journey
 npm run db:start | db:stop | db:reset | db:provision
 npm run screenshots:phase1b
 ```
+
+Ship Clock details: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md).
 
 ## Environment and secrets
 

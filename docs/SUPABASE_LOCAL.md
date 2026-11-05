@@ -42,6 +42,8 @@ npx supabase db reset
 | `20261105000100_phase1a_identity_schema.sql` | players, memberships, teams, helpers, login directory |
 | `20261105000200_phase1a_rls_policies.sql` | RLS + grants |
 | `20261105000300_phase1b_restrict_player_columns.sql` | Hide `auth_user_id` / `is_admin` from ordinary SELECT; `player_roster` view |
+| `20261105000400_phase2a_clock_schema.sql` | Cruise config, clock plan/events, game_control, admin audit |
+| `20261105000500_phase2a_clock_functions.sql` | Ship Clock engine, admin RPCs, acceptance contract, dev seed |
 
 ## Vue app env
 
@@ -77,9 +79,12 @@ Writes gitignored `.local/test-identities.json` (ids/aliases only).
 export LOCAL_TEST_PASSWORD='…same as provision…'
 npm run test:rls            # Phase 1A + 1B RLS
 npm run test:auth           # Auth / membership RPCs
+npm run test:clock          # Phase 2A Ship Clock + finale
 npm run test:integration    # all of the above
 npm run test:e2e:phase1b    # Playwright (app must be running on :5173)
 ```
+
+See [`docs/SHIP_CLOCK.md`](./SHIP_CLOCK.md) for clock architecture and how seven cruise days are simulated.
 
 Integration suites no-op when Docker/Supabase/identities are unavailable (CI without a local stack). If `LOCAL_TEST_PASSWORD` is set, fixtures must load or the suite fails.
 
