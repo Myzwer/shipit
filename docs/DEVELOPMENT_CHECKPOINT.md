@@ -2,7 +2,7 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** Phase **4B1** — shared photo capture + private staging (see git log after merge)  
+**Tip:** `4423b22` — Phase **4B1** shipped; GitHub Actions green  
 **Prior tip:** `ae17767` / feature `719534f` — Phase **4A** accepted  
 **Do not start Phase 4B2 (photo-required scoring / Gallery) until the Development Director authorizes it.**
 
@@ -32,7 +32,7 @@ Key docs: `docs/MEDIA_PIPELINE.md`, `docs/SHIPIT_CHALLENGES.md`, `docs/DRINKIT_S
 
 - Unit **105**, integration **221**, E2E phase4b1 **15/15** (plus phase3b 8/8, phase4a 12/12)
 - lint / typecheck / build pass
-- CI: update after push
+- CI: https://github.com/Myzwer/shipit/actions/runs/42128378145 (run for `4423b22` succeeded)
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
