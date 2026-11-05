@@ -26,6 +26,9 @@ beforeAll(async () => {
   }
   service = createLocalClient(fixtures.summary.supabase_url, fixtures.serviceRoleKey)
 
+  await service.from('ingredient_bounty_public_cards').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await service.from('catalog_versions').update({ status: 'retired' }).eq('status', 'active')
+
   const { data: version, error: vErr } = await service
     .from('catalog_versions')
     .insert({

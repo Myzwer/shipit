@@ -65,7 +65,9 @@ Preview surfaces `INGREDIENT_COVERAGE_UNCORROBORATED` / `INGREDIENT_DRINKS_UNCOR
 | `get_my_ingredient_bounty_hint()` | Drink It! / admin | Same current snapshot as JSON; `null` until scheduling exposes one |
 | Ship It!-only / anon | Denied | RPC raises; table selects empty |
 
-`scheduled` cards are future objectives and are **not** player-visible. Phase **2D** owns writing `current` / rotating exposures from the slot ledger. Until then the RPC correctly returns `null` when nothing is exposed.
+`scheduled` cards are future objectives and are **not** player-visible. Phase **2D-A** writes `current` cards from the slot ledger on authorized exposure. See `docs/BOUNTY_SCHEDULING.md`.
+
+Curated `cocktail_candidates` and reverse `catalog_offering_ingredients` are **admin-only**. Players receive Cocktail details only via `get_my_current_cocktail_bounty` for the live slot.
 
 ## Validation & preview
 

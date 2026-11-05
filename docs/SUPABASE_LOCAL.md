@@ -52,6 +52,10 @@ npx supabase db reset
 | `20261105001100_phase2c_catalog_schema.sql` | Normalized catalog / candidates / version snapshots |
 | `20261105001200_phase2c_catalog_rls_and_preview.sql` | Catalog RLS + read-only admin preview RPC |
 | `20261105001300_phase2c1_catalog_read_contracts.sql` | Ingredient public-card hint contract + cocktail concept uniqueness |
+| `20261105001400_phase2da_disclosure_lockdown.sql` | Lock curated pools / reverse ingredient index from players |
+| `20261105001500_phase2da_bounty_slot_ledger.sql` | Durable bounty slot / offer / exposure ledger |
+| `20261105001600_phase2da_schedule_and_reads.sql` | Dev catalog activation + window helpers |
+| `20261105001700_phase2da_generate_and_resolve.sql` | Schedule generation, player reads, private grace |
 
 ## Vue app env
 
