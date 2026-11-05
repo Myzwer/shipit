@@ -1,10 +1,8 @@
 /**
- * Phase 4A first gate — Phase 3C-B Admin Skip verification.
- *
- * 1. Can Admin Skip replace a preallocated-but-not-yet-exposed offer while
- *    Drink It! is paused before / across an opening?
- * 2. Do two concurrent Skip requests with the SAME request UUID always return
- *    the same original result (never STALE_OFFER / uniqueness error)?
+ * Admin Skip gates:
+ * 1. Unexposed preallocated offers are NOT skippable merely because the window began.
+ * 2. Concurrent same-UUID Skip returns the original durable result.
+ * 3. Exposed current offer remains skippable while Drink It! is paused.
  */
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { randomUUID } from 'node:crypto'
@@ -62,9 +60,8 @@ async function scheduledNoonOffer() {
   return { slot: slot!, offer: offer! }
 }
 
-describe('Phase 3C-B Skip gate — preallocated / paused', () => {
-  it('skips preallocated not-yet-exposed noon offer while paused across opening', async () => {
-    // Pause before opening so resolve never exposes the noon slot.
+describe('Phase 4B1 Skip gate — exposure required', () => {
+  it('refuses Skip of preallocated not-yet-exposed offer while paused across opening', async () => {
     await fixtures.service!.rpc('dev_set_drinkit_paused', { p_paused: true })
 
     const beforeOpen = slotUtc(1, '11:50:00')
@@ -75,7 +72,6 @@ describe('Phase 3C-B Skip gate — preallocated / paused', () => {
     expect(pre.offer.exposed_at_utc).toBeNull()
     expect(pre.offer.is_active).toBe(true)
 
-    // Before the public window: no current slot to skip.
     const tooEarly = await fixtures.service!.rpc('dev_admin_skip_bounty_at', {
       p_category: 'cocktail',
       p_expected_offer_id: pre.offer.id,
@@ -87,7 +83,7 @@ describe('Phase 3C-B Skip gate — preallocated / paused', () => {
     expect(tooEarly.data.ok).toBe(false)
     expect(tooEarly.data.code).toBe('NO_PUBLIC_SLOT')
 
-    // During the public window while still paused and never exposed: skip must work.
+    // Window open + paused + never exposed → not a "current" skippable bounty.
     const skip = await fixtures.service!.rpc('dev_admin_skip_bounty_at', {
       p_category: 'cocktail',
       p_expected_offer_id: pre.offer.id,
@@ -96,30 +92,38 @@ describe('Phase 3C-B Skip gate — preallocated / paused', () => {
       p_actor_id: playerId(fixtures, 'admin'),
     })
     expect(skip.error).toBeNull()
+    expect(skip.data.ok).toBe(false)
+    expect(skip.data.code).toBe('NOT_EXPOSED')
+
+    const still = await scheduledNoonOffer()
+    expect(still.offer.id).toBe(pre.offer.id)
+    expect(still.offer.exposed_at_utc).toBeNull()
+    expect(still.slot.state).toBe('scheduled')
+  })
+
+  it('still allows Skip of an exposed current offer while paused', async () => {
+    const at = noonDay1Utc()
+    await exposeCurrentSlots(fixtures.service!, at)
+    const before = await currentOfferAt(at)
+    expect(before?.status).toBe('active')
+    expect(before?.offer_id).toBeTruthy()
+
+    await fixtures.service!.rpc('dev_set_drinkit_paused', { p_paused: true })
+    const skip = await fixtures.service!.rpc('dev_admin_skip_bounty_at', {
+      p_category: 'cocktail',
+      p_expected_offer_id: before!.offer_id!,
+      p_client_request_id: randomUUID(),
+      p_at_utc: at,
+      p_actor_id: playerId(fixtures, 'admin'),
+    })
+    expect(skip.error).toBeNull()
     expect(skip.data.ok).toBe(true)
-    expect(skip.data.retired_offer_id).toBe(pre.offer.id)
-    expect(skip.data.replacement_offer_id).toBeTruthy()
-    expect(skip.data.replacement_offer_id).not.toBe(pre.offer.id)
-    expect(skip.data.public_end_utc).toBeTruthy()
-
-    const after = await scheduledNoonOffer()
-    expect(after.offer.id).toBe(skip.data.replacement_offer_id)
-    expect(after.offer.is_active).toBe(true)
-    expect(after.slot.state).toBe('current')
-
-    // Future scheduled slots remain untouched.
-    const { count: futureScheduled } = await fixtures.service!
-      .from('bounty_slots')
-      .select('id', { count: 'exact', head: true })
-      .eq('category', 'cocktail')
-      .eq('state', 'scheduled')
-    expect((futureScheduled ?? 0) > 0).toBe(true)
+    expect(skip.data.replacement_offer_id).not.toBe(before!.offer_id)
 
     await fixtures.service!.rpc('dev_set_drinkit_paused', { p_paused: false })
-    await exposeCurrentSlots(fixtures.service!, duringWindow)
-    const live = await currentOfferAt(duringWindow)
-    expect(live?.status).toBe('active')
-    expect(live?.offer_id).toBe(skip.data.replacement_offer_id)
+    await exposeCurrentSlots(fixtures.service!, at)
+    const after = await currentOfferAt(at)
+    expect(after?.offer_id).toBe(skip.data.replacement_offer_id)
   })
 })
 
@@ -155,7 +159,6 @@ describe('Phase 3C-B Skip gate — concurrent same UUID', () => {
     expect(a.data.replacement_offer_id).toBe(b.data.replacement_offer_id)
     expect(a.data.retired_offer_id).toBe(b.data.retired_offer_id)
 
-    // Exactly one durable ledger row for this request id.
     const { data: rows, error } = await fixtures.service!
       .from('admin_bounty_skip_requests')
       .select('client_request_id, replacement_offer_id, result_json')

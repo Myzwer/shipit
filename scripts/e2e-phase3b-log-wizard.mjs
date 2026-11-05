@@ -114,9 +114,11 @@ try {
   pass(reminderVisible ? 'friends-with-bar-reminder' : 'friends-single-selector')
   await page.click('[data-testid="friends-continue"]')
 
-  await page.waitForSelector('[data-testid="photo-unavailable"]')
+  await page.waitForSelector('[data-testid="wizard-photo-step"]')
+  await page.waitForSelector('[data-testid="photo-capture"]')
   await page.fill('[data-testid="caption-input"]', 'Phase 3B e2e caption')
   await shot('photo-step')
+  // Optional photo: continue without selecting one (no-photo log regression).
   await page.click('[data-testid="photo-continue"]')
   pass('photo-caption-no-upload')
 

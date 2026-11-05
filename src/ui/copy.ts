@@ -279,12 +279,12 @@ export const copy = {
       "Bar Bounty reminder: Only select friends who hadn't already earned today's Bar Bounty when you were together.",
     photoHeading: 'Add a Photo',
     photoOptional: 'Optional — you can log your drink without a photo.',
-    photoUnavailableTitle: 'Photo upload is not available yet',
-    photoUnavailableBody:
-      'Photos arrive in a later phase. You can still add an optional caption and submit a no-photo log now.',
+    photoStagedNote:
+      'Photo uploaded and ready. It will attach to your log in a later update — submitting still works without attaching it.',
     captionLabel: 'Caption (optional)',
     captionPlaceholder: 'Anything you\'d like to add?',
     photoContinue: 'Continue',
+    photoContinueBusy: 'Wait for the photo to finish…',
     reviewTitle: 'Review',
     labelDrink: 'Drink',
     labelBar: 'Bar',
@@ -294,6 +294,8 @@ export const copy = {
     justMe: 'Just me',
     noCaption: 'No caption provided',
     noPhoto: 'No photo added',
+    photoStagedReview: 'Photo ready (not attached to this log yet)',
+    photoLocalOnlyReview: 'Photo selected — upload not confirmed',
     yourBounties: 'Your Bounties',
     selected: 'SELECTED',
     available: 'AVAILABLE',
@@ -351,6 +353,23 @@ export const copy = {
     claimOpensWizard: 'Opens the logging wizard',
     claimDisabledDaily: 'Daily Challenge Claim It arrives in a later phase',
     claimDisabledLifecycle: 'Claim It is unavailable right now',
+  },
+  photo: {
+    takePhoto: 'Take Photo',
+    uploadPhoto: 'Upload Photo',
+    retake: 'Retake',
+    replace: 'Replace',
+    remove: 'Remove',
+    retry: 'Retry upload',
+    processing: 'Preparing photo…',
+    processFailed: 'We could not prepare that photo. Try another image.',
+    uploadFailed: 'Upload failed. Your photo is still here — tap Retry.',
+    offline: 'You appear to be offline. Keep this photo and try again when connected.',
+    stagedReady: 'Photo uploaded securely.',
+    requiredHint: 'A photo is required to continue.',
+    reselectHint:
+      'If you reloaded the page, choose the photo again — the original file is no longer available.',
+    limitsHint: 'One photo. JPEG, PNG, or WebP preferred. Large phone photos are resized before upload.',
   },
 } as const
 

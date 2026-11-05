@@ -38,7 +38,9 @@
     "db:seed-skip-reserves": "npx vite-node scripts/seed-skip-reserves.ts",
     "test:e2e:phase3cb": "node scripts/e2e-phase3cb-admin-skip.mjs",
     "test:e2e:phase4a": "node scripts/e2e-phase4a-shipit-challenges.mjs",
-    "screenshots:phase4a": "node scripts/e2e-phase4a-shipit-challenges.mjs"
+    "screenshots:phase4a": "node scripts/e2e-phase4a-shipit-challenges.mjs",
+    "test:e2e:phase4b1": "node scripts/e2e-phase4b1-photo-capture.mjs",
+    "screenshots:phase4b1": "node scripts/e2e-phase4b1-photo-capture.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

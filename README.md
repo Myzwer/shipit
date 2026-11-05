@@ -117,14 +117,16 @@ npm run db:seed-bounty-now  # align local clock + schedule + daily fixtures to n
 npm run db:seed-skip-reserves  # 80/45 catalog with unused Admin Skip reserves
 npm run test:e2e:phase3cb   # Playwright Admin Skip + recovery
 npm run test:e2e:phase4a    # Playwright Ship It! Home + Challenges
+npm run test:e2e:phase4b1   # Playwright photo capture + private Storage staging
 npm run screenshots:phase1b
 npm run screenshots:phase2b # Admin clock overview / preview / schedule
 npm run screenshots:phase2db1
 npm run screenshots:phase2db2
 npm run screenshots:phase4a
+npm run screenshots:phase4b1
 ```
 
-Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Media / photo staging: [`docs/MEDIA_PIPELINE.md`](./docs/MEDIA_PIPELINE.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
 
 ## Environment and secrets
 

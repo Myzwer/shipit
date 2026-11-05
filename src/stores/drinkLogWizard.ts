@@ -43,6 +43,8 @@ import type {
   WizardPrefill,
   WizardStep,
 } from '@/types/drinkLog'
+import type { StagedPhotoRef } from '@/types/media'
+import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
 
 const STEPS: WizardStep[] = ['bar', 'drink', 'friends', 'photo', 'review']
 
@@ -81,6 +83,9 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const showBarReminder = ref(false)
 
   const caption = ref('')
+  /** Staged in private Storage; not yet bound to submit_drink (Phase 4B1 deferral). */
+  const stagedPhoto = ref<StagedPhotoRef | null>(null)
+  const photoPreviewUrl = ref<string | null>(null)
 
   const preview = ref<PreviewPayload | null>(null)
   const previewStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -169,6 +174,8 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     selectedCompanionIds.value = []
     showBarReminder.value = false
     caption.value = ''
+    stagedPhoto.value = null
+    photoPreviewUrl.value = null
     preview.value = null
     previewStatus.value = 'idle'
     selectedClaims.value = []
@@ -520,6 +527,25 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     await openReview()
   }
 
+  function setStagedPhoto(ref: StagedPhotoRef | null) {
+    stagedPhoto.value = ref
+  }
+
+  function setPhotoPreviewUrl(url: string | null) {
+    photoPreviewUrl.value = url
+  }
+
+  /** Contract for future submit_drink photo attach — id is staged, not bound. */
+  const photoSubmitContract = computed(() =>
+    buildPhotoSubmitContract({
+      purpose: 'drink_log',
+      game: 'drinkit',
+      required: false,
+      staged: stagedPhoto.value,
+      previewUrl: photoPreviewUrl.value,
+    }),
+  )
+
   async function openReview() {
     step.value = 'review'
     await refreshPreview()
@@ -727,6 +753,11 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     companionNames,
     showBarReminder,
     caption,
+    stagedPhoto,
+    photoPreviewUrl,
+    photoSubmitContract,
+    setStagedPhoto,
+    setPhotoPreviewUrl,
     preview,
     previewStatus,
     selectedClaims,

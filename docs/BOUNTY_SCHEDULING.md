@@ -107,6 +107,8 @@ get_my_current_cocktail_bounty()                   # always now()
 
 Organizer-only emergency replacement of the **currently exposed** Cocktail or Ingredient objective.
 
+A preallocated offer whose public window has begun but was **never shown** (`exposed_at_utc` is null) — e.g. Drink It! paused across opening — is **not** skippable (`NOT_EXPOSED`). Skip applies only to an objective that was actually disclosed to players.
+
 | RPC | Who | Behavior |
 |---|---|---|
 | `admin_get_bounty_skip_status` | Admin | Current names, `public_end_utc`, `replacements_remaining` (actual unused reserves), `can_skip` |

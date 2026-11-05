@@ -8,6 +8,8 @@ const props = defineProps<{
   barName: string
   companionNames: string[]
   caption: string
+  photoPreviewUrl?: string | null
+  photoStaged?: boolean
   preview: PreviewPayload | null
   previewStatus: 'idle' | 'loading' | 'ready' | 'error'
   selectedClaims: SelectedClaimChoice[]
@@ -84,7 +86,20 @@ const categories = [
           {{ copy.wizard.labelPhoto }}
         </dt>
         <dd class="mt-2">
+          <div v-if="photoPreviewUrl" class="max-w-[160px]" data-testid="review-photo-preview">
+            <img
+              :src="photoPreviewUrl"
+              alt=""
+              class="aspect-square w-full rounded-xl object-cover"
+            />
+            <p class="mt-1 text-xs" style="color: var(--theme-muted)">
+              {{
+                photoStaged ? copy.wizard.photoStagedReview : copy.wizard.photoLocalOnlyReview
+              }}
+            </p>
+          </div>
           <div
+            v-else
             class="flex aspect-square w-full max-w-[160px] items-center justify-center rounded-xl text-center text-xs font-semibold uppercase tracking-wide text-white"
             style="background: var(--theme-header)"
             data-testid="review-photo-placeholder"

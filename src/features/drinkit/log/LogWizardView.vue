@@ -304,6 +304,8 @@ function onIngredientConfirmNo() {
         :caption="wizard.caption"
         @update:caption="wizard.caption = $event"
         @continue="wizard.continueFromPhoto()"
+        @staged="wizard.setStagedPhoto($event)"
+        @local-ready="wizard.setPhotoPreviewUrl($event?.previewUrl ?? null)"
       />
       <ReviewStep
         v-else-if="wizard.step === 'review'"
@@ -311,6 +313,8 @@ function onIngredientConfirmNo() {
         :bar-name="wizard.selectedBar?.name ?? ''"
         :companion-names="wizard.companionNames"
         :caption="wizard.caption"
+        :photo-preview-url="wizard.photoPreviewUrl"
+        :photo-staged="!!wizard.stagedPhoto"
         :preview="wizard.preview"
         :preview-status="wizard.previewStatus"
         :selected-claims="wizard.selectedClaims"
