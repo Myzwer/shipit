@@ -44,6 +44,7 @@ npx supabase db reset
 | `20261105000300_phase1b_restrict_player_columns.sql` | Hide `auth_user_id` / `is_admin` from ordinary SELECT; `player_roster` view |
 | `20261105000400_phase2a_clock_schema.sql` | Cruise config, clock plan/events, game_control, admin audit |
 | `20261105000500_phase2a_clock_functions.sql` | Ship Clock engine, admin RPCs, acceptance contract, dev seed |
+| `20261105000600_phase2a1_clock_security.sql` | Player time-bypass removal, rebuild double-count fix, receipt-time contract |
 
 ## Vue app env
 

@@ -50,17 +50,19 @@ Past applied scheduled events stay immutable. Editing the plan after a day has f
 - Finale: Day 7 at `final_hour:final_minute` (default **18:00**) ship-local → `finale_at_utc`
 - Once `now ≥ finale_at_utc`, `game_control.finalized_at_utc` latches; **manual clock changes cannot clear it**
 
-## RPCs
+## RPCs (Phase 2A.1 hardened)
 
 | Function | Who | Purpose |
 |---|---|---|
-| `get_ship_clock_state(p_at_utc?)` | authenticated | Trusted clock snapshot (tests pass explicit UTC) |
-| `evaluate_submission_acceptance(game, p_at_utc?)` | authenticated | Lifecycle contract for future scoring |
-| `admin_get_clock_diagnostics` | admin | State + plan + events |
-| `admin_*_clock_*` / `admin_upsert_ship_clock_plan_day` | admin | Privileged mutations + audit |
+| `get_ship_clock_state()` | authenticated | Clock snapshot at **server** `clock_timestamp()` only |
+| `evaluate_submission_acceptance(game)` | authenticated | Acceptance using **server receipt** (`capture_submission_receipt_time`) |
+| `admin_*` diagnostics / corrections / plan upsert | admin | Privileged mutations + audit; client `p_at_utc` ignored unless `service_role` |
+| `dev_get_ship_clock_state_at(p_at_utc, p_apply_lifecycle_side_effects?)` | **service_role only** | Deterministic simulation |
+| `dev_evaluate_submission_acceptance_at(...)` | **service_role only** | Boundary tests for cutoff / eligibility |
 | `dev_seed_cruise_clock` | **service_role only** | Replace `development-only` config for tests |
+| `capture_submission_receipt_time()` | service_role / internal | Contract helper for future scoring RPCs |
 
-`p_at_utc` on read/eval paths is the **deterministic test/local evaluation** mechanism. It is not exposed as a production player bypass in the Vue app. Admin mutations used in tests also accept `p_at_utc` so rehearsal does not wait seven real days; production Admin UI (later) will omit overrides and use server `now()`.
+Players **cannot** pass evaluation timestamps. Simulated cruise days are available only through service-role `dev_*` RPCs (local tests), never production-facing player grants.
 
 ## Development config
 
@@ -89,6 +91,6 @@ npm run test:integration   # includes Auth/RLS + clock
 ## Ambiguities documented (not invented as product rules)
 
 1. **Plan delta `0`:** stored but does not create a `ship_clock_events` row.
-2. **`evaluate_submission_acceptance` with explicit `p_at_utc`:** used for boundary tests; live scoring must call with default server time so `received_at_utc` is true receipt time.
+2. **Simulated evaluation:** use `dev_*` service-role RPCs only. Production player RPCs never accept client timestamps.
 3. **Pause/Resume Drink It!:** `game_control` columns/status exist; organizer pause RPCs are deferred to the approved later phase.
 4. **Admin clock UI:** backend only in 2A; Vue Admin controls are the next Phase 2 slice.

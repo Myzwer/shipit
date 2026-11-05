@@ -35,14 +35,33 @@ export function shipLocalToUtcIso(
   time: string,
   offsetMinutes: number,
 ): string {
-  // ship = utc_wall + offset  => utc_wall = ship - offset
-  const ship = new Date(`${shipDate}T${time}Z`) // interpret components as UTC then compensate
+  const ship = new Date(`${shipDate}T${time}Z`)
   const utcMs = ship.getTime() - offsetMinutes * 60_000
   return new Date(utcMs).toISOString()
+}
+
+/** Compare Postgres timestamptz text to a JS ISO string without format fragility. */
+export function sameUtcInstant(a: string | null | undefined, b: string | null | undefined): boolean {
+  if (!a || !b) return false
+  return new Date(a).getTime() === new Date(b).getTime()
 }
 
 export function dayDate(dayNumber: number): string {
   const d = new Date(`${DEV_DAY1}T00:00:00Z`)
   d.setUTCDate(d.getUTCDate() + (dayNumber - 1))
   return d.toISOString().slice(0, 10)
+}
+
+/** Service-role deterministic clock read (no client-facing RPC). */
+export async function stateAt(
+  service: SupabaseClient,
+  isoUtc: string,
+  applyLifecycle = false,
+) {
+  const { data, error } = await service.rpc('dev_get_ship_clock_state_at', {
+    p_at_utc: isoUtc,
+    p_apply_lifecycle_side_effects: applyLifecycle,
+  })
+  if (error) throw error
+  return data
 }
