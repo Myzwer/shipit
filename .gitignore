@@ -30,5 +30,8 @@ dist-ssr
 supabase/.branches
 supabase/.temp
 
+# Local-only secrets / provisioned identity summaries
+.local/
+
 # Duplicate unpacked handoff source (canonical copy lives in /handoff)
 Star_Princess_Final_Cursor_Handoff_v1.1/

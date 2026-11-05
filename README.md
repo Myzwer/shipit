@@ -19,7 +19,7 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phase 0 — foundation.** Game selection and themed Home shells, shared navigation, design tokens, Font Awesome Pro, tooling, and CI. No authentication, scoring, submissions, galleries, or admin yet.
+**Phase 1A in progress / pending Docker.** Phase 0 UI shells are complete. Backend identity schema + RLS migrations are in-repo; local Supabase verification requires Docker Desktop (see [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md)). Login UI is Phase 1B. No scoring, submissions, galleries, or hosted production project yet.
 
 Authoritative product specs and mockups live in [`handoff/`](./handoff/).
 
@@ -137,10 +137,27 @@ git commit -m ":rocket: Short imperative summary"
 git push
 ```
 
+## Local Supabase (Phase 1A)
+
+Identity schema, Auth mapping, and RLS run on **local** Supabase (Docker required).
+
+See **[`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md)** for start/stop, migrations, provisioning, and RLS tests.
+
+```bash
+npx supabase start
+npx supabase db reset
+export LOCAL_TEST_PASSWORD='choose-a-local-only-password-12+'
+npm run db:provision
+npm run test:rls
+```
+
+`npm test` runs unit tests only. RLS integration tests are local-only until Docker/Supabase are available.
+
 ## Documentation
 
 | Document | Role |
 |---|---|
+| [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md) | Local Supabase + Phase 1A backend |
 | [`handoff/README.md`](./handoff/README.md) | Handoff manifest and authority order |
 | [`handoff/01-Game-Rules.md`](./handoff/01-Game-Rules.md) | Scoring and eligibility |
 | [`handoff/02-UX-Behavior.md`](./handoff/02-UX-Behavior.md) | Screens and interaction |

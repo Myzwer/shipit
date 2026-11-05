@@ -1,5 +1,4 @@
-# Supabase local tooling scaffold for Phase 0.
-# Do not create a production project or run migrations in this phase.
+# Star Princess — local Supabase (Phase 1A)
 # Docs: https://supabase.com/docs/guides/local-development/cli/getting-started
 
 project_id = "star-princess-local"
@@ -7,20 +6,51 @@ project_id = "star-princess-local"
 [api]
 enabled = true
 port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
 
 [db]
 port = 54322
+shadow_port = 54320
 major_version = 15
+
+[db.pooler]
+enabled = false
 
 [studio]
 enabled = true
 port = 54323
+api_url = "http://127.0.0.1"
+
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
 
 [auth]
 enabled = true
 site_url = "http://127.0.0.1:5173"
 additional_redirect_urls = ["http://127.0.0.1:5173"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+# Product: no public signup (Tech Spec §3.1)
 enable_signup = false
+enable_anonymous_sign_ins = false
 
-[storage]
+[auth.email]
+# Email/password provider stays ON for invited login_alias sign-in.
+# Public signup is blocked by [auth].enable_signup = false; confirmations/recovery UX off.
 enabled = true
+enable_confirmations = false
+double_confirm_changes = false
+
+[auth.sms]
+enabled = false
+
+[analytics]
+enabled = false

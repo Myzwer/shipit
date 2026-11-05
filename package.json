@@ -9,8 +9,14 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "vue-tsc -b --pretty false",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "vitest run tests/unit",
+    "test:watch": "vitest tests/unit",
+    "test:rls": "vitest run tests/integration/rls.phase1a.test.ts",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:status": "supabase status",
+    "db:provision": "node scripts/provision-local-identities.mjs",
     "screenshots:phase0": "node scripts/capture-phase0-screens.mjs"
   },
   "dependencies": {
@@ -28,6 +34,7 @@
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.4",
     "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
@@ -37,12 +44,14 @@
     "jsdom": "^29.1.1",
     "playwright": "^1.64.1",
     "prettier": "^3.9.10",
+    "supabase": "^3.0.0",
     "tailwindcss": "^4.3.4",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.72.1",
     "vite": "^8.3.5",
     "vitest": "^4.1.12",
     "vue-eslint-parser": "^10.4.1",
-    "vue-tsc": "^3.3.13"
+    "vue-tsc": "^3.3.13",
+    "ws": "^8.22.1"
   }
 }
