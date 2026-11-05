@@ -54,6 +54,12 @@ const router = createRouter({
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
     },
     {
+      path: '/shipit/challenges',
+      name: 'shipit-challenges',
+      component: () => import('@/features/shipit/ChallengeListView.vue'),
+      meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: () => import('@/features/admin/AdminView.vue'),

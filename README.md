@@ -19,9 +19,9 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phases 0 → 3B.** Functional Drink It! five-step logging wizard (no-photo) on top of `preview_drink_claims` / `submit_drink`. Photo upload, full Gallery, Daily Claim It, and ingredient corrections remain later phases.
+**Phases 0 → 4A.** Drink It! logging/scoring through Admin Skip (3C-B), plus Ship It! challenge catalog, team progress ledger, Home/leaderboard reads, and Challenges list UI. Photo-required Ship It! / Daily submissions wait on the shared media pipeline.
 
-Authoritative product specs and mockups live in [`handoff/`](./handoff/). Logging: [`docs/DRINKIT_LOGGING.md`](./docs/DRINKIT_LOGGING.md). Scoring: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md). Home board: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
+Authoritative product specs and mockups live in [`handoff/`](./handoff/). Ship It!: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Logging: [`docs/DRINKIT_LOGGING.md`](./docs/DRINKIT_LOGGING.md). Scoring: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md).
 
 ## Quick start (organizer)
 
@@ -83,7 +83,8 @@ Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick 
 | `/drinkit` | Drink It! members |
 | `/drinkit/log` | Drink It! logging wizard |
 | `/drinkit/gallery` | Minimal post-submit Gallery stub |
-| `/shipit` | Ship It! members |
+| `/shipit` | Ship It! members (team progress + leaderboard) |
+| `/shipit/challenges` | Ship It! 50-task challenge list |
 | `/admin` | Organizer only (Ship Clock, Pause, Skip Current Bounty) |
 | `/unavailable` | Authenticated players with no enabled games |
 
@@ -115,13 +116,15 @@ npm run db:start | db:stop | db:reset | db:provision
 npm run db:seed-bounty-now  # align local clock + schedule + daily fixtures to now()
 npm run db:seed-skip-reserves  # 80/45 catalog with unused Admin Skip reserves
 npm run test:e2e:phase3cb   # Playwright Admin Skip + recovery
+npm run test:e2e:phase4a    # Playwright Ship It! Home + Challenges
 npm run screenshots:phase1b
 npm run screenshots:phase2b # Admin clock overview / preview / schedule
 npm run screenshots:phase2db1
 npm run screenshots:phase2db2
+npm run screenshots:phase4a
 ```
 
-Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
 
 ## Environment and secrets
 
@@ -143,15 +146,16 @@ src/
   features/auth/       # login, unavailable, access denied
   features/admin/      # organizer Admin (Ship Clock, Pause, Skip)
   features/drinkit/    # Drink It! Home + bounty carousel
-  features/shipit/     # Ship It! Home shell
+  features/shipit/     # Ship It! Home + Challenges list
   features/shared/     # dual-game chooser
   stores/              # session + membership profile
-  lib/                 # Supabase client, Ship Clock, Home bounty sync
+  lib/                 # Supabase, Ship Clock, Home bounty, Ship It! reads
   ui/                  # copy + icon registry
-supabase/migrations/   # identity, clock, catalog, bounty schedule
+supabase/migrations/   # identity, clock, catalog, bounty, scavenger
 docs/SUPABASE_LOCAL.md
+docs/SHIPIT_CHALLENGES.md
 docs/HOME_BOUNTIES.md
-docs/phase2db1-screenshots/
+docs/phase4a-screenshots/
 ```
 
 ## Documentation
@@ -159,6 +163,7 @@ docs/phase2db1-screenshots/
 | Document | Role |
 |---|---|
 | [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md) | Local Supabase, provision, tests |
+| [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md) | Ship It! challenges, ledger, reads |
 | [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md) | Home Cocktail/Ingredient data flow |
 | [`docs/BOUNTY_SCHEDULING.md`](./docs/BOUNTY_SCHEDULING.md) | Schedule engine |
 | [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md) | Ship Clock |

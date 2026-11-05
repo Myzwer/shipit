@@ -12,6 +12,7 @@ describe('router scaffold', () => {
         '/drinkit/log',
         '/drinkit/gallery',
         '/shipit',
+        '/shipit/challenges',
         '/admin',
         '/unavailable',
         '/access-denied',

@@ -28,6 +28,12 @@ describe('approved copy', () => {
     expect(copy.wizard.friendsSoloNote).toBe('Must be with someone else to log a bounty.')
     expect(copy.wizard.unclaimedTitle).toBe('Unclaimed Bounty')
     expect(copy.wizard.barReminder).toContain('Bar Bounty reminder')
+    expect(copy.shipit.challengesHeading).toBe('Challenges')
+    expect(copy.shipit.filterBy).toBe('Filter by')
+    expect(copy.home.allChallenges).toBe('All Challenges')
+    expect(copy.home.noTeamProgress).toBe(
+      'No challenges completed yet. Pick one to get started!',
+    )
   })
 
   it('formats placeholders', () => {

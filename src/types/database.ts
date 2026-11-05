@@ -200,6 +200,14 @@ export interface Database {
         Args: { p_submission_id: string }
         Returns: Record<string, unknown>
       }
+      get_my_shipit_home: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      get_my_shipit_challenges: {
+        Args: { p_category: string | null }
+        Returns: Record<string, unknown>
+      }
     }
     Enums: {
       game_id: GameId

@@ -1,0 +1,502 @@
+[
+  {
+    "id": "c4697e3e-7aa6-512b-9584-0369f4bf8742",
+    "canonical_key": "the-piazza-grandeur",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] The Piazza Grandeur",
+    "instructions": "A full team selfie on the sweeping central atrium staircase.",
+    "points": 100,
+    "sort_order": 1
+  },
+  {
+    "id": "acfaaa82-bd35-53b6-af3b-415906563aaf",
+    "canonical_key": "movies-under-the-stars",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Movies Under the Stars",
+    "instructions": "A photo with the massive poolside outdoor movie screen perfectly framed in the background.",
+    "points": 100,
+    "sort_order": 2
+  },
+  {
+    "id": "03c68c0e-e60f-5e67-973f-ae7f5dda16bb",
+    "canonical_key": "under-the-dome",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Under The Dome",
+    "instructions": "A high-angle group photo beneath the dramatic glass-domed top deck area.",
+    "points": 100,
+    "sort_order": 3
+  },
+  {
+    "id": "7e27b079-0f85-5607-a829-30724823b824",
+    "canonical_key": "miniature-masterpiece",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Miniature Masterpiece",
+    "instructions": "Locate the detailed scale model of a Princess ship in its glass showcase.",
+    "points": 100,
+    "sort_order": 4
+  },
+  {
+    "id": "691307b2-46ec-5ccf-b2ac-a0047ad8b895",
+    "canonical_key": "lotus-spa-zen",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Lotus Spa Zen",
+    "instructions": "A photo outside the spa doors with everyone striking their best over-the-top relaxed yoga pose.",
+    "points": 100,
+    "sort_order": 5
+  },
+  {
+    "id": "9d5a4e00-c76a-522b-baf6-10a33ae09db2",
+    "canonical_key": "front-row-center",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Front Row Center",
+    "instructions": "Sit in the absolute front row of the completely empty Princess Theater.",
+    "points": 100,
+    "sort_order": 6
+  },
+  {
+    "id": "bd48a5da-851b-52c8-98d5-8256ae895800",
+    "canonical_key": "casino-neon",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Casino Neon",
+    "instructions": "A team photo outside the casino doors featuring a bright or flashing sign.",
+    "points": 100,
+    "sort_order": 7
+  },
+  {
+    "id": "2b9210b1-b677-5b73-b51d-c3b39774a332",
+    "canonical_key": "art-critic",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Art Critic",
+    "instructions": "Posing next to your absolute favorite (or most confusing) piece in the onboard art gallery.",
+    "points": 100,
+    "sort_order": 8
+  },
+  {
+    "id": "604df8ac-2cb6-5d34-a003-85fa39006a26",
+    "canonical_key": "gym-buffs",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Gym Buffs",
+    "instructions": "A snapshot of a teammate looking comically exhausted while \"running\" on a treadmill.",
+    "points": 100,
+    "sort_order": 9
+  },
+  {
+    "id": "8e621e7f-25fd-519b-b395-f7e958e49593",
+    "canonical_key": "guest-services",
+    "category": "classic_ship_landmarks",
+    "category_label": "Classic Ship Landmarks",
+    "title": "[DEV] Guest Services",
+    "instructions": "A photo with the main guest services desk clearly visible in the background.",
+    "points": 100,
+    "sort_order": 10
+  },
+  {
+    "id": "3ab91d74-17a8-58be-b3c9-9a06a24a9c92",
+    "canonical_key": "international-cafe",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] International Caf\u00e9",
+    "instructions": "A photo highlighting a beautiful pastry display or a custom espresso drink cup.",
+    "points": 200,
+    "sort_order": 11
+  },
+  {
+    "id": "8f0a23eb-4b70-57f5-85d5-f5e5ac91b4c8",
+    "canonical_key": "omalleys-irish-pub",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] O'Malley's Irish Pub",
+    "instructions": "Capture the distinct green Irish pub decor or a classic pub menu board.",
+    "points": 200,
+    "sort_order": 12
+  },
+  {
+    "id": "dfa82318-ba59-548e-a4f5-1ce26ff6028f",
+    "canonical_key": "poolside-slice",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Poolside Slice",
+    "instructions": "A close-up photo of a fresh, steaming slice of pizza from the deck counter.",
+    "points": 200,
+    "sort_order": 13
+  },
+  {
+    "id": "21dc69dd-c367-5979-a8f0-909e1f8cd82e",
+    "canonical_key": "soft-serve-swirl",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Soft Serve Swirl",
+    "instructions": "A photo holding a perfectly balanced complimentary soft-serve ice cream cone near the pool.",
+    "points": 200,
+    "sort_order": 14
+  },
+  {
+    "id": "50c6a1e9-c0d9-53c4-8b23-151b8fc1152e",
+    "canonical_key": "buffet-multi-tasker",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Buffet Multi-Tasker",
+    "instructions": "A snapshot of a single plate featuring at least 5 completely mismatched types of food.",
+    "points": 200,
+    "sort_order": 15
+  },
+  {
+    "id": "46be8325-8381-5421-945f-d2bc59a1b2f9",
+    "canonical_key": "tropical-paradise",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Tropical Paradise",
+    "instructions": "Hold up a bright, colorful drink (cocktail or mocktail) complete with a fruit garnish or tiny umbrella.",
+    "points": 200,
+    "sort_order": 16
+  },
+  {
+    "id": "3b49150d-c56e-5041-815e-c8380c5bd2c6",
+    "canonical_key": "main-dining-elegance",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Main Dining Elegance",
+    "instructions": "Pose like royalty at an empty, fully-set dinner table before evening service begins.",
+    "points": 200,
+    "sort_order": 17
+  },
+  {
+    "id": "24b1ed0e-3a8f-5a94-a086-1d4e61cbdc8e",
+    "canonical_key": "sweet-treat",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Sweet Treat",
+    "instructions": "Find the most colorful, multi-layered cake slice at the buffet dessert station.",
+    "points": 200,
+    "sort_order": 18
+  },
+  {
+    "id": "ff2c17b8-ebc8-5993-9244-d29ded762d6b",
+    "canonical_key": "good-spirits-mixology",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Good Spirits Mixology",
+    "instructions": "Capture a photo of a unique drink menu or the bartender's custom cocktail station.",
+    "points": 200,
+    "sort_order": 19
+  },
+  {
+    "id": "970c7644-a88b-53ef-b15b-3ad8cc1b6a4b",
+    "canonical_key": "room-service-delivery",
+    "category": "food_and_drink_discoveries",
+    "category_label": "Food & Drink Discoveries",
+    "title": "[DEV] Room Service Delivery",
+    "instructions": "A photo of the classic hanging door menu or a fresh morning breakfast tray in your room.",
+    "points": 200,
+    "sort_order": 20
+  },
+  {
+    "id": "d2604f4c-cb09-53f7-8cbe-da9d71417151",
+    "canonical_key": "carpet-compass",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Carpet Compass",
+    "instructions": "A photo pointing to the hallway carpet pattern that indicates which way is the front of the ship.",
+    "points": 300,
+    "sort_order": 21
+  },
+  {
+    "id": "3d6976cf-35aa-5709-9456-670dbf4bddb6",
+    "canonical_key": "stateroom-door-flair",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Stateroom Door Flair",
+    "instructions": "Find and photograph the most uniquely or creatively decorated stateroom door in the halls.",
+    "points": 300,
+    "sort_order": 22
+  },
+  {
+    "id": "55410248-86e0-52cb-9c38-22dfafe99cb4",
+    "canonical_key": "elevator-map",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Elevator Map",
+    "instructions": "A photo of the digital deck indicator screen changing numbers inside an elevator.",
+    "points": 300,
+    "sort_order": 23
+  },
+  {
+    "id": "0c88b6d9-9a7c-5d3c-a092-b1cd2abf42b0",
+    "canonical_key": "nautical-rose",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Nautical Rose",
+    "instructions": "Locate a built-in compass rose design element embedded in the ship's flooring or woodwork.",
+    "points": 300,
+    "sort_order": 24
+  },
+  {
+    "id": "cf5cfc00-aace-5b8b-9e6b-1b612f0df227",
+    "canonical_key": "safety-first",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Safety First",
+    "instructions": "Stand side-by-side with an official, bright red \"Star Princess\" life ring buoy.",
+    "points": 300,
+    "sort_order": 25
+  },
+  {
+    "id": "6f86efc9-134d-539c-93c2-6ebdac094f07",
+    "canonical_key": "deck-13-mystery",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Deck 13 Mystery",
+    "instructions": "A photo of the elevator button panel or stairwell sign confirming whether Deck 13 exists on the ship.",
+    "points": 300,
+    "sort_order": 26
+  },
+  {
+    "id": "250b573c-d286-5de9-acbd-18b6d3989958",
+    "canonical_key": "high-wind-warning",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] High Wind Warning",
+    "instructions": "Posing with a unique nautical safety sign (like a \"Watch Your Step\" or \"High Wind Area\" door notice).",
+    "points": 300,
+    "sort_order": 27
+  },
+  {
+    "id": "190aa75d-cdd2-5764-ae64-e3db4a947706",
+    "canonical_key": "towel-zoo",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Towel Zoo",
+    "instructions": "A photo of a creative towel animal greeting you on your stateroom bed.",
+    "points": 300,
+    "sort_order": 28
+  },
+  {
+    "id": "d5d1b97c-40bf-54ca-8553-20506a09eb33",
+    "canonical_key": "lounge-spotlight",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Lounge Spotlight",
+    "instructions": "Stand on an empty lounge stage while holding an imaginary microphone.",
+    "points": 300,
+    "sort_order": 29
+  },
+  {
+    "id": "95ef28d3-340c-5ec2-8a28-9614f6508908",
+    "canonical_key": "ocean-wake",
+    "category": "quirky_details_and_hidden_artifacts",
+    "category_label": "Quirky Details & Hidden Artifacts",
+    "title": "[DEV] Ocean Wake",
+    "instructions": "A snapshot from the absolute back of the ship looking directly down at the white churning water trail.",
+    "points": 300,
+    "sort_order": 30
+  },
+  {
+    "id": "81110e99-ce63-50ef-b259-242caed36fe4",
+    "canonical_key": "the-cruise-guide",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] The Cruise Guide",
+    "instructions": "A photo showcasing the official daily printed activity schedule or the digital app guide.",
+    "points": 400,
+    "sort_order": 31
+  },
+  {
+    "id": "d5ba833f-b8d8-5e76-985a-cd98b8cef9ca",
+    "canonical_key": "crew-high-five",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Crew High-Five",
+    "instructions": "An active high-five photo mid-action with an onboard crew member.",
+    "points": 400,
+    "sort_order": 32
+  },
+  {
+    "id": "451718b9-717a-5a58-9cd5-5e1c4877669d",
+    "canonical_key": "captains-portrait",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Captain's Portrait",
+    "instructions": "Locate and pose next to the official portrait photo of the ship's captain.",
+    "points": 400,
+    "sort_order": 33
+  },
+  {
+    "id": "1ffe39ca-6b03-5bf7-905a-bd4618f15528",
+    "canonical_key": "trivia-masters",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Trivia Masters",
+    "instructions": "Hold up your official team answer sheet during an onboard trivia event.",
+    "points": 400,
+    "sort_order": 34
+  },
+  {
+    "id": "13c24b2c-4aa4-50ae-a198-021e2fa54e80",
+    "canonical_key": "live-music-backdrop",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Live Music Backdrop",
+    "instructions": "A snapshot with a live singer or band performing in one of the lounges behind you.",
+    "points": 400,
+    "sort_order": 35
+  },
+  {
+    "id": "83f00175-57d3-5a8f-8bd9-a93e3f420a21",
+    "canonical_key": "ocean-lookout",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Ocean Lookout",
+    "instructions": "A photo of a teammate pretending to look through professional binoculars on the open deck.",
+    "points": 400,
+    "sort_order": 36
+  },
+  {
+    "id": "216d3ad2-dc31-5e7f-b260-48e02f311d30",
+    "canonical_key": "deck-dance-move",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Deck Dance Move",
+    "instructions": "A photo participating in a pool-deck line dance or an organized fitness class.",
+    "points": 400,
+    "sort_order": 37
+  },
+  {
+    "id": "314479ba-ea6f-5a3f-a727-7c4b5dc75ebb",
+    "canonical_key": "bingo-champion",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Bingo Champion",
+    "instructions": "Hold an official, un-punched Bingo card or a guest raffle ticket.",
+    "points": 400,
+    "sort_order": 38
+  },
+  {
+    "id": "805a6457-d5d7-50b8-bfa0-2aa0d2886e50",
+    "canonical_key": "souvenir-selection",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] Souvenir Selection",
+    "instructions": "A photo holding the most unique, funny, or oversized Princess Cruises item in the gift shop.",
+    "points": 400,
+    "sort_order": 39
+  },
+  {
+    "id": "cc204ca4-c39d-551a-9e84-c573ab062e40",
+    "canonical_key": "the-youth-club-entry",
+    "category": "interactive_crew_and_activity",
+    "category_label": "Interactive Crew & Activity Challenges",
+    "title": "[DEV] The Youth Club Entry",
+    "instructions": "A quick group pose right outside the entrance sign for the kids' clubs or the arcade.",
+    "points": 400,
+    "sort_order": 40
+  },
+  {
+    "id": "8e7c1370-2ba1-5d1f-bb19-d08825d7a109",
+    "canonical_key": "wind-tunnel",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Wind Tunnel",
+    "instructions": "An open-deck photo with everyone's hair blowing completely wild in the ocean sea breeze.",
+    "points": 500,
+    "sort_order": 41
+  },
+  {
+    "id": "abd3399b-193d-59a5-9732-d9c6dfcd51de",
+    "canonical_key": "sunset-silhouette",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Sunset Silhouette",
+    "instructions": "A beautifully framed group photo where everyone is silhouetted against the ocean horizon.",
+    "points": 500,
+    "sort_order": 42
+  },
+  {
+    "id": "13396a2a-7e67-5d4e-b12c-207cec10c581",
+    "canonical_key": "king-of-the-world",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] King of the World",
+    "instructions": "Two teammates recreating the iconic \"Titanic\" arms-wide pose at an open deck railing.",
+    "points": 500,
+    "sort_order": 43
+  },
+  {
+    "id": "18e4343f-bc5c-56ec-92b8-7efad9619b9b",
+    "canonical_key": "triple-match",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Triple Match",
+    "instructions": "A photo where all 3 team members are wearing matching colors or coordinated cruise outfits.",
+    "points": 500,
+    "sort_order": 44
+  },
+  {
+    "id": "1e72973a-6bda-50fd-abbe-2e67046b45f2",
+    "canonical_key": "mid-air-jump",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Mid-Air Jump",
+    "instructions": "Catching all 3 team members frozen mid-air at the exact same time on the sports deck.",
+    "points": 500,
+    "sort_order": 45
+  },
+  {
+    "id": "609c4769-c04b-593b-8db1-29b2b352b54a",
+    "canonical_key": "chair-squeeze",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Chair Squeeze",
+    "instructions": "All 3 teammates crammed into a single poolside lounge chair at the same time.",
+    "points": 500,
+    "sort_order": 46
+  },
+  {
+    "id": "7c4c6001-7d0a-5b61-8df5-3fd9c7b49429",
+    "canonical_key": "shadow-art",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Shadow Art",
+    "instructions": "A clear photo of your 3 distinct shadows stretched out long across the outdoor running track.",
+    "points": 500,
+    "sort_order": 47
+  },
+  {
+    "id": "f755b814-6dab-576e-b106-3f8e0cfb7ed9",
+    "canonical_key": "comically-lost",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Comically Lost",
+    "instructions": "A photo of the team comically staring upside-down or looking completely baffled at a ship directory map.",
+    "points": 500,
+    "sort_order": 48
+  },
+  {
+    "id": "b1bf5c49-9303-5702-aa6b-320788e808d2",
+    "canonical_key": "bridge-wing-peek",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Bridge Wing Peek",
+    "instructions": "A photo attempting to spot the officer on watch up on the bridge wing from a public forward deck.",
+    "points": 500,
+    "sort_order": 49
+  },
+  {
+    "id": "c0187b80-f6f5-5187-a0d9-5af52dd433b4",
+    "canonical_key": "victory-dance",
+    "category": "creative_team_and_action_shots",
+    "category_label": "Creative Team & Action Shots",
+    "title": "[DEV] Victory Dance",
+    "instructions": "A hilarious action photo celebrating the completion of your 50th hunt item!",
+    "points": 500,
+    "sort_order": 50
+  }
+]

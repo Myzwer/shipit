@@ -32,9 +32,45 @@ export const copy = {
     admin: 'Admin',
     /** Shown only while the board is in an open/active window. */
     partialLiveNote: 'Daily bounties update with Ship Time. Claim It opens the logging wizard.',
-    /** Ship It! Home remains a layout shell until Phase 4. */
-    mockShellNote: 'Phase 0 layout shell — mock demonstration data only.',
     retryLoad: 'Retry',
+    allChallenges: 'All Challenges',
+    challengesCount: '{completedCount}/50 Challenges',
+    challengesMetric: 'Challenges: {completedCount}/50',
+    categoryProgress: '{completedCount}/10',
+    pointsLabel: '{points} Points',
+    noTeamProgress: 'No challenges completed yet. Pick one to get started!',
+    shipLoading: 'Loading Ship It!…',
+    shipUnavailableTitle: "Couldn't Load Game Data",
+    shipUnavailableDetail:
+      "We couldn't load your team's progress. Check your connection and try again.",
+    shipUnconfigured: 'Ship It! is not configured for this cruise yet.',
+    shipPreCruise: 'Ship It! opens when the cruise begins.',
+    shipFinale: 'Ship It! is closed. Final standings are ready to review.',
+  },
+  shipit: {
+    challengesHeading: 'Challenges',
+    filterBy: 'Filter by',
+    filterAll: 'All',
+    categoryProgress: '{categoryName} — {completedCount}/10',
+    categoryPoints: '{points} Points',
+    completed: 'Completed',
+    loading: 'Loading Challenges…',
+    emptyCategory: 'No challenges in this category.',
+    submissionSoonTitle: 'Photo submission coming soon',
+    submissionSoonBody:
+      'Every Ship It! challenge needs a photo. Submitting opens once the shared photo pipeline is ready.',
+    actionUnavailable: 'Unavailable',
+    backToChallenges: 'Back to Challenges',
+    howToPlayBasics:
+      "One team, one score. You're assigned to a team, and any team member can submit a challenge for that team. A challenge only counts once per team, even if several teammates take photos. Other teams can still complete the same challenge.",
+    howToPlayFind:
+      'Find your next challenge. Open Challenges, browse the five categories, and tap any unfinished challenge to submit it. Completed challenges appear checked and can\'t be submitted again by your team.',
+    howToPlayPhotos:
+      "Every challenge needs one photo. Videos aren't part of this game. Captions are optional. Follow each challenge's instructions — not every challenge requires a photo of the entire team.",
+    howToPlayPoints:
+      'Harder categories earn more points. Challenges are worth 100, 200, 300, 400, or 500 points, depending on their category. Each category has ten challenges, for a maximum of 15,000 team points.',
+    howToPlayHours:
+      'Explore any time, including mornings. Ship It! closes Friday at 6:00 PM Ship Time. Tied teams share their finishing position.',
   },
   login: {
     heading: 'Welcome Aboard',
