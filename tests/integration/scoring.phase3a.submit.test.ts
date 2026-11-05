@@ -219,6 +219,7 @@ describe('Phase 3A eligibility', () => {
         barKey,
         mode: 'generic_beer',
         companions: [companion],
+        barEligibleCompanions: [companion],
       }),
       at,
     )
@@ -246,7 +247,12 @@ describe('Phase 3A eligibility', () => {
     const prev = await previewAt(
       fixtures.service!,
       author,
-      drinkPayload({ barKey, offeringId, companions: [companion] }),
+      drinkPayload({
+        barKey,
+        offeringId,
+        companions: [companion],
+        barEligibleCompanions: [companion],
+      }),
       at,
     )
     expect(prev.data.preview.categories.cocktail.status).toBe('eligible')
@@ -273,6 +279,7 @@ describe('Phase 3A eligibility', () => {
         barKey,
         offeringId,
         companions: [companion],
+        barEligibleCompanions: [companion],
         selectedClaims: selectedAll,
       }),
       at,
@@ -300,6 +307,7 @@ describe('Phase 3A eligibility', () => {
           barKey,
           offeringId,
           companions: [companion2],
+          barEligibleCompanions: [companion2],
           selectedClaims: onlyBar,
         }),
         at,
@@ -368,14 +376,24 @@ describe('Phase 3A eligibility', () => {
     const one = await previewAt(
       fixtures.service!,
       author,
-      drinkPayload({ barKey, mode: 'generic_beer', companions: [both] }),
+      drinkPayload({
+        barKey,
+        mode: 'generic_beer',
+        companions: [both],
+        barEligibleCompanions: [both],
+      }),
       at,
     )
     expect(one.data.preview.categories.bar.options[0].points).toBe(35)
     const two = await previewAt(
       fixtures.service!,
       author,
-      drinkPayload({ barKey, mode: 'generic_beer', companions: [both, admin] }),
+      drinkPayload({
+        barKey,
+        mode: 'generic_beer',
+        companions: [both, admin],
+        barEligibleCompanions: [both, admin],
+      }),
       at,
     )
     expect(two.data.preview.categories.bar.options[0].points).toBe(45)

@@ -9,6 +9,8 @@ export function drinkPayload(opts: {
   offeringId?: string
   customName?: string
   companions?: string[]
+  /** Honor-system Bar multiplier subset; must be ⊆ companions. */
+  barEligibleCompanions?: string[]
   selectedClaims?: unknown[]
   caption?: string | null
   idempotencyKey?: string
@@ -26,6 +28,7 @@ export function drinkPayload(opts: {
     bar_canonical_key: opts.barKey,
     drink,
     companion_player_ids: opts.companions ?? [],
+    bar_eligible_companion_ids: opts.barEligibleCompanions ?? [],
     selected_claims: opts.selectedClaims ?? [],
     caption: opts.caption ?? null,
     ...(opts.forged ?? {}),
