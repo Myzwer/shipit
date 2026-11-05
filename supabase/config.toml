@@ -1,0 +1,26 @@
+# Supabase local tooling scaffold for Phase 0.
+# Do not create a production project or run migrations in this phase.
+# Docs: https://supabase.com/docs/guides/local-development/cli/getting-started
+
+project_id = "star-princess-local"
+
+[api]
+enabled = true
+port = 54321
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = ["http://127.0.0.1:5173"]
+enable_signup = false
+
+[storage]
+enabled = true

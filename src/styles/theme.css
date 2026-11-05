@@ -1,0 +1,107 @@
+@import 'tailwindcss';
+
+/*
+  Semantic design tokens for Drink It! and Ship It!
+  Appearance authority: handoff/design mockups (original JPGs + 3 later PNGs).
+*/
+
+@theme {
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+
+  --color-drink-header: #7a1f45;
+  --color-drink-nav: #6d1b3d;
+  --color-drink-primary: #0a5c6b;
+  --color-drink-primary-hover: #084a56;
+  --color-drink-accent: #c2185b;
+  --color-drink-surface: #d7f3f1;
+  --color-drink-surface-muted: #bfe7e4;
+  --color-drink-page: #f3ebe0;
+  --color-drink-page-alt: #d9f0f5;
+  --color-drink-card: #f3e6d2;
+  --color-drink-ink: #1f2933;
+  --color-drink-muted: #5b6770;
+
+  --color-ship-header: #a67c2d;
+  --color-ship-nav: #8f6a24;
+  --color-ship-primary: #1d4f91;
+  --color-ship-primary-hover: #163d70;
+  --color-ship-accent: #c9a227;
+  --color-ship-surface: #f5e9c8;
+  --color-ship-surface-muted: #efe0b0;
+  --color-ship-page: #f7edd3;
+  --color-ship-page-alt: #d7ebf7;
+  --color-ship-card: #f6e8c6;
+  --color-ship-ink: #1f2933;
+  --color-ship-muted: #5b6770;
+
+  --color-cream: #f5e6c8;
+  --color-ink: #1f2933;
+}
+
+:root {
+  color-scheme: light;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: #f7f4ef;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.theme-drink {
+  --theme-header: var(--color-drink-header);
+  --theme-nav: var(--color-drink-nav);
+  --theme-primary: var(--color-drink-primary);
+  --theme-primary-hover: var(--color-drink-primary-hover);
+  --theme-accent: var(--color-drink-accent);
+  --theme-surface: var(--color-drink-surface);
+  --theme-surface-muted: var(--color-drink-surface-muted);
+  --theme-page: var(--color-drink-page);
+  --theme-page-alt: var(--color-drink-page-alt);
+  --theme-card: var(--color-drink-card);
+  --theme-ink: var(--color-drink-ink);
+  --theme-muted: var(--color-drink-muted);
+}
+
+.theme-ship {
+  --theme-header: var(--color-ship-header);
+  --theme-nav: var(--color-ship-nav);
+  --theme-primary: var(--color-ship-primary);
+  --theme-primary-hover: var(--color-ship-primary-hover);
+  --theme-accent: var(--color-ship-accent);
+  --theme-surface: var(--color-ship-surface);
+  --theme-surface-muted: var(--color-ship-surface-muted);
+  --theme-page: var(--color-ship-page);
+  --theme-page-alt: var(--color-ship-page-alt);
+  --theme-card: var(--color-ship-card);
+  --theme-ink: var(--color-ship-ink);
+  --theme-muted: var(--color-ship-muted);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.safe-bottom {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.safe-x {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}

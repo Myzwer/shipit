@@ -1,0 +1,36 @@
+2c82dd43a91112fcad546282288774593d4172b9cc4601db90f4a4cb592432e6  01-Game-Rules.md
+690915463c3500ab0a55dd2bee3df30186d25e48fa1deeab1bbbe34fe70972c3  02-UX-Behavior.md
+0b991e95b32e953ca05bd0284f4dede281d3b50b3e9bcee3c8e8e401f8c844fb  03-Technical-Spec.md
+5b4949ab4679e5ebdc95f27e187c682cce833371cb36552d42f4492e1f8d44cd  04-UI-Content-and-Icons.md
+c1d194f37b4ced9cbea3e13482cc6e0230c3fda304297d6c78f0c42402c196a2  05-Cursor-START-HERE.md
+91fb26becfe881f2c1880abd8efa9970714f33f083658d9c0fa34fc4c0a49f9e  README.md
+0533f42c84eac57ec0eb5a1683e4d237abe4a456bb19cb2553f3a0acf3b7b73a  data/challenges/Scavenger-Hunt-Original-Source.docx
+80897dfbec204dac8bdbb788fba08fc5252beb4dcbd53e24b8546278d7a5d76d  data/challenges/Ship-It-50-Challenges-Source-REVIEW.md
+ee18cc5f4232ebd0bc6599e1748dda3a26d24fc8e927dea58aad0a10c48ddee0  data/menus/Ingredient-Display-Alias-Lexicon.json
+928c998e60e4a92b1b5ba4dca36aaf6d046d5daa7bbe713fd7ebe9929173b8ab  data/menus/README.md
+9e2379e515153c73d041c614f8c28ac8baeb3d41d08712f016ce3a152879700b  data/menus/Star-Princess-Beverage-Display-Aliases.md
+f8fefa687d32ae02c24a1590652d7d85730720aff0370be2e5b6e1dbaed8eab8  data/menus/Star-Princess-Beverage-Source-Unmodified.md
+61d0c0355104bd678cdcaff7d62c961d40403098ebd6adeb6dfab21a69c789c7  data/rankings/Cocktail-Bounty-Rankings-REVIEW-DRAFT.md
+7d705e3fee518dca7364f665c7c003aafe52a32594d66d4e09266e760ad83751  data/rankings/Ingredient-Bounty-Rankings-Bar-First-REVIEW-DRAFT.md
+39eecaeb4a2f0a18113246eaea70e6c4ac474f0f45291e2d276e84051b6d28b3  data/rankings/README.md
+0631611e03095d84f923e5c13609728f612c4e1daa9b3b7cb0058918365533c1  design/README.md
+f842340b9183a73157c3a5039efcb69eb198c8f9a82b4cd04e6e999bf17c461c  design/additional-screen-reference/Ship-It-Challenge-List.png
+476d2a88b469cde1d46e9199e9d8f70965a8d2f3c3d9b7fde4058a33437f9fc7  design/latest-available-updates/01-Ship-It-Home-Team-Leaderboard-Names.png
+478a7b0231ddc15191f951a385407f68413af21905587d2b4cce85c4173e57d3  design/latest-available-updates/02-Drink-It-Review-Missing-Ingredient-Link.png
+f95945164ecdafbfc7596ec52013171910533a6e586999e1bff9d5a113cd0fb6  design/latest-available-updates/03-Drink-It-Wrapped-Single-Start-Reveal.png
+62aa653b687d1c4f4fad0cb1e1783a80e7240c89d5318faff56dada53416a8e5  design/original-final-mockups/1. Game Selection.jpg
+2c51e9b082ca25ec888f043ea8a0b54cd88432ebadde7dff04b5efc0cb984716  design/original-final-mockups/2. Drink It - Achivement Popup.jpg
+c01dfa27fd0e1f08e893a21393629e119df6fc36b3b2f17bf6e612081504b1c7  design/original-final-mockups/2. Drink It - All Achievements.jpg
+cf7f5d59240017482e71101070df12e9a3ff765e1505c989966b223f06de66c4  design/original-final-mockups/2. Drink It - Home.jpg
+3946682556d8a7f7a497e35de64a89fe804a96413ce9f34aac68fb52ca4290b5  design/original-final-mockups/2. Drink It - Log Step 2.jpg
+425b352a34f811660a1937ce3153e68e2f61161637e280da80cdef23b3644ae5  design/original-final-mockups/2. Drink It - Log Step 5.jpg
+14271d62e9d89dc3efb8955b24cb4450fb5cfa745877e77e5dd883074ba6fc3e  design/original-final-mockups/2. Drink It - Log.jpg
+cddd84c1d5c4bccc50330d7543fd6c78af4f499b7b41d56ee20ea48623d7f480  design/original-final-mockups/2. Drink It - My Achievements.jpg
+03fb04cf3b83b9bb1db40c13c5b4d10154771f59b02b7cdf526bfca30008b897  design/original-final-mockups/2. Drink It - Social Feed.jpg
+b316625a25eb61c8c77feef28cd3107e8eb3e28cb1724375a885d7cf20dc2b2d  design/original-final-mockups/2. Drink It - Wrapped-1.jpg
+99fae2caf0b792ada652247ddb4660ac380ce7fac032dd2a6a19f05a080030e1  design/original-final-mockups/2. Drink It - Wrapped-2.jpg
+388206b4fc51172762aa19ad28ab26c86425cc6c507628010115d82ed8bc459a  design/original-final-mockups/2. Drink It - Wrapped.jpg
+d8c46bd4d6ba0d9c6d9a5e83de85033596d67c0b32f8a1f3e628c431afc5bc07  design/original-final-mockups/2. Ship It - Home-1.jpg
+cb88e7c59ec1388b4862c87090120e38f245cfabe5579b3b2e2b6ffd04f6a631  design/original-final-mockups/2. Ship It - Home.jpg
+2f71eb2241c6d343a4a54a0612d4892f1dd0cb97a2a897cd9644dcdee472e4e7  design/original-final-mockups/All Bounty States.jpg
+696a2843eda00d0ae3a71121dc9bc6a5558d38ee52990ec3c60f4dcc36b30332  docs/Production-Content-and-Launch-Checklist.md
