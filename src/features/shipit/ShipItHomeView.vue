@@ -23,17 +23,12 @@ const session = useSessionStore()
         {{ formatCopy(copy.home.shipProgress, { teamName: shipItMockTeamName }) }}
       </h2>
 
-      <ul class="mt-4 space-y-4">
+      <ul class="mt-5 space-y-5">
         <li v-for="row in shipItMockProgress" :key="row.id">
-          <div class="flex items-end justify-between gap-3 text-sm">
-            <p class="font-medium" style="color: var(--theme-ink)">
-              {{ row.label }} — {{ row.completed }}/{{ row.total }}
-            </p>
-            <p class="shrink-0 tabular-nums" style="color: var(--theme-muted)">
-              {{ row.points }}
-            </p>
-          </div>
-          <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-black/10">
+          <p class="text-[0.95rem] font-medium leading-snug" style="color: var(--theme-ink)">
+            {{ row.label }} — {{ row.completed }}/{{ row.total }}
+          </p>
+          <div class="mt-2 h-[3px] overflow-hidden rounded-full bg-black/10">
             <div
               class="h-full rounded-full"
               :style="{
@@ -42,6 +37,9 @@ const session = useSessionStore()
               }"
             />
           </div>
+          <p class="mt-1.5 text-right text-sm tabular-nums" style="color: var(--theme-ink)">
+            {{ row.points }}
+          </p>
         </li>
       </ul>
     </section>

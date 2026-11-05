@@ -1,168 +1,153 @@
 # Star Princess Games
 
-Private mobile-first web app for **Drink It!** and **Ship It!** on a seven-day Princess cruise.
+A mobile-first web app for a private family cruise group. Two games share player accounts and UI patterns in one Vue application:
 
-**Current status:** Phase 0 foundation only — themed shells, routing, tooling. No authentication, scoring, or live data yet.
+- **Drink It!** — Individual cocktail exploration. Players log drinks at onboard bars and claim rotating Cocktail and Ingredient bounties, a daily Bar bounty, and a Daily Challenge.
+- **Ship It!** — Team photo scavenger hunt. Fixed teams complete a catalog of photo challenges across five categories and compete on a team leaderboard.
 
-Authoritative product docs live in [`handoff/`](./handoff/). Start with [`handoff/05-Cursor-START-HERE.md`](./handoff/05-Cursor-START-HERE.md) and [`handoff/README.md`](./handoff/README.md).
+Built for roughly a week at sea: simple login for known players, phone-friendly UI, and a low-ops backend the organizer can leave alone while on vacation.
 
----
+## Tech stack
 
-## Required local tooling
+| Layer | Choice |
+|---|---|
+| Frontend | Vue 3 · TypeScript · Vite · Vue Router · Pinia |
+| Styling | Tailwind CSS · semantic Drink It! / Ship It! theme tokens |
+| Icons | Font Awesome Pro (Light / Solid / Regular) via Vue SVG components |
+| Backend | Supabase (Auth, Postgres, Storage) — scaffolded; live wiring comes later |
+| Hosting | Vercel static SPA (`vercel.json` rewrite for client routes) |
 
-- **Node.js 20+** (Node 20.19+ recommended)
-- **npm 10+** (comes with Node)
-- A modern browser (Safari or Chrome on phone-sized viewport for visual checks)
-- Optional later: [Supabase CLI](https://supabase.com/docs/guides/cli) for local database work (not required to view Phase 0 shells)
-- **Font Awesome Package Token** required for `npm install` (Pro Light/Solid/Regular) — see below
+## Current status
 
----
+**Phase 0 — foundation.** Game selection and themed Home shells, shared navigation, design tokens, Font Awesome Pro, tooling, and CI. No authentication, scoring, submissions, galleries, or admin yet.
 
-## First-time install
+Authoritative product specs and mockups live in [`handoff/`](./handoff/).
 
-1. Ensure `FONTAWESOME_PACKAGE_TOKEN` is exported in your shell (Package Token from [fontawesome.com/account](https://fontawesome.com/account) → Tokens). Recommended macOS setup:
+## Quick start
+
+**Requirements:** Node.js 20+, npm 10+, and a Font Awesome **Package Token** (not a Kit/API token).
+
+1. Configure the Package Token in your shell (never commit it):
 
    ```bash
-   # ~/.config/fontawesome/env  (private; not in this repo)
+   # e.g. ~/.config/fontawesome/env  (outside the repo)
    export FONTAWESOME_PACKAGE_TOKEN='…'
    ```
 
-   Then `source` that file from `~/.zshrc`.
-
-2. Confirm without printing the token:
+   Confirm without printing the value:
 
    ```bash
    test -n "$FONTAWESOME_PACKAGE_TOKEN" && echo "FA package token is set"
    ```
 
-3. Install dependencies:
+2. Install and run:
 
-```bash
-cd "/Users/josh/Documents/Web Projects/Vue/Ship It"
-npm install
-```
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-Copy the environment template (optional in Phase 0 — shells run without Supabase values):
+3. Open **http://127.0.0.1:5173/**
+
+| Route | Screen |
+|---|---|
+| `/` | Game selection |
+| `/drinkit` | Drink It! Home shell |
+| `/shipit` | Ship It! Home shell |
+
+Stop the dev server with `Ctrl+C`. Restart with `npm run dev`.
+
+Optional app env (not required for Phase 0 shells):
 
 ```bash
 cp .env.example .env
 ```
 
-Do **not** put secrets in `.env` files that get committed. `.env` is gitignored. Never put the Font Awesome token in a `VITE_` variable.
-
----
-
-## Launch the app locally
+## Scripts
 
 ```bash
-npm run dev
-```
-
-Then open:
-
-**http://127.0.0.1:5173/**
-
-Useful routes:
-
-| URL | Screen |
-|---|---|
-| http://127.0.0.1:5173/ | Game selection |
-| http://127.0.0.1:5173/drinkit | Drink It! Home shell |
-| http://127.0.0.1:5173/shipit | Ship It! Home shell |
-
-Tip: use browser responsive mode at ~390×844 to compare against the mockups in `handoff/design/`.
-
-### Stop and restart
-
-- **Stop:** focus the terminal running Vite and press `Ctrl+C`
-- **Restart:** run `npm run dev` again
-
----
-
-## Checks
-
-```bash
+npm run dev        # local Vite server
+npm run build      # production build
+npm run preview    # preview the production build
 npm run lint
 npm run typecheck
 npm run test
-npm run build
 ```
 
-Preview the production build:
+## Environment and secrets
 
-```bash
-npm run build
-npm run preview
-```
-
----
-
-## Environment variables (no secrets in git)
-
-| Variable | Purpose | Phase 0 |
+| Variable | Purpose | Notes |
 |---|---|---|
-| `VITE_SUPABASE_URL` | Public Supabase project URL | Optional / unused by shells |
-| `VITE_SUPABASE_ANON_KEY` | Public anon key (RLS-protected) | Optional / unused by shells |
-| `FONTAWESOME_PACKAGE_TOKEN` | npm auth for Pro packages | **Required** for install/CI |
+| `FONTAWESOME_PACKAGE_TOKEN` | npm auth for Pro packages | **Required** for `npm install` and CI. Shell / CI secret only — never `VITE_` |
+| `VITE_SUPABASE_URL` | Public Supabase URL | Optional in Phase 0 |
+| `VITE_SUPABASE_ANON_KEY` | Public anon key | Optional in Phase 0 |
 
-**Never** prefix Font Awesome or service-role keys with `VITE_`. Never commit tokens.
+Do not commit tokens, service-role keys, or real player passwords. The committed [`.npmrc`](./.npmrc) references `${FONTAWESOME_PACKAGE_TOKEN}` only.
 
----
+### Font Awesome Pro
 
-## Font Awesome Pro
-
-Phase 0 uses the official Vue SVG integration with:
+Icons use the official Vue Font Awesome SVG integration:
 
 - `@fortawesome/pro-light-svg-icons` — outline / inactive
 - `@fortawesome/pro-solid-svg-icons` — active / completed / emphasis
-- `@fortawesome/pro-regular-svg-icons` — available when Light is too thin at mobile sizes
-- Central registry: `src/ui/icons.ts` (semantic keys from `handoff/04-UI-Content-and-Icons.md` §13)
+- `@fortawesome/pro-regular-svg-icons` — available when Light is too thin
+- Registry: [`src/ui/icons.ts`](./src/ui/icons.ts)
 
-The committed `.npmrc` uses `${FONTAWESOME_PACKAGE_TOKEN}` only — no literal token.
+Create or copy a Package Token from [fontawesome.com/account](https://fontawesome.com/account) → **Tokens**.
 
-### GitHub Actions secret
+### GitHub Actions
 
-CI installs Pro packages via repository secret `FONTAWESOME_PACKAGE_TOKEN`:
+CI needs repository secret `FONTAWESOME_PACKAGE_TOKEN`:
 
-1. Open the GitHub repo → **Settings** → **Secrets and variables** → **Actions**
-2. **New repository secret**
-3. Name: `FONTAWESOME_PACKAGE_TOKEN`
-4. Value: your Font Awesome **Package Token** (same as local; not a Kit/API token)
-5. Save, then re-run the failed workflow if needed
+1. Repo → **Settings** → **Secrets and variables** → **Actions**
+2. **New repository secret** named `FONTAWESOME_PACKAGE_TOKEN`
+3. Paste the same Package Token used locally
+4. Re-run the workflow if a prior run failed on install
 
-For Vercel later, add the same name as a **build** environment variable (still not `VITE_`).
-
----
-
-## External services (not configured in Phase 0)
-
-| Service | Status |
-|---|---|
-| Supabase (Auth / DB / Storage) | Local `supabase/config.toml` scaffold only — no production project |
-| Vercel | `vercel.json` SPA fallback ready — **do not deploy** until authorized |
-| Font Awesome Pro registry | Package Token required locally and in GitHub Actions |
-
----
-
-## Project layout (high level)
+## Project structure
 
 ```text
 src/
-  app/                 # router
-  components/shared/   # nav, shell, leaderboard, icons
-  features/drinkit/    # Drink It! Home shell
-  features/shipit/     # Ship It! Home shell
+  app/                 # router bootstrap
+  components/shared/   # shell, nav, leaderboard, icons
+  features/drinkit/    # Drink It! module
+  features/shipit/     # Ship It! module
   features/shared/     # game selection
-  styles/theme.css     # semantic theme tokens
-  ui/icons.ts          # Font Awesome semantic registry
-  ui/copy.ts           # approved Phase 0 strings
-  lib/supabase.ts      # client stub (inactive until env set)
-handoff/               # authoritative rules, UX, tech, mockups
+  styles/              # theme tokens
+  ui/                  # copy + icon registry
+  lib/                 # Supabase client stub
+handoff/               # rules, UX, tech spec, mockups (authoritative)
 supabase/              # local tooling scaffold
+docs/phase0-screenshots/
 ```
 
----
+## Git workflow
 
-## Phase boundary
+- Default branch: `main`
+- Prefer small, reviewable commits per phase or closeout
+- Do not commit secrets, `.env`, or Font Awesome tokens
+- Push feature work on branches when collaborating; Phase checkpoints land on `main` after Director review
 
-Phase 0 intentionally excludes auth, schemas, scoring, wizards, galleries, achievements, admin, and production catalogs. Do not start Phase 1 until the Development Director reviews this checkpoint.
+```bash
+git status
+git pull
+# …make changes…
+git add -A
+git commit -m ":rocket: Short imperative summary"
+git push
+```
+
+## Documentation
+
+| Document | Role |
+|---|---|
+| [`handoff/README.md`](./handoff/README.md) | Handoff manifest and authority order |
+| [`handoff/01-Game-Rules.md`](./handoff/01-Game-Rules.md) | Scoring and eligibility |
+| [`handoff/02-UX-Behavior.md`](./handoff/02-UX-Behavior.md) | Screens and interaction |
+| [`handoff/03-Technical-Spec.md`](./handoff/03-Technical-Spec.md) | Architecture and phases |
+| [`handoff/04-UI-Content-and-Icons.md`](./handoff/04-UI-Content-and-Icons.md) | Copy and icon registry |
+| [`handoff/design/`](./handoff/design/) | Visual mockups |
+
+## License / privacy
+
+This is a private family cruise project. Do not publish real player credentials, Supabase service keys, or Font Awesome Package Tokens.

@@ -6,7 +6,7 @@ import vueParser from 'vue-eslint-parser'
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**', 'handoff/**', 'coverage/**'],
+    ignores: ['dist/**', 'node_modules/**', 'handoff/**', 'coverage/**', 'scripts/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -27,6 +27,8 @@ export default tseslint.config(
         document: 'readonly',
         HTMLElement: 'readonly',
         console: 'readonly',
+        getComputedStyle: 'readonly',
+        requestAnimationFrame: 'readonly',
       },
     },
     rules: {

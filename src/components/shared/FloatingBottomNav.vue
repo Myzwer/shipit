@@ -77,7 +77,11 @@ function onSelect(item: (typeof items.value)[number]) {
         :key="item.key"
         type="button"
         class="relative flex h-11 w-11 items-center justify-center rounded-xl transition"
-        :class="item.active ? 'opacity-100' : 'opacity-55 hover:opacity-85'"
+        :class="
+          item.active
+            ? 'bg-white/15 opacity-100'
+            : 'opacity-55 hover:opacity-85'
+        "
         :aria-label="item.label"
         :aria-current="item.active ? 'page' : undefined"
         @click="onSelect(item)"

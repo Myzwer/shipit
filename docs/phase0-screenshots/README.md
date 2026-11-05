@@ -1,6 +1,13 @@
 # Phase 0 screenshots
 
-Captured at an emulated **390×844** iPhone viewport from the local Vite server.
+Captured with Playwright at an exact mobile viewport:
+
+| Setting | Value |
+|---|---|
+| CSS viewport | **390 × 844** |
+| Device pixel ratio | **2** |
+| PNG pixel size | **780 × 1688** |
+| Mode | viewport only (not full desktop canvas) |
 
 | File | Route |
 |---|---|
@@ -8,10 +15,9 @@ Captured at an emulated **390×844** iPhone viewport from the local Vite server.
 | `phase0-drinkit-home.png` | `/drinkit` |
 | `phase0-shipit-home.png` | `/shipit` |
 
-To recapture locally:
+Recapture (dev server must be running):
 
 ```bash
 npm run dev
-# Open http://127.0.0.1:5173/ in browser responsive mode (~390×844)
-# Screenshot each route
+node scripts/capture-phase0-screens.mjs
 ```

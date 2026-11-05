@@ -26,7 +26,7 @@ defineProps<{
         <p
           v-if="showMembers && row.members?.length"
           class="mt-0.5 text-sm leading-snug"
-          style="color: var(--theme-muted)"
+          style="color: var(--theme-ink)"
         >
           {{ row.members.join(' · ') }}
         </p>
