@@ -5,13 +5,15 @@ import { copy } from '@/ui/copy'
 const fetchAdminClockDiagnostics = vi.fn()
 const previewManualDelta = vi.fn()
 const applyManualCorrection = vi.fn()
-const savePlanDays = vi.fn()
+const saveShipClockPlan = vi.fn()
+const reconcileManualCorrection = vi.fn()
 
 vi.mock('@/lib/adminClock', () => ({
   fetchAdminClockDiagnostics: (...args: unknown[]) => fetchAdminClockDiagnostics(...args),
   previewManualDelta: (...args: unknown[]) => previewManualDelta(...args),
   applyManualCorrection: (...args: unknown[]) => applyManualCorrection(...args),
-  savePlanDays: (...args: unknown[]) => savePlanDays(...args),
+  saveShipClockPlan: (...args: unknown[]) => saveShipClockPlan(...args),
+  reconcileManualCorrection: (...args: unknown[]) => reconcileManualCorrection(...args),
 }))
 
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
@@ -45,7 +47,8 @@ describe('ShipClockSection', () => {
     fetchAdminClockDiagnostics.mockReset()
     previewManualDelta.mockReset()
     applyManualCorrection.mockReset()
-    savePlanDays.mockReset()
+    saveShipClockPlan.mockReset()
+    reconcileManualCorrection.mockReset()
     fetchAdminClockDiagnostics.mockResolvedValue(baseDiagnostics)
   })
 
@@ -58,6 +61,7 @@ describe('ShipClockSection', () => {
     expect(wrapper.text()).toContain(copy.admin.plus1Hour)
     expect(wrapper.text()).toContain(copy.admin.setShipTime)
     expect(wrapper.text()).toContain(copy.admin.plannedHeading)
+    expect(wrapper.text()).toContain(copy.admin.planDisabled)
     expect(wrapper.get('[data-testid="clock-overview"]').text()).toContain('8:00 AM')
   })
 
@@ -75,6 +79,7 @@ describe('ShipClockSection', () => {
         ...baseDiagnostics,
         state: { ...baseDiagnostics.state, offset_minutes: -180, ship_local: '2099-01-03T09:00:00' },
       },
+      clientRequestId: 'req',
     })
 
     const wrapper = mount(ShipClockSection)
@@ -88,6 +93,49 @@ describe('ShipClockSection', () => {
     expect(wrapper.text()).toContain(copy.admin.confirmAdjustBody)
     await wrapper.get('[data-testid="confirm-apply"]').trigger('click')
     await flushPromises()
+    expect(applyManualCorrection).toHaveBeenCalledTimes(1)
+    expect(wrapper.get('[data-testid="clock-feedback"]').text()).toContain(copy.admin.successApplied)
+  })
+
+  it('blocks re-apply controls on UNKNOWN and offers refresh only', async () => {
+    previewManualDelta.mockResolvedValue({
+      before: baseDiagnostics.state,
+      after_offset_minutes: -180,
+      after_ship_local: '2099-01-03T09:00:00',
+      delta_minutes: 60,
+    })
+    applyManualCorrection.mockResolvedValue({
+      status: 'unknown',
+      message: copy.admin.unknownBody,
+      intent: { kind: 'plus_1h', deltaMinutes: 60 },
+      before: baseDiagnostics.state,
+      clientRequestId: 'unknown-req',
+      diagnostics: baseDiagnostics,
+    })
+    reconcileManualCorrection.mockResolvedValue({
+      status: 'ok',
+      after: { ...baseDiagnostics.state, offset_minutes: -180 },
+      diagnostics: {
+        ...baseDiagnostics,
+        state: { ...baseDiagnostics.state, offset_minutes: -180 },
+      },
+      clientRequestId: 'unknown-req',
+    })
+
+    const wrapper = mount(ShipClockSection)
+    await flushPromises()
+    await wrapper.get('[data-testid="plus-1h"]').trigger('click')
+    await flushPromises()
+    await wrapper.get('[data-testid="confirm-apply"]').trigger('click')
+    await flushPromises()
+
+    expect(wrapper.get('[data-testid="clock-feedback"]').text()).toContain(copy.admin.unknownTitle)
+    expect(wrapper.get('[data-testid="plus-1h"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.text()).not.toContain(copy.admin.failureTitle)
+
+    await wrapper.get('[data-testid="refresh-unknown"]').trigger('click')
+    await flushPromises()
+    expect(reconcileManualCorrection).toHaveBeenCalledTimes(1)
     expect(applyManualCorrection).toHaveBeenCalledTimes(1)
     expect(wrapper.get('[data-testid="clock-feedback"]').text()).toContain(copy.admin.successApplied)
   })

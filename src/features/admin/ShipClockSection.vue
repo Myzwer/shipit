@@ -4,7 +4,8 @@ import {
   applyManualCorrection,
   fetchAdminClockDiagnostics,
   previewManualDelta,
-  savePlanDays,
+  reconcileManualCorrection,
+  saveShipClockPlan,
   type ApplyCorrectionResult,
 } from '@/lib/adminClock'
 import {
@@ -20,8 +21,10 @@ import { copy, formatCopy } from '@/ui/copy'
 import type {
   AdminClockDiagnostics,
   ManualCorrectionIntent,
+  PlanDaySelectValue,
   PlanDeltaChoice,
   ShipClockPlanDay,
+  ShipClockPlanDraftDay,
 } from '@/types/shipClock'
 
 const diagnostics = ref<AdminClockDiagnostics | null>(null)
@@ -29,28 +32,52 @@ const loadStatus = ref<'loading' | 'ready' | 'unavailable' | 'error'>('loading')
 const loadError = ref<string | null>(null)
 
 const busy = ref(false)
-const feedback = ref<{ kind: 'success' | 'error' | 'ambiguous'; title: string; body: string } | null>(
-  null,
-)
+const feedback = ref<{
+  kind: 'success' | 'error' | 'unknown'
+  title: string
+  body: string
+} | null>(null)
 
 type ConfirmMode =
   | { type: 'manual'; intent: ManualCorrectionIntent; currentLocal: string; proposedLocal: string }
-  | { type: 'plan'; days: Array<{ day_number: number; delta_minutes: PlanDeltaChoice; enabled: boolean }> }
+  | { type: 'plan'; days: ShipClockPlanDraftDay[] }
   | null
 
 const confirm = ref<ConfirmMode>(null)
-const retainedIntent = ref<ManualCorrectionIntent | null>(null)
+/** Pending UNKNOWN attempt — never auto-reapply ±1h; reconcile first. */
+const unknownAttempt = ref<{
+  intent: ManualCorrectionIntent
+  before: import('@/types/shipClock').ShipClockState
+  clientRequestId: string
+} | null>(null)
 
 const setTimeInput = ref('')
-const draftPlan = ref<Record<number, PlanDeltaChoice>>({
-  1: 0,
-  2: 0,
-  3: 0,
-  4: 0,
-  5: 0,
-  6: 0,
-  7: 0,
+const draftPlan = ref<Record<number, PlanDaySelectValue>>({
+  1: '0',
+  2: '0',
+  3: '0',
+  4: '0',
+  5: '0',
+  6: '0',
+  7: '0',
 })
+
+function planSelectToDraft(day: number, value: PlanDaySelectValue): ShipClockPlanDraftDay {
+  if (value === 'off') {
+    return { day_number: day, delta_minutes: 0, enabled: false }
+  }
+  const delta = Number(value) as PlanDeltaChoice
+  return { day_number: day, delta_minutes: delta, enabled: true }
+}
+
+function planRowToSelect(row: ShipClockPlanDay): PlanDaySelectValue {
+  if (!row.enabled) return 'off'
+  if (row.delta_minutes === -120) return '-120'
+  if (row.delta_minutes === -60) return '-60'
+  if (row.delta_minutes === 60) return '60'
+  if (row.delta_minutes === 120) return '120'
+  return '0'
+}
 
 const state = computed(() => diagnostics.value?.state ?? null)
 const plan = computed(() => diagnostics.value?.plan ?? [])
@@ -97,14 +124,25 @@ function isHistoricalDay(dayNumber: number) {
 }
 
 function syncDraftFromPlan(rows: ShipClockPlanDay[]) {
-  const next: Record<number, PlanDeltaChoice> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0 }
+  const next: Record<number, PlanDaySelectValue> = {
+    1: '0',
+    2: '0',
+    3: '0',
+    4: '0',
+    5: '0',
+    6: '0',
+    7: '0',
+  }
   for (const row of rows) {
-    const delta = row.enabled ? row.delta_minutes : 0
-    if (delta === -120 || delta === -60 || delta === 0 || delta === 60 || delta === 120) {
-      next[row.day_number] = delta
-    }
+    next[row.day_number] = planRowToSelect(row)
   }
   draftPlan.value = next
+}
+
+function draftDays(): ShipClockPlanDraftDay[] {
+  return ([1, 2, 3, 4, 5, 6, 7] as const).map((day) =>
+    planSelectToDraft(day, draftPlan.value[day] ?? '0'),
+  )
 }
 
 async function loadDiagnostics() {
@@ -130,7 +168,7 @@ onMounted(() => {
 })
 
 async function startMinusPlus(delta: 60 | -60) {
-  if (busy.value) return
+  if (busy.value || unknownAttempt.value) return
   feedback.value = null
   busy.value = true
   try {
@@ -156,7 +194,7 @@ async function startMinusPlus(delta: 60 | -60) {
 }
 
 function startSetTime() {
-  if (busy.value || !setTimeInput.value) return
+  if (busy.value || unknownAttempt.value || !setTimeInput.value) return
   feedback.value = null
   const raw = setTimeInput.value.length === 16 ? `${setTimeInput.value}:00` : setTimeInput.value
   const normalized = raw.includes('T') ? raw.replace(' ', 'T') : raw
@@ -170,14 +208,9 @@ function startSetTime() {
 }
 
 function startSavePlan() {
-  if (busy.value) return
+  if (busy.value || unknownAttempt.value) return
   feedback.value = null
-  const days = ([1, 2, 3, 4, 5, 6, 7] as const).map((day_number) => ({
-    day_number,
-    delta_minutes: draftPlan.value[day_number] ?? 0,
-    enabled: true,
-  }))
-  confirm.value = { type: 'plan', days }
+  confirm.value = { type: 'plan', days: draftDays() }
 }
 
 function cancelConfirm() {
@@ -188,7 +221,7 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
   if (result.status === 'ok') {
     diagnostics.value = result.diagnostics
     syncDraftFromPlan(result.diagnostics.plan ?? [])
-    retainedIntent.value = null
+    unknownAttempt.value = null
     feedback.value = {
       kind: 'success',
       title: copy.admin.successApplied,
@@ -198,17 +231,24 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
     }
     return
   }
-  if (result.status === 'ambiguous') {
-    diagnostics.value = result.diagnostics
-    retainedIntent.value = result.intent
+  if (result.status === 'unknown') {
+    if (result.diagnostics) {
+      diagnostics.value = result.diagnostics
+      syncDraftFromPlan(result.diagnostics.plan ?? [])
+    }
+    unknownAttempt.value = {
+      intent: result.intent,
+      before: result.before,
+      clientRequestId: result.clientRequestId,
+    }
     feedback.value = {
-      kind: 'ambiguous',
-      title: copy.admin.ambiguousTitle,
-      body: result.message,
+      kind: 'unknown',
+      title: copy.admin.unknownTitle,
+      body: result.message || copy.admin.unknownBody,
     }
     return
   }
-  retainedIntent.value = result.intent
+  unknownAttempt.value = null
   feedback.value = {
     kind: 'error',
     title: copy.admin.failureTitle,
@@ -218,6 +258,7 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
 
 async function confirmManual() {
   if (!confirm.value || confirm.value.type !== 'manual' || busy.value) return
+  if (unknownAttempt.value) return
   const intent = confirm.value.intent
   confirm.value = null
   busy.value = true
@@ -237,9 +278,9 @@ async function confirmPlan() {
   busy.value = true
   feedback.value = null
   try {
-    const next = await savePlanDays(days)
-    diagnostics.value = next
-    syncDraftFromPlan(next.plan ?? [])
+    const next = await saveShipClockPlan(days)
+    diagnostics.value = next.diagnostics
+    syncDraftFromPlan(next.plan ?? next.diagnostics.plan ?? [])
     feedback.value = {
       kind: 'success',
       title: copy.admin.successPlanSaved,
@@ -256,21 +297,31 @@ async function confirmPlan() {
   }
 }
 
-async function retryRetained() {
-  if (!retainedIntent.value || busy.value) return
-  // Re-fetch first — never blindly re-apply ±1h after ambiguity.
-  await loadDiagnostics()
-  const intent = retainedIntent.value
-  if (intent.kind === 'set_time') {
-    confirm.value = {
-      type: 'manual',
-      intent,
-      currentLocal: state.value?.ship_local ?? '',
-      proposedLocal: intent.targetShipLocal ?? '',
+/** Refresh only — never re-sends the same ±1h / set-time mutation. */
+async function refreshUnknownAttempt() {
+  if (!unknownAttempt.value || busy.value) return
+  busy.value = true
+  try {
+    const result = await reconcileManualCorrection(
+      unknownAttempt.value.clientRequestId,
+      unknownAttempt.value.intent,
+      unknownAttempt.value.before,
+    )
+    await handleApplyResult(result)
+    // After a successful refresh that still cannot find the event, allow a
+    // deliberate new preview (operator must open confirm again).
+    if (result.status === 'unknown' && result.diagnostics) {
+      // Keep blocking auto-retry; operator can dismiss by starting a new preview
+      // only after acknowledging refresh showed current time.
     }
-  } else if (intent.deltaMinutes) {
-    await startMinusPlus(intent.deltaMinutes)
+  } finally {
+    busy.value = false
   }
+}
+
+function clearUnknownAndAllowNewAction() {
+  unknownAttempt.value = null
+  feedback.value = null
 }
 </script>
 
@@ -345,7 +396,7 @@ async function retryRetained() {
         :style="
           feedback.kind === 'success'
             ? { background: '#dcefe8', color: '#1d5c4a' }
-            : feedback.kind === 'ambiguous'
+            : feedback.kind === 'unknown'
               ? { background: '#f5ecd7', color: '#6a4b12' }
               : { background: '#f3dede', color: '#8b3a3a' }
         "
@@ -353,16 +404,28 @@ async function retryRetained() {
       >
         <p class="font-semibold">{{ feedback.title }}</p>
         <p class="mt-1">{{ feedback.body }}</p>
-        <button
-          v-if="feedback.kind !== 'success' && retainedIntent"
-          type="button"
-          class="mt-3 rounded-full px-4 py-2 text-xs font-semibold text-white"
-          style="background: #0a5c6b"
-          :disabled="busy"
-          @click="retryRetained"
-        >
-          {{ copy.admin.retry }}
-        </button>
+        <div v-if="feedback.kind === 'unknown' && unknownAttempt" class="mt-3 flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="rounded-full px-4 py-2 text-xs font-semibold text-white"
+            style="background: #0a5c6b"
+            :disabled="busy"
+            data-testid="refresh-unknown"
+            @click="refreshUnknownAttempt"
+          >
+            {{ copy.admin.refreshStatus }}
+          </button>
+          <button
+            type="button"
+            class="rounded-full px-4 py-2 text-xs font-semibold"
+            style="background: #ebe6df; color: #2f3a44"
+            :disabled="busy"
+            data-testid="dismiss-unknown"
+            @click="clearUnknownAndAllowNewAction"
+          >
+            {{ copy.admin.cancel }}
+          </button>
+        </div>
       </div>
 
       <div class="mt-5" data-testid="manual-controls">
@@ -371,7 +434,7 @@ async function retryRetained() {
             type="button"
             class="rounded-full px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             style="background: #2f3a44"
-            :disabled="busy"
+            :disabled="busy || Boolean(unknownAttempt)"
             data-testid="minus-1h"
             @click="startMinusPlus(-60)"
           >
@@ -381,7 +444,7 @@ async function retryRetained() {
             type="button"
             class="rounded-full px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             style="background: #2f3a44"
-            :disabled="busy"
+            :disabled="busy || Boolean(unknownAttempt)"
             data-testid="plus-1h"
             @click="startMinusPlus(60)"
           >
@@ -396,13 +459,14 @@ async function retryRetained() {
             type="datetime-local"
             class="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
             data-testid="set-time-input"
+            :disabled="Boolean(unknownAttempt)"
           />
         </label>
         <button
           type="button"
           class="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           style="background: #0a5c6b"
-          :disabled="busy || !setTimeInput"
+          :disabled="busy || !setTimeInput || Boolean(unknownAttempt)"
           data-testid="set-ship-time"
           @click="startSetTime"
         >
@@ -431,22 +495,30 @@ async function retryRetained() {
                 Day {{ day }} · {{ cruiseDayWeekdayName(day) }}
               </p>
               <select
-                v-model.number="draftPlan[day]"
+                v-model="draftPlan[day]"
                 class="rounded-lg border border-black/10 bg-white px-2 py-1.5 text-sm"
                 :data-testid="`plan-day-${day}`"
               >
-                <option :value="0">{{ copy.admin.planNoChange }}</option>
-                <option :value="-60">{{ copy.admin.planMinus1 }}</option>
-                <option :value="60">{{ copy.admin.planPlus1 }}</option>
-                <option :value="-120">{{ copy.admin.planMinus2 }}</option>
-                <option :value="120">{{ copy.admin.planPlus2 }}</option>
+                <option value="off">{{ copy.admin.planDisabled }}</option>
+                <option value="0">{{ copy.admin.planNoChange }}</option>
+                <option value="-60">{{ copy.admin.planMinus1 }}</option>
+                <option value="60">{{ copy.admin.planPlus1 }}</option>
+                <option value="-120">{{ copy.admin.planMinus2 }}</option>
+                <option value="120">{{ copy.admin.planPlus2 }}</option>
               </select>
             </div>
             <p v-if="isHistoricalDay(day)" class="mt-2 text-xs leading-snug" style="color: #6a4b12">
               {{ copy.admin.historicalPlanNote }}
             </p>
             <p v-else class="mt-2 text-xs" style="color: #5b6770">
-              Planned: {{ formatPlanDeltaLabel(draftPlan[day] ?? 0, true) }} at 3:00 AM Ship Time
+              Planned:
+              {{
+                formatPlanDeltaLabel(
+                  planSelectToDraft(day, draftPlan[day] ?? '0').delta_minutes,
+                  planSelectToDraft(day, draftPlan[day] ?? '0').enabled,
+                )
+              }}
+              at 3:00 AM Ship Time
             </p>
           </li>
         </ul>

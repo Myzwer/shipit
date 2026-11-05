@@ -64,6 +64,7 @@ export const copy = {
     scheduleOff: 'Automatic Schedule Off',
     scheduleHint: 'Planned changes take effect at 3:00 AM Ship Time.',
     planNoChange: 'No change',
+    planDisabled: 'Schedule off',
     planMinus1: '−1 hour',
     planPlus1: '+1 hour',
     planMinus2: '−2 hours',
@@ -81,6 +82,10 @@ export const copy = {
     successPlanSaved: 'Planned time changes saved.',
     failureTitle: 'Change Not Saved',
     failureBody: "The change didn't save. Nothing was updated. Please try again.",
+    unknownTitle: 'Confirm Current Ship Time',
+    unknownBody:
+      'We could not confirm whether that change was saved. Refresh Ship Time before trying again.',
+    refreshStatus: 'Refresh Ship Time',
     ambiguousTitle: 'Confirm Current Ship Time',
     ambiguousBody:
       'The previous attempt may already have applied. Review Current Ship Time before trying again.',

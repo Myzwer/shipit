@@ -46,9 +46,15 @@ Organizer path: Home → Account → **Admin** (`/admin`, `is_admin` required).
 |---|---|
 | `−1 Hour` / `+1 Hour` | Preview → confirm (`Apply Ship Time Change?`) → `admin_apply_manual_clock_correction` |
 | `Set Ship Time` | Emergency target ship-local wall → same confirmation → `admin_apply_manual_clock_set` |
-| `Planned Time Changes` | Seven Saturday–Friday rows → confirm → `admin_upsert_ship_clock_plan_day` per day |
+| `Planned Time Changes` | Seven Saturday–Friday rows → confirm → **one** `admin_save_ship_clock_plan` (atomic) |
 
-After a successful correction, the UI refreshes diagnostics and shows the resulting Ship Time. On failure it shows **Change Not Saved** and retains the intended correction for an explicit retry. If a network error leaves ±1h uncertain, the UI re-fetches and requires reconciliation instead of blindly re-applying.
+**Plan row states** (round-trip distinctly):
+
+- **Schedule off** → `enabled=false` (no overnight event)
+- **No change** → `enabled=true`, `delta_minutes=0` (explicit zero)
+- **±1 / ±2 hours** → enabled non-zero delta
+
+After a successful correction, the UI refreshes diagnostics and shows the resulting Ship Time. **Change Not Saved** is shown only when non-application is confirmed. If a network error leaves ±1h / Set Ship Time uncertain, the UI reports an **unknown** outcome, blocks repeating the same mutation, and requires **Refresh Ship Time** (request-id reconcile) before a deliberate new action.
 
 Historical nights that already applied explain that plan edits will not rewrite past events.
 
@@ -69,7 +75,9 @@ Historical nights that already applied explain that plan edits will not rewrite 
 |---|---|---|
 | `get_ship_clock_state()` | authenticated | Clock snapshot at server time |
 | `evaluate_submission_acceptance(game)` | authenticated | Acceptance using server receipt time |
-| `admin_*` diagnostics / corrections / plan upsert | admin | Privileged mutations + audit; client `p_at_utc` ignored unless `service_role` |
+| `admin_*` diagnostics / corrections | admin | Privileged mutations + audit; client `p_at_utc` ignored unless `service_role` |
+| `admin_save_ship_clock_plan(p_days)` | admin | Atomic validated seven-day plan write + single rebuild |
+| `admin_find_clock_event_by_request_id` | admin | Reconcile uncertain manual corrections |
 | `dev_get_ship_clock_state_at` / `dev_evaluate_submission_acceptance_at` | **service_role only** | Deterministic simulation |
 | `dev_seed_cruise_clock` | **service_role only** | Replace `development-only` config for tests |
 

@@ -64,7 +64,8 @@ export function formatUtcOffsetLabel(offsetMinutes: number): string {
 }
 
 export function formatPlanDeltaLabel(deltaMinutes: number, enabled: boolean): string {
-  if (!enabled || deltaMinutes === 0) return 'No change'
+  if (!enabled) return 'Schedule off'
+  if (deltaMinutes === 0) return 'No change'
   if (deltaMinutes === -120) return '−2 hours'
   if (deltaMinutes === -60) return '−1 hour'
   if (deltaMinutes === 60) return '+1 hour'

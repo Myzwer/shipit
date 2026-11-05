@@ -29,6 +29,11 @@ export interface ShipClockState {
   error?: string
 }
 
+export type PlanDeltaChoice = -120 | -60 | 0 | 60 | 120
+
+/** UI select token: `off` = enabled false; numeric = enabled true with that delta. */
+export type PlanDaySelectValue = 'off' | '-120' | '-60' | '0' | '60' | '120'
+
 export interface ShipClockPlanDay {
   day_number: number
   delta_minutes: number
@@ -44,6 +49,14 @@ export interface ShipClockEventRow {
   schedule_key: string | null
   actor_id: string | null
   note: string | null
+  client_request_id?: string | null
+}
+
+/** Draft / save row for the seven-day plan (preserves enabled vs zero-delta). */
+export interface ShipClockPlanDraftDay {
+  day_number: number
+  delta_minutes: PlanDeltaChoice
+  enabled: boolean
 }
 
 export interface AdminClockDiagnostics {
@@ -53,8 +66,6 @@ export interface AdminClockDiagnostics {
   events: ShipClockEventRow[]
 }
 
-export type PlanDeltaChoice = -120 | -60 | 0 | 60 | 120
-
 export type ClockFetchStatus = 'idle' | 'loading' | 'ready' | 'unavailable' | 'error'
 
 export type ManualCorrectionKind = 'minus_1h' | 'plus_1h' | 'set_time'
@@ -63,4 +74,5 @@ export interface ManualCorrectionIntent {
   kind: ManualCorrectionKind
   deltaMinutes?: 60 | -60
   targetShipLocal?: string
+  clientRequestId?: string
 }

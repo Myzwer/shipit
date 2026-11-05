@@ -28,8 +28,9 @@ describe('shipClockFormat', () => {
     expect(cruiseDayWeekdayName(7)).toBe('Friday')
   })
 
-  it('uses approved plan labels', () => {
+  it('uses approved plan labels and distinguishes schedule off', () => {
     expect(formatPlanDeltaLabel(0, true)).toBe(copy.admin.planNoChange)
+    expect(formatPlanDeltaLabel(0, false)).toBe(copy.admin.planDisabled)
     expect(formatPlanDeltaLabel(60, true)).toBe(copy.admin.planPlus1)
     expect(formatPlanDeltaLabel(-120, true)).toBe(copy.admin.planMinus2)
   })
