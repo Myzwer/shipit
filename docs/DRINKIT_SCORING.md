@@ -52,7 +52,7 @@ Rules:
 - Server does **not** exclude someone who already claimed Bar today. Simultaneous gathering members may each report the others as bar-eligible even if one submitted first.
 - No player-entered points. Points always from `drinkit_bar_points`.
 
-Phase 3B Friends can supply both lists on the same step (no extra navigation): e.g. presence chips plus a bar-eligible subset (default all selected companions; uncheck anyone who already used Bar earlier).
+Phase 3B Friends uses **one** companion selector and auto-fills `bar_eligible_companion_ids` from the same selection (honor-system reminder when Bar Bounty could apply). See [`docs/DRINKIT_LOGGING.md`](./DRINKIT_LOGGING.md).
 
 `unlisted_named` + `unlisted_contains_ingredient_key` are reserved for Phase 3C confirmation. Phase 3A does not persist ingredient corrections or auto-qualify unlisted drinks for Ingredient.
 

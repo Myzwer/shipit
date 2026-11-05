@@ -172,6 +172,34 @@ export interface Database {
         Args: { p_day_number: number; p_delta_minutes: number; p_enabled?: boolean }
         Returns: Record<string, unknown>
       }
+      list_drinkit_bars: {
+        Args: Record<string, never>
+        Returns: unknown
+      }
+      list_drinkit_bar_drinks: {
+        Args: { p_bar_canonical_key: string }
+        Returns: unknown
+      }
+      list_drinkit_companions: {
+        Args: Record<string, never>
+        Returns: unknown
+      }
+      drinkit_bar_bounty_reminder: {
+        Args: { p_bar_canonical_key: string }
+        Returns: Record<string, unknown>
+      }
+      preview_drink_claims: {
+        Args: { p_payload: Record<string, unknown> }
+        Returns: Record<string, unknown>
+      }
+      submit_drink: {
+        Args: { p_payload: Record<string, unknown> }
+        Returns: Record<string, unknown>
+      }
+      get_my_drink_submission: {
+        Args: { p_submission_id: string }
+        Returns: Record<string, unknown>
+      }
     }
     Enums: {
       game_id: GameId

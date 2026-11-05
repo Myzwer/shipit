@@ -8,6 +8,10 @@ const props = defineProps<{
   cards: HomeBountyCardView[]
 }>()
 
+const emit = defineEmits<{
+  claim: [card: HomeBountyCardView]
+}>()
+
 const track = ref<HTMLElement | null>(null)
 const activeIndex = ref(0)
 const isJumping = ref(false)
@@ -181,11 +185,12 @@ function cardMuted(card: HomeBountyCardView) {
           type="button"
           class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
           style="background: var(--theme-primary)"
-          disabled
-          :aria-disabled="true"
+          :disabled="!item.card.claimEnabled"
+          :aria-disabled="!item.card.claimEnabled"
           :title="item.card.claimTitle"
-          tabindex="-1"
+          :tabindex="item.card.claimEnabled ? 0 : -1"
           data-testid="bounty-claim"
+          @click="item.card.claimEnabled && emit('claim', item.card)"
         >
           {{ copy.bounty.claimIt }}
           <AppIcon name="action.next" />

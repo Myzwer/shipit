@@ -19,9 +19,9 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phases 0 → 3A.** Through Pause/Resume reliability, plus the server-side Drink It! `preview_drink_claims` / `submit_drink` scoring engine. The logging wizard (Phase 3B) is not built yet.
+**Phases 0 → 3B.** Functional Drink It! five-step logging wizard (no-photo) on top of `preview_drink_claims` / `submit_drink`. Photo upload, full Gallery, Daily Claim It, and ingredient corrections remain later phases.
 
-Authoritative product specs and mockups live in [`handoff/`](./handoff/). Scoring contracts: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md). Home board: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
+Authoritative product specs and mockups live in [`handoff/`](./handoff/). Logging: [`docs/DRINKIT_LOGGING.md`](./docs/DRINKIT_LOGGING.md). Scoring: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md). Home board: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
 
 ## Quick start (organizer)
 
@@ -81,6 +81,8 @@ Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick 
 | `/login` | Guests |
 | `/` | Dual-game members (chooser) |
 | `/drinkit` | Drink It! members |
+| `/drinkit/log` | Drink It! logging wizard |
+| `/drinkit/gallery` | Minimal post-submit Gallery stub |
 | `/shipit` | Ship It! members |
 | `/admin` | Organizer only (placeholder) |
 | `/unavailable` | Authenticated players with no enabled games |

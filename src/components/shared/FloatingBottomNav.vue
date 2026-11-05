@@ -10,10 +10,17 @@ const props = defineProps<{
   game: GameId
 }>()
 
+const emit = defineEmits<{
+  /** Drink It! Plus / Log a Drink — parent may intercept (e.g. wizard Start Over). */
+  action: []
+}>()
+
 const route = useRoute()
 const router = useRouter()
 
 const homePath = computed(() => (props.game === 'drinkit' ? '/drinkit' : '/shipit'))
+const onWizard = computed(() => route.name === 'drinkit-log')
+const onGallery = computed(() => route.name === 'drinkit-gallery')
 
 const items = computed(() => {
   const actionLabel = props.game === 'drinkit' ? copy.nav.logDrink : copy.nav.challenges
@@ -24,22 +31,24 @@ const items = computed(() => {
       label: copy.nav.home,
       path: homePath.value,
       active: route.path === homePath.value,
+      shellOnly: false,
     },
     {
       key: 'action',
       icon: 'nav.action' as SemanticIconKey,
       label: actionLabel,
-      path: homePath.value,
-      active: false,
-      shellOnly: true,
+      path: props.game === 'drinkit' ? '/drinkit/log' : homePath.value,
+      active: onWizard.value,
+      shellOnly: props.game !== 'drinkit',
+      isAction: true,
     },
     {
       key: 'gallery',
       icon: 'nav.gallery' as SemanticIconKey,
       label: copy.nav.gallery,
-      path: homePath.value,
-      active: false,
-      shellOnly: true,
+      path: props.game === 'drinkit' ? '/drinkit/gallery' : homePath.value,
+      active: onGallery.value,
+      shellOnly: props.game !== 'drinkit',
       showDot: true,
     },
     {
@@ -54,8 +63,15 @@ const items = computed(() => {
 })
 
 function onSelect(item: (typeof items.value)[number]) {
+  if (item.isAction && props.game === 'drinkit') {
+    if (onWizard.value) {
+      emit('action')
+      return
+    }
+    void router.push({ name: 'drinkit-log' })
+    return
+  }
   if (item.shellOnly) {
-    // Phase 0: Plus / Gallery / Achievements are visual shells only.
     return
   }
   void router.push(item.path)

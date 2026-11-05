@@ -24,6 +24,10 @@ describe('approved copy', () => {
     expect(copy.admin.resumeDrinkIt).toBe('Resume Drink It!')
     expect(copy.admin.confirmPauseTitle).toBe('Pause Drink It!?')
     expect(copy.admin.drinkItRunning).toBe('Drink It! is running.')
+    expect(copy.wizard.barPrompt).toBe('Where are you?')
+    expect(copy.wizard.friendsSoloNote).toBe('Must be with someone else to log a bounty.')
+    expect(copy.wizard.unclaimedTitle).toBe('Unclaimed Bounty')
+    expect(copy.wizard.barReminder).toContain('Bar Bounty reminder')
   })
 
   it('formats placeholders', () => {

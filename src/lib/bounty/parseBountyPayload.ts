@@ -66,6 +66,7 @@ export function parseCocktailBountyPayload(raw: unknown): CocktailBountyPayload 
     status: 'active',
     offer_id,
     slot_key: typeof row.slot_key === 'string' ? row.slot_key : '',
+    offering_id: typeof row.offering_id === 'string' ? row.offering_id : null,
     drink_name,
     designated_bar_key:
       typeof row.designated_bar_key === 'string' ? row.designated_bar_key : '',

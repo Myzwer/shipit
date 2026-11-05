@@ -36,6 +36,18 @@ const router = createRouter({
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
     },
     {
+      path: '/drinkit/log',
+      name: 'drinkit-log',
+      component: () => import('@/features/drinkit/log/LogWizardView.vue'),
+      meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
+      path: '/drinkit/gallery',
+      name: 'drinkit-gallery',
+      component: () => import('@/features/drinkit/gallery/DrinkItGalleryStubView.vue'),
+      meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
       path: '/shipit',
       name: 'shipit-home',
       component: () => import('@/features/shipit/ShipItHomeView.vue'),

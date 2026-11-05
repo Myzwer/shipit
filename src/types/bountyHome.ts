@@ -22,6 +22,8 @@ export interface ActiveCocktailBounty {
   status: 'active'
   offer_id: string
   slot_key: string
+  /** Exact catalog offering for Claim It prefill (Phase 3B). */
+  offering_id?: string | null
   drink_name: string
   designated_bar_key: string
   designated_bar_name: string
@@ -114,9 +116,16 @@ export interface HomeBountyCardView {
   footer: string
   timerLabel: string
   timerValue: string
-  /** Always false until Phase 3 wizard / Daily photo path. */
-  claimEnabled: false
+  /** Cocktail / Ingredient / Bar Claim It enable when wizard can open. Daily stays false. */
+  claimEnabled: boolean
   claimTitle: string
+  /** Prefill hints for the logging wizard (omitted for Daily / disabled). */
+  claimPrefill?: {
+    source: 'cocktail' | 'ingredient' | 'bar'
+    barCanonicalKey?: string
+    offeringId?: string
+    drinkDisplayName?: string
+  }
 }
 
 export interface HomeBountySnapshot {

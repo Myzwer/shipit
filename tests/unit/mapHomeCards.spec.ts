@@ -29,6 +29,7 @@ describe('mapHomeBountyCards', () => {
         status: 'active',
         offer_id: 'c1',
         slot_key: 'cocktail:day:1:h13',
+        offering_id: 'off-1',
         drink_name: 'Fixture Spritz',
         designated_bar_key: 'piazza',
         designated_bar_name: 'Fixture Piazza',
@@ -86,19 +87,22 @@ describe('mapHomeBountyCards', () => {
     expect(cocktail.pointsLabel).toBe('25 Points')
     expect(cocktail.detail).toContain('Location: Fixture Piazza')
     expect(cocktail.detail).toContain('Prosecco')
-    expect(cocktail.claimEnabled).toBe(false)
+    expect(cocktail.claimEnabled).toBe(true)
+    expect(cocktail.claimPrefill?.source).toBe('cocktail')
 
     const ingredient = cards.find((c) => c.id === 'ingredient')!
     expect(ingredient.title).toBe('Orgeat')
     expect(ingredient.tierOrEyebrow).toBe('Less Common')
     expect(ingredient.detail).toBe('Available at 5 bars')
     expect(ingredient.detail).not.toMatch(/wake|piazza|qualifying/i)
+    expect(ingredient.claimEnabled).toBe(true)
 
     const bar = cards.find((c) => c.id === 'bar')!
     expect(bar.presentation).toBe('active')
     expect(bar.title).toBe('Wake View')
     expect(bar.pointsLabel).toBe('35–95 Points')
     expect(bar.timerLabel).toContain('11:00 PM')
+    expect(bar.claimEnabled).toBe(true)
 
     const daily = cards.find((c) => c.id === 'daily')!
     expect(daily.presentation).toBe('active')

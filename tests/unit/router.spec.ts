@@ -9,6 +9,8 @@ describe('router scaffold', () => {
         '/login',
         '/',
         '/drinkit',
+        '/drinkit/log',
+        '/drinkit/gallery',
         '/shipit',
         '/admin',
         '/unavailable',

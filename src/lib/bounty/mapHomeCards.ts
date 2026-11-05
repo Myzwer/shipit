@@ -20,7 +20,9 @@ import type {
 } from '@/types/bountyHome'
 import type { ShipClockState } from '@/types/shipClock'
 
-const CLAIM_TITLE = 'Claim flow arrives in a later phase — Claim It is disabled for now.'
+const CLAIM_TITLE_DISABLED = copy.wizard.claimDisabledLifecycle
+const CLAIM_TITLE_DAILY = copy.wizard.claimDisabledDaily
+const CLAIM_TITLE_WIZARD = copy.wizard.claimOpensWizard
 
 function closedCard(
   id: 'cocktail' | 'ingredient' | 'bar' | 'daily',
@@ -41,7 +43,7 @@ function closedCard(
     timerLabel: copy.bounty.opensIn,
     timerValue,
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DISABLED,
   }
 }
 
@@ -61,7 +63,7 @@ function pausedCard(
     timerLabel: '',
     timerValue: '',
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DISABLED,
   }
 }
 
@@ -81,7 +83,7 @@ function finaleCard(
     timerLabel: '',
     timerValue: '',
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DISABLED,
   }
 }
 
@@ -103,7 +105,7 @@ function unavailableCard(
     timerLabel: '',
     timerValue: '',
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DISABLED,
   }
 }
 
@@ -123,7 +125,7 @@ function loadingCard(
     timerLabel: '',
     timerValue: '',
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DISABLED,
   }
 }
 
@@ -148,8 +150,14 @@ function cocktailActiveCard(
     footer: copy.bounty.cocktail,
     timerLabel: copy.bounty.timeRemaining,
     timerValue,
-    claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimEnabled: Boolean(offer.offering_id && offer.designated_bar_key),
+    claimTitle: CLAIM_TITLE_WIZARD,
+    claimPrefill: {
+      source: 'cocktail',
+      barCanonicalKey: offer.designated_bar_key,
+      offeringId: offer.offering_id ?? undefined,
+      drinkDisplayName: offer.drink_name,
+    },
   }
 }
 
@@ -172,8 +180,9 @@ function ingredientActiveCard(
     footer: copy.bounty.ingredient,
     timerLabel: copy.bounty.timeRemaining,
     timerValue,
-    claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimEnabled: true,
+    claimTitle: CLAIM_TITLE_WIZARD,
+    claimPrefill: { source: 'ingredient' },
   }
 }
 
@@ -195,8 +204,12 @@ function barActiveCard(offer: ActiveBarBounty): HomeBountyCardView {
       time: availableUntilLabel(offer.cruise_day),
     }),
     timerValue: '',
-    claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimEnabled: Boolean(offer.bar_canonical_key),
+    claimTitle: CLAIM_TITLE_WIZARD,
+    claimPrefill: {
+      source: 'bar',
+      barCanonicalKey: offer.bar_canonical_key,
+    },
   }
 }
 
@@ -222,7 +235,7 @@ function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
     }),
     timerValue: '',
     claimEnabled: false,
-    claimTitle: CLAIM_TITLE,
+    claimTitle: CLAIM_TITLE_DAILY,
   }
 }
 

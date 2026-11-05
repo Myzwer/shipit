@@ -8,7 +8,7 @@ import {
 import { copy } from '@/ui/copy'
 
 describe('BountyCarousel', () => {
-  it('renders active Cocktail/Ingredient fixture fields and disabled Claim It', () => {
+  it('renders active Cocktail/Ingredient fixture fields; Claim It follows claimEnabled', () => {
     const wrapper = mount(BountyCarousel, {
       props: { cards: visualFixtureActiveCards },
     })
@@ -23,8 +23,25 @@ describe('BountyCarousel', () => {
       'Available at 5 bars',
     )
     const claim = wrapper.get('[data-testid="bounty-card-cocktail"] [data-testid="bounty-claim"]')
+    // Visual fixtures keep Claim It disabled
     expect(claim.attributes('disabled')).toBeDefined()
     expect(claim.text()).toContain(copy.bounty.claimIt)
+  })
+
+  it('emits claim when Claim It is enabled', async () => {
+    const cards = visualFixtureActiveCards.map((c) =>
+      c.id === 'cocktail'
+        ? {
+            ...c,
+            claimEnabled: true,
+            claimTitle: 'go',
+            claimPrefill: { source: 'cocktail' as const, barCanonicalKey: 'piazza' },
+          }
+        : c,
+    )
+    const wrapper = mount(BountyCarousel, { props: { cards } })
+    await wrapper.get('[data-testid="bounty-card-cocktail"] [data-testid="bounty-claim"]').trigger('click')
+    expect(wrapper.emitted('claim')?.[0]?.[0]).toMatchObject({ id: 'cocktail' })
   })
 
   it('renders paused messaging without inventing an objective', () => {

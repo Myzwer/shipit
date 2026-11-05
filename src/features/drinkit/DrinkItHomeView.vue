@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
@@ -8,6 +9,8 @@ import { drinkItMockLeaderboard } from '@/features/drinkit/mockHome'
 import { createHomeBountySync } from '@/lib/bounty/homeBountySync'
 import { copy } from '@/ui/copy'
 import type { HomeBountyCardView, HomeBoardPhase, HomeBountyFetchStatus } from '@/types/bountyHome'
+
+const router = useRouter()
 
 const cards = ref<HomeBountyCardView[]>([])
 const phase = ref<HomeBoardPhase>('loading')
@@ -40,6 +43,15 @@ onUnmounted(() => {
 
 function retry() {
   void sync.refresh()
+}
+
+function onClaim(card: HomeBountyCardView) {
+  if (!card.claimEnabled || !card.claimPrefill) return
+  const q: Record<string, string> = { from: card.claimPrefill.source }
+  if (card.claimPrefill.barCanonicalKey) q.bar = card.claimPrefill.barCanonicalKey
+  if (card.claimPrefill.offeringId) q.offering = card.claimPrefill.offeringId
+  if (card.claimPrefill.drinkDisplayName) q.drink = card.claimPrefill.drinkDisplayName
+  void router.push({ name: 'drinkit-log', query: q })
 }
 </script>
 
@@ -86,7 +98,7 @@ function retry() {
     </div>
 
     <section class="pt-3" :aria-label="copy.home.drinkDailyBounties">
-      <BountyCarousel :cards="cards" />
+      <BountyCarousel :cards="cards" @claim="onClaim" />
     </section>
 
     <section class="mt-6" style="background: var(--theme-page-alt)">
