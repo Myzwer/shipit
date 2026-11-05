@@ -63,7 +63,6 @@ LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase3ca
 
 | Phase | Work |
 |---|---|
-| 3C-B | Admin Skip Current Cocktail / Ingredient |
 | 4 | Daily Challenge Claim It |
 | 5 | Private photo upload / storage |
 | Gallery | Full feed, filters, reactions |

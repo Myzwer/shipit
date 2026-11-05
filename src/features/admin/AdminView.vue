@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import GameStatusSection from '@/features/admin/GameStatusSection.vue'
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
 import { copy } from '@/ui/copy'
@@ -25,6 +26,7 @@ function backHome() {
     <main class="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-2">
       <ShipClockSection />
       <GameStatusSection />
+      <BountySkipSection />
 
       <button
         type="button"

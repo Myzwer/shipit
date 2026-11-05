@@ -84,7 +84,7 @@ Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick 
 | `/drinkit/log` | Drink It! logging wizard |
 | `/drinkit/gallery` | Minimal post-submit Gallery stub |
 | `/shipit` | Ship It! members |
-| `/admin` | Organizer only (placeholder) |
+| `/admin` | Organizer only (Ship Clock, Pause, Skip Current Bounty) |
 | `/unavailable` | Authenticated players with no enabled games |
 
 ### 7. Stop local services
@@ -113,6 +113,8 @@ npm run test:e2e:phase2db1  # Playwright Home Cocktail/Ingredient (seed + Vite)
 npm run test:e2e:phase2db2  # Playwright four cards + Pause/Resume
 npm run db:start | db:stop | db:reset | db:provision
 npm run db:seed-bounty-now  # align local clock + schedule + daily fixtures to now()
+npm run db:seed-skip-reserves  # 80/45 catalog with unused Admin Skip reserves
+npm run test:e2e:phase3cb   # Playwright Admin Skip + recovery
 npm run screenshots:phase1b
 npm run screenshots:phase2b # Admin clock overview / preview / schedule
 npm run screenshots:phase2db1
@@ -139,7 +141,7 @@ src/
   app/                 # router + auth guards
   components/shared/   # shell, nav, account, leaderboard
   features/auth/       # login, unavailable, access denied
-  features/admin/      # organizer Admin (Ship Clock)
+  features/admin/      # organizer Admin (Ship Clock, Pause, Skip)
   features/drinkit/    # Drink It! Home + bounty carousel
   features/shipit/     # Ship It! Home shell
   features/shared/     # dual-game chooser

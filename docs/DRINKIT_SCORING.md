@@ -43,7 +43,7 @@ Player RPCs capture `clock_timestamp()` at entry as `received_at_utc`. Clients n
 
 | Field | Mode | Effect |
 |---|---|---|
-| `confirm_contains_ingredient_key` | `named_catalog` | In-request match for current Ingredient; on successful Ingredient award, upserts `ingredient_corrections` for that offering |
+| `confirm_contains_ingredient_key` | `named_catalog` | In-request match for current Ingredient; on successful Ingredient award, upserts `ingredient_corrections` for that offering (**never reactivates** an admin-deactivated row; in-request honor still applies) |
 | `unlisted_contains_ingredient_key` | `unlisted_named` + `named_cocktail` | Honor match for this submission only (no shared correction) |
 | `confirm_featured_cocktail` | `unlisted_named` | Cocktail eligible only when name + designated bar match the live offer |
 

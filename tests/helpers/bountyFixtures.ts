@@ -20,8 +20,12 @@ export async function loadBountyFixtures(): Promise<ClockFixtures> {
 export async function activateReadyCatalogAndSchedule(
   service: SupabaseClient,
   seed = 'phase2da-seed',
+  opts?: { cocktailCount?: number; ingredientCount?: number },
 ) {
-  const catalog = buildScheduleReadyCatalog(72, 39)
+  const catalog = buildScheduleReadyCatalog(
+    opts?.cocktailCount ?? 72,
+    opts?.ingredientCount ?? 39,
+  )
   const { data: activated, error: aErr } = await service.rpc('dev_activate_catalog_fixture', {
     p_payload: catalog,
   })
@@ -36,6 +40,17 @@ export async function activateReadyCatalogAndSchedule(
   if (dErr) throw dErr
 
   return { catalog, activated, schedule, daily }
+}
+
+/** Schedule-ready catalog with unused Cocktail/Ingredient reserves for Admin Skip tests. */
+export async function activateCatalogWithSkipReserves(
+  service: SupabaseClient,
+  seed = 'phase3cb-reserves',
+) {
+  return activateReadyCatalogAndSchedule(service, seed, {
+    cocktailCount: 80,
+    ingredientCount: 45,
+  })
 }
 
 export function noonDay1Utc(offset = DEV_BASE_OFFSET_MIN) {

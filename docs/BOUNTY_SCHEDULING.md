@@ -103,11 +103,32 @@ get_my_current_cocktail_bounty()                   # always now()
 - Replay after an intervening Resume returns the original Pause payload but does **not** re-pause
 - Does not affect Ship It!; cannot reopen after finale
 
-## Remaining after Phase 2D-B2
+## Admin Skip (Phase 3C-B)
 
-- Scoring / claim resolution using grace (Phase 3)
-- Admin Skip
+Organizer-only emergency replacement of the **currently exposed** Cocktail or Ingredient objective.
+
+| RPC | Who | Behavior |
+|---|---|---|
+| `admin_get_bounty_skip_status` | Admin | Current names, `public_end_utc`, `replacements_remaining` (actual unused reserves), `can_skip` |
+| `admin_skip_current_bounty(category, expected_offer_id, client_request_id)` | Admin | Atomic replace from unused reserve; server `clock_timestamp()` |
+| `admin_find_bounty_skip_request_by_id` | Admin | Lost-response reconcile |
+| `dev_admin_skip_bounty_at` | service_role + `development-only` | Timed simulation |
+
+**Reserve eligibility:** eligible catalog candidates whose canonical key is **not** assigned to any slot offer and **not** in `bounty_objective_exposures`. Not a configured quota. Exact 72/39 catalogs have **zero** reserves — Skip tests use 80/45 (`db:seed-skip-reserves`).
+
+**Slot timing:** Same slot identity and `public_end_*` boundaries. Replacement is `current` immediately, inherits remaining public window and normal 15-minute private grace after that end (none after Friday 6 PM). Retired offer: `is_active=false`, no new claims / no grace for that revision. Future preallocated slots untouched. Already awarded claims unchanged.
+
+**Idempotency:** Durable `admin_bounty_skip_requests` keyed by `client_request_id` + fingerprint (`category` + `expected_offer_id`). Same id+payload → original result. Same id+different payload → `REQUEST_ID_OPERATION_MISMATCH`. Stale `expected_offer_id` → `STALE_OFFER` (does not skip the replacement). Advisory transaction lock per cruise+category.
+
+**Pause / finale:** Skip allowed while paused (menu audit). Blocked after Friday 6 PM / latched finale.
+
+**Players:** Home sync (focus / visibility / interval) shows the shared replacement. Wizard preview/submit uses authoritative eligibility (`ELIGIBILITY_CHANGED` if a retired offer was selected).
+
+## Remaining later
+
 - Production Publish/Rollback (not `dev_*`)
 - Final production Bar/Daily content
+- Admin Add Drink UI
+- Daily Challenge Claim It (Phase 4)
 
 Home UI: [`docs/HOME_BOUNTIES.md`](./HOME_BOUNTIES.md).
