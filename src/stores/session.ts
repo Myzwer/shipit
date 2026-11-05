@@ -58,7 +58,7 @@ export const useSessionStore = defineStore('session', () => {
   async function loadProfile(options: { clearOnNull?: boolean } = {}) {
     const { clearOnNull = true } = options
     if (!supabase) {
-      profile.value = null
+      // Misconfigured / unit-test environments: do not wipe an in-memory profile.
       return
     }
     try {

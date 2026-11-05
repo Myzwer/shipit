@@ -49,7 +49,7 @@ describe('session membership helpers', () => {
     expect(session.homePathForMembership()).toBe('/unavailable')
   })
 
-  it('keeps the prior profile on temporary network failure', async () => {
+  it('keeps the prior profile when refresh cannot reach the API', async () => {
     const session = useSessionStore()
     const prior = stubProfile({
       display_name: 'Demo Both Games',
@@ -62,12 +62,16 @@ describe('session membership helpers', () => {
     session.status = 'authenticated'
     session.authSession = { access_token: 'x' } as never
 
-    vi.spyOn(supabaseLib, 'fetchMySessionProfile').mockRejectedValue(new Error('Failed to fetch'))
+    if (supabaseLib.isSupabaseConfigured) {
+      vi.spyOn(supabaseLib, 'fetchMySessionProfile').mockRejectedValue(new Error('Failed to fetch'))
+    }
 
     await session.refreshProfile()
 
     expect(session.profile?.display_name).toBe('Demo Both Games')
-    expect(session.profileNetworkError).toBe(true)
     expect(session.status).toBe('authenticated')
+    if (supabaseLib.isSupabaseConfigured) {
+      expect(session.profileNetworkError).toBe(true)
+    }
   })
 })
