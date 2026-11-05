@@ -1,7 +1,8 @@
 # Development checkpoint / agent handoff
 
 **As of:** 2026-11-05  
-**Branch:** `main` (Phase 4A ready for Director verification)  
+**Branch:** `main` (clean, synced with `origin/main`)  
+**Tip:** `719534f` — Phase **4A** shipped; GitHub Actions green  
 **Prior tip:** `b5aeb22` — Phase **3C-B** accepted  
 **Do not start Phase 4B / photo submissions until the Development Director authorizes them.**
 
@@ -25,7 +26,10 @@
 
 Key docs: `docs/SHIPIT_CHALLENGES.md`, `docs/DRINKIT_SCORING.md`, `docs/DRINKIT_LOGGING.md`, `docs/BOUNTY_SCHEDULING.md`, `docs/HOME_BOUNTIES.md`, `docs/SHIP_CLOCK.md`, `handoff/01–04`.
 
-## Verify
+## Verified at tip
+
+- Unit **94**, integration **207**, E2E phase4a 12/12, lint/typecheck/build pass
+- CI: https://github.com/Myzwer/shipit/actions/runs/42124240481 (run for `719534f` succeeded)
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
