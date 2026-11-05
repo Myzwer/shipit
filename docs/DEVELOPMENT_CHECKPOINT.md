@@ -10,7 +10,7 @@
 |---|---|
 | 2D-B2.1 | `9caa2f5` / tip was `e279f57` |
 | 3A | `551284e` (checkpoint tip was `7ebe14b`) |
-| 3A.1 | *(pending commit)* |
+| 3A.1 | `a7ac2a0` |
 
 ## 3A.1 delivered
 
