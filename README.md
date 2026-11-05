@@ -19,9 +19,9 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phase 2A complete (local Ship Clock).** Phase 1B auth and membership routing remain. The server-authoritative Ship Clock, seven-day calendar, finale latch, and admin clock RPCs are in local Supabase. Bounty rotations, catalog import, scoring RPCs, and Admin clock UI are later Phase 2 slices.
+**Phases 0 → 2D-B1.** Auth/membership, server Ship Clock + Admin clock UI, catalog contracts, durable Cocktail/Ingredient schedule (2D-A), and Drink It! Home wiring for live Cocktail/Ingredient cards (2D-B1). Bar/Daily Home cards remain shells; scoring/Claim It wizard is Phase 3.
 
-Authoritative product specs and mockups live in [`handoff/`](./handoff/).
+Authoritative product specs and mockups live in [`handoff/`](./handoff/). Home bounty data flow: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
 
 ## Quick start (organizer)
 
@@ -104,14 +104,18 @@ npm run test:rls            # RLS integration (needs local Supabase + provision)
 npm run test:auth           # Auth integration (needs local Supabase + provision)
 npm run test:clock          # Ship Clock + finale + read-stability (local Supabase)
 npm run test:integration    # all integration suites
+npm run test:bounty         # schedule + Home player reads
 npm run test:e2e:phase1b    # Playwright login/refresh/logout journey
 npm run test:e2e:phase2b    # Playwright Admin Ship Clock (Vite + provision)
+npm run test:e2e:phase2db1  # Playwright Home Cocktail/Ingredient (seed + Vite)
 npm run db:start | db:stop | db:reset | db:provision
+npm run db:seed-bounty-now  # align local clock + schedule to wall-clock now()
 npm run screenshots:phase1b
 npm run screenshots:phase2b # Admin clock overview / preview / schedule
+npm run screenshots:phase2db1
 ```
 
-Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Organizer: Home → Account → **Admin**.
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
 
 ## Environment and secrets
 
@@ -132,15 +136,16 @@ src/
   components/shared/   # shell, nav, account, leaderboard
   features/auth/       # login, unavailable, access denied
   features/admin/      # organizer Admin (Ship Clock)
-  features/drinkit/    # Drink It! Home shell
+  features/drinkit/    # Drink It! Home + bounty carousel
   features/shipit/     # Ship It! Home shell
   features/shared/     # dual-game chooser
   stores/              # session + membership profile
-  lib/                 # Supabase client
+  lib/                 # Supabase client, Ship Clock, Home bounty sync
   ui/                  # copy + icon registry
-supabase/migrations/   # identity + RLS (+ Phase 1B column hardening)
+supabase/migrations/   # identity, clock, catalog, bounty schedule
 docs/SUPABASE_LOCAL.md
-docs/phase1b-screenshots/
+docs/HOME_BOUNTIES.md
+docs/phase2db1-screenshots/
 ```
 
 ## Documentation
@@ -148,6 +153,9 @@ docs/phase1b-screenshots/
 | Document | Role |
 |---|---|
 | [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md) | Local Supabase, provision, tests |
+| [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md) | Home Cocktail/Ingredient data flow |
+| [`docs/BOUNTY_SCHEDULING.md`](./docs/BOUNTY_SCHEDULING.md) | Schedule engine |
+| [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md) | Ship Clock |
 | [`handoff/`](./handoff/) | Authoritative product specs |
 
 ## License / privacy

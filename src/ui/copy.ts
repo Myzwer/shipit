@@ -30,7 +30,13 @@ export const copy = {
     teamLine: 'Team: {teamName}',
     logOut: 'Log Out',
     admin: 'Admin',
+    /** Shown while Cocktail/Ingredient are live and Bar/Daily still use shells. */
+    partialLiveNote: 'Cocktail and Ingredient bounties are live. Bar and Daily Challenge arrive next.',
+    /** Shown when the rotating board is closed/paused/finale but Bar/Daily remain shells. */
+    barDailyShellNote: 'Bar Bounty and Daily Challenge wiring arrive in a later phase.',
+    /** Ship It! Home remains a layout shell until Phase 4. */
     mockShellNote: 'Phase 0 layout shell — mock demonstration data only.',
+    retryLoad: 'Retry',
   },
   login: {
     heading: 'Welcome Aboard',
@@ -121,9 +127,26 @@ export const copy = {
     daily: 'Daily Challenge',
     claimIt: 'Claim It',
     timeRemaining: 'Time Remaining',
+    availableUntil: 'Available until',
     location: 'Location: {barName}',
-    availableAt: 'Available at {barCount} bars',
+    availableAt: 'Available at {barCount} {barOrBars}',
     claimed: 'Claimed',
+    seeYouTomorrow: 'See You Tomorrow',
+    preOpening: 'Game begins at 12:00 PM',
+    preOpeningDetail: 'Drink It! starts at 12:00 PM Ship Time.',
+    overnightDetail: 'Bounties are closed right now. You can still log a drink without claiming one.',
+    opensIn: 'Opens in',
+    pausedTitle: 'Drink It! is temporarily paused while we check the menus. Check back soon!',
+    pausedSecondary: 'Your previous posts, scores, and achievements are still available.',
+    pausedOrganizerNote: 'Logging resumes when the organizer reopens the game.',
+    finaleTitle: 'The games have ended. New submissions are closed.',
+    finaleDetail: 'Awards Mode arrives in a later phase.',
+    loadingTitle: 'Loading bounties…',
+    unavailableTitle: "Couldn't Load Game Data",
+    unavailableDetail:
+      "We couldn't load the current game information. Check your connection and try again.",
+    staleTitle: 'Bounty data may be out of date',
+    staleDetail: 'Reconnect to refresh the current Cocktail and Ingredient bounties.',
   },
   switchTo: {
     drinkIt: 'Switch to Drink It!',

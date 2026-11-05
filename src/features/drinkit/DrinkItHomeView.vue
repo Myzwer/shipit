@@ -1,21 +1,81 @@
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import BountyCarousel from '@/features/drinkit/BountyCarousel.vue'
-import { drinkItMockBounties, drinkItMockLeaderboard } from '@/features/drinkit/mockHome'
+import { drinkItMockLeaderboard } from '@/features/drinkit/mockHome'
+import { createHomeBountySync } from '@/lib/bounty/homeBountySync'
 import { copy } from '@/ui/copy'
+import type { HomeBountyCardView, HomeBoardPhase, HomeBountyFetchStatus } from '@/types/bountyHome'
 
+const cards = ref<HomeBountyCardView[]>([])
+const phase = ref<HomeBoardPhase>('loading')
+const status = ref<HomeBountyFetchStatus>('idle')
+const errorMessage = ref<string | null>(null)
+
+const boardNote = computed(() => {
+  if (phase.value === 'active') return copy.home.partialLiveNote
+  return copy.home.barDailyShellNote
+})
+
+const sync = createHomeBountySync({ tickMs: 1000, refreshMs: 60_000 })
+let unsubscribe: (() => void) | null = null
+
+onMounted(() => {
+  unsubscribe = sync.subscribe((snap) => {
+    cards.value = snap.cards
+    phase.value = snap.phase
+    status.value = snap.status
+    errorMessage.value = snap.errorMessage
+  })
+  sync.start()
+})
+
+onUnmounted(() => {
+  unsubscribe?.()
+  sync.stop()
+})
+
+function retry() {
+  void sync.refresh()
+}
 </script>
 
 <template>
   <GameShell game="drinkit" :title="copy.home.drinkDailyBounties">
-    <p class="px-4 pt-3 text-center text-xs font-medium uppercase tracking-wide text-amber-800/80">
-      {{ copy.home.mockShellNote }}
+    <p
+      class="px-4 pt-3 text-center text-xs font-medium uppercase tracking-wide text-amber-800/80"
+      data-testid="home-board-note"
+      :data-board-phase="phase"
+      :data-board-status="status"
+    >
+      {{ boardNote }}
     </p>
 
+    <div
+      v-if="status === 'error' || status === 'unavailable'"
+      class="mx-4 mt-3 rounded-2xl px-4 py-3 text-center text-sm"
+      style="background: var(--theme-card); color: var(--theme-ink)"
+      data-testid="home-bounty-error"
+    >
+      <p class="font-semibold">{{ copy.bounty.unavailableTitle }}</p>
+      <p class="mt-1" style="color: var(--theme-muted)">
+        {{ errorMessage || copy.bounty.unavailableDetail }}
+      </p>
+      <button
+        type="button"
+        class="mt-3 inline-flex rounded-full px-4 py-2 text-sm font-semibold text-white"
+        style="background: var(--theme-primary)"
+        data-testid="home-bounty-retry"
+        @click="retry"
+      >
+        {{ copy.home.retryLoad }}
+      </button>
+    </div>
+
     <section class="pt-3" :aria-label="copy.home.drinkDailyBounties">
-      <BountyCarousel :cards="drinkItMockBounties" />
+      <BountyCarousel :cards="cards" />
     </section>
 
     <section class="mt-6" style="background: var(--theme-page-alt)">

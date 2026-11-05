@@ -11,6 +11,7 @@ export interface MockLeaderboardRow {
   points: number
 }
 
+/** @deprecated Prefer HomeBountyCardView from bountyHome — retained for transitional typing. */
 export interface MockBountyCard {
   id: BountyCategory
   heading: string

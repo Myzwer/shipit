@@ -87,10 +87,11 @@ dev_resolve_bounty_eligibility_at('cocktail', <utc>) # includes grace
 get_my_current_cocktail_bounty()                   # always now()
 ```
 
-## Remaining for Phase 2D-B / later
+## Remaining after Phase 2D-B1
 
-- Home-card UI wiring
-- Scoring / claim resolution using grace
+- Phase 2D-B2: Bar / Daily Challenge Home wiring
+- Scoring / claim resolution using grace (Phase 3)
 - Admin Skip
 - Production Publish/Rollback (not `dev_*`)
-- Bar / Daily Challenge assignments
+
+Home Cocktail/Ingredient UI: [`docs/HOME_BOUNTIES.md`](./HOME_BOUNTIES.md).

@@ -15,18 +15,21 @@
     "test:auth": "vitest run --fileParallelism=false tests/integration/auth.phase1b.test.ts",
     "test:clock": "vitest run --fileParallelism=false tests/integration/clock.phase2a.test.ts tests/integration/clock.phase2a1.security.test.ts tests/integration/clock.phase2b.stability.test.ts tests/integration/clock.phase2b1.atomic.test.ts",
     "test:catalog": "vitest run --fileParallelism=false tests/unit/catalogValidate.spec.ts tests/unit/catalogValidate.phase2c1.spec.ts tests/integration/catalog.phase2c.test.ts tests/integration/catalog.phase2c1.hints.test.ts",
-    "test:bounty": "vitest run --fileParallelism=false tests/integration/bounty.phase2da.schedule.test.ts tests/integration/bounty.phase2da.closeout.test.ts",
+    "test:bounty": "vitest run --fileParallelism=false tests/integration/bounty.phase2da.schedule.test.ts tests/integration/bounty.phase2da.closeout.test.ts tests/integration/bounty.phase2db1.home.test.ts",
     "test:integration": "vitest run --fileParallelism=false tests/integration",
     "test:e2e:phase1b": "node scripts/e2e-phase1b-login.mjs",
     "test:e2e:phase2b": "node scripts/e2e-phase2b-admin-clock.mjs",
+    "test:e2e:phase2db1": "node scripts/e2e-phase2db1-home-bounties.mjs",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:status": "supabase status",
     "db:provision": "node scripts/provision-local-identities.mjs",
+    "db:seed-bounty-now": "node scripts/seed-local-bounty-now.mjs",
     "screenshots:phase0": "node scripts/capture-phase0-screens.mjs",
     "screenshots:phase1b": "node scripts/capture-phase1b-screens.mjs",
-    "screenshots:phase2b": "node scripts/capture-phase2b-screens.mjs"
+    "screenshots:phase2b": "node scripts/capture-phase2b-screens.mjs",
+    "screenshots:phase2db1": "node scripts/capture-phase2db1-screens.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

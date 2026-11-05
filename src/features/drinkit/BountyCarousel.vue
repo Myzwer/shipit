@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import { copy } from '@/ui/copy'
-import type { MockBountyCard } from '@/types/game'
+import type { HomeBountyCardView } from '@/types/bountyHome'
 
 const props = defineProps<{
-  cards: MockBountyCard[]
+  cards: HomeBountyCardView[]
 }>()
 
 const track = ref<HTMLElement | null>(null)
@@ -14,7 +14,9 @@ const isJumping = ref(false)
 
 /** Clone ends so the carousel feels circular (UX §3.1). */
 const loopedCards = computed(() => {
-  if (props.cards.length < 2) return props.cards.map((card, index) => ({ card, key: `solo-${index}`, realIndex: index }))
+  if (props.cards.length < 2) {
+    return props.cards.map((card, index) => ({ card, key: `solo-${index}`, realIndex: index }))
+  }
   const first = props.cards[0]
   const last = props.cards[props.cards.length - 1]
   return [
@@ -85,7 +87,6 @@ function onScroll() {
 
 onMounted(async () => {
   await nextTick()
-  // Start on the first real card (index 1 when clones exist) so neighbors peek both sides.
   scrollToLoopIndex(props.cards.length >= 2 ? 1 : 0, 'auto')
   track.value?.addEventListener('scroll', onScroll, { passive: true })
   track.value?.addEventListener('scrollend', syncFromScroll)
@@ -95,6 +96,24 @@ onUnmounted(() => {
   track.value?.removeEventListener('scroll', onScroll)
   track.value?.removeEventListener('scrollend', syncFromScroll)
 })
+
+watch(
+  () => props.cards.map((c) => `${c.id}:${c.presentation}:${c.title}`).join('|'),
+  async () => {
+    await nextTick()
+    scrollToLoopIndex(props.cards.length >= 2 ? activeIndex.value + 1 : 0, 'auto')
+  },
+)
+
+function cardMuted(card: HomeBountyCardView) {
+  return (
+    card.presentation === 'closed' ||
+    card.presentation === 'paused' ||
+    card.presentation === 'finale' ||
+    card.presentation === 'unavailable' ||
+    card.presentation === 'loading'
+  )
+}
 </script>
 
 <template>
@@ -104,17 +123,25 @@ onUnmounted(() => {
       class="bounty-track flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pt-2 scrollbar-none"
       aria-roledescription="carousel"
       :aria-label="copy.home.drinkDailyBounties"
+      data-testid="bounty-carousel"
     >
       <article
         v-for="item in loopedCards"
         :key="item.key"
         class="bounty-card shrink-0 snap-center rounded-3xl p-5 shadow-md"
         style="background: var(--theme-surface); color: var(--theme-ink)"
+        :class="{ 'opacity-80': cardMuted(item.card) }"
         :aria-hidden="item.key.startsWith('clone-') ? true : undefined"
+        :data-bounty-id="item.card.id"
+        :data-bounty-presentation="item.card.presentation"
+        :data-testid="item.key.startsWith('clone-') ? undefined : `bounty-card-${item.card.id}`"
       >
         <div class="flex items-start justify-between gap-3">
-          <p class="text-sm" style="color: var(--theme-muted)">{{ item.card.tierOrEyebrow }}</p>
+          <p class="text-sm" style="color: var(--theme-muted)">
+            {{ item.card.tierOrEyebrow }}
+          </p>
           <span
+            v-if="item.card.pointsLabel"
             class="rounded-full px-3 py-1 text-xs font-semibold text-white"
             style="background: var(--theme-accent)"
           >
@@ -125,27 +152,40 @@ onUnmounted(() => {
         <h3 class="font-display mt-3 text-2xl font-bold leading-tight">
           {{ item.card.title }}
         </h3>
-        <p class="mt-2 text-sm leading-relaxed" style="color: var(--theme-muted)">
+        <p
+          v-if="item.card.detail"
+          class="mt-2 text-sm leading-relaxed"
+          style="color: var(--theme-muted)"
+        >
           {{ item.card.detail }}
         </p>
 
-        <div class="mt-5">
-          <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
+        <div v-if="item.card.timerLabel || item.card.timerValue" class="mt-5">
+          <p
+            v-if="item.card.timerLabel"
+            class="text-xs uppercase tracking-wide"
+            style="color: var(--theme-muted)"
+          >
             {{ item.card.timerLabel }}
           </p>
-          <p class="font-display mt-1 text-2xl font-semibold tabular-nums">
+          <p
+            v-if="item.card.timerValue"
+            class="font-display mt-1 text-2xl font-semibold tabular-nums"
+            data-testid="bounty-timer"
+          >
             {{ item.card.timerValue }}
           </p>
         </div>
 
         <button
           type="button"
-          class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
+          class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
           style="background: var(--theme-primary)"
           disabled
           :aria-disabled="true"
-          title="Phase 0 shell — claim flow arrives later"
+          :title="item.card.claimTitle"
           tabindex="-1"
+          data-testid="bounty-claim"
         >
           {{ copy.bounty.claimIt }}
           <AppIcon name="action.next" />

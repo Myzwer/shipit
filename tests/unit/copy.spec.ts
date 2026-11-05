@@ -14,6 +14,12 @@ describe('approved copy', () => {
     expect(copy.admin.currentShipTime).toBe('Current Ship Time')
     expect(copy.admin.minus1Hour).toBe('−1 Hour')
     expect(copy.admin.confirmAdjustTitle).toBe('Apply Ship Time Change?')
+    expect(copy.bounty.preOpening).toBe('Game begins at 12:00 PM')
+    expect(copy.bounty.seeYouTomorrow).toBe('See You Tomorrow')
+    expect(copy.bounty.pausedTitle).toBe(
+      'Drink It! is temporarily paused while we check the menus. Check back soon!',
+    )
+    expect(copy.bounty.availableAt).toBe('Available at {barCount} {barOrBars}')
   })
 
   it('formats placeholders', () => {

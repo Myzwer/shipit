@@ -120,6 +120,14 @@ export interface Database {
         Args: Record<string, never>
         Returns: Record<string, unknown>
       }
+      get_my_current_cocktail_bounty: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      get_my_current_ingredient_bounty: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
       admin_get_clock_diagnostics: {
         Args: Record<string, never>
         Returns: Record<string, unknown>
