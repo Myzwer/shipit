@@ -1,5 +1,6 @@
 /**
  * Phase 2D-A — durable bounty scheduling, disclosure lockdown, grace, pause/clock.
+ * Timed simulation uses service_role only. Player RPCs never take authoritative time.
  */
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { signInAs } from '../helpers/localSupabase'
@@ -52,10 +53,10 @@ describe('Phase 2D-A disclosure lockdown', () => {
   it('Ship It!-only cannot read Drink It! bounty RPCs', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
     const ship = await signInAs(fixtures, 'ship_only')
-    const c = await ship.rpc('get_my_current_cocktail_bounty', { p_at_utc: noonDay1Utc() })
+    const c = await ship.rpc('get_my_current_cocktail_bounty')
     expect(c.error).toBeTruthy()
     expect(c.error?.message ?? '').toMatch(/DRINKIT_REQUIRED/i)
-    const i = await ship.rpc('get_my_current_ingredient_bounty', { p_at_utc: noonDay1Utc() })
+    const i = await ship.rpc('get_my_current_ingredient_bounty')
     expect(i.error).toBeTruthy()
   })
 })
@@ -71,7 +72,10 @@ describe('Phase 2D-A slot ledger and assignment', () => {
     expect(slots!.filter((s) => s.category === 'ingredient')).toHaveLength(39)
 
     const evening = slots!.find(
-      (s) => s.category === 'ingredient' && s.cruise_day === 1 && s.public_start_ship_local === '22:00:00',
+      (s) =>
+        s.category === 'ingredient' &&
+        s.cruise_day === 1 &&
+        s.public_start_ship_local === '22:00:00',
     )
     expect(evening?.public_end_ship_local).toBe('23:00:00')
 
@@ -137,31 +141,38 @@ describe('Phase 2D-A public reads and exposure', () => {
   it('all Drink It! players see the same current Cocktail and Ingredient', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
     const at = noonDay1Utc()
-    const a = await signInAs(fixtures, 'drink_only')
-    const b = await signInAs(fixtures, 'both')
-    const ca = await a.rpc('get_my_current_cocktail_bounty', { p_at_utc: at })
-    const cb = await b.rpc('get_my_current_cocktail_bounty', { p_at_utc: at })
+    const ca = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', { p_at_utc: at })
+    const cb = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', { p_at_utc: at })
     expect(ca.error).toBeNull()
-    expect(cb.error).toBeNull()
     expect(ca.data.offer_id).toBe(cb.data.offer_id)
     expect(ca.data.designated_bar_key).toBeTruthy()
     expect(ca.data.drink_name).toBeTruthy()
 
-    const ia = await a.rpc('get_my_current_ingredient_bounty', { p_at_utc: at })
-    const ib = await b.rpc('get_my_current_ingredient_bounty', { p_at_utc: at })
+    const ia = await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', { p_at_utc: at })
+    const ib = await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', { p_at_utc: at })
     expect(ia.data.offer_id).toBe(ib.data.offer_id)
     expect(ia.data.known_bar_count).toBeGreaterThanOrEqual(2)
     expect(JSON.stringify(ia.data)).not.toMatch(/wake-view|qualifying|bar_offer/i)
+
+    // Authenticated players can invoke the zero-arg RPCs (authorization path).
+    const playerA = await signInAs(fixtures, 'drink_only')
+    const playerB = await signInAs(fixtures, 'both')
+    const pa = await playerA.rpc('get_my_current_cocktail_bounty')
+    const pb = await playerB.rpc('get_my_current_cocktail_bounty')
+    expect(pa.error).toBeNull()
+    expect(pb.error).toBeNull()
+    // Wall-clock now() is outside the 2099 cruise → both see the same non-active status.
+    expect(pa.data.status).toBe(pb.data.status)
+    expect(pa.data.status).not.toBe('active')
   })
 
   it('pre-opening and overnight reveal no active bounty', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
-    const player = await signInAs(fixtures, 'drink_only')
-    const morning = await player.rpc('get_my_current_cocktail_bounty', {
+    const morning = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
       p_at_utc: slotUtc(1, '10:00:00'),
     })
     expect(morning.data.status).toMatch(/unavailable|paused/)
-    const late = await player.rpc('get_my_current_cocktail_bounty', {
+    const late = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
       p_at_utc: slotUtc(1, '23:30:00'),
     })
     expect(late.data.status).toMatch(/unavailable/)
@@ -170,9 +181,12 @@ describe('Phase 2D-A public reads and exposure', () => {
   it('reload does not reshuffle; exposure is idempotent', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
     const at = noonDay1Utc()
-    const player = await signInAs(fixtures, 'drink_only')
-    const first = await player.rpc('get_my_current_cocktail_bounty', { p_at_utc: at })
-    const second = await player.rpc('get_my_current_cocktail_bounty', { p_at_utc: at })
+    const first = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: at,
+    })
+    const second = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: at,
+    })
     expect(first.data.offer_id).toBe(second.data.offer_id)
     const { count } = await fixtures.service!
       .from('bounty_objective_exposures')
@@ -184,11 +198,13 @@ describe('Phase 2D-A public reads and exposure', () => {
   it('players cannot read future offers from public cards or ledger', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
     const player = await signInAs(fixtures, 'drink_only')
-    // Before exposing noon slot, scheduled public cards should be empty
     const before = await player.from('ingredient_bounty_public_cards').select('*')
     expect(before.data ?? []).toEqual([])
 
-    await player.rpc('get_my_current_ingredient_bounty', { p_at_utc: noonDay1Utc() })
+    // Expose noon via privileged sim (not player time override)
+    await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', {
+      p_at_utc: noonDay1Utc(),
+    })
     const after = await player.from('ingredient_bounty_public_cards').select('*')
     expect(after.data).toHaveLength(1)
     expect(after.data![0].exposure_status).toBe('current')
@@ -196,7 +212,6 @@ describe('Phase 2D-A public reads and exposure', () => {
 
   it('timezone-agnostic: same ship-local window yields same offer via UTC instants', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
-    // Same ship noon expressed two ways (same UTC instant)
     const a = noonDay1Utc()
     const b = new Date(new Date(a).getTime()).toISOString()
     const r1 = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
@@ -209,17 +224,44 @@ describe('Phase 2D-A public reads and exposure', () => {
     })
     expect(r1.data.offer_id).toBe(r2.data.offer_id)
   })
+
+  it('exact hourly cocktail and two-hour ingredient boundaries rotate correctly', async () => {
+    await activateReadyCatalogAndSchedule(fixtures.service!)
+    const noon = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: slotUtc(1, '12:00:00'),
+    })
+    const justBefore = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: slotUtc(1, '12:59:59'),
+    })
+    const atBoundary = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: slotUtc(1, '13:00:00'),
+    })
+    expect(noon.data.offer_id).toBe(justBefore.data.offer_id)
+    expect(atBoundary.data.offer_id).not.toBe(noon.data.offer_id)
+    expect(noon.data.slot_key).toContain('h12')
+    expect(atBoundary.data.slot_key).toContain('h13')
+
+    const ingNoon = await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', {
+      p_at_utc: slotUtc(1, '12:00:00'),
+    })
+    const ingBefore = await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', {
+      p_at_utc: slotUtc(1, '13:59:59'),
+    })
+    const ingNext = await fixtures.service!.rpc('dev_get_current_ingredient_bounty_at', {
+      p_at_utc: slotUtc(1, '14:00:00'),
+    })
+    expect(ingNoon.data.offer_id).toBe(ingBefore.data.offer_id)
+    expect(ingNext.data.offer_id).not.toBe(ingNoon.data.offer_id)
+  })
 })
 
 describe('Phase 2D-A private grace and finale', () => {
   it('grace keeps previous offer privately eligible for 15 minutes without public reveal', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
-    // Expose noon cocktail
     await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
       p_category: 'cocktail',
       p_at_utc: noonDay1Utc(),
     })
-    // At 13:05 — current is 13:00 slot; noon slot still in grace
     const at = slotUtc(1, '13:05:00')
     const resolved = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
       p_category: 'cocktail',
@@ -229,10 +271,37 @@ describe('Phase 2D-A private grace and finale', () => {
     expect(resolved.data.grace_previous).toBeTruthy()
     expect(resolved.data.grace_previous.canonical_key).toBeTruthy()
 
-    const player = await signInAs(fixtures, 'drink_only')
-    const pub = await player.rpc('get_my_current_cocktail_bounty', { p_at_utc: at })
+    const pub = await fixtures.service!.rpc('dev_get_current_cocktail_bounty_at', {
+      p_at_utc: at,
+    })
     expect(pub.data.offer_id).toBe(resolved.data.offer_id)
     expect(pub.data).not.toHaveProperty('grace_previous')
+  })
+
+  it('grace is present at +0 and +14:59 after expiration, gone at +15:00', async () => {
+    await activateReadyCatalogAndSchedule(fixtures.service!)
+    await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: noonDay1Utc(),
+    })
+
+    const atExpire = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: slotUtc(1, '13:00:00'),
+    })
+    expect(atExpire.data.grace_previous).toBeTruthy()
+
+    const at1459 = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: slotUtc(1, '13:14:59'),
+    })
+    expect(at1459.data.grace_previous).toBeTruthy()
+
+    const at1500 = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: slotUtc(1, '13:15:00'),
+    })
+    expect(at1500.data.grace_previous ?? null).toBeNull()
   })
 
   it('Friday 6 PM cutoff overrides grace', async () => {
@@ -251,20 +320,36 @@ describe('Phase 2D-A private grace and finale', () => {
 })
 
 describe('Phase 2D-A pause and clock corrections', () => {
+  it('pause before first opening leaves noon unexposed until resume window', async () => {
+    await activateReadyCatalogAndSchedule(fixtures.service!)
+    await fixtures.service!.rpc('dev_set_drinkit_paused', {
+      p_paused: true,
+      p_at_utc: slotUtc(1, '10:00:00'),
+    })
+    const beforeOpen = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: slotUtc(1, '11:30:00'),
+    })
+    expect(beforeOpen.data.status).toBe('paused')
+
+    const { count } = await fixtures.service!
+      .from('bounty_objective_exposures')
+      .select('*', { count: 'exact', head: true })
+    expect(count ?? 0).toBe(0)
+  })
+
   it('paused missed slots are not retrospectively claimable', async () => {
     await activateReadyCatalogAndSchedule(fixtures.service!)
     await fixtures.service!.rpc('dev_set_drinkit_paused', {
       p_paused: true,
       p_at_utc: slotUtc(1, '11:00:00'),
     })
-    // Still within noon window while paused — not yet missed
     const during = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
       p_category: 'cocktail',
       p_at_utc: slotUtc(1, '12:30:00'),
     })
     expect(during.data.status).toBe('paused')
 
-    // After noon and 13:00 windows fully elapsed while paused → mark missed
     await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
       p_category: 'cocktail',
       p_at_utc: slotUtc(1, '14:05:00'),
@@ -300,18 +385,16 @@ describe('Phase 2D-A pause and clock corrections', () => {
     expect(first.data.status).toBe('active')
     const offerId = first.data.offer_id
 
-    // +1h correction
     await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
       p_delta_minutes: 60,
       p_at_utc: slotUtc(1, '12:30:00'),
     })
 
-    // Re-evaluate around the same wall window with new offset
-    const again = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+    await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
       p_category: 'cocktail',
       p_at_utc: shipLocalToUtcIso(dayDate(1), '12:45:00', DEV_BASE_OFFSET_MIN + 60),
     })
-    // Still one exposure row for that canonical key
+
     const { data: exposures } = await fixtures.service!
       .from('bounty_objective_exposures')
       .select('canonical_key')
@@ -319,13 +402,45 @@ describe('Phase 2D-A pause and clock corrections', () => {
     const keys = exposures!.map((e) => e.canonical_key)
     expect(new Set(keys).size).toBe(keys.length)
 
-    // Original offer remains the exposed identity for its slot
     const { data: offer } = await fixtures.service!
       .from('bounty_slot_offers')
       .select('id, exposed_at_utc')
       .eq('id', offerId)
       .single()
     expect(offer?.exposed_at_utc).toBeTruthy()
+  })
+
+  it('backward clock correction does not re-expose a consumed noon slot as fresh', async () => {
+    await activateReadyCatalogAndSchedule(fixtures.service!)
+    const noon = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: noonDay1Utc(),
+    })
+    const noonKey = noon.data.canonical_key as string
+
+    // Move into 13:00 and expose next
+    await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: slotUtc(1, '13:05:00'),
+    })
+
+    // Backward −60 at 13:30 ship → re-enter apparent noon wall time
+    await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
+      p_delta_minutes: -60,
+      p_at_utc: slotUtc(1, '13:30:00'),
+    })
+
+    const again = await fixtures.service!.rpc('dev_resolve_bounty_eligibility_at', {
+      p_category: 'cocktail',
+      p_at_utc: shipLocalToUtcIso(dayDate(1), '12:45:00', DEV_BASE_OFFSET_MIN - 60),
+    })
+    // Exposure table still has exactly one row for the noon canonical key
+    const { data: rows } = await fixtures.service!
+      .from('bounty_objective_exposures')
+      .select('id')
+      .eq('category', 'cocktail')
+      .eq('canonical_key', noonKey)
+    expect(rows).toHaveLength(1)
     void again
   })
 })

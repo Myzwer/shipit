@@ -35,10 +35,12 @@ Preallocation ≠ shown. Nonrepetition uses **canonical drink concept** / **ingr
 
 ## Player-safe reads
 
-| RPC | Returns |
-|---|---|
-| `get_my_current_cocktail_bounty` | Current name, designated bar, tier/points, listed ingredients, `public_end_utc`, `offer_id` |
-| `get_my_current_ingredient_bounty` | Current name, tier/points, known_bar_count only |
+| RPC | Signature | Behavior |
+|---|---|---|
+| `get_my_current_cocktail_bounty` | **zero-arg only** | Always resolves against server `now()`. Returns current name, designated bar, tier/points, listed ingredients, `public_end_utc`, `offer_id` when active. |
+| `get_my_current_ingredient_bounty` | **zero-arg only** | Always resolves against server `now()`. Returns current name, tier/points, `known_bar_count` only. |
+
+**Security:** Ordinary authenticated players never supply authoritative time. There is no `p_at_utc` overload. The cruise `label` is not a security boundary for player reads. `bounty_resolve_at` is not granted to `authenticated` / `anon`.
 
 Locked down (Drink It! players cannot SELECT):
 
@@ -46,16 +48,29 @@ Locked down (Drink It! players cannot SELECT):
 - `catalog_offering_ingredients` (use `get_offering_display_ingredients(offering_id)` for forward recipes)
 - `bounty_slots`, `bounty_slot_offers`, exposures
 
-Optional `p_at_utc` on player RPCs is honored **only** when `cruise_config.label = 'development-only'`.
+Future / unreleased objectives are never returned by player RPCs or public card views until the server clock reaches that window (and exposure rules apply).
+
+## Privileged time simulation (service_role only)
+
+Deterministic local / CI simulation uses **service_role-only** helpers. Each helper raises `SERVICE_ROLE_REQUIRED` unless `auth.role()` is `service_role`, and also requires `cruise_config.label = 'development-only'` as a fixture guard. Never treat the label alone as a security boundary:
+
+| RPC | Purpose |
+|---|---|
+| `dev_get_current_cocktail_bounty_at(p_at_utc)` | Player-shaped Cocktail payload at a simulated instant |
+| `dev_get_current_ingredient_bounty_at(p_at_utc)` | Player-shaped Ingredient payload at a simulated instant |
+| `dev_resolve_bounty_eligibility_at(category, p_at_utc)` | Full eligibility including private `grace_previous` |
+
+Authenticated clients calling these RPCs must fail.
 
 ## Private grace
 
-`dev_resolve_bounty_eligibility_at` (service_role) returns current offer plus `grace_previous` for 15 minutes after prior public end. Player RPCs never include grace. Finale overrides grace.
+`dev_resolve_bounty_eligibility_at` returns current offer plus `grace_previous` for 15 minutes after prior public end. Player RPCs never include grace. Finale (Friday 6 PM) overrides grace.
 
 ## Pause / clock
 
 - Pause → public reads `paused`; scheduled windows that fully end without exposure become `missed_paused` (not backfilled)
 - Clock corrections do not reshape the slot ledger or create duplicate exposures
+- Time reversal does not create a second exposure row for an already-shown canonical key
 - Future catalog imports may replace only `scheduled` / unshown offers (exposure table prevents repeats)
 
 ## Local seven-day simulation
@@ -66,7 +81,10 @@ npx supabase db reset && npm run db:provision
 dev_seed_cruise_clock(day1, offset, 'development-only')
 dev_activate_catalog_fixture(<buildScheduleReadyCatalog(72,39)>)
 dev_generate_bounty_schedule('seed')
-dev_resolve_bounty_eligibility_at('cocktail', <utc>)
+dev_get_current_cocktail_bounty_at(<utc>)          # player-shaped, timed
+dev_resolve_bounty_eligibility_at('cocktail', <utc>) # includes grace
+# players:
+get_my_current_cocktail_bounty()                   # always now()
 ```
 
 ## Remaining for Phase 2D-B / later

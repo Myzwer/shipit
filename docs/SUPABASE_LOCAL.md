@@ -56,6 +56,7 @@ npx supabase db reset
 | `20261105001500_phase2da_bounty_slot_ledger.sql` | Durable bounty slot / offer / exposure ledger |
 | `20261105001600_phase2da_schedule_and_reads.sql` | Dev catalog activation + window helpers |
 | `20261105001700_phase2da_generate_and_resolve.sql` | Schedule generation, player reads, private grace |
+| `20261105001800_phase2da_closeout_player_time.sql` | Player bounty RPCs force `now()`; timed sim is service_role-only |
 
 ## Vue app env
 
