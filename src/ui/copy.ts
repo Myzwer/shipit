@@ -84,8 +84,9 @@ export const copy = {
     failureBody: "The change didn't save. Nothing was updated. Please try again.",
     unknownTitle: 'Confirm Current Ship Time',
     unknownBody:
-      'We could not confirm whether that change was saved. Refresh Ship Time before trying again.',
+      'We could not confirm whether that change was saved. Refresh Ship Time, or retry the same change. Do not apply a different adjustment yet.',
     refreshStatus: 'Refresh Ship Time',
+    retrySameChange: 'Retry Same Change',
     ambiguousTitle: 'Confirm Current Ship Time',
     ambiguousBody:
       'The previous attempt may already have applied. Review Current Ship Time before trying again.',

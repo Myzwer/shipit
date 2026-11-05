@@ -36,9 +36,10 @@ async function adminRpc(fn: string, args?: Record<string, unknown>) {
   return { data, error }
 }
 
-function newRequestId(): string {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID()
+export function newClientRequestId(): string {
+  const c = globalThis.crypto
+  if (c && typeof c.randomUUID === 'function') {
+    return c.randomUUID()
   }
   return `00000000-0000-4000-8000-${Date.now().toString(16).padStart(12, '0')}`.slice(0, 36)
 }
@@ -48,9 +49,20 @@ function isTransportOrUnknownRpcError(message: string): boolean {
 }
 
 function isConfirmedRejection(message: string): boolean {
-  return /ADMIN_REQUIRED|INVALID_|MANUAL_DELTA|NO_ACTIVE|PLAN_MUST|DUPLICATE_PLAN|42501|permission|JWT/i.test(
+  return /ADMIN_REQUIRED|INVALID_|MANUAL_DELTA|NO_ACTIVE|PLAN_MUST|DUPLICATE_PLAN|REQUEST_ID_OPERATION_MISMATCH|42501|permission|JWT/i.test(
     message,
   )
+}
+
+export function intentFingerprint(intent: ManualCorrectionIntent): string | null {
+  if (intent.kind === 'plus_1h' || intent.kind === 'minus_1h') {
+    if (intent.deltaMinutes !== 60 && intent.deltaMinutes !== -60) return null
+    return `manual_delta:${intent.deltaMinutes}`
+  }
+  if (intent.kind === 'set_time' && intent.targetShipLocal) {
+    return `manual_set:${intent.targetShipLocal.replace(' ', 'T')}`
+  }
+  return null
 }
 
 export async function fetchAdminClockDiagnostics(): Promise<AdminClockDiagnostics> {
@@ -73,6 +85,7 @@ export async function findEventByRequestId(requestId: string) {
     offset_minutes: number
     source: string
     client_request_id: string
+    client_request_fingerprint?: string | null
   } | null
 }
 
@@ -123,10 +136,27 @@ async function reconcileByRequestId(
   intent: ManualCorrectionIntent,
   before: ShipClockState,
 ): Promise<ApplyCorrectionResult> {
+  const expectedFp = intentFingerprint(intent)
   try {
     const found = await findEventByRequestId(clientRequestId)
     const diagnostics = await fetchAdminClockDiagnostics()
     if (found) {
+      if (
+        expectedFp &&
+        found.client_request_fingerprint &&
+        found.client_request_fingerprint !== expectedFp
+      ) {
+        // Same id bound to a different operation — keep locked; do not clear.
+        return {
+          status: 'unknown',
+          message:
+            'This pending change does not match the server record. Refresh Ship Time, then retry the same change.',
+          intent,
+          before,
+          clientRequestId,
+          diagnostics,
+        }
+      }
       return {
         status: 'ok',
         after: diagnostics.state,
@@ -135,18 +165,19 @@ async function reconcileByRequestId(
         eventId: found.id,
       }
     }
-    // Diagnostics succeeded and our request id is absent — still unknown until the
-    // operator explicitly refreshes again; do not claim "Change Not Saved".
+    // Successful read and id absent: may still be processing — stay unknown.
+    // Do not claim "Change Not Saved" and do not unlock for a new correction.
     return {
       status: 'unknown',
       message:
-        'We could not confirm whether that change was saved. Refresh Ship Time before trying again.',
+        'We could not confirm whether that change was saved. It may still be processing. Refresh again, or retry the same change.',
       intent,
       before,
       clientRequestId,
       diagnostics,
     }
   } catch {
+    // Failed reconciliation must not unlock controls.
     return {
       status: 'unknown',
       message:
@@ -169,7 +200,7 @@ export async function applyManualCorrection(
 ): Promise<ApplyCorrectionResult> {
   const beforeDiag = await fetchAdminClockDiagnostics()
   const before = beforeDiag.state
-  const clientRequestId = options?.clientRequestId ?? newRequestId()
+  const clientRequestId = options?.clientRequestId ?? newClientRequestId()
 
   try {
     if (intent.kind === 'set_time') {

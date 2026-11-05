@@ -236,6 +236,71 @@ describe('Phase 2B.1 request-id correction reconcile', () => {
     expect(data.delta_minutes).toBe(-60)
   })
 
+  it('set_time idempotent replay does not double-apply', async () => {
+    if (!fixtures.available) return
+    const req = '66666666-6666-4666-8666-666666666666'
+    const t0 = shipLocalToUtcIso(dayDate(1), '15:00:00', DEV_BASE_OFFSET_MIN)
+    const target = `${dayDate(1)}T16:30:00`
+    const first = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: target,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(first.error).toBeNull()
+    const offsetAfter = first.data.after.offset_minutes
+
+    const second = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: target,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(second.error).toBeNull()
+    expect(second.data.idempotent_replay).toBe(true)
+    expect(second.data.after.offset_minutes).toBe(offsetAfter)
+
+    const { data: events } = await fixtures
+      .service!.from('ship_clock_events')
+      .select('id, client_request_fingerprint')
+      .eq('client_request_id', req)
+    expect(events).toHaveLength(1)
+    expect(events![0].client_request_fingerprint).toBe(`manual_set:${target}`)
+  })
+
+  it('reused request id with different operation is rejected', async () => {
+    if (!fixtures.available) return
+    const req = '55555555-5555-4555-8555-555555555555'
+    const t0 = shipLocalToUtcIso(dayDate(1), '14:00:00', DEV_BASE_OFFSET_MIN)
+    const first = await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
+      p_delta_minutes: 60,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(first.error).toBeNull()
+
+    const mismatch = await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
+      p_delta_minutes: -60,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(mismatch.error).toBeTruthy()
+    expect(mismatch.error?.message ?? '').toMatch(/REQUEST_ID_OPERATION_MISMATCH/)
+
+    const setMismatch = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: `${dayDate(1)}T16:00:00`,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(setMismatch.error).toBeTruthy()
+    expect(setMismatch.error?.message ?? '').toMatch(/REQUEST_ID_OPERATION_MISMATCH/)
+
+    const { data: events } = await fixtures
+      .service!.from('ship_clock_events')
+      .select('delta_minutes')
+      .eq('client_request_id', req)
+    expect(events).toHaveLength(1)
+    expect(events![0].delta_minutes).toBe(60)
+  })
+
   it('Friday finale remains closed after correction', async () => {
     if (!fixtures.available) return
     const cutoff = shipLocalToUtcIso(dayDate(7), '18:00:00', DEV_BASE_OFFSET_MIN)

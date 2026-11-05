@@ -54,7 +54,18 @@ Organizer path: Home → Account → **Admin** (`/admin`, `is_admin` required).
 - **No change** → `enabled=true`, `delta_minutes=0` (explicit zero)
 - **±1 / ±2 hours** → enabled non-zero delta
 
-After a successful correction, the UI refreshes diagnostics and shows the resulting Ship Time. **Change Not Saved** is shown only when non-application is confirmed. If a network error leaves ±1h / Set Ship Time uncertain, the UI reports an **unknown** outcome, blocks repeating the same mutation, and requires **Refresh Ship Time** (request-id reconcile) before a deliberate new action.
+After a successful correction, the UI refreshes diagnostics and shows the resulting Ship Time. **Change Not Saved** is shown only when non-application is confirmed.
+
+If a network error leaves ±1h / Set Ship Time uncertain, the UI reports an **unknown** outcome and:
+
+- Persists the pending `client_request_id` + intent in `localStorage` (no credentials)
+- Blocks new ±1h / Set Ship Time until the pending operation is confirmed
+- Survives refresh and leaving/returning to Admin
+- Offers **Refresh Ship Time** (reconcile only) and **Retry Same Change** (idempotent replay of the *same* request id)
+- Does **not** unlock merely because a warning was dismissed, remounted, or a reconcile call failed
+- Does **not** treat a missing request-id row after a successful read as confirmed failure (it may still be processing)
+
+Server-side, each request id is bound to an operation fingerprint (`manual_delta:±60` / `manual_set:…`). Replaying the same id with a different payload raises `REQUEST_ID_OPERATION_MISMATCH`.
 
 Historical nights that already applied explain that plan edits will not rewrite past events.
 

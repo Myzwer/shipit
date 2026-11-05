@@ -125,4 +125,78 @@ describe('applyManualCorrection unknown outcomes', () => {
     )
     expect(result.status).toBe('failed')
   })
+
+  it('failed reconciliation stays unknown (does not unlock)', async () => {
+    const { reconcileManualCorrection } = await import('@/lib/adminClock')
+    const req = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'
+
+    rpc.mockRejectedValueOnce(new Error('Failed to fetch'))
+
+    const result = await reconcileManualCorrection(
+      req,
+      { kind: 'plus_1h', deltaMinutes: 60 },
+      beforeState,
+    )
+    expect(result.status).toBe('unknown')
+    if (result.status === 'unknown') {
+      expect(result.clientRequestId).toBe(req)
+    }
+  })
+
+  it('fingerprint mismatch on reconcile stays unknown', async () => {
+    const { reconcileManualCorrection } = await import('@/lib/adminClock')
+    const req = 'ffffffff-ffff-4fff-8fff-ffffffffffff'
+
+    rpc
+      .mockResolvedValueOnce({
+        data: {
+          id: 'evt',
+          client_request_id: req,
+          delta_minutes: -60,
+          offset_minutes: -300,
+          source: 'manual_delta',
+          client_request_fingerprint: 'manual_delta:-60',
+        },
+        error: null,
+      })
+      .mockResolvedValueOnce({
+        data: { actor_id: null, state: beforeState, plan: [], events: [] },
+        error: null,
+      })
+
+    const result = await reconcileManualCorrection(
+      req,
+      { kind: 'plus_1h', deltaMinutes: 60 },
+      beforeState,
+    )
+    expect(result.status).toBe('unknown')
+  })
+
+  it('set_time lost response yields UNKNOWN with same request id', async () => {
+    const { applyManualCorrection } = await import('@/lib/adminClock')
+    const req = '12121212-1212-4121-8121-121212121212'
+    const target = '2099-01-03T14:00:00'
+
+    rpc
+      .mockResolvedValueOnce({
+        data: { actor_id: null, state: beforeState, plan: [], events: [] },
+        error: null,
+      })
+      .mockResolvedValueOnce({ data: null, error: { message: 'Failed to fetch' } })
+      .mockResolvedValueOnce({ data: null, error: null })
+      .mockResolvedValueOnce({
+        data: { actor_id: null, state: beforeState, plan: [], events: [] },
+        error: null,
+      })
+
+    const result = await applyManualCorrection(
+      { kind: 'set_time', targetShipLocal: target },
+      { clientRequestId: req },
+    )
+    expect(result.status).toBe('unknown')
+    if (result.status === 'unknown') {
+      expect(result.clientRequestId).toBe(req)
+      expect(result.intent.kind).toBe('set_time')
+    }
+  })
 })

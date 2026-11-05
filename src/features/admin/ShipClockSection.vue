@@ -3,11 +3,18 @@ import { computed, onMounted, ref } from 'vue'
 import {
   applyManualCorrection,
   fetchAdminClockDiagnostics,
+  newClientRequestId,
   previewManualDelta,
   reconcileManualCorrection,
   saveShipClockPlan,
   type ApplyCorrectionResult,
 } from '@/lib/adminClock'
+import {
+  clearPendingClockCorrection,
+  readPendingClockCorrection,
+  writePendingClockCorrection,
+  type PendingClockCorrection,
+} from '@/lib/pendingClockCorrection'
 import {
   cruiseDayWeekdayName,
   formatCruiseDayLabel,
@@ -145,6 +152,51 @@ function draftDays(): ShipClockPlanDraftDay[] {
   )
 }
 
+function persistUnknown(pending: {
+  intent: ManualCorrectionIntent
+  before: import('@/types/shipClock').ShipClockState
+  clientRequestId: string
+}) {
+  unknownAttempt.value = pending
+  writePendingClockCorrection({
+    clientRequestId: pending.clientRequestId,
+    intent: pending.intent,
+    beforeSnapshot: {
+      at_utc: pending.before.at_utc,
+      offset_minutes: pending.before.offset_minutes,
+      ship_local: pending.before.ship_local,
+      lifecycle: pending.before.lifecycle,
+    },
+  })
+}
+
+function clearUnknownResolved() {
+  unknownAttempt.value = null
+  clearPendingClockCorrection()
+}
+
+function restorePendingFromStorage(): PendingClockCorrection | null {
+  const pending = readPendingClockCorrection()
+  if (!pending) return null
+  unknownAttempt.value = {
+    clientRequestId: pending.clientRequestId,
+    intent: pending.intent,
+    before: {
+      configured: true,
+      at_utc: pending.beforeSnapshot?.at_utc ?? new Date().toISOString(),
+      offset_minutes: pending.beforeSnapshot?.offset_minutes,
+      ship_local: pending.beforeSnapshot?.ship_local,
+      lifecycle: pending.beforeSnapshot?.lifecycle,
+    },
+  }
+  feedback.value = {
+    kind: 'unknown',
+    title: copy.admin.unknownTitle,
+    body: copy.admin.unknownBody,
+  }
+  return pending
+}
+
 async function loadDiagnostics() {
   loadStatus.value = 'loading'
   loadError.value = null
@@ -163,8 +215,23 @@ async function loadDiagnostics() {
   }
 }
 
-onMounted(() => {
-  void loadDiagnostics()
+onMounted(async () => {
+  const pending = restorePendingFromStorage()
+  await loadDiagnostics()
+  if (pending && unknownAttempt.value) {
+    // Reconcile against server; never unlock solely because we remounted.
+    busy.value = true
+    try {
+      const result = await reconcileManualCorrection(
+        pending.clientRequestId,
+        pending.intent,
+        unknownAttempt.value.before,
+      )
+      await handleApplyResult(result)
+    } finally {
+      busy.value = false
+    }
+  }
 })
 
 async function startMinusPlus(delta: 60 | -60) {
@@ -221,7 +288,7 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
   if (result.status === 'ok') {
     diagnostics.value = result.diagnostics
     syncDraftFromPlan(result.diagnostics.plan ?? [])
-    unknownAttempt.value = null
+    clearUnknownResolved()
     feedback.value = {
       kind: 'success',
       title: copy.admin.successApplied,
@@ -236,11 +303,11 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
       diagnostics.value = result.diagnostics
       syncDraftFromPlan(result.diagnostics.plan ?? [])
     }
-    unknownAttempt.value = {
+    persistUnknown({
       intent: result.intent,
       before: result.before,
       clientRequestId: result.clientRequestId,
-    }
+    })
     feedback.value = {
       kind: 'unknown',
       title: copy.admin.unknownTitle,
@@ -248,7 +315,23 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
     }
     return
   }
-  unknownAttempt.value = null
+  // Confirmed non-application. Clear pending unless the server rejected a
+  // fingerprint mismatch (same id, different operation) — stay locked then.
+  const mismatch = /REQUEST_ID_OPERATION_MISMATCH/i.test(result.message)
+  if (mismatch) {
+    persistUnknown({
+      intent: result.intent,
+      before: result.before,
+      clientRequestId: result.clientRequestId,
+    })
+    feedback.value = {
+      kind: 'unknown',
+      title: copy.admin.unknownTitle,
+      body: result.message || copy.admin.unknownBody,
+    }
+    return
+  }
+  clearUnknownResolved()
   feedback.value = {
     kind: 'error',
     title: copy.admin.failureTitle,
@@ -263,8 +346,15 @@ async function confirmManual() {
   confirm.value = null
   busy.value = true
   feedback.value = null
+  const clientRequestId = newClientRequestId()
+  // Persist before the RPC so a lost response still blocks duplicates after reload.
+  persistUnknown({
+    intent,
+    before: state.value ?? { configured: true, at_utc: new Date().toISOString() },
+    clientRequestId,
+  })
   try {
-    const result = await applyManualCorrection(intent)
+    const result = await applyManualCorrection(intent, { clientRequestId })
     await handleApplyResult(result)
   } finally {
     busy.value = false
@@ -297,7 +387,7 @@ async function confirmPlan() {
   }
 }
 
-/** Refresh only — never re-sends the same ±1h / set-time mutation. */
+/** Refresh only — never unlocks without confirmed success. */
 async function refreshUnknownAttempt() {
   if (!unknownAttempt.value || busy.value) return
   busy.value = true
@@ -308,20 +398,28 @@ async function refreshUnknownAttempt() {
       unknownAttempt.value.before,
     )
     await handleApplyResult(result)
-    // After a successful refresh that still cannot find the event, allow a
-    // deliberate new preview (operator must open confirm again).
-    if (result.status === 'unknown' && result.diagnostics) {
-      // Keep blocking auto-retry; operator can dismiss by starting a new preview
-      // only after acknowledging refresh showed current time.
-    }
   } finally {
     busy.value = false
   }
 }
 
-function clearUnknownAndAllowNewAction() {
-  unknownAttempt.value = null
+/**
+ * Safe recovery: replay the exact same operation with the SAME request id
+ * (server idempotent). Never issues a new correction id while pending.
+ */
+async function retrySameUnknownChange() {
+  if (!unknownAttempt.value || busy.value) return
+  const pending = unknownAttempt.value
+  busy.value = true
   feedback.value = null
+  try {
+    const result = await applyManualCorrection(pending.intent, {
+      clientRequestId: pending.clientRequestId,
+    })
+    await handleApplyResult(result)
+  } finally {
+    busy.value = false
+  }
 }
 </script>
 
@@ -417,13 +515,13 @@ function clearUnknownAndAllowNewAction() {
           </button>
           <button
             type="button"
-            class="rounded-full px-4 py-2 text-xs font-semibold"
-            style="background: #ebe6df; color: #2f3a44"
+            class="rounded-full px-4 py-2 text-xs font-semibold text-white"
+            style="background: #2f3a44"
             :disabled="busy"
-            data-testid="dismiss-unknown"
-            @click="clearUnknownAndAllowNewAction"
+            data-testid="retry-same-change"
+            @click="retrySameUnknownChange"
           >
-            {{ copy.admin.cancel }}
+            {{ copy.admin.retrySameChange }}
           </button>
         </div>
       </div>

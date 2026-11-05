@@ -47,6 +47,7 @@ npx supabase db reset
 | `20261105000600_phase2a1_clock_security.sql` | Player time-bypass removal, rebuild double-count fix, receipt-time contract |
 | `20261105000700_phase2b_stable_clock_reads.sql` | Ordinary reads no longer rebuild/delete scheduled events |
 | `20261105000800_phase2b1_atomic_plan_and_request_id.sql` | Atomic plan save + client_request_id correction reconcile |
+| `20261105000900_phase2b1_request_fingerprint.sql` | Bind request id to operation fingerprint (mismatch rejected) |
 
 ## Vue app env
 
