@@ -16,6 +16,7 @@ import {
   type CatalogIssue,
   type CatalogPreviewResult,
   type CocktailTier,
+  type IngredientEvidenceSummary,
   type IngredientTier,
 } from './types'
 
@@ -55,6 +56,37 @@ function normalizeAlias(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, ' ')
 }
 
+/**
+ * Qualifying Ingredient evidence: named alcoholic cocktail offerings at *active* bars
+ * that list the ingredient. Price over-$15 does not disqualify Ingredient hunts
+ * (Princess Plus $15 applies to Cocktail Bounty candidates only).
+ */
+export function corroborateIngredientEvidence(
+  doc: CatalogImportDocument,
+  ingredientKey: string,
+): IngredientEvidenceSummary {
+  const activeBars = new Set(doc.bars.filter((b) => b.active).map((b) => b.key))
+  const barKeys = new Set<string>()
+  const drinkKeys = new Set<string>()
+  for (const drink of doc.drinks) {
+    if (drink.kind !== 'named_cocktail') continue
+    for (const offering of drink.bar_offerings) {
+      if (!activeBars.has(offering.bar_key)) continue
+      if (!offering.ingredient_keys.includes(ingredientKey)) continue
+      barKeys.add(offering.bar_key)
+      drinkKeys.add(drink.key)
+    }
+  }
+  const candidate = doc.ingredient_candidates.find((c) => c.ingredient_key === ingredientKey)
+  return {
+    ingredientKey,
+    declaredBarCount: candidate?.known_bar_count ?? 0,
+    declaredDrinkCount: candidate?.distinct_qualifying_drinks ?? 0,
+    corroboratedBarCount: barKeys.size,
+    corroboratedDrinkCount: drinkKeys.size,
+  }
+}
+
 function isCocktailEligible(
   doc: CatalogImportDocument,
   candidate: CatalogImportDocument['cocktail_candidates'][number],
@@ -80,6 +112,17 @@ function isCocktailEligible(
         'COCKTAIL_CANDIDATE_INVALID_KIND',
         'error',
         `Cocktail candidate "${candidate.drink_key}" must be kind named_cocktail (got ${drink.kind}).`,
+        `cocktail_candidates/${candidate.drink_key}`,
+      ),
+    )
+  }
+  const bar = doc.bars.find((b) => b.key === candidate.designated_bar_key)
+  if (bar && !bar.active) {
+    reasons.push(
+      issue(
+        'COCKTAIL_CANDIDATE_INACTIVE_BAR',
+        'error',
+        `Cocktail candidate "${candidate.drink_key}" designates inactive bar "${candidate.designated_bar_key}".`,
         `cocktail_candidates/${candidate.drink_key}`,
       ),
     )
@@ -147,33 +190,62 @@ function isCocktailEligible(
 }
 
 function isIngredientEligible(
+  doc: CatalogImportDocument,
   candidate: CatalogImportDocument['ingredient_candidates'][number],
-): { eligible: boolean; reasons: CatalogIssue[] } {
+): {
+  eligible: boolean
+  reasons: CatalogIssue[]
+  evidence: IngredientEvidenceSummary
+} {
   const reasons: CatalogIssue[] = []
-  if (candidate.known_bar_count < 2) {
+  const evidence = corroborateIngredientEvidence(doc, candidate.ingredient_key)
+
+  if (candidate.eligible === false) {
+    return { eligible: false, reasons, evidence }
+  }
+
+  if (evidence.corroboratedBarCount === 0 || evidence.corroboratedDrinkCount === 0) {
+    reasons.push(
+      issue(
+        'INGREDIENT_CANDIDATE_NO_MENU_EVIDENCE',
+        'error',
+        `Ingredient candidate "${candidate.ingredient_key}" has no qualifying named-cocktail offerings at active bars.`,
+        `ingredient_candidates/${candidate.ingredient_key}`,
+      ),
+    )
+  } else if (evidence.corroboratedBarCount < 2) {
     reasons.push(
       issue(
         'INGREDIENT_CANDIDATE_ONE_BAR',
         'error',
-        `Ingredient candidate "${candidate.ingredient_key}" has known_bar_count ${candidate.known_bar_count}; one-bar-only objectives are excluded.`,
+        `Ingredient candidate "${candidate.ingredient_key}" has only ${evidence.corroboratedBarCount} corroborated bar(s); one-bar-only objectives are excluded.`,
         `ingredient_candidates/${candidate.ingredient_key}`,
       ),
     )
   }
-  if (candidate.distinct_qualifying_drinks < 1) {
+
+  if (candidate.known_bar_count !== evidence.corroboratedBarCount) {
     reasons.push(
       issue(
-        'INGREDIENT_CANDIDATE_NO_DRINKS',
+        'INGREDIENT_COVERAGE_UNCORROBORATED',
         'error',
-        `Ingredient candidate "${candidate.ingredient_key}" has no qualifying drinks.`,
+        `Ingredient "${candidate.ingredient_key}" declares known_bar_count ${candidate.known_bar_count} but catalog offerings corroborate ${evidence.corroboratedBarCount} active bar(s).`,
         `ingredient_candidates/${candidate.ingredient_key}`,
       ),
     )
   }
-  if (candidate.eligible === false) {
-    return { eligible: false, reasons }
+  if (candidate.distinct_qualifying_drinks !== evidence.corroboratedDrinkCount) {
+    reasons.push(
+      issue(
+        'INGREDIENT_DRINKS_UNCORROBORATED',
+        'error',
+        `Ingredient "${candidate.ingredient_key}" declares distinct_qualifying_drinks ${candidate.distinct_qualifying_drinks} but catalog offerings corroborate ${evidence.corroboratedDrinkCount}.`,
+        `ingredient_candidates/${candidate.ingredient_key}`,
+      ),
+    )
   }
-  return { eligible: reasons.every((r) => r.severity !== 'error'), reasons }
+
+  return { eligible: reasons.every((r) => r.severity !== 'error'), reasons, evidence }
 }
 
 export function validateCatalogStructure(input: unknown): {
@@ -379,10 +451,12 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
     }
   }
 
-  const cocktailPair = new Set<string>()
+  // Nonrepetition identity = drink concept (not drink@bar). Explicit reject, no silent dedupe.
+  const cocktailConcepts = new Set<string>()
+  const cocktailPairs = new Set<string>()
   for (const c of doc.cocktail_candidates) {
     const pair = `${c.drink_key}@${c.designated_bar_key}`
-    if (cocktailPair.has(pair)) {
+    if (cocktailPairs.has(pair)) {
       errors.push(
         issue(
           'DUPLICATE_COCKTAIL_CANDIDATE',
@@ -392,7 +466,18 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
         ),
       )
     }
-    cocktailPair.add(pair)
+    cocktailPairs.add(pair)
+    if (cocktailConcepts.has(c.drink_key)) {
+      errors.push(
+        issue(
+          'DUPLICATE_COCKTAIL_CONCEPT',
+          'error',
+          `Cocktail concept "${c.drink_key}" appears more than once in cocktail_candidates. Only one designated-bar bounty is allowed per concept per catalog version.`,
+          `cocktail_candidates/${c.drink_key}`,
+        ),
+      )
+    }
+    cocktailConcepts.add(c.drink_key)
     if (!drinkKeys.has(c.drink_key)) {
       errors.push(
         issue(
@@ -500,7 +585,8 @@ export function validateCatalogBusinessRules(doc: CatalogImportDocument): {
       if (r.severity === 'error') errors.push(r)
       else warnings.push(r)
     }
-    if (eligible) cocktailEligible += 1
+    // Count distinct concepts only (duplicate concepts already cross-ref rejected).
+    if (eligible && c.points === expected) cocktailEligible += 1
   }
 
   for (const c of doc.ingredient_candidates) {
@@ -527,6 +613,7 @@ export function validateCatalogBusinessRules(doc: CatalogImportDocument): {
         ),
       )
     }
+    // Declared coverage must match the externally assigned tier band (not auto-reranked).
     if (c.known_bar_count < coverage.min || c.known_bar_count > coverage.max) {
       errors.push(
         issue(
@@ -537,16 +624,18 @@ export function validateCatalogBusinessRules(doc: CatalogImportDocument): {
         ),
       )
     }
-    const { eligible, reasons } = isIngredientEligible(c)
+    const { eligible, reasons } = isIngredientEligible(doc, c)
     for (const r of reasons) {
       if (r.severity === 'error') errors.push(r)
       else warnings.push(r)
     }
-    if (eligible && c.points === expected) {
-      // Coverage mismatch already recorded as error — still count only when consistent.
-      if (c.known_bar_count >= coverage.min && c.known_bar_count <= coverage.max) {
-        ingredientEligible += 1
-      }
+    if (
+      eligible &&
+      c.points === expected &&
+      c.known_bar_count >= coverage.min &&
+      c.known_bar_count <= coverage.max
+    ) {
+      ingredientEligible += 1
     }
   }
 

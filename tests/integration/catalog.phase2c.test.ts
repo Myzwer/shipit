@@ -149,6 +149,71 @@ describe('Phase 2C catalog foundation', () => {
     await service.from('catalog_versions').delete().eq('id', version!.id)
   })
 
+  it('rejects a second Cocktail candidate for the same drink concept (DB)', async () => {
+    const { data: barA } = await service
+      .from('bars')
+      .insert({ canonical_key: 'concept-bar-a' })
+      .select('id')
+      .single()
+    const { data: barB } = await service
+      .from('bars')
+      .insert({ canonical_key: 'concept-bar-b' })
+      .select('id')
+      .single()
+    const { data: drink } = await service
+      .from('drink_concepts')
+      .insert({ canonical_key: 'concept-mai-tai' })
+      .select('id')
+      .single()
+    const { data: offA } = await service
+      .from('bar_offerings')
+      .insert({ bar_id: barA!.id, drink_concept_id: drink!.id })
+      .select('id')
+      .single()
+    const { data: offB } = await service
+      .from('bar_offerings')
+      .insert({ bar_id: barB!.id, drink_concept_id: drink!.id })
+      .select('id')
+      .single()
+    const { data: version } = await service
+      .from('catalog_versions')
+      .insert({
+        catalog_id: 'dev-concept-unique-v1',
+        schema_version: '1.0',
+        mode: 'full_snapshot',
+        payload_hash: 'x',
+        manifest_json: {},
+        status: 'draft',
+        source_notes: {},
+      })
+      .select('id')
+      .single()
+
+    const first = await service.from('cocktail_candidates').insert({
+      catalog_version_id: version!.id,
+      offering_id: offA!.id,
+      tier: 'familiar',
+      points: 25,
+      eligible: true,
+    })
+    expect(first.error).toBeNull()
+
+    const second = await service.from('cocktail_candidates').insert({
+      catalog_version_id: version!.id,
+      offering_id: offB!.id,
+      tier: 'interesting',
+      points: 50,
+      eligible: true,
+    })
+    expect(second.error).toBeTruthy()
+
+    await service.from('cocktail_candidates').delete().eq('catalog_version_id', version!.id)
+    await service.from('catalog_versions').delete().eq('id', version!.id)
+    await service.from('bar_offerings').delete().in('id', [offA!.id, offB!.id])
+    await service.from('drink_concepts').delete().eq('id', drink!.id)
+    await service.from('bars').delete().in('id', [barA!.id, barB!.id])
+  })
+
   it('stable offering identities differ per bar for the same drink concept', async () => {
     const { data: barA } = await service
       .from('bars')

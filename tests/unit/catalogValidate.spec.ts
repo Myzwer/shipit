@@ -17,7 +17,7 @@ describe('catalog import validation', () => {
     expect(preview.structurallyValid).toBe(true)
     expect(preview.schemaErrors).toEqual([])
     expect(preview.crossReferenceErrors).toEqual([])
-    expect(preview.counts.bars).toBe(4)
+    expect(preview.counts.bars).toBe(5)
     expect(preview.counts.offerings).toBeGreaterThanOrEqual(5)
     // Mai Tai at two bars → distinct offerings
     expect(preview.counts.offerings).toBe(

@@ -144,9 +144,20 @@ export interface CatalogCounts {
   drinks: number
   offerings: number
   cocktailCandidates: number
+  /** Distinct drink concepts eligible for Cocktail Bounty scheduling. */
   cocktailEligible: number
   ingredientCandidates: number
+  /** Ingredient objectives with corroborated multi-bar named-cocktail evidence. */
   ingredientEligible: number
+}
+
+/** Corroborated menu evidence for an Ingredient candidate (not player-facing). */
+export interface IngredientEvidenceSummary {
+  ingredientKey: string
+  declaredBarCount: number
+  declaredDrinkCount: number
+  corroboratedBarCount: number
+  corroboratedDrinkCount: number
 }
 
 export interface CatalogShortageReport {

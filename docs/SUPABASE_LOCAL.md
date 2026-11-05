@@ -51,6 +51,7 @@ npx supabase db reset
 | `20261105001000_phase2c_zero_delta_request_id.sql` | Zero-adjustment Set Ship Time consumes request id |
 | `20261105001100_phase2c_catalog_schema.sql` | Normalized catalog / candidates / version snapshots |
 | `20261105001200_phase2c_catalog_rls_and_preview.sql` | Catalog RLS + read-only admin preview RPC |
+| `20261105001300_phase2c1_catalog_read_contracts.sql` | Ingredient public-card hint contract + cocktail concept uniqueness |
 
 ## Vue app env
 
