@@ -64,10 +64,24 @@ export async function listDrinkitCompanions(): Promise<DrinkitCompanionRow[]> {
 
 export function buildDrinkPayloadDrink(drink: WizardDrinkSelection) {
   if (drink.mode === 'named_catalog') {
-    return { mode: 'named_catalog', offering_id: drink.offeringId }
+    return {
+      mode: 'named_catalog',
+      offering_id: drink.offeringId,
+      ...(drink.confirmContainsIngredientKey
+        ? { confirm_contains_ingredient_key: drink.confirmContainsIngredientKey }
+        : {}),
+    }
   }
   if (drink.mode === 'unlisted_named') {
-    return { mode: 'unlisted_named', custom_name: drink.customName ?? drink.displayName }
+    return {
+      mode: 'unlisted_named',
+      custom_name: drink.customName ?? drink.displayName,
+      unlisted_drink_kind: drink.unlistedDrinkKind ?? 'named_cocktail',
+      ...(drink.unlistedContainsIngredientKey
+        ? { unlisted_contains_ingredient_key: drink.unlistedContainsIngredientKey }
+        : {}),
+      ...(drink.confirmFeaturedCocktail ? { confirm_featured_cocktail: true } : {}),
+    }
   }
   return { mode: drink.mode }
 }

@@ -9,12 +9,19 @@ defineProps<{
   showUnlisted: boolean
   unlistedName: string
   unlistedType: 'cocktail' | 'beer' | 'wine' | 'other'
+  activeIngredientName: string | null
+  unlistedContainsIngredient: boolean | null
+  showFeaturedConfirm: boolean
+  featuredDrinkName: string | null
+  unlistedConfirmFeatured: boolean
 }>()
 
 const emit = defineEmits<{
   'update:search': [value: string]
   'update:unlistedName': [value: string]
   'update:unlistedType': [value: 'cocktail' | 'beer' | 'wine' | 'other']
+  'update:unlistedContainsIngredient': [value: boolean | null]
+  'update:unlistedConfirmFeatured': [value: boolean]
   selectNamed: [drink: DrinkitBarDrinkRow]
   selectGeneric: [mode: 'generic_beer' | 'generic_wine' | 'generic_other']
   openUnlisted: []
@@ -167,6 +174,94 @@ const emit = defineEmits<{
           </button>
         </div>
       </fieldset>
+
+      <div
+        v-if="unlistedType === 'cocktail' && activeIngredientName"
+        class="mt-4 rounded-2xl px-4 py-3"
+        style="background: var(--theme-card)"
+        data-testid="unlisted-ingredient-confirm"
+      >
+        <p class="text-sm font-semibold" style="color: var(--theme-ink)">
+          {{
+            copy.wizard.unlistedIngredientQuestion.replace('{ingredientName}', activeIngredientName)
+          }}
+        </p>
+        <p class="mt-1 text-xs" style="color: var(--theme-muted)">
+          {{ copy.wizard.confirmIngredientHelper }}
+        </p>
+        <div class="mt-3 flex gap-2">
+          <button
+            type="button"
+            class="flex-1 rounded-full py-2 text-sm font-semibold"
+            :style="
+              unlistedContainsIngredient === true
+                ? { background: 'var(--theme-primary)', color: '#fff' }
+                : { background: 'transparent', color: 'var(--theme-ink)', outline: '1px solid var(--theme-muted)' }
+            "
+            data-testid="unlisted-ingredient-yes"
+            @click="emit('update:unlistedContainsIngredient', true)"
+          >
+            {{ copy.wizard.confirmIngredientYes }}
+          </button>
+          <button
+            type="button"
+            class="flex-1 rounded-full py-2 text-sm font-semibold"
+            :style="
+              unlistedContainsIngredient === false
+                ? { background: 'var(--theme-primary)', color: '#fff' }
+                : { background: 'transparent', color: 'var(--theme-ink)', outline: '1px solid var(--theme-muted)' }
+            "
+            data-testid="unlisted-ingredient-no"
+            @click="emit('update:unlistedContainsIngredient', false)"
+          >
+            {{ copy.wizard.confirmIngredientNo }}
+          </button>
+        </div>
+      </div>
+
+      <div
+        v-if="unlistedType === 'cocktail' && showFeaturedConfirm && featuredDrinkName"
+        class="mt-4 rounded-2xl px-4 py-3"
+        style="background: var(--theme-card)"
+        data-testid="unlisted-featured-confirm"
+      >
+        <p class="text-sm font-semibold" style="color: var(--theme-ink)">
+          {{
+            copy.wizard.unlistedFeaturedQuestion.replace('{drinkName}', featuredDrinkName)
+          }}
+        </p>
+        <p class="mt-1 text-xs" style="color: var(--theme-muted)">
+          {{ copy.wizard.unlistedFeaturedHelper }}
+        </p>
+        <div class="mt-3 flex gap-2">
+          <button
+            type="button"
+            class="flex-1 rounded-full py-2 text-sm font-semibold"
+            :style="
+              unlistedConfirmFeatured
+                ? { background: 'var(--theme-primary)', color: '#fff' }
+                : { background: 'transparent', color: 'var(--theme-ink)', outline: '1px solid var(--theme-muted)' }
+            "
+            data-testid="unlisted-featured-yes"
+            @click="emit('update:unlistedConfirmFeatured', true)"
+          >
+            {{ copy.wizard.confirmIngredientYes }}
+          </button>
+          <button
+            type="button"
+            class="flex-1 rounded-full py-2 text-sm font-semibold"
+            :style="
+              !unlistedConfirmFeatured
+                ? { background: 'var(--theme-primary)', color: '#fff' }
+                : { background: 'transparent', color: 'var(--theme-ink)', outline: '1px solid var(--theme-muted)' }
+            "
+            data-testid="unlisted-featured-no"
+            @click="emit('update:unlistedConfirmFeatured', false)"
+          >
+            {{ copy.wizard.confirmIngredientNo }}
+          </button>
+        </div>
+      </div>
 
       <div class="mt-6 flex gap-2">
         <button

@@ -8,6 +8,13 @@ export function drinkPayload(opts: {
   mode?: 'named_catalog' | 'generic_beer' | 'generic_wine' | 'generic_other' | 'unlisted_named'
   offeringId?: string
   customName?: string
+  unlistedDrinkKind?: 'named_cocktail' | 'beer' | 'wine' | 'other_alcoholic'
+  /** Named-catalog Review Yes → shared correction on Ingredient award. */
+  confirmContainsIngredientKey?: string
+  /** Unlisted honor Ingredient for this submission only. */
+  unlistedContainsIngredientKey?: string
+  /** Unlisted honor featured Cocktail at designated bar. */
+  confirmFeaturedCocktail?: boolean
   companions?: string[]
   /** Honor-system Bar multiplier subset; must be ⊆ companions. */
   barEligibleCompanions?: string[]
@@ -16,12 +23,28 @@ export function drinkPayload(opts: {
   idempotencyKey?: string
   forged?: Record<string, unknown>
 }) {
-  const drink =
-    opts.mode === 'named_catalog' || (!opts.mode && opts.offeringId)
-      ? { mode: 'named_catalog', offering_id: opts.offeringId }
-      : opts.mode === 'unlisted_named'
-        ? { mode: 'unlisted_named', custom_name: opts.customName ?? 'Mystery Cocktail' }
-        : { mode: opts.mode ?? 'generic_beer' }
+  let drink: Record<string, unknown>
+  if (opts.mode === 'named_catalog' || (!opts.mode && opts.offeringId)) {
+    drink = {
+      mode: 'named_catalog',
+      offering_id: opts.offeringId,
+      ...(opts.confirmContainsIngredientKey
+        ? { confirm_contains_ingredient_key: opts.confirmContainsIngredientKey }
+        : {}),
+    }
+  } else if (opts.mode === 'unlisted_named') {
+    drink = {
+      mode: 'unlisted_named',
+      custom_name: opts.customName ?? 'Mystery Cocktail',
+      unlisted_drink_kind: opts.unlistedDrinkKind ?? 'named_cocktail',
+      ...(opts.unlistedContainsIngredientKey
+        ? { unlisted_contains_ingredient_key: opts.unlistedContainsIngredientKey }
+        : {}),
+      ...(opts.confirmFeaturedCocktail ? { confirm_featured_cocktail: true } : {}),
+    }
+  } else {
+    drink = { mode: opts.mode ?? 'generic_beer' }
+  }
 
   return {
     idempotency_key: opts.idempotencyKey ?? randomUUID(),

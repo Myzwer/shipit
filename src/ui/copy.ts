@@ -213,7 +213,7 @@ export const copy = {
     unlistedTypeCocktail: 'Cocktail',
     unlistedNameRequired: "Enter the drink's name to continue.",
     unlistedPhase3cNote:
-      'Special Cocktail or Ingredient eligibility for unlisted drinks arrives in a later phase. This log saves as an ordinary drink.',
+      'Only genuine named menu cocktails can qualify for Cocktail or Ingredient via honor confirmation. Invented off-menu drinks log as ordinary entries.',
     friendsPrompt: 'Who are you with?',
     friendsHelper: "Select anyone from Drink It! who's with you.",
     friendsSoloNote: 'Must be with someone else to log a bounty.',
@@ -244,7 +244,17 @@ export const copy = {
     alreadyClaimed: 'ALREADY CLAIMED',
     tapToDeselect: 'Tap to deselect',
     ingredientMismatchLink: "My drink has the ingredient bounty but it's not available?",
-    ingredientMismatchDeferred: 'Ingredient confirmation arrives in a later phase.',
+    confirmIngredientTitle: 'Confirm Ingredient',
+    confirmIngredientBody: 'Does {drinkName} contain {ingredientName}?',
+    confirmIngredientHelper:
+      'Only select Yes if the ingredient is part of the drink as served on the menu.',
+    confirmIngredientYes: 'Yes',
+    confirmIngredientNo: 'No',
+    unlistedIngredientQuestion: 'Does this named menu drink contain {ingredientName}?',
+    unlistedFeaturedQuestion:
+      'Is this the featured Cocktail Bounty drink ({drinkName}) at this bar?',
+    unlistedFeaturedHelper:
+      'Only confirm Yes if you ordered that exact featured cocktail at its designated bar.',
     unclaimedTitle: 'Unclaimed Bounty',
     unclaimedBody: 'You have an unclaimed bounty available. Submit anyway?',
     keepEditing: 'Keep Editing',

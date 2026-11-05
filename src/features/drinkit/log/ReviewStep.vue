@@ -12,12 +12,14 @@ const props = defineProps<{
   previewStatus: 'idle' | 'loading' | 'ready' | 'error'
   selectedClaims: SelectedClaimChoice[]
   submitting: boolean
+  showIngredientMismatchLink: boolean
 }>()
 
 const emit = defineEmits<{
   toggleClaim: [category: 'cocktail' | 'ingredient' | 'bar']
   submit: []
   retryPreview: []
+  openIngredientConfirm: []
 }>()
 
 const withLabel = computed(() =>
@@ -151,13 +153,12 @@ const categories = [
       </li>
     </ul>
 
-    <p class="mt-4 text-center text-xs" style="color: var(--theme-muted)">
+    <p v-if="showIngredientMismatchLink" class="mt-4 text-center text-xs" style="color: var(--theme-muted)">
       <button
         type="button"
         class="underline"
         data-testid="ingredient-mismatch-link"
-        disabled
-        :title="copy.wizard.ingredientMismatchDeferred"
+        @click="emit('openIngredientConfirm')"
       >
         {{ copy.wizard.ingredientMismatchLink }}
       </button>

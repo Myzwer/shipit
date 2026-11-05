@@ -38,6 +38,24 @@ export interface WizardDrinkSelection {
   offeringId?: string
   displayName: string
   customName?: string
+  /** Unlisted type → drink_kind on server. */
+  unlistedDrinkKind?: 'named_cocktail' | 'beer' | 'wine' | 'other_alcoholic'
+  /** Named-catalog Review Yes: persist correction on successful Ingredient award. */
+  confirmContainsIngredientKey?: string | null
+  /** Unlisted honor: Ingredient for this submission only. */
+  unlistedContainsIngredientKey?: string | null
+  /** Unlisted at designated bar is the featured Cocktail. */
+  confirmFeaturedCocktail?: boolean
+}
+
+export interface IngredientConfirmable {
+  offer_id: string
+  ingredient_id: string
+  ingredient_key: string
+  ingredient_display_name: string
+  offering_id: string
+  drink_display_name: string
+  bar_canonical_key: string
 }
 
 export interface SelectedClaimChoice {
@@ -70,6 +88,8 @@ export interface PreviewCategoryState {
   status: PreviewCategoryStatus | string
   reason?: string | null
   options: PreviewCategoryOption[]
+  /** Named-catalog mismatch hint for Review Yes/No (server-authored). */
+  confirmable?: IngredientConfirmable
 }
 
 export interface PreviewPayload {

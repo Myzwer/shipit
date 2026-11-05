@@ -87,6 +87,21 @@ Publish stub still raises `CATALOG_PUBLISH_NOT_IMPLEMENTED`.
 | Valid but not ready | Cross-refs OK but business/shortage/evidence failures |
 | Ready for scheduling | ≥72 distinct eligible Cocktail concepts and ≥39 corroborated Ingredient objectives; still **not** published |
 
+## Player ingredient corrections (Phase 3C-A)
+
+Shared overlay table `ingredient_corrections` attaches a confirmed ingredient to a **specific** `bar_offerings` row. Eligibility uses catalog ingredients ∪ active corrections ∪ in-request confirm key. Corrections never change rarity, points, known-bar hints, Cocktail rotation, or prior claims.
+
+### Full catalog snapshot replacement
+
+When a Menu Reconstruction / `full_snapshot` publish replaces the active catalog:
+
+1. Review active `ingredient_corrections` against the new snapshot’s `catalog_offering_ingredients` for the same `offering_id`.
+2. If the new snapshot already lists the ingredient, deactivate the overlay (redundant).
+3. If the offering was removed or the association is wrong, deactivate via `admin_deactivate_ingredient_correction` (audited).
+4. Do **not** auto-merge corrections into import JSON; keep overlay as a cruise-time delta until an organizer explicitly rebuilds base evidence.
+
+Unlisted honor confirms do **not** create offerings or corrections — they qualify only the current submission.
+
 ## Remaining Phase 2D dependencies
 
 1. Slot ledger that draws nonrepeating Cocktail concepts / Ingredient keys and writes `ingredient_bounty_public_cards` (`scheduled` → `current` → `retired`)
@@ -103,3 +118,4 @@ Publish stub still raises `CATALOG_PUBLISH_NOT_IMPLEMENTED`.
 | `20261105001100_phase2c_catalog_schema.sql` | Normalized catalog / candidates / version snapshots |
 | `20261105001200_phase2c_catalog_rls_and_preview.sql` | Catalog RLS + read-only admin preview RPC |
 | `20261105001300_phase2c1_catalog_read_contracts.sql` | Public Ingredient hint ledger + RPC; cocktail concept uniqueness |
+| `20261105002700_phase3ca_corrections_and_recovery.sql` | `ingredient_corrections` overlay + evaluate/submit honor paths |

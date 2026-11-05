@@ -81,10 +81,14 @@ export const useSessionStore = defineStore('session', () => {
       status.value = 'anonymous'
       profile.value = null
       profileNetworkError.value = false
+      const { clearPendingDrinkSubmit } = await import('@/lib/pendingDrinkSubmit')
+      clearPendingDrinkSubmit()
       return
     }
     status.value = 'authenticated'
     await loadProfile({ clearOnNull: true })
+    const { clearPendingDrinkSubmitIfOtherPlayer } = await import('@/lib/pendingDrinkSubmit')
+    clearPendingDrinkSubmitIfOtherPlayer(profile.value?.player_id ?? null)
   }
 
   async function init() {
@@ -140,6 +144,8 @@ export const useSessionStore = defineStore('session', () => {
   }
 
   async function signOut() {
+    const { clearPendingDrinkSubmit } = await import('@/lib/pendingDrinkSubmit')
+    clearPendingDrinkSubmit()
     if (supabase) {
       await supabase.auth.signOut()
     }

@@ -31,6 +31,7 @@ type ModalKind =
   | 'paused'
   | 'ended'
   | 'lockedEdit'
+  | 'ingredientConfirm'
 
 const modal = ref<ModalKind>(null)
 const bootstrapped = ref(false)
@@ -44,10 +45,18 @@ const completed = computed(() => {
     set.add('photo')
   }
   if (wizard.step === 'review' && wizard.previewStatus === 'ready') set.add('review')
-  // Allow tapping completed earlier steps
   const idx = wizard.STEPS.indexOf(wizard.step)
   for (let i = 0; i < idx; i++) set.add(wizard.STEPS[i]!)
   return set
+})
+
+const ingredientConfirmBody = computed(() => {
+  const conf = wizard.ingredientConfirmable
+  if (!conf) return ''
+  return formatCopy(copy.wizard.confirmIngredientBody, {
+    drinkName: conf.drink_display_name || wizard.selectedDrink?.displayName || 'this drink',
+    ingredientName: conf.ingredient_display_name,
+  })
 })
 
 function parsePrefill(): WizardPrefill {
@@ -63,6 +72,9 @@ function parsePrefill(): WizardPrefill {
 onMounted(async () => {
   await wizard.startFresh(parsePrefill())
   bootstrapped.value = true
+  if (wizard.formLockedForUnknown) {
+    modal.value = 'unknown'
+  }
 })
 
 onBeforeUnmount(() => {
@@ -74,7 +86,6 @@ watch(
   async (path, prev) => {
     if (!bootstrapped.value || path === prev) return
     if (route.name !== 'drinkit-log') return
-    // Re-entry with new query (Claim It / Plus start over handled via modal)
   },
 )
 
@@ -177,7 +188,6 @@ function onProgressSelect(step: WizardStep) {
 }
 
 function onNavAction() {
-  // Plus while wizard open → Start Over confirmation
   if (wizard.formLockedForUnknown) {
     modal.value = 'unknown'
     return
@@ -189,6 +199,22 @@ async function confirmStartOver() {
   modal.value = null
   await wizard.startFresh({ source: 'plus' })
   await router.replace({ name: 'drinkit-log' })
+  if (wizard.formLockedForUnknown) modal.value = 'unknown'
+}
+
+function openIngredientConfirm() {
+  if (!wizard.ingredientConfirmable) return
+  modal.value = 'ingredientConfirm'
+}
+
+async function onIngredientConfirmYes() {
+  modal.value = null
+  await wizard.confirmIngredientYes()
+}
+
+function onIngredientConfirmNo() {
+  modal.value = null
+  wizard.confirmIngredientNo()
 }
 </script>
 
@@ -248,9 +274,16 @@ async function confirmStartOver() {
         :show-unlisted="wizard.showUnlistedForm"
         :unlisted-name="wizard.unlistedName"
         :unlisted-type="wizard.unlistedType"
+        :active-ingredient-name="wizard.activeIngredientHint?.displayName ?? null"
+        :unlisted-contains-ingredient="wizard.unlistedContainsIngredient"
+        :show-featured-confirm="wizard.showFeaturedConfirm"
+        :featured-drink-name="wizard.featuredCocktailHint?.drinkName ?? null"
+        :unlisted-confirm-featured="wizard.unlistedConfirmFeatured"
         @update:search="wizard.drinkSearch = $event"
         @update:unlisted-name="wizard.unlistedName = $event"
         @update:unlisted-type="wizard.unlistedType = $event"
+        @update:unlisted-contains-ingredient="wizard.unlistedContainsIngredient = $event"
+        @update:unlisted-confirm-featured="wizard.unlistedConfirmFeatured = $event"
         @select-named="wizard.selectNamedDrink($event)"
         @select-generic="wizard.selectGeneric($event)"
         @open-unlisted="wizard.openUnlistedForm()"
@@ -282,9 +315,11 @@ async function confirmStartOver() {
         :preview-status="wizard.previewStatus"
         :selected-claims="wizard.selectedClaims"
         :submitting="wizard.submitStatus === 'submitting'"
+        :show-ingredient-mismatch-link="!!wizard.ingredientConfirmable"
         @toggle-claim="wizard.toggleClaim($event)"
         @submit="onSubmitClick"
         @retry-preview="wizard.refreshPreview()"
+        @open-ingredient-confirm="openIngredientConfirm"
       />
     </main>
 
@@ -379,6 +414,16 @@ async function confirmStartOver() {
       test-id="modal-locked-edit"
       @primary="onRetry"
       @secondary="cancelModal"
+    />
+    <WizardModal
+      v-else-if="modal === 'ingredientConfirm'"
+      :title="copy.wizard.confirmIngredientTitle"
+      :body="`${ingredientConfirmBody} ${copy.wizard.confirmIngredientHelper}`"
+      :primary-label="copy.wizard.confirmIngredientYes"
+      :secondary-label="copy.wizard.confirmIngredientNo"
+      test-id="modal-ingredient-confirm"
+      @primary="onIngredientConfirmYes"
+      @secondary="onIngredientConfirmNo"
     />
   </div>
 </template>

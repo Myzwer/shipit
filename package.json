@@ -23,6 +23,7 @@
     "test:e2e:phase2db2": "node scripts/e2e-phase2db2-daily-pause.mjs",
     "test:e2e:phase2db2_1": "node scripts/e2e-phase2db2-1-pause-reliability.mjs",
     "test:e2e:phase3b": "node scripts/e2e-phase3b-log-wizard.mjs",
+    "test:e2e:phase3ca": "node scripts/e2e-phase3ca-ingredient-confirm.mjs",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",

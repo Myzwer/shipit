@@ -1,6 +1,6 @@
-# Drink It! scoring engine (Phase 3A / 3A.1)
+# Drink It! scoring engine (Phase 3A / 3A.1 / 3C-A)
 
-Server-authoritative ordinary drink logging and Cocktail / Ingredient / Bar claims. No wizard UI yet.
+Server-authoritative ordinary drink logging and Cocktail / Ingredient / Bar claims. Wizard UI: `docs/DRINKIT_LOGGING.md`.
 
 ## RPCs
 
@@ -22,7 +22,10 @@ Player RPCs capture `clock_timestamp()` at entry as `received_at_utc`. Clients n
     "mode": "named_catalog | generic_beer | generic_wine | generic_other | unlisted_named",
     "offering_id": "<uuid>",
     "custom_name": "…",
-    "unlisted_contains_ingredient_key": null
+    "confirm_contains_ingredient_key": null,
+    "unlisted_contains_ingredient_key": null,
+    "confirm_featured_cocktail": false,
+    "unlisted_drink_kind": "named_cocktail"
   },
   "companion_player_ids": ["<uuid>", "…"],
   "bar_eligible_companion_ids": ["<uuid>", "…"],
@@ -35,6 +38,16 @@ Player RPCs capture `clock_timestamp()` at entry as `received_at_utc`. Clients n
   "photo_storage_key": null
 }
 ```
+
+### Confirm fields (Phase 3C-A)
+
+| Field | Mode | Effect |
+|---|---|---|
+| `confirm_contains_ingredient_key` | `named_catalog` | In-request match for current Ingredient; on successful Ingredient award, upserts `ingredient_corrections` for that offering |
+| `unlisted_contains_ingredient_key` | `unlisted_named` + `named_cocktail` | Honor match for this submission only (no shared correction) |
+| `confirm_featured_cocktail` | `unlisted_named` | Cocktail eligible only when name + designated bar match the live offer |
+
+Preview is read-only: confirms influence eligibility but do not write corrections. Same UUID retry never inserts a second correction (`on conflict` unique).
 
 ### Companions vs Bar-eligible companions (Phase 3A.1)
 
@@ -54,8 +67,6 @@ Rules:
 
 Phase 3B Friends uses **one** companion selector and auto-fills `bar_eligible_companion_ids` from the same selection (honor-system reminder when Bar Bounty could apply). See [`docs/DRINKIT_LOGGING.md`](./DRINKIT_LOGGING.md).
 
-`unlisted_named` + `unlisted_contains_ingredient_key` are reserved for Phase 3C confirmation. Phase 3A does not persist ingredient corrections or auto-qualify unlisted drinks for Ingredient.
-
 Forbidden client fields: `points`, `score`, `author_player_id`, `player_id`, `received_at_utc`, `ship_day`.
 
 ## Eligibility (shared evaluator)
@@ -65,7 +76,7 @@ Uses Ship Clock, active catalog, bounty ledger (`bounty_resolve_at` with grace),
 | Category | Requires | Points |
 |---|---|---|
 | Cocktail | Exact catalog offering = current/grace offer; ≥1 **presence** companion; not already claimed | Imported offer points |
-| Ingredient | Offering contains current/grace ingredient; ≥1 **presence** companion; named catalog only | Imported offer points |
+| Ingredient | Offering contains current/grace ingredient (catalog ∪ active correction ∪ in-request confirm); ≥1 **presence** companion; named catalog **or** unlisted honor key | Imported offer points |
 | Bar | Featured bar that day; alcoholic; ≥1 **bar-eligible** companion; noon–daily close | `min(95, 25 + 10×N)` with N = bar-eligible count |
 | Daily | **Not** via `submit_drink` | — |
 
@@ -94,11 +105,11 @@ An eligible option is **not** awarded until listed in `selected_claims`.
 
 ## Schema
 
-`submissions`, `drink_logs`, `drink_log_companions` (+ `bar_multiplier_eligible`), `bounty_claims`, minimal `gallery_events`.
+`submissions`, `drink_logs`, `drink_log_companions` (+ `bar_multiplier_eligible`), `bounty_claims`, minimal `gallery_events`, `ingredient_corrections` (overlay).
 
 No mutable total-score column. Leaderboards sum active claims later.
 
-Players: SELECT own rows only. No direct INSERT/UPDATE on claims.
+Players: SELECT own correction rows (or admin); no direct INSERT/UPDATE. Writes only via `submit_drink` / `admin_deactivate_ingredient_correction`.
 
 ## Error codes (structured `ok: false`)
 
@@ -116,8 +127,7 @@ Players: SELECT own rows only. No direct INSERT/UPDATE on claims.
 
 | Later phase | Hook |
 |---|---|
-| 3B wizard | Call `preview_drink_claims` then `submit_drink` with one UUID per intent; Friends supplies `companion_player_ids` + `bar_eligible_companion_ids` |
-| 3C corrections | On successful submit only, persist `ingredient_corrections` from confirmed unlisted/missing flow |
+| 3C-B Admin Skip | Emergency skip current Cocktail / Ingredient from unused reserve |
 | Daily photo | Separate `submit_daily` RPC |
 | Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (currently `[]`) |
 | Gallery UI / reactions | `gallery_events` row already created; reactions table deferred |

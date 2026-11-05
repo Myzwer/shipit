@@ -21,11 +21,19 @@ import {
   selectedClaimsForSubmit,
 } from '@/lib/drinkLog/claims'
 import { sortDrinkitBars } from '@/lib/drinkLog/sortBars'
+import {
+  clearPendingDrinkSubmit,
+  clearPendingDrinkSubmitIfOtherPlayer,
+  readPendingDrinkSubmit,
+  writePendingDrinkSubmit,
+} from '@/lib/pendingDrinkSubmit'
+import { useSessionStore } from '@/stores/session'
 import type {
   BarSortMode,
   DrinkitBarDrinkRow,
   DrinkitBarRow,
   DrinkitCompanionRow,
+  IngredientConfirmable,
   PreviewPayload,
   SelectedClaimChoice,
   SubmitDrinkResult,
@@ -59,6 +67,13 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const showUnlistedForm = ref(false)
   const unlistedName = ref('')
   const unlistedType = ref<'cocktail' | 'beer' | 'wine' | 'other'>('cocktail')
+  const unlistedContainsIngredient = ref<boolean | null>(null)
+  const unlistedConfirmFeatured = ref(false)
+  const activeIngredientHint = ref<{ key: string; displayName: string } | null>(null)
+  const featuredCocktailHint = ref<{
+    drinkName: string
+    barKey: string
+  } | null>(null)
 
   const companions = ref<DrinkitCompanionRow[]>([])
   const companionsStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -77,6 +92,33 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const submitResult = ref<SubmitDrinkResult | null>(null)
   const submitErrorMessage = ref<string | null>(null)
   const formLockedForUnknown = ref(false)
+  /** Exact payload held for unknown retry (also mirrored in localStorage). */
+  const pendingPayload = ref<Record<string, unknown> | null>(null)
+
+  const ingredientConfirmable = computed((): IngredientConfirmable | null => {
+    const c = preview.value?.categories?.ingredient as
+      | { status?: string; confirmable?: IngredientConfirmable }
+      | undefined
+    if (!c || c.status !== 'unavailable' || !c.confirmable) return null
+    if (!selectedDrink.value || selectedDrink.value.mode !== 'named_catalog') return null
+    if (selectedDrink.value.confirmContainsIngredientKey) return null
+    return c.confirmable
+  })
+
+  /** Featured Cocktail missing from picker at its designated bar → honor confirm on unlisted. */
+  const showFeaturedConfirm = computed(() => {
+    const hint = featuredCocktailHint.value
+    if (!hint || !selectedBar.value) return false
+    if (selectedBar.value.canonical_key !== hint.barKey) return false
+    const target = hint.drinkName.trim().toLowerCase()
+    return !drinks.value.some((d) => d.display_name.trim().toLowerCase() === target)
+  })
+
+  const recoverySummary = computed(() => {
+    const pending = readPendingDrinkSubmit()
+    if (!pending || !formLockedForUnknown.value) return null
+    return pending.summary
+  })
 
   const completedSteps = computed(() => {
     const done = new Set<WizardStep>()
@@ -120,6 +162,10 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     showUnlistedForm.value = false
     unlistedName.value = ''
     unlistedType.value = 'cocktail'
+    unlistedContainsIngredient.value = null
+    unlistedConfirmFeatured.value = false
+    activeIngredientHint.value = null
+    featuredCocktailHint.value = null
     selectedCompanionIds.value = []
     showBarReminder.value = false
     caption.value = ''
@@ -132,6 +178,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     submitResult.value = null
     submitErrorMessage.value = null
     formLockedForUnknown.value = false
+    pendingPayload.value = null
   }
 
   function invalidateFrom(changed: WizardStep) {
@@ -142,9 +189,11 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       drinks.value = []
       drinkSearch.value = ''
       showUnlistedForm.value = false
+      unlistedContainsIngredient.value = null
+      unlistedConfirmFeatured.value = false
     }
     if (idx <= stepIndex('drink')) {
-      // companions kept unless bar/drink change requires re-preview only
+      // companions kept
     }
     if (idx <= stepIndex('friends')) {
       // caption kept
@@ -158,15 +207,96 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       submitStatus.value = 'idle'
       submitResult.value = null
       submitErrorMessage.value = null
+      pendingPayload.value = null
     }
   }
 
+  async function loadBountyHints() {
+    activeIngredientHint.value = null
+    featuredCocktailHint.value = null
+    try {
+      const { supabase } = await import('@/lib/supabase')
+      if (!supabase) return
+      // Untyped RPCs — not fully covered by generated Database types.
+      const [ing, cock] = await Promise.all([
+        supabase.rpc('get_my_current_ingredient_bounty' as 'get_ship_clock_state'),
+        supabase.rpc('get_my_current_cocktail_bounty' as 'get_ship_clock_state'),
+      ])
+      const ingRow = ing.data as {
+        status?: string
+        ingredient_key?: string
+        display_name?: string
+      } | null
+      if (ingRow?.status === 'active' && ingRow.ingredient_key && ingRow.display_name) {
+        activeIngredientHint.value = {
+          key: ingRow.ingredient_key,
+          displayName: ingRow.display_name,
+        }
+      }
+      const cockRow = cock.data as {
+        status?: string
+        drink_name?: string
+        designated_bar_key?: string
+      } | null
+      if (cockRow?.status === 'active' && cockRow.drink_name && cockRow.designated_bar_key) {
+        featuredCocktailHint.value = {
+          drinkName: cockRow.drink_name,
+          barKey: cockRow.designated_bar_key,
+        }
+      }
+    } catch {
+      /* hints are optional */
+    }
+  }
+
+  /**
+   * Restore unresolved submit after reload. Returns true when recovery UI should show.
+   */
+  function restorePendingSubmit(): boolean {
+    const session = useSessionStore()
+    const playerId = session.profile?.player_id ?? null
+    clearPendingDrinkSubmitIfOtherPlayer(playerId)
+    if (!playerId) return false
+    const pending = readPendingDrinkSubmit()
+    if (!pending || pending.playerId !== playerId) return false
+    active.value = true
+    step.value = 'review'
+    idempotencyKey.value = pending.clientRequestId
+    pendingPayload.value = pending.payload
+    formLockedForUnknown.value = true
+    submitStatus.value = 'unknown'
+    submitErrorMessage.value = 'Submission not confirmed'
+    // Minimal display context from summary
+    if (!selectedBar.value) {
+      selectedBar.value = {
+        bar_id: '',
+        canonical_key: String(pending.payload.bar_canonical_key ?? ''),
+        name: pending.summary.barName,
+        deck: 0,
+      }
+    }
+    if (!selectedDrink.value) {
+      selectedDrink.value = {
+        mode: 'generic_beer',
+        displayName: pending.summary.drinkName,
+      }
+    }
+    return true
+  }
+
   async function startFresh(prefill?: WizardPrefill) {
+    const session = useSessionStore()
+    clearPendingDrinkSubmitIfOtherPlayer(session.profile?.player_id ?? null)
+    if (restorePendingSubmit()) {
+      await loadCompanions()
+      return
+    }
     resetAll()
     active.value = true
     entrySource.value = prefill?.source ?? 'plus'
     await loadBars()
     await loadCompanions()
+    await loadBountyHints()
 
     if (prefill?.barCanonicalKey) {
       const match =
@@ -293,35 +423,44 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     if (formLockedForUnknown.value) return
     const name = unlistedName.value.trim()
     if (!name) return
-    const modeMap = {
-      cocktail: 'unlisted_named' as const,
-      beer: 'generic_beer' as const,
-      wine: 'generic_wine' as const,
-      other: 'generic_other' as const,
+    const kindMap = {
+      cocktail: 'named_cocktail' as const,
+      beer: 'beer' as const,
+      wine: 'wine' as const,
+      other: 'other_alcoholic' as const,
     }
-    // Type cocktail → unlisted_named; beer/wine/other map to generics when name not needed for scoring,
-    // but UX asks for name always — use unlisted_named for cocktail, and for others still log as generic
-    // with display name retained in caption? Spec: name + type. For beer/wine/other with custom name,
-    // use unlisted_named so the name is preserved in the log.
-    if (unlistedType.value === 'cocktail') {
-      selectedDrink.value = {
-        mode: 'unlisted_named',
-        displayName: name,
-        customName: name,
-      }
-    } else {
-      // Preserve name via unlisted_named for ordinary log (no Cocktail/Ingredient auto-qualify).
-      selectedDrink.value = {
-        mode: 'unlisted_named',
-        displayName: name,
-        customName: name,
-      }
-      void modeMap
+    selectedDrink.value = {
+      mode: 'unlisted_named',
+      displayName: name,
+      customName: name,
+      unlistedDrinkKind: kindMap[unlistedType.value],
+      unlistedContainsIngredientKey:
+        unlistedType.value === 'cocktail' && unlistedContainsIngredient.value === true
+          ? activeIngredientHint.value?.key ?? null
+          : null,
+      confirmFeaturedCocktail:
+        unlistedType.value === 'cocktail' && unlistedConfirmFeatured.value === true,
     }
     showUnlistedForm.value = false
     invalidateFrom('drink')
     step.value = 'friends'
     await refreshBarReminder()
+  }
+
+  async function confirmIngredientYes() {
+    if (formLockedForUnknown.value) return
+    const conf = ingredientConfirmable.value
+    if (!conf || !selectedDrink.value || selectedDrink.value.mode !== 'named_catalog') return
+    selectedDrink.value = {
+      ...selectedDrink.value,
+      confirmContainsIngredientKey: conf.ingredient_key,
+    }
+    manuallyDeselected.value.delete('ingredient')
+    await refreshPreview()
+  }
+
+  function confirmIngredientNo() {
+    // No-op besides closing modal — leave Ingredient unavailable.
   }
 
   function toggleCompanion(playerId: string) {
@@ -460,16 +599,44 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
 
   async function performSubmit(): Promise<SubmitCallOutcome> {
     if (formLockedForUnknown.value && submitStatus.value === 'unknown') {
-      // Retry path
+      // Retry path — prefer exact pending payload
     } else if (submitStatus.value === 'submitting') {
       return { kind: 'rejected', result: { ok: false, code: 'BUSY' } }
     }
 
-    ensureIdempotencyKey()
-    const payload = currentPayload()
+    const session = useSessionStore()
+    const playerId = session.profile?.player_id
+    if (!playerId) {
+      return { kind: 'rejected', result: { ok: false, code: 'NOT_AUTHENTICATED' } }
+    }
+
+    let payload: Record<string, unknown> | null
+    if (formLockedForUnknown.value && pendingPayload.value) {
+      payload = pendingPayload.value
+      idempotencyKey.value = String(payload.idempotency_key ?? idempotencyKey.value)
+    } else {
+      ensureIdempotencyKey()
+      payload = currentPayload()
+    }
     if (!payload) {
       return { kind: 'rejected', result: { ok: false, code: 'INCOMPLETE' } }
     }
+
+    // Persist before transmit so a lost response can recover after reload.
+    writePendingDrinkSubmit({
+      clientRequestId: String(payload.idempotency_key),
+      playerId,
+      cruiseConfigId:
+        typeof preview.value?.cruise_config_id === 'string'
+          ? preview.value.cruise_config_id
+          : null,
+      payload,
+      summary: {
+        barName: selectedBar.value?.name ?? String(payload.bar_canonical_key ?? ''),
+        drinkName: selectedDrink.value?.displayName ?? 'Drink',
+      },
+    })
+    pendingPayload.value = payload
 
     submitStatus.value = 'submitting'
     submitErrorMessage.value = null
@@ -479,6 +646,8 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       submitStatus.value = 'success'
       submitResult.value = outcome.result
       formLockedForUnknown.value = false
+      pendingPayload.value = null
+      clearPendingDrinkSubmit()
       return outcome
     }
     if (outcome.kind === 'unknown') {
@@ -487,6 +656,12 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       submitErrorMessage.value = 'Submission not confirmed'
       return outcome
     }
+
+    // Confirmed rejection — request did not save; allow editing with a new intent later.
+    clearPendingDrinkSubmit()
+    pendingPayload.value = null
+    formLockedForUnknown.value = false
+    idempotencyKey.value = null
 
     const code = outcome.result.code ?? ''
     if (code === 'ELIGIBILITY_CHANGED') submitStatus.value = 'eligibility_changed'
@@ -498,7 +673,6 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     submitErrorMessage.value = outcome.result.message ?? code
     if (outcome.result.preview) {
       preview.value = outcome.result.preview as PreviewPayload
-      // Do not silently strip selections — leave Review for the player to adjust.
     }
     return outcome
   }
@@ -507,12 +681,14 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     return performSubmit()
   }
 
-  /** After unknown outcome, only allow leaving once the player chooses to abandon the pending key. */
+  /** After unknown outcome is abandoned (rare) — only after confirmed rejection path. */
   function abandonUnknownAndEdit() {
     formLockedForUnknown.value = false
     submitStatus.value = 'idle'
     idempotencyKey.value = null
     submitResult.value = null
+    pendingPayload.value = null
+    clearPendingDrinkSubmit()
   }
 
   const companionNames = computed(() => {
@@ -538,6 +714,13 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     showUnlistedForm,
     unlistedName,
     unlistedType,
+    unlistedContainsIngredient,
+    unlistedConfirmFeatured,
+    activeIngredientHint,
+    featuredCocktailHint,
+    showFeaturedConfirm,
+    recoverySummary,
+    ingredientConfirmable,
     companions,
     companionsStatus,
     selectedCompanionIds,
@@ -563,6 +746,10 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     selectGeneric,
     openUnlistedForm,
     confirmUnlisted,
+    confirmIngredientYes,
+    confirmIngredientNo,
+    restorePendingSubmit,
+    loadBountyHints,
     toggleCompanion,
     goToStep,
     goBack,

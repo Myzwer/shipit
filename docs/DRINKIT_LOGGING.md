@@ -1,4 +1,4 @@
-# Drink It! logging wizard (Phase 3B)
+# Drink It! logging wizard (Phase 3B / 3C-A)
 
 Five-step functional wizard: **Bar → Drink → Friends → Photo → Review**.
 
@@ -24,31 +24,46 @@ When the selected bar is today's featured Bar Bounty and that category is still 
 
 Photo upload is **not** implemented (Phase 5). The Photo step shows an unavailable notice; captions work; Review shows the branded placeholder. Never sends a fake `photo_storage_key`.
 
-## Unlisted drinks
+## Ingredient mismatch (Phase 3C-A)
 
-Basic name + type fallback for ordinary logs. Ingredient confirmation / featured Cocktail special eligibility deferred to **Phase 3C**.
+Review link **“My drink has the ingredient bounty but it's not available?”** appears when preview marks Ingredient unavailable with a server `confirmable` hint (named catalog drink at this bar; current Ingredient objective).
 
-## Submit / Retry
+Yes → payload includes `confirm_contains_ingredient_key`. Preview becomes eligible when otherwise allowed; default selection applies. Shared `ingredient_corrections` row is written **only** inside a successful Ingredient award transaction.
+
+## Unlisted drinks (Phase 3C-A)
+
+Name + broad type. For `named_cocktail`:
+
+- Optional honor Yes/No for the active Ingredient key → `unlisted_contains_ingredient_key` (this submission only; no shared overlay).
+- If the featured Cocktail is missing from the picker at its **designated** bar, optional Yes → `confirm_featured_cocktail` (must match name + bar on the server).
+
+Generics never gain Ingredient via confirm fields. Unlisted drinks never enter the Cocktail rotation pool.
+
+## Submit / Retry / pending recovery
 
 - One `idempotency_key` per submission intent
-- Retry after unknown/network reuses the **same** UUID and payload
+- Before transmit, persist `{ clientRequestId, playerId, cruiseConfigId?, payload, summary }` in `localStorage` (`pendingDrinkSubmit`)
+- Retry after unknown/network reuses the **exact** UUID and payload
+- Reload / browser restart restores the pending intent (player-scoped); account switch / logout clears foreign drafts
 - Editing after an unknown outcome is blocked until Retry resolves
-- Success → Gallery stub with the saved submission
+- Confirmed rejection clears pending and allows a new intent
+- Success clears pending → Gallery stub
 
-## Local verify (no-photo scoring)
+## Local verify
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run db:seed-bounty-now
 npm run dev   # separate terminal
 LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase3b
+LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase3ca
 ```
 
 ## Remaining later
 
 | Phase | Work |
 |---|---|
-| 3C | Ingredient mismatch confirmation + catalog correction; featured unlisted Cocktail path |
+| 3C-B | Admin Skip Current Cocktail / Ingredient |
 | 4 | Daily Challenge Claim It |
 | 5 | Private photo upload / storage |
 | Gallery | Full feed, filters, reactions |
