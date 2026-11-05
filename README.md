@@ -19,9 +19,9 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phases 0 → 2D-B2.** Auth/membership, Ship Clock + Admin clock UI, catalog contracts, Cocktail/Ingredient schedule, full four-card Drink It! Home board (Cocktail, Ingredient, Bar, Daily), and Admin Pause/Resume. Scoring/Claim It wizard is Phase 3.
+**Phases 0 → 3A.** Through Pause/Resume reliability, plus the server-side Drink It! `preview_drink_claims` / `submit_drink` scoring engine. The logging wizard (Phase 3B) is not built yet.
 
-Authoritative product specs and mockups live in [`handoff/`](./handoff/). Home bounty data flow: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
+Authoritative product specs and mockups live in [`handoff/`](./handoff/). Scoring contracts: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md). Home board: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md).
 
 ## Quick start (organizer)
 

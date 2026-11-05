@@ -2,27 +2,25 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Phase:** 2D-B2.1 (Pause/Resume reliability) — verify then closeout
+**Phase:** 3A (atomic Drink It! scoring) — verify then closeout
 
 ## Baseline
 
 | Phase | Commit |
 |---|---|
-| 2D-B1 | `9ac4933` |
-| 2D-B2 | `c6ebc80` / tip was `0f9fc46` |
-| 2D-B2.1 | `9caa2f5` |
+| 2D-B2.1 | `9caa2f5` / tip was `e279f57` |
+| 3A | _(this push)_ |
 
-## 2D-B2.1 scope
+## 3A delivered
 
-- Durable request-id + fingerprint ledger for Pause/Resume
-- Failed reconciliation never clears unresolved ops
-- Persist pending request across reload/navigation
-- Finale latch on mutation/status even without a prior read
-- Claim It still disabled; no Phase 3 gameplay
+- `submissions` / `drink_logs` / companions / `bounty_claims` / minimal `gallery_events`
+- `preview_drink_claims` + `submit_drink` (+ `dev_*_at` timed helpers)
+- Shared eligibility evaluator (Cocktail / Ingredient / Bar; Daily blocked)
+- Idempotency, pause/finale, receipt-time, claim uniqueness
 
-## Security
+## Deliberately deferred
 
-No authenticated player RPC honors caller-controlled `p_at_utc`.
+Wizard UI, Claim It enablement, Daily photo submit, ingredient correction persistence, Admin Skip, Gallery UI, Achievements, Ship It! scavenger.
 
 ## Verify
 
@@ -30,13 +28,9 @@ No authenticated player RPC honors caller-controlled `p_at_utc`.
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run lint && npm run typecheck && npm test
 npm run test:integration
-npm run test:bounty
-npm run db:seed-bounty-now
-npm run test:e2e:phase2db2
-npm run test:e2e:phase2db2_1
 npm run build
 ```
 
 ## Next (when authorized)
 
-**Phase 3** — Drink It! logging wizard, claims, scoring.
+**Phase 3B** — logging wizard / Review using these RPCs.
