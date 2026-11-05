@@ -48,6 +48,9 @@ npx supabase db reset
 | `20261105000700_phase2b_stable_clock_reads.sql` | Ordinary reads no longer rebuild/delete scheduled events |
 | `20261105000800_phase2b1_atomic_plan_and_request_id.sql` | Atomic plan save + client_request_id correction reconcile |
 | `20261105000900_phase2b1_request_fingerprint.sql` | Bind request id to operation fingerprint (mismatch rejected) |
+| `20261105001000_phase2c_zero_delta_request_id.sql` | Zero-adjustment Set Ship Time consumes request id |
+| `20261105001100_phase2c_catalog_schema.sql` | Normalized catalog / candidates / version snapshots |
+| `20261105001200_phase2c_catalog_rls_and_preview.sql` | Catalog RLS + read-only admin preview RPC |
 
 ## Vue app env
 

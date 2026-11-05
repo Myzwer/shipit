@@ -14,6 +14,7 @@
     "test:rls": "vitest run --fileParallelism=false tests/integration/rls.phase1a.test.ts tests/integration/rls.phase1b.test.ts",
     "test:auth": "vitest run --fileParallelism=false tests/integration/auth.phase1b.test.ts",
     "test:clock": "vitest run --fileParallelism=false tests/integration/clock.phase2a.test.ts tests/integration/clock.phase2a1.security.test.ts tests/integration/clock.phase2b.stability.test.ts tests/integration/clock.phase2b1.atomic.test.ts",
+    "test:catalog": "vitest run --fileParallelism=false tests/unit/catalogValidate.spec.ts tests/integration/catalog.phase2c.test.ts",
     "test:integration": "vitest run --fileParallelism=false tests/integration",
     "test:e2e:phase1b": "node scripts/e2e-phase1b-login.mjs",
     "test:e2e:phase2b": "node scripts/e2e-phase2b-admin-clock.mjs",
@@ -33,6 +34,8 @@
     "@fortawesome/pro-solid-svg-icons": "^7.3.1",
     "@fortawesome/vue-fontawesome": "^3.3.3",
     "@supabase/supabase-js": "^2.109.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "pinia": "^4.1.0",
     "vue": "^3.5.44",
     "vue-router": "^5.4.0"

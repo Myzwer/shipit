@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://star-princess.local/schemas/catalog-import.schema.json",
+  "title": "Star Princess Catalog Import (full_snapshot)",
+  "description": "Versioned full-snapshot catalog contract for Cocktail and Ingredient Bounty pools. Illustrative snippets are not production data. Cross-reference and business rules are enforced by the application validator in addition to this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_id",
+    "mode",
+    "source_notes",
+    "bars",
+    "ingredients",
+    "drinks",
+    "cocktail_candidates",
+    "ingredient_candidates"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "catalog_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "base_catalog_id": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "mode": {
+      "type": "string",
+      "const": "full_snapshot"
+    },
+    "source_notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verified_bar_keys", "carried_forward_bar_keys", "uncertainty_flags"],
+      "properties": {
+        "verified_bar_keys": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/canonicalKey" },
+          "uniqueItems": true
+        },
+        "carried_forward_bar_keys": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/canonicalKey" },
+          "uniqueItems": true
+        },
+        "uncertainty_flags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "message"],
+            "properties": {
+              "code": { "type": "string", "minLength": 1, "maxLength": 64 },
+              "message": { "type": "string", "minLength": 1, "maxLength": 500 },
+              "bar_key": { "$ref": "#/$defs/canonicalKey" },
+              "drink_key": { "$ref": "#/$defs/canonicalKey" }
+            }
+          }
+        },
+        "evidence_summary": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
+    },
+    "bars": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/bar" }
+    },
+    "ingredients": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ingredient" }
+    },
+    "drinks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/drink" }
+    },
+    "cocktail_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cocktailCandidate" }
+    },
+    "ingredient_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ingredientCandidate" }
+    }
+  },
+  "$defs": {
+    "canonicalKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "bar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "active"],
+      "properties": {
+        "key": { "$ref": "#/$defs/canonicalKey" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "deck": { "type": ["string", "null"], "maxLength": 64 },
+        "active": { "type": "boolean" }
+      }
+    },
+    "ingredient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name"],
+      "properties": {
+        "key": { "$ref": "#/$defs/canonicalKey" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "uniqueItems": true
+        },
+        "family": { "type": ["string", "null"], "maxLength": 64 }
+      }
+    },
+    "drinkKind": {
+      "type": "string",
+      "enum": [
+        "named_cocktail",
+        "beer",
+        "wine",
+        "other_alcoholic",
+        "nonalcoholic"
+      ]
+    },
+    "priceStatus": {
+      "type": "string",
+      "enum": ["verified_within_limit", "verified_over_limit", "unverified", "not_applicable"]
+    },
+    "barOffering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bar_key",
+        "ingredient_keys",
+        "display_ingredients",
+        "price_status"
+      ],
+      "properties": {
+        "bar_key": { "$ref": "#/$defs/canonicalKey" },
+        "ingredient_keys": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/canonicalKey" },
+          "uniqueItems": true
+        },
+        "display_ingredients": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+        },
+        "price_usd": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 500
+        },
+        "price_status": { "$ref": "#/$defs/priceStatus" },
+        "evidence_reference": {
+          "type": ["string", "null"],
+          "maxLength": 256
+        },
+        "seasonal": { "type": "boolean" },
+        "availability": {
+          "type": "string",
+          "enum": ["standard", "seasonal", "limited"]
+        }
+      }
+    },
+    "drink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "kind", "bar_offerings"],
+      "properties": {
+        "key": { "$ref": "#/$defs/canonicalKey" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "kind": { "$ref": "#/$defs/drinkKind" },
+        "bar_offerings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/barOffering" }
+        }
+      }
+    },
+    "cocktailTier": {
+      "type": "string",
+      "enum": ["familiar", "interesting", "unusual", "adventurous"]
+    },
+    "ingredientTier": {
+      "type": "string",
+      "enum": ["easy_to_find", "less_common", "hard_to_find", "elusive"]
+    },
+    "cocktailCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["drink_key", "designated_bar_key", "tier", "points"],
+      "properties": {
+        "drink_key": { "$ref": "#/$defs/canonicalKey" },
+        "designated_bar_key": { "$ref": "#/$defs/canonicalKey" },
+        "tier": { "$ref": "#/$defs/cocktailTier" },
+        "points": { "type": "integer", "enum": [25, 50, 75, 100] },
+        "eligible": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 500 }
+      }
+    },
+    "ingredientCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ingredient_key",
+        "known_bar_count",
+        "distinct_qualifying_drinks",
+        "tier",
+        "points"
+      ],
+      "properties": {
+        "ingredient_key": { "$ref": "#/$defs/canonicalKey" },
+        "known_bar_count": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "distinct_qualifying_drinks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500
+        },
+        "tier": { "$ref": "#/$defs/ingredientTier" },
+        "points": { "type": "integer", "enum": [25, 50, 75, 100] },
+        "eligible": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 500 }
+      }
+    }
+  }
+}

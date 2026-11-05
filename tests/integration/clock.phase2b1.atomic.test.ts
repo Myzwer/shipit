@@ -236,6 +236,73 @@ describe('Phase 2B.1 request-id correction reconcile', () => {
     expect(data.delta_minutes).toBe(-60)
   })
 
+  it('zero-adjustment set consumes request id and blocks later new correction', async () => {
+    if (!fixtures.available) return
+    const req = '77777777-7777-4777-8777-777777777777'
+    const t0 = shipLocalToUtcIso(dayDate(1), '11:00:00', DEV_BASE_OFFSET_MIN)
+    // Target equals current ship local at t0 → delta 0.
+    const current = await stateAt(fixtures.service!, t0, true)
+    const target = current.ship_local as string
+
+    const first = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: target,
+      p_at_utc: t0,
+      p_client_request_id: req,
+    })
+    expect(first.error).toBeNull()
+    expect(first.data.unchanged).toBe(true)
+    expect(first.data.event_id).toBeTruthy()
+    expect(first.data.delta_minutes).toBe(0)
+
+    const { data: eventsAfterFirst } = await fixtures
+      .service!.from('ship_clock_events')
+      .select('id, delta_minutes, client_request_fingerprint')
+      .eq('client_request_id', req)
+    expect(eventsAfterFirst).toHaveLength(1)
+    expect(eventsAfterFirst![0].delta_minutes).toBe(0)
+
+    // Intervening real clock change.
+    await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
+      p_delta_minutes: 60,
+      p_at_utc: shipLocalToUtcIso(dayDate(1), '11:30:00', DEV_BASE_OFFSET_MIN),
+      p_client_request_id: '88888888-8888-4888-8888-888888888888',
+    })
+
+    // Replay same zero-set id: must not apply a new set against the new offset.
+    const replay = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: target,
+      p_at_utc: shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN + 60),
+      p_client_request_id: req,
+    })
+    expect(replay.error).toBeNull()
+    expect(replay.data.idempotent_replay).toBe(true)
+    expect(replay.data.unchanged).toBe(true)
+    expect(replay.data.event_id).toBe(first.data.event_id)
+
+    const { data: eventsAfterReplay } = await fixtures
+      .service!.from('ship_clock_events')
+      .select('id')
+      .eq('client_request_id', req)
+    expect(eventsAfterReplay).toHaveLength(1)
+
+    // Same id, different operation/payload must reject.
+    const mismatch = await fixtures.service!.rpc('admin_apply_manual_clock_set', {
+      p_target_ship_local: `${dayDate(1)}T18:00:00`,
+      p_at_utc: shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN + 60),
+      p_client_request_id: req,
+    })
+    expect(mismatch.error).toBeTruthy()
+    expect(mismatch.error?.message ?? '').toMatch(/REQUEST_ID_OPERATION_MISMATCH/)
+
+    const deltaMismatch = await fixtures.service!.rpc('admin_apply_manual_clock_correction', {
+      p_delta_minutes: -60,
+      p_at_utc: shipLocalToUtcIso(dayDate(1), '12:05:00', DEV_BASE_OFFSET_MIN + 60),
+      p_client_request_id: req,
+    })
+    expect(deltaMismatch.error).toBeTruthy()
+    expect(deltaMismatch.error?.message ?? '').toMatch(/REQUEST_ID_OPERATION_MISMATCH/)
+  })
+
   it('set_time idempotent replay does not double-apply', async () => {
     if (!fixtures.available) return
     const req = '66666666-6666-4666-8666-666666666666'
