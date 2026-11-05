@@ -3,6 +3,7 @@ import { computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import FloatingBottomNav from '@/components/shared/FloatingBottomNav.vue'
 import SectionHeaderBar from '@/components/shared/SectionHeaderBar.vue'
+import ShipTimeIndicator from '@/components/shared/ShipTimeIndicator.vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import { useSessionStore } from '@/stores/session'
 import { copy } from '@/ui/copy'
@@ -54,6 +55,8 @@ function switchGame() {
         </button>
       </template>
     </SectionHeaderBar>
+
+    <ShipTimeIndicator />
 
     <main class="safe-x safe-bottom mx-auto w-full max-w-lg">
       <slot />

@@ -10,6 +10,10 @@ describe('approved copy', () => {
     )
     expect(copy.home.signedInAs).toBe('Signed in as {playerName}')
     expect(copy.home.admin).toBe('Admin')
+    expect(copy.admin.clockSection).toBe('Ship Clock')
+    expect(copy.admin.currentShipTime).toBe('Current Ship Time')
+    expect(copy.admin.minus1Hour).toBe('−1 Hour')
+    expect(copy.admin.confirmAdjustTitle).toBe('Apply Ship Time Change?')
   })
 
   it('formats placeholders', () => {

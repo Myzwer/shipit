@@ -1,8 +1,8 @@
-# Ship Clock (Phase 2A)
+# Ship Clock (Phase 2A–2B)
 
 Server-authoritative cruise timeline for Star Princess. **No device time, browser timezone, or client-supplied timestamp authorizes gameplay.**
 
-Authority: `handoff/03-Technical-Spec.md` §5.1–5.4.
+Authority: `handoff/03-Technical-Spec.md` §5.1–5.4, `handoff/02-UX-Behavior.md` §10.1.
 
 ## Architecture
 
@@ -20,6 +20,12 @@ Effective offset at UTC `T` =
 
 `base_ship_offset_minutes + Σ delta_minutes` of events with `effective_at_utc ≤ T`.
 
+## Read stability (Phase 2B)
+
+Ordinary clock reads (`get_ship_clock_state`, `ship_clock_state_at`) **evaluate** persisted events and may latch finale. They do **not** delete or recreate future scheduled rows.
+
+`rebuild_scheduled_clock_events` runs only when the organizer changes the plan or applies a manual correction (and during `dev_seed_cruise_clock`). That keeps scheduled event IDs stable across concurrent player reads and avoids wiping a future rehearsal schedule when wall-clock “now” is before Day 1.
+
 ## Scheduled 3:00 AM changes
 
 For each enabled plan day with non-zero delta:
@@ -28,47 +34,50 @@ For each enabled plan day with non-zero delta:
 2. Convert that cruise day’s **03:00 ship-local** wall time to UTC with that prior offset.
 3. Insert a `scheduled` event with stable `schedule_key = plan:day:{n}`.
 
-The unique `schedule_key` guarantees the adjustment **never applies twice**, even when a backward shift repeats a local hour.
+Manual corrections stay additive: later scheduled deltas still apply on top of the corrected baseline.
 
-**No cron:** reads call `rebuild_scheduled_clock_events` / `get_ship_clock_state`, which materialize missing future (and overdue) scheduled rows deterministically.
+## Admin UI
 
-## Manual corrections
+Organizer path: Home → Account → **Admin** (`/admin`, `is_admin` required).
 
-| RPC | Behavior |
+**Ship Clock** section shows Current Ship Time, cruise day/date when configured, effective UTC offset, lifecycle, planned seven-day adjustments, and recent manual adjustments.
+
+| Control | Behavior |
 |---|---|
-| `admin_preview_manual_clock_correction(±60)` | Preview only |
-| `admin_apply_manual_clock_correction(±60)` | Insert `manual_delta` event; rebuild **future** schedule |
-| `admin_apply_manual_clock_set(target_ship_local)` | Compute delta to match displayed time; `manual_set` |
+| `−1 Hour` / `+1 Hour` | Preview → confirm (`Apply Ship Time Change?`) → `admin_apply_manual_clock_correction` |
+| `Set Ship Time` | Emergency target ship-local wall → same confirmation → `admin_apply_manual_clock_set` |
+| `Planned Time Changes` | Seven Saturday–Friday rows → confirm → `admin_upsert_ship_clock_plan_day` per day |
 
-Past applied scheduled events stay immutable. Editing the plan after a day has fired does not rewrite that day’s historical event.
+After a successful correction, the UI refreshes diagnostics and shows the resulting Ship Time. On failure it shows **Change Not Saved** and retains the intended correction for an explicit retry. If a network error leaves ±1h uncertain, the UI re-fetches and requires reconciliation instead of blindly re-applying.
 
-## Cruise calendar
+Historical nights that already applied explain that plan edits will not rewrite past events.
 
-- Day 1 = Saturday = `day1_ship_date` (ship-local calendar date)
-- Day 7 = Friday = day1 + 6 days
-- `cruise_day = (ship_date - day1_ship_date) + 1` when in range; otherwise `null`
-- Finale: Day 7 at `final_hour:final_minute` (default **18:00**) ship-local → `finale_at_utc`
-- Once `now ≥ finale_at_utc`, `game_control.finalized_at_utc` latches; **manual clock changes cannot clear it**
+### Verify a correction
 
-## RPCs (Phase 2A.1 hardened)
+1. Note **Current Ship Time** and offset before confirm.
+2. Apply with confirmation.
+3. Confirm success feedback plus updated Current Ship Time / offset.
+4. Optionally open a player Home and check the Ship Time indicator matches (after refresh).
+
+## Player display
+
+`src/lib/shipClock.ts` fetches `get_ship_clock_state()` (server `clock_timestamp()` only). Home shells show a compact Ship Time indicator that may tick visually between syncs; refresh reconciles to the server snapshot. Phone timezone never authorizes eligibility.
+
+## RPCs
 
 | Function | Who | Purpose |
 |---|---|---|
-| `get_ship_clock_state()` | authenticated | Clock snapshot at **server** `clock_timestamp()` only |
-| `evaluate_submission_acceptance(game)` | authenticated | Acceptance using **server receipt** (`capture_submission_receipt_time`) |
+| `get_ship_clock_state()` | authenticated | Clock snapshot at server time |
+| `evaluate_submission_acceptance(game)` | authenticated | Acceptance using server receipt time |
 | `admin_*` diagnostics / corrections / plan upsert | admin | Privileged mutations + audit; client `p_at_utc` ignored unless `service_role` |
-| `dev_get_ship_clock_state_at(p_at_utc, p_apply_lifecycle_side_effects?)` | **service_role only** | Deterministic simulation |
-| `dev_evaluate_submission_acceptance_at(...)` | **service_role only** | Boundary tests for cutoff / eligibility |
+| `dev_get_ship_clock_state_at` / `dev_evaluate_submission_acceptance_at` | **service_role only** | Deterministic simulation |
 | `dev_seed_cruise_clock` | **service_role only** | Replace `development-only` config for tests |
-| `capture_submission_receipt_time()` | service_role / internal | Contract helper for future scoring RPCs |
 
-Players **cannot** pass evaluation timestamps. Simulated cruise days are available only through service-role `dev_*` RPCs (local tests), never production-facing player grants.
-
-## Development config
+## Development vs launch configuration
 
 Production sailing dates are **not** configured in this phase.
 
-Tests seed via service role:
+Local/tests seed:
 
 ```text
 label = development-only
@@ -76,7 +85,9 @@ day1_ship_date = 2099-01-03   # Saturday — explicitly non-production
 base_ship_offset_minutes = -240
 ```
 
-## How to run clock tests
+**Still required before launch:** real Day 1 Saturday date, starting offset, and the organizer’s best-guess seven-day 3 AM plan (editable in Admin). Roster/content remain later phases.
+
+## How to run clock / security tests
 
 ```bash
 export PATH="$HOME/.docker/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
@@ -85,12 +96,16 @@ npx supabase db reset
 export LOCAL_TEST_PASSWORD='…'
 npm run db:provision
 npm run test:clock
-npm run test:integration   # includes Auth/RLS + clock
+npm run test:integration
+npm run test:e2e:phase2b   # Vite must be running
+npm run screenshots:phase2b
 ```
 
-## Ambiguities documented (not invented as product rules)
+Screenshots: `docs/phase2b-screenshots/`.
+
+## Ambiguities documented
 
 1. **Plan delta `0`:** stored but does not create a `ship_clock_events` row.
-2. **Simulated evaluation:** use `dev_*` service-role RPCs only. Production player RPCs never accept client timestamps.
-3. **Pause/Resume Drink It!:** `game_control` columns/status exist; organizer pause RPCs are deferred to the approved later phase.
-4. **Admin clock UI:** backend only in 2A; Vue Admin controls are the next Phase 2 slice.
+2. **Simulated evaluation:** service-role `dev_*` only.
+3. **Pause/Resume Drink It!:** deferred (approved later operational feature).
+4. **Bounty countdowns / slot eligibility:** not in Phase 2B.

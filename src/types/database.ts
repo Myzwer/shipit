@@ -116,6 +116,30 @@ export interface Database {
         Args: Record<string, never>
         Returns: string | null
       }
+      get_ship_clock_state: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      admin_get_clock_diagnostics: {
+        Args: Record<string, never>
+        Returns: Record<string, unknown>
+      }
+      admin_preview_manual_clock_correction: {
+        Args: { p_delta_minutes: number }
+        Returns: Record<string, unknown>
+      }
+      admin_apply_manual_clock_correction: {
+        Args: { p_delta_minutes: number; p_note?: string }
+        Returns: Record<string, unknown>
+      }
+      admin_apply_manual_clock_set: {
+        Args: { p_target_ship_local: string; p_note?: string }
+        Returns: Record<string, unknown>
+      }
+      admin_upsert_ship_clock_plan_day: {
+        Args: { p_day_number: number; p_delta_minutes: number; p_enabled?: boolean }
+        Returns: Record<string, unknown>
+      }
     }
     Enums: {
       game_id: GameId

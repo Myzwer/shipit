@@ -45,6 +45,7 @@ npx supabase db reset
 | `20261105000400_phase2a_clock_schema.sql` | Cruise config, clock plan/events, game_control, admin audit |
 | `20261105000500_phase2a_clock_functions.sql` | Ship Clock engine, admin RPCs, acceptance contract, dev seed |
 | `20261105000600_phase2a1_clock_security.sql` | Player time-bypass removal, rebuild double-count fix, receipt-time contract |
+| `20261105000700_phase2b_stable_clock_reads.sql` | Ordinary reads no longer rebuild/delete scheduled events |
 
 ## Vue app env
 

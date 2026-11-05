@@ -102,14 +102,16 @@ npm run typecheck
 npm run test                # unit tests
 npm run test:rls            # RLS integration (needs local Supabase + provision)
 npm run test:auth           # Auth integration (needs local Supabase + provision)
-npm run test:clock          # Ship Clock + finale lifecycle (needs local Supabase + provision)
+npm run test:clock          # Ship Clock + finale + read-stability (local Supabase)
 npm run test:integration    # all integration suites
 npm run test:e2e:phase1b    # Playwright login/refresh/logout journey
+npm run test:e2e:phase2b    # Playwright Admin Ship Clock (Vite + provision)
 npm run db:start | db:stop | db:reset | db:provision
 npm run screenshots:phase1b
+npm run screenshots:phase2b # Admin clock overview / preview / schedule
 ```
 
-Ship Clock details: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md).
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Organizer: Home → Account → **Admin**.
 
 ## Environment and secrets
 
@@ -129,7 +131,7 @@ src/
   app/                 # router + auth guards
   components/shared/   # shell, nav, account, leaderboard
   features/auth/       # login, unavailable, access denied
-  features/admin/      # organizer placeholder
+  features/admin/      # organizer Admin (Ship Clock)
   features/drinkit/    # Drink It! Home shell
   features/shipit/     # Ship It! Home shell
   features/shared/     # dual-game chooser
