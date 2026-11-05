@@ -1,5 +1,5 @@
 /**
- * Phase 0 subset of 04-UI-Content-and-Icons.md copy.
+ * Approved UI copy from 04-UI-Content-and-Icons.md (Phase 0–1B subset).
  * Dynamic game content stays out of this file.
  */
 export const copy = {
@@ -29,7 +29,36 @@ export const copy = {
     signedInAs: 'Signed in as {playerName}',
     teamLine: 'Team: {teamName}',
     logOut: 'Log Out',
+    admin: 'Admin',
     mockShellNote: 'Phase 0 layout shell — mock demonstration data only.',
+  },
+  login: {
+    heading: 'Welcome Aboard',
+    nameLabel: 'Who are you?',
+    namePlaceholder: 'Select your name',
+    passwordLabel: 'Password',
+    submit: 'Log In',
+    submitting: 'Logging In…',
+    invalidCredentials: "That name and password didn't match. Please try again.",
+    missingName: 'Select your name to continue.',
+    missingPassword: 'Enter your password to continue.',
+    noGames: "You aren't enrolled in either game. Ask the organizer if you think this is a mistake.",
+    sessionExpired: 'Your session has ended. Please log in again.',
+    gameNoLongerAllowed: 'You no longer have access to {gameName}.',
+    networkFailure: "We couldn't log you in. Check your connection and try again.",
+  },
+  admin: {
+    title: 'Admin',
+    placeholder:
+      'Organizer tools arrive in a later phase. This page is a protected placeholder only.',
+    backHome: 'Back to Home',
+  },
+  unavailable: {
+    title: 'No Games Available',
+  },
+  access: {
+    goHome: 'Go to your game',
+    backToLogin: 'Back to Log In',
   },
   bounty: {
     cocktail: 'Cocktail Bounty',

@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import BountyCarousel from '@/features/drinkit/BountyCarousel.vue'
 import { drinkItMockBounties, drinkItMockLeaderboard } from '@/features/drinkit/mockHome'
-import { copy, formatCopy } from '@/ui/copy'
-import { useSessionStore } from '@/stores/session'
+import { copy } from '@/ui/copy'
 
-const session = useSessionStore()
 </script>
 
 <template>
@@ -44,22 +43,7 @@ const session = useSessionStore()
         </p>
       </details>
 
-      <div class="mt-4 rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.home.account }}
-        </h3>
-        <p class="mt-1 text-sm" style="color: var(--theme-ink)">
-          {{ formatCopy(copy.home.signedInAs, { playerName: session.displayName }) }}
-        </p>
-        <button
-          type="button"
-          class="mt-3 text-sm font-semibold underline-offset-2 hover:underline"
-          style="color: var(--theme-primary)"
-          disabled
-        >
-          {{ copy.home.logOut }}
-        </button>
-      </div>
+      <AccountSection />
     </section>
   </GameShell>
 </template>

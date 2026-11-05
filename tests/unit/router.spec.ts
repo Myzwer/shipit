@@ -2,8 +2,18 @@ import { describe, expect, it } from 'vitest'
 import router from '@/app/router'
 
 describe('router scaffold', () => {
-  it('registers Phase 0 routes', () => {
+  it('registers Phase 1B auth and game routes', () => {
     const paths = router.getRoutes().map((route) => route.path)
-    expect(paths).toEqual(expect.arrayContaining(['/', '/drinkit', '/shipit']))
+    expect(paths).toEqual(
+      expect.arrayContaining([
+        '/login',
+        '/',
+        '/drinkit',
+        '/shipit',
+        '/admin',
+        '/unavailable',
+        '/access-denied',
+      ]),
+    )
   })
 })

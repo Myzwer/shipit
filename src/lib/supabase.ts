@@ -1,6 +1,5 @@
 /**
- * Minimal typed Supabase access layer for Phase 1A+.
- * Login UI / route guards arrive in Phase 1B — do not add them here.
+ * Typed public Supabase client (anon key only — never service role).
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { Database, LoginDirectoryRow, SessionProfile } from '@/types/database'
@@ -11,7 +10,13 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 export const isSupabaseConfigured = Boolean(url && anonKey)
 
 export const supabase: SupabaseClient<Database> | null = isSupabaseConfigured
-  ? createClient<Database>(url!, anonKey!)
+  ? createClient<Database>(url!, anonKey!, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    })
   : null
 
 export async function fetchLoginDirectory(): Promise<LoginDirectoryRow[]> {

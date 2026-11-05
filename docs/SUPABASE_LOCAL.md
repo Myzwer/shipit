@@ -1,4 +1,4 @@
-# Local Supabase (Phase 1A)
+# Local Supabase (Phase 1A–1B)
 
 Local Auth + Postgres + RLS for Star Princess. **No hosted production project in this phase.**
 
@@ -12,20 +12,12 @@ Local Auth + Postgres + RLS for Star Princess. **No hosted production project in
 
 ### Docker Desktop
 
-Required and verified for Phase 1A. Keep Docker Desktop running before `supabase start`.
+Keep Docker Desktop running before `supabase start`.
 
 If `docker` is missing in a non-login shell (e.g. some IDE terminals), add Docker’s CLI to `PATH`:
 
 ```bash
 export PATH="$HOME/.docker/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
-```
-
-### Supabase CLI
-
-Already listed in `devDependencies`. Use:
-
-```bash
-npx supabase --version
 ```
 
 ## Start / stop
@@ -42,42 +34,32 @@ API URL is typically `http://127.0.0.1:54321`.
 ## Migrations
 
 ```bash
-# Apply to local (also runs on fresh `supabase start`)
 npx supabase db reset
 ```
 
-`db reset` recreates the local DB, applies `supabase/migrations/*`, and clears data.
+| Migration | Purpose |
+|---|---|
+| `20261105000100_phase1a_identity_schema.sql` | players, memberships, teams, helpers, login directory |
+| `20261105000200_phase1a_rls_policies.sql` | RLS + grants |
+| `20261105000300_phase1b_restrict_player_columns.sql` | Hide `auth_user_id` / `is_admin` from ordinary SELECT; `player_roster` view |
 
-Phase 1A migrations:
-
-1. `20261105000100_phase1a_identity_schema.sql` — players, memberships, teams, helpers, login directory
-2. `20261105000200_phase1a_rls_policies.sql` — RLS + grants
-
-## Local env for the Vue app
+## Vue app env
 
 ```bash
 cp .env.example .env
-```
-
-After `npx supabase status -o env`, set:
-
-```bash
+# From `npx supabase status -o env`:
 VITE_SUPABASE_URL=http://127.0.0.1:54321
-VITE_SUPABASE_ANON_KEY=<ANON_KEY from status>
+VITE_SUPABASE_ANON_KEY=<ANON_KEY>
 ```
 
 Never put `SERVICE_ROLE_KEY` in a `VITE_` variable or commit it.
 
-## Provision local test identities
-
-Uses the Auth Admin API + service role from `supabase status` (not committed):
+## Provision development identities
 
 ```bash
 export LOCAL_TEST_PASSWORD='choose-a-local-only-password-12+'
 npm run db:provision
 ```
-
-Creates Auth users + rows for:
 
 | Key | Games | Notes |
 |---|---|---|
@@ -85,44 +67,35 @@ Creates Auth users + rows for:
 | `ship_only` | Ship It! | Demo Team Alpha |
 | `both` | Both | Demo Team Alpha |
 | `admin` | Both | Demo Team Bravo, `is_admin` |
+| `no_games` | None | Unavailable-state testing |
 
-Writes gitignored `.local/test-identities.json` (ids/aliases only — password stays in your env).
+Writes gitignored `.local/test-identities.json` (ids/aliases only).
 
-## RLS integration tests
+## Tests
 
 ```bash
 export LOCAL_TEST_PASSWORD='…same as provision…'
-npm run test:rls
+npm run test:rls            # Phase 1A + 1B RLS
+npm run test:auth           # Auth / membership RPCs
+npm run test:integration    # all of the above
+npm run test:e2e:phase1b    # Playwright (app must be running on :5173)
 ```
 
-These tests **sign in as restricted clients** (anon + authenticated). They no-op when Docker/Supabase/identities are unavailable (including default CI without a local stack). If `LOCAL_TEST_PASSWORD` is set, fixtures must load or the suite fails (no false-green).
+Integration suites no-op when Docker/Supabase/identities are unavailable (CI without a local stack). If `LOCAL_TEST_PASSWORD` is set, fixtures must load or the suite fails.
 
-Node 20 note: local Node scripts/tests pass `ws` as the Supabase Realtime transport (`supabase-js` requires this below Node 22).
+Node 20: scripts/tests pass `ws` as the Supabase Realtime transport.
 
-Default `npm test` continues to run unit tests only.
-
-## Auth product settings (local config)
+## Auth product settings
 
 In `supabase/config.toml`:
 
 - `[auth] enable_signup = false` / `enable_anonymous_sign_ins = false`
 - `[auth.email] enabled = true` (password sign-in for provisioned aliases)
-- `[auth.email] enable_confirmations = false` (no confirmation UX)
+- `[auth.email] enable_confirmations = false`
 
 ## Security notes
 
 - Public `login_directory` exposes **display_name + login_alias only**
-- Players cannot update `is_admin`, memberships, or teams via the anon/authenticated roles
-- Ship It! enabled membership requires exactly one active team (DB trigger + unique index)
-- `SECURITY DEFINER` helpers set `search_path = public` and grant `EXECUTE` only to `authenticated`
-
-## After Docker is installed
-
-```bash
-npx supabase start
-npx supabase db reset
-export LOCAL_TEST_PASSWORD='…'
-npm run db:provision
-npm run test:rls
-npm run lint && npm run typecheck && npm run test && npm run build
-```
+- Authenticated `players` SELECT grants exclude `auth_user_id` and `is_admin` (use `get_my_session_profile` / `is_admin()`)
+- Players cannot update memberships or elevate admin via the anon/authenticated roles
+- Ship It! enabled membership requires exactly one active team

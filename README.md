@@ -14,156 +14,136 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 | Frontend | Vue 3 · TypeScript · Vite · Vue Router · Pinia |
 | Styling | Tailwind CSS · semantic Drink It! / Ship It! theme tokens |
 | Icons | Font Awesome Pro (Light / Solid / Regular) via Vue SVG components |
-| Backend | Supabase (Auth, Postgres, Storage) — scaffolded; live wiring comes later |
-| Hosting | Vercel static SPA (`vercel.json` rewrite for client routes) |
+| Backend | Local Supabase (Auth, Postgres, RLS) |
+| Hosting | Vercel static SPA (`vercel.json` rewrite for client routes) — not deployed yet |
 
 ## Current status
 
-**Phase 1A in progress / pending Docker.** Phase 0 UI shells are complete. Backend identity schema + RLS migrations are in-repo; local Supabase verification requires Docker Desktop (see [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md)). Login UI is Phase 1B. No scoring, submissions, galleries, or hosted production project yet.
+**Phase 1B complete (local).** Players can log in against local Supabase Auth, sessions persist across refresh, membership-aware routing and game switching work, and Account / Log Out / organizer Admin entry are live on Home. Scoring, real roster content, galleries, and hosted production are later phases.
 
 Authoritative product specs and mockups live in [`handoff/`](./handoff/).
 
-## Quick start
+## Quick start (organizer)
 
-**Requirements:** Node.js 20+, npm 10+, and a Font Awesome **Package Token** (not a Kit/API token).
+**Requirements:** Node.js 20+, npm 10+, Docker Desktop, Font Awesome **Package Token**.
 
-1. Configure the Package Token in your shell (never commit it):
+### 1. Font Awesome
 
-   ```bash
-   # e.g. ~/.config/fontawesome/env  (outside the repo)
-   export FONTAWESOME_PACKAGE_TOKEN='…'
-   ```
+```bash
+# e.g. ~/.config/fontawesome/env  (outside the repo)
+export FONTAWESOME_PACKAGE_TOKEN='…'
+test -n "$FONTAWESOME_PACKAGE_TOKEN" && echo "FA package token is set"
+```
 
-   Confirm without printing the value:
+### 2. Install
 
-   ```bash
-   test -n "$FONTAWESOME_PACKAGE_TOKEN" && echo "FA package token is set"
-   ```
+```bash
+npm install
+```
 
-2. Install and run:
+### 3. Start local Supabase
 
-   ```bash
-   npm install
-   npm run dev
-   ```
+```bash
+# If `docker` is missing in your shell PATH:
+export PATH="$HOME/.docker/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
 
-3. Open **http://127.0.0.1:5173/**
+npx supabase start
+npx supabase db reset
+```
 
-| Route | Screen |
-|---|---|
-| `/` | Game selection |
-| `/drinkit` | Drink It! Home shell |
-| `/shipit` | Ship It! Home shell |
-
-Stop the dev server with `Ctrl+C`. Restart with `npm run dev`.
-
-Optional app env (not required for Phase 0 shells):
+### 4. App env (public keys only)
 
 ```bash
 cp .env.example .env
+npx supabase status -o env
+# Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY from status (never SERVICE_ROLE_KEY).
+```
+
+### 5. Provision development identities
+
+```bash
+export LOCAL_TEST_PASSWORD='choose-a-local-only-password-12+'
+npm run db:provision
+```
+
+Creates local Auth users for Demo Drink Only, Demo Ship Only, Demo Both Games, Demo Organizer, and Demo No Games. Password stays in your shell env only.
+
+### 6. Run the Vue app
+
+```bash
+npm run dev
+```
+
+Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick a demo name and use `LOCAL_TEST_PASSWORD`.
+
+| Route | Who sees it |
+|---|---|
+| `/login` | Guests |
+| `/` | Dual-game members (chooser) |
+| `/drinkit` | Drink It! members |
+| `/shipit` | Ship It! members |
+| `/admin` | Organizer only (placeholder) |
+| `/unavailable` | Authenticated players with no enabled games |
+
+### 7. Stop local services
+
+```bash
+# Stop Vite with Ctrl+C
+npx supabase stop
 ```
 
 ## Scripts
 
 ```bash
-npm run dev        # local Vite server
-npm run build      # production build
-npm run preview    # preview the production build
+npm run dev                 # Vite
+npm run build               # production build
 npm run lint
 npm run typecheck
-npm run test
+npm run test                # unit tests
+npm run test:rls            # RLS integration (needs local Supabase + provision)
+npm run test:auth           # Auth integration (needs local Supabase + provision)
+npm run test:integration    # all integration tests
+npm run test:e2e:phase1b    # Playwright login/refresh/logout journey
+npm run db:start | db:stop | db:reset | db:provision
+npm run screenshots:phase1b
 ```
 
 ## Environment and secrets
 
 | Variable | Purpose | Notes |
 |---|---|---|
-| `FONTAWESOME_PACKAGE_TOKEN` | npm auth for Pro packages | **Required** for `npm install` and CI. Shell / CI secret only — never `VITE_` |
-| `VITE_SUPABASE_URL` | Public Supabase URL | Optional in Phase 0 |
-| `VITE_SUPABASE_ANON_KEY` | Public anon key | Optional in Phase 0 |
+| `FONTAWESOME_PACKAGE_TOKEN` | npm auth for Pro packages | Shell / CI secret — never `VITE_` |
+| `VITE_SUPABASE_URL` | Public Supabase URL | Local: `http://127.0.0.1:54321` |
+| `VITE_SUPABASE_ANON_KEY` | Public anon key | From `supabase status` |
+| `LOCAL_TEST_PASSWORD` | Local demo Auth password | Shell only — never commit |
 
-Do not commit tokens, service-role keys, or real player passwords. The committed [`.npmrc`](./.npmrc) references `${FONTAWESOME_PACKAGE_TOKEN}` only.
-
-### Font Awesome Pro
-
-Icons use the official Vue Font Awesome SVG integration:
-
-- `@fortawesome/pro-light-svg-icons` — outline / inactive
-- `@fortawesome/pro-solid-svg-icons` — active / completed / emphasis
-- `@fortawesome/pro-regular-svg-icons` — available when Light is too thin
-- Registry: [`src/ui/icons.ts`](./src/ui/icons.ts)
-
-Create or copy a Package Token from [fontawesome.com/account](https://fontawesome.com/account) → **Tokens**.
-
-### GitHub Actions
-
-CI needs repository secret `FONTAWESOME_PACKAGE_TOKEN`:
-
-1. Repo → **Settings** → **Secrets and variables** → **Actions**
-2. **New repository secret** named `FONTAWESOME_PACKAGE_TOKEN`
-3. Paste the same Package Token used locally
-4. Re-run the workflow if a prior run failed on install
+Never commit service-role keys, real player passwords, or Font Awesome tokens.
 
 ## Project structure
 
 ```text
 src/
-  app/                 # router bootstrap
-  components/shared/   # shell, nav, leaderboard, icons
-  features/drinkit/    # Drink It! module
-  features/shipit/     # Ship It! module
-  features/shared/     # game selection
-  styles/              # theme tokens
+  app/                 # router + auth guards
+  components/shared/   # shell, nav, account, leaderboard
+  features/auth/       # login, unavailable, access denied
+  features/admin/      # organizer placeholder
+  features/drinkit/    # Drink It! Home shell
+  features/shipit/     # Ship It! Home shell
+  features/shared/     # dual-game chooser
+  stores/              # session + membership profile
+  lib/                 # Supabase client
   ui/                  # copy + icon registry
-  lib/                 # Supabase client stub
-handoff/               # rules, UX, tech spec, mockups (authoritative)
-supabase/              # local tooling scaffold
-docs/phase0-screenshots/
+supabase/migrations/   # identity + RLS (+ Phase 1B column hardening)
+docs/SUPABASE_LOCAL.md
+docs/phase1b-screenshots/
 ```
-
-## Git workflow
-
-- Default branch: `main`
-- Prefer small, reviewable commits per phase or closeout
-- Do not commit secrets, `.env`, or Font Awesome tokens
-- Push feature work on branches when collaborating; Phase checkpoints land on `main` after Director review
-
-```bash
-git status
-git pull
-# …make changes…
-git add -A
-git commit -m ":rocket: Short imperative summary"
-git push
-```
-
-## Local Supabase (Phase 1A)
-
-Identity schema, Auth mapping, and RLS run on **local** Supabase (Docker required).
-
-See **[`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md)** for start/stop, migrations, provisioning, and RLS tests.
-
-```bash
-npx supabase start
-npx supabase db reset
-export LOCAL_TEST_PASSWORD='choose-a-local-only-password-12+'
-npm run db:provision
-npm run test:rls
-```
-
-`npm test` runs unit tests only. RLS integration tests are local-only until Docker/Supabase are available.
 
 ## Documentation
 
 | Document | Role |
 |---|---|
-| [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md) | Local Supabase + Phase 1A backend |
-| [`handoff/README.md`](./handoff/README.md) | Handoff manifest and authority order |
-| [`handoff/01-Game-Rules.md`](./handoff/01-Game-Rules.md) | Scoring and eligibility |
-| [`handoff/02-UX-Behavior.md`](./handoff/02-UX-Behavior.md) | Screens and interaction |
-| [`handoff/03-Technical-Spec.md`](./handoff/03-Technical-Spec.md) | Architecture and phases |
-| [`handoff/04-UI-Content-and-Icons.md`](./handoff/04-UI-Content-and-Icons.md) | Copy and icon registry |
-| [`handoff/design/`](./handoff/design/) | Visual mockups |
+| [`docs/SUPABASE_LOCAL.md`](./docs/SUPABASE_LOCAL.md) | Local Supabase, provision, tests |
+| [`handoff/`](./handoff/) | Authoritative product specs |
 
 ## License / privacy
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import {
@@ -8,8 +9,10 @@ import {
 } from '@/features/shipit/mockHome'
 import { copy, formatCopy } from '@/ui/copy'
 import { useSessionStore } from '@/stores/session'
+import { computed } from 'vue'
 
 const session = useSessionStore()
+const progressTeamName = computed(() => session.teamName ?? shipItMockTeamName)
 </script>
 
 <template>
@@ -18,9 +21,12 @@ const session = useSessionStore()
       {{ copy.home.mockShellNote }}
     </p>
 
-    <section class="px-4 pt-4" :aria-label="formatCopy(copy.home.shipProgress, { teamName: shipItMockTeamName })">
+    <section
+      class="px-4 pt-4"
+      :aria-label="formatCopy(copy.home.shipProgress, { teamName: progressTeamName })"
+    >
       <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
-        {{ formatCopy(copy.home.shipProgress, { teamName: shipItMockTeamName }) }}
+        {{ formatCopy(copy.home.shipProgress, { teamName: progressTeamName }) }}
       </h2>
 
       <ul class="mt-5 space-y-5">
@@ -70,25 +76,7 @@ const session = useSessionStore()
         </p>
       </details>
 
-      <div class="mt-4 rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.home.account }}
-        </h3>
-        <p class="mt-1 text-sm" style="color: var(--theme-ink)">
-          {{ formatCopy(copy.home.signedInAs, { playerName: session.displayName }) }}
-        </p>
-        <p class="text-sm" style="color: var(--theme-muted)">
-          {{ formatCopy(copy.home.teamLine, { teamName: shipItMockTeamName }) }}
-        </p>
-        <button
-          type="button"
-          class="mt-3 text-sm font-semibold underline-offset-2 hover:underline"
-          style="color: var(--theme-primary)"
-          disabled
-        >
-          {{ copy.home.logOut }}
-        </button>
-      </div>
+      <AccountSection show-team />
     </section>
   </GameShell>
 </template>

@@ -87,6 +87,13 @@ export interface Database {
       login_directory: {
         Row: LoginDirectoryRow
       }
+      player_roster: {
+        Row: {
+          id: string
+          display_name: string
+          active: boolean
+        }
+      }
     }
     Functions: {
       get_my_session_profile: {

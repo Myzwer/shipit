@@ -8,11 +8,15 @@ import { useSessionStore } from '@/stores/session'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
 
-const props = defineProps<{
-  game: GameId
-  title: string
-  showSwitch?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    game: GameId
+    title: string
+    /** Dual-game header switch; defaults on. Pass false to hide. */
+    showSwitch?: boolean
+  }>(),
+  { showSwitch: true },
+)
 
 const router = useRouter()
 const session = useSessionStore()
@@ -38,8 +42,9 @@ function switchGame() {
 <template>
   <div :class="[themeClass, 'min-h-dvh']" :style="{ background: 'var(--theme-page)' }">
     <SectionHeaderBar :title="title">
-      <template v-if="showSwitch !== false && session.isDualGame" #actions>
+      <template #actions>
         <button
+          v-if="showSwitch !== false && session.isDualGame"
           type="button"
           class="rounded-full p-2 text-white/90 transition hover:bg-white/10"
           :aria-label="switchLabel"

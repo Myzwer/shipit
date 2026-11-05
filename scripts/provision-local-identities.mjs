@@ -81,6 +81,14 @@ const identities = [
     games: ['drinkit', 'shipit'],
     team: 'Demo Team Bravo',
   },
+  {
+    key: 'no_games',
+    display_name: 'Demo No Games',
+    login_alias: 'no.games@star-princess.local',
+    is_admin: false,
+    games: [],
+    team: null,
+  },
 ]
 
 async function ensureTeam(name) {

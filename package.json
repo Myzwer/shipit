@@ -11,13 +11,17 @@
     "typecheck": "vue-tsc -b --pretty false",
     "test": "vitest run tests/unit",
     "test:watch": "vitest tests/unit",
-    "test:rls": "vitest run tests/integration/rls.phase1a.test.ts",
+    "test:rls": "vitest run tests/integration/rls.phase1a.test.ts tests/integration/rls.phase1b.test.ts",
+    "test:auth": "vitest run tests/integration/auth.phase1b.test.ts",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e:phase1b": "node scripts/e2e-phase1b-login.mjs",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:status": "supabase status",
     "db:provision": "node scripts/provision-local-identities.mjs",
-    "screenshots:phase0": "node scripts/capture-phase0-screens.mjs"
+    "screenshots:phase0": "node scripts/capture-phase0-screens.mjs",
+    "screenshots:phase1b": "node scripts/capture-phase1b-screens.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
