@@ -7,6 +7,8 @@
 | Branch | `main` (clean) |
 | Feature tip | `d7035e3` — Phase **7A.1** |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42250808769 — success |
+| Docs tip | `e609730` — checkpoint record |
+| Docs CI | https://github.com/Myzwer/shipit/actions/runs/42251119209 — success |
 | Baseline | Phase **7A** feature `74b7927` / checkpoint `988b8d2` / docs tip `5650324` |
 | This phase | Phase **7A.1** — Exclusive First order, historical Ship Time, dev RPC lockdown |
 
