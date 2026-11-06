@@ -47,6 +47,10 @@ function retry() {
 
 function onClaim(card: HomeBountyCardView) {
   if (!card.claimEnabled || !card.claimPrefill) return
+  if (card.claimPrefill.source === 'daily') {
+    void router.push({ name: 'drinkit-daily' })
+    return
+  }
   const q: Record<string, string> = { from: card.claimPrefill.source }
   if (card.claimPrefill.barCanonicalKey) q.bar = card.claimPrefill.barCanonicalKey
   if (card.claimPrefill.offeringId) q.offering = card.claimPrefill.offeringId

@@ -12,6 +12,7 @@ import type {
   ActiveDailyChallenge,
   ActiveIngredientBounty,
   BarBountyPayload,
+  ClaimedDailyChallenge,
   CocktailBountyPayload,
   DailyChallengePayload,
   HomeBoardPhase,
@@ -21,7 +22,7 @@ import type {
 import type { ShipClockState } from '@/types/shipClock'
 
 const CLAIM_TITLE_DISABLED = copy.wizard.claimDisabledLifecycle
-const CLAIM_TITLE_DAILY = copy.wizard.claimDisabledDaily
+const CLAIM_TITLE_DAILY = copy.wizard.claimOpensDaily
 const CLAIM_TITLE_WIZARD = copy.wizard.claimOpensWizard
 
 function closedCard(
@@ -234,8 +235,29 @@ function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
       time: availableUntilLabel(offer.cruise_day),
     }),
     timerValue: '',
-    claimEnabled: false,
+    claimEnabled: true,
     claimTitle: CLAIM_TITLE_DAILY,
+    claimPrefill: {
+      source: 'daily',
+      challengeId: offer.challenge_id,
+    },
+  }
+}
+
+function dailyClaimedCard(offer: ClaimedDailyChallenge): HomeBountyCardView {
+  return {
+    id: 'daily',
+    heading: copy.bounty.daily,
+    presentation: 'claimed',
+    tierOrEyebrow: copy.bounty.claimed,
+    title: offer.title?.trim() || copy.bounty.daily,
+    detail: copy.daily.alreadyCompleted,
+    pointsLabel: pointsLabel(offer.points || 50),
+    footer: copy.bounty.daily,
+    timerLabel: '',
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: copy.daily.alreadyCompleted,
   }
 }
 
@@ -401,12 +423,14 @@ export function mapHomeBountyCards(input: {
   const daily =
     input.daily?.status === 'active'
       ? dailyActiveCard(input.daily)
-      : unavailableCard(
-          'daily',
-          headings.daily,
-          copy.bounty.unavailableTitle,
-          copy.bounty.unavailableDetail,
-        )
+      : input.daily?.status === 'already_claimed'
+        ? dailyClaimedCard(input.daily)
+        : unavailableCard(
+            'daily',
+            headings.daily,
+            copy.bounty.unavailableTitle,
+            copy.bounty.unavailableDetail,
+          )
 
   return {
     phase,

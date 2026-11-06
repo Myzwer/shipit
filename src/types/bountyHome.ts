@@ -11,7 +11,12 @@ export type IngredientBountyTier =
   | 'hard_to_find'
   | 'elusive'
 
-export type HomeBountyRpcStatus = 'active' | 'paused' | 'finale' | 'unavailable'
+export type HomeBountyRpcStatus =
+  | 'active'
+  | 'already_claimed'
+  | 'paused'
+  | 'finale'
+  | 'unavailable'
 
 export interface ListedIngredient {
   ingredient_key: string
@@ -75,15 +80,28 @@ export interface ActiveDailyChallenge {
 }
 
 export interface NonActiveBounty {
-  status: Exclude<HomeBountyRpcStatus, 'active'>
+  status: Exclude<HomeBountyRpcStatus, 'active' | 'already_claimed'>
   reason?: string
   cruise_day?: number | null
+}
+
+export interface ClaimedDailyChallenge {
+  status: 'already_claimed'
+  reason?: string
+  cruise_day?: number | null
+  challenge_id?: string
+  title?: string
+  points?: number
+  submission_id?: string
 }
 
 export type CocktailBountyPayload = ActiveCocktailBounty | NonActiveBounty
 export type IngredientBountyPayload = ActiveIngredientBounty | NonActiveBounty
 export type BarBountyPayload = ActiveBarBounty | NonActiveBounty
-export type DailyChallengePayload = ActiveDailyChallenge | NonActiveBounty
+export type DailyChallengePayload =
+  | ActiveDailyChallenge
+  | ClaimedDailyChallenge
+  | NonActiveBounty
 
 /** Shared board lifecycle derived from clock + bounty RPCs. */
 export type HomeBoardPhase =
@@ -98,6 +116,7 @@ export type HomeBoardPhase =
 
 export type HomeCardPresentation =
   | 'active'
+  | 'claimed'
   | 'closed'
   | 'paused'
   | 'finale'
@@ -116,15 +135,16 @@ export interface HomeBountyCardView {
   footer: string
   timerLabel: string
   timerValue: string
-  /** Cocktail / Ingredient / Bar Claim It enable when wizard can open. Daily stays false. */
+  /** Cocktail / Ingredient / Bar open the log wizard; Daily opens Claim It flow. */
   claimEnabled: boolean
   claimTitle: string
-  /** Prefill hints for the logging wizard (omitted for Daily / disabled). */
+  /** Prefill hints for the logging wizard or Daily challenge route. */
   claimPrefill?: {
-    source: 'cocktail' | 'ingredient' | 'bar'
+    source: 'cocktail' | 'ingredient' | 'bar' | 'daily'
     barCanonicalKey?: string
     offeringId?: string
     drinkDisplayName?: string
+    challengeId?: string
   }
 }
 

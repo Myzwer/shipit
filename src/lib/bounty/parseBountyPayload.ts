@@ -4,6 +4,7 @@ import type {
   ActiveDailyChallenge,
   ActiveIngredientBounty,
   BarBountyPayload,
+  ClaimedDailyChallenge,
   CocktailBountyPayload,
   DailyChallengePayload,
   IngredientBountyPayload,
@@ -168,6 +169,21 @@ export function parseDailyChallengePayload(raw: unknown): DailyChallengePayload 
     return { status: 'unavailable', reason: 'empty_payload' }
   }
   const row = raw as Record<string, unknown>
+  if (row.status === 'already_claimed') {
+    const cruiseDay =
+      typeof row.cruise_day === 'number' ? row.cruise_day : Number(row.cruise_day)
+    const points = typeof row.points === 'number' ? row.points : Number(row.points)
+    const claimed: ClaimedDailyChallenge = {
+      status: 'already_claimed',
+      reason: typeof row.reason === 'string' ? row.reason : 'category_used_today',
+      cruise_day: Number.isFinite(cruiseDay) ? cruiseDay : null,
+      challenge_id: typeof row.challenge_id === 'string' ? row.challenge_id : undefined,
+      title: typeof row.title === 'string' ? row.title : undefined,
+      points: Number.isFinite(points) ? points : 50,
+      submission_id: typeof row.submission_id === 'string' ? row.submission_id : undefined,
+    }
+    return claimed
+  }
   if (row.status !== 'active') return asNonActive(row)
 
   const challenge_id = typeof row.challenge_id === 'string' ? row.challenge_id : ''

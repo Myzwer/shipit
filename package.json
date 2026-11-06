@@ -42,7 +42,10 @@
     "test:e2e:phase4b1": "node scripts/e2e-phase4b1-photo-capture.mjs",
     "screenshots:phase4b1": "node scripts/e2e-phase4b1-photo-capture.mjs",
     "test:e2e:phase4b2": "node scripts/e2e-phase4b2-scavenger-submit.mjs",
-    "screenshots:phase4b2": "node scripts/e2e-phase4b2-scavenger-submit.mjs"
+    "screenshots:phase4b2": "node scripts/e2e-phase4b2-scavenger-submit.mjs",
+    "test:e2e:phase4b3:recovery": "node scripts/e2e-phase4b3-scavenger-recovery.mjs",
+    "test:e2e:phase4b3": "node scripts/e2e-phase4b3-daily-claim.mjs",
+    "screenshots:phase4b3": "node scripts/e2e-phase4b3-daily-claim.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

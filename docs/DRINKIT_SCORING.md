@@ -128,7 +128,7 @@ Players: SELECT own correction rows (or admin); no direct INSERT/UPDATE. Writes 
 | Later phase | Hook |
 |---|---|
 | 3C-B Admin Skip | Emergency skip current Cocktail / Ingredient from unused reserve |
-| Daily photo | Separate `submit_daily` RPC |
+| Daily photo | `submit_daily` (Phase 4B3) — required staged `daily` photo, 50 points, one claim/player/day |
 | Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (currently `[]`) |
 | Gallery UI / reactions | `gallery_events` row already created; reactions table deferred |
 | Photos | Optional `photo_storage_key` accepted; upload pipeline not complete |

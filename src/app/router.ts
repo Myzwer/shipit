@@ -42,6 +42,12 @@ const router = createRouter({
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
     },
     {
+      path: '/drinkit/daily',
+      name: 'drinkit-daily',
+      component: () => import('@/features/drinkit/DailyClaimView.vue'),
+      meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
       path: '/drinkit/gallery',
       name: 'drinkit-gallery',
       component: () => import('@/features/drinkit/gallery/DrinkItGalleryStubView.vue'),

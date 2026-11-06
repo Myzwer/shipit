@@ -2,7 +2,8 @@
 
 Shared, cruise-Wi-Fi-friendly photo capture and **private staging** for Drink It! and Ship It!.  
 **Phase 4B2:** `submit_scavenger` binds a staged scavenger photo atomically with team scoring.  
-Still deferred: Daily Challenge submit, optional Drink It! photo bind, full Gallery.
+**Phase 4B3:** `submit_daily` binds a staged `daily` photo atomically with a 50-point Daily claim.  
+Still deferred: optional Drink It! drink-log photo bind, full Gallery.
 
 Authority: Tech Spec §7.2–7.4, §9; UX §4 Photo.
 
@@ -24,7 +25,7 @@ After selection: preview, Retake, Replace, Remove. Caption stays on the enclosin
 Typed contracts: `src/lib/media/contracts.ts`
 
 - Ordinary drink log — optional photo (bind deferred)  
-- Daily — required (Submit not enabled yet)  
+- Daily — required; `submit_daily` binds staged photo  
 - Scavenger — required; `submit_scavenger` binds staged photo
 
 ## Staging lifecycle
@@ -104,9 +105,9 @@ npm run test:e2e:phase4b1 && npm run test:e2e:phase4b2
 
 Security cases: own stage, peer deny, unauthenticated deny, cross-game, forged path, missing object, fixture reject, staged/bound immutability, Storage API abandon (no SQL object delete), lost begin/upload/confirm reuse, no public bucket access.
 
-## Remaining work (after 4B2)
+## Remaining work (after 4B3)
 
-- Bind staged photo inside `submit_drink` / Daily Challenge submit  
+- Bind staged photo inside ordinary `submit_drink`  
 - Full Gallery browse, signed download, reactions  
 - Abandoned-file TTL sweeper (retain recoverable cleanup state until then)  
 - Real-device camera + HEIC confirmation on iPhone/Android over cruise-like networks  

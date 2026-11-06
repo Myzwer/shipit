@@ -75,6 +75,28 @@ async function loadChallenge() {
   }
 }
 
+/** Resolve a pending submit for a *different* challenge so we never silently overwrite it. */
+async function reconcileForeignPending() {
+  const playerId = session.profile?.player_id ?? null
+  clearPendingScavengerSubmitIfOtherPlayer(playerId)
+  const pending = readPendingScavengerSubmit()
+  if (!pending || !playerId || pending.playerId !== playerId) return
+  const id = typeof route.params.challengeId === 'string' ? route.params.challengeId : ''
+  if (pending.payload.challenge_id === id) return
+  try {
+    const result = await submitScavenger(pending.payload)
+    if (
+      result.ok ||
+      result.code === 'TEAM_CHALLENGE_DONE' ||
+      result.code === 'IDEMPOTENCY_PAYLOAD_MISMATCH'
+    ) {
+      clearPendingScavengerSubmit()
+    }
+  } catch {
+    // Keep pending; caller must not overwrite until this resolves.
+  }
+}
+
 function restorePending() {
   const playerId = session.profile?.player_id ?? null
   clearPendingScavengerSubmitIfOtherPlayer(playerId)
@@ -82,6 +104,9 @@ function restorePending() {
   if (!pending || !playerId || pending.playerId !== playerId) return
   const id = typeof route.params.challengeId === 'string' ? route.params.challengeId : ''
   if (pending.payload.challenge_id !== id) return
+  // Pending recovery takes precedence over ordinary already-completed UI.
+  alreadyDone.value = false
+  error.value = null
   idempotencyKey.value = pending.clientRequestId
   caption.value = pending.payload.caption ?? ''
   staged.value = {
@@ -114,6 +139,17 @@ function goReview() {
 
 async function performSubmit() {
   if (!challenge.value || !staged.value?.photoId || !session.profile?.player_id) return
+  await reconcileForeignPending()
+  const blocking = readPendingScavengerSubmit()
+  if (
+    blocking &&
+    blocking.playerId === session.profile.player_id &&
+    blocking.payload.challenge_id !== challenge.value.id
+  ) {
+    submitError.value = 'unknown'
+    formLocked.value = true
+    return
+  }
   if (!idempotencyKey.value) idempotencyKey.value = crypto.randomUUID()
   const payload = {
     idempotency_key: idempotencyKey.value,
@@ -183,6 +219,7 @@ function backToList() {
 }
 
 onMounted(async () => {
+  await reconcileForeignPending()
   await loadChallenge()
   restorePending()
 })

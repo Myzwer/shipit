@@ -82,13 +82,22 @@ export const useSessionStore = defineStore('session', () => {
       profile.value = null
       profileNetworkError.value = false
       const { clearPendingDrinkSubmit } = await import('@/lib/pendingDrinkSubmit')
+      const { clearPendingDailySubmit } = await import('@/lib/pendingDailySubmit')
+      const { clearPendingScavengerSubmit } = await import('@/lib/pendingScavengerSubmit')
       clearPendingDrinkSubmit()
+      clearPendingDailySubmit()
+      clearPendingScavengerSubmit()
       return
     }
     status.value = 'authenticated'
     await loadProfile({ clearOnNull: true })
     const { clearPendingDrinkSubmitIfOtherPlayer } = await import('@/lib/pendingDrinkSubmit')
-    clearPendingDrinkSubmitIfOtherPlayer(profile.value?.player_id ?? null)
+    const { clearPendingDailySubmitIfOtherPlayer } = await import('@/lib/pendingDailySubmit')
+    const { clearPendingScavengerSubmitIfOtherPlayer } = await import('@/lib/pendingScavengerSubmit')
+    const pid = profile.value?.player_id ?? null
+    clearPendingDrinkSubmitIfOtherPlayer(pid)
+    clearPendingDailySubmitIfOtherPlayer(pid)
+    clearPendingScavengerSubmitIfOtherPlayer(pid)
   }
 
   async function init() {
@@ -145,7 +154,11 @@ export const useSessionStore = defineStore('session', () => {
 
   async function signOut() {
     const { clearPendingDrinkSubmit } = await import('@/lib/pendingDrinkSubmit')
+    const { clearPendingDailySubmit } = await import('@/lib/pendingDailySubmit')
+    const { clearPendingScavengerSubmit } = await import('@/lib/pendingScavengerSubmit')
     clearPendingDrinkSubmit()
+    clearPendingDailySubmit()
+    clearPendingScavengerSubmit()
     if (supabase) {
       await supabase.auth.signOut()
     }

@@ -108,7 +108,8 @@ describe('mapHomeBountyCards', () => {
     expect(daily.presentation).toBe('active')
     expect(daily.title).toBe('Fixture Easy Stretch')
     expect(daily.pointsLabel).toBe('50 Points')
-    expect(daily.claimEnabled).toBe(false)
+    expect(daily.claimEnabled).toBe(true)
+    expect(daily.claimPrefill?.source).toBe('daily')
   })
 
   it('E pre-opening hides objectives', () => {

@@ -3,17 +3,21 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import GameShell from '@/components/shared/GameShell.vue'
 import { fetchMyDrinkSubmission } from '@/lib/drinkLog/api'
+import { fetchDrinkItPhotoSignedUrl } from '@/lib/drinkit/submitDaily'
 import { copy, formatCopy } from '@/ui/copy'
 
 const route = useRoute()
 const router = useRouter()
 
 const status = ref<'loading' | 'ready' | 'error'>('loading')
+const isDaily = ref(false)
+const heading = ref('')
 const drinkName = ref('')
 const barName = ref('')
 const points = ref(0)
 const caption = ref<string | null>(null)
 const submissionId = ref('')
+const photoUrl = ref<string | null>(null)
 
 onMounted(async () => {
   const id = typeof route.query.submission === 'string' ? route.query.submission : ''
@@ -28,12 +32,30 @@ onMounted(async () => {
       return
     }
     submissionId.value = String(data.submission_id ?? id)
+    const kind = String(data.kind ?? '')
+    isDaily.value = kind === 'daily_completion'
     const display = (data.display ?? {}) as Record<string, unknown>
-    drinkName.value = String(display.drink_name ?? 'Drink')
-    barName.value = String(display.bar_name ?? '')
+    if (isDaily.value) {
+      heading.value = copy.daily.galleryHeading
+      drinkName.value = String(display.title ?? copy.bounty.daily)
+      barName.value = ''
+    } else {
+      heading.value = copy.wizard.galleryStubHeading
+      drinkName.value = String(display.drink_name ?? 'Drink')
+      barName.value = String(display.bar_name ?? '')
+    }
     caption.value = typeof data.caption === 'string' ? data.caption : null
     const result = (data.result ?? {}) as Record<string, unknown>
-    points.value = Number(result.awarded_points ?? 0) || 0
+    points.value = Number(result.awarded_points ?? display.points ?? 0) || 0
+    const photoId =
+      typeof data.photo_id === 'string'
+        ? data.photo_id
+        : typeof display.photo_id === 'string'
+          ? display.photo_id
+          : null
+    if (photoId) {
+      photoUrl.value = await fetchDrinkItPhotoSignedUrl(photoId)
+    }
     status.value = 'ready'
   } catch {
     status.value = 'error'
@@ -54,16 +76,32 @@ onMounted(async () => {
         style="background: var(--theme-card); color: var(--theme-ink)"
         data-testid="gallery-submission-card"
         :data-submission-id="submissionId"
+        :data-kind="isDaily ? 'daily' : 'drink'"
       >
+        <img
+          v-if="photoUrl"
+          :src="photoUrl"
+          alt=""
+          class="aspect-square w-full rounded-2xl object-cover"
+          data-testid="gallery-photo"
+        />
         <div
+          v-else
           class="flex aspect-square w-full items-center justify-center rounded-2xl text-center text-sm font-semibold uppercase tracking-wide text-white"
           style="background: var(--theme-header)"
         >
           {{ copy.wizard.noPhoto }}
         </div>
-        <h2 class="font-display mt-4 text-xl font-bold">{{ copy.wizard.galleryStubHeading }}</h2>
+        <h2 class="font-display mt-4 text-xl font-bold">{{ heading }}</h2>
         <p class="mt-2 font-semibold" data-testid="gallery-drink">{{ drinkName }}</p>
-        <p class="text-sm" style="color: var(--theme-muted)" data-testid="gallery-bar">{{ barName }}</p>
+        <p
+          v-if="barName"
+          class="text-sm"
+          style="color: var(--theme-muted)"
+          data-testid="gallery-bar"
+        >
+          {{ barName }}
+        </p>
         <p class="mt-2 text-sm" data-testid="gallery-caption">
           {{ caption?.trim() || copy.wizard.noCaption }}
         </p>
