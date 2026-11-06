@@ -2,7 +2,8 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** Phase **4B2** — Ship It! photo submissions (update hash after commit)  
+**Tip:** `15893e3` — Phase **4B2** Ship It! photo submissions  
+**CI:** https://github.com/Myzwer/shipit/actions/runs/42145564124 — success  
 **Prior tip:** `83163af` / feature `4423b22` — Phase **4B1** accepted  
 **Do not start Phase 4B3 / Daily / full Gallery until the Development Director authorizes it.**
 
@@ -27,7 +28,7 @@ Key docs: `docs/MEDIA_PIPELINE.md`, `docs/SHIPIT_CHALLENGES.md`, `docs/DRINKIT_S
 
 ## Verified at tip
 
-Local (pre-CI): lint ✅ · typecheck ✅ · unit **110** · integration **230** / 24 files · E2E 4B2 **10/10** · build ✅  
+Local + CI: lint ✅ · typecheck ✅ · unit **110** · integration **230** / 24 files · E2E 4B2 **10/10** · build ✅ · Actions **success**  
 `dev_seed_cruise_clock` clears scavenger/bound photos + local ingredient_corrections before cruise cascade.
 
 ```bash
