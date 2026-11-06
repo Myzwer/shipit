@@ -800,6 +800,61 @@ export function previewCatalogImport(input: unknown): CatalogPreviewResult {
   }
 }
 
+/**
+ * Publish-oriented readiness for staging. The pure TS preview is DB-blind, so `safeToPublish`
+ * stays false; staging only requires `ready_for_scheduling` with no errors. The server
+ * (admin_stage_catalog_import / admin_preview_catalog_publish) adds the database checks.
+ */
+export function isReadyToStage(result: CatalogPreviewResult): boolean {
+  return (
+    result.readiness === 'ready_for_scheduling' &&
+    result.structurallyValid &&
+    result.schemaErrors.length === 0 &&
+    result.crossReferenceErrors.length === 0 &&
+    result.businessRuleErrors.length === 0 &&
+    result.shortages.cocktailShortage === 0 &&
+    result.shortages.ingredientShortage === 0
+  )
+}
+
+/** Validation summary sent to admin_stage_catalog_import (advisory; server rechecks). */
+export interface CatalogStageValidation {
+  readiness: CatalogPreviewResult['readiness']
+  structurally_valid: boolean
+  error_count: number
+  warning_count: number
+  shortages: {
+    cocktail_shortage: number
+    ingredient_shortage: number
+  }
+  counts: CatalogPreviewResult['counts']
+  fingerprint: string
+  payload_hash?: string
+}
+
+export function buildStageValidation(
+  result: CatalogPreviewResult,
+  payloadHash?: string,
+): CatalogStageValidation {
+  const out: CatalogStageValidation = {
+    readiness: result.readiness,
+    structurally_valid: result.structurallyValid,
+    error_count:
+      result.schemaErrors.length +
+      result.crossReferenceErrors.length +
+      result.businessRuleErrors.length,
+    warning_count: result.warnings.length,
+    shortages: {
+      cocktail_shortage: result.shortages.cocktailShortage,
+      ingredient_shortage: result.shortages.ingredientShortage,
+    },
+    counts: result.counts,
+    fingerprint: previewFingerprint(result),
+  }
+  if (payloadHash) out.payload_hash = payloadHash
+  return out
+}
+
 /** Deterministic JSON fingerprint for revalidation tests (sorted key stringify of preview summary). */
 export function previewFingerprint(result: CatalogPreviewResult): string {
   return JSON.stringify({

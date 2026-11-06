@@ -60,7 +60,7 @@ describe('Phase 2C catalog foundation', () => {
     expect(preview.error?.message ?? '').toMatch(/ADMIN_REQUIRED/i)
   })
 
-  it('admin publish stub refuses mutation (not implemented)', async () => {
+  it('legacy single-argument publish refuses mutation (use the candidate flow)', async () => {
     const admin = await signInAs(fixtures, 'admin')
     const { count: before } = await service
       .from('catalog_versions')
@@ -70,7 +70,7 @@ describe('Phase 2C catalog foundation', () => {
       p_payload: buildScheduleReadyCatalog(72, 39),
     })
     expect(error).toBeTruthy()
-    expect(error?.message ?? '').toMatch(/CATALOG_PUBLISH_NOT_IMPLEMENTED/)
+    expect(error?.message ?? '').toMatch(/CATALOG_PUBLISH_USE_CANDIDATE_FLOW/)
 
     const { count: after } = await service
       .from('catalog_versions')

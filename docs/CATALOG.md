@@ -77,7 +77,23 @@ Readiness: `invalid` | `structurally_valid` | `valid_not_ready` | `ready_for_sch
 Always `safeToPublish: false` in Phase 2C; preview never mutates the database.
 
 Server gate: `admin_preview_catalog_import` — admin-only, read-only.  
-Publish stub still raises `CATALOG_PUBLISH_NOT_IMPLEMENTED`.
+The legacy single-argument `admin_publish_catalog_import(jsonb)` raises `CATALOG_PUBLISH_USE_CANDIDATE_FLOW`.
+
+### Stage → preview → publish / rollback (Phase 6B2)
+
+Import is `full_snapshot` schema 1.0 (not the Export Current Game Data shape). Client: `src/lib/adminCatalogImport.ts`.
+
+| RPC | Purpose |
+|---|---|
+| `admin_stage_catalog_import(request_id, payload, validation)` | Rechecks schema/mode/ids/references/hash/pool; stores a `catalog_import_candidates` row |
+| `admin_preview_catalog_publish(candidate_id)` | Read-only diff, overlay plan, blockers (`safe_to_publish`) |
+| `admin_publish_catalog_import(request_id, candidate_id, expected_active_id, expected_hash)` | New catalog version + pointer flip; rebinds only scheduled never-shown slots; idempotent |
+| `admin_rollback_catalog(request_id, target_version_id, expected_active_id)` | Publishes a retired version's manifest as a NEW `<id>-rollback-<8hex>` revision with the same checks |
+| `admin_find_catalog_publish_request_by_id(request_id)` / `admin_list_catalog_versions()` | Reconcile / version list |
+
+`payload_hash` = sha256 hex of `jsonb::text`; the TS client reproduces `jsonb::text` (`canonicalJsonbText`).
+Live (current) and 15-minute grace objectives must still exist in the proposed catalog (`CURRENT_OFFER_MISSING`); exposed keys are never re-offered; remaining scheduled slots must be fillable from the unused eligible pool (`REMAINING_POOL_SHORTAGE`).
+Manual Add Drink overlays carry forward unless the new snapshot already contains the same bar + drink (then they are deactivated as redundant).
 
 ## Content readiness
 
@@ -115,23 +131,31 @@ Cruise-time additions live in `admin_manual_offerings` (+ ingredient rows) and w
 
 Admin-only RPC `admin_export_current_game_data` (`export_schema_version: "1.0"`) dumps catalog + overlays + exposure/slot state for an external reconstruction agent. Excludes roster, credentials, Auth ids, photos, Gallery, and private scores.
 
-### Phase 6B2 import contracts (documented only)
+### Manual offering safety (Phase 6B2 gate)
 
-Publish/rollback is not implemented in 6B1. A later full-snapshot importer must:
+`admin_add_drink` never overwrites an existing version drink’s display name/kind, never registers an already-present base offering as a removable manual, and never silently reactivates a deactivated manual. Deactivate removes `catalog_version_offerings` only when `introduced_version_offering` is true.
 
-- Reconcile admin-added offerings by stable ids; deactivate redundant overlays when the snapshot already contains the offering.
-- Carry player correction overlays forward; keep admin-suppressed corrections suppressed.
-- Preserve canonical drink/bar/ingredient identities and consumed exposure keys.
-- Protect current active offers; leave accepted historical submissions untouched.
+### Active slots and prior catalog versions
 
-## Researched menu Markdown
+On publish, only **scheduled, never-shown** Cocktail/Ingredient slots are reassigned from the new pool. Current / exposed / grace / missed_paused / skipped offers keep their prior `bounty_slot_offers.catalog_version_id` and `display_snapshot`. Slot rows may be re-stamped to the new version so Admin Skip draws reserves from the active catalog. Daily and Featured Bar assignments are never rewritten.
 
-Expected evidence filenames `Star_Princess_Bar_Game_Menus.md` / `Star_Princess_Bar_Game_Menus(2).md` are **MISSING** from the repo (ranking drafts cite `(2).md`). Present research dump: `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md` — not an approved production import. Organizer must supply the original evidence file before Saturday catalog prep.
+## Beverage research references
 
-## Remaining Phase 2D / catalog ops dependencies
+Under `handoff/data/menus/` (see that folder’s README):
 
-1. Publish/activate / rollback catalog version workflow (Phase 6B2)
-2. Production Saturday catalog (not handoff ranking drafts)
+| File | Role |
+|---|---|
+| `Star-Princess-Beverage-Source-Unmodified.md` | Source evidence (13 bars; Good Spirits unverified; shared pool menu) |
+| `Star-Princess-Beverage-Display-Aliases.md` | Player-readable explanations only — not extra ingredients |
+| `Ingredient-Display-Alias-Lexicon.json` | Optional display labels — **not** a scoring normalization map |
+
+These are **not** an approved production import and must not be published via Catalog Import as the live cruise catalog.
+
+## Remaining production catalog prerequisites
+
+1. Build a reviewed `full_snapshot` JSON from onboard Saturday photos + research references (external agent + human review)
+2. Confirm pool readiness (≥72 / ≥39) without inventing unverified Cocktail candidates
+3. Publish via Admin Catalog Import after preview shows no blockers
 
 ## Migrations
 
@@ -143,3 +167,5 @@ Expected evidence filenames `Star_Princess_Bar_Game_Menus.md` / `Star_Princess_B
 | `20261105001300_phase2c1_catalog_read_contracts.sql` | Public Ingredient hint ledger + RPC; cocktail concept uniqueness |
 | `20261105002700_phase3ca_corrections_and_recovery.sql` | `ingredient_corrections` overlay + evaluate/submit honor paths |
 | `20261105006600_phase6b1_admin_add_drink_and_export.sql` | Manual offering overlay + export RPC + picker filter |
+| `20261105006700_phase6b2_manual_offering_safety.sql` | Base offering preservation for Add Drink |
+| `20261105006800_phase6b2_catalog_import_publish_rollback.sql` | Stage / preview / publish / rollback |

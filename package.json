@@ -57,6 +57,8 @@
     "screenshots:phase6a": "node scripts/e2e-phase6a-roster.mjs",
     "test:e2e:phase6b1": "node scripts/e2e-phase6b1-add-drink-export.mjs",
     "screenshots:phase6b1": "node scripts/e2e-phase6b1-add-drink-export.mjs",
+    "test:e2e:phase6b2": "node scripts/e2e-phase6b2-catalog-import.mjs",
+    "screenshots:phase6b2": "node scripts/e2e-phase6b2-catalog-import.mjs",
     "ops:photo-cleanup": "node scripts/run-photo-cleanup.mjs"
   },
   "dependencies": {

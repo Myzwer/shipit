@@ -1,51 +1,46 @@
-# Agent handoff — Phase 6B1 complete
+# Agent handoff — Phase 6B2 complete
 
-**STOP.** Do not start Phase 6B2, achievements, or production catalog publish until the Development Director authorizes it.
+**STOP.** Do not start achievements, Awards Mode, or production catalog population until the Development Director authorizes it.
 
 | | |
 |---|---|
-| Branch | `main` (clean) |
-| Feature tip | `b5622b8` — Phase **6B1** |
-| Checkpoint tip | `c54d82d` |
-| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42172503784 — success |
-| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42172805850 — success |
-| Baseline accepted | Phase **6A** `cf60a43` / `2d77dca` / `ed935d4` |
-| This phase | Phase **6B1** — Auth reservation + Admin Add Drink + Export |
+| Branch | `main` (clean after tip commits) |
+| Feature tip | *(fill after commit)* — Phase **6B2** |
+| Baseline accepted | Phase **6B1** `b5622b8` / `c54d82d` / `61e48c1` |
+| This phase | Phase **6B2** — Catalog import / publish / rollback |
 
-## Just shipped (6B1)
+## Just shipped (6B2)
 
-1. **Auth concurrency gate** — durable `in_progress` reservation in `admin_roster_auth_requests` before Auth Admin side effects; one owner; mismatch reject; complete cannot overwrite conflicting fingerprint; lease reclaim; v1 replay preserved; passwords never ledgered; unknown reset stays explicit
-2. **Admin Add Drink overlay** — multi-bar named alcoholic drink + ingredients; stable concept/offering ids; never Cocktail rotation; deactivate future-only; audit/registry tables
-3. **Admin UI** — Add Drink section (preview/save/remove) + Export Current Game Data download on `/admin`
-4. **Export contract** — `admin_export_current_game_data` schema `1.0` (catalog, overlays, exposure/slots; no roster/secrets/photos)
-5. **6B2 import compatibility** documented only (no publish/rollback)
-6. **Menu source inventory** — `Star_Princess_Bar_Game_Menus(.md|(2).md)` **MISSING**; research dump present at `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md`
+1. **Add Drink safety gate** — base offerings cannot become removable manuals; drink name/kind not overwritten; deactivate only removes introduced version rows (`067`)
+2. **Stage → preview → publish** — `full_snapshot` schema 1.0; DB-aware publish preview; atomic pointer + scheduled-slot rebind; current/grace preserved (`068`)
+3. **Overlay reconciliation** — manual offerings carry forward or deactivate as redundant; admin-suppressed corrections stay suppressed
+4. **Guarded rollback** — new audited revision from prior content; same safety checks (not a raw pointer flip)
+5. **Admin UI** — Catalog Import section (upload/paste, preview, confirm publish, rollback)
+6. **Export ≠ import** called out in UI/docs
 
-Migrations: `065` Auth reservation · `066` Add Drink + export. Docs: `ADMIN_ADD_DRINK_AND_EXPORT.md`, updates to `CATALOG.md`, `ADMIN_ROSTER.md`.
+Migrations: `067` manual safety · `068` import/publish/rollback.
 
 ## Verified
 
-lint · typecheck · unit **135** · integration **282** / 36 files · E2E 6A **10/10** · E2E 6B1 **13/13** · build · Actions success
+lint · typecheck · unit **149** · integration **308** / 38 files · E2E 6A **10/10** · E2E 6B1 **13/13** · E2E 6B2 **8/8** · build · Actions (fill after push)
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npx supabase functions serve admin-roster
 npm run db:seed-bounty-now
 npm run lint && npm run typecheck && npm test && npm run test:integration
-npm run test:e2e:phase6a
-npm run test:e2e:phase6b1
+npm run test:e2e:phase6a && npm run test:e2e:phase6b1 && npm run test:e2e:phase6b2
 npm run build
 ```
 
 ## Out of scope until authorized
 
-Full replacement JSON import/publish/rollback (6B2) · Automatic menu-photo interpretation · Automatic novelty/rarity ranking · Live production menu population · Real cruise player accounts · Achievements / Awards Mode · Production deployment · Visual fidelity cleanup
+Production catalog from source Markdown · Photo-to-menu OCR/AI · Real cruise roster · Achievements / Awards · Visual polish · Deployment
 
 ## Pitfalls
 
-- Auth: only `reserved=true` may call Auth Admin; concurrent same UUID must wait/reconcile
-- Password reset uncertain ⇒ new `client_request_id` (never claim success from silence)
-- Add Drink never writes `cocktail_candidates`
-- Export notes must not be mistaken for secrets scanners matching the word “password”
-- Missing researched menu Markdown blocks Saturday production catalog prep — request original file
-- Team reassignment after Ship It! history remains `TEAM_HISTORY_LOCKED`
+- Export JSON is reconstruction context — not a publishable `full_snapshot`
+- Active offers may retain a prior `catalog_version_id` while the pointer moves
+- Good Spirits prices remain unverified; shared pool menus are not bar-proof
+- Add Drink must never register base offerings as manuals
+- Rollback is blocked when remaining pool / current offers are incompatible

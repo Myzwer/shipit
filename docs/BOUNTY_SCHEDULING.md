@@ -18,7 +18,7 @@ Slot keys look like `cocktail:day:1:h12`. Boundaries are ship-local; UTC eligibi
 - `bounty_slots` — stable slot rows (day, window, state)
 - `bounty_slot_offers` — assigned offer revision (active offer per slot)
 - `bounty_objective_exposures` — cruise-wide nonrepetition once shown
-- `bounty_schedule_runs` — one generation per cruise (idempotent)
+- `bounty_schedule_runs` — one generation per cruise/catalog version (unique on cruise + catalog_version_id)
 
 States: `scheduled` → `current` → `exposed`, or `missed_paused` if the window ended while Drink It! was paused without exposure.
 
@@ -71,7 +71,7 @@ Authenticated clients calling these RPCs must fail.
 - Pause → public reads `paused`; scheduled windows that fully end without exposure become `missed_paused` (not backfilled)
 - Clock corrections do not reshape the slot ledger or create duplicate exposures
 - Time reversal does not create a second exposure row for an already-shown canonical key
-- Future catalog imports may replace only `scheduled` / unshown offers (exposure table prevents repeats)
+- Catalog publish (Phase 6B2) replaces only `scheduled` / unshown Cocktail & Ingredient offers; exposures prevent repeats; current/grace offers keep their prior catalog version binding. See [`docs/CATALOG.md`](./CATALOG.md).
 
 ## Local seven-day simulation
 

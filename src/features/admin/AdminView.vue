@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import AddDrinkSection from '@/features/admin/AddDrinkSection.vue'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import CatalogExportSection from '@/features/admin/CatalogExportSection.vue'
+import CatalogImportSection from '@/features/admin/CatalogImportSection.vue'
 import GameStatusSection from '@/features/admin/GameStatusSection.vue'
 import RosterSection from '@/features/admin/RosterSection.vue'
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
@@ -31,6 +32,7 @@ function backHome() {
       <RosterSection />
       <AddDrinkSection />
       <CatalogExportSection />
+      <CatalogImportSection />
       <ShipClockSection />
       <GameStatusSection />
       <BountySkipSection />
