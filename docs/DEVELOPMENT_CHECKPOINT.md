@@ -6,7 +6,9 @@
 |---|---|
 | Branch | `main` (clean) |
 | Feature tip | `b5622b8` — Phase **6B1** |
+| Checkpoint tip | `c54d82d` |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42172503784 — success |
+| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42172805850 — success |
 | Baseline accepted | Phase **6A** `cf60a43` / `2d77dca` / `ed935d4` |
 | This phase | Phase **6B1** — Auth reservation + Admin Add Drink + Export |
 
