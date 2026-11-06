@@ -2,7 +2,8 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** *(pending commit)* — Phase **5C** feature  
+**Tip:** `026adc4` — Phase **5C** feature  
+**CI:** https://github.com/Myzwer/shipit/actions/runs/42162758510 — success  
 **Prior tip:** `af7b775` / checkpoint `75ca67b` — Phase **5B** accepted (CI `42158690935`)  
 **Do not start the next phase until the Development Director authorizes it.**
 
@@ -23,7 +24,7 @@
 
 ## Verified at tip
 
-*(fill after local + CI)* lint · typecheck · unit · integration · E2E 5A/5B · build · Actions
+Local + CI: lint ✅ · typecheck ✅ · unit **117** · integration **266** / 32 files · E2E 5A **10/10** · E2E 5B **6/6** · build ✅ · Actions **success**
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
