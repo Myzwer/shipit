@@ -87,7 +87,7 @@ export async function seedTestAchievementCatalog(service: SupabaseClient) {
       enabled: true,
       test_only: true,
       condition_type: 'tag_match',
-      condition_config: { scope: 'ingredient', tags: ['spirit-rum'], match: 'any' },
+      condition_config: { scope: 'ingredient', tags: ['spirit-family-rum'], match: 'any' },
     },
     {
       stable_key: 'test-interval-30',
@@ -176,5 +176,6 @@ export async function clearTestAchievements(service: SupabaseClient) {
     await service.from('achievement_definitions').delete().eq('test_only', true)
     await service.from('ingredient_tags').delete().gte('tag', '')
     await service.from('drink_concept_tags').delete().gte('tag', '')
+    await service.from('read_cursors').delete().eq('scope', 'achievements_mine')
   }
 }

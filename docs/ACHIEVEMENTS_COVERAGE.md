@@ -40,9 +40,9 @@
 | Ship day + received_at_utc | Present (`submissions`) |
 | Catalog version on drink log | Present (`drink_logs.catalog_version_id`) |
 | Ingredient keys on offerings (versioned) | Present (`catalog_offering_ingredients`) |
-| Spirit family / clear-dark / rum style / frozen / fruit tags | **Missing** as structured tags (`family` is coarse free text only) |
+| Spirit family / clear-dark / rum style / frozen / fruit tags | **Pipeline ready** (Phase 7B0): versioned `catalog_version_*_tags` via `full_snapshot` `classification_tags`; production content still external |
 | Recipe ingredient count | Derivable from offering ingredient rows when catalog version known |
-| Margarita / cocktail-type tags | **Missing** |
+| Margarita / cocktail-type tags | **Pipeline ready** (drink/offering `classification_tags`); production content still external |
 | Scavenger challenges (50) + 5 categories + keys | Present (dev titles ≠ interim titles) |
 | Port-day schedule | **Missing** on `cruise_config` |
 | Thanksgiving ship date | **Missing** |
@@ -91,13 +91,13 @@
 | D-026 | 3 distinct cocktails one bar | C | SUPPORTED |
 | D-028…D-029 | Distinct cocktails 3/8 | B | SUPPORTED |
 | D-030 | Same cocktail 3 times | A | SUPPORTED |
-| D-031 | Repeat cocktail after Cocktail claim | H | SUPPORTED |
+| D-031 | Repeat cocktail after Cocktail claim | H | SUPPORTED (Phase 7B0 ordered_after fix) |
 | D-032, D-084 | Other alcoholic option (dup trigger) | D | SUPPORTED (keep distinct defs) |
-| D-033 | Frozen cocktail | E | NEEDS CONTENT/METADATA (`drink_concept_tags.frozen`) |
+| D-033 | Frozen cocktail | E | NEEDS CONTENT/METADATA (versioned `frozen` tag via import) |
 | D-034, D-035, D-080 | Wine / Beer (D-035≈D-080 dup) | D | SUPPORTED |
 | D-036 | Cocktail + beer + wine across logs | B,D | SUPPORTED |
-| D-037…D-040 | 3× gin/tequila/rum/whiskey | D,E | NEEDS CONTENT/METADATA (ingredient tags or keys) |
-| D-041…D-042 | Clear / dark base spirit ×5 | E | NEEDS CONTENT/METADATA |
+| D-037…D-040 | 3× gin/tequila/rum/whiskey | D,E | NEEDS CONTENT/METADATA (curated keys/tags in snapshot) |
+| D-041…D-042 | Clear / dark base spirit ×5 | E | NEEDS CONTENT/METADATA (`spirit-clear` / `spirit-dark`) |
 | D-043 | Gin+vodka+rum+tequila across cruise | B,E | NEEDS CONTENT/METADATA |
 | D-044…D-061 | Specific ingredient / brand keys | D | NEEDS CONTENT/METADATA (confirm keys in catalog; some may match existing keys) |
 | D-062 | ≥7 listed recipe ingredients | E/count | SUPPORTED when offering has ≥7 associations |
@@ -112,7 +112,7 @@
 | D-072…D-073 | Before 11:00 / after 23:00 | J | SUPPORTED |
 | D-074 | 2 drinks within 30 minutes | H | SUPPORTED |
 | D-075 | Port daytime window | J | NEEDS CONTENT/METADATA |
-| D-076…D-077 | First / final cruise day | J | SUPPORTED |
+| D-076…D-077 | First / final cruise day | J | SUPPORTED (drink_log required; Phase 7B0) |
 | D-078 | Drinks on 3 days | B | SUPPORTED |
 | D-079 | Same bar on 3 days | C | SUPPORTED |
 | D-081 | Thanksgiving | J | NEEDS CONTENT/METADATA (+ voyage calendar) |
@@ -147,4 +147,5 @@ Exact publishing of interim titles/icons/secrets remains Phase **7B**. Phase **7
 - Empty tag tables ⇒ classification defs stay unearned (no fabricated unlocks).
 - Exclusive firsts use earliest **qualifying** submission (`received_at_utc`, then immutable `submission_id`) via prefix eval (Phase 7A.1).
 - Ship-time / Thanksgiving conditions use historical `clock_offset_at` (Phase 7A.1).
+- Classification eval uses **versioned** tags at the log’s `catalog_version_id` (Phase 7B0); global legacy tag tables are unused.
 - Void recomputes dependent awards in `achievement_on_void_submission`.

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://star-princess.local/schemas/catalog-import.schema.json",
   "title": "Star Princess Catalog Import (full_snapshot)",
-  "description": "Versioned full-snapshot catalog contract for Cocktail and Ingredient Bounty pools. Illustrative snippets are not production data. Cross-reference and business rules are enforced by the application validator in addition to this schema.",
+  "description": "Versioned full-snapshot catalog contract for Cocktail and Ingredient Bounty pools, plus optional achievement classification metadata (schema 1.1). Illustrative snippets are not production data. Cross-reference and business rules are enforced by the application validator in addition to this schema. schema_version 1.0 remains valid; 1.1 is preferred when shipping curated classification_tags. Omitted tags mean unknown — never invent classifications at runtime.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -19,7 +19,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "1.0"
+      "enum": ["1.0", "1.1"]
     },
     "catalog_id": {
       "type": "string",
@@ -112,6 +112,43 @@
         "active": { "type": "boolean" }
       }
     },
+    "ingredientClassificationTag": {
+      "type": "string",
+      "enum": [
+        "spirit-family-gin",
+        "spirit-family-vodka",
+        "spirit-family-rum",
+        "spirit-family-tequila",
+        "spirit-family-mezcal",
+        "spirit-family-whiskey",
+        "spirit-family-bourbon",
+        "spirit-family-brandy",
+        "spirit-family-cognac",
+        "spirit-family-liqueur",
+        "spirit-family-other",
+        "spirit-clear",
+        "spirit-dark",
+        "rum-style-white",
+        "rum-style-gold",
+        "rum-style-dark",
+        "rum-style-spiced",
+        "rum-style-aged",
+        "rum-style-overproof",
+        "fruit",
+        "fruit-citrus",
+        "fruit-berry",
+        "fruit-tropical",
+        "hot-pepper",
+        "wine",
+        "rose",
+        "prosecco",
+        "champagne"
+      ]
+    },
+    "drinkClassificationTag": {
+      "type": "string",
+      "enum": ["frozen", "margarita", "mixed-spirits"]
+    },
     "ingredient": {
       "type": "object",
       "additionalProperties": false,
@@ -122,9 +159,16 @@
         "aliases": {
           "type": "array",
           "items": { "type": "string", "minLength": 1, "maxLength": 160 },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "description": "Optional friendly display labels only — never scoring synonyms or brand→family inference."
         },
-        "family": { "type": ["string", "null"], "maxLength": 64 }
+        "family": { "type": ["string", "null"], "maxLength": 64 },
+        "classification_tags": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ingredientClassificationTag" },
+          "uniqueItems": true,
+          "description": "Curated achievement classifications for this canonical ingredient identity. Omitted = unknown."
+        }
       }
     },
     "drinkKind": {
@@ -155,11 +199,13 @@
         "ingredient_keys": {
           "type": "array",
           "items": { "$ref": "#/$defs/canonicalKey" },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "description": "Canonical ingredient identities for this offering/recipe at this bar."
         },
         "display_ingredients": {
           "type": "array",
-          "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "description": "Original printed ingredient text from the menu source. Not used for achievement classification."
         },
         "price_usd": {
           "type": ["number", "null"],
@@ -175,6 +221,12 @@
         "availability": {
           "type": "string",
           "enum": ["standard", "seasonal", "limited"]
+        },
+        "classification_tags": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/drinkClassificationTag" },
+          "uniqueItems": true,
+          "description": "Offering-specific classifications when recipes differ by bar (e.g. frozen at one bar only)."
         }
       }
     },
@@ -186,6 +238,12 @@
         "key": { "$ref": "#/$defs/canonicalKey" },
         "name": { "type": "string", "minLength": 1, "maxLength": 160 },
         "kind": { "$ref": "#/$defs/drinkKind" },
+        "classification_tags": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/drinkClassificationTag" },
+          "uniqueItems": true,
+          "description": "Concept-level classifications shared across offerings when appropriate."
+        },
         "bar_offerings": {
           "type": "array",
           "minItems": 1,

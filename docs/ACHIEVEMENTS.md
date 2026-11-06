@@ -1,6 +1,6 @@
-# Achievements (Phase 7A)
+# Achievements (Phase 7A / 7B0)
 
-Bounded, data-driven achievement engine for the private ~22-player cruise app. **No production catalog is published in this phase.** Test-only definitions (`test_only = true`) evaluate only while the active cruise label is `development-only`.
+Bounded, data-driven achievement engine for the private ~22-player cruise app. **No production achievement catalog is published yet.** Test-only definitions (`test_only = true`) evaluate only while the active cruise label is `development-only`.
 
 ## Condition primitives
 
@@ -27,15 +27,23 @@ Coverage of the interim 140-row snapshot: see `docs/ACHIEVEMENTS_COVERAGE.md`.
 
 ## Evidence contract
 
-Only **accepted, non-voided** submissions count. Drink logs use versioned offering ingredients + tags at the logged `catalog_version_id`. Empty tag tables mean tag conditions never unlock.
+Only **accepted, non-voided** submissions count. Drink logs use versioned offering ingredients + **`catalog_version_*_tags`** at the logged `catalog_version_id`. Legacy global `ingredient_tags` / `drink_concept_tags` are not used for evaluation. Empty versioned tag rows mean tag conditions never unlock. Display aliases never unlock achievements.
 
 Ship-time windows and Thanksgiving dates use **`clock_offset_at`** (same historical offset as Gallery), never the live base offset alone and never device timezone.
+
+Drink It! `cruise_day` (first / final / Thanksgiving) requires an accepted **`drink_log`**, not a Daily Challenge alone. Ship It! first/final days continue to require scavenger completions.
 
 ## Phase 7A.1 gates
 
 1. Exclusive First ordering uses first-qualifying evidence (not earliest any-evidence).
 2. Historical Ship Time for condition J.
 3. `dev_submit_*_at` locked to `service_role` + `development-only` (EXECUTE revoked from anon/authenticated).
+
+## Phase 7B0 gates
+
+1. `ordered_after` evaluates claim→later same-concept drink without a bogus alias (D-031).
+2. Versioned classification metadata flows through `full_snapshot` → publish → achievement eval.
+3. Historical logs keep the classifications of their catalog version after later publishes/rollbacks.
 
 Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set, D-085 daily max, automatic dual grants to named companions.
 
@@ -69,4 +77,4 @@ Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set
 
 ## Phase 7B remaining
 
-Final creative catalog load, icons/secrets/thresholds, unlock popup/animations, Awards Mode / Wrapped, real companion ID maps, Thanksgiving/port schedule, recipe classifications, production enablement of definitions.
+Final creative achievement catalog load, icons/secrets/thresholds, unlock popup/animations, Awards Mode / Wrapped, real companion ID maps, Thanksgiving/port schedule, production enablement of definitions. Classification **pipeline** is Phase 7B0; Star Princess menu classification content is still external.

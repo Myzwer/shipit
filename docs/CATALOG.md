@@ -9,12 +9,16 @@ Validated, version-aware data foundation for **Cocktail** and **Ingredient** Bou
 ## Schema contract
 
 - JSON Schema: [`content/schemas/catalog-import.schema.json`](../content/schemas/catalog-import.schema.json)
-- `schema_version`: `"1.0"`
+- `schema_version`: `"1.0"` or `"1.1"` (both accepted; **1.1 preferred** when shipping curated `classification_tags`)
 - `mode`: `"full_snapshot"` only
 - Required: `catalog_id`, `source_notes`, `bars`, `ingredients`, `drinks`, `cocktail_candidates`, `ingredient_candidates`
 - Optional: `base_catalog_id` (for later stale-base rejection on publish)
+- Optional classification (Phase **7B0**): `ingredients[].classification_tags`, `drinks[].classification_tags`, `bar_offerings[].classification_tags` — approved vocabulary only; omitted = unknown
+- Layers: printed `display_ingredients` ≠ canonical `ingredient_keys` ≠ `classification_tags` ≠ display `aliases` (aliases are never scoring synonyms)
 
 Illustrative snippets in the Technical Spec are **not** production data. Handoff ranking drafts under `handoff/data/rankings/` are **review drafts**, not approved pools — do not load them as the active catalog.
+
+Menu Reconstruction Agent contract: [`docs/MENU_RECONSTRUCTION_AGENT.md`](./MENU_RECONSTRUCTION_AGENT.md).
 
 ## Cocktail concept versus offering identity
 
@@ -43,7 +47,7 @@ An Ingredient candidate counts toward the **39**-slot pool only when:
 
 Zero matching offerings → ineligible. Mismatches are reported as business-rule errors; validators never invent qualifying drinks.
 
-Princess Plus **$15** exclusions apply to Cocktail Bounty candidates; Ingredient evidence may still use higher-priced named cocktails when present on an active bar menu.
+Princess Plus **$15** exclusions apply to **Cocktail Bounty candidates only**. Ingredient Bounty corroboration may use higher-priced named cocktails on active bar menus (`verified_over_limit` does not remove ingredient evidence). Featured Cocktail objectives must never require a drink known to cost more than $15.
 
 ## Source-reported vs corroborated coverage
 
@@ -81,7 +85,10 @@ The legacy single-argument `admin_publish_catalog_import(jsonb)` raises `CATALOG
 
 ### Stage → preview → publish / rollback (Phase 6B2)
 
-Import is `full_snapshot` schema 1.0 (not the Export Current Game Data shape). Client: `src/lib/adminCatalogImport.ts`.
+Import is `full_snapshot` schema 1.0 or 1.1 (not the Export Current Game Data shape). Client: `src/lib/adminCatalogImport.ts`.
+Server staging rechecks schema/mode/ids/references/hash/pool **and** classification vocabulary; a client-forged `ready_for_scheduling` cannot bypass those checks.
+Classification tags are written into `catalog_version_*_tags` on publish (and on rollback’s new revision) from the stored manifest — historical drink logs keep their `catalog_version_id`, so later catalogs do not rewrite prior achievement evidence.
+Manual Add Drink and player corrections never invent classification tags.
 
 | RPC | Purpose |
 |---|---|

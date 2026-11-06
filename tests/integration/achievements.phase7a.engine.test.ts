@@ -192,9 +192,15 @@ describe('Phase 7A drink achievements', () => {
       .eq('offering_id', offering.offering_id)
       .limit(1)
     expect(ingredients?.length).toBeGreaterThan(0)
-    await fixtures.service!.from('ingredient_tags').insert({
+    const { data: versionRow } = await fixtures.service!
+      .from('active_catalog_pointer')
+      .select('catalog_version_id')
+      .eq('id', 1)
+      .single()
+    await fixtures.service!.from('catalog_version_ingredient_tags').insert({
+      catalog_version_id: versionRow!.catalog_version_id,
       ingredient_id: ingredients![0].ingredient_id,
-      tag: 'spirit-rum',
+      tag: 'spirit-family-rum',
     })
     const author = playerId(fixtures, 'drink_only')
     await submitAt(

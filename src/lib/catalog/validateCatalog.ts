@@ -6,6 +6,12 @@ import Ajv2020 from 'ajv/dist/2020'
 import addFormats from 'ajv-formats'
 import schema from '../../../content/schemas/catalog-import.schema.json'
 import {
+  isApprovedDrinkTag,
+  isApprovedIngredientTag,
+  isApprovedOfferingTag,
+  CATALOG_SCHEMA_VERSIONS,
+} from './classificationTags'
+import {
   COCKTAIL_SLOT_TARGET,
   COCKTAIL_TIER_POINTS,
   INGREDIENT_SLOT_TARGET,
@@ -19,6 +25,76 @@ import {
   type IngredientEvidenceSummary,
   type IngredientTier,
 } from './types'
+
+export function countClassificationTagAssignments(doc: CatalogImportDocument): number {
+  let n = 0
+  for (const ing of doc.ingredients) n += ing.classification_tags?.length ?? 0
+  for (const drink of doc.drinks) {
+    n += drink.classification_tags?.length ?? 0
+    for (const offering of drink.bar_offerings) n += offering.classification_tags?.length ?? 0
+  }
+  return n
+}
+
+export function validateClassificationTags(doc: CatalogImportDocument): CatalogIssue[] {
+  const errors: CatalogIssue[] = []
+  if (
+    typeof doc.schema_version === 'string' &&
+    !(CATALOG_SCHEMA_VERSIONS as readonly string[]).includes(doc.schema_version)
+  ) {
+    errors.push(
+      issue(
+        'SCHEMA_VERSION',
+        'error',
+        `schema_version must be 1.0 or 1.1 (got "${doc.schema_version}").`,
+        'schema_version',
+      ),
+    )
+  }
+  for (const ing of doc.ingredients) {
+    for (const tag of ing.classification_tags ?? []) {
+      if (!isApprovedIngredientTag(tag)) {
+        errors.push(
+          issue(
+            'UNKNOWN_INGREDIENT_CLASSIFICATION_TAG',
+            'error',
+            `Ingredient "${ing.key}" has unknown classification tag "${tag}".`,
+            `ingredients/${ing.key}/classification_tags`,
+          ),
+        )
+      }
+    }
+  }
+  for (const drink of doc.drinks) {
+    for (const tag of drink.classification_tags ?? []) {
+      if (!isApprovedDrinkTag(tag)) {
+        errors.push(
+          issue(
+            'UNKNOWN_DRINK_CLASSIFICATION_TAG',
+            'error',
+            `Drink "${drink.key}" has unknown classification tag "${tag}".`,
+            `drinks/${drink.key}/classification_tags`,
+          ),
+        )
+      }
+    }
+    for (const offering of drink.bar_offerings) {
+      for (const tag of offering.classification_tags ?? []) {
+        if (!isApprovedOfferingTag(tag)) {
+          errors.push(
+            issue(
+              'UNKNOWN_OFFERING_CLASSIFICATION_TAG',
+              'error',
+              `Offering ${drink.key}@${offering.bar_key} has unknown classification tag "${tag}".`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+      }
+    }
+  }
+  return errors
+}
 
 const ajv = new Ajv2020({
   allErrors: true,
@@ -700,7 +776,9 @@ export function previewCatalogImport(input: unknown): CatalogPreviewResult {
   }
 
   const crossReferenceErrors = validateCatalogCrossReferences(document)
+  const classificationErrors = validateClassificationTags(document)
   const business = validateCatalogBusinessRules(document)
+  business.errors.push(...classificationErrors)
 
   const offerings = document.drinks.reduce((n, d) => n + d.bar_offerings.length, 0)
   const counts = {
@@ -790,6 +868,7 @@ export function previewCatalogImport(input: unknown): CatalogPreviewResult {
       catalogId: document.catalog_id,
       baseCatalogId: document.base_catalog_id ?? null,
       mode: document.mode,
+      classificationTagAssignments: countClassificationTagAssignments(document),
     },
     counts,
     shortages,

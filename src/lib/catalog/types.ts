@@ -3,7 +3,17 @@
  * Ranking drafts under handoff/data/rankings are NOT production data.
  */
 
+import type {
+  CatalogSchemaVersion,
+  DrinkClassificationTag,
+  IngredientClassificationTag,
+  OfferingClassificationTag,
+} from './classificationTags'
+
+/** Baseline accepted version. Prefer CATALOG_SCHEMA_VERSION_CURRENT ('1.1') for curated tags. */
 export const CATALOG_SCHEMA_VERSION = '1.0' as const
+export { CATALOG_SCHEMA_VERSION_CURRENT, CATALOG_SCHEMA_VERSIONS } from './classificationTags'
+export type { CatalogSchemaVersion } from './classificationTags'
 
 export const COCKTAIL_SLOT_TARGET = 72
 export const INGREDIENT_SLOT_TARGET = 39
@@ -56,25 +66,34 @@ export interface CatalogBar {
 export interface CatalogIngredient {
   key: string
   name: string
+  /** Friendly display labels only — never scoring synonyms. */
   aliases?: string[]
   family?: string | null
+  /** Curated achievement classifications; omitted = unknown. */
+  classification_tags?: IngredientClassificationTag[]
 }
 
 export interface CatalogBarOffering {
   bar_key: string
+  /** Canonical ingredient identities for this bar's recipe. */
   ingredient_keys: string[]
+  /** Original printed menu text — not used for achievement classification. */
   display_ingredients: string[]
   price_usd?: number | null
   price_status: PriceStatus
   evidence_reference?: string | null
   seasonal?: boolean
   availability?: 'standard' | 'seasonal' | 'limited'
+  /** Offering-specific classifications when recipes differ by bar. */
+  classification_tags?: OfferingClassificationTag[]
 }
 
 export interface CatalogDrink {
   key: string
   name: string
   kind: DrinkKind
+  /** Concept-level classifications shared across offerings when appropriate. */
+  classification_tags?: DrinkClassificationTag[]
   bar_offerings: CatalogBarOffering[]
 }
 
@@ -110,7 +129,7 @@ export interface CatalogSourceNotes {
 }
 
 export interface CatalogImportDocument {
-  schema_version: typeof CATALOG_SCHEMA_VERSION | string
+  schema_version: CatalogSchemaVersion | string
   catalog_id: string
   base_catalog_id?: string | null
   mode: 'full_snapshot' | string
@@ -182,6 +201,8 @@ export interface CatalogPreviewResult {
     catalogId: string | null
     baseCatalogId: string | null
     mode: string | null
+    /** Count of curated classification tag assignments in the snapshot (preview only). */
+    classificationTagAssignments?: number
   }
   counts: CatalogCounts
   shortages: CatalogShortageReport
