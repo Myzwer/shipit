@@ -2,7 +2,8 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** *(pending Phase 5B commit)*  
+**Tip:** `af7b775` — Phase **5B** feature  
+**CI:** https://github.com/Myzwer/shipit/actions/runs/42158690935 — success  
 **Prior tip:** `87b30af` / feature `a7e4713` — Phase **5A** accepted (CI `42155679792`)  
 **Do not start the next phase until the Development Director authorizes it.**
 
@@ -25,7 +26,7 @@
 
 ## Verified at tip
 
-*(fill after local + CI)*
+Local + CI: lint ✅ · typecheck ✅ · unit **117** · integration **259** / 29 files · E2E 5A **10/10** · E2E 5B **6/6** · build ✅ · Actions **success**
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
@@ -53,3 +54,4 @@ npm run build
 - Void is soft-state only; never hard-delete submissions/photos.
 - Previously issued signed URLs may live until expiry after void.
 - Ingredient corrections have a single `source_submission_id` (document limitation).
+- Daily submission kind is `daily_completion` (not `daily`).
