@@ -4,9 +4,11 @@
 
 | | |
 |---|---|
-| Branch | `main` (clean after tip commits) |
+| Branch | `main` (clean) |
 | Feature tip | `74b7927` — Phase **7A** |
+| Checkpoint tip | `988b8d2` |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42245144977 — success |
+| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42245600614 — success |
 | Baseline closed | Phase **6B2** feature `4775106` / docs tip `67e4552` / checkpoint `0b4aa9e` |
 | This phase | Phase **7A** — Achievement engine (interim catalog coverage only) |
 
