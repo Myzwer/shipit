@@ -85,7 +85,7 @@ LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase4b4
 
 | Phase | Work |
 |---|---|
-| Gallery | Full feed, filters, reactions, pagination |
+| Gallery | Full feed, filters, reactions, pagination (5A/5B) |
+| Admin Void + correction provenance | Soft-void + multi-source overlay (5B/5C) |
+| Media sweeper | Service-role TTL cleanup runner (5C); schedule at deploy |
 | Achievements | Evaluation + reveal |
-| Admin Void | Void accepted submissions |
-| Media sweeper | Abandoned staging TTL cleanup |

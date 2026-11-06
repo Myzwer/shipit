@@ -52,7 +52,8 @@
     "test:e2e:phase5a": "node scripts/e2e-phase5a-gallery.mjs",
     "screenshots:phase5a": "node scripts/e2e-phase5a-gallery.mjs",
     "test:e2e:phase5b": "node scripts/e2e-phase5b-void-gallery.mjs",
-    "screenshots:phase5b": "node scripts/e2e-phase5b-void-gallery.mjs"
+    "screenshots:phase5b": "node scripts/e2e-phase5b-void-gallery.mjs",
+    "ops:photo-cleanup": "node scripts/run-photo-cleanup.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

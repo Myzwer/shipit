@@ -2,50 +2,50 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** `af7b775` — Phase **5B** feature  
-**CI:** https://github.com/Myzwer/shipit/actions/runs/42158690935 — success  
-**Prior tip:** `87b30af` / feature `a7e4713` — Phase **5A** accepted (CI `42155679792`)  
+**Tip:** *(pending commit)* — Phase **5C** feature  
+**Prior tip:** `af7b775` / checkpoint `75ca67b` — Phase **5B** accepted (CI `42158690935`)  
 **Do not start the next phase until the Development Director authorizes it.**
 
-## What just shipped (Phase 5B)
+## What just shipped (Phase 5C)
 
 | Item | Summary |
 |---|---|
-| Gallery Ship Time | Server `created_ship_local` via historical `clock_offset_at` (not device local) |
-| Feed races | Merge prepend; generation-scoped filter; undercount-safe New Posts pill |
-| Admin Void | Soft-void schema + preview + idempotent `admin_void_submission` before Fri 6 PM |
-| Scoring reverse | Drink claims / Daily 50 / Ship completions; reopen eligibility |
-| Privacy | Voided Gallery + bound photo denied to members; audit retained |
-| Achievements | Integration boundary stub only — catalog not invented |
+| Void fingerprint v2 | Reason in request identity; legacy v1 replay when stored reason matches |
+| Correction provenance | `ingredient_correction_sources`; void keeps overlay if other valid support remains |
+| Admin suppress vs auto | `inactive_cause` `admin` never auto-reactivates; `no_valid_sources` may |
+| Photo cleanup runner | Service-role claim/complete/fail + `ops:photo-cleanup` (TTL 72h); schedule at deploy |
 
 ## Stack / how to work here
 
 - Vue 3 + Pinia + Supabase (local Docker).
 - Migrations under `supabase/migrations/` — **never edit applied ones**.
-- Gallery: `docs/GALLERY.md`. Scoring: `docs/DRINKIT_SCORING.md`, `docs/SHIPIT_CHALLENGES.md`.
+- Gallery: `docs/GALLERY.md`. Scoring: `docs/DRINKIT_SCORING.md`. Media: `docs/MEDIA_PIPELINE.md`.
 
 ## Verified at tip
 
-Local + CI: lint ✅ · typecheck ✅ · unit **117** · integration **259** / 29 files · E2E 5A **10/10** · E2E 5B **6/6** · build ✅ · Actions **success**
+*(fill after local + CI)* lint · typecheck · unit · integration · E2E 5A/5B · build · Actions
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run lint && npm run typecheck && npm test && npm run test:integration
 npm run db:seed-bounty-now && npm run test:e2e:phase5a && npm run test:e2e:phase5b
 npm run build
+# Optional local sweeper smoke (service role):
+# PHOTO_CLEANUP_TTL_HOURS=72 npm run ops:photo-cleanup
 ```
 
 ## Explicitly out of scope until authorized
 
 - Achievement catalog / unlocks / Gallery award cards / achievement unread
-- Awards Mode / Wrapped; media sweeper; deployment; visual polish
+- Awards Mode / Wrapped; deployment; visual polish
 - Account/roster management; Admin Add Drink; Catalog Publish/Rollback
+- Production cron credentials for photo cleanup (runner exists; schedule not claimed)
 
 ## Next agent: start here when Director says next phase
 
 1. Achievements engine + Gallery announcements + achievement unread  
    — **must complete `achievement_on_void_submission` before launch**
-2. Abandoned staging TTL sweeper (never delete bound)
+2. Configure production schedule for `ops:photo-cleanup` when deploying
 
 ## Pitfalls
 
@@ -53,5 +53,6 @@ npm run build
 - Near-top refresh must merge, not replace, loaded pages.
 - Void is soft-state only; never hard-delete submissions/photos.
 - Previously issued signed URLs may live until expiry after void.
-- Ingredient corrections have a single `source_submission_id` (document limitation).
+- Ingredient corrections: multi-source provenance; Admin `inactive_cause=admin` is permanent suppression.
 - Daily submission kind is `daily_completion` (not `daily`).
+- Photo cleanup never deletes bound/voided-bound/staged; Storage API only.

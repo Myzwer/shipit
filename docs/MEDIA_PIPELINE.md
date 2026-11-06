@@ -80,11 +80,24 @@ Gallery access later: signed URLs or RPCs for authorized same-game members — d
 - EXIF orientation: `createImageBitmap(..., { imageOrientation: 'from-image' })` when supported.
 - Square Gallery thumbs are **presentation crops only** — saved object stays full-frame uncropped.
 
-## Abandoned staging cleanup
+## Abandoned staging cleanup (Phase 5C)
 
 Pending/abandoned objects may accumulate if a player begins upload and never confirms or abandons.
 
-**Later ops job (not shipped):** delete Storage objects + rows where `status in ('pending_upload','abandoned')` and `created_at` older than a safe TTL (e.g. 24–72h). **Never** delete `staged` rows that may still be attached, or any `bound` photo referenced by an accepted submission.
+**Service-role runner (shipped; schedule at deploy):** `npm run ops:photo-cleanup` → `scripts/run-photo-cleanup.mjs`.
+
+| Rule | Detail |
+|---|---|
+| TTL | Default **72 hours** (`PHOTO_CLEANUP_TTL_HOURS`); only `created_at` older than cutoff |
+| Candidates | Unbound `pending_upload` (promoted to abandoned) or `abandoned` with `storage_cleanup_status` in `pending`/`failed` |
+| Never delete | `staged`; any `bound` (including voided-submission audit retain); client-supplied paths (ledger only) |
+| Physical delete | Supabase **Storage API** `remove` only — never SQL `DELETE` on `storage.objects` |
+| Claiming | `claim_photo_cleanup_batch` (service_role) uses `FOR UPDATE SKIP LOCKED` + `cleanup_claim_token` |
+| Complete / fail | `complete_photo_cleanup` / `fail_photo_cleanup`; missing objects reconcile as cleaned; failures stay retryable |
+| Bind race | If photo becomes bound before complete → `PHOTO_BOUND_PRESERVED`, cleanup cleared, object kept |
+| Credentials | Service-role key **env only** — never browser / Vite bundle |
+
+**Production scheduling prerequisite:** configure cron or CI with `VITE_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. The runner is implemented and tested locally; it is **not** running in production until that schedule is configured.
 
 Players may call `abandon_photo_upload` when replacing/removing before bind.
 
@@ -110,9 +123,9 @@ Security cases: own stage, peer deny, unauthenticated deny, cross-game, forged p
 
 Bound photos are readable by **same-game members** (Drink It! Everyone / Ship It! Everyone). Signed URL RPCs + Storage policies enforce this; staged/abandoned/fixture/cross-game remain private. See `docs/GALLERY.md`.
 
-## Remaining work (after 5A)
+## Remaining work (after 5C)
 
-- Abandoned-file TTL sweeper (retain recoverable cleanup state until then)  
+- **Ops:** schedule `ops:photo-cleanup` in the deployment environment (not claimed running until configured)
 - Real-device camera + HEIC confirmation on iPhone/Android over cruise-like networks  
 
 ## Outstanding real-device tests
