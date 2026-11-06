@@ -5,7 +5,8 @@
 | | |
 |---|---|
 | Branch | `main` |
-| Feature tip | _(pending CI)_ — Phase **7B1** |
+| Feature tip | `b104671` — Phase **7B1** |
+| CI | green — run [42265878277](https://github.com/Myzwer/shipit/actions/runs/42265878277) |
 | Baseline | Phase **7B0** feature `7877582` / docs `c02c2f0` / fill `8b8331d` / CI `42258315354` |
 | This phase | Phase **7B1** — Eval correctness + unlock celebrations |
 | Local tests | Unit **158** / Integration **338** / E2E phase7b1 **3** + phase7a **6** |
