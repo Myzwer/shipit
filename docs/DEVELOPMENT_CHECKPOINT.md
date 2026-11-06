@@ -2,7 +2,8 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** Phase **4B4** Daily recovery + optional drink-log photos (commit after push)  
+**Tip:** `fdcbc54` — Phase **4B4** tip (feature `d04a5a2`)  
+**CI:** https://github.com/Myzwer/shipit/actions/runs/42151537566 — success  
 **Prior tip:** `ddb402d` / checkpoint `0a9c6f8` — Phase **4B3** accepted  
 **Do not start the next phase until the Development Director authorizes it.**
 
@@ -27,7 +28,7 @@ Key docs: `docs/MEDIA_PIPELINE.md`, `docs/DRINKIT_LOGGING.md`, `docs/DRINKIT_SCO
 
 ## Verified at tip
 
-Local: lint ✅ · typecheck ✅ · unit **114** · integration **247** / 27 files · E2E daily recovery **9/9** · E2E drink photo **11/11** · build ✅
+Local + CI: lint ✅ · typecheck ✅ · unit **114** · integration **247** / 27 files · E2E daily recovery **9/9** · E2E drink photo **11/11** · build ✅ · Actions **success**
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
