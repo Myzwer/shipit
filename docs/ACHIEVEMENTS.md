@@ -29,13 +29,21 @@ Coverage of the interim 140-row snapshot: see `docs/ACHIEVEMENTS_COVERAGE.md`.
 
 Only **accepted, non-voided** submissions count. Drink logs use versioned offering ingredients + tags at the logged `catalog_version_id`. Empty tag tables mean tag conditions never unlock.
 
+Ship-time windows and Thanksgiving dates use **`clock_offset_at`** (same historical offset as Gallery), never the live base offset alone and never device timezone.
+
+## Phase 7A.1 gates
+
+1. Exclusive First ordering uses first-qualifying evidence (not earliest any-evidence).
+2. Historical Ship Time for condition J.
+3. `dev_submit_*_at` locked to `service_role` + `development-only` (EXECUTE revoked from anon/authenticated).
+
 Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set, D-085 daily max, automatic dual grants to named companions.
 
 ## Awards
 
 - Drink It! → `owner_player_id`; Ship It! → `owner_team_id`
 - Shared: one active award per owner+definition
-- Exclusive: one active `exclusive_slot` winner; earliest qualifying evidence + submission id tie-break; advisory lock + unique index
+- Exclusive: one active `exclusive_slot` winner; **earliest first-qualifying submission** (prefix eval via `achievement_eval_condition_as_of`), then submission id tie-break; advisory lock + unique index. Unrelated earlier evidence does not win.
 - No achievement leaderboard points
 - Submit wrappers call `achievement_finalize_submit_result` in the same transaction as accept; receipts include `new_achievement_ids`
 - Idempotent UUID replay returns the original award id list

@@ -110,7 +110,15 @@ try {
   pass('my-achievements-earned')
   await page.screenshot({ path: join(shotDir, 'phase7a-LIVE-achievements.png'), fullPage: true })
 
-  // Dot should clear after My Achievements load
+  // Dot should clear after My Achievements load (allow nav store refresh)
+  await page.waitForTimeout(400)
+  await page.reload({ waitUntil: 'networkidle' })
+  await page.waitForSelector('[data-testid="achievements-tab-mine"]')
+  await page.click('[data-testid="achievements-tab-mine"]')
+  await page.waitForSelector('[data-testid="achievement-card"][data-earned="true"]', {
+    timeout: 15000,
+  })
+  await page.waitForTimeout(400)
   const dot = page.locator('[data-testid="achievements-unread-dot"]')
   if ((await dot.count()) === 0) pass('unread-cleared')
   else fail('unread-cleared', 'dot still visible')

@@ -145,5 +145,6 @@ Exact publishing of interim titles/icons/secrets remains Phase **7B**. Phase **7
 - Unknown `condition_type` → validation failure.
 - Classification conditions never unlock via display-name / alias substring matching.
 - Empty tag tables ⇒ classification defs stay unearned (no fabricated unlocks).
-- Exclusive firsts use earliest `received_at_utc`, then immutable `submission_id`.
+- Exclusive firsts use earliest **qualifying** submission (`received_at_utc`, then immutable `submission_id`) via prefix eval (Phase 7A.1).
+- Ship-time / Thanksgiving conditions use historical `clock_offset_at` (Phase 7A.1).
 - Void recomputes dependent awards in `achievement_on_void_submission`.

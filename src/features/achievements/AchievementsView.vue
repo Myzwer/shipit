@@ -59,13 +59,14 @@ async function load() {
       if (newest?.award_id && newest.awarded_at_utc) {
         try {
           await markAchievementsSeen(props.game, newest.award_id, newest.awarded_at_utc)
-          unread.setUnread(props.game, false)
         } catch {
           /* cursor optional on load failure path */
         }
       }
     }
-    void unread.refresh(props.game)
+    // Refresh after mark so a parallel nav poll cannot resurrect a stale unread bit.
+    await unread.refresh(props.game)
+    if (view.value === 'mine') unread.setUnread(props.game, false)
   } catch {
     status.value = 'error'
   }
