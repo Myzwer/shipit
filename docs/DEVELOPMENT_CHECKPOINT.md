@@ -4,7 +4,9 @@
 
 | | |
 |---|---|
-| Branch | `main` |
+| Branch | `main` (clean after tip commits) |
+| Feature tip | `74b7927` — Phase **7A** |
+| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42245144977 — success |
 | Baseline closed | Phase **6B2** feature `4775106` / docs tip `67e4552` / checkpoint `0b4aa9e` |
 | This phase | Phase **7A** — Achievement engine (interim catalog coverage only) |
 
@@ -18,9 +20,13 @@
 6. **Admin Void** — `achievement_on_void_submission` recomputes, revokes, reassigns exclusives, suppresses Gallery
 7. **Gallery + unread** — achievement feed cards; separate `achievements_mine` cursor; My Achievements clears dot (`072`)
 8. **Minimal UI** — `/drinkit/achievements` and `/shipit/achievements` wired to server reads (no 7B popups)
-9. **Tests** — unit condition validation + integration engine suite; test-only catalog never published as production
+9. **Tests** — unit condition validation + integration engine suite + e2e lists/unread/gallery card; test-only catalog never published as production
 
 Migrations: `069` schema · `070` evaluator · `071` awards/void/submit · `072` reads/gallery.
+
+## Verified
+
+lint · typecheck · unit **153** · integration **319** / 39 files · E2E 7A **6/6** · build · Actions success
 
 ## Deferred (explicit)
 
@@ -34,13 +40,8 @@ Migrations: `069` schema · `070` evaluator · `071` awards/void/submit · `072`
 
 Phase 7B catalog/UI · Awards Mode / Wrapped · Real cruise roster · Visual polish · Deployment
 
-## Verify
+## Remaining Phase 7B
 
-```bash
-npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
-npm run lint && npm run typecheck && npm test && npm run test:integration
-npm run test:e2e:phase7a   # when script present
-npm run build
-```
+Final creative catalog import; icons/secrets/groups; unlock popup/animations; Thanksgiving/port schedule; recipe classifications; named companion UUID maps (out-of-band); production enablement of definitions (no test_only).
 
 See also: [`docs/ACHIEVEMENTS.md`](./ACHIEVEMENTS.md).
