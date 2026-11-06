@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Branch | `main` |
-| Feature tip | _(pending commit)_ — Phase **7B0** |
+| Branch | `main` (clean) |
+| Feature tip | `7877582` — Phase **7B0** |
+| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42258315354 — success |
 | Baseline | Phase **7A.1** feature `d7035e3` / docs `e609730` / fill `5fd9654` |
 | This phase | Phase **7B0** — Evaluator corrections + versioned catalog classification metadata |
 
@@ -21,7 +22,7 @@ Migrations: `074` phase7b0_classification_and_eval_fixes · `075` phase7b0_clear
 
 ## Verified
 
-lint · typecheck · unit **156** · integration **332** / 41 files · E2E 7A **6/6** · build
+lint · typecheck · unit **156** · integration **332** / 41 files · E2E 7A **6/6** · build · Actions success
 
 ## Out of scope until authorized
 
