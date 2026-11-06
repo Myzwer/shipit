@@ -6,9 +6,9 @@
 |---|---|
 | Branch | `main` (clean) |
 | Feature tip | `cf60a43` — Phase **6A** |
-| Checkpoint tip | *(this commit)* |
+| Checkpoint tip | `2d77dca` |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42168252996 — success |
-| Checkpoint CI | *(pending)* |
+| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42168877167 — success |
 | Baseline accepted | Phase **5C** `026adc4` / `da6513e` (CI `42163800441`) |
 
 ## Just shipped (6A)
