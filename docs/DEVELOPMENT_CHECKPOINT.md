@@ -1,59 +1,58 @@
-# Development checkpoint / agent handoff
+# Agent handoff — Phase 6A complete
 
-**As of:** 2026-11-05  
-**Branch:** `main`  
-**Tip:** `026adc4` — Phase **5C** feature  
-**CI:** https://github.com/Myzwer/shipit/actions/runs/42162758510 — success  
-**Prior tip:** `af7b775` / checkpoint `75ca67b` — Phase **5B** accepted (CI `42158690935`)  
-**Do not start the next phase until the Development Director authorizes it.**
+**STOP.** Do not start the next phase until the Development Director authorizes it.
 
-## What just shipped (Phase 5C)
-
-| Item | Summary |
+| | |
 |---|---|
-| Void fingerprint v2 | Reason in request identity; legacy v1 replay when stored reason matches |
-| Correction provenance | `ingredient_correction_sources`; void keeps overlay if other valid support remains |
-| Admin suppress vs auto | `inactive_cause` `admin` never auto-reactivates; `no_valid_sources` may |
-| Photo cleanup runner | Service-role claim/complete/fail + `ops:photo-cleanup` (TTL 72h); schedule at deploy |
+| Branch | `main` |
+| Feature tip | *(pending push)* — Phase **6A** |
+| Checkpoint tip | *(pending)* |
+| Feature CI | *(pending)* |
+| Checkpoint CI | *(pending)* |
+| Baseline accepted | Phase **5C** `026adc4` / `da6513e` (CI `42163800441`) |
 
-## Stack / how to work here
+## Just shipped (6A)
 
-- Vue 3 + Pinia + Supabase (local Docker).
-- Migrations under `supabase/migrations/` — **never edit applied ones**.
-- Gallery: `docs/GALLERY.md`. Scoring: `docs/DRINKIT_SCORING.md`. Media: `docs/MEDIA_PIPELINE.md`.
+1. **Provenance concurrency gate** — `drinkit_invalidate_correction_sources` locks correction rows `FOR UPDATE` before deactivate; concurrent void + persist settle consistently; admin suppression preserved
+2. **Admin roster read** — `admin_list_roster` / `admin_list_teams` (Admin-only; no passwords/tokens/`auth_user_id`)
+3. **Secure account create + password reset** — Edge Function `admin-roster` (service role server-side only); `@star-princess.local` login aliases; request-id idempotency; partial Auth orphan reconcile
+4. **Membership / team** — `admin_set_player_access` with fingerprint concurrency; Ship It! team required when enabled; `TEAM_HISTORY_LOCKED` blocks reassignment after Ship It! submissions; no score migration; Admin self-disable blocked
+5. **Admin UI** — Players & Teams section (create, reset password, edit access/team)
 
-## Verified at tip
+Migrations: `063` invalidate lock · `064` roster RPCs/ledgers. Docs: `ADMIN_ROSTER.md`.
 
-Local + CI: lint ✅ · typecheck ✅ · unit **117** · integration **266** / 32 files · E2E 5A **10/10** · E2E 5B **6/6** · build ✅ · Actions **success**
+## Verified
+
+lint · typecheck · unit **126** · integration **275** / 34 files · E2E 6A **10/10** · build · *(CI pending push)*
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
+npx supabase functions serve admin-roster
 npm run lint && npm run typecheck && npm test && npm run test:integration
-npm run db:seed-bounty-now && npm run test:e2e:phase5a && npm run test:e2e:phase5b
+npm run test:e2e:phase6a
 npm run build
-# Optional local sweeper smoke (service role):
-# PHOTO_CLEANUP_TTL_HOURS=72 npm run ops:photo-cleanup
 ```
 
-## Explicitly out of scope until authorized
+## Stack / rules
 
-- Achievement catalog / unlocks / Gallery award cards / achievement unread
-- Awards Mode / Wrapped; deployment; visual polish
-- Account/roster management; Admin Add Drink; Catalog Publish/Rollback
-- Production cron credentials for photo cleanup (runner exists; schedule not claimed)
+- Vue 3 + Pinia + Supabase (local Docker)
+- Auth create/reset via Edge Function secrets only — never `VITE_` service role
+- New ordered migrations only — **never rewrite applied history**
+- Commit only after Josh approves; push only when asked (Phase briefs may override)
 
-## Next agent: start here when Director says next phase
+## Out of scope until authorized
 
-1. Achievements engine + Gallery announcements + achievement unread  
-   — **must complete `achievement_on_void_submission` before launch**
-2. Configure production schedule for `ops:photo-cleanup` when deploying
+Achievements / unlock celebrations · Awards Mode / Wrapped · Admin Add Drink · Catalog Publish/Rollback · Production cruise dates · Full visual polish · Deployment · Production player creation / password distribution
+
+Likely next (Director decides): achievements engine + Gallery announcements — **must finish `achievement_on_void_submission` before achievements launch**. Also schedule `ops:photo-cleanup` when deploying; deploy `admin-roster` Edge Function + secrets for production roster ops.
 
 ## Pitfalls
 
-- Historical Gallery time uses offset-at-event-UTC; do not use `toLocaleTimeString` labeled as Ship Time.
-- Near-top refresh must merge, not replace, loaded pages.
-- Void is soft-state only; never hard-delete submissions/photos.
-- Previously issued signed URLs may live until expiry after void.
-- Ingredient corrections: multi-source provenance; Admin `inactive_cause=admin` is permanent suppression.
-- Daily submission kind is `daily_completion` (not `daily`).
-- Photo cleanup never deletes bound/voided-bound/staged; Storage API only.
+- Gallery Ship Time = server historical offset, not device local
+- Feed near-top refresh merges; don’t replace loaded pages
+- Void is soft-state; bound/voided photos stay for audit
+- Daily kind is `daily_completion` (not `daily`)
+- Cleanup never deletes staged / bound / voided-bound; never SQL-delete `storage.objects`
+- Team reassignment after Ship It! history is blocked (`TEAM_HISTORY_LOCKED`)
+- Password reset uncertain response ⇒ new `client_request_id` (passwords never stored for replay)
+- Login alias fingerprint must not embed `password=` material

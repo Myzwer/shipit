@@ -103,6 +103,17 @@ Integration suites no-op when Docker/Supabase/identities are unavailable (CI wit
 
 Node 20: scripts/tests pass `ws` as the Supabase Realtime transport.
 
+## Edge Functions (Phase 6A roster)
+
+Local Auth create / password reset for Admin roster:
+
+```bash
+npx supabase functions serve admin-roster
+npm run test:e2e:phase6a
+```
+
+Service-role key stays in the Edge runtime — never in `VITE_` env. See [`docs/ADMIN_ROSTER.md`](./ADMIN_ROSTER.md).
+
 ## Auth product settings
 
 In `supabase/config.toml`:
@@ -110,6 +121,7 @@ In `supabase/config.toml`:
 - `[auth] enable_signup = false` / `enable_anonymous_sign_ins = false`
 - `[auth.email] enabled = true` (password sign-in for provisioned aliases)
 - `[auth.email] enable_confirmations = false`
+- `[functions.admin-roster] verify_jwt = true`
 
 ## Security notes
 

@@ -54,3 +54,6 @@ enabled = false
 
 [analytics]
 enabled = false
+
+[functions.admin-roster]
+verify_jwt = true
