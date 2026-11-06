@@ -1,7 +1,7 @@
 import type { PhotoSubmitContract, StagedPhotoRef } from '@/types/media'
 import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
 
-/** Drink It! ordinary log — photo optional; attach deferred until submit_drink accepts photo_id. */
+/** Drink It! ordinary log — photo optional; submit_drink binds photo_id atomically. */
 export function drinkLogPhotoContract(
   staged: StagedPhotoRef | null,
   previewUrl: string | null,

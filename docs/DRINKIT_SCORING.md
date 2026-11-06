@@ -35,9 +35,12 @@ Player RPCs capture `clock_timestamp()` at entry as `received_at_utc`. Clients n
     { "category": "bar", "assignment_id": "<uuid>" }
   ],
   "caption": null,
-  "photo_storage_key": null
+  "photo_storage_key": null,
+  "photo_id": "<optional staged drink_log photo uuid>"
 }
 ```
+
+`photo_id` is optional. Omit it (or leave absent) for no-photo logs — fingerprints stay identical to pre-4B4 no-photo hashes. Non-null `photo_storage_key` is rejected (`FORGED_PHOTO_PATH`); only a validated staged `photo_id` may bind.
 
 ### Confirm fields (Phase 3C-A)
 
@@ -123,15 +126,15 @@ Players: SELECT own correction rows (or admin); no direct INSERT/UPDATE. Writes 
 | `SELF_COMPANION` / `COMPANION_NOT_DRINKIT` | Companion validation |
 | `BAR_ELIGIBLE_NOT_SUBSET` | Bar-eligible IDs not ⊆ presence companions |
 
-## Extension contracts (not built in 3A)
+## Extension contracts
 
-| Later phase | Hook |
+| Phase | Hook |
 |---|---|
 | 3C-B Admin Skip | Emergency skip current Cocktail / Ingredient from unused reserve |
 | Daily photo | `submit_daily` (Phase 4B3) — required staged `daily` photo, 50 points, one claim/player/day |
+| Optional drink photo | `submit_drink` (Phase 4B4) — nullable `photo_id`, atomic bind with claims + corrections |
 | Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (currently `[]`) |
 | Gallery UI / reactions | `gallery_events` row already created; reactions table deferred |
-| Photos | Optional `photo_storage_key` accepted; upload pipeline not complete |
 
 ## Local verify
 

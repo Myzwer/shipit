@@ -288,6 +288,22 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
         displayName: pending.summary.drinkName,
       }
     }
+    caption.value =
+      typeof pending.payload.caption === 'string' ? pending.payload.caption : ''
+    const pendingPhotoId =
+      typeof pending.payload.photo_id === 'string' ? pending.payload.photo_id : null
+    if (pendingPhotoId) {
+      stagedPhoto.value = {
+        photoId: pendingPhotoId,
+        bucket: 'game-photos',
+        storagePath: '',
+        status: 'staged',
+        mimeType: 'image/jpeg',
+        width: 1,
+        height: 1,
+        byteSize: 1,
+      }
+    }
     return true
   }
 
@@ -528,14 +544,17 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   }
 
   function setStagedPhoto(ref: StagedPhotoRef | null) {
+    // Unknown pending outcome locks photo edits so UUID/payload stay exact.
+    if (formLockedForUnknown.value) return
     stagedPhoto.value = ref
   }
 
   function setPhotoPreviewUrl(url: string | null) {
+    if (formLockedForUnknown.value) return
     photoPreviewUrl.value = url
   }
 
-  /** Contract for future submit_drink photo attach — id is staged, not bound. */
+  /** Optional drink_log photo contract for submit_drink. */
   const photoSubmitContract = computed(() =>
     buildPhotoSubmitContract({
       purpose: 'drink_log',
@@ -565,6 +584,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       companionIds: selectedCompanionIds.value,
       selectedClaims: selectedClaimsForSubmit(selectedClaims.value),
       caption: caption.value.trim() || null,
+      photoId: stagedPhoto.value?.photoId ?? null,
     })
   }
 

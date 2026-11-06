@@ -302,6 +302,7 @@ function onIngredientConfirmNo() {
       <PhotoStep
         v-else-if="wizard.step === 'photo'"
         :caption="wizard.caption"
+        :locked="wizard.formLockedForUnknown"
         @update:caption="wizard.caption = $event"
         @continue="wizard.continueFromPhoto()"
         @staged="wizard.setStagedPhoto($event)"

@@ -97,10 +97,12 @@ export function buildSubmitPayload(input: {
     assignment_id?: string
   }>
   caption: string | null
+  /** Optional staged drink_log photo id — never a raw Storage path. */
+  photoId?: string | null
 }) {
   // Product override: single Friends selector auto-fills bar-eligible subset.
   const companions = [...input.companionIds]
-  return {
+  const payload: Record<string, unknown> = {
     idempotency_key: input.idempotencyKey,
     bar_canonical_key: input.barCanonicalKey,
     drink: buildDrinkPayloadDrink(input.drink),
@@ -108,8 +110,13 @@ export function buildSubmitPayload(input: {
     bar_eligible_companion_ids: companions,
     selected_claims: input.selectedClaims,
     caption: input.caption,
+    // Legacy field: always null so fingerprints stay compatible; server rejects non-null.
     photo_storage_key: null,
   }
+  if (input.photoId) {
+    payload.photo_id = input.photoId
+  }
+  return payload
 }
 
 export async function previewDrinkClaims(payload: Record<string, unknown>): Promise<{

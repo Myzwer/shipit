@@ -10,6 +10,7 @@ import {
   clearPendingDailySubmitIfOtherPlayer,
   readPendingDailySubmit,
   writePendingDailySubmit,
+  type PendingDailySubmit,
 } from '@/lib/pendingDailySubmit'
 import { useSessionStore } from '@/stores/session'
 import type { ActiveDailyChallenge } from '@/types/bountyHome'
@@ -33,15 +34,34 @@ const submitting = ref(false)
 const formLocked = ref(false)
 const submitError = ref<string | null>(null)
 const idempotencyKey = ref<string | null>(null)
+/** True when showing recovery for a prior payload that may not match today's assignment. */
+const recoveringPending = ref(false)
 
 const canSubmit = computed(
   () =>
-    !!challenge.value &&
     !!staged.value?.photoId &&
     !photoBusy.value &&
     !submitting.value &&
-    (!formLocked.value || submitError.value === 'unknown'),
+    (!formLocked.value || submitError.value === 'unknown') &&
+    // Recovery may run when today's assignment is closed/paused.
+    (recoveringPending.value || !!challenge.value),
 )
+
+function challengeFromPending(pending: PendingDailySubmit): ActiveDailyChallenge {
+  return {
+    status: 'active',
+    challenge_id: pending.payload.challenge_id,
+    cruise_day: 1,
+    title: pending.summary.title,
+    instructions: '',
+    location_name: null,
+    meeting_time_ship_local: null,
+    is_all_hands: false,
+    photo_required: true,
+    points: pending.summary.points || 50,
+    public_end_utc: '',
+  }
+}
 
 async function loadDaily() {
   loading.value = true
@@ -55,7 +75,6 @@ async function loadDaily() {
     }
     if (daily.status === 'already_claimed') {
       alreadyClaimed.value = true
-      // Keep title available for pending recovery UI if needed.
       if (daily.title) {
         challenge.value = {
           status: 'active',
@@ -94,14 +113,20 @@ async function loadDaily() {
   }
 }
 
-function restorePending() {
+/**
+ * Restore unresolved pending independently of today's Daily assignment.
+ * Returns true when recovery UI should take precedence over loadDaily errors.
+ */
+function restorePending(): boolean {
   const playerId = session.profile?.player_id ?? null
   clearPendingDailySubmitIfOtherPlayer(playerId)
   const pending = readPendingDailySubmit()
-  if (!pending || !playerId || pending.playerId !== playerId) return
-  if (challenge.value && pending.payload.challenge_id !== challenge.value.challenge_id) return
+  if (!pending || !playerId || pending.playerId !== playerId) return false
+
+  recoveringPending.value = true
   alreadyClaimed.value = false
   error.value = null
+  challenge.value = challengeFromPending(pending)
   idempotencyKey.value = pending.clientRequestId
   caption.value = pending.payload.caption ?? ''
   staged.value = {
@@ -118,6 +143,8 @@ function restorePending() {
   formLocked.value = true
   submitError.value = 'unknown'
   step.value = 'review'
+  loading.value = false
+  return true
 }
 
 function onStaged(ref: StagedPhotoRef | null) {
@@ -139,7 +166,35 @@ function goReview() {
 }
 
 async function performSubmit() {
-  if (!challenge.value || !staged.value?.photoId || !session.profile?.player_id) return
+  if (!session.profile?.player_id) return
+  const existingPending = readPendingDailySubmit()
+
+  // Locked unknown recovery: always retry the exact stored payload/UUID.
+  if (submitError.value === 'unknown' && existingPending) {
+    formLocked.value = true
+    submitting.value = true
+    try {
+      const result = await submitDaily(existingPending.payload)
+      await handleSubmitResult(result)
+    } catch {
+      submitError.value = 'unknown'
+    } finally {
+      submitting.value = false
+    }
+    return
+  }
+
+  // Never silently replace a pending request for a different challenge.
+  if (
+    existingPending &&
+    challenge.value &&
+    existingPending.payload.challenge_id !== challenge.value.challenge_id
+  ) {
+    restorePending()
+    return
+  }
+
+  if (!challenge.value || !staged.value?.photoId) return
   if (!idempotencyKey.value) idempotencyKey.value = crypto.randomUUID()
   const payload = {
     idempotency_key: idempotencyKey.value,
@@ -152,39 +207,14 @@ async function performSubmit() {
     playerId: session.profile.player_id,
     cruiseConfigId: null,
     payload,
-    summary: { title: challenge.value.title, points: 50 },
+    summary: { title: challenge.value.title, points: challenge.value.points || 50 },
   })
   formLocked.value = true
   submitting.value = true
   submitError.value = null
   try {
     const result = await submitDaily(payload)
-    if (result.ok && result.submission_id) {
-      clearPendingDailySubmit()
-      formLocked.value = false
-      await router.replace({
-        name: 'drinkit-gallery',
-        query: { submission: result.submission_id },
-      })
-      return
-    }
-    if (result.code === 'ALREADY_CLAIMED') {
-      clearPendingDailySubmit()
-      formLocked.value = false
-      alreadyClaimed.value = true
-      return
-    }
-    if (result.code === 'IDEMPOTENCY_PAYLOAD_MISMATCH') {
-      clearPendingDailySubmit()
-      formLocked.value = false
-      idempotencyKey.value = null
-      submitError.value = result.message ?? copy.daily.submitFailed
-      return
-    }
-    clearPendingDailySubmit()
-    formLocked.value = false
-    idempotencyKey.value = null
-    submitError.value = result.message ?? result.code ?? copy.daily.submitFailed
+    await handleSubmitResult(result)
   } catch {
     submitError.value = 'unknown'
   } finally {
@@ -192,10 +222,46 @@ async function performSubmit() {
   }
 }
 
+async function handleSubmitResult(result: Awaited<ReturnType<typeof submitDaily>>) {
+  if (result.ok && result.submission_id) {
+    clearPendingDailySubmit()
+    formLocked.value = false
+    recoveringPending.value = false
+    await router.replace({
+      name: 'drinkit-gallery',
+      query: { submission: result.submission_id },
+    })
+    return
+  }
+  if (result.code === 'ALREADY_CLAIMED') {
+    // Definitive for a *new* claim; for UUID replay of a prior success we never reach here.
+    clearPendingDailySubmit()
+    formLocked.value = false
+    recoveringPending.value = false
+    alreadyClaimed.value = true
+    return
+  }
+  if (result.code === 'IDEMPOTENCY_PAYLOAD_MISMATCH') {
+    clearPendingDailySubmit()
+    formLocked.value = false
+    recoveringPending.value = false
+    idempotencyKey.value = null
+    submitError.value = result.message ?? copy.daily.submitFailed
+    return
+  }
+  // Definitive rejection (closed window, wrong day, pause for NEW submits, etc.)
+  clearPendingDailySubmit()
+  formLocked.value = false
+  recoveringPending.value = false
+  idempotencyKey.value = null
+  submitError.value = result.message ?? result.code ?? copy.daily.submitFailed
+}
+
 function unlockAfterReject() {
   if (submitError.value === 'unknown') return
   formLocked.value = false
   submitError.value = null
+  recoveringPending.value = false
   step.value = 'capture'
 }
 
@@ -204,8 +270,9 @@ function backHome() {
 }
 
 onMounted(async () => {
+  // Pending recovery must not depend on today's active assignment.
+  if (restorePending()) return
   await loadDaily()
-  restorePending()
 })
 </script>
 
@@ -213,11 +280,59 @@ onMounted(async () => {
   <GameShell game="drinkit" :title="copy.daily.heading" :show-switch="false">
     <div class="px-4 pb-28 pt-4" data-testid="daily-claim-page">
       <p v-if="loading" class="text-sm" style="color: var(--theme-muted)">{{ copy.bounty.loadingTitle }}</p>
-      <p v-else-if="error" class="text-sm" style="color: var(--theme-ink)" data-testid="daily-error">
+
+      <!-- Recovery takes precedence over closed/paused/already-claimed banners. -->
+      <template v-if="!loading && recoveringPending && step === 'review'">
+        <p
+          class="mb-4 rounded-2xl px-4 py-3 text-sm"
+          style="background: var(--theme-card); color: var(--theme-muted)"
+          data-testid="daily-recovery-banner"
+        >
+          {{ copy.daily.recoveryBanner }}
+        </p>
+        <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
+          {{ challenge?.title }}
+        </h2>
+        <p class="mt-2 text-sm font-semibold" style="color: var(--theme-primary)">
+          {{ copy.daily.pointsLine }}
+        </p>
+        <section class="mt-6 space-y-4" data-testid="daily-review-step">
+          <div
+            class="rounded-2xl px-4 py-3 text-sm"
+            style="background: var(--theme-card)"
+            data-testid="daily-unknown"
+          >
+            <p class="font-semibold">{{ copy.wizard.unknownTitle }}</p>
+            <p class="mt-1" style="color: var(--theme-muted)">{{ copy.wizard.unknownBody }}</p>
+            <p class="mt-2 text-xs" style="color: var(--theme-muted)">{{ copy.wizard.resolveBeforeEdit }}</p>
+          </div>
+          <button
+            type="button"
+            class="w-full rounded-full py-3 text-sm font-semibold text-white disabled:opacity-60"
+            style="background: var(--theme-primary)"
+            data-testid="daily-submit"
+            :disabled="!canSubmit"
+            @click="performSubmit"
+          >
+            {{ submitting ? copy.daily.submitting : copy.wizard.retry }}
+          </button>
+        </section>
+      </template>
+
+      <p
+        v-else-if="!loading && error && !recoveringPending"
+        class="text-sm"
+        style="color: var(--theme-ink)"
+        data-testid="daily-error"
+      >
         {{ error }}
       </p>
 
-      <div v-else-if="alreadyClaimed" class="space-y-4" data-testid="daily-already-claimed">
+      <div
+        v-else-if="!loading && alreadyClaimed && !recoveringPending"
+        class="space-y-4"
+        data-testid="daily-already-claimed"
+      >
         <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
           {{ copy.daily.alreadyCompleted }}
         </h2>
@@ -232,7 +347,7 @@ onMounted(async () => {
         </button>
       </div>
 
-      <template v-else-if="challenge">
+      <template v-else-if="!loading && challenge && !recoveringPending">
         <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
           {{ challenge.title }}
         </h2>

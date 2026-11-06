@@ -294,8 +294,7 @@ export const copy = {
       "Bar Bounty reminder: Only select friends who hadn't already earned today's Bar Bounty when you were together.",
     photoHeading: 'Add a Photo',
     photoOptional: 'Optional — you can log your drink without a photo.',
-    photoStagedNote:
-      'Photo uploaded and ready. It will attach to your log in a later update — submitting still works without attaching it.',
+    photoStagedNote: 'Photo uploaded and ready to attach to this drink log.',
     captionLabel: 'Caption (optional)',
     captionPlaceholder: 'Anything you\'d like to add?',
     photoContinue: 'Continue',
@@ -309,7 +308,7 @@ export const copy = {
     justMe: 'Just me',
     noCaption: 'No caption provided',
     noPhoto: 'No photo added',
-    photoStagedReview: 'Photo ready (not attached to this log yet)',
+    photoStagedReview: 'Photo ready to attach on submit',
     photoLocalOnlyReview: 'Photo selected — upload not confirmed',
     yourBounties: 'Your Bounties',
     selected: 'SELECTED',
@@ -388,6 +387,8 @@ export const copy = {
     editPhoto: 'Edit photo or caption',
     submitFailed: 'Could not submit this Daily Challenge. Try again.',
     galleryHeading: 'Daily Challenge complete',
+    recoveryBanner:
+      'Your previous Daily Challenge submission is still unresolved. Retry uses the same saved request.',
   },
   photo: {
     takePhoto: 'Take Photo',

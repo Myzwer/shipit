@@ -90,25 +90,25 @@ Players may call `abandon_photo_upload` when replacing/removing before bind.
 
 ## Final submission verification
 
-`submit_scavenger` locks the photo and binds in the scoring transaction (same checks as `verify_staged_photo_for_submit`). Reject: missing, wrong owner, wrong game/purpose, not staged, missing Storage object, fixture paths, already bound elsewhere. Idempotent replay may reuse a photo already bound to the same accepted submission.
+`submit_scavenger`, `submit_daily`, and `submit_drink` lock the photo and bind in the scoring transaction (same checks as `verify_staged_photo_for_submit` / `drinkit_lock_staged_photo_for_bind`). Reject: missing, wrong owner, wrong game/purpose, not staged, missing Storage object, fixture paths, already bound elsewhere. Idempotent replay returns the original result before re-lock; a photo already bound to a **different** submission cannot be reused.
 
-Drink It! wizard still **stages** optional photos but submits `photo_storage_key: null` — attachment deferred.
+Drink It! ordinary logs (Phase 4B4): optional `photo_id` with purpose `drink_log`. No-photo payloads omit `photo_id` so legacy fingerprints still match. Client `photo_storage_key` is always null and non-null values are rejected.
 
 ## Local tests
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm test                                 # includes processImage / PhotoCapture / stagePhoto / contracts
-npm run test:integration                 # media.phase4b1 + media.phase4b2.gates + shipit.phase4b2.submit
+npm run test:integration                 # media + shipit + drinkit.phase4b3/4b4 photo suites
 npm run test:e2e:phase4b1 && npm run test:e2e:phase4b2
+npm run test:e2e:phase4b4:daily-recovery && npm run test:e2e:phase4b4
 ```
 
 Security cases: own stage, peer deny, unauthenticated deny, cross-game, forged path, missing object, fixture reject, staged/bound immutability, Storage API abandon (no SQL object delete), lost begin/upload/confirm reuse, no public bucket access.
 
-## Remaining work (after 4B3)
+## Remaining work (after 4B4)
 
-- Bind staged photo inside ordinary `submit_drink`  
-- Full Gallery browse, signed download, reactions  
+- Full Gallery browse, signed download for cruise mates, reactions  
 - Abandoned-file TTL sweeper (retain recoverable cleanup state until then)  
 - Real-device camera + HEIC confirmation on iPhone/Android over cruise-like networks  
 

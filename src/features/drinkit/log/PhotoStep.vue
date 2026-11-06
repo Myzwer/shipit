@@ -4,8 +4,10 @@ import PhotoCapture from '@/components/shared/PhotoCapture.vue'
 import type { ProcessedImage, StagedPhotoRef } from '@/types/media'
 import { copy } from '@/ui/copy'
 
-defineProps<{
+const props = defineProps<{
   caption: string
+  /** Unknown pending outcome locks photo edits so UUID/payload stay exact. */
+  locked?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -23,7 +25,7 @@ const continueLabel = computed(() =>
   photoBusy.value ? copy.wizard.photoContinueBusy : copy.wizard.photoContinue,
 )
 
-const canContinue = computed(() => !photoBusy.value)
+const canContinue = computed(() => !photoBusy.value && !props.locked)
 
 function onStaged(ref: StagedPhotoRef | null) {
   hasStaged.value = !!ref
@@ -53,6 +55,7 @@ function onBusy(busy: boolean) {
         purpose="drink_log"
         :required="false"
         :auto-stage="true"
+        :disabled="locked"
         @staged="onStaged"
         @local-ready="onLocal"
         @busy="onBusy"
@@ -63,9 +66,9 @@ function onBusy(busy: boolean) {
       v-if="hasStaged"
       class="mt-4 text-sm"
       style="color: var(--theme-muted)"
-      data-testid="photo-attach-deferred-note"
+      data-testid="photo-staged-ready-note"
     >
-      {{ copy.wizard.photoStagedNote }}
+      {{ copy.photo.stagedReady }}
     </p>
 
     <label class="mt-6 block text-sm font-semibold" style="color: var(--theme-ink)">
@@ -77,6 +80,7 @@ function onBusy(busy: boolean) {
         style="background: var(--theme-card)"
         :placeholder="copy.wizard.captionPlaceholder"
         data-testid="caption-input"
+        :disabled="locked"
         @input="emit('update:caption', ($event.target as HTMLTextAreaElement).value)"
       />
     </label>

@@ -20,6 +20,8 @@ export function drinkPayload(opts: {
   barEligibleCompanions?: string[]
   selectedClaims?: unknown[]
   caption?: string | null
+  /** Optional staged drink_log photo id (Phase 4B4). */
+  photoId?: string | null
   idempotencyKey?: string
   forged?: Record<string, unknown>
 }) {
@@ -46,7 +48,7 @@ export function drinkPayload(opts: {
     drink = { mode: opts.mode ?? 'generic_beer' }
   }
 
-  return {
+  const payload: Record<string, unknown> = {
     idempotency_key: opts.idempotencyKey ?? randomUUID(),
     bar_canonical_key: opts.barKey,
     drink,
@@ -54,8 +56,13 @@ export function drinkPayload(opts: {
     bar_eligible_companion_ids: opts.barEligibleCompanions ?? [],
     selected_claims: opts.selectedClaims ?? [],
     caption: opts.caption ?? null,
+    photo_storage_key: null,
     ...(opts.forged ?? {}),
   }
+  if (opts.photoId) {
+    payload.photo_id = opts.photoId
+  }
+  return payload
 }
 
 export async function lookupOffering(
