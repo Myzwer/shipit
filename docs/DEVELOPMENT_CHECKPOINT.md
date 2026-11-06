@@ -4,8 +4,9 @@
 
 | | |
 |---|---|
-| Branch | `main` (clean after tip commits) |
-| Feature tip | *(fill after commit)* — Phase **6B2** |
+| Branch | `main` (clean) |
+| Feature tip | `4775106` — Phase **6B2** |
+| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42182237272 — success |
 | Baseline accepted | Phase **6B1** `b5622b8` / `c54d82d` / `61e48c1` |
 | This phase | Phase **6B2** — Catalog import / publish / rollback |
 
@@ -22,7 +23,7 @@ Migrations: `067` manual safety · `068` import/publish/rollback.
 
 ## Verified
 
-lint · typecheck · unit **149** · integration **308** / 38 files · E2E 6A **10/10** · E2E 6B1 **13/13** · E2E 6B2 **8/8** · build · Actions (fill after push)
+lint · typecheck · unit **149** · integration **308** / 38 files · E2E 6A **10/10** · E2E 6B1 **13/13** · E2E 6B2 **8/8** · build · Actions success
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
