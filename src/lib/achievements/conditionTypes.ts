@@ -36,6 +36,7 @@ export type DistinctSubject =
   | 'cruise_days'
   | 'companions'
   | 'bounty_categories'
+  | 'bounty_claim_days'
   | 'scavenger_categories'
   | 'ingredient_tags'
   | 'drink_modes'
@@ -65,6 +66,8 @@ export interface DistinctCountCondition extends ConditionBase {
    * the definition explicitly counts Daily days.
    */
   event?: EventKind
+  /** For bounty_claim_days: optional category filter (cocktail/ingredient/bar/daily). */
+  bounty_category?: 'cocktail' | 'ingredient' | 'bar' | 'daily'
 }
 
 export interface GroupedCountCondition extends ConditionBase {
@@ -75,6 +78,9 @@ export interface GroupedCountCondition extends ConditionBase {
     | 'same_bar_distinct_days'
     | 'distinct_cocktails_one_bar'
     | 'bars_same_day'
+    | 'same_cocktail_logs'
+    | 'same_cocktail_distinct_bars'
+    | 'bounty_categories_same_day'
   event: EventKind
   threshold: number
 }

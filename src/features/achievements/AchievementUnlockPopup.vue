@@ -55,7 +55,7 @@ onMounted(() => {
 })
 
 watch(
-  () => celebration.pending,
+  () => [celebration.pending, celebration.lastError] as const,
   () => {
     void tryPresent()
   },

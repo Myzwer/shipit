@@ -1,9 +1,12 @@
-# Achievements coverage audit (Phase 7A)
+# Achievements coverage audit (Phase 7A → 7B2)
 
 **Source:** provisional snapshot  
 `handoff/achievements/Star_Princess_Achievements_Interim_Cursor_Handoff_2026-11-06.md`  
 (140 working rows: S-001…S-048, D-001…D-093 excluding blank D-027).  
-**Not** a final catalog. Temporary `S-`/`D-` refs are snapshot pointers, not DB IDs.
+
+Phase **7B2** authorizes this list as the **working catalog** in development  
+(`content/achievements/workingCatalog.ts`). Temporary `S-`/`D-` refs remain snapshot  
+pointers, not DB IDs. Stable keys: `working-{drinkit|shipit}-{s|d}NNN`.
 
 ## Outcome labels
 
@@ -130,15 +133,17 @@
 | D-032 vs D-084 | Duplicate Other trigger — distinct definitions pending editorial |
 | Dual companion awards | **Not implemented** (organizer undecided) |
 
-## Summary counts
+## Summary counts (Phase 7B2 working load)
 
-| Outcome | Approx. refs |
-|---|---|
-| SUPPORTED | ~78 |
-| NEEDS CONTENT/METADATA | ~59 |
-| NEEDS ORGANIZER DECISION | 3 (D-082, D-083, D-085) |
+| Working readiness | Count | Notes |
+|---|---:|---|
+| **enabled** in development | 129 | Condition expressed; may still need live tags/config to unlock |
+| **blocked_metadata** | 8 | D-086…D-093 named companion UUIDs |
+| **blocked_organizer** | 3 | D-082, D-083, D-085 |
+| **missing_capability** | 0 | — |
+| **Total** | **140** | |
 
-Exact publishing of interim titles/icons/secrets remains Phase **7B**. Phase **7A** ships the engine + small test-only catalog exercising families A–K.
+Legacy audit labels still describe content depth (tags / voyage calendar / challenge keys). Challenge title→`canonical_key` mapping for S-017…S-048 is resolved against the seeded scavenger keys in development.
 
 ## Engine / test policy
 

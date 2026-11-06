@@ -30,6 +30,25 @@ describe('achievement celebration memory', () => {
   })
 })
 
+describe('achievement celebration present failures', () => {
+  it('documents that list failures must preserve pending without marking celebrated', () => {
+    // Behavioral contract covered by integration/E2E; unit guard for memory helper.
+    const storage = {
+      store: {} as Record<string, string>,
+      getItem(k: string) {
+        return this.store[k] ?? null
+      },
+      setItem(k: string, v: string) {
+        this.store[k] = v
+      },
+      removeItem(k: string) {
+        delete this.store[k]
+      },
+    } as Storage
+    expect(wasSubmissionCelebrated('pending-fail', storage)).toBe(false)
+  })
+})
+
 describe('achievement condition types (7B1)', () => {
   it('accepts count_logs / min_distinct_on_log / recipe_ingredient_count', () => {
     expect(

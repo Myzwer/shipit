@@ -45,15 +45,21 @@ const emptyCopy = computed(() =>
   view.value === 'mine' ? copy.achievements.emptyMine : copy.achievements.emptyAll,
 )
 
+let loadGeneration = 0
+
 async function load() {
+  const generation = ++loadGeneration
+  const gameAtStart = props.game
+  const viewAtStart = view.value
   status.value = 'loading'
   try {
-    const res = await listAchievements(props.game, view.value)
+    const res = await listAchievements(gameAtStart, viewAtStart)
+    if (generation !== loadGeneration) return
     cards.value = res.achievements
     finaleRevealed.value = !!res.finale_revealed
     status.value = 'ready'
 
-    if (view.value === 'mine' && cards.value.length > 0) {
+    if (viewAtStart === 'mine' && cards.value.length > 0) {
       const newest = cards.value.reduce<(typeof cards.value)[0] | null>((best, c) => {
         if (!c.award_id || !c.awarded_at_utc) return best
         if (!best) return c
@@ -62,16 +68,25 @@ async function load() {
       }, null)
       if (newest?.award_id && newest.awarded_at_utc) {
         try {
-          await markAchievementsSeen(props.game, newest.award_id, newest.awarded_at_utc)
+          await markAchievementsSeen(gameAtStart, newest.award_id, newest.awarded_at_utc)
+          if (generation !== loadGeneration) return
+          // Only clear local unread after successful server acknowledgement.
+          await unread.refresh(gameAtStart)
+          if (generation !== loadGeneration) return
+          unread.setUnread(gameAtStart, false)
         } catch {
-          /* cursor optional on load failure path */
+          /* leave unread intact when mark fails */
+          if (generation !== loadGeneration) return
+          await unread.refresh(gameAtStart)
         }
+      } else if (viewAtStart === 'mine') {
+        await unread.refresh(gameAtStart)
       }
+    } else {
+      await unread.refresh(gameAtStart)
     }
-    // Refresh after mark so a parallel nav poll cannot resurrect a stale unread bit.
-    await unread.refresh(props.game)
-    if (view.value === 'mine') unread.setUnread(props.game, false)
   } catch {
+    if (generation !== loadGeneration) return
     status.value = 'error'
   }
 }

@@ -1,6 +1,6 @@
-# Achievements (Phase 7A / 7B0 / 7B1)
+# Achievements (Phase 7A / 7B0 / 7B1 / 7B2)
 
-Bounded, data-driven achievement engine for the private ~22-player cruise app. **No production achievement catalog is published yet.** Test-only definitions (`test_only = true`) evaluate only while the active cruise label is `development-only`.
+Bounded, data-driven achievement engine for the private ~22-player cruise app. **No production achievement catalog is published yet.** The Phase **7B2** working catalog (all 140 interim snapshot rows) loads as `test_only = true` and evaluates only while the active cruise label is `development-only`. See `docs/WORKING_ACHIEVEMENT_CATALOG.md`.
 
 ## Condition primitives
 
@@ -88,6 +88,14 @@ Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set
 4. Princess Plus within-limit Ingredient corroboration + forged-readiness coverage refusal.
 5. Achievement unlock celebration over Gallery (test-only content).
 
+## Phase 7B2 gates
+
+1. Working catalog manifest for all 140 snapshot rows with stable keys.
+2. Exact conditions for every expressible row; no proxies for D-082 / D-083 / D-085.
+3. Dev-only idempotent loader (`npm run db:load-working-achievements`).
+4. Unread clear only after successful mark; celebration list failures preserve pending.
+5. Representative unlocks use real working titles (not generic test names alone).
+
 ## Phase 7B remaining
 
-Final creative achievement catalog load, icons/secrets/thresholds, Awards Mode / Wrapped, real companion ID maps, Thanksgiving/port schedule, production enablement of definitions. Classification pipeline is Phase 7B0; Star Princess menu classification content is still external.
+Final creative reconciliation (titles/secrets/thresholds), real companion UUID maps, production menu classification content, Awards Mode / Wrapped, production enablement (`test_only = false` on a real cruise). Classification pipeline is Phase 7B0; Star Princess menu classification content is still external.

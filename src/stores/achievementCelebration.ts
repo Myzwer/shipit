@@ -48,16 +48,22 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
     }
   }
 
+  const lastError = ref<string | null>(null)
+
   async function presentIfPending() {
-    if (!pending.value || open.value) return
+    if (!pending.value || open.value || loading.value) return
     const job = pending.value
     if (wasSubmissionCelebrated(job.submissionId)) {
       pending.value = null
+      lastError.value = null
       return
     }
     loading.value = true
+    lastError.value = null
     try {
       const list = await listAchievements(job.game, 'mine')
+      // Stale: another queue/dismiss may have replaced pending mid-flight.
+      if (pending.value?.submissionId !== job.submissionId) return
       const wanted = new Set(job.awardIds)
       const cards = list.achievements.filter(
         (a) => a.earned && a.award_id && wanted.has(a.award_id),
@@ -71,15 +77,24 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
       visibleCards.value = cards
       open.value = true
       markSubmissionCelebrated(job.submissionId)
+    } catch (err) {
+      // Preserve pending so Gallery remount / retry can present without duplicate marks.
+      lastError.value = err instanceof Error ? err.message : 'ACHIEVEMENT_LIST_FAILED'
     } finally {
       loading.value = false
     }
+  }
+
+  async function retryPresent() {
+    if (!pending.value || open.value) return
+    await presentIfPending()
   }
 
   function dismiss() {
     open.value = false
     visibleCards.value = []
     pending.value = null
+    lastError.value = null
   }
 
   return {
@@ -87,8 +102,10 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
     visibleCards,
     open,
     loading,
+    lastError,
     queueFromSubmit,
     presentIfPending,
+    retryPresent,
     dismiss,
   }
 })

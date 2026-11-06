@@ -1,0 +1,3309 @@
+[
+  {
+    "snapshotRef": "S-001",
+    "stableKey": "working-shipit-s001",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "The Start of Something New",
+    "displayDescription": "Complete your first Ship It! challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "threshold": 1
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-002",
+    "stableKey": "working-shipit-s002",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "Five Easy Pieces",
+    "displayDescription": "Complete 5 Ship It! challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "threshold": 5
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-003",
+    "stableKey": "working-shipit-s003",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "Perfect 10",
+    "displayDescription": "Complete 10 Ship It! challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "threshold": 10
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-004",
+    "stableKey": "working-shipit-s004",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "15 Minutes of Fame",
+    "displayDescription": "Complete 15 Ship It! challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "threshold": 15
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-005",
+    "stableKey": "working-shipit-s005",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "Whoa, We're Halfway There",
+    "displayDescription": "Complete 25 Ship It! challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "threshold": 25
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-006",
+    "stableKey": "working-shipit-s006",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "That's All, Folks!",
+    "displayDescription": "Complete all 50 Ship It! challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "set_completion",
+    "conditionConfig": {
+      "scope": "all_scavenger_challenges"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-007",
+    "stableKey": "working-shipit-s007",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "Gotta Catch 'Em All!",
+    "displayDescription": "Complete at least one challenge in each of the five scavenger categories.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "category_completion",
+    "conditionConfig": {
+      "mode": "one_per_category"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-008",
+    "stableKey": "working-shipit-s008",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "milestones",
+    "title": "The Full Monty",
+    "displayDescription": "Complete every challenge in any one scavenger category.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "category_completion",
+    "conditionConfig": {
+      "mode": "full_any_category"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-009",
+    "stableKey": "working-shipit-s009",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Early Bird Special",
+    "displayDescription": "Submit a challenge before 10:00 AM Ship Time.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "before_hour": 10
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-010",
+    "stableKey": "working-shipit-s010",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Night Moves",
+    "displayDescription": "Submit a challenge after 10:00 PM Ship Time.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "after_hour": 22
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-011",
+    "stableKey": "working-shipit-s011",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Three's Company",
+    "displayDescription": "Complete 3 challenges on the same cruise day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "events_same_day",
+      "event": "scavenger_completion",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-012",
+    "stableKey": "working-shipit-s012",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Love Boat",
+    "displayDescription": "Complete a challenge on the first cruise day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "cruise_day",
+    "conditionConfig": {
+      "which": "first",
+      "event": "scavenger_completion"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-013",
+    "stableKey": "working-shipit-s013",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Final Countdown",
+    "displayDescription": "Complete a challenge on the final cruise day before the game ends.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "cruise_day",
+    "conditionConfig": {
+      "which": "final",
+      "event": "scavenger_completion"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-014",
+    "stableKey": "working-shipit-s014",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Why are you even on the ship?",
+    "displayDescription": "Submit a challenge between 10:00 AM and 4:00 PM Ship Time on a designated port day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "hour_start": 10,
+      "hour_end": 16,
+      "port_day_only": true
+    },
+    "dependencies": [
+      "cruise_config.port_days",
+      "cruise_config.port_day_start/end"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-015",
+    "stableKey": "working-shipit-s015",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Three Times a Lady",
+    "displayDescription": "Complete at least one challenge on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "cruise_days",
+      "threshold": 3,
+      "event": "scavenger_completion"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-016",
+    "stableKey": "working-shipit-s016",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Quick Draw McGraw",
+    "displayDescription": "Submit 2 challenges within 30 minutes of each other.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_interval",
+    "conditionConfig": {
+      "event": "scavenger_completion",
+      "max_minutes": 30
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-017",
+    "stableKey": "working-shipit-s017",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Wax On, Wax Off",
+    "displayDescription": "Complete the Lotus Spa Zen challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "lotus-spa-zen"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-018",
+    "stableKey": "working-shipit-s018",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Happy Little Accidents",
+    "displayDescription": "Complete the Art Critic challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "art-critic"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-019",
+    "stableKey": "working-shipit-s019",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Eye of the Tiger",
+    "displayDescription": "Complete the Gym Buffs challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "gym-buffs"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-020",
+    "stableKey": "working-shipit-s020",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "That's Amore!",
+    "displayDescription": "Complete the Poolside Slice challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "poolside-slice"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-021",
+    "stableKey": "working-shipit-s021",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Ice Ice Baby",
+    "displayDescription": "Complete the Soft Serve Swirl challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "soft-serve-swirl"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-022",
+    "stableKey": "working-shipit-s022",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Buffet the Vampire Slayer",
+    "displayDescription": "Complete the Buffet Multi-Tasker challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "buffet-multi-tasker"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-023",
+    "stableKey": "working-shipit-s023",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "If You Like Piña Coladas...",
+    "displayDescription": "Complete the Tropical Paradise challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "tropical-paradise"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-024",
+    "stableKey": "working-shipit-s024",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Breakfast Club",
+    "displayDescription": "Complete the Room Service Delivery challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "room-service-delivery"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-025",
+    "stableKey": "working-shipit-s025",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Don't Worry, Be Buoy",
+    "displayDescription": "Complete the Safety First challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "safety-first"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-026",
+    "stableKey": "working-shipit-s026",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Animal House",
+    "displayDescription": "Complete the Towel Zoo challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "towel-zoo"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-027",
+    "stableKey": "working-shipit-s027",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Is This Thing On?",
+    "displayDescription": "Complete the Lounge Spotlight challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "lounge-spotlight"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-028",
+    "stableKey": "working-shipit-s028",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Wake Me Up Before You Go-Go",
+    "displayDescription": "Complete the Ocean Wake challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "ocean-wake"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-029",
+    "stableKey": "working-shipit-s029",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Take Five",
+    "displayDescription": "Complete the Crew High-Five challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "crew-high-five"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-030",
+    "stableKey": "working-shipit-s030",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "I'll Take Cruises for $500, Alex",
+    "displayDescription": "Complete the Trivia Masters challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "trivia-masters"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-031",
+    "stableKey": "working-shipit-s031",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Don't Stop Believin'",
+    "displayDescription": "Complete the Live Music Backdrop challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "live-music-backdrop"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-032",
+    "stableKey": "working-shipit-s032",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Footloose",
+    "displayDescription": "Complete the Deck Dance Move challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "deck-dance-move"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-033",
+    "stableKey": "working-shipit-s033",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Price Is Right",
+    "displayDescription": "Complete the Souvenir Selection challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "souvenir-selection"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-034",
+    "stableKey": "working-shipit-s034",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Don't Let the Sun Go Down on Me",
+    "displayDescription": "Complete the Sunset Silhouette challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "sunset-silhouette"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-035",
+    "stableKey": "working-shipit-s035",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "I'm Flying, Jack!",
+    "displayDescription": "Complete the King of the World challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "king-of-the-world"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-036",
+    "stableKey": "working-shipit-s036",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "The Mod Squad",
+    "displayDescription": "Complete the Triple Match challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "triple-match"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-037",
+    "stableKey": "working-shipit-s037",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Full House",
+    "displayDescription": "Complete the Chair Squeeze challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "chair-squeeze"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-038",
+    "stableKey": "working-shipit-s038",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "Where in the World Is Carmen Sandiego?",
+    "displayDescription": "Complete the Comically Lost challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "comically-lost"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-039",
+    "stableKey": "working-shipit-s039",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Honey, I Shrunk the Ship",
+    "displayDescription": "Complete the Miniature Masterpiece challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "miniature-masterpiece"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-040",
+    "stableKey": "working-shipit-s040",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Irish You Were Here",
+    "displayDescription": "Complete the O'Malley's Irish Pub challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "omalleys-irish-pub"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-041",
+    "stableKey": "working-shipit-s041",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Spirit in the Sky",
+    "displayDescription": "Complete the Good Spirits Mixology challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "good-spirits-mixology"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-042",
+    "stableKey": "working-shipit-s042",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "North by Northwest",
+    "displayDescription": "Complete the Carpet Compass challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "carpet-compass"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-043",
+    "stableKey": "working-shipit-s043",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Every Rose Has Its Thorn",
+    "displayDescription": "Complete the Nautical Rose challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "nautical-rose"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-044",
+    "stableKey": "working-shipit-s044",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Friday the 13th",
+    "displayDescription": "Complete the Deck 13 Mystery challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "deck-13-mystery"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-045",
+    "stableKey": "working-shipit-s045",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Shadow Dancing",
+    "displayDescription": "Complete the Shadow Art challenge before any other team.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "challenge_key": "shadow-art"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-046",
+    "stableKey": "working-shipit-s046",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Hawaii Five-O!",
+    "displayDescription": "Be the first team to complete at least one challenge in each of the five scavenger categories.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "category_completion",
+    "conditionConfig": {
+      "mode": "one_per_category"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-047",
+    "stableKey": "working-shipit-s047",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "firsts",
+    "title": "Sweep Dreams (Are Made of This)",
+    "displayDescription": "Be the first team to complete every challenge in any one scavenger category.",
+    "secret": false,
+    "exclusive": true,
+    "readiness": "enabled",
+    "conditionType": "category_completion",
+    "conditionConfig": {
+      "mode": "full_any_category"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "S-048",
+    "stableKey": "working-shipit-s048",
+    "game": "shipit",
+    "ownerType": "team",
+    "groupKey": "other",
+    "title": "My own kind of paradise",
+    "displayDescription": "Complete the Tropical Paradise, Sunset Silhouette, and Ocean Wake scavenger challenges.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "set_completion",
+    "conditionConfig": {
+      "scope": "challenge_keys",
+      "challenge_keys": [
+        "tropical-paradise",
+        "sunset-silhouette",
+        "ocean-wake"
+      ]
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-001",
+    "stableKey": "working-drinkit-d001",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "milestones",
+    "title": "Wasted away again in Margaritaville",
+    "displayDescription": "Log your first alcoholic drink.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "drink_log",
+      "threshold": 1
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-002",
+    "stableKey": "working-drinkit-d002",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "milestones",
+    "title": "Third Time's the Charm",
+    "displayDescription": "Log 3 drinks across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "drink_log",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-003",
+    "stableKey": "working-drinkit-d003",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "milestones",
+    "title": "Light Work",
+    "displayDescription": "Log 7 drinks across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "drink_log",
+      "threshold": 7
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-004",
+    "stableKey": "working-drinkit-d004",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "milestones",
+    "title": "15 Minutes of Fame",
+    "displayDescription": "Log 15 drinks across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "drink_log",
+      "threshold": 15
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-005",
+    "stableKey": "working-drinkit-d005",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "milestones",
+    "title": "The AA meeting is Wednesday",
+    "displayDescription": "Log 30 drinks across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "drink_log",
+      "threshold": 30
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-006",
+    "stableKey": "working-drinkit-d006",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "firsts",
+    "title": "X Marks the Spot",
+    "displayDescription": "Claim your first Drink It! bounty of any kind.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "bounty_claim",
+      "threshold": 1
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-007",
+    "stableKey": "working-drinkit-d007",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "firsts",
+    "title": "The Usual Suspects",
+    "displayDescription": "Claim your first Cocktail Bounty.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "bounty_claim",
+      "threshold": 1,
+      "bounty_category": "cocktail"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-008",
+    "stableKey": "working-drinkit-d008",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "firsts",
+    "title": "Elementary, My Dear Watson",
+    "displayDescription": "Claim your first Ingredient Bounty.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "bounty_claim",
+      "threshold": 1,
+      "bounty_category": "ingredient"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-009",
+    "stableKey": "working-drinkit-d009",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "firsts",
+    "title": "This Round is on Me",
+    "displayDescription": "Claim your first Bar Bounty.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "bounty_claim",
+      "threshold": 1,
+      "bounty_category": "bar"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-010",
+    "stableKey": "working-drinkit-d010",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "firsts",
+    "title": "Your mission should you choose to accept it",
+    "displayDescription": "Complete your first Daily Challenge.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_count",
+    "conditionConfig": {
+      "event": "daily_completion",
+      "threshold": 1
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-011",
+    "stableKey": "working-drinkit-d011",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Double Kill",
+    "displayDescription": "Claim 2 different bounty categories with one drink.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "same_submission_claims",
+    "conditionConfig": {
+      "min_categories": 2
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-012",
+    "stableKey": "working-drinkit-d012",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "This shouldn’t be possible!!",
+    "displayDescription": "Claim Cocktail, Ingredient, and Bar Bounties with the same drink.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "same_submission_claims",
+    "conditionConfig": {
+      "require_categories": [
+        "cocktail",
+        "ingredient",
+        "bar"
+      ]
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-013",
+    "stableKey": "working-drinkit-d013",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Try Harding",
+    "displayDescription": "Complete all 4 bounty categories on one cruise day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "bounty_categories_same_day",
+      "event": "bounty_claim",
+      "threshold": 4
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-014",
+    "stableKey": "working-drinkit-d014",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Its a marathon, not a Sprint",
+    "displayDescription": "Claim at least one bounty on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bounty_claim_days",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-015",
+    "stableKey": "working-drinkit-d015",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Catch Me If You Can",
+    "displayDescription": "Claim Cocktail Bounties on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bounty_claim_days",
+      "threshold": 3,
+      "bounty_category": "cocktail"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-016",
+    "stableKey": "working-drinkit-d016",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "What's in the Box?!",
+    "displayDescription": "Claim Ingredient Bounties on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bounty_claim_days",
+      "threshold": 3,
+      "bounty_category": "ingredient"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-017",
+    "stableKey": "working-drinkit-d017",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "All Four One",
+    "displayDescription": "Claim Bar Bounties on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bounty_claim_days",
+      "threshold": 3,
+      "bounty_category": "bar"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-018",
+    "stableKey": "working-drinkit-d018",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Four of a Kind",
+    "displayDescription": "Claim each of the 4 different bounty categories at least once during the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bounty_categories",
+      "threshold": 4
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-019",
+    "stableKey": "working-drinkit-d019",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Bar None",
+    "displayDescription": "Log drinks at 2 different game bars.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bars",
+      "threshold": 2
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-020",
+    "stableKey": "working-drinkit-d020",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "These Boots Are Made for Walkin'",
+    "displayDescription": "Log drinks at 5 different game bars.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bars",
+      "threshold": 5
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-021",
+    "stableKey": "working-drinkit-d021",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Life Is a Highway",
+    "displayDescription": "Log drinks at 10 different game bars.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bars",
+      "threshold": 10
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-022",
+    "stableKey": "working-drinkit-d022",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "I've Been Everywhere, Man",
+    "displayDescription": "Log at least one drink at all 13 game bars.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "bars",
+      "threshold": 13
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-023",
+    "stableKey": "working-drinkit-d023",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Its kind of a Triathlon",
+    "displayDescription": "Log drinks at 3 different game bars during one cruise day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "bars_same_day",
+      "event": "drink_log",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-024",
+    "stableKey": "working-drinkit-d024",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Repeat Offender",
+    "displayDescription": "Log drinks at the same bar at least 2 hours apart.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_interval",
+    "conditionConfig": {
+      "event": "drink_log",
+      "min_minutes": 120,
+      "same_bar": true
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-025",
+    "stableKey": "working-drinkit-d025",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "I’ll have what I’m having",
+    "displayDescription": "Log the same named cocktail at 2 different game bars.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "same_cocktail_distinct_bars",
+      "event": "drink_log",
+      "threshold": 2
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-026",
+    "stableKey": "working-drinkit-d026",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Three's Company",
+    "displayDescription": "Log 3 different named cocktails from one bar across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "distinct_cocktails_one_bar",
+      "event": "drink_log",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-028",
+    "stableKey": "working-drinkit-d028",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Gotta Start Somewhere",
+    "displayDescription": "Log 3 distinct named cocktails.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "drink_concepts",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-029",
+    "stableKey": "working-drinkit-d029",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "It’s called Branching out",
+    "displayDescription": "Log 8 distinct named cocktails.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "drink_concepts",
+      "threshold": 8
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-030",
+    "stableKey": "working-drinkit-d030",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "They Serve Other Stuff Here",
+    "displayDescription": "Log the same named cocktail 3 times across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "same_cocktail_logs",
+      "event": "drink_log",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-031",
+    "stableKey": "working-drinkit-d031",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Oops!... I Did It Again",
+    "displayDescription": "After claiming a Cocktail Bounty, log the same named cocktail again in a later submission.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ordered_after",
+    "conditionConfig": {
+      "mode": "repeat_drink_after_cocktail_claim"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-032",
+    "stableKey": "working-drinkit-d032",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Off the Beaten Path",
+    "displayDescription": "Log a drink using the 'Other alcoholic drink' option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "drink_mode": "generic_other"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-033",
+    "stableKey": "working-drinkit-d033",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Stuck in Colder Weather",
+    "displayDescription": "Log a named cocktail classified as frozen.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "drink_concept",
+      "tags": [
+        "frozen"
+      ],
+      "match": "any"
+    },
+    "dependencies": [
+      "catalog classification_tags frozen"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-034",
+    "stableKey": "working-drinkit-d034",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Red, Red Wine",
+    "displayDescription": "Log a drink using the Wine option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "drink_mode": "generic_wine"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-035",
+    "stableKey": "working-drinkit-d035",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Can’t beat the classics",
+    "displayDescription": "Log a drink using the Beer option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "drink_mode": "generic_beer"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-036",
+    "stableKey": "working-drinkit-d036",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "One of Each, Please",
+    "displayDescription": "Log at least one named cocktail, one Beer option, and one Wine option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "all",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "event_count",
+          "event": "drink_log",
+          "threshold": 1,
+          "drink_mode": "named_catalog"
+        },
+        {
+          "type": "event_count",
+          "event": "drink_log",
+          "threshold": 1,
+          "drink_mode": "generic_beer"
+        },
+        {
+          "type": "event_count",
+          "event": "drink_log",
+          "threshold": 1,
+          "drink_mode": "generic_wine"
+        }
+      ]
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-037",
+    "stableKey": "working-drinkit-d037",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Gintleman",
+    "displayDescription": "Log 3 cocktails containing gin.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-family-gin"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 3
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-038",
+    "stableKey": "working-drinkit-d038",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Tequila Mockingbird",
+    "displayDescription": "Log 3 cocktails containing tequila.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-family-tequila"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 3
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-039",
+    "stableKey": "working-drinkit-d039",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Rum, Forrest, Rum!",
+    "displayDescription": "Log 3 cocktails containing rum.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-family-rum"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 3
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-040",
+    "stableKey": "working-drinkit-d040",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Whiskey Business",
+    "displayDescription": "Log 3 cocktails containing whiskey or bourbon.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-family-whiskey",
+        "spirit-family-bourbon"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 3
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-041",
+    "stableKey": "working-drinkit-d041",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Crystal Clear",
+    "displayDescription": "Log 5 cocktails containing a clear base spirit.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-clear"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 5
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-042",
+    "stableKey": "working-drinkit-d042",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Paint It Black",
+    "displayDescription": "Log 5 cocktails containing a dark base spirit.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-dark"
+      ],
+      "match": "any",
+      "count_logs": true,
+      "threshold": 5
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-043",
+    "stableKey": "working-drinkit-d043",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Fantastic Four",
+    "displayDescription": "Across logged cocktails, encounter gin, vodka, rum, and tequila.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "ingredient_tags",
+      "threshold": 4,
+      "tags": [
+        "spirit-family-gin",
+        "spirit-family-vodka",
+        "spirit-family-rum",
+        "spirit-family-tequila"
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-044",
+    "stableKey": "working-drinkit-d044",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Tastes like a Campfire",
+    "displayDescription": "Log a cocktail containing mezcal.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "mezcal"
+    },
+    "dependencies": [
+      "catalog ingredient key `mezcal`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-045",
+    "stableKey": "working-drinkit-d045",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Easy Peasy Lemon Squeezy",
+    "displayDescription": "Log a named cocktail containing lemon or fresh lemon juice.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "any",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "lemon"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "lemon-juice"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "fresh-lemon-juice"
+        }
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient keys: lemon, lemon-juice, fresh-lemon-juice"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-046",
+    "stableKey": "working-drinkit-d046",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Pineapple Express",
+    "displayDescription": "Log a named cocktail containing pineapple.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "pineapple"
+    },
+    "dependencies": [
+      "catalog ingredient key `pineapple`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-047",
+    "stableKey": "working-drinkit-d047",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Heard it on the Coconut Telegraph",
+    "displayDescription": "Log a named cocktail containing coconut or coconut milk.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "any",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "coconut"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "coconut-milk"
+        }
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient keys: coconut, coconut-milk"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-048",
+    "stableKey": "working-drinkit-d048",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Orange You Glad?",
+    "displayDescription": "Log a named cocktail containing Aperol.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "aperol"
+    },
+    "dependencies": [
+      "catalog ingredient key `aperol`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-049",
+    "stableKey": "working-drinkit-d049",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "How do you milk an almond?",
+    "displayDescription": "Log a named cocktail containing orgeat.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "orgeat"
+    },
+    "dependencies": [
+      "catalog ingredient key `orgeat`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-050",
+    "stableKey": "working-drinkit-d050",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Disco Inferno",
+    "displayDescription": "Log a named cocktail containing a hot pepper, jalapeño, serrano, or habanero ingredient.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "hot-pepper"
+      ],
+      "match": "any"
+    },
+    "dependencies": [
+      "catalog hot-pepper classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-051",
+    "stableKey": "working-drinkit-d051",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Wake Me Up Before You Go-Go",
+    "displayDescription": "Log a named cocktail containing espresso.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "espresso"
+    },
+    "dependencies": [
+      "catalog ingredient key `espresso`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-052",
+    "stableKey": "working-drinkit-d052",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Flower Power",
+    "displayDescription": "Log a named cocktail containing elderflower liqueur or St-Germain.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "any",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "elderflower-liqueur"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "st-germain"
+        }
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient keys: elderflower-liqueur, st-germain"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-053",
+    "stableKey": "working-drinkit-d053",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Amaretto Much?",
+    "displayDescription": "Log a named cocktail containing amaretto.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "amaretto"
+    },
+    "dependencies": [
+      "catalog ingredient key `amaretto`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-054",
+    "stableKey": "working-drinkit-d054",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Fa-la-la-la Falernum",
+    "displayDescription": "Log a named cocktail containing falernum or Velvet Falernum.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "falernum"
+    },
+    "dependencies": [
+      "catalog ingredient key `falernum`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-055",
+    "stableKey": "working-drinkit-d055",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Lychee Me Alone",
+    "displayDescription": "Log a named cocktail containing lychee or lychee liqueur.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "any",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "lychee"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "lychee-liqueur"
+        }
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient keys: lychee, lychee-liqueur"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-056",
+    "stableKey": "working-drinkit-d056",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "I'm Blue (Da Ba Dee)",
+    "displayDescription": "Log a named cocktail containing blue curaçao.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "blue-curacao"
+    },
+    "dependencies": [
+      "catalog ingredient key `blue-curacao`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-057",
+    "stableKey": "working-drinkit-d057",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Xul Beer is Better",
+    "displayDescription": "Log a named cocktail containing peanut butter whiskey.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "peanut-butter-whiskey"
+    },
+    "dependencies": [
+      "catalog ingredient key `peanut-butter-whiskey`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-058",
+    "stableKey": "working-drinkit-d058",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Beet It",
+    "displayDescription": "Log a named cocktail containing beetroot.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "beetroot"
+    },
+    "dependencies": [
+      "catalog ingredient key `beetroot`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-059",
+    "stableKey": "working-drinkit-d059",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Grease Is the Word",
+    "displayDescription": "Log a named cocktail containing an olive oil-washed spirit.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "olive-oil-washed-spirit"
+    },
+    "dependencies": [
+      "catalog ingredient key `olive-oil-washed-spirit`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-060",
+    "stableKey": "working-drinkit-d060",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Bitter Sweet Symphony",
+    "displayDescription": "Log a named cocktail containing Campari.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "ingredient_key": "campari"
+    },
+    "dependencies": [
+      "catalog ingredient key `campari`"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-061",
+    "stableKey": "working-drinkit-d061",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Anyone got the Thyme?",
+    "displayDescription": "Log a named cocktail containing basil or rosemary.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "any",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "basil"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "rosemary"
+        }
+      ]
+    },
+    "dependencies": [
+      "catalog ingredient keys: basil, rosemary"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-062",
+    "stableKey": "working-drinkit-d062",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Kitchen Sink Drink",
+    "displayDescription": "Log a named cocktail with at least 7 separately listed recipe ingredients.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "recipe_ingredient_count",
+    "conditionConfig": {
+      "threshold": 7
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-063",
+    "stableKey": "working-drinkit-d063",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Double Trouble",
+    "displayDescription": "Log a cocktail containing at least 2 different base-spirit families.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "spirit-family-gin",
+        "spirit-family-vodka",
+        "spirit-family-rum",
+        "spirit-family-tequila",
+        "spirit-family-mezcal",
+        "spirit-family-whiskey",
+        "spirit-family-bourbon",
+        "spirit-family-brandy",
+        "spirit-family-cognac"
+      ],
+      "min_distinct_on_log": true,
+      "threshold": 2
+    },
+    "dependencies": [
+      "catalog spirit-family tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-064",
+    "stableKey": "working-drinkit-d064",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Rum and Rum Again",
+    "displayDescription": "Log a cocktail containing at least 2 distinct rum styles.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "rum-style-white",
+        "rum-style-gold",
+        "rum-style-dark",
+        "rum-style-spiced",
+        "rum-style-aged",
+        "rum-style-overproof"
+      ],
+      "min_distinct_on_log": true,
+      "threshold": 2
+    },
+    "dependencies": [
+      "catalog rum-style tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-065",
+    "stableKey": "working-drinkit-d065",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Wine makes it Classy",
+    "displayDescription": "Log a named cocktail containing wine, rosé, Prosecco, or Champagne.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "wine",
+        "rose",
+        "prosecco",
+        "champagne"
+      ],
+      "match": "any"
+    },
+    "dependencies": [
+      "catalog wine/sparkling classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-066",
+    "stableKey": "working-drinkit-d066",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Fruitcakes in the kitchen",
+    "displayDescription": "Across logged cocktails, encounter at least 3 different fruits from pineapple, mango, passion fruit, guava, dragon fruit, and lychee.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "tag_match",
+    "conditionConfig": {
+      "scope": "ingredient",
+      "tags": [
+        "fruit-pineapple",
+        "fruit-mango",
+        "fruit-passion-fruit",
+        "fruit-guava",
+        "fruit-dragon-fruit",
+        "fruit-lychee"
+      ],
+      "distinct_across_cruise": true,
+      "threshold": 3
+    },
+    "dependencies": [
+      "catalog fruit-* classification_tags"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-067",
+    "stableKey": "working-drinkit-d067",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Three's a Crowd",
+    "displayDescription": "Log a drink with at least 2 other enrolled Drink It! players.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "min_companions",
+      "threshold": 2
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-068",
+    "stableKey": "working-drinkit-d068",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "We're getting the band back together",
+    "displayDescription": "Log a drink with at least 5 other enrolled Drink It! players.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "min_companions",
+      "threshold": 5
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-069",
+    "stableKey": "working-drinkit-d069",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Drinking on Lunch Break",
+    "displayDescription": "Log a drink with another enrolled player between noon and 1:00 PM Ship Time.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "min_companions",
+      "threshold": 1,
+      "ship_hour_start": 12,
+      "ship_hour_end": 13
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-070",
+    "stableKey": "working-drinkit-d070",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "With a Little Help from My Friends",
+    "displayDescription": "Log drinks with at least 3 different enrolled companions across the cruise.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "distinct_companions",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-071",
+    "stableKey": "working-drinkit-d071",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Road Trip!",
+    "displayDescription": "Log drinks at 3 different bars with the same enrolled companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "same_companion_distinct_bars",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-072",
+    "stableKey": "working-drinkit-d072",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "You Can't Drink All Day Unless You Start in the Morning",
+    "displayDescription": "Log a drink before 11:00 AM Ship Time.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "drink_log",
+      "before_hour": 11
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-073",
+    "stableKey": "working-drinkit-d073",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "After Midnight",
+    "displayDescription": "Log a drink after 11:00 PM Ship Time.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "drink_log",
+      "after_hour": 23
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-074",
+    "stableKey": "working-drinkit-d074",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Double Take",
+    "displayDescription": "Submit 2 drink logs within 30 minutes of each other.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "event_interval",
+    "conditionConfig": {
+      "event": "drink_log",
+      "max_minutes": 30
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-075",
+    "stableKey": "working-drinkit-d075",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Wish You Were Here",
+    "displayDescription": "Log a drink during the configured daytime port-hours window.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "ship_time_window",
+    "conditionConfig": {
+      "event": "drink_log",
+      "port_day_only": true
+    },
+    "dependencies": [
+      "cruise_config.port_days",
+      "port daytime hours"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-076",
+    "stableKey": "working-drinkit-d076",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Come Sail Away",
+    "displayDescription": "Log a drink on the first cruise day.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "cruise_day",
+    "conditionConfig": {
+      "which": "first",
+      "event": "drink_log"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-077",
+    "stableKey": "working-drinkit-d077",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Last Hurrah",
+    "displayDescription": "Log a drink on the final cruise day before the game ends.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "cruise_day",
+    "conditionConfig": {
+      "which": "final",
+      "event": "drink_log"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-078",
+    "stableKey": "working-drinkit-d078",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Here We Go Again",
+    "displayDescription": "Log at least one drink on 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "distinct_count",
+    "conditionConfig": {
+      "subject": "cruise_days",
+      "threshold": 3,
+      "event": "drink_log"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-079",
+    "stableKey": "working-drinkit-d079",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Where everyone knows my name",
+    "displayDescription": "Log drinks at the same game bar on at least 3 different cruise days.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "grouped_count",
+    "conditionConfig": {
+      "mode": "same_bar_distinct_days",
+      "event": "drink_log",
+      "threshold": 3
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-080",
+    "stableKey": "working-drinkit-d080",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Not a worry in the world, cold beer in my hand",
+    "displayDescription": "Log a drink using the Beer option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "drink_mode": "generic_beer"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-081",
+    "stableKey": "working-drinkit-d081",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Dawn of the Peck",
+    "displayDescription": "Log a drink on Thanksgiving Day (Thursday, according to Ship Time).",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "cruise_day",
+    "conditionConfig": {
+      "which": "thanksgiving",
+      "event": "drink_log"
+    },
+    "dependencies": [
+      "cruise_config.thanksgiving_ship_date"
+    ],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-082",
+    "stableKey": "working-drinkit-d082",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Wrinkles only go where the smiles have been",
+    "displayDescription": "Across the cruise, log a drink with every other participating Drink It! player selected as a companion at least once.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_organizer",
+    "conditionType": null,
+    "conditionConfig": null,
+    "dependencies": [],
+    "blockers": [
+      "Organizer must define participating Drink It! membership."
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-083",
+    "stableKey": "working-drinkit-d083",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Screamin' Boat Drinks",
+    "displayDescription": "Across the cruise, log every distinct eligible named cocktail on the shared pool-bar menu used for Lido Bar, The MIX, Promenade Bars and Star Bar. Each cocktail counts once regardless of which of those bars served it.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_organizer",
+    "conditionType": null,
+    "conditionConfig": null,
+    "dependencies": [],
+    "blockers": [
+      "Organizer must define shared pool-bar eligible cocktail set."
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-084",
+    "stableKey": "working-drinkit-d084",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The menu is more of a guideline anyway",
+    "displayDescription": "Log a drink using the 'Other alcoholic drink' option.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "enabled",
+    "conditionType": "exact_match",
+    "conditionConfig": {
+      "drink_mode": "generic_other"
+    },
+    "dependencies": [],
+    "blockers": [],
+    "enabledInDev": true,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-085",
+    "stableKey": "working-drinkit-d085",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Take it to the limit",
+    "displayDescription": "Earn the maximum attainable daily bounty points across all four categories in one day, including the highest available Cocktail and Ingredient scores and the full eligible Bar group bonus.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_organizer",
+    "conditionType": null,
+    "conditionConfig": null,
+    "dependencies": [],
+    "blockers": [
+      "Organizer must define max attainable daily bounty points formula."
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-086",
+    "stableKey": "working-drinkit-d086",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "One Peppy Lopez, Please.",
+    "displayDescription": "Log a tequila-containing named cocktail with David B selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-david-b",
+      "require_ingredient_tag": "spirit-family-tequila"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-david-b"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-087",
+    "stableKey": "working-drinkit-d087",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Wasted away again in Margaritaville",
+    "displayDescription": "Log a named margarita cocktail with Josh selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-josh",
+      "require_drink_concept_tag": "margarita"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-josh"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-088",
+    "stableKey": "working-drinkit-d088",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "A Pirate Looks at 40",
+    "displayDescription": "Log a drink using the Beer option with David F selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-david-f",
+      "require_drink_mode": "generic_beer"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-david-f"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-089",
+    "stableKey": "working-drinkit-d089",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "At Least it isn't coors lite",
+    "displayDescription": "Log any named cocktail with Cindy selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "all",
+    "conditionConfig": {
+      "conditions": [
+        {
+          "type": "exact_match",
+          "drink_mode": "named_catalog"
+        },
+        {
+          "type": "companion_predicate",
+          "mode": "named_companion",
+          "companion_alias": "companion-cindy"
+        }
+      ]
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-cindy"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-090",
+    "stableKey": "working-drinkit-d090",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Feeding the Fishes",
+    "displayDescription": "Log a rum-containing named cocktail with Jordan selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-jordan",
+      "require_ingredient_tag": "spirit-family-rum"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-jordan"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-091",
+    "stableKey": "working-drinkit-d091",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "This is too sweet for me",
+    "displayDescription": "Log a bourbon-containing named cocktail with Dan selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-dan",
+      "require_ingredient_tag": "spirit-family-bourbon"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-dan"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-092",
+    "stableKey": "working-drinkit-d092",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "The Wino and I know",
+    "displayDescription": "Log a drink using the Wine option with Katie selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-katie",
+      "require_drink_mode": "generic_wine"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-katie"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  },
+  {
+    "snapshotRef": "D-093",
+    "stableKey": "working-drinkit-d093",
+    "game": "drinkit",
+    "ownerType": "player",
+    "groupKey": "other",
+    "title": "Dear Maria, Count me Gin",
+    "displayDescription": "Log a gin-containing named cocktail with Jonathan selected as a companion.",
+    "secret": false,
+    "exclusive": false,
+    "readiness": "blocked_metadata",
+    "conditionType": "companion_predicate",
+    "conditionConfig": {
+      "mode": "named_companion",
+      "companion_alias": "companion-jonathan",
+      "require_ingredient_tag": "spirit-family-gin"
+    },
+    "dependencies": [
+      "out-of-band companion UUID map for companion-jonathan"
+    ],
+    "blockers": [
+      "Named companion player UUID not committed; dual-award undecided"
+    ],
+    "enabledInDev": false,
+    "testOnly": true,
+    "visibilityNote": "PROVISIONAL — secret/public not final"
+  }
+]
