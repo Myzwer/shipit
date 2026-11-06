@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Branch | `main` |
-| Baseline feature | `cf60a43` — Phase **6A** |
-| Baseline checkpoint | `2d77dca` |
-| Baseline docs tip | `ed935d4` |
+| Branch | `main` (clean) |
+| Feature tip | `b5622b8` — Phase **6B1** |
+| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42172503784 — success |
+| Baseline accepted | Phase **6A** `cf60a43` / `2d77dca` / `ed935d4` |
 | This phase | Phase **6B1** — Auth reservation + Admin Add Drink + Export |
 
 ## Just shipped (6B1)
@@ -23,7 +23,7 @@ Migrations: `065` Auth reservation · `066` Add Drink + export. Docs: `ADMIN_ADD
 
 ## Verified
 
-lint · typecheck · unit **135** · integration **282** / 36 files · E2E 6A **10/10** · E2E 6B1 **13/13** · build · Actions (fill URL after push)
+lint · typecheck · unit **135** · integration **282** / 36 files · E2E 6A **10/10** · E2E 6B1 **13/13** · build · Actions success
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
