@@ -7,6 +7,8 @@
 | Branch | `main` (clean) |
 | Feature tip | `7877582` — Phase **7B0** |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42258315354 — success |
+| Docs tip | `c02c2f0` — checkpoint record |
+| Docs CI | https://github.com/Myzwer/shipit/actions/runs/42258940884 — success |
 | Baseline | Phase **7A.1** feature `d7035e3` / docs `e609730` / fill `5fd9654` |
 | This phase | Phase **7B0** — Evaluator corrections + versioned catalog classification metadata |
 
