@@ -64,6 +64,17 @@ npm run test:e2e:phase4b2
 
 Manual: rear-camera launch on a real phone (Playwright file injection is not proof).
 
+## Admin Void (Phase 5B)
+
+- `admin_void_submission` soft-voids the scavenger `submissions` row and the team’s active `scavenger_completions` row
+- Points leave team totals (sums of active completions only)
+- Challenge reopens for **that team** (partial unique active index); other teams unchanged
+- Gallery suppressed; photo retained for audit; member Storage/signed reads denied while voided
+- Drink It! Pause does **not** block Ship It! void
+- Finale Friday 6 PM / latch rejects new voids
+- Same UUID player retry never resurrects the completion
+- Achievement recompute deferred to `achievement_on_void_submission` boundary (stub today)
+
 ## Out of scope (later)
 
-Full Gallery/reactions, Daily Challenge, admin void, production challenge content, media sweeper.
+Achievement catalog, Awards Mode / Wrapped, production challenge content, media sweeper.

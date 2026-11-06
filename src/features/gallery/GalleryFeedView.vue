@@ -8,6 +8,7 @@ import {
   listGalleryFeed,
   markGallerySeen,
 } from '@/lib/gallery/api'
+import { countNewerThanTop, mergeGalleryFreshPage } from '@/lib/gallery/feedMerge'
 import { useGalleryUnreadStore } from '@/stores/galleryUnread'
 import type { GameId } from '@/types/game'
 import type {
@@ -36,11 +37,14 @@ const loadingMore = ref(false)
 const refreshing = ref(false)
 const refreshError = ref(false)
 const pendingNewCount = ref(0)
+const pendingNewExact = ref(true)
 const viewer = ref<{ url: string; photoId: string } | null>(null)
 const inFlight = ref(false)
 const pollTimer = ref<ReturnType<typeof setInterval> | null>(null)
 const sentinel = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
+/** Bumped on filter/game change so stale responses cannot overwrite newer selection. */
+let requestGen = 0
 
 const secondaryFilter = computed(() =>
   props.game === 'drinkit' ? ('mine' as const) : ('team' as const),
@@ -55,36 +59,41 @@ const emptyCopy = computed(() => {
   return copy.gallery.emptyTeam
 })
 
-const newPostsLabel = computed(() =>
-  pendingNewCount.value === 1
+const newPostsLabel = computed(() => {
+  if (!pendingNewExact.value) return copy.gallery.newPostsMany
+  return pendingNewCount.value === 1
     ? copy.gallery.newPostSingular
-    : formatCopy(copy.gallery.newPostsPlural, { count: pendingNewCount.value }),
-)
+    : formatCopy(copy.gallery.newPostsPlural, { count: pendingNewCount.value })
+})
 
 const highlightSubmission = computed(() =>
   typeof route.query.submission === 'string' ? route.query.submission : null,
 )
 
 async function loadInitial(opts?: { quiet?: boolean }) {
-  if (inFlight.value) return
+  const myGen = ++requestGen
+  const myFilter = filter.value
   inFlight.value = true
   if (!opts?.quiet) status.value = events.value.length ? 'ready' : 'loading'
   refreshError.value = false
   try {
     const page = await listGalleryFeed({
       game: props.game,
-      filter: filter.value,
+      filter: myFilter,
       limit: 5,
     })
+    if (myGen !== requestGen || filter.value !== myFilter) return
     events.value = page.events
     nextCursor.value = page.next_cursor
     hasMore.value = page.has_more
     newestEvent.value = page.newest_event
     status.value = 'ready'
     pendingNewCount.value = 0
-    if (filter.value === 'everyone' && page.newest_event) {
+    pendingNewExact.value = true
+    if (myFilter === 'everyone' && page.newest_event) {
       try {
         await markGallerySeen(props.game, page.newest_event)
+        if (myGen !== requestGen || filter.value !== myFilter) return
         unread.setUnread(props.game, false)
       } catch {
         /* failed mark must not clear unread */
@@ -92,24 +101,28 @@ async function loadInitial(opts?: { quiet?: boolean }) {
     }
     await unread.refresh(props.game)
   } catch {
+    if (myGen !== requestGen || filter.value !== myFilter) return
     if (!events.value.length) status.value = 'error'
     else refreshError.value = true
   } finally {
-    inFlight.value = false
+    if (myGen === requestGen) inFlight.value = false
   }
 }
 
 async function loadMore() {
   if (!hasMore.value || !nextCursor.value || loadingMore.value || inFlight.value) return
+  const myGen = requestGen
+  const myFilter = filter.value
   loadingMore.value = true
   inFlight.value = true
   try {
     const page = await listGalleryFeed({
       game: props.game,
-      filter: filter.value,
+      filter: myFilter,
       limit: 5,
       before: nextCursor.value,
     })
+    if (myGen !== requestGen || filter.value !== myFilter) return
     const seen = new Set(events.value.map((e) => e.event_id))
     for (const ev of page.events) {
       if (!seen.has(ev.event_id)) events.value.push(ev)
@@ -117,17 +130,22 @@ async function loadMore() {
     nextCursor.value = page.next_cursor
     hasMore.value = page.has_more
   } catch {
+    if (myGen !== requestGen || filter.value !== myFilter) return
     refreshError.value = true
   } finally {
-    loadingMore.value = false
-    inFlight.value = false
+    if (myGen === requestGen) {
+      loadingMore.value = false
+      inFlight.value = false
+    }
   }
 }
 
 async function pollFresh() {
   if (document.visibilityState === 'hidden') return
   if (inFlight.value || refreshing.value) return
-  if (filter.value !== 'everyone') return
+  const myFilter = filter.value
+  if (myFilter !== 'everyone') return
+  const myGen = requestGen
   refreshing.value = true
   try {
     const page = await listGalleryFeed({
@@ -135,33 +153,43 @@ async function pollFresh() {
       filter: 'everyone',
       limit: 5,
     })
+    if (myGen !== requestGen || filter.value !== myFilter) return
+
     const topId = events.value[0]?.event_id
     const freshTop = page.events[0]?.event_id
-    if (freshTop && topId && freshTop !== topId) {
-      let count = 0
-      for (const ev of page.events) {
-        if (ev.event_id === topId) break
-        count += 1
-      }
-      if (count === 0) count = page.events.length
-      // If user is near top, merge quietly; else show pill.
+    const { count, exact } = countNewerThanTop(page.events, topId)
+    const hasNewer = Boolean(freshTop && topId && freshTop !== topId)
+
+    if (hasNewer) {
       const nearTop = window.scrollY < 80
       if (nearTop) {
-        events.value = page.events
-        nextCursor.value = page.next_cursor
-        hasMore.value = page.has_more
+        // Preserve older loaded pages; refresh reaction counts on overlap.
+        const hadOlder = events.value.length > page.events.length
+        const prevCursor = nextCursor.value
+        const prevHasMore = hasMore.value
+        events.value = mergeGalleryFreshPage(events.value, page)
+        if (hadOlder) {
+          nextCursor.value = prevCursor
+          hasMore.value = prevHasMore
+        } else {
+          nextCursor.value = page.next_cursor
+          hasMore.value = page.has_more
+        }
         newestEvent.value = page.newest_event
         pendingNewCount.value = 0
+        pendingNewExact.value = true
         if (page.newest_event) {
           try {
             await markGallerySeen(props.game, page.newest_event)
+            if (myGen !== requestGen || filter.value !== myFilter) return
             unread.setUnread(props.game, false)
           } catch {
             /* ignore */
           }
         }
       } else {
-        pendingNewCount.value = count
+        pendingNewCount.value = Math.max(count, 1)
+        pendingNewExact.value = exact
         newestEvent.value = page.newest_event
       }
     } else if (!topId && page.events.length) {
@@ -169,17 +197,23 @@ async function pollFresh() {
       nextCursor.value = page.next_cursor
       hasMore.value = page.has_more
       newestEvent.value = page.newest_event
+    } else if (topId && page.events.length) {
+      // Same top: still refresh reaction counts on the first page overlap.
+      events.value = mergeGalleryFreshPage(events.value, page)
+      newestEvent.value = page.newest_event
     }
     await unread.refresh(props.game)
   } catch {
+    if (myGen !== requestGen || filter.value !== myFilter) return
     refreshError.value = true
   } finally {
-    refreshing.value = false
+    if (myGen === requestGen) refreshing.value = false
   }
 }
 
 async function openNewPosts() {
   pendingNewCount.value = 0
+  pendingNewExact.value = true
   await loadInitial({ quiet: true })
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -191,6 +225,7 @@ function setFilter(next: GalleryFilter) {
   nextCursor.value = null
   hasMore.value = false
   pendingNewCount.value = 0
+  pendingNewExact.value = true
   void loadInitial()
 }
 
@@ -255,6 +290,8 @@ watch(
   () => {
     events.value = []
     filter.value = 'everyone'
+    pendingNewCount.value = 0
+    pendingNewExact.value = true
     void loadInitial()
   },
 )
@@ -404,6 +441,7 @@ watch(
       class="fixed left-1/2 z-40 -translate-x-1/2 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-lg"
       style="top: max(1rem, env(safe-area-inset-top)); background: var(--theme-primary)"
       data-testid="gallery-new-posts"
+      :data-exact="pendingNewExact ? '1' : '0'"
       @click="openNewPosts"
     >
       {{ newPostsLabel }}

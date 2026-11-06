@@ -21,6 +21,8 @@ export interface GalleryFeedEvent {
   event_id: string
   kind: GalleryEventKind
   created_at_utc: string
+  /** Ship-local wall time at event UTC (server historical offset). */
+  created_ship_local: string | null
   owner_player_id: string | null
   owner_player_name: string | null
   owner_team_id: string | null

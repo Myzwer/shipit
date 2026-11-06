@@ -2,6 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import ReactionBar from '@/features/gallery/ReactionBar.vue'
 import { fetchGalleryPhotoSignedUrl } from '@/lib/gallery/api'
+import { formatShipTimeOfDay } from '@/lib/shipClockFormat'
 import type { GameId } from '@/types/game'
 import type { GalleryFeedEvent, GalleryReactionCounts, GalleryReactionEmoji } from '@/types/gallery'
 import { copy, formatCopy } from '@/ui/copy'
@@ -58,12 +59,11 @@ const byline = computed(() => {
 })
 
 const timeLabel = computed(() => {
-  try {
-    const d = new Date(props.event.created_at_utc)
-    return `${d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} · ${copy.gallery.shipTime}`
-  } catch {
-    return copy.gallery.shipTime
+  const shipLocal = props.event.created_ship_local
+  if (shipLocal) {
+    return `${formatShipTimeOfDay(shipLocal)} · ${copy.gallery.shipTime}`
   }
+  return copy.gallery.shipTime
 })
 
 const captionLabel = computed(() =>

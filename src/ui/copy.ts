@@ -196,6 +196,19 @@ export const copy = {
     noCurrentBounty: 'No current bounty in this window.',
     refreshSkipStatus: 'Refresh Status',
     retrySameSkip: 'Retry Same Skip',
+    voidHeading: 'Void Submission',
+    voidAction: 'Void Submission',
+    voidConfirmTitle: 'Void This Submission?',
+    voidConfirmBody:
+      'This removes the submission and its scoring effects. Related achievements and team progress may change.',
+    voidFinaleBody: 'Submissions cannot be changed after the games end.',
+    voidSuccess: 'Submission voided.',
+    voidFailureTitle: 'Change Not Saved',
+    voidFailureBody: "The change didn't save. Nothing was updated. Please try again.",
+    voidUnknownTitle: 'Confirm Void Status',
+    voidUnknownBody:
+      'We could not confirm whether that void was saved. Refresh, or retry the same void. Do not void a different submission yet.',
+    retrySameVoid: 'Retry Same Void',
   },
   shipTime: {
     label: 'Ship Time',
@@ -417,6 +430,8 @@ export const copy = {
     emptyTeam: "Your team hasn't posted anything yet.",
     newPostSingular: '1 New Post',
     newPostsPlural: '{count} New Posts',
+    /** Shown when a burst may exceed the polled page — never invent an exact count. */
+    newPostsMany: 'New Posts',
     loadingMore: 'Loading More…',
     endOfPosts: 'End of Posts',
     loading: 'Loading Posts…',

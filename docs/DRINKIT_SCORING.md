@@ -134,7 +134,19 @@ Players: SELECT own correction rows (or admin); no direct INSERT/UPDATE. Writes 
 | Daily photo | `submit_daily` (Phase 4B3) — required staged `daily` photo, 50 points, one claim/player/day |
 | Optional drink photo | `submit_drink` (Phase 4B4) — nullable `photo_id`, atomic bind with claims + corrections |
 | Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (currently `[]`) |
-| Gallery UI / reactions | `gallery_events` row already created; reactions table deferred |
+| Gallery UI / reactions | Phase 5A/5B feed + reactions |
+| Admin Void (5B) | `admin_preview_void_submission` / `admin_void_submission` — soft-void before Friday 6 PM |
+
+## Admin Void (Drink It! + Daily)
+
+- Soft-void `submissions.status = voided`; void only that submission’s active `bounty_claims`
+- Points leave aggregates because reads sum `status = 'active'` only (no artificial negative ledger rows)
+- Categories become claimable again when still eligible under window rules (unique active index)
+- Daily is a Drink It! submission kind and voids the same way (50-point claim)
+- Gallery event `active=false`; bound photo kept for audit but denied to members
+- Same idempotency UUID after void: replay returns voided status — never resurrects claims/photo/gallery
+- Ingredient corrections: deactivate when `source_submission_id` matches. **Limitation:** one source per offering+ingredient; independently supporting submissions are not multi-tracked. Proposed fix: `ingredient_correction_sources` junction. Never reactivate Admin-deactivated corrections.
+- **Achievement boundary:** `achievement_on_void_submission(submission_id)` is a no-op stub. Before achievements launch it must recalculate dependent awards transactionally, reassign exclusive Firsts, suppress award Gallery events, and refuse post-finale revision. Do not claim achievement-aware voiding is complete.
 
 ## Local verify
 

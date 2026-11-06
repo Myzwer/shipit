@@ -2,52 +2,54 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** `ad69c8d` — Phase **5A** tip (feature `a7e4713`)  
-**CI:** https://github.com/Myzwer/shipit/actions/runs/42155679792 — success  
-**Prior tip:** `eb0b788` / feature `d04a5a2` — Phase **4B4** accepted  
+**Tip:** *(pending Phase 5B commit)*  
+**Prior tip:** `87b30af` / feature `a7e4713` — Phase **5A** accepted (CI `42155679792`)  
 **Do not start the next phase until the Development Director authorizes it.**
 
-## What just shipped (Phase 5A)
+## What just shipped (Phase 5B)
 
 | Item | Summary |
 |---|---|
-| Feed | Game-scoped keyset Gallery (`list_gallery_feed`) — Everyone / My Gallery / My Team |
-| Photos | Same-game bound photo access + full viewer / download |
-| Reactions | ❤️ 😂 🤙 one per player; optimistic UI |
-| Freshness | ~25s poll, New Posts pill, no scroll jump |
-| Unread | Delivered-event cursors; Everyone clears; games independent |
+| Gallery Ship Time | Server `created_ship_local` via historical `clock_offset_at` (not device local) |
+| Feed races | Merge prepend; generation-scoped filter; undercount-safe New Posts pill |
+| Admin Void | Soft-void schema + preview + idempotent `admin_void_submission` before Fri 6 PM |
+| Scoring reverse | Drink claims / Daily 50 / Ship completions; reopen eligibility |
+| Privacy | Voided Gallery + bound photo denied to members; audit retained |
+| Achievements | Integration boundary stub only — catalog not invented |
 
 ## Stack / how to work here
 
 - Vue 3 + Pinia + Supabase (local Docker).
 - Migrations under `supabase/migrations/` — **never edit applied ones**.
-- Gallery docs: `docs/GALLERY.md`, `docs/MEDIA_PIPELINE.md`.
+- Gallery: `docs/GALLERY.md`. Scoring: `docs/DRINKIT_SCORING.md`, `docs/SHIPIT_CHALLENGES.md`.
 
 ## Verified at tip
 
-Local + CI: lint ✅ · typecheck ✅ · unit **115** · integration **253** / 28 files · E2E gallery **10/10** · build ✅ · Actions **success**
+*(fill after local + CI)*
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run lint && npm run typecheck && npm test && npm run test:integration
-npm run db:seed-bounty-now && npm run test:e2e:phase5a
+npm run db:seed-bounty-now && npm run test:e2e:phase5a && npm run test:e2e:phase5b
 npm run build
 ```
 
 ## Explicitly out of scope until authorized
 
-- Achievement definitions / unlocks / Gallery award cards / achievement unread
-- Admin Void; Awards Mode / Wrapped; media sweeper; deployment; visual polish
+- Achievement catalog / unlocks / Gallery award cards / achievement unread
+- Awards Mode / Wrapped; media sweeper; deployment; visual polish
+- Account/roster management; Admin Add Drink; Catalog Publish/Rollback
 
 ## Next agent: start here when Director says next phase
 
 1. Achievements engine + Gallery announcements + achievement unread  
-2. Abandoned staging TTL sweeper (never delete bound)  
-3. Admin Void
+   — **must complete `achievement_on_void_submission` before launch**
+2. Abandoned staging TTL sweeper (never delete bound)
 
 ## Pitfalls
 
-- Bound photos: same-game members may read (Everyone visibility); staged remain private.
-- Mark Gallery seen only after a successful Everyone load, using the delivered newest event — never `now()`.
-- My Gallery / My Team must not clear Everyone unread.
-- Storage helpers must stay security-definer (RLS on `photos` breaks direct EXISTS).
+- Historical Gallery time uses offset-at-event-UTC; do not use `toLocaleTimeString` labeled as Ship Time.
+- Near-top refresh must merge, not replace, loaded pages.
+- Void is soft-state only; never hard-delete submissions/photos.
+- Previously issued signed URLs may live until expiry after void.
+- Ingredient corrections have a single `source_submission_id` (document limitation).

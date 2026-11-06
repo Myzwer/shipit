@@ -132,7 +132,7 @@ npm run screenshots:phase4b2
 npm run screenshots:phase4b3
 ```
 
-Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Media / photo staging: [`docs/MEDIA_PIPELINE.md`](./docs/MEDIA_PIPELINE.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin**.
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Gallery: [`docs/GALLERY.md`](./docs/GALLERY.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Media / photo staging: [`docs/MEDIA_PIPELINE.md`](./docs/MEDIA_PIPELINE.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin** (includes emergency **Void Submission** before Friday 6 PM).
 
 ## Environment and secrets
 
@@ -152,7 +152,7 @@ src/
   app/                 # router + auth guards
   components/shared/   # shell, nav, account, leaderboard
   features/auth/       # login, unavailable, access denied
-  features/admin/      # organizer Admin (Ship Clock, Pause, Skip)
+  features/admin/      # organizer Admin (Ship Clock, Pause, Skip, Void)
   features/drinkit/    # Drink It! Home + bounty carousel
   features/shipit/     # Ship It! Home + Challenges list
   features/shared/     # dual-game chooser

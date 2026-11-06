@@ -33,6 +33,9 @@ describe('approved copy', () => {
     expect(copy.gallery.heading).toBe('The Gallery')
     expect(copy.gallery.endOfPosts).toBe('End of Posts')
     expect(copy.gallery.everyone).toBe('Everyone')
+    expect(copy.gallery.newPostsMany).toBe('New Posts')
+    expect(copy.admin.voidAction).toBe('Void Submission')
+    expect(copy.admin.voidConfirmTitle).toBe('Void This Submission?')
     expect(copy.home.allChallenges).toBe('All Challenges')
     expect(copy.home.noTeamProgress).toBe(
       'No challenges completed yet. Pick one to get started!',

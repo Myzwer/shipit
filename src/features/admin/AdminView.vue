@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import GameStatusSection from '@/features/admin/GameStatusSection.vue'
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
+import VoidSubmissionSection from '@/features/admin/VoidSubmissionSection.vue'
 import { copy } from '@/ui/copy'
 import { useSessionStore } from '@/stores/session'
 
@@ -27,6 +28,7 @@ function backHome() {
       <ShipClockSection />
       <GameStatusSection />
       <BountySkipSection />
+      <VoidSubmissionSection />
 
       <button
         type="button"

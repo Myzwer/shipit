@@ -1,6 +1,6 @@
-# Gallery (Phase 5A)
+# Gallery (Phase 5B)
 
-Game-specific chronological activity feed with reactions, photo viewer, and unread dots.
+Game-specific chronological activity feed with reactions, photo viewer, unread dots, historical Ship Time, and void-aware privacy.
 
 ## Scope
 
@@ -18,7 +18,16 @@ No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are
 - Membership derived server-side (`has_game`)
 - Keyset cursor: `(created_at_utc DESC, id DESC)` — page size ~5
 - Returns immutable `display` snapshots, caption, bound `photo_id`, reaction counts, `my_reaction`
-- Inactive / non-accepted submissions excluded
+- **`created_ship_local`**: ship-local wall time from `clock_offset_at` at the event’s absolute UTC (not the visitor’s device timezone). Later clock corrections with a later effective time do not rewrite older labels.
+- Inactive / non-accepted / voided submissions excluded
+
+## Freshness / pagination (Phase 5B)
+
+- Poll ~25s while visible; pause when hidden; no overlapping in-flight loads
+- Near-top refresh **merges** new posts into already-loaded pages (no dropping older pages)
+- Filter changes bump a request generation so stale responses cannot overwrite a newer selection
+- Scrolled “New Posts” pill: exact count when the prior top is found in the polled page; otherwise **“New Posts”** (never an undercounted exact burst)
+- Failed refresh preserves existing content
 
 ## Reactions
 
@@ -26,29 +35,25 @@ No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are
 
 - Emojis: `heart` ❤️ · `laugh` 😂 · `hang_loose` 🤙
 - One per player per event; tap toggles / replaces
-- No scoring impact; no unread dots; allowed after finale
+- Inactive / voided events reject mutation; counts are not public once suppressed
 
-## Photos
+## Photos after void
 
-- Bound photos readable by **same-game members** (Everyone visibility)
-- Storage policies + signed URL RPCs enforce access (not Vue-only)
-- Staged / abandoned / fixture / cross-game remain private
-- Square thumbs are presentation crops; viewer shows uncropped optimized original + Download
+- Bound photos remain on disk for audit
+- Same-game signed URL + Storage read require **accepted** submission **and** **active** gallery event
+- Knowing a storage path is not enough after void
+- **Limitation:** previously issued short-lived signed URLs may remain usable until expiry (no immediate CDN revoke)
 
 ## Unread dots
 
 `get_gallery_unread` / `mark_gallery_seen`
 
-- Dot = activity from **another player** newer than last delivered Everyone cursor
-- Own posts and reactions never set the dot
-- Loading **Everyone** successfully marks the newest delivered event (not `now()`)
-- My Gallery / My Team does not clear Everyone unread
-- Drink It! and Ship It! cursors are independent
-- Failed reads must not advance the cursor
+- Only active events with accepted submissions
+- Voided activity does not create or retain unread
 
-## Freshness
+## Admin Void (see also scoring docs)
 
-While Gallery is visible: poll ~25s, revalidate on foreground, pause when tab hidden, no overlapping requests. “N New Posts” pill when scrolled; tap loads and returns to top.
+Organizer soft-void before Friday 6 PM Ship Time suppresses Gallery rows (`active=false`) without deleting history. See `docs/DRINKIT_SCORING.md` and `docs/SHIPIT_CHALLENGES.md`.
 
 ## Local verify
 
@@ -57,4 +62,5 @@ npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run test:integration
 npm run db:seed-bounty-now
 npm run test:e2e:phase5a
+npm run test:e2e:phase5b
 ```
