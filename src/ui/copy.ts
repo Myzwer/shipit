@@ -48,6 +48,22 @@ export const copy = {
     shipFinale: 'Ship It! is closed. Final standings are ready to review.',
   },
   shipit: {
+    submitHeading: 'Complete Challenge',
+    teamCredit: 'Team: {teamName}',
+    pointsLabel: '{points} points',
+    continueReview: 'Continue',
+    reviewChallenge: 'Challenge',
+    reviewTeam: 'Team earning credit',
+    reviewPoints: 'Points',
+    submit: 'Submit',
+    submitting: 'Submitting…',
+    editPhoto: 'Edit photo or caption',
+    alreadyCompletedTitle: 'Your team already completed this.',
+    alreadyCompletedBody: 'This challenge is done for your team. Pick another from the list.',
+    backToChallenges: 'Back to Challenges',
+    challengeMissing: 'That challenge could not be found.',
+    submissionClosed: 'Submissions are closed right now.',
+    submitFailed: "Couldn't submit. Your photo is still here — try again.",
     challengesHeading: 'Challenges',
     filterBy: 'Filter by',
     filterAll: 'All',
@@ -60,7 +76,6 @@ export const copy = {
     submissionSoonBody:
       'Every Ship It! challenge needs a photo. Submitting opens once the shared photo pipeline is ready.',
     actionUnavailable: 'Unavailable',
-    backToChallenges: 'Back to Challenges',
     howToPlayBasics:
       "One team, one score. You're assigned to a team, and any team member can submit a challenge for that team. A challenge only counts once per team, even if several teammates take photos. Other teams can still complete the same challenge.",
     howToPlayFind:

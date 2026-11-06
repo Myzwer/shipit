@@ -279,10 +279,20 @@ describe('Phase 4B1 photo staging security', () => {
     expect(replaceStaged.error).toBeTruthy()
 
     const service = createLocalClient(fixtures.summary.supabase_url, fixtures.serviceRoleKey)
-    const existing = await service.from('submissions').select('id').limit(1).maybeSingle()
-    const submissionId = existing.data?.id as string | undefined
+    // Prefer a submission that does not already own a bound photo (unique index).
+    const { data: candidates } = await service.from('submissions').select('id').limit(20)
+    const bound = await service
+      .from('photos')
+      .select('bound_submission_id')
+      .not('bound_submission_id', 'is', null)
+    const taken = new Set(
+      (bound.data ?? [])
+        .map((r) => r.bound_submission_id as string | null)
+        .filter((id): id is string => !!id),
+    )
+    const submissionId = (candidates ?? []).map((r) => r.id as string).find((id) => !taken.has(id))
     if (!submissionId) {
-      // Without a prior drink submission in this DB, Storage-stage immutability above still holds.
+      // Without a free submission in this DB, Storage-stage immutability above still holds.
       expect(staged.photoId).toBeTruthy()
       return
     }

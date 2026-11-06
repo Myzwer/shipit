@@ -221,6 +221,7 @@ describe('Phase 3C-A named-catalog ingredient confirm', () => {
       .from('ingredient_corrections')
       .select('id', { count: 'exact', head: true })
       .eq('offering_id', miss.offeringId)
+      .eq('ingredient_id', ing.ingredientId)
     expect(afterFail ?? 0).toBe(0)
 
     await fixtures.service!.rpc('dev_set_drinkit_paused', { p_paused: false })

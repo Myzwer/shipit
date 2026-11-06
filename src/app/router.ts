@@ -60,6 +60,18 @@ const router = createRouter({
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
     },
     {
+      path: '/shipit/challenges/:challengeId/submit',
+      name: 'shipit-submit',
+      component: () => import('@/features/shipit/ScavengerSubmitView.vue'),
+      meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
+      path: '/shipit/gallery',
+      name: 'shipit-gallery',
+      component: () => import('@/features/shipit/ShipItGalleryStubView.vue'),
+      meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: () => import('@/features/admin/AdminView.vue'),

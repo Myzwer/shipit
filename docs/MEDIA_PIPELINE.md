@@ -1,7 +1,8 @@
 # Media pipeline (Phase 4B1)
 
 Shared, cruise-Wi-Fi-friendly photo capture and **private staging** for Drink It! and Ship It!.  
-Scoring attach (`submit_drink` photo bind, `submit_daily`, `submit_scavenger`) and Gallery browsing are **later phases**.
+**Phase 4B2:** `submit_scavenger` binds a staged scavenger photo atomically with team scoring.  
+Still deferred: Daily Challenge submit, optional Drink It! photo bind, full Gallery.
 
 Authority: Tech Spec §7.2–7.4, §9; UX §4 Photo.
 
@@ -22,9 +23,9 @@ After selection: preview, Retake, Replace, Remove. Caption stays on the enclosin
 
 Typed contracts: `src/lib/media/contracts.ts`
 
-- Ordinary drink log — optional photo  
+- Ordinary drink log — optional photo (bind deferred)  
 - Daily — required (Submit not enabled yet)  
-- Scavenger — required (Submit not enabled yet)
+- Scavenger — required; `submit_scavenger` binds staged photo
 
 ## Staging lifecycle
 
@@ -37,11 +38,17 @@ Select/capture → processImageFile → begin_photo_upload
 1. **begin_photo_upload** — server mints `photos` row + path `{player_id}/{game}/{photo_id}.{ext}` under the caller. Client cannot choose another player's prefix.
 2. **Storage upload** — authenticated, private bucket `game-photos`, upsert only while `pending_upload`.
 3. **confirm_photo_upload** — marks `staged` only if the Storage object exists. Idempotent replay if already staged. Never reports success without a verifiable object.
-4. Future submit RPCs call **verify_staged_photo_for_submit** (service_role) before binding. A client-supplied path alone is not proof.
+4. `submit_scavenger` locks the photo row, verifies staged object presence, and binds in the scoring transaction. `verify_staged_photo_for_submit` remains service-role for other futures. A client path alone is not proof.
 
-Safe retry: keep local optimized blob; reuse pending slot (upsert) when begin already succeeded. After browser reload, local `File` is gone — UI asks the player to reselect.
+### Gate A — abandon
 
-Offline / network abort: preserve local preview when possible; explicit error + Retry. No general offline sync queue.
+`abandon_photo_upload` only marks the ledger `abandoned` + `storage_cleanup_status=pending` under row lock. Physical removal uses the **Storage API** (`remove`), then `mark_photo_storage_cleaned` (or `mark_photo_storage_cleanup_failed`). Staged objects are **not** deletable via Storage policies (prevents delete-during-bind races). Bound photos cannot be abandoned or deleted.
+
+### Gate B — lost upload/confirm
+
+`begin_photo_upload` accepts optional `p_client_request_id` (unique per owner). Lost begin responses replay the same reservation. `PhotoCapture` / `stageProcessedPhoto` emit `onPending` as soon as begin succeeds; Retry reconciles via `get_my_photo` (confirm-only if object already present). Failed replace/retake keeps the previous valid photo until the new file processes successfully.
+
+Safe retry: keep local optimized blob; reuse pending slot (upsert). After browser reload, local `File` may be gone — UI asks to reselect.
 
 ## Ownership & Storage security
 
@@ -80,35 +87,28 @@ Pending/abandoned objects may accumulate if a player begins upload and never con
 
 Players may call `abandon_photo_upload` when replacing/removing before bind.
 
-## Final submission verification (future)
+## Final submission verification
 
-Submit RPCs must:
+`submit_scavenger` locks the photo and binds in the scoring transaction (same checks as `verify_staged_photo_for_submit`). Reject: missing, wrong owner, wrong game/purpose, not staged, missing Storage object, fixture paths, already bound elsewhere. Idempotent replay may reuse a photo already bound to the same accepted submission.
 
-```sql
-verify_staged_photo_for_submit(photo_id, player_id, game, purpose, required)
-```
-
-Then set `photos.status = 'bound'` + `bound_submission_id` in the same transaction as the award. Reject: missing, wrong owner, wrong game/purpose, not staged, missing Storage object, fixture paths, already bound.
-
-Phase 4B1 Drink It! wizard **stages** optional photos but still submits `photo_storage_key: null` — attachment deferred intentionally.
+Drink It! wizard still **stages** optional photos but submits `photo_storage_key: null` — attachment deferred.
 
 ## Local tests
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
-npm test                                 # includes processImage / PhotoCapture / contracts
-npm run test:integration                 # includes media.phase4b1.storage.test.ts
-npm run test:e2e:phase4b1                # Playwright + real Storage uploads
+npm test                                 # includes processImage / PhotoCapture / stagePhoto / contracts
+npm run test:integration                 # media.phase4b1 + media.phase4b2.gates + shipit.phase4b2.submit
+npm run test:e2e:phase4b1 && npm run test:e2e:phase4b2
 ```
 
-Security cases covered in integration: own stage, peer deny, unauthenticated deny, cross-game, forged path, missing object, bad mime/size, fixture path constraint, staged/bound immutability, no public bucket access, confirm idempotency, service-only verify.
+Security cases: own stage, peer deny, unauthenticated deny, cross-game, forged path, missing object, fixture reject, staged/bound immutability, Storage API abandon (no SQL object delete), lost begin/upload/confirm reuse, no public bucket access.
 
-## Remaining work (not 4B1)
+## Remaining work (after 4B2)
 
-- Bind staged photo inside `submit_drink` / new daily & scavenger RPCs  
-- Enable Daily / Ship It! Submit UI  
-- Gallery browse, signed download, reactions  
-- Abandoned-file TTL sweeper  
+- Bind staged photo inside `submit_drink` / Daily Challenge submit  
+- Full Gallery browse, signed download, reactions  
+- Abandoned-file TTL sweeper (retain recoverable cleanup state until then)  
 - Real-device camera + HEIC confirmation on iPhone/Android over cruise-like networks  
 
 ## Outstanding real-device tests

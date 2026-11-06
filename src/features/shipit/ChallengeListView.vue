@@ -54,13 +54,17 @@ function onFilterChange(value: string) {
   })
 }
 
-function onChallengeActivate(completed: boolean, submissionReady: boolean) {
+function onChallengeActivate(
+  completed: boolean,
+  submissionReady: boolean,
+  challengeId: string,
+) {
   if (completed) return
-  // Preserve final interaction contract: unfinished cards are actionable, but
-  // Phase 4A cannot complete without the shared photo pipeline.
   if (!submissionReady) {
     noticeOpen.value = true
+    return
   }
+  void router.push({ name: 'shipit-submit', params: { challengeId } })
 }
 
 watch(filter, () => {
@@ -191,7 +195,9 @@ onMounted(() => {
               :data-completed="challenge.completed ? 'true' : 'false'"
               :data-actionable="challenge.completed ? 'false' : 'true'"
               :aria-disabled="challenge.completed ? 'true' : undefined"
-              @click="onChallengeActivate(challenge.completed, challenge.submission_ready)"
+              @click="
+                onChallengeActivate(challenge.completed, challenge.submission_ready, challenge.id)
+              "
             >
               <span
                 class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full"

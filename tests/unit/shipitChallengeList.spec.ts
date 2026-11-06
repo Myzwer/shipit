@@ -41,8 +41,8 @@ function payload(partial?: Partial<ShipItChallengesPayload>): ShipItChallengesPa
     },
     team: { id: 't1', name: 'Demo Team Alpha' },
     filter: 'all',
-    submission_available: false,
-    submission_blocked_reason: 'photo_pipeline_pending',
+    submission_available: true,
+    submission_blocked_reason: null,
     sections: [
       {
         category: 'classic_ship_landmarks',
@@ -76,7 +76,7 @@ function payload(partial?: Partial<ShipItChallengesPayload>): ShipItChallengesPa
             photo_required: true,
             completed: false,
             actionable: true,
-            submission_ready: false,
+            submission_ready: true,
           },
         ],
       },
@@ -91,6 +91,11 @@ async function mountList(query: Record<string, string> = {}) {
     history: createMemoryHistory(),
     routes: [
       { path: '/shipit/challenges', name: 'shipit-challenges', component: ChallengeListView },
+      {
+        path: '/shipit/challenges/:challengeId/submit',
+        name: 'shipit-submit',
+        component: { template: '<div data-testid="submit-route" />' },
+      },
       { path: '/shipit', name: 'shipit-home', component: { template: '<div />' } },
     ],
   })
@@ -106,7 +111,7 @@ async function mountList(query: Record<string, string> = {}) {
     },
   })
   await flushPromises()
-  return wrapper
+  return { wrapper, router }
 }
 
 describe('ChallengeListView', () => {
@@ -115,16 +120,49 @@ describe('ChallengeListView', () => {
     fetchShipItChallenges.mockResolvedValue(payload())
   })
 
-  it('renders completed and incomplete card states without fake completion', async () => {
-    const wrapper = await mountList()
-    const completed = wrapper.get('[data-testid="shipit-challenge-the-piazza-grandeur"]')
+  it('navigates incomplete ready cards to submit', async () => {
+    const { wrapper, router } = await mountList()
     const open = wrapper.get('[data-testid="shipit-challenge-movies-under-the-stars"]')
-    expect(completed.attributes('data-completed')).toBe('true')
     expect(open.attributes('data-completed')).toBe('false')
-    expect(wrapper.text()).toContain('Classic Ship Landmarks — 1/10')
-    expect(wrapper.text()).toContain('100 Points')
-
     await open.trigger('click')
+    await flushPromises()
+    expect(wrapper.find('[data-testid="shipit-submission-unavailable"]').exists()).toBe(false)
+    expect(router.currentRoute.value.name).toBe('shipit-submit')
+    expect(router.currentRoute.value.params.challengeId).toBe('2')
+  })
+
+  it('shows unavailable when submission is not ready', async () => {
+    fetchShipItChallenges.mockResolvedValue(
+      payload({
+        sections: [
+          {
+            category: 'classic_ship_landmarks',
+            label: 'Classic Ship Landmarks',
+            points_per_challenge: 100,
+            completed: 0,
+            total: 10,
+            points: 0,
+            challenges: [
+              {
+                id: '2',
+                canonical_key: 'movies-under-the-stars',
+                category: 'classic_ship_landmarks',
+                title: '[DEV] Movies Under the Stars',
+                instructions: 'A photo with the massive poolside outdoor movie screen.',
+                points: 100,
+                sort_order: 2,
+                photo_required: true,
+                completed: false,
+                actionable: false,
+                submission_ready: false,
+              },
+            ],
+          },
+        ],
+      }),
+    )
+    const { wrapper } = await mountList()
+    await wrapper.get('[data-testid="shipit-challenge-movies-under-the-stars"]').trigger('click')
     await flushPromises()
     expect(wrapper.find('[data-testid="shipit-submission-unavailable"]').exists()).toBe(true)
   })

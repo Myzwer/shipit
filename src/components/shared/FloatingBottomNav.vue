@@ -21,7 +21,9 @@ const router = useRouter()
 const homePath = computed(() => (props.game === 'drinkit' ? '/drinkit' : '/shipit'))
 const onWizard = computed(() => route.name === 'drinkit-log')
 const onShipChallenges = computed(() => route.name === 'shipit-challenges')
-const onGallery = computed(() => route.name === 'drinkit-gallery')
+const onGallery = computed(
+    () => route.name === 'drinkit-gallery' || route.name === 'shipit-gallery',
+  )
 
 const items = computed(() => {
   const actionLabel = props.game === 'drinkit' ? copy.nav.logDrink : copy.nav.challenges
@@ -47,7 +49,7 @@ const items = computed(() => {
       key: 'gallery',
       icon: 'nav.gallery' as SemanticIconKey,
       label: copy.nav.gallery,
-      path: props.game === 'drinkit' ? '/drinkit/gallery' : homePath.value,
+      path: props.game === 'drinkit' ? '/drinkit/gallery' : '/shipit/gallery',
       active: onGallery.value,
       shellOnly: props.game !== 'drinkit',
       showDot: true,

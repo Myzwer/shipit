@@ -42,6 +42,7 @@ export default tseslint.config(
         getComputedStyle: 'readonly',
         requestAnimationFrame: 'readonly',
         createImageBitmap: 'readonly',
+        crypto: 'readonly',
       },
     },
     rules: {

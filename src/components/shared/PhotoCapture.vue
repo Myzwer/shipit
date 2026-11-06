@@ -28,6 +28,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   staged: [ref: StagedPhotoRef | null]
+  pending: [slot: PendingUploadSlot | null]
   localReady: [image: ProcessedImage | null]
   busy: [busy: boolean]
   error: [message: string | null]
@@ -39,6 +40,8 @@ const uploadInput = ref<HTMLInputElement | null>(null)
 const processed = ref<ProcessedImage | null>(null)
 const staged = ref<StagedPhotoRef | null>(null)
 const pending = ref<PendingUploadSlot | null>(null)
+/** Fresh UUID per selection attempt for idempotent begin. */
+const beginRequestId = ref<string | null>(null)
 const status = ref<'empty' | 'processing' | 'ready_local' | 'uploading' | 'staged' | 'error'>('empty')
 const errorMessage = ref<string | null>(null)
 const progressMessage = ref<string | null>(null)
@@ -61,17 +64,22 @@ function setError(message: string) {
   emit('error', message)
 }
 
-async function abandonCurrent() {
-  const id = pending.value?.photoId ?? staged.value?.photoId
-  if (id) {
-    try {
-      await abandonPhotoUpload(id)
-    } catch {
-      /* best-effort cleanup */
-    }
+async function abandonSlot(slot: PendingUploadSlot | StagedPhotoRef | null) {
+  const id = slot && 'photoId' in slot ? slot.photoId : null
+  if (!id) return
+  try {
+    await abandonPhotoUpload(id)
+  } catch {
+    /* best-effort — bound photos correctly refuse */
   }
+}
+
+async function abandonCurrent() {
+  await abandonSlot(pending.value ?? staged.value)
   pending.value = null
   staged.value = null
+  beginRequestId.value = null
+  emit('pending', null)
   emit('staged', null)
 }
 
@@ -84,6 +92,8 @@ function clearLocal(options?: { abandonRemote?: boolean }) {
   } else {
     pending.value = null
     staged.value = null
+    beginRequestId.value = null
+    emit('pending', null)
     emit('staged', null)
   }
   status.value = 'empty'
@@ -97,17 +107,31 @@ async function handleFile(file: File | undefined | null) {
   if (!file || props.disabled || busy.value) return
   clearError()
 
-  // Replace: drop previous remote staging first.
-  if (processed.value || staged.value || pending.value) {
-    revokeProcessedPreview(processed.value)
-    processed.value = null
-    await abandonCurrent()
-  }
+  // Keep prior valid photo until the replacement processes successfully.
+  const previousProcessed = processed.value
+  const previousStaged = staged.value
+  const previousPending = pending.value
+  const previousBeginId = beginRequestId.value
+  const previousStatus = status.value
 
   status.value = 'processing'
   progressMessage.value = copy.photo.processing
   try {
     const image = await processImageFile(file)
+    // Only now drop the prior reservation.
+    if (previousProcessed && previousProcessed !== image) {
+      revokeProcessedPreview(previousProcessed)
+    }
+    if (previousPending || previousStaged) {
+      await abandonSlot(previousPending ?? previousStaged)
+    }
+
+    beginRequestId.value = crypto.randomUUID()
+    pending.value = null
+    staged.value = null
+    emit('pending', null)
+    emit('staged', null)
+
     processed.value = image
     emit('localReady', image)
     status.value = 'ready_local'
@@ -118,13 +142,24 @@ async function handleFile(file: File | undefined | null) {
     }
   } catch (err) {
     progressMessage.value = null
-    // Keep prior photo if replace failed mid-flight — here we had cleared; report clearly.
+    // Restore previous photo on failed replace/retake processing.
+    if (previousProcessed) {
+      processed.value = previousProcessed
+      staged.value = previousStaged
+      pending.value = previousPending
+      beginRequestId.value = previousBeginId
+      status.value = previousStatus === 'staged' ? 'staged' : 'ready_local'
+      emit('localReady', previousProcessed)
+      emit('staged', previousStaged)
+      emit('pending', previousPending)
+    } else {
+      status.value = 'error'
+    }
     if (err instanceof MediaProcessError) {
       setError(err.message)
     } else {
       setError(copy.photo.processFailed)
     }
-    status.value = processed.value ? 'ready_local' : 'error'
   }
 }
 
@@ -140,6 +175,8 @@ async function runStage() {
     return
   }
 
+  if (!beginRequestId.value) beginRequestId.value = crypto.randomUUID()
+
   uploadInFlight.value = true
   status.value = 'uploading'
   clearError()
@@ -150,6 +187,11 @@ async function runStage() {
       purpose: props.purpose,
       existing: staged.value,
       pending: pending.value,
+      beginRequestId: beginRequestId.value,
+      onPending: (slot) => {
+        pending.value = slot
+        emit('pending', slot)
+      },
       onProgress: (p) => {
         progressMessage.value = p.message
       },
@@ -158,15 +200,21 @@ async function runStage() {
     staged.value = result.staged
     status.value = 'staged'
     progressMessage.value = null
+    emit('pending', result.pending)
     emit('staged', result.staged)
   } catch (err) {
     progressMessage.value = null
     if (err instanceof StagePhotoError) {
+      if (err.code === 'BEGIN_REQUEST_CONSUMED' || err.code === 'PHOTO_ABANDONED') {
+        beginRequestId.value = crypto.randomUUID()
+        pending.value = null
+        emit('pending', null)
+      }
       setError(err.message)
     } else {
       setError(copy.photo.uploadFailed)
     }
-    // Preserve local image for Retry.
+    // Preserve local image + pending reservation for Retry.
     status.value = 'error'
   } finally {
     uploadInFlight.value = false
