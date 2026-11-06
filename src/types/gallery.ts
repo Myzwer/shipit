@@ -28,6 +28,7 @@ export interface GalleryFeedEvent {
   owner_team_id: string | null
   owner_team_name: string | null
   submission_id: string | null
+  achievement_award_id?: string | null
   caption: string | null
   photo_id: string | null
   display: Record<string, unknown>

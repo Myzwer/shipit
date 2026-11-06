@@ -37,6 +37,9 @@ watch(
 
 const title = computed(() => {
   const d = props.event.display
+  if (props.event.kind === 'achievement') {
+    return String(d.title ?? copy.achievements.unlockedCompact)
+  }
   if (props.event.kind === 'drink_log') return String(d.drink_name ?? 'Drink')
   if (props.event.kind === 'daily') return String(d.title ?? copy.bounty.daily)
   return String(d.title ?? 'Challenge')
@@ -44,13 +47,16 @@ const title = computed(() => {
 
 const subtitle = computed(() => {
   const d = props.event.display
+  if (props.event.kind === 'achievement') {
+    return d.description ? String(d.description) : copy.achievements.unlockedCompact
+  }
   if (props.event.kind === 'drink_log') return String(d.bar_name ?? '')
   if (props.event.kind === 'daily') return copy.bounty.daily
   return String(d.team_name ?? props.event.owner_team_name ?? '')
 })
 
 const byline = computed(() => {
-  if (props.event.kind === 'scavenger') {
+  if (props.event.kind === 'scavenger' || props.event.kind === 'achievement') {
     const name = props.event.owner_player_name
     if (name) return formatCopy(copy.gallery.submittedBy, { playerName: name })
     return props.event.owner_team_name ?? ''
@@ -121,6 +127,14 @@ onMounted(() => {
       <img :src="thumbUrl" alt="" class="aspect-square w-full object-cover" />
     </button>
     <div
+      v-else-if="event.kind === 'achievement'"
+      class="flex aspect-[2/1] w-full items-center justify-center rounded-2xl px-4 text-center text-sm font-semibold uppercase tracking-wide text-white"
+      style="background: var(--theme-header)"
+      data-testid="gallery-achievement-card"
+    >
+      {{ copy.achievements.unlockedCompact }}
+    </div>
+    <div
       v-else-if="!event.photo_id && game === 'drinkit' && event.kind === 'drink_log'"
       class="flex aspect-square w-full items-center justify-center rounded-2xl text-center text-sm font-semibold uppercase tracking-wide text-white"
       style="background: var(--theme-header)"
@@ -142,7 +156,13 @@ onMounted(() => {
     <p v-if="subtitle" class="text-sm" style="color: var(--theme-muted)" data-testid="gallery-post-subtitle">
       {{ subtitle }}
     </p>
-    <p class="mt-2 text-sm" data-testid="gallery-post-caption">{{ captionLabel }}</p>
+    <p
+      v-if="event.kind !== 'achievement'"
+      class="mt-2 text-sm"
+      data-testid="gallery-post-caption"
+    >
+      {{ captionLabel }}
+    </p>
     <p class="mt-1 text-xs" style="color: var(--theme-muted)" data-testid="gallery-post-time">
       {{ timeLabel }}
     </p>

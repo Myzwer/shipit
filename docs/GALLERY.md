@@ -6,10 +6,10 @@ Game-specific chronological activity feed with reactions, photo viewer, unread d
 
 | Game | Filters | Post kinds |
 |---|---|---|
-| Drink It! | Everyone / My Gallery | `drink_log`, `daily` (+ future achievements) |
-| Ship It! | Everyone / My Team | `scavenger` (+ future achievements) |
+| Drink It! | Everyone / My Gallery | `drink_log`, `daily`, `achievement` |
+| Ship It! | Everyone / My Team | `scavenger`, `achievement` |
 
-No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are supported by schema but not fabricated until the achievements phase.
+No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are compact announcements for earned awards (secret titles masked pre-finale). See [`docs/ACHIEVEMENTS.md`](./ACHIEVEMENTS.md).
 
 ## Secure read contract
 

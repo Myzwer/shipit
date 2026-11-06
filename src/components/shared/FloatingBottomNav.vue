@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppIcon from '@/components/shared/AppIcon.vue'
+import { useAchievementsUnreadStore } from '@/stores/achievementsUnread'
 import { useGalleryUnreadStore } from '@/stores/galleryUnread'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
@@ -19,9 +20,11 @@ const emit = defineEmits<{
 const route = useRoute()
 const router = useRouter()
 const galleryUnread = useGalleryUnreadStore()
+const achievementsUnread = useAchievementsUnreadStore()
 
 onMounted(() => {
   void galleryUnread.refresh(props.game)
+  void achievementsUnread.refresh(props.game)
 })
 
 const homePath = computed(() => (props.game === 'drinkit' ? '/drinkit' : '/shipit'))
@@ -30,6 +33,9 @@ const onShipChallenges = computed(() => route.name === 'shipit-challenges')
 const onGallery = computed(
     () => route.name === 'drinkit-gallery' || route.name === 'shipit-gallery',
   )
+const onAchievements = computed(
+  () => route.name === 'drinkit-achievements' || route.name === 'shipit-achievements',
+)
 
 const items = computed(() => {
   const actionLabel = props.game === 'drinkit' ? copy.nav.logDrink : copy.nav.challenges
@@ -65,9 +71,11 @@ const items = computed(() => {
       key: 'achievements',
       icon: 'nav.achievements' as SemanticIconKey,
       label: copy.nav.achievements,
-      path: homePath.value,
-      active: false,
-      shellOnly: true,
+      path: props.game === 'drinkit' ? '/drinkit/achievements' : '/shipit/achievements',
+      active: onAchievements.value,
+      shellOnly: false,
+      showDot: achievementsUnread.hasUnread(props.game),
+      unreadAria: copy.achievements.unreadAria,
     },
   ]
 })
@@ -127,7 +135,7 @@ function onSelect(item: (typeof items.value)[number]) {
           v-if="item.showDot"
           class="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full"
           style="background: var(--theme-surface)"
-          data-testid="gallery-unread-dot"
+          :data-testid="item.key === 'achievements' ? 'achievements-unread-dot' : 'gallery-unread-dot'"
           aria-hidden="true"
         />
       </button>

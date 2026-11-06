@@ -19,9 +19,9 @@ Built for roughly a week at sea: simple login for known players, phone-friendly 
 
 ## Current status
 
-**Phases 0 → 4A.** Drink It! logging/scoring through Admin Skip (3C-B), plus Ship It! challenge catalog, team progress ledger, Home/leaderboard reads, and Challenges list UI. Photo-required Ship It! / Daily submissions wait on the shared media pipeline.
+**Phases 0 → 7A.** Scoring, Gallery, Admin Void, roster, catalog import, and a **bounded achievement engine** (test-only catalog; no production achievements published). Phase 7B will load the final creative catalog and unlock UI.
 
-Authoritative product specs and mockups live in [`handoff/`](./handoff/). Ship It!: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Logging: [`docs/DRINKIT_LOGGING.md`](./docs/DRINKIT_LOGGING.md). Scoring: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md).
+Authoritative product specs and mockups live in [`handoff/`](./handoff/). Achievements: [`docs/ACHIEVEMENTS.md`](./docs/ACHIEVEMENTS.md) · coverage [`docs/ACHIEVEMENTS_COVERAGE.md`](./docs/ACHIEVEMENTS_COVERAGE.md). Ship It!: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Logging: [`docs/DRINKIT_LOGGING.md`](./docs/DRINKIT_LOGGING.md). Scoring: [`docs/DRINKIT_SCORING.md`](./docs/DRINKIT_SCORING.md).
 
 ## Quick start (organizer)
 
@@ -83,7 +83,9 @@ Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick 
 | `/drinkit` | Drink It! members |
 | `/drinkit/log` | Drink It! logging wizard |
 | `/drinkit/gallery` | Drink It! Gallery feed (Everyone / My Gallery) |
+| `/drinkit/achievements` | Drink It! Achievements (My / All) |
 | `/shipit/gallery` | Ship It! Gallery feed (Everyone / My Team) |
+| `/shipit/achievements` | Ship It! Achievements (team My / All) |
 | `/shipit` | Ship It! members (team progress + leaderboard) |
 | `/shipit/challenges` | Ship It! 50-task challenge list |
 | `/admin` | Organizer only (Ship Clock, Pause, Skip Current Bounty) |

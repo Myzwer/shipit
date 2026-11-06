@@ -133,7 +133,7 @@ Players: SELECT own correction/source rows (or admin); no direct INSERT/UPDATE. 
 | 3C-B Admin Skip | Emergency skip current Cocktail / Ingredient from unused reserve |
 | Daily photo | `submit_daily` (Phase 4B3) — required staged `daily` photo, 50 points, one claim/player/day |
 | Optional drink photo | `submit_drink` (Phase 4B4) — nullable `photo_id`, atomic bind with claims + corrections |
-| Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (currently `[]`) |
+| Achievements | Evaluate inside submit transaction; return `new_achievement_ids` (Phase 7A engine; test-only defs in development-only cruises) |
 | Gallery UI / reactions | Phase 5A/5B feed + reactions |
 | Admin Void (5B/5C) | `admin_preview_void_submission` / `admin_void_submission` — soft-void before Friday 6 PM; v2 fingerprint includes reason |
 | Correction provenance (5C) | `ingredient_correction_sources` — independent Ingredient awards keep shared overlay alive |
@@ -149,7 +149,7 @@ Players: SELECT own correction/source rows (or admin); no direct INSERT/UPDATE. 
 - **Request fingerprint (5C):** `void_submission:v2:{submission}:{status}:{normalized_reason}`. Identical UUID + payload replays the original. Changed reason/submission/status → `REQUEST_ID_OPERATION_MISMATCH`. Phase 5B ledger rows (v1 fingerprint without reason) still replay when the stored `reason` column matches the retry.
 - **Ingredient corrections (5C):** void calls `drinkit_invalidate_correction_sources`. Each successful Ingredient-award confirm that persists an overlay inserts one source row for that offering+ingredient. Voiding a source invalidates only that support; the shared correction stays active while any valid independent source remains. Last valid source → `active=false`, `inactive_cause='no_valid_sources'` (may reactivate on later proven support). Admin deactivate → `inactive_cause='admin'` and **never** auto-reactivates from player submits. No retroactive point changes. Players cannot write sources/corrections directly.
 - **Independent support (smallest defensible):** a successful `drink_log` that awarded Ingredient and wrote via `drinkit_persist_ingredient_correction` for that exact `offering_id` + `ingredient_id`. No extra player questions. Historical backfill only from proven `source_submission_id` and accepted logs whose `result_json` references the correction plus matching Ingredient claim — never fabricated.
-- **Achievement boundary:** `achievement_on_void_submission(submission_id)` is a no-op stub. Before achievements launch it must recalculate dependent awards transactionally, reassign exclusive Firsts, suppress award Gallery events, and refuse post-finale revision. Do not claim achievement-aware voiding is complete.
+- **Achievement void:** `achievement_on_void_submission(submission_id)` recomputes awards, revokes unsupported grants, reassigns exclusive Firsts, and suppresses award Gallery events (Phase 7A). Post-finale voids remain refused by Admin Void.
 
 ## Local verify
 

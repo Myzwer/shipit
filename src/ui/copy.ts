@@ -612,6 +612,27 @@ export const copy = {
     retry: 'Retry',
     unreadAria: 'Gallery, new activity',
   },
+  achievements: {
+    heading: 'Achievements',
+    myAchievements: 'My Achievements',
+    allAchievements: 'All Achievements',
+    milestones: 'Milestones',
+    firsts: 'Firsts',
+    other: 'Other',
+    emptyMine: 'No achievements earned yet.',
+    emptyAll: 'No achievements are published for this cruise yet.',
+    loading: 'Loading Achievements…',
+    loadFailedTitle: "Couldn't Load Achievements",
+    loadFailedDetail: 'Check your connection and try again.',
+    retry: 'Retry',
+    earned: 'Earned',
+    unearned: 'Unearned',
+    claimedBy: 'Claimed by {name}',
+    secretLabel: 'Secret Achievement',
+    progress: '{current}/{target}',
+    unlockedCompact: 'Achievement unlocked',
+    unreadAria: 'Achievements, new awards',
+  },
 } as const
 
 export function formatCopy(template: string, values: Record<string, string | number>) {

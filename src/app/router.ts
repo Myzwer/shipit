@@ -54,6 +54,12 @@ const router = createRouter({
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
     },
     {
+      path: '/drinkit/achievements',
+      name: 'drinkit-achievements',
+      component: () => import('@/features/drinkit/achievements/DrinkItAchievementsView.vue'),
+      meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
       path: '/shipit',
       name: 'shipit-home',
       component: () => import('@/features/shipit/ShipItHomeView.vue'),
@@ -75,6 +81,12 @@ const router = createRouter({
       path: '/shipit/gallery',
       name: 'shipit-gallery',
       component: () => import('@/features/shipit/gallery/ShipItGalleryView.vue'),
+      meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
+      path: '/shipit/achievements',
+      name: 'shipit-achievements',
+      component: () => import('@/features/shipit/achievements/ShipItAchievementsView.vue'),
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
     },
     {

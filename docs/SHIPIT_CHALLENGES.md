@@ -74,7 +74,7 @@ Manual: rear-camera launch on a real phone (Playwright file injection is not pro
 - Finale Friday 6 PM / latch rejects new voids
 - Same UUID player retry never resurrects the completion
 - **Fingerprint (5C):** request identity includes normalized reason (`void_submission:v2:…`). Same UUID + identical payload replays; changed reason/submission/status mismatches. Legacy Phase 5B fingerprints remain replayable when stored reason still matches.
-- Achievement recompute deferred to `achievement_on_void_submission` boundary (stub today)
+- Achievement recompute via `achievement_on_void_submission` (Phase 7A)
 
 ## Out of scope (later)
 
