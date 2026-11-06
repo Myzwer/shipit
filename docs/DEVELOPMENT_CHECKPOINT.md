@@ -1,58 +1,49 @@
-# Agent handoff — Phase 6A complete
+# Agent handoff — Phase 6B1 complete
 
-**STOP.** Do not start the next phase until the Development Director authorizes it.
+**STOP.** Do not start Phase 6B2, achievements, or production catalog publish until the Development Director authorizes it.
 
 | | |
 |---|---|
-| Branch | `main` (clean) |
-| Feature tip | `cf60a43` — Phase **6A** |
-| Checkpoint tip | `2d77dca` |
-| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42168252996 — success |
-| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42168877167 — success |
-| Baseline accepted | Phase **5C** `026adc4` / `da6513e` (CI `42163800441`) |
+| Branch | `main` |
+| Baseline feature | `cf60a43` — Phase **6A** |
+| Baseline checkpoint | `2d77dca` |
+| Baseline docs tip | `ed935d4` |
+| This phase | Phase **6B1** — Auth reservation + Admin Add Drink + Export |
 
-## Just shipped (6A)
+## Just shipped (6B1)
 
-1. **Provenance concurrency gate** — `drinkit_invalidate_correction_sources` locks correction rows `FOR UPDATE` before deactivate; concurrent void + persist settle consistently; admin suppression preserved
-2. **Admin roster read** — `admin_list_roster` / `admin_list_teams` (Admin-only; no passwords/tokens/`auth_user_id`)
-3. **Secure account create + password reset** — Edge Function `admin-roster` (service role server-side only); `@star-princess.local` login aliases; request-id idempotency; partial Auth orphan reconcile
-4. **Membership / team** — `admin_set_player_access` with fingerprint concurrency; Ship It! team required when enabled; `TEAM_HISTORY_LOCKED` blocks reassignment after Ship It! submissions; no score migration; Admin self-disable blocked
-5. **Admin UI** — Players & Teams section (create, reset password, edit access/team)
+1. **Auth concurrency gate** — durable `in_progress` reservation in `admin_roster_auth_requests` before Auth Admin side effects; one owner; mismatch reject; complete cannot overwrite conflicting fingerprint; lease reclaim; v1 replay preserved; passwords never ledgered; unknown reset stays explicit
+2. **Admin Add Drink overlay** — multi-bar named alcoholic drink + ingredients; stable concept/offering ids; never Cocktail rotation; deactivate future-only; audit/registry tables
+3. **Admin UI** — Add Drink section (preview/save/remove) + Export Current Game Data download on `/admin`
+4. **Export contract** — `admin_export_current_game_data` schema `1.0` (catalog, overlays, exposure/slots; no roster/secrets/photos)
+5. **6B2 import compatibility** documented only (no publish/rollback)
+6. **Menu source inventory** — `Star_Princess_Bar_Game_Menus(.md|(2).md)` **MISSING**; research dump present at `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md`
 
-Migrations: `063` invalidate lock · `064` roster RPCs/ledgers. Docs: `ADMIN_ROSTER.md`.
+Migrations: `065` Auth reservation · `066` Add Drink + export. Docs: `ADMIN_ADD_DRINK_AND_EXPORT.md`, updates to `CATALOG.md`, `ADMIN_ROSTER.md`.
 
 ## Verified
 
-lint · typecheck · unit **126** · integration **275** / 34 files · E2E 6A **10/10** · build · Actions success
+lint · typecheck · unit **135** · integration **282** / 36 files · E2E 6A **10/10** · E2E 6B1 **13/13** · build · Actions (fill URL after push)
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npx supabase functions serve admin-roster
+npm run db:seed-bounty-now
 npm run lint && npm run typecheck && npm test && npm run test:integration
 npm run test:e2e:phase6a
+npm run test:e2e:phase6b1
 npm run build
 ```
 
-## Stack / rules
-
-- Vue 3 + Pinia + Supabase (local Docker)
-- Auth create/reset via Edge Function secrets only — never `VITE_` service role
-- New ordered migrations only — **never rewrite applied history**
-- Commit only after Josh approves; push only when asked (Phase briefs may override)
-
 ## Out of scope until authorized
 
-Achievements / unlock celebrations · Awards Mode / Wrapped · Admin Add Drink · Catalog Publish/Rollback · Production cruise dates · Full visual polish · Deployment · Production player creation / password distribution
-
-Likely next (Director decides): achievements engine + Gallery announcements — **must finish `achievement_on_void_submission` before achievements launch**. Also schedule `ops:photo-cleanup` when deploying; deploy `admin-roster` Edge Function + secrets for production roster ops.
+Full replacement JSON import/publish/rollback (6B2) · Automatic menu-photo interpretation · Automatic novelty/rarity ranking · Live production menu population · Real cruise player accounts · Achievements / Awards Mode · Production deployment · Visual fidelity cleanup
 
 ## Pitfalls
 
-- Gallery Ship Time = server historical offset, not device local
-- Feed near-top refresh merges; don’t replace loaded pages
-- Void is soft-state; bound/voided photos stay for audit
-- Daily kind is `daily_completion` (not `daily`)
-- Cleanup never deletes staged / bound / voided-bound; never SQL-delete `storage.objects`
-- Team reassignment after Ship It! history is blocked (`TEAM_HISTORY_LOCKED`)
-- Password reset uncertain response ⇒ new `client_request_id` (passwords never stored for replay)
-- Login alias fingerprint must not embed `password=` material
+- Auth: only `reserved=true` may call Auth Admin; concurrent same UUID must wait/reconcile
+- Password reset uncertain ⇒ new `client_request_id` (never claim success from silence)
+- Add Drink never writes `cocktail_candidates`
+- Export notes must not be mistaken for secrets scanners matching the word “password”
+- Missing researched menu Markdown blocks Saturday production catalog prep — request original file
+- Team reassignment after Ship It! history remains `TEAM_HISTORY_LOCKED`

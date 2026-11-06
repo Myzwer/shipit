@@ -1,9 +1,12 @@
 /**
- * Phase 6A — privileged Admin roster Auth operations.
+ * Phase 6A/6B1 — privileged Admin roster Auth operations.
  * Actions: create_player | reset_password
  *
  * Service-role key stays in Edge Function secrets. Passwords are never logged,
  * never written to audit/result JSON, and never returned.
+ *
+ * Phase 6B1: only a worker that receives reserved=true from admin_roster_auth_begin
+ * may call Auth Admin APIs. Concurrent same-UUID callers wait or reconcile.
  */
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.1'
 
@@ -78,6 +81,45 @@ function fingerprintReset(playerId: string) {
   // Avoid the substring "password" — DB ledger rejects fingerprints that look
   // like they embed credential material.
   return ['credential_reset', playerId].join('|')
+}
+
+async function waitForAuthTerminal(
+  service: ReturnType<typeof createClient>,
+  clientRequestId: string,
+  attempts = 8,
+  delayMs = 150,
+): Promise<Record<string, unknown> | null> {
+  for (let i = 0; i < attempts; i++) {
+    const { data } = await service
+      .from('admin_roster_auth_requests')
+      .select('status, result_json, orphan_auth_user_id')
+      .eq('client_request_id', clientRequestId)
+      .maybeSingle()
+    if (data?.status === 'completed' || data?.status === 'failed') {
+      return {
+        ...(data.result_json as Record<string, unknown>),
+        status: data.status,
+        has_orphan_auth: Boolean(data.orphan_auth_user_id),
+      }
+    }
+    await new Promise((r) => setTimeout(r, delayMs))
+  }
+  return null
+}
+
+function beginGateResponse(beginData: Record<string, unknown>, clientRequestId: string) {
+  if (beginData.ok === false) {
+    return json(409, beginData)
+  }
+  if (beginData.replay) {
+    const prior = (beginData.result ?? {}) as Record<string, unknown>
+    return json(prior.ok === false ? 400 : 200, {
+      ...prior,
+      idempotent_replay: true,
+      client_request_id: clientRequestId,
+    })
+  }
+  return null
 }
 
 Deno.serve(async (req) => {
@@ -176,14 +218,27 @@ async function handleCreate(
   if (begin.error) {
     return json(500, { ok: false, code: 'LEDGER_ERROR' })
   }
-  if (begin.data?.ok === false) {
-    return json(409, begin.data as Record<string, unknown>)
-  }
-  if (begin.data?.replay) {
-    const prior = (begin.data.result ?? {}) as Record<string, unknown>
-    return json(prior.ok === false ? 400 : 200, {
-      ...prior,
-      idempotent_replay: true,
+  const beginEarly = beginGateResponse(
+    (begin.data ?? {}) as Record<string, unknown>,
+    body.client_request_id,
+  )
+  if (beginEarly) return beginEarly
+
+  if (!begin.data?.reserved) {
+    // Another worker owns this UUID — never call Auth. Wait briefly for terminal.
+    const terminal = await waitForAuthTerminal(service, body.client_request_id)
+    if (terminal) {
+      return json(terminal.ok === false ? 409 : 200, {
+        ...terminal,
+        idempotent_replay: true,
+        client_request_id: body.client_request_id,
+      })
+    }
+    return json(409, {
+      ok: false,
+      code: 'OPERATION_IN_PROGRESS',
+      message:
+        'This create request is still in progress. Wait, then check status — do not assume success.',
       client_request_id: body.client_request_id,
     })
   }
@@ -350,6 +405,26 @@ async function handleReset(
       client_request_id: body.client_request_id,
       password_replay_note:
         'Prior reset intent already completed. Submit a new request id to set a different password.',
+    })
+  }
+  if (!begin.data?.reserved) {
+    const terminal = await waitForAuthTerminal(service, body.client_request_id)
+    if (terminal) {
+      return json(terminal.ok === false ? 409 : 200, {
+        ...terminal,
+        idempotent_replay: true,
+        client_request_id: body.client_request_id,
+        password_replay_note:
+          'Prior reset intent already completed. Submit a new request id to set a different password.',
+      })
+    }
+    // Explicit unknown — never claim password was set.
+    return json(409, {
+      ok: false,
+      code: 'OPERATION_IN_PROGRESS',
+      message:
+        'This password reset is still in progress. Confirm status before trying a new password.',
+      client_request_id: body.client_request_id,
     })
   }
 

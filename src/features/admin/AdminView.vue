@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import AddDrinkSection from '@/features/admin/AddDrinkSection.vue'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
+import CatalogExportSection from '@/features/admin/CatalogExportSection.vue'
 import GameStatusSection from '@/features/admin/GameStatusSection.vue'
 import RosterSection from '@/features/admin/RosterSection.vue'
 import ShipClockSection from '@/features/admin/ShipClockSection.vue'
@@ -27,6 +29,8 @@ function backHome() {
     </header>
     <main class="mx-auto w-full max-w-md flex-1 px-4 pb-10 pt-2">
       <RosterSection />
+      <AddDrinkSection />
+      <CatalogExportSection />
       <ShipClockSection />
       <GameStatusSection />
       <BountySkipSection />

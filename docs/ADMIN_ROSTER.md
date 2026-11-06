@@ -1,4 +1,4 @@
-# Admin Roster & Account Management (Phase 6A)
+# Admin Roster & Account Management (Phase 6A + 6B1 Auth gate)
 
 Organizer-only **Players & Teams** controls inside the existing `/admin` SPA. No public signup, no self-service recovery, no separate account app.
 
@@ -19,15 +19,32 @@ Login identity convention (unchanged from Phase 1 provision scripts):
 - Domain: `@star-princess.local`
 - Derived from display name: `jane.player@star-princess.local`
 
+## Auth request reservation (Phase 6B1 gate)
+
+Phase 6A’s `admin_roster_auth_begin` held only a transaction advisory lock and did not write an in-progress ledger row before Auth Admin side effects. Concurrent identical UUIDs could both proceed.
+
+**6B1 fix:**
+
+1. `admin_roster_auth_begin` inserts a durable `status = in_progress` reservation (fingerprint, lease) **before** any Auth create/update.
+2. Only the worker that receives `reserved: true` may call Auth Admin APIs.
+3. Same UUID + same fingerprint while in progress → `reserved: false` / `OPERATION_IN_PROGRESS` (wait + reconcile); never a second Auth create/reset.
+4. Same UUID + different fingerprint → `REQUEST_ID_OPERATION_MISMATCH` (rejected).
+5. `admin_roster_auth_complete` writes terminal `completed`/`failed` only for a matching fingerprint; mismatched completions cannot overwrite another request’s result.
+6. Completed v1 rows remain replayable (`replay: true` + prior `result_json`).
+7. Stale `in_progress` leases may be reclaimed after expiry so interrupted ops are reconcilable (including Auth-created-but-DB-incomplete orphans via `orphan_auth_user_id`).
+8. Fingerprints and ledgers never store plaintext passwords or recoverable password material. An unknown password-reset outcome stays explicit — never reported as success.
+
+Migration: `065` (`phase6b1_auth_request_reservation`). Parallel coverage: `tests/integration/admin.phase6b1.auth_reservation.test.ts`.
+
 ## Create player
 
 1. Admin UI collects display name, password, game toggles, optional Ship It! team.
 2. Client sends `client_request_id` (UUID) + payload to `admin-roster`.
 3. Function verifies Admin via `admin_roster_resolve_actor`.
-4. Fingerprint (no password) is ledgered in `admin_roster_auth_requests`.
-5. Auth user is created (or an orphan Auth row with the same alias is reconciled).
+4. Fingerprint (no password) is reserved in `admin_roster_auth_requests` (`in_progress`) before Auth.
+5. Auth user is created (or an orphan Auth row with the same alias is reconciled). Concurrent workers without the reservation wait or replay — they do not adopt an unrelated already-linked identity.
 6. `admin_provision_player_record` (service_role) inserts/links `players`, memberships, team.
-7. Audit `roster.player_create` — **never logs the password**.
+7. Ledger completion + audit `roster.player_create` — **never logs the password**.
 
 **Double-tap / lost response:** same `client_request_id` + same fingerprint returns the prior result (`idempotent_replay`). A different password still replays the prior create — use a **new request id** only when intentionally creating another account.
 
@@ -36,11 +53,11 @@ Login identity convention (unchanged from Phase 1 provision scripts):
 ## Password reset
 
 1. Admin enters a new password (≥12 chars) for a roster player.
-2. Edge Function updates Auth via `updateUserById`.
+2. Edge Function reserves the request, then updates Auth via `updateUserById` only if reserved.
 3. Audit `roster.password_reset` records only player id / success flag — **never the password**.
 4. Passwords are never placed in URLs, localStorage pending records, analytics, or result JSON.
 
-**Uncertain response:** do not assume success. Reconcile with `admin_find_roster_auth_request_by_id`. Because plaintext passwords are never stored, a completed prior intent cannot re-apply a “remembered” password — submit a **new** `client_request_id` (new reset intent) if you need to set credentials again after ambiguity.
+**Uncertain response:** do not assume success. Reconcile with `admin_find_roster_auth_request_by_id`. Because plaintext passwords are never stored, a completed prior intent cannot re-apply a “remembered” password — submit a **new** `client_request_id` (new reset intent) if you need to set credentials again after ambiguity. Concurrent callers racing an in-progress reset receive `OPERATION_IN_PROGRESS`, not a false success.
 
 ## Membership & team rules
 
@@ -66,7 +83,7 @@ If the player authored any Ship It! submission with a `team_id`, team reassignme
 
 ## Production setup
 
-1. Deploy migrations through `064` (and `063` provenance lock).
+1. Deploy migrations through `066` (Auth reservation `065` + Add Drink/export `066`; keep `063`/`064`).
 2. Deploy Edge Function `admin-roster` with Supabase secrets:
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY`
@@ -80,10 +97,11 @@ If the player authored any Ship It! submission with a `team_id`, team reassignme
 ```bash
 npx supabase db reset
 LOCAL_TEST_PASSWORD='…' npm run db:provision
-# Edge runtime serves supabase/functions after db start / functions serve
+npx supabase functions serve admin-roster
 npm run lint && npm run typecheck && npm test
 npm run test:integration
 LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase6a
+LOCAL_TEST_PASSWORD='…' npm run test:e2e:phase6b1
 npm run build
 ```
 
@@ -91,3 +109,4 @@ npm run build
 
 - Provenance concurrency gate: migration `063` locks correction rows during void invalidation.
 - Provision script: `scripts/provision-local-identities.mjs` (dev fixtures only).
+- Add Drink + Export: [`docs/ADMIN_ADD_DRINK_AND_EXPORT.md`](./ADMIN_ADD_DRINK_AND_EXPORT.md).

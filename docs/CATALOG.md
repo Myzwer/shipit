@@ -102,13 +102,36 @@ When a Menu Reconstruction / `full_snapshot` publish replaces the active catalog
 
 Unlisted honor confirms do **not** create offerings or corrections — they qualify only the current submission.
 
-## Remaining Phase 2D dependencies
+## Admin Add Drink overlay (Phase 6B1)
 
-1. Slot ledger that draws nonrepeating Cocktail concepts / Ingredient keys and writes `ingredient_bounty_public_cards` (`scheduled` → `current` → `retired`)
-2. Cocktail player card exposure parallel to the Ingredient hint contract
-3. Publish/activate catalog version workflow
-4. Production Saturday catalog (not handoff ranking drafts)
-5. Scoring / submit RPCs, Admin skip, featured Bar / Daily Challenge content
+Cruise-time additions live in `admin_manual_offerings` (+ ingredient rows) and write version-scoped offering/concept rows. They are **not** a silent mutation of the immutable base import payload, and they **never** insert `cocktail_candidates`.
+
+- Multi-bar add reuses the drink concept; each bar gets its own `bar_offerings` id.
+- Deactivate affects future picker visibility only; historical claims stay.
+- Known ingredients on a manual offering may qualify for the **current** Ingredient Bounty under ordinary player claim rules.
+- Operator docs + export contract: [`docs/ADMIN_ADD_DRINK_AND_EXPORT.md`](./ADMIN_ADD_DRINK_AND_EXPORT.md).
+
+### Export Current Game Data
+
+Admin-only RPC `admin_export_current_game_data` (`export_schema_version: "1.0"`) dumps catalog + overlays + exposure/slot state for an external reconstruction agent. Excludes roster, credentials, Auth ids, photos, Gallery, and private scores.
+
+### Phase 6B2 import contracts (documented only)
+
+Publish/rollback is not implemented in 6B1. A later full-snapshot importer must:
+
+- Reconcile admin-added offerings by stable ids; deactivate redundant overlays when the snapshot already contains the offering.
+- Carry player correction overlays forward; keep admin-suppressed corrections suppressed.
+- Preserve canonical drink/bar/ingredient identities and consumed exposure keys.
+- Protect current active offers; leave accepted historical submissions untouched.
+
+## Researched menu Markdown
+
+Expected evidence filenames `Star_Princess_Bar_Game_Menus.md` / `Star_Princess_Bar_Game_Menus(2).md` are **MISSING** from the repo (ranking drafts cite `(2).md`). Present research dump: `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md` — not an approved production import. Organizer must supply the original evidence file before Saturday catalog prep.
+
+## Remaining Phase 2D / catalog ops dependencies
+
+1. Publish/activate / rollback catalog version workflow (Phase 6B2)
+2. Production Saturday catalog (not handoff ranking drafts)
 
 ## Migrations
 
@@ -119,3 +142,4 @@ Unlisted honor confirms do **not** create offerings or corrections — they qual
 | `20261105001200_phase2c_catalog_rls_and_preview.sql` | Catalog RLS + read-only admin preview RPC |
 | `20261105001300_phase2c1_catalog_read_contracts.sql` | Public Ingredient hint ledger + RPC; cocktail concept uniqueness |
 | `20261105002700_phase3ca_corrections_and_recovery.sql` | `ingredient_corrections` overlay + evaluate/submit honor paths |
+| `20261105006600_phase6b1_admin_add_drink_and_export.sql` | Manual offering overlay + export RPC + picker filter |
