@@ -4,10 +4,10 @@
 
 | | |
 |---|---|
-| Branch | `main` |
-| Feature tip | *(pending push)* — Phase **6A** |
-| Checkpoint tip | *(pending)* |
-| Feature CI | *(pending)* |
+| Branch | `main` (clean) |
+| Feature tip | `cf60a43` — Phase **6A** |
+| Checkpoint tip | *(this commit)* |
+| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42168252996 — success |
 | Checkpoint CI | *(pending)* |
 | Baseline accepted | Phase **5C** `026adc4` / `da6513e` (CI `42163800441`) |
 
@@ -23,7 +23,7 @@ Migrations: `063` invalidate lock · `064` roster RPCs/ledgers. Docs: `ADMIN_ROS
 
 ## Verified
 
-lint · typecheck · unit **126** · integration **275** / 34 files · E2E 6A **10/10** · build · *(CI pending push)*
+lint · typecheck · unit **126** · integration **275** / 34 files · E2E 6A **10/10** · build · Actions success
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
