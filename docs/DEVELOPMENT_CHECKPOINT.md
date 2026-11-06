@@ -6,7 +6,9 @@
 |---|---|
 | Branch | `main` (clean) |
 | Feature tip | `4775106` — Phase **6B2** |
+| Checkpoint tip | `0b4aa9e` |
 | Feature CI | https://github.com/Myzwer/shipit/actions/runs/42182237272 — success |
+| Checkpoint CI | https://github.com/Myzwer/shipit/actions/runs/42182458598 — success |
 | Baseline accepted | Phase **6B1** `b5622b8` / `c54d82d` / `61e48c1` |
 | This phase | Phase **6B2** — Catalog import / publish / rollback |
 
