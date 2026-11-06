@@ -1,13 +1,15 @@
-# Agent handoff — Phase 7B2 in progress / complete
+# Agent handoff — Phase 7B2 complete
 
 **STOP.** Do not begin Awards Mode or production population until the Development Director authorizes it.
 
 | | |
 |---|---|
 | Branch | `main` |
-| Feature tip | _(pending)_ — Phase **7B2** |
+| Feature tip | `3181eb7` — Phase **7B2** |
+| CI | green — run [42270765927](https://github.com/Myzwer/shipit/actions/runs/42270765927) |
 | Baseline | Phase **7B1** feature `b104671` / docs `52b9e73` / CI `42265878277` |
 | This phase | Phase **7B2** — Working achievement catalog |
+| Local tests | Unit **164** / Integration **341** / E2E 7B2 **3** + 7B1 **3** + 7A **6** |
 
 ## Just shipped (7B2)
 
@@ -20,7 +22,8 @@
 
 Migrations: `077` phase7b2_working_catalog
 
-Docs: `docs/WORKING_ACHIEVEMENT_CATALOG.md`
+Docs: `docs/WORKING_ACHIEVEMENT_CATALOG.md`  
+Screenshots: `docs/phase7b2-screenshots/`
 
 ## Out of scope until authorized
 
