@@ -75,8 +75,8 @@ async function stageAndSubmit(
   return { path: begin.data.storage_path as string, bucket: begin.data.bucket as string, photoId: begin.data.photo_id as string }
 }
 
-describe('Phase 4B3 Gate B — shipit photo privacy', () => {
-  it('same-team shipit member can download; drinkit-only / other team / anon denied', async () => {
+describe('Phase 4B3 Gate B — shipit photo privacy (Phase 5A: all shipit members)', () => {
+  it('shipit members can download bound photos; drinkit-only / unbound / anon denied', async () => {
     await seedNowAlignedSchedule(fixtures.service!, { targetHour: 13, cruiseDay: 1 })
     const at = new Date().toISOString()
     const local = {
@@ -124,10 +124,11 @@ describe('Phase 4B3 Gate B — shipit photo privacy', () => {
       const drinkDeny = await drinkOnly.storage.from(bound.bucket).download(bound.path)
       expect(drinkDeny.error).toBeTruthy()
 
-      // Different-team shipit member (admin)
+      // Phase 5A Everyone: any Ship It! member (including admin) may read bound scavenger photos.
       const admin = await signInAs(local, 'admin')
-      const adminDeny = await admin.storage.from(bound.bucket).download(bound.path)
-      expect(adminDeny.error).toBeTruthy()
+      const adminOk = await admin.storage.from(bound.bucket).download(bound.path)
+      expect(adminOk.error).toBeNull()
+      expect(adminOk.data).toBeTruthy()
 
       // Anonymous
       const anon = createLocalClient(fixtures.summary!.supabase_url, fixtures.anonKey!)

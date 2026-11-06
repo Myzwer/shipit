@@ -43,6 +43,12 @@ export default tseslint.config(
         requestAnimationFrame: 'readonly',
         createImageBitmap: 'readonly',
         crypto: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        IntersectionObserver: 'readonly',
+        KeyboardEvent: 'readonly',
+        fetch: 'readonly',
+        URLSearchParams: 'readonly',
       },
     },
     rules: {

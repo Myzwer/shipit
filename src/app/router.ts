@@ -50,7 +50,7 @@ const router = createRouter({
     {
       path: '/drinkit/gallery',
       name: 'drinkit-gallery',
-      component: () => import('@/features/drinkit/gallery/DrinkItGalleryStubView.vue'),
+      component: () => import('@/features/drinkit/gallery/DrinkItGalleryView.vue'),
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
     },
     {
@@ -74,7 +74,7 @@ const router = createRouter({
     {
       path: '/shipit/gallery',
       name: 'shipit-gallery',
-      component: () => import('@/features/shipit/ShipItGalleryStubView.vue'),
+      component: () => import('@/features/shipit/gallery/ShipItGalleryView.vue'),
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
     },
     {

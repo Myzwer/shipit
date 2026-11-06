@@ -82,7 +82,8 @@ Open **http://127.0.0.1:5173/** — you should land on **Welcome Aboard**. Pick 
 | `/` | Dual-game members (chooser) |
 | `/drinkit` | Drink It! members |
 | `/drinkit/log` | Drink It! logging wizard |
-| `/drinkit/gallery` | Minimal post-submit Gallery stub |
+| `/drinkit/gallery` | Drink It! Gallery feed (Everyone / My Gallery) |
+| `/shipit/gallery` | Ship It! Gallery feed (Everyone / My Team) |
 | `/shipit` | Ship It! members (team progress + leaderboard) |
 | `/shipit/challenges` | Ship It! 50-task challenge list |
 | `/admin` | Organizer only (Ship Clock, Pause, Skip Current Bounty) |

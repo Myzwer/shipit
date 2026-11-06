@@ -30,6 +30,9 @@ describe('approved copy', () => {
     expect(copy.wizard.barReminder).toContain('Bar Bounty reminder')
     expect(copy.shipit.challengesHeading).toBe('Challenges')
     expect(copy.shipit.filterBy).toBe('Filter by')
+    expect(copy.gallery.heading).toBe('The Gallery')
+    expect(copy.gallery.endOfPosts).toBe('End of Posts')
+    expect(copy.gallery.everyone).toBe('Everyone')
     expect(copy.home.allChallenges).toBe('All Challenges')
     expect(copy.home.noTeamProgress).toBe(
       'No challenges completed yet. Pick one to get started!',

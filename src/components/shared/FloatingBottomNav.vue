@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppIcon from '@/components/shared/AppIcon.vue'
+import { useGalleryUnreadStore } from '@/stores/galleryUnread'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
 import type { SemanticIconKey } from '@/ui/icons'
@@ -17,6 +18,11 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
+const galleryUnread = useGalleryUnreadStore()
+
+onMounted(() => {
+  void galleryUnread.refresh(props.game)
+})
 
 const homePath = computed(() => (props.game === 'drinkit' ? '/drinkit' : '/shipit'))
 const onWizard = computed(() => route.name === 'drinkit-log')
@@ -51,8 +57,9 @@ const items = computed(() => {
       label: copy.nav.gallery,
       path: props.game === 'drinkit' ? '/drinkit/gallery' : '/shipit/gallery',
       active: onGallery.value,
-      shellOnly: props.game !== 'drinkit',
-      showDot: true,
+      shellOnly: false,
+      showDot: galleryUnread.hasUnread(props.game),
+      unreadAria: copy.gallery.unreadAria,
     },
     {
       key: 'achievements',
@@ -105,8 +112,10 @@ function onSelect(item: (typeof items.value)[number]) {
             ? 'bg-white/15 opacity-100'
             : 'opacity-55 hover:opacity-85'
         "
-        :aria-label="item.label"
+        :aria-label="item.showDot && item.unreadAria ? item.unreadAria : item.label"
         :aria-current="item.active ? 'page' : undefined"
+        data-testid="nav-item"
+        :data-nav="item.key"
         @click="onSelect(item)"
       >
         <AppIcon
@@ -118,6 +127,7 @@ function onSelect(item: (typeof items.value)[number]) {
           v-if="item.showDot"
           class="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full"
           style="background: var(--theme-surface)"
+          data-testid="gallery-unread-dot"
           aria-hidden="true"
         />
       </button>

@@ -2,57 +2,51 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** `fdcbc54` — Phase **4B4** tip (feature `d04a5a2`)  
-**CI:** https://github.com/Myzwer/shipit/actions/runs/42151537566 — success  
-**Prior tip:** `ddb402d` / checkpoint `0a9c6f8` — Phase **4B3** accepted  
+**Tip:** Phase **5A** Full Gallery (pending tip commit after CI)  
+**Prior tip:** `eb0b788` / feature `d04a5a2` — Phase **4B4** accepted  
 **Do not start the next phase until the Development Director authorizes it.**
 
-## What just shipped (Phase 4B4)
+## What just shipped (Phase 5A)
 
 | Item | Summary |
 |---|---|
-| Gate | Daily pending recovery independent of today's assignment (pause / close / next day) |
-| `submit_drink` | Optional nullable `photo_id`; atomic bind with claims + ingredient corrections |
-| Compatibility | Legacy no-photo fingerprints unchanged; `photo_storage_key` forged paths rejected |
-| Wizard | PhotoCapture optional step; Review preview; Gallery stub signed photo |
-| Tests | Integration photo suite + Daily recovery / drink-photo E2E |
+| Feed | Game-scoped keyset Gallery (`list_gallery_feed`) — Everyone / My Gallery / My Team |
+| Photos | Same-game bound photo access + full viewer / download |
+| Reactions | ❤️ 😂 🤙 one per player; optimistic UI |
+| Freshness | ~25s poll, New Posts pill, no scroll jump |
+| Unread | Delivered-event cursors; Everyone clears; games independent |
 
 ## Stack / how to work here
 
 - Vue 3 + Pinia + Supabase (local Docker).
 - Migrations under `supabase/migrations/` — **never edit applied ones**.
-- Photo: begin → Storage → confirm → bind on submit (`drink_log` / `daily` / `scavenger`).
-- Product: **HONOR > ADDED FRICTION**.
-
-Key docs: `docs/MEDIA_PIPELINE.md`, `docs/DRINKIT_LOGGING.md`, `docs/DRINKIT_SCORING.md`, `handoff/01–04`.
+- Gallery docs: `docs/GALLERY.md`, `docs/MEDIA_PIPELINE.md`.
 
 ## Verified at tip
 
-Local + CI: lint ✅ · typecheck ✅ · unit **114** · integration **247** / 27 files · E2E daily recovery **9/9** · E2E drink photo **11/11** · build ✅ · Actions **success**
+Local: lint ✅ · typecheck ✅ · unit **115** · integration **253** / 28 files · E2E gallery **10/10** · build ✅
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
 npm run lint && npm run typecheck && npm test && npm run test:integration
-npm run db:seed-bounty-now
-npm run test:e2e:phase4b4:daily-recovery && npm run test:e2e:phase4b4
+npm run db:seed-bounty-now && npm run test:e2e:phase5a
 npm run build
 ```
 
 ## Explicitly out of scope until authorized
 
-- Full Gallery / reactions / achievements
-- Admin Void; production Daily content; media sweeper; deployment
+- Achievement definitions / unlocks / Gallery award cards / achievement unread
+- Admin Void; Awards Mode / Wrapped; media sweeper; deployment; visual polish
 
 ## Next agent: start here when Director says next phase
 
-1. Full Gallery browse/pagination/reactions  
-2. Achievements  
-3. Abandoned staging TTL sweeper (never delete bound)
+1. Achievements engine + Gallery announcements + achievement unread  
+2. Abandoned staging TTL sweeper (never delete bound)  
+3. Admin Void
 
 ## Pitfalls
 
-- Bound photos use `ON DELETE RESTRICT`; local `dev_seed_cruise_clock` clears them before cruise cascade.
-- Omit `photo_id` on no-photo submits so pre-4B4 request hashes still match.
-- Unknown pending locks photo edits — never silently drop `photo_id` while reusing the UUID.
-- Storage teammate policy must use a security-definer helper — direct EXISTS against `photos` fails RLS.
-- Playwright file injection ≠ real rear camera.
+- Bound photos: same-game members may read (Everyone visibility); staged remain private.
+- Mark Gallery seen only after a successful Everyone load, using the delivered newest event — never `now()`.
+- My Gallery / My Team must not clear Everyone unread.
+- Storage helpers must stay security-definer (RLS on `photos` breaks direct EXISTS).

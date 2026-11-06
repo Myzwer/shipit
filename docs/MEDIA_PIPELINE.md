@@ -106,9 +106,12 @@ npm run test:e2e:phase4b4:daily-recovery && npm run test:e2e:phase4b4
 
 Security cases: own stage, peer deny, unauthenticated deny, cross-game, forged path, missing object, fixture reject, staged/bound immutability, Storage API abandon (no SQL object delete), lost begin/upload/confirm reuse, no public bucket access.
 
-## Remaining work (after 4B4)
+## Gallery photo access (Phase 5A)
 
-- Full Gallery browse, signed download for cruise mates, reactions  
+Bound photos are readable by **same-game members** (Drink It! Everyone / Ship It! Everyone). Signed URL RPCs + Storage policies enforce this; staged/abandoned/fixture/cross-game remain private. See `docs/GALLERY.md`.
+
+## Remaining work (after 5A)
+
 - Abandoned-file TTL sweeper (retain recoverable cleanup state until then)  
 - Real-device camera + HEIC confirmation on iPhone/Android over cruise-like networks  
 
