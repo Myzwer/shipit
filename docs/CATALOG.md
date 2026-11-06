@@ -47,7 +47,11 @@ An Ingredient candidate counts toward the **39**-slot pool only when:
 
 Zero matching offerings → ineligible. Mismatches are reported as business-rule errors; validators never invent qualifying drinks.
 
-Princess Plus **$15** exclusions apply to **Cocktail Bounty candidates only**. Ingredient Bounty corroboration may use higher-priced named cocktails on active bar menus (`verified_over_limit` does not remove ingredient evidence). Featured Cocktail objectives must never require a drink known to cost more than $15.
+Princess Plus **$15** policy (Phase **7B1**):
+- Featured **Cocktail Bounty** candidates must be `verified_within_limit` (≤ $15) at the designated bar.
+- **Ingredient Bounty** corroboration counts only active-bar named cocktails that are also `verified_within_limit` with price ≤ $15. Over-limit and unverified offerings do **not** count toward the bars/drinks required to make an Ingredient objective attainable within Princess Plus.
+- Declared `known_bar_count` / `distinct_qualifying_drinks` must match that within-limit corroboration. Shortages after correction block import.
+- Historical accepted claims and already exposed bounties are not rewritten by a catalog republish.
 
 ## Source-reported vs corroborated coverage
 

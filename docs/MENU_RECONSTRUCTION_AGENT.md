@@ -29,7 +29,8 @@ Brand knowledge belongs in curated metadata. If the menu says “Espolòn Reposa
 ## Princess Plus ($15)
 
 - **Cocktail Bounty candidates** must be `verified_within_limit` (≤ $15) at the designated bar. Over-limit cocktails must **not** be featured Cocktail objectives.
-- **Ingredient Bounty corroboration** may use higher-priced named cocktails on active bar menus. Over-limit price does **not** disqualify an ingredient’s menu evidence. Declared coverage must still match corroborated active-bar named-cocktail counts.
+- **Ingredient Bounty corroboration** counts only within-limit (≤ $15, `verified_within_limit`) named cocktails at active bars. Over-limit and unverified offerings must **not** be used to claim `known_bar_count` / `distinct_qualifying_drinks`.
+- If correcting prices leaves too few corroborated Ingredient or Cocktail candidates, the import is blocked with a clear shortage — do not invent replacements.
 - Do not silently change already exposed objectives or historical points when republishing.
 
 ## Exception categories

@@ -158,6 +158,13 @@ async function runSubmit() {
   const outcome = await wizard.performSubmit()
   if (outcome.kind === 'confirmed' && outcome.result.submission_id) {
     const id = outcome.result.submission_id
+    const { useAchievementCelebrationStore } = await import('@/stores/achievementCelebration')
+    useAchievementCelebrationStore().queueFromSubmit({
+      game: 'drinkit',
+      submissionId: id,
+      awardIds: outcome.result.new_achievement_ids,
+      idempotentReplay: outcome.result.idempotent_replay === true,
+    })
     wizard.resetAll()
     await router.replace({ name: 'drinkit-gallery', query: { submission: id } })
     return

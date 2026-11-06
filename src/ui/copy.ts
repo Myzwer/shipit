@@ -632,6 +632,11 @@ export const copy = {
     progress: '{current}/{target}',
     unlockedCompact: 'Achievement unlocked',
     unreadAria: 'Achievements, new awards',
+    unlockTitleSingular: 'Achievement Unlocked!',
+    unlockTitlePlural: '{count} Achievements Unlocked!',
+    unlockSeeIt: 'See It',
+    unlockSeeThem: 'See Them',
+    unlockClose: 'Close Achievement',
   },
 } as const
 

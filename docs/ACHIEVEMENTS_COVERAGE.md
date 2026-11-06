@@ -96,15 +96,15 @@
 | D-033 | Frozen cocktail | E | NEEDS CONTENT/METADATA (versioned `frozen` tag via import) |
 | D-034, D-035, D-080 | Wine / Beer (D-035≈D-080 dup) | D | SUPPORTED |
 | D-036 | Cocktail + beer + wine across logs | B,D | SUPPORTED |
-| D-037…D-040 | 3× gin/tequila/rum/whiskey | D,E | NEEDS CONTENT/METADATA (curated keys/tags in snapshot) |
-| D-041…D-042 | Clear / dark base spirit ×5 | E | NEEDS CONTENT/METADATA (`spirit-clear` / `spirit-dark`) |
-| D-043 | Gin+vodka+rum+tequila across cruise | B,E | NEEDS CONTENT/METADATA |
+| D-037…D-040 | 3× gin/tequila/rum/whiskey | E | SUPPORTED engine (`tag_match.count_logs`); NEEDS CONTENT/METADATA |
+| D-041…D-042 | Clear / dark base spirit ×5 | E | SUPPORTED engine (`count_logs`); NEEDS CONTENT/METADATA |
+| D-043 | Gin+vodka+rum+tequila across cruise | B,E | SUPPORTED engine (`distinct_count` ingredient_tags); NEEDS CONTENT/METADATA |
 | D-044…D-061 | Specific ingredient / brand keys | D | NEEDS CONTENT/METADATA (confirm keys in catalog; some may match existing keys) |
-| D-062 | ≥7 listed recipe ingredients | E/count | SUPPORTED when offering has ≥7 associations |
-| D-063 | ≥2 base-spirit families one cocktail | E | NEEDS CONTENT/METADATA |
-| D-064 | ≥2 rum styles one cocktail | E | NEEDS CONTENT/METADATA |
+| D-062 | ≥7 listed recipe ingredients | E | SUPPORTED (`recipe_ingredient_count`) |
+| D-063 | ≥2 base-spirit families one cocktail | E | SUPPORTED (`tag_match.min_distinct_on_log`); NEEDS CONTENT/METADATA |
+| D-064 | ≥2 rum styles one cocktail | E | SUPPORTED (`min_distinct_on_log`); NEEDS CONTENT/METADATA |
 | D-065 | Wine/rosé/Prosecco/Champagne in cocktail | D,E | NEEDS CONTENT/METADATA |
-| D-066 | ≥3 fruits from fixed set across cruise | B,E | NEEDS CONTENT/METADATA |
+| D-066 | ≥3 fruits from fixed set across cruise | B,E | SUPPORTED (`distinct_across_cruise`); NEEDS CONTENT/METADATA |
 | D-067…D-068 | Companion counts 2 / 5 others | I | SUPPORTED |
 | D-069 | Companion + noon–1pm | I,J | SUPPORTED |
 | D-070 | ≥3 distinct companions | I,B | SUPPORTED |
@@ -113,7 +113,7 @@
 | D-074 | 2 drinks within 30 minutes | H | SUPPORTED |
 | D-075 | Port daytime window | J | NEEDS CONTENT/METADATA |
 | D-076…D-077 | First / final cruise day | J | SUPPORTED (drink_log required; Phase 7B0) |
-| D-078 | Drinks on 3 days | B | SUPPORTED |
+| D-078 | Drinks on 3 days | B | SUPPORTED (`cruise_days` + `event: drink_log`; Phase 7B1) |
 | D-079 | Same bar on 3 days | C | SUPPORTED |
 | D-081 | Thanksgiving | J | NEEDS CONTENT/METADATA (+ voyage calendar) |
 | D-082 | Every other participating player | I | **NEEDS ORGANIZER DECISION** |

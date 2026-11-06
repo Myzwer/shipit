@@ -176,6 +176,13 @@ async function performSubmit() {
     if (result.ok && result.submission_id) {
       clearPendingScavengerSubmit()
       formLocked.value = false
+      const { useAchievementCelebrationStore } = await import('@/stores/achievementCelebration')
+      useAchievementCelebrationStore().queueFromSubmit({
+        game: 'shipit',
+        submissionId: result.submission_id,
+        awardIds: (result as { new_achievement_ids?: string[] }).new_achievement_ids,
+        idempotentReplay: (result as { idempotent_replay?: boolean }).idempotent_replay === true,
+      })
       await router.replace({
         name: 'shipit-gallery',
         query: { submission: result.submission_id },

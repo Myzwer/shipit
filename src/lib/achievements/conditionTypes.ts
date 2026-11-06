@@ -17,6 +17,7 @@ export const ACHIEVEMENT_CONDITION_TYPES = [
   'companion_predicate',
   'ship_time_window',
   'cruise_day',
+  'recipe_ingredient_count',
   'all',
   'any',
 ] as const
@@ -58,6 +59,12 @@ export interface DistinctCountCondition extends ConditionBase {
   threshold: number
   /** For ingredient_tags subject: restrict to this tag namespace prefix or exact tags list. */
   tags?: string[]
+  /**
+   * Event kind for cruise_days (and similar). Drink It! defaults to drink_log;
+   * Ship It! defaults to scavenger_completion. Set daily_completion only when
+   * the definition explicitly counts Daily days.
+   */
+  event?: EventKind
 }
 
 export interface GroupedCountCondition extends ConditionBase {
@@ -89,6 +96,22 @@ export interface TagMatchCondition extends ConditionBase {
   threshold?: number
   /** Count distinct matching tags across cruise (for fruit sets). */
   distinct_across_cruise?: boolean
+  /**
+   * Count drink_log submissions that contain any listed tag (each log once).
+   * Used for D-037–D-042 style thresholds.
+   */
+  count_logs?: boolean
+  /**
+   * Require one cocktail whose ingredients carry at least `threshold`
+   * distinct tags from `tags` (D-063 / D-064).
+   */
+  min_distinct_on_log?: boolean
+}
+
+export interface RecipeIngredientCountCondition extends ConditionBase {
+  type: 'recipe_ingredient_count'
+  /** Minimum catalog_offering_ingredients rows on one logged offering (D-062). */
+  threshold: number
 }
 
 export interface SameSubmissionClaimsCondition extends ConditionBase {
@@ -176,6 +199,7 @@ export type AchievementCondition =
   | GroupedCountCondition
   | ExactMatchCondition
   | TagMatchCondition
+  | RecipeIngredientCountCondition
   | SameSubmissionClaimsCondition
   | SetCompletionCondition
   | CategoryCompletionCondition
@@ -215,6 +239,12 @@ export function validateAchievementCondition(
   }
   if (type === 'tag_match' && (!Array.isArray(c.tags) || c.tags.length === 0)) {
     return { ok: false, error: 'TAG_MATCH_REQUIRES_TAGS' }
+  }
+  if (
+    type === 'recipe_ingredient_count' &&
+    (typeof c.threshold !== 'number' || c.threshold < 1)
+  ) {
+    return { ok: false, error: 'RECIPE_INGREDIENT_COUNT_THRESHOLD' }
   }
   return { ok: true, condition: input as AchievementCondition }
 }

@@ -1,33 +1,36 @@
-# Agent handoff — Phase 7B0 complete
+# Agent handoff — Phase 7B1 complete
 
-**STOP.** Do not start Phase 7B1 (final achievement catalog population), unlock popups, Awards Mode, or production menu classification until the Development Director authorizes it.
+**STOP.** Do not start production achievement catalog loading or Awards Mode until the Development Director authorizes it.
 
 | | |
 |---|---|
-| Branch | `main` (clean) |
-| Feature tip | `7877582` — Phase **7B0** |
-| Feature CI | https://github.com/Myzwer/shipit/actions/runs/42258315354 — success |
-| Docs tip | `c02c2f0` — checkpoint record |
-| Docs CI | https://github.com/Myzwer/shipit/actions/runs/42258940884 — success |
-| Baseline | Phase **7A.1** feature `d7035e3` / docs `e609730` / fill `5fd9654` |
-| This phase | Phase **7B0** — Evaluator corrections + versioned catalog classification metadata |
+| Branch | `main` |
+| Feature tip | _(pending CI)_ — Phase **7B1** |
+| Baseline | Phase **7B0** feature `7877582` / docs `c02c2f0` / fill `8b8331d` / CI `42258315354` |
+| This phase | Phase **7B1** — Eval correctness + unlock celebrations |
+| Local tests | Unit **158** / Integration **338** / E2E phase7b1 **3** + phase7a **6** |
 
-## Just shipped (7B0)
+## Just shipped (7B1)
 
-1. **Gate 1** — Fixed `ordered_after` bogus `s` alias; Drink It! `cruise_day` requires `drink_log` (Ship It! scavenger unchanged) (`074`)
-2. **Gates 2–3** — Versioned `catalog_version_*_tags` written on catalog activate; eval joins the logged `catalog_version_id`
-3. **Task 4** — `full_snapshot` schema `1.0`\|`1.1` with approved `classification_tags`; server rejects unknown tags / forged readiness
-4. **Task 5** — [`docs/MENU_RECONSTRUCTION_AGENT.md`](./MENU_RECONSTRUCTION_AGENT.md); Princess Plus $15 = Cocktail candidates only
-5. Unread suite isolation: `dev_clear_test_achievements` clears `achievements_mine` cursors (`075`)
+1. `tag_match.count_logs` for D-037–D-042 style qualifying cocktail counts
+2. Drink-day `distinct_count` defaults to `drink_log` (Daily excluded unless `event` set)
+3. `recipe_ingredient_count` + `min_distinct_on_log` for D-062 / D-063 / D-064; D-043 / D-066 proven
+4. Princess Plus within-limit Ingredient corroboration; stage rejects invalid evidence (`INGREDIENT_EVIDENCE_INVALID`)
+5. Gallery unlock celebration popup (test-only content); dismiss ≠ clear unread
 
-Migrations: `074` phase7b0_classification_and_eval_fixes · `075` phase7b0_clear_achievement_cursors
+Migrations: `076` phase7b1_eval_princess_plus
 
-## Verified
-
-lint · typecheck · unit **156** · integration **332** / 41 files · E2E 7A **6/6** · build · Actions success
+Screenshots: `docs/phase7b1-screenshots/`
 
 ## Out of scope until authorized
 
-Phase 7B1 final achievement catalog · Real Star Princess menu classification · Unlock popup · Awards Mode / Wrapped · Roster · Deployment
+Production achievement definitions · Awards Mode / Wrapped · Real menu classification · Visual fidelity · Deployment
 
-See also: [`docs/ACHIEVEMENTS.md`](./ACHIEVEMENTS.md), [`docs/CATALOG.md`](./CATALOG.md), [`docs/MENU_RECONSTRUCTION_AGENT.md`](./MENU_RECONSTRUCTION_AGENT.md).
+## Remaining blockers for final catalog loading
+
+- Curated production titles / icons / secrets / thresholds
+- Real Star Princess classification tag content on offerings
+- Organizer decisions: D-082, D-083, D-085
+- Named companion UUID maps (D-086…)
+- Thanksgiving / port-day voyage calendar fields
+- Awards Mode / Wrapped (separate phase)

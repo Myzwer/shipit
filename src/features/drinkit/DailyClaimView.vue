@@ -227,6 +227,13 @@ async function handleSubmitResult(result: Awaited<ReturnType<typeof submitDaily>
     clearPendingDailySubmit()
     formLocked.value = false
     recoveringPending.value = false
+    const { useAchievementCelebrationStore } = await import('@/stores/achievementCelebration')
+    useAchievementCelebrationStore().queueFromSubmit({
+      game: 'drinkit',
+      submissionId: result.submission_id,
+      awardIds: (result as { new_achievement_ids?: string[] }).new_achievement_ids,
+      idempotentReplay: (result as { idempotent_replay?: boolean }).idempotent_replay === true,
+    })
     await router.replace({
       name: 'drinkit-gallery',
       query: { submission: result.submission_id },

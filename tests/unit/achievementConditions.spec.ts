@@ -17,6 +17,9 @@ describe('achievement condition validation', () => {
         base.scope = 'ingredient'
         base.tags = ['rum']
       }
+      if (type === 'recipe_ingredient_count') {
+        base.threshold = 7
+      }
       const res = validateAchievementCondition(base)
       expect(res.ok).toBe(true)
     }

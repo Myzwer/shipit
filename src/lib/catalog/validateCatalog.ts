@@ -133,9 +133,9 @@ function normalizeAlias(value: string): string {
 }
 
 /**
- * Qualifying Ingredient evidence: named alcoholic cocktail offerings at *active* bars
- * that list the ingredient. Price over-$15 does not disqualify Ingredient hunts
- * (Princess Plus $15 applies to Cocktail Bounty candidates only).
+ * Qualifying Ingredient evidence: named cocktails at *active* bars that list the
+ * ingredient AND are Princess Plus attainable (`verified_within_limit`, price ≤ $15).
+ * Over-limit and unverified offerings do not corroborate attainability.
  */
 export function corroborateIngredientEvidence(
   doc: CatalogImportDocument,
@@ -149,6 +149,8 @@ export function corroborateIngredientEvidence(
     for (const offering of drink.bar_offerings) {
       if (!activeBars.has(offering.bar_key)) continue
       if (!offering.ingredient_keys.includes(ingredientKey)) continue
+      if (offering.price_status !== 'verified_within_limit') continue
+      if (offering.price_usd == null || offering.price_usd > PRINCESS_PLUS_PRICE_LIMIT_USD) continue
       barKeys.add(offering.bar_key)
       drinkKeys.add(drink.key)
     }

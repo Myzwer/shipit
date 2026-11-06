@@ -1,4 +1,4 @@
-# Achievements (Phase 7A / 7B0)
+# Achievements (Phase 7A / 7B0 / 7B1)
 
 Bounded, data-driven achievement engine for the private ~22-player cruise app. **No production achievement catalog is published yet.** Test-only definitions (`test_only = true`) evaluate only while the active cruise label is `development-only`.
 
@@ -10,7 +10,8 @@ Bounded, data-driven achievement engine for the private ~22-player cruise app. *
 | `distinct_count` | B | Distinct bars, cocktails, days, companions, categories, tags, modes |
 | `grouped_count` | C | Max group sizes (same day, same bar across days, cocktails at one bar) |
 | `exact_match` | D | Challenge key, drink mode, ingredient key, drink concept key |
-| `tag_match` | E | Curated `ingredient_tags` / `drink_concept_tags` only — never invented |
+| `tag_match` | E | Curated versioned tags; supports presence, `count_logs`, `min_distinct_on_log`, `distinct_across_cruise` |
+| `recipe_ingredient_count` | E | Min listed ingredients on one logged offering (D-062) |
 | `same_submission_claims` | F | Multiple bounty categories on one log |
 | `set_completion` | G | Finite challenge sets / all scavenger challenges |
 | `category_completion` | G | One-per-category or full category clear |
@@ -32,6 +33,10 @@ Only **accepted, non-voided** submissions count. Drink logs use versioned offeri
 Ship-time windows and Thanksgiving dates use **`clock_offset_at`** (same historical offset as Gallery), never the live base offset alone and never device timezone.
 
 Drink It! `cruise_day` (first / final / Thanksgiving) requires an accepted **`drink_log`**, not a Daily Challenge alone. Ship It! first/final days continue to require scavenger completions.
+
+`distinct_count` / `cruise_days` defaults to **`drink_log`** for Drink It! (D-078) and **`scavenger_completion`** for Ship It!. Set `event` explicitly when a definition must count Daily or another kind.
+
+`tag_match` with `count_logs: true` counts qualifying cocktail **logs** (each log once) containing any listed tag — used for D-037–D-042. `min_distinct_on_log` requires multiple tags from a set on **one** cocktail (D-063 / D-064).
 
 ## Phase 7A.1 gates
 
@@ -65,7 +70,7 @@ Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set
 - Kind `achievement` compact cards (secret titles masked pre-finale on the feed)
 - Gallery unread remains separate from Achievement unread (`read_cursors.scope = achievements_mine`)
 - Only a successful **My Achievements** load + `mark_achievements_seen` clears the achievement dot
-- Popup dismissal is out of scope until Phase 7B
+- Unlock celebration popup overlays Gallery after a confirmed submit with new awards; dismiss does **not** clear the achievement unread dot (Phase **7B1**)
 
 ## RPCs
 
@@ -75,6 +80,14 @@ Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set
 | `get_achievements_unread(game)` | Player |
 | `mark_achievements_seen(game, award_id, awarded_at)` | Player — My Achievements cursor |
 
+## Phase 7B1 gates
+
+1. Qualifying-log tag counts (`count_logs`) for spirit-family thresholds.
+2. Drink-day `distinct_count` excludes Daily unless explicitly requested.
+3. Recipe primitives for D-062 / D-063 / D-064; D-043 / D-066 proven via existing distinct/tag modes.
+4. Princess Plus within-limit Ingredient corroboration + forged-readiness coverage refusal.
+5. Achievement unlock celebration over Gallery (test-only content).
+
 ## Phase 7B remaining
 
-Final creative achievement catalog load, icons/secrets/thresholds, unlock popup/animations, Awards Mode / Wrapped, real companion ID maps, Thanksgiving/port schedule, production enablement of definitions. Classification **pipeline** is Phase 7B0; Star Princess menu classification content is still external.
+Final creative achievement catalog load, icons/secrets/thresholds, Awards Mode / Wrapped, real companion ID maps, Thanksgiving/port schedule, production enablement of definitions. Classification pipeline is Phase 7B0; Star Princess menu classification content is still external.

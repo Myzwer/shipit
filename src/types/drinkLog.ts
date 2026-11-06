@@ -116,6 +116,7 @@ export interface SubmitDrinkResult {
   claimed_categories?: unknown[]
   gallery_event_id?: string
   idempotent_replay?: boolean
+  new_achievement_ids?: string[]
   preview?: PreviewPayload
   [key: string]: unknown
 }

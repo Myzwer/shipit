@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import GameShell from '@/components/shared/GameShell.vue'
 import { listAchievements, markAchievementsSeen } from '@/lib/achievements/api'
 import { useAchievementsUnreadStore } from '@/stores/achievementsUnread'
@@ -12,8 +13,11 @@ const props = defineProps<{
 }>()
 
 const unread = useAchievementsUnreadStore()
+const route = useRoute()
 
-const view = ref<AchievementView>('mine')
+const view = ref<AchievementView>(
+  route.query.view === 'all' ? 'all' : 'mine',
+)
 const status = ref<'loading' | 'ready' | 'error'>('loading')
 const cards = ref<AchievementCard[]>([])
 const finaleRevealed = ref(false)

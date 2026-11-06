@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import GameShell from '@/components/shared/GameShell.vue'
+import AchievementUnlockPopup from '@/features/achievements/AchievementUnlockPopup.vue'
 import GalleryPostCard from '@/features/gallery/GalleryPostCard.vue'
 import PhotoViewer from '@/features/gallery/PhotoViewer.vue'
 import {
@@ -453,5 +454,7 @@ watch(
       :download-name="`gallery-${viewer.photoId}.jpg`"
       @close="viewer = null"
     />
+
+    <AchievementUnlockPopup :game="game" />
   </GameShell>
 </template>
