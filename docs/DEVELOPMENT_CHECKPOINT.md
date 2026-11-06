@@ -2,7 +2,8 @@
 
 **As of:** 2026-11-05  
 **Branch:** `main`  
-**Tip:** Phase **4B3** — Drink It! Daily Challenge submissions (update hash after commit)  
+**Tip:** `ddb402d` — Phase **4B3** Drink It! Daily Challenge submissions  
+**CI:** https://github.com/Myzwer/shipit/actions/runs/42148610261 — success  
 **Prior tip:** `07c48fc` / feature `15893e3` — Phase **4B2** functionally approved  
 **Do not start the next phase until the Development Director authorizes it.**
 
@@ -27,7 +28,7 @@ Key docs: `docs/MEDIA_PIPELINE.md`, `docs/DRINKIT_SCORING.md`, `docs/SHIPIT_CHAL
 
 ## Verified at tip
 
-Local (pre-CI): lint ✅ · typecheck ✅ · unit **110** · integration **234** / 26 files · E2E recovery **6/6** · E2E daily **7/7** · build ✅
+Local + CI: lint ✅ · typecheck ✅ · unit **110** · integration **234** / 26 files · E2E recovery **6/6** · E2E daily **7/7** · build ✅ · Actions **success**
 
 ```bash
 npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
