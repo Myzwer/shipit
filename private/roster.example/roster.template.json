@@ -1,0 +1,68 @@
+{
+  "$schema_comment": "Copy to private/roster/roster.local.json (gitignored). Never put passwords or Auth UUIDs here. Passwords come from LOCAL_TEST_PASSWORD or PRIVATE_ROSTER_PASSWORD.",
+  "version": 1,
+  "notes": "Organizer-supplied development preview roster. Synthetic defaults are used when this file is absent.",
+  "teams": [
+    { "key": "alpha", "name": "Demo Team Alpha", "color": null },
+    { "key": "bravo", "name": "Demo Team Bravo", "color": null },
+    { "key": "charlie", "name": "Demo Team Charlie", "color": null }
+  ],
+  "players": [
+    {
+      "key": "organizer",
+      "display_name": "Demo Organizer",
+      "login_alias": "organizer@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": "bravo",
+      "is_admin": true
+    },
+    {
+      "key": "both_games",
+      "display_name": "Demo Both Games",
+      "login_alias": "both.games@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": "alpha",
+      "is_admin": false
+    },
+    {
+      "key": "drink_only",
+      "display_name": "Demo Drink Only",
+      "login_alias": "drink.only@star-princess.local",
+      "drink_it": true,
+      "ship_it": false,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "ship_only",
+      "display_name": "Demo Ship Only",
+      "login_alias": "ship.only@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": "alpha",
+      "is_admin": false
+    },
+    {
+      "key": "david_a",
+      "display_name": "David AlphaLast",
+      "login_alias": "david.alpha@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": "alpha",
+      "is_admin": false,
+      "notes": "Placeholder — replace with approved distinct display name when authentic roster supplied. Two Davids must remain separate identities."
+    },
+    {
+      "key": "david_b",
+      "display_name": "David BravoLast",
+      "login_alias": "david.bravo@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": "bravo",
+      "is_admin": false,
+      "notes": "Placeholder — second David identity."
+    }
+  ]
+}

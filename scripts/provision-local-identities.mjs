@@ -7,6 +7,7 @@
  * Writes a gitignored summary to .local/test-identities.json (no service-role key).
  * Never commit passwords or service-role secrets.
  */
+import { existsSync, readFileSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createClient } from '@supabase/supabase-js'
 import { execSync } from 'node:child_process'
@@ -48,7 +49,7 @@ const admin = createClient(url, serviceRole, {
   realtime: { transport: ws },
 })
 
-const identities = [
+const DEFAULT_IDENTITIES = [
   {
     key: 'drink_only',
     display_name: 'Demo Drink Only',
@@ -90,6 +91,33 @@ const identities = [
     team: null,
   },
 ]
+
+function loadIdentitiesFromPrivateRoster() {
+  const rosterPath = join(process.cwd(), 'private/roster/roster.local.json')
+  if (!existsSync(rosterPath)) return null
+  const raw = JSON.parse(readFileSync(rosterPath, 'utf8'))
+  if (!raw?.players?.length) return null
+  const teamNameByKey = new Map((raw.teams || []).map((t) => [t.key, t.name]))
+  return raw.players.map((p) => {
+    const games = []
+    if (p.drink_it) games.push('drinkit')
+    if (p.ship_it) games.push('shipit')
+    const teamKey = p.team_key ?? null
+    return {
+      key: p.key,
+      display_name: p.display_name,
+      login_alias: p.login_alias,
+      is_admin: Boolean(p.is_admin),
+      games,
+      team: teamKey ? teamNameByKey.get(teamKey) || teamKey : null,
+    }
+  })
+}
+
+const identities = loadIdentitiesFromPrivateRoster() || DEFAULT_IDENTITIES
+if (identities !== DEFAULT_IDENTITIES) {
+  console.log(`Using private roster (${identities.length} players) from private/roster/roster.local.json`)
+}
 
 async function ensureTeam(name) {
   const { data: existing, error: findError } = await admin

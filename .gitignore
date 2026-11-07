@@ -33,5 +33,13 @@ supabase/.temp
 # Local-only secrets / provisioned identity summaries
 .local/
 
+# Private organizer inputs (real roster, credentials maps, guest photos)
+private/roster/
+private/photos/
+!private/roster.example/
+!private/photos.example/
+!private/roster.example/**
+!private/photos.example/**
+
 # Duplicate unpacked handoff source (canonical copy lives in /handoff)
 Star_Princess_Final_Cursor_Handoff_v1.1/
