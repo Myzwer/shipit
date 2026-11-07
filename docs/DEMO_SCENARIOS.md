@@ -16,6 +16,7 @@ Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production 
 | Embarkation / Tuesday / Wrapped | **PASS** on private roster (Drink activity limited to enrolled Drink It! players) |
 | Migration `085` daily bar fixtures | Launch-candidate bar keys (fixes post-activate `BAR_KEY_MISSING`) |
 | Private-roster screenshots | Keep under ignored local paths — **do not** commit real-name captures |
+| Private Gallery photos (`private/photos/`) | Optional; Tuesday/Wrapped attach arbitrarily for visual demos (Phase 10F). Embarkation stays photo-empty. Never commit media. |
 
 ### Actual browser checks performed
 

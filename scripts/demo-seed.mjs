@@ -11,7 +11,8 @@
  * development-preview-v1.json). Category B filtered-source eligibility.
  * Uses private/roster/roster.local.json when present (local preview guests).
  * Falls back to synthetic Demo/Gate fixtures only when that file is absent.
- * Never production Auth. Set FORCE_SYNTHETIC_ROSTER=1 to force fixtures.
+ * Private Gallery photos: private/photos/ when present (Phase 10F); else tiny fixture JPEG.
+ * Never production Auth/media. Set FORCE_SYNTHETIC_ROSTER=1 to force fixtures.
  */
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'node:crypto'
@@ -26,6 +27,7 @@ import {
   printResetImpact,
   readSupabaseEnv,
 } from './lib/demoLocalSafety.mjs'
+import { createPhotoPicker, loadPrivateDemoPhotos } from './lib/demoPrivatePhotos.mjs'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
@@ -71,6 +73,22 @@ const TINY_JPEG = readFileSync(join(root, 'tests/fixtures/tiny.jpg'))
 const CATALOG = JSON.parse(
   readFileSync(join(root, 'content/catalogs/launch-candidate-v1.json'), 'utf8'),
 )
+
+const privatePhotoLoad = loadPrivateDemoPhotos(root)
+const photoPicker = createPhotoPicker(privatePhotoLoad.photos, `phase10f-${scenarioKey}`)
+if (privatePhotoLoad.errors.length) {
+  for (const err of privatePhotoLoad.errors) console.warn(`  photo: ${err}`)
+}
+if (photoPicker.available) {
+  console.log(
+    `Private demo photos: ${photoPicker.count} usable (${privatePhotoLoad.source}) under private/photos/`,
+  )
+} else {
+  console.log('No usable private/photos — Gallery media falls back to development placeholder JPEG.')
+}
+
+const clientCache = new Map()
+const photoStats = { drink_with_photo: 0, scavenger_with_photo: 0, placeholder_used: 0, private_used: 0 }
 
 function dayDate(day1, dayNumber) {
   const d = new Date(`${day1}T00:00:00Z`)
@@ -182,36 +200,89 @@ async function loadWorkingAchievements() {
 }
 
 async function signIn(loginAlias) {
+  if (clientCache.has(loginAlias)) return clientCache.get(loginAlias)
   const client = createClient(url, anonKey, {
     auth: { autoRefreshToken: false, persistSession: false },
     realtime: { transport: ws },
   })
   const { error } = await client.auth.signInWithPassword({ email: loginAlias, password })
   if (error) throw error
+  clientCache.set(loginAlias, client)
   return client
 }
 
-async function stagePhoto(client, game, purpose, seedKey) {
+function pickPhotoAsset(seedKey, { preferPrivate = true } = {}) {
+  if (preferPrivate && photoPicker.available) {
+    const asset = photoPicker.next(seedKey)
+    if (asset) return { ...asset, source: 'private' }
+  }
+  return {
+    key: 'fixture:tiny.jpg',
+    bytes: TINY_JPEG,
+    mime: 'image/jpeg',
+    width: 32,
+    height: 24,
+    filename: 'demo-dev.jpg',
+    source: 'placeholder',
+  }
+}
+
+function notePhotoSource(asset) {
+  if (asset.source === 'private') photoStats.private_used += 1
+  else photoStats.placeholder_used += 1
+}
+
+/**
+ * Stage via begin → Storage upload → confirm. On deterministic reseed,
+ * begin may idempotently replay a staged/bound photo — never re-upload in
+ * those cases (Storage RLS only allows insert while status is pending_upload).
+ */
+async function stagePhoto(client, game, purpose, seedKey, { preferPrivate = true } = {}) {
+  const asset = pickPhotoAsset(seedKey, { preferPrivate })
   const begin = await client.rpc('begin_photo_upload', {
     p_game: game,
     p_purpose: purpose,
-    p_mime_type: 'image/jpeg',
-    p_byte_size: TINY_JPEG.length,
-    p_width: 32,
-    p_height: 24,
-    p_original_filename: 'demo-dev.jpg',
+    p_mime_type: asset.mime,
+    p_byte_size: asset.bytes.length,
+    p_width: asset.width,
+    p_height: asset.height,
+    p_original_filename: asset.filename,
     p_client_request_id: detUuid(`photo-begin:${scenarioKey}:${seedKey}`),
   })
-  if (begin.error || !begin.data?.ok) {
-    throw new Error(`begin_photo_upload failed: ${begin.error?.message || begin.data?.code}`)
+
+  // Prior successful bind for this deterministic request id.
+  if (!begin.data?.ok && begin.data?.code === 'BEGIN_REQUEST_CONSUMED' && begin.data.photo_id) {
+    notePhotoSource(asset)
+    return { photoId: begin.data.photo_id, assetKey: asset.key }
   }
+
+  if (begin.error || !begin.data?.ok) {
+    throw new Error(
+      `begin_photo_upload failed: ${begin.error?.message || begin.data?.code || JSON.stringify(begin.data)}`,
+    )
+  }
+
+  const photoId = begin.data.photo_id
+  const status = begin.data.status
+
+  // Already uploaded+confirmed (idempotent replay) — ready to bind.
+  if (status === 'staged' || status === 'bound') {
+    notePhotoSource(asset)
+    return { photoId, assetKey: asset.key }
+  }
+
+  if (status !== 'pending_upload') {
+    throw new Error(`begin_photo_upload unexpected status: ${status}`)
+  }
+
   const up = await client.storage
     .from(begin.data.bucket)
-    .upload(begin.data.storage_path, TINY_JPEG, { contentType: 'image/jpeg', upsert: true })
+    .upload(begin.data.storage_path, asset.bytes, { contentType: asset.mime, upsert: true })
   if (up.error) throw up.error
-  const confirm = await client.rpc('confirm_photo_upload', { p_photo_id: begin.data.photo_id })
+  const confirm = await client.rpc('confirm_photo_upload', { p_photo_id: photoId })
   if (!confirm.data?.ok) throw new Error(`confirm_photo_upload failed: ${confirm.data?.code}`)
-  return begin.data.photo_id
+  notePhotoSource(asset)
+  return { photoId, assetKey: asset.key }
 }
 
 async function lookupOffering(barKey, drinkKey) {
@@ -230,7 +301,17 @@ async function lookupOffering(barKey, drinkKey) {
   return offering.id
 }
 
-async function claimAt(playerId, barKey, offeringId, atUtc, seed, companions = [], selectBounties = true) {
+async function claimAt(
+  player,
+  barKey,
+  offeringId,
+  atUtc,
+  seed,
+  companions = [],
+  selectBounties = true,
+  { withPhoto = false } = {},
+) {
+  const playerId = player.player_id
   await service.rpc('dev_get_current_cocktail_bounty_at', { p_at_utc: atUtc })
   await service.rpc('dev_get_current_ingredient_bounty_at', { p_at_utc: atUtc })
   const preview = await service.rpc('dev_preview_drink_claims_at', {
@@ -259,23 +340,34 @@ async function claimAt(playerId, barKey, offeringId, atUtc, seed, companions = [
     if (cats.bar?.status === 'eligible' && cats.bar.options?.[0]) {
       selected.push({ category: 'bar', assignment_id: cats.bar.options[0].assignment_id })
     }
-    if (cats.daily?.status === 'eligible' && cats.daily.options?.[0]) {
-      // Daily often needs photo — skip auto-select unless ordinary claim path supports it
-    }
   }
+
+  let photoId = null
+  if (withPhoto) {
+    const client = await signIn(player.login_alias)
+    const staged = await stagePhoto(client, 'drinkit', 'drink_log', `drink-${seed}`, {
+      preferPrivate: scenarioKey !== 'embarkation',
+    })
+    photoId = staged.photoId
+    photoStats.drink_with_photo += 1
+  }
+
+  const payload = {
+    idempotency_key: detUuid(`drink:${seed}`),
+    bar_canonical_key: barKey,
+    drink: { mode: 'named_catalog', offering_id: offeringId },
+    companion_player_ids: companions,
+    bar_eligible_companion_ids: companions,
+    selected_claims: selected,
+    caption: selectBounties ? `Demo ${seed}` : `Ordinary log ${seed}`,
+    photo_storage_key: null,
+  }
+  if (photoId) payload.photo_id = photoId
+
   const res = await service.rpc('dev_submit_drink_at', {
     p_player_id: playerId,
     p_at_utc: atUtc,
-    p_payload: {
-      idempotency_key: detUuid(`drink:${seed}`),
-      bar_canonical_key: barKey,
-      drink: { mode: 'named_catalog', offering_id: offeringId },
-      companion_player_ids: companions,
-      bar_eligible_companion_ids: companions,
-      selected_claims: selected,
-      caption: selectBounties ? `Demo ${seed}` : `Ordinary log ${seed}`,
-      photo_storage_key: null,
-    },
+    p_payload: payload,
   })
   if (res.error) throw res.error
   if (!res.data?.ok) {
@@ -284,20 +376,31 @@ async function claimAt(playerId, barKey, offeringId, atUtc, seed, companions = [
   return res.data
 }
 
-async function ordinaryBeer(playerId, barKey, atUtc, seed) {
+async function ordinaryBeer(player, barKey, atUtc, seed, { withPhoto = false } = {}) {
+  let photoId = null
+  if (withPhoto) {
+    const client = await signIn(player.login_alias)
+    const staged = await stagePhoto(client, 'drinkit', 'drink_log', `beer-${seed}`, {
+      preferPrivate: scenarioKey !== 'embarkation',
+    })
+    photoId = staged.photoId
+    photoStats.drink_with_photo += 1
+  }
+  const payload = {
+    idempotency_key: detUuid(`beer:${seed}`),
+    bar_canonical_key: barKey,
+    drink: { mode: 'generic_beer' },
+    companion_player_ids: [],
+    bar_eligible_companion_ids: [],
+    selected_claims: [],
+    caption: `Ordinary beer ${seed}`,
+    photo_storage_key: null,
+  }
+  if (photoId) payload.photo_id = photoId
   const res = await service.rpc('dev_submit_drink_at', {
-    p_player_id: playerId,
+    p_player_id: player.player_id,
     p_at_utc: atUtc,
-    p_payload: {
-      idempotency_key: detUuid(`beer:${seed}`),
-      bar_canonical_key: barKey,
-      drink: { mode: 'generic_beer' },
-      companion_player_ids: [],
-      bar_eligible_companion_ids: [],
-      selected_claims: [],
-      caption: `Ordinary beer ${seed}`,
-      photo_storage_key: null,
-    },
+    p_payload: payload,
   })
   if (!res.data?.ok) console.warn(`  beer ${seed}: ${res.data?.code}`)
   return res.data
@@ -309,19 +412,42 @@ async function scavengerComplete(client, playerId, challengeKey, atUtc, seed) {
     .select('id, title, points')
     .eq('canonical_key', challengeKey)
     .single()
-  const photoId = await stagePhoto(client, 'shipit', 'scavenger', seed)
+  const staged = await stagePhoto(client, 'shipit', 'scavenger', seed, {
+    preferPrivate: scenarioKey !== 'embarkation',
+  })
+  photoStats.scavenger_with_photo += 1
   const res = await service.rpc('dev_submit_scavenger_at', {
     p_player_id: playerId,
     p_at_utc: atUtc,
     p_payload: {
       idempotency_key: detUuid(`scav:${seed}`),
       challenge_id: ch.id,
-      photo_id: photoId,
+      photo_id: staged.photoId,
       caption: `Demo ${ch.title}`,
     },
   })
   if (!res.data?.ok) console.warn(`  scavenger ${challengeKey}: ${res.data?.code}`)
   return res.data
+}
+
+/**
+ * Wrapped aligns wall-clock to Day 7 ~7 PM. Any clock read at now() (including a
+ * running Vite preview) latches finale; after that, historical timed submits all
+ * return GAME_ENDED because finalized_at_utc is sticky. Clear before seeding
+ * past-day activity; latchFinale() re-applies at the end of Wrapped only.
+ */
+async function clearFinaleLatchForHistoricalSeed() {
+  const { error } = await service
+    .from('game_control')
+    .update({
+      status: 'active',
+      finalized_at_utc: null,
+      paused_at_utc: null,
+      paused_by: null,
+      updated_at: new Date().toISOString(),
+    })
+    .in('game', ['drinkit', 'shipit'])
+  if (error) throw error
 }
 
 async function seedBase(aligned) {
@@ -339,6 +465,9 @@ async function seedBase(aligned) {
   if (!cruise) throw new Error('No active development-only cruise after seed')
 
   await service.rpc('dev_set_drinkit_paused', { p_paused: false })
+  if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
+    await clearFinaleLatchForHistoricalSeed()
+  }
 
   const { data: activated, error: actErr } = await service.rpc('dev_activate_catalog_fixture', {
     p_payload: CATALOG,
@@ -387,39 +516,52 @@ async function seedTuesdayActivity(identities, aligned) {
   if (offerings.length < 4) throw new Error('Not enough authentic offerings for tuesday seed')
 
   const activity = []
-  // Day 1–4 plausible sparse activity (not excessive)
+  // Day 1–4 plausible sparse activity. Photos attach arbitrarily for visual demo density.
+  const attachPhotos = scenarioKey === 'tuesday' || scenarioKey === 'wrapped'
   const plan = [
-    { day: 1, hour: '13:00:00', player: drinkOnly, offer: offerings[0], companions: [both.player_id], claim: true },
-    { day: 1, hour: '15:00:00', player: both, offer: offerings[1], companions: [drinkOnly.player_id], claim: true },
-    { day: 1, hour: '17:00:00', player: admin, offer: offerings[2], companions: [], claim: false },
-    { day: 2, hour: '12:00:00', player: drinkOnly, offer: offerings[3], companions: [admin.player_id], claim: true },
-    { day: 2, hour: '14:00:00', player: both, offer: offerings[4], companions: [], claim: true },
-    { day: 2, hour: '16:00:00', player: admin, offer: offerings[5], companions: [both.player_id], claim: true },
-    { day: 3, hour: '13:00:00', player: drinkOnly, offer: offerings[6] || offerings[0], companions: [], claim: true },
-    { day: 3, hour: '15:00:00', player: both, offer: offerings[1], companions: [drinkOnly.player_id], claim: false },
-    { day: 3, hour: '18:00:00', player: admin, offer: offerings[2], companions: [], claim: true },
-    { day: 4, hour: '12:00:00', player: drinkOnly, offer: offerings[3], companions: [both.player_id], claim: true },
-    { day: 4, hour: '13:00:00', player: both, offer: offerings[4], companions: [], claim: true },
+    { day: 1, hour: '13:00:00', player: drinkOnly, offer: offerings[0], companions: [both.player_id], claim: true, photo: true },
+    { day: 1, hour: '15:00:00', player: both, offer: offerings[1], companions: [drinkOnly.player_id], claim: true, photo: true },
+    { day: 1, hour: '17:00:00', player: admin, offer: offerings[2], companions: [], claim: false, photo: false },
+    { day: 2, hour: '12:00:00', player: drinkOnly, offer: offerings[3], companions: [admin.player_id], claim: true, photo: true },
+    { day: 2, hour: '14:00:00', player: both, offer: offerings[4], companions: [], claim: true, photo: true },
+    { day: 2, hour: '16:00:00', player: admin, offer: offerings[5], companions: [both.player_id], claim: true, photo: true },
+    { day: 3, hour: '13:00:00', player: drinkOnly, offer: offerings[6] || offerings[0], companions: [], claim: true, photo: true },
+    { day: 3, hour: '15:00:00', player: both, offer: offerings[1], companions: [drinkOnly.player_id], claim: false, photo: false },
+    { day: 3, hour: '18:00:00', player: admin, offer: offerings[2], companions: [], claim: true, photo: true },
+    { day: 4, hour: '12:00:00', player: drinkOnly, offer: offerings[3], companions: [both.player_id], claim: true, photo: true },
+    { day: 4, hour: '13:00:00', player: both, offer: offerings[4], companions: [], claim: true, photo: true },
   ]
 
   for (const [i, step] of plan.entries()) {
+    if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
     const at = shipLocalToUtcIso(dayDate(aligned.day1, step.day), step.hour, aligned.offsetMinutes)
     const data = await claimAt(
-      step.player.player_id,
+      step.player,
       step.offer.bar,
       step.offer.id,
       at,
       `d${step.day}-${i}`,
       step.companions,
       step.claim,
+      { withPhoto: attachPhotos && step.photo },
     )
-    activity.push({ type: 'drink', day: step.day, player: step.player.key, ok: data?.ok, points: data?.awarded_points })
+    activity.push({
+      type: 'drink',
+      day: step.day,
+      player: step.player.key,
+      ok: data?.ok,
+      points: data?.awarded_points,
+      photo: Boolean(attachPhotos && step.photo),
+    })
   }
 
-  // Non-scoring ordinary beers
+  // Non-scoring ordinary beers (one with photo for Gallery variety)
   for (const [i, p] of [drinkOnly, both].entries()) {
+    if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
     const at = shipLocalToUtcIso(dayDate(aligned.day1, 2 + i), '19:00:00', aligned.offsetMinutes)
-    await ordinaryBeer(p.player_id, 'promenade-bars', at, `beer-${i}`)
+    await ordinaryBeer(p, 'promenade-bars', at, `beer-${i}`, {
+      withPhoto: attachPhotos && i === 0,
+    })
   }
 
   // Ship It! completions — Alpha (both+ship) and Bravo (admin) intentionally tied at 400:
@@ -433,6 +575,7 @@ async function seedTuesdayActivity(identities, aligned) {
     // Extra incomplete-looking activity: Bravo also has a 100 left available (not completed)
   ]
   for (const [i, s] of scavPlan.entries()) {
+    if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
     const at = shipLocalToUtcIso(dayDate(aligned.day1, s.day), s.hour, aligned.offsetMinutes)
     const data = await scavengerComplete(s.client, s.player.player_id, s.key, at, `scav-${i}`)
     activity.push({ type: 'scavenger', key: s.key, player: s.player.key, ok: data?.ok, points: data?.awarded_points })
@@ -493,32 +636,95 @@ if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
   activity = await seedTuesdayActivity(identities, aligned)
 }
 if (scenarioKey === 'wrapped') {
-  // Extra day 5–7 activity for a fuller history, then finale
+  // Extra day 5–7 activity for a fuller cruise Gallery, then finale
   const cast = resolveDemoCast(identities)
-  try {
-    const off = await lookupOffering('crooners', 'rum-brulee')
-    for (const day of [5, 6]) {
-      const at = shipLocalToUtcIso(dayDate(aligned.day1, day), '14:00:00', aligned.offsetMinutes)
-      await claimAt(
-        cast.drinkOnly.player_id,
-        'crooners',
-        off,
-        at,
-        `late-${day}`,
-        [cast.both.player_id],
-        true,
-      )
-      await claimAt(cast.both.player_id, 'crooners', off, at, `late-both-${day}`, [], true)
+  const latePairs = [
+    ['crooners', 'rum-brulee'],
+    ['lido-bar', 'lychee-vodka-mojito'],
+    ['sea-view-bar', 'strawberries-and-cream'],
+    ['omalleys-irish-pub', 'passion-of-the-irish'],
+  ]
+  const lateOfferings = []
+  for (const [bar, drink] of latePairs) {
+    try {
+      lateOfferings.push({ bar, id: await lookupOffering(bar, drink) })
+    } catch {
+      console.warn(`  late skip ${drink}@${bar}`)
     }
-  } catch (e) {
-    console.warn('late-cruise extras skipped', e.message)
   }
-  // Create a genuine score tie attempt via matching scavenger on Bravo if needed — leave to seeded points
+  for (const [di, day] of [5, 6, 7].entries()) {
+    const offer = lateOfferings[di % Math.max(lateOfferings.length, 1)]
+    if (!offer) continue
+    const at = shipLocalToUtcIso(dayDate(aligned.day1, day), '14:00:00', aligned.offsetMinutes)
+    const at2 = shipLocalToUtcIso(dayDate(aligned.day1, day), '16:30:00', aligned.offsetMinutes)
+    try {
+      await clearFinaleLatchForHistoricalSeed()
+      await claimAt(cast.drinkOnly, offer.bar, offer.id, at, `late-${day}-a`, [cast.both.player_id], true, {
+        withPhoto: true,
+      })
+      await clearFinaleLatchForHistoricalSeed()
+      await claimAt(cast.both, offer.bar, offer.id, at2, `late-${day}-b`, [], true, { withPhoto: true })
+      await clearFinaleLatchForHistoricalSeed()
+      await claimAt(cast.admin, offer.bar, offer.id, at, `late-${day}-c`, [], true, {
+        withPhoto: day !== 7,
+      })
+    } catch (e) {
+      console.warn(`late-cruise drinks day ${day} skipped`, e.message)
+    }
+  }
+
+  // Challenges not used in the Tuesday mid-cruise block (avoid TEAM_CHALLENGE_DONE).
+  const lateScav = [
+    { key: 'under-the-dome', player: cast.shipOnly, day: 5, hour: '11:00:00' },
+    { key: 'lotus-spa-zen', player: cast.both, day: 5, hour: '15:00:00' },
+    { key: 'poolside-slice', player: cast.admin, day: 6, hour: '12:00:00' },
+    { key: 'art-critic', player: cast.shipOnly, day: 6, hour: '17:00:00' },
+    { key: 'casino-neon', player: cast.both, day: 7, hour: '10:30:00' },
+  ]
+  for (const [i, s] of lateScav.entries()) {
+    try {
+      await clearFinaleLatchForHistoricalSeed()
+      const client = await signIn(s.player.login_alias)
+      const at = shipLocalToUtcIso(dayDate(aligned.day1, s.day), s.hour, aligned.offsetMinutes)
+      const data = await scavengerComplete(client, s.player.player_id, s.key, at, `late-scav-${i}`)
+      activity.push({
+        type: 'scavenger',
+        key: s.key,
+        player: s.player.key,
+        ok: data?.ok,
+        points: data?.awarded_points,
+        photo: true,
+      })
+    } catch (e) {
+      console.warn(`late scavenger ${s.key}: ${e.message}`)
+    }
+  }
+
   const finaleUtc = await latchFinale(aligned)
   console.log('Finale latched at', finaleUtc)
 }
 
 const scores = await scoreSnapshot()
+
+// Bound photos linked to accepted submissions that still have an active Gallery event
+const { data: boundPhotos } = await service
+  .from('photos')
+  .select('id, game, purpose, status, bound_submission_id')
+  .eq('status', 'bound')
+const boundIds = new Set((boundPhotos || []).map((p) => p.bound_submission_id).filter(Boolean))
+const { data: galleryEvents } = await service
+  .from('gallery_events')
+  .select('id, game, submission_id, kind')
+  .eq('active', true)
+  .in('kind', ['drink_log', 'daily', 'scavenger'])
+const galleryPhotoRows = (galleryEvents || []).filter((e) => boundIds.has(e.submission_id))
+const galleryPhotoCounts = {
+  drinkit: galleryPhotoRows.filter((r) => r.game === 'drinkit').length,
+  shipit: galleryPhotoRows.filter((r) => r.game === 'shipit').length,
+  total: galleryPhotoRows.length,
+  bound_photos: (boundPhotos || []).length,
+}
+
 const out = {
   scenario: scenarioKey,
   label: scenario.label,
@@ -526,6 +732,9 @@ const out = {
   offsetMinutes: aligned.offsetMinutes,
   catalog_id: CATALOG.catalog_id,
   activity_count: activity.length,
+  private_photos_available: photoPicker.count,
+  photo_upload_stats: photoStats,
+  gallery_photo_posts: galleryPhotoCounts,
   scores,
   identities: identities.identities.map((i) => ({
     key: i.key,

@@ -4,38 +4,42 @@ Copy this convention to `private/photos/` (gitignored).
 
 ```
 private/photos/
-  manifest.json          # maps scenario media keys → local file paths
-  embarkation/           # optional; usually empty
-  tuesday/
-    drink-001.jpg
-    scavenger-001.jpg
+  manifest.json          # optional ordering map
+  *.jpg / *.jpeg / *.png / *.webp / *.heic
+  tuesday/               # optional subfolders — recursive scan
   wrapped/
-    scavenger-finale.jpg
 ```
 
-## manifest.json shape
+## Auto-discovery (Phase 10F)
+
+`npm run demo:seed` recursively loads usable images from `private/photos/`.
+
+- HEIC/HEIF are converted locally to JPEG under `.local/demo-photo-cache/` when needed.
+- Max size: 5 MiB (existing upload pipeline limit).
+- Accuracy does **not** matter — photos are assigned arbitrarily across simulated drink logs and Ship It! completions for visual-fidelity demos.
+- Embarkation stays essentially photo-empty; Tuesday gets a believable mid-cruise set; Wrapped gets a denser full-cruise Gallery.
+- If no usable files are present, seeds fall back to the tiny development JPEG fixture.
+
+## Optional manifest.json
 
 ```json
 {
   "version": 1,
   "media": [
     {
-      "key": "tuesday-drink-both-1",
-      "path": "tuesday/drink-001.jpg",
+      "key": "any-label",
+      "path": "some-folder/photo-001.jpg",
       "kind": "drink_log",
       "notes": "Permissioned social photo for development preview only"
-    },
-    {
-      "key": "tuesday-scavenger-alpha-1",
-      "path": "tuesday/scavenger-001.jpg",
-      "kind": "scavenger",
-      "notes": "Permissioned"
     }
   ]
 }
 ```
 
-Rules:
+When `manifest.json` lists existing paths, that order is preferred; otherwise a sorted recursive scan is used.
+
+## Privacy
+
 - Do **not** commit real guest photos or identifiable cruise media.
-- Demo seed uploads through the existing authenticated Storage / Gallery path.
-- If `private/photos/manifest.json` is missing, scenarios use clearly marked development placeholder bytes.
+- Do **not** commit private-roster Gallery screenshots that show those photos.
+- Demo seed uploads only to the **local** Supabase `game-photos` bucket.
