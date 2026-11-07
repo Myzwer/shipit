@@ -20,27 +20,41 @@ describe('Phase 10A demo safety (always)', () => {
     expect(() => mod.assertLocalSupabaseUrl('http://127.0.0.1:54321')).not.toThrow()
   })
 
-  it('preview catalog retains research provenance and provisional pools without fabricating prices', () => {
+  it('preview catalog retains research provenance and Category B honesty without fabricating prices', () => {
     const doc = JSON.parse(
       readFileSync(join(process.cwd(), 'content/catalogs/development-preview-v1.json'), 'utf8'),
     )
     expect(doc.source_notes.verified_bar_keys).toContain('omalleys-irish-pub')
     expect(doc.source_notes.verified_bar_keys).not.toContain('good-spirits-at-sea')
-    expect(doc.cocktail_candidates.length).toBeGreaterThanOrEqual(72)
-    expect(doc.ingredient_candidates.length).toBeGreaterThanOrEqual(39)
+    expect(doc.cocktail_candidates.filter((c: { eligible: boolean }) => c.eligible).length).toBeGreaterThanOrEqual(72)
+    expect(doc.ingredient_candidates.filter((c: { eligible: boolean }) => c.eligible).length).toBeGreaterThanOrEqual(39)
+    let categoryB = 0
+    let goodSpiritsUnverified = 0
     for (const d of doc.drinks) {
       for (const o of d.bar_offerings) {
-        expect(o.price_status).toBe('unverified')
         expect(o.price_usd).toBeNull()
+        expect(['approved_filtered_within_limit', 'unverified', 'verified_within_limit']).toContain(
+          o.price_status,
+        )
+        if (o.price_status === 'approved_filtered_within_limit') {
+          categoryB += 1
+          expect(o.price_evidence_approval_id).toBeTruthy()
+          expect(o.price_evidence_recipe_fingerprint).toBeTruthy()
+        }
+        if (o.bar_key === 'good-spirits-at-sea') {
+          expect(o.price_status).toBe('unverified')
+          goodSpiritsUnverified += 1
+        }
       }
     }
+    expect(categoryB).toBe(191)
+    expect(goodSpiritsUnverified).toBeGreaterThan(0)
     expect(doc.source_notes.uncertainty_flags.map((f: { code: string }) => f.code)).toEqual(
       expect.arrayContaining([
-        'FILTERED_WITHIN_LIMIT_EXACT_PRICE_ABSENT',
+        'FILTERED_SOURCE_CATEGORY_B',
         'GOOD_SPIRITS_UNVERIFIED',
         'SHARED_POOL_MENU',
-        'RANKING_REVIEW_DRAFT',
-        'PROVISIONAL_DEMO_CANDIDATE_POOL',
+        'RANKINGS_ORGANIZER_APPROVED',
       ]),
     )
   })
