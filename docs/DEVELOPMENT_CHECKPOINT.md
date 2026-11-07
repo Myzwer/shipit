@@ -8,9 +8,9 @@
 | Phase | **10A.1** closeout (content verified; **runtime gate PENDING**) |
 | Baseline | Phase **9A** feature `4a6ad60` / checkpoint `2f42b55` |
 | Feature tip | `90b5ef2` — Phase **10A** provisional demo content |
-| Docs tip | _(fill after docs commit)_ |
-| HEAD | _(fill after docs commit / push)_ |
-| CI | _(fill when green)_ |
+| Docs tip | `700b93f` — Phase **10A** readiness / demo docs |
+| HEAD | `700b93f` |
+| CI | _(fill when green after push)_ |
 
 ## Runtime gate (explicit)
 
