@@ -1,18 +1,27 @@
 {
   "$schema_comment": "Copy to private/roster/roster.local.json (gitignored). Never put passwords, Auth UUIDs, or real guest names in committed files. Passwords come from LOCAL_TEST_PASSWORD or PRIVATE_ROSTER_PASSWORD.",
   "version": 1,
-  "notes": "Capacity contract for the confirmed 22-guest cruise. Replace Demo Guest labels with organizer-approved display names only in the gitignored local file. Do not invent unconfirmed Ship It! team assignments — leave team_key null until the organizer confirms. Two Davids must remain separate player keys. Synthetic demo accounts remain acceptable when this file is absent.",
+  "notes": "Capacity contract for the confirmed 22-guest cruise. Replace Demo Guest labels with organizer-approved display names only in the gitignored local file. Confirmed team_key stays null until Dad supplies final Ship It! teams. Optional local_demo_provisional may add TEMPORARY demo teams for local Embarkation/Tuesday/Wrapped only. Two Davids must remain separate player keys. Synthetic demo accounts remain acceptable when this file is absent.",
   "capacity": {
     "total_guests": 22,
     "drink_it_memberships": 11,
     "ship_it_only_slots": 1,
     "two_davids_required": true
   },
-  "teams": [
-    { "key": "alpha", "name": "Demo Team Alpha", "color": null },
-    { "key": "bravo", "name": "Demo Team Bravo", "color": null },
-    { "key": "charlie", "name": "Demo Team Charlie", "color": null }
-  ],
+  "teams": [],
+  "local_demo_provisional": {
+    "status": "temporary_local_demo_only",
+    "not_organizer_confirmed": true,
+    "notes": "Example only — copy into roster.local.json if local Ship It! boards need temporary teams before final assignments exist.",
+    "teams": [
+      { "key": "temp_a", "name": "[TEMP DEMO] Team A", "color": null },
+      { "key": "temp_b", "name": "[TEMP DEMO] Team B", "color": null }
+    ],
+    "assignments": {
+      "organizer": "temp_b",
+      "ship_only_01": "temp_a"
+    }
+  },
   "players": [
     {
       "key": "organizer",

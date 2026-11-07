@@ -9,7 +9,9 @@
  *
  * Catalog: content/catalogs/launch-candidate-v1.json (identical twin:
  * development-preview-v1.json). Category B filtered-source eligibility.
- * Simulated activity uses synthetic demo accounts — not production guest Auth.
+ * Uses private/roster/roster.local.json when present (local preview guests).
+ * Falls back to synthetic Demo/Gate fixtures only when that file is absent.
+ * Never production Auth. Set FORCE_SYNTHETIC_ROSTER=1 to force fixtures.
  */
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'node:crypto'
@@ -108,6 +110,12 @@ function detUuid(seed) {
 }
 
 async function provisionRoster() {
+  const rosterPath = join(root, 'private/roster/roster.local.json')
+  if (existsSync(rosterPath) && process.env.FORCE_SYNTHETIC_ROSTER !== '1') {
+    console.log('Private roster present — demo scenarios will use real local preview identities.')
+  } else if (!existsSync(rosterPath)) {
+    console.log('No private roster — falling back to synthetic demo identities.')
+  }
   console.log('Provisioning identities (db:provision)…')
   execSync('node scripts/provision-local-identities.mjs', {
     cwd: root,
@@ -115,6 +123,53 @@ async function provisionRoster() {
     stdio: 'inherit',
   })
   return JSON.parse(readFileSync(join(root, '.local/test-identities.json'), 'utf8'))
+}
+
+/**
+ * Resolve actors for simulated scenario activity.
+ * Synthetic keys (drink_only/both/admin/ship_only) when fixtures are used;
+ * otherwise pick from the private roster by membership role.
+ */
+function resolveDemoCast(identitySummary) {
+  const ids = identitySummary.identities || []
+  const byKey = Object.fromEntries(ids.map((i) => [i.key, i]))
+  if (byKey.drink_only && byKey.both && byKey.admin && byKey.ship_only) {
+    return {
+      mode: 'synthetic',
+      drinkOnly: byKey.drink_only,
+      both: byKey.both,
+      admin: byKey.admin,
+      shipOnly: byKey.ship_only,
+    }
+  }
+
+  const admin = ids.find((i) => i.is_admin)
+  const drinkit = ids.filter((i) => (i.games || []).includes('drinkit'))
+  const shipOnly =
+    byKey.debbie_forrester ||
+    ids.find((i) => (i.games || []).includes('shipit') && !(i.games || []).includes('drinkit'))
+  const both =
+    drinkit.find((i) => (i.games || []).includes('shipit') && !i.is_admin) ||
+    drinkit.find((i) => !i.is_admin) ||
+    drinkit[0]
+  const drinkOnly =
+    drinkit.find((i) => i !== both && i !== admin) ||
+    drinkit.find((i) => i !== both) ||
+    both
+
+  if (!admin || !both || !shipOnly || !drinkOnly) {
+    throw new Error(
+      'Private roster is missing required demo cast roles (admin, Drink It! players, Ship It!-only).',
+    )
+  }
+  if (!(drinkOnly.games || []).includes('drinkit') || !(both.games || []).includes('drinkit')) {
+    throw new Error('Demo drink activity cast must be Drink It! enrolled.')
+  }
+
+  console.log(
+    `Demo cast (private): drink=${drinkOnly.display_name}, both=${both.display_name}, admin=${admin.display_name}, ship_only=${shipOnly.display_name}`,
+  )
+  return { mode: 'private', drinkOnly, both, admin, shipOnly }
 }
 
 async function loadWorkingAchievements() {
@@ -304,14 +359,7 @@ async function seedBase(aligned) {
 }
 
 async function seedTuesdayActivity(identities, aligned) {
-  const byKey = Object.fromEntries(identities.identities.map((i) => [i.key, i]))
-  const drinkOnly = byKey.drink_only
-  const both = byKey.both
-  const admin = byKey.admin
-  const shipOnly = byKey.ship_only
-  if (!drinkOnly || !both || !admin || !shipOnly) {
-    throw new Error('Expected synthetic identities drink_only/both/admin/ship_only')
-  }
+  const { drinkOnly, both, admin, shipOnly } = resolveDemoCast(identities)
 
   const bothClient = await signIn(both.login_alias)
   const adminClient = await signIn(admin.login_alias)
@@ -446,13 +494,21 @@ if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
 }
 if (scenarioKey === 'wrapped') {
   // Extra day 5–7 activity for a fuller history, then finale
-  const byKey = Object.fromEntries(identities.identities.map((i) => [i.key, i]))
+  const cast = resolveDemoCast(identities)
   try {
     const off = await lookupOffering('crooners', 'rum-brulee')
     for (const day of [5, 6]) {
       const at = shipLocalToUtcIso(dayDate(aligned.day1, day), '14:00:00', aligned.offsetMinutes)
-      await claimAt(byKey.drink_only.player_id, 'crooners', off, at, `late-${day}`, [byKey.both.player_id], true)
-      await claimAt(byKey.both.player_id, 'crooners', off, at, `late-both-${day}`, [], true)
+      await claimAt(
+        cast.drinkOnly.player_id,
+        'crooners',
+        off,
+        at,
+        `late-${day}`,
+        [cast.both.player_id],
+        true,
+      )
+      await claimAt(cast.both.player_id, 'crooners', off, at, `late-both-${day}`, [], true)
     }
   } catch (e) {
     console.warn('late-cruise extras skipped', e.message)

@@ -1,35 +1,32 @@
-# Agent handoff — Phase 10D local runtime qualification
+# Agent handoff — Phase 10E private-roster local preview
 
-**STOP.** Runtime verification gate closed. Do not begin visual fidelity, production provisioning, deployment, or another feature phase until the Development Director authorizes the next step.
+**STOP.** Local private-roster demo setup closed. Do not begin visual redesign, production provisioning, achievement editing, or new game features until the Development Director authorizes the next step.
 
 | | |
 |---|---|
 | Branch | `main` |
-| Phase | **10D** — local runtime qualification only |
-| Prior baseline | 10C HEAD `b9c434b` / CI [42397192970](https://github.com/Myzwer/shipit/actions/runs/42397192970) |
-| Feature tip | `ec95bae` — screenshot account-switch fix |
-| Docs tip | `0ff4355` — Phase **10D** runtime qualification docs |
-| HEAD | `0ff4355` (local; not pushed) |
-| CI | no new remote run — 10D commits local only |
+| Phase | **10E** — private real-roster demo setup (local preview only) |
+| Prior baseline | 10D HEAD `618ea92` / CI [42404408410](https://github.com/Myzwer/shipit/actions/runs/42404408410) |
+| Feature tip | _(fill after commit)_ |
+| Docs tip | _(fill after commit)_ |
+| HEAD | _(fill after push)_ |
+| CI | _(fill after green run)_ |
 
-## Runtime gate (closed — PASS)
+## Local preview state
 
-| Check | Result |
-|---|---|
-| Docker Desktop | PASS |
-| Local Supabase only | PASS (`127.0.0.1:54321`) |
-| Migrations reset through `084` | PASS |
-| Unit / integration | 187 unit; 353 integration passed / 2 skipped |
-| embarkation / tuesday / wrapped | PASS |
-| Browser + screenshots | PASS → `docs/phase10a-screenshots/` |
+- Target: local Supabase `127.0.0.1:54321`, cruise `development-only`
+- Private roster via gitignored `private/roster/roster.local.json` when present
+- Synthetic fixtures only when that file is absent (`FORCE_SYNTHETIC_ROSTER=1` forces fixtures)
+- Provisional Ship It! teams labeled `[TEMP DEMO] …` — not organizer-final
+- Do **not** commit private roster, UUID maps, or real-name screenshots
 
-## Still open (not 10D failures)
+## Runtime fix shipped with 10E
 
-- Real `private/roster/roster.local.json` not supplied (template supports 22 / 11 Drink It! / Ship-It-only slot)
-- Visual fidelity / production activation
+Migration `085` updates `dev_seed_daily_assignments` bar keys to launch-candidate keys (fixes `BAR_KEY_MISSING` after catalog activate).
 
 ## Out of scope / do not start
 
 - Visual fidelity / CSS redesign
-- Production guest provisioning / cruise activation / Vercel
-- Gameplay, catalog, ranking, or achievement changes
+- Production guest Auth / cruise activation
+- Achievement creative edits / D-082/083/085 unlocks
+- Final Ship It! team assignments (await organizer)

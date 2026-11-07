@@ -142,7 +142,8 @@ describe('Phase 10C content integrity', () => {
     expect(existsSync(join(root, 'content/catalogs/printed-ingredient-map-v1.json'))).toBe(true)
     expect(existsSync(join(root, 'content/approvals/filtered-source-offerings-v1.json'))).toBe(true)
     expect(existsSync(join(root, 'private/roster.example/roster.template.json'))).toBe(true)
-    expect(existsSync(join(root, 'private/roster/roster.local.json'))).toBe(false)
+    const gi = readFileSync(join(root, '.gitignore'), 'utf8')
+    expect(gi).toMatch(/private\/roster\//)
   })
 
   it('demo twin matches launch-candidate', () => {

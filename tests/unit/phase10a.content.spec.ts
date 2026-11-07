@@ -40,7 +40,8 @@ describe('Phase 10A content readiness (retained)', () => {
     expect(gi).toMatch(/private\/photos\//)
     expect(existsSync(join(root, 'private/roster.example/roster.template.json'))).toBe(true)
     expect(existsSync(join(root, 'private/photos.example/manifest.template.json'))).toBe(true)
-    expect(existsSync(join(root, 'private/roster/roster.local.json'))).toBe(false)
+    // Local preview may create roster.local.json; it must remain gitignored (never asserted absent).
+    expect(gi).toMatch(/private\/roster\//)
   })
 
   it('working achievement catalog still reports 129 enabled / blocked organizer rows', () => {

@@ -21,9 +21,23 @@ if (!password) {
 }
 
 const summary = JSON.parse(await readFile(join(__dir, '../.local/test-identities.json'), 'utf8'))
-const both = summary.identities.find((i) => i.key === 'both') || summary.identities.find((i) => i.games?.includes('drinkit'))
-const ship = summary.identities.find((i) => i.key === 'ship_only') || both
-const drink = summary.identities.find((i) => i.key === 'drink_only') || both
+const ids = summary.identities || []
+const both =
+  ids.find((i) => i.key === 'both') ||
+  ids.find((i) => i.games?.includes('drinkit') && i.games?.includes('shipit') && !i.is_admin) ||
+  ids.find((i) => i.games?.includes('drinkit'))
+const ship =
+  ids.find((i) => i.key === 'ship_only' || i.key === 'debbie_forrester') ||
+  ids.find((i) => i.games?.includes('shipit') && !i.games?.includes('drinkit')) ||
+  both
+const drink =
+  ids.find((i) => i.key === 'drink_only') ||
+  ids.find((i) => i.games?.includes('drinkit') && i !== both) ||
+  both
+if (!drink || !ship || !both) {
+  console.error('Missing drink/ship/both identities in .local/test-identities.json')
+  process.exit(1)
+}
 
 const shotDir = join(__dir, '../docs/phase10a-screenshots', scenario)
 await mkdir(shotDir, { recursive: true })

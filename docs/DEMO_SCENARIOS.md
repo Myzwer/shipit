@@ -1,23 +1,21 @@
-# Demo scenarios — Phase 10D runtime qualification
+# Demo scenarios — Phase 10E private-roster local preview
 
 Development-only scenarios for the organizer and Visual Fidelity Agent.  
 Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production import path.  
 **Not** production activation. **Not** in-app save slots. Simulated activity ≠ genuine onboard play.
 
-## Runtime verification status (Phase 10D)
+## Runtime verification status
 
 | Gate | Status |
 |---|---|
-| Docker Desktop (`docker info` Server section) | **PASS** — Docker 29.9.2 / Desktop context |
-| Local Supabase target before reset | **PASS** — `http://127.0.0.1:54321` (API) / `127.0.0.1:54322` (DB); `.env` local-only |
-| `npx supabase db reset` (migrations through `084`) | **PASS** |
-| Unit tests | **PASS** — 187 / 187 |
-| Integration suite (`npm run test:integration`) | **PASS** — 353 passed / 2 skipped |
-| Demo seed `embarkation` | **PASS** — catalog `star-princess-launch-candidate-v1` |
-| Demo seed `tuesday` | **PASS** — Day 4 mid-cruise; interactive beer log accepted |
-| Demo seed `wrapped` | **PASS** — Day 7 19:00 finale; Wrapped results shown |
-| Browser smoke + screenshots | **PASS** — see locations below |
-| Private roster.local.json (real names) | **ABSENT** — synthetic accounts used |
+| Phase 10D Docker / integration / synthetic demos | **PASS** (baseline `618ea92`) |
+| Private `roster.local.json` (gitignored) | **PASS** locally — 22 players / 11 Drink It! when file present |
+| Synthetic Demo/Gate fixtures | Fallback **only** when private roster file is absent (`FORCE_SYNTHETIC_ROSTER=1` forces fixtures) |
+| Provisional Ship It! teams | Local-demo only via `local_demo_provisional` (`[TEMP DEMO] …`) — **not** organizer-final |
+| Login selector | Real display names only; no Demo/Gate/Roster fixtures when private roster active |
+| Embarkation / Tuesday / Wrapped | **PASS** on private roster (Drink activity limited to enrolled Drink It! players) |
+| Migration `085` daily bar fixtures | Launch-candidate bar keys (fixes post-activate `BAR_KEY_MISSING`) |
+| Private-roster screenshots | Keep under ignored local paths — **do not** commit real-name captures |
 
 ### Actual browser checks performed
 
@@ -43,12 +41,11 @@ Capture helper: `npm run screenshots:phase10a` (account-switch logout fix applie
 
 ### Remaining blockers (not runtime failures)
 
-- Real 22-guest `private/roster/roster.local.json` still not supplied (template capacity verified; synthetic OK for qualification).
-- Confirmed Ship It! team assignments for non-demo guests still organizer-owned (`team_key` null in template).
+- Confirmed final Ship It! team assignments still organizer-owned (local preview may use clearly labeled temporary demo teams).
 - Companion UUID map for D-086…D-093 still private/out-of-band.
 - Good Spirits still unpriced (Category C).
-- Visual fidelity / CSS redesign — **out of scope** for 10D.
-- Production activation — **blocked**.
+- Visual fidelity / CSS redesign — **out of scope** for 10E.
+- Production activation / production Auth accounts — **blocked**.
 
 ## Organizer setup (exact)
 
@@ -73,11 +70,13 @@ npm run dev
 npx supabase start
 npx supabase db reset
 export LOCAL_TEST_PASSWORD='your-local-only-password-12+'
-npm run db:provision           # synthetic roster unless private/roster/roster.local.json exists
+npm run db:provision           # private roster when present; else synthetic defaults
 npm run dev                    # Vite on http://127.0.0.1:5173
 ```
 
 **Catalog:** `launch-candidate-v1.json` (Category B fingerprinted eligibility; `price_usd` null). Demo seeds this artifact on `development-only` only.
+
+When `private/roster/roster.local.json` exists, `demo:seed` provisions that roster (and deactivates obsolete synthetic logins). It does **not** silently replace a present private roster with fixtures.
 
 ## Load / reload a scenario
 
@@ -91,7 +90,11 @@ Each run verifies local Supabase URL, requires `cruise_config.label = developmen
 
 **Impact:** destructive to the **local preview** database only. Never touches remote DBs.
 
-## Demo accounts (synthetic default)
+## Demo accounts
+
+**Preferred:** gitignored `private/roster/roster.local.json` (confirmed guests + memberships; optional `local_demo_provisional` temporary teams). Login selector shows those display names only.
+
+**Fallback (no private file):** synthetic fixtures below.
 
 | Key | Display name | Login alias | Games | Team |
 |---|---|---|---|---|
@@ -126,14 +129,17 @@ Password: `LOCAL_TEST_PASSWORD` (never stored in roster JSON).
 
 | Input | Location | Git |
 |---|---|---|
-| Roster template | `private/roster.example/roster.template.json` | tracked — **22** guest slots, **11** `drink_it`, **1** Ship-It-only slot, two David keys; no real names |
+| Roster template | `private/roster.example/roster.template.json` | tracked — capacity contract only; no real names |
 | Live roster | `private/roster/roster.local.json` | **ignored** |
 | Photo convention | `private/photos.example/` | tracked |
 | Live photos | `private/photos/` | **ignored** |
+| Private preview screenshots | keep outside tracked `docs/phase10a-screenshots/` or under ignored paths | **do not commit real-name UI** |
 
-Copy the template, fill approved display names / game toggles / confirmed teams only. Do **not** put passwords or Auth UUIDs in the file.
+Copy the template into the ignored local file. Confirmed guest rows use `team_key: null` until Dad supplies final teams; optional `local_demo_provisional` supplies temporary demo teams for local Ship It! boards only. Do **not** put passwords or Auth UUIDs in the file.
 
 Without private inputs, synthetic accounts + `tests/fixtures/tiny.jpg` placeholders are used.
+
+Phase 10D synthetic screenshots under `docs/phase10a-screenshots/` remain reference captures (Demo/Gate names only).
 
 ## Safety
 

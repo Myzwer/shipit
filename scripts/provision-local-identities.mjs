@@ -93,16 +93,31 @@ const DEFAULT_IDENTITIES = [
 ]
 
 function loadIdentitiesFromPrivateRoster() {
+  if (process.env.FORCE_SYNTHETIC_ROSTER === '1') {
+    console.log('FORCE_SYNTHETIC_ROSTER=1 — ignoring private/roster/roster.local.json')
+    return null
+  }
   const rosterPath = join(process.cwd(), 'private/roster/roster.local.json')
   if (!existsSync(rosterPath)) return null
   const raw = JSON.parse(readFileSync(rosterPath, 'utf8'))
   if (!raw?.players?.length) return null
-  const teamNameByKey = new Map((raw.teams || []).map((t) => [t.key, t.name]))
+  const provisional = raw.local_demo_provisional
+  const teamNameByKey = new Map([
+    ...(raw.teams || []).map((t) => [t.key, t.name]),
+    ...((provisional?.teams || []).map((t) => [t.key, t.name])),
+  ])
+  const provisionalAssign = provisional?.assignments || {}
+  if (provisional?.not_organizer_confirmed) {
+    console.log(
+      'Applying TEMPORARY local-demo Ship It! team assignments (not organizer-confirmed).',
+    )
+  }
   return raw.players.map((p) => {
     const games = []
     if (p.drink_it) games.push('drinkit')
     if (p.ship_it) games.push('shipit')
-    const teamKey = p.team_key ?? null
+    // Confirmed team_key wins; else optional provisional demo assignment.
+    const teamKey = p.team_key ?? provisionalAssign[p.key] ?? null
     return {
       key: p.key,
       display_name: p.display_name,
@@ -115,7 +130,8 @@ function loadIdentitiesFromPrivateRoster() {
 }
 
 const identities = loadIdentitiesFromPrivateRoster() || DEFAULT_IDENTITIES
-if (identities !== DEFAULT_IDENTITIES) {
+const usingPrivateRoster = identities !== DEFAULT_IDENTITIES
+if (usingPrivateRoster) {
   console.log(`Using private roster (${identities.length} players) from private/roster/roster.local.json`)
 }
 
@@ -256,9 +272,47 @@ for (const identity of identities) {
   })
 }
 
+if (usingPrivateRoster) {
+  // Hide obsolete synthetic / leftover accounts from the login selector.
+  const keepAliases = new Set(identities.map((i) => i.login_alias.toLowerCase()))
+  const { data: allPlayers, error: listErr } = await admin
+    .from('players')
+    .select('id, login_alias, display_name, active')
+  if (listErr) throw listErr
+  for (const row of allPlayers || []) {
+    if (keepAliases.has(String(row.login_alias || '').toLowerCase())) continue
+    const { error: gmErr } = await admin.from('game_memberships').delete().eq('player_id', row.id)
+    if (gmErr) throw gmErr
+    const { error: tmErr } = await admin
+      .from('team_memberships')
+      .update({ active_to: new Date().toISOString() })
+      .eq('player_id', row.id)
+      .is('active_to', null)
+    if (tmErr) throw tmErr
+    if (row.active) {
+      const { error: deactErr } = await admin
+        .from('players')
+        .update({ active: false, is_admin: false })
+        .eq('id', row.id)
+      if (deactErr) throw deactErr
+      console.log(`Deactivated obsolete login identity: ${row.display_name} (${row.login_alias})`)
+    }
+  }
+}
+
 await mkdir('.local', { recursive: true })
 const outPath = join('.local', 'test-identities.json')
-await writeFile(outPath, `${JSON.stringify(summary, null, 2)}\n`)
+await writeFile(
+  outPath,
+  `${JSON.stringify(
+    {
+      ...summary,
+      roster_source: usingPrivateRoster ? 'private/roster/roster.local.json' : 'synthetic_defaults',
+    },
+    null,
+    2,
+  )}\n`,
+)
 
 console.log(`Provisioned ${summary.identities.length} local identities.`)
 console.log(`Wrote ${outPath} (gitignored). Password kept only in LOCAL_TEST_PASSWORD.`)
