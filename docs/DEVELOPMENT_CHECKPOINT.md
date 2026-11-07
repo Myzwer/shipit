@@ -8,8 +8,8 @@
 | Phase | **10B** — launch-candidate content finalization |
 | Prior baseline | 10A feature `90b5ef2` / docs `700b93f` / HEAD `202e8e9` / CI [42391843165](https://github.com/Myzwer/shipit/actions/runs/42391843165) |
 | Feature tip | `4368cd1` — Phase **10B** launch-candidate catalog |
-| Docs tip | _(fill after docs commit)_ |
-| HEAD | _(fill after push)_ |
+| Docs tip | `489c98c` — Phase **10B** readiness / reconciliation docs |
+| HEAD | `489c98c` |
 | CI | _(fill after green run)_ |
 
 ## Runtime gate (still open)
