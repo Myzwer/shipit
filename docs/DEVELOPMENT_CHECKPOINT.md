@@ -6,8 +6,8 @@
 |---|---|
 | Branch | `main` |
 | Feature tip | `4a6ad60` — Phase **9A** |
-| Docs tip | _(fill after docs commit)_ |
-| HEAD | _(fill after docs commit)_ |
+| Docs tip | `6c9a8f0` — audit + checkpoint tip |
+| HEAD | `6c9a8f0` |
 | CI | _(fill after Actions run)_ |
 | Baseline | Phase **8** feature `75bd4d0` / docs `9092c63` / CI `42331834841` |
 | Closed phase | Phase **9A** — Core Player Visual Fidelity + Wrapped `test_only` guard |
