@@ -38,7 +38,19 @@ const context = await browser.newContext({
 const page = await context.newPage()
 
 async function loginAs(displayName) {
+  // Clear any prior session so /login is reachable when switching accounts.
+  await context.clearCookies()
   await page.goto(`${baseUrl}/login`, { waitUntil: 'networkidle' })
+  await page.evaluate(() => {
+    try {
+      localStorage.clear()
+      sessionStorage.clear()
+    } catch {
+      /* ignore */
+    }
+  })
+  await page.goto(`${baseUrl}/login`, { waitUntil: 'networkidle' })
+  await page.waitForSelector('#login-name', { timeout: 20000 })
   await page.selectOption('#login-name', { label: displayName })
   await page.fill('#login-password', password)
   await page.click('button[type="submit"]')
