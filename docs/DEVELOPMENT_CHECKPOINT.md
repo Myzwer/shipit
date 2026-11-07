@@ -9,8 +9,8 @@
 | Prior baseline | 10B feature `4368cd1` / docs `489c98c` / HEAD `012a11c` / CI [42394614610](https://github.com/Myzwer/shipit/actions/runs/42394614610) |
 | Feature tip | `cff6d88` — Phase **10C** content integrity |
 | Docs tip | `bc26b62` — Phase **10C** integrity / coverage docs |
-| HEAD | `68a322e` |
-| CI | [42396535321](https://github.com/Myzwer/shipit/actions/runs/42396535321) — success |
+| HEAD | `100aaba` |
+| CI | [42396959581](https://github.com/Myzwer/shipit/actions/runs/42396959581) — success |
 
 ## Runtime gate (still open)
 
