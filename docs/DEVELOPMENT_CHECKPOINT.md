@@ -7,10 +7,10 @@
 | Branch | `main` |
 | Phase | **10D** — local runtime qualification only |
 | Prior baseline | 10C HEAD `b9c434b` / CI [42397192970](https://github.com/Myzwer/shipit/actions/runs/42397192970) |
-| Feature tip | _(screenshot account-switch fix — fill after commit)_ |
-| Docs tip | _(fill after docs commit)_ |
-| HEAD | _(fill after push)_ |
-| CI | _(fill after green run)_ |
+| Feature tip | `ec95bae` — screenshot account-switch fix |
+| Docs tip | `0ff4355` — Phase **10D** runtime qualification docs |
+| HEAD | `0ff4355` (local; not pushed) |
+| CI | no new remote run — 10D commits local only |
 
 ## Runtime gate (closed — PASS)
 
