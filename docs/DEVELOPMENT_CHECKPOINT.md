@@ -7,9 +7,9 @@
 | Branch | `main` |
 | Phase | **10E** — private real-roster demo setup (local preview only) |
 | Prior baseline | 10D HEAD `618ea92` / CI [42404408410](https://github.com/Myzwer/shipit/actions/runs/42404408410) |
-| Feature tip | _(fill after commit)_ |
-| Docs tip | _(fill after commit)_ |
-| HEAD | _(fill after push)_ |
+| Feature tip | `eec9ee1` — Phase **10E** private-roster demo wiring |
+| Docs tip | `eec9ee1` — included with feature closeout |
+| HEAD | `eec9ee1` |
 | CI | _(fill after green run)_ |
 
 ## Local preview state
