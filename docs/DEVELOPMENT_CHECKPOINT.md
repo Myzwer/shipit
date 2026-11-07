@@ -9,8 +9,8 @@
 | Baseline | Phase **9A** feature `4a6ad60` / checkpoint `2f42b55` |
 | Feature tip | `90b5ef2` — Phase **10A** provisional demo content |
 | Docs tip | `700b93f` — Phase **10A** readiness / demo docs |
-| HEAD | `674d0c7aa8c67c5db874a36b90f91af6babc81c0` |
-| CI | _(fill when green after push)_ |
+| HEAD | `bab68e5` |
+| CI | _(fill when green)_ |
 
 ## Runtime gate (explicit)
 
