@@ -68,7 +68,9 @@
     "test:e2e:phase7b2": "node scripts/e2e-phase7b2-working-catalog.mjs",
     "screenshots:phase7b2": "node scripts/e2e-phase7b2-working-catalog.mjs",
     "test:e2e:phase8": "node scripts/e2e-phase8-wrapped.mjs",
-    "screenshots:phase8": "node scripts/e2e-phase8-wrapped.mjs"
+    "screenshots:phase8": "node scripts/e2e-phase8-wrapped.mjs",
+    "screenshots:phase9a": "node scripts/capture-phase9a-screens.mjs",
+    "test:e2e:phase9a": "node scripts/capture-phase9a-screens.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

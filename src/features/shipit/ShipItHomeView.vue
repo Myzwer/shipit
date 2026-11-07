@@ -198,18 +198,18 @@ onUnmounted(() => {
       </section>
 
       <section class="mt-8" style="background: var(--theme-page-alt)" data-testid="shipit-leaderboard">
-        <div class="px-4 py-3 text-center text-white" style="background: var(--theme-header)">
-          <h2 class="font-display text-sm font-bold tracking-[0.12em] uppercase">
+        <div class="ui-section-band">
+          <h2 class="ui-section-band-title">
             {{ copy.home.shipLeaderboard }}
           </h2>
         </div>
         <div class="px-3 py-4">
-          <LeaderboardList :rows="leaderboardRows" show-members />
+          <LeaderboardList :rows="leaderboardRows" show-members member-separator=" - " />
         </div>
       </section>
 
       <section class="px-4 py-6">
-        <details class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+        <details class="ui-card px-4 py-3">
           <summary class="cursor-pointer font-semibold" style="color: var(--theme-ink)">
             {{ copy.home.howToPlay }}
           </summary>

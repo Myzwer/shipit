@@ -79,11 +79,11 @@ onMounted(() => {
 <template>
   <GameShell game="shipit" :title="copy.shipit.challengesHeading">
     <div class="px-4 pt-4" data-testid="shipit-challenge-list">
-      <label class="flex items-center gap-2 text-sm" style="color: var(--theme-ink)">
+      <label class="flex flex-col gap-1.5 text-sm" style="color: var(--theme-ink)">
         <span class="font-medium">{{ copy.shipit.filterBy }}</span>
         <select
-          class="min-w-[10rem] flex-1 rounded-xl border border-black/10 bg-white/80 px-3 py-2 text-sm"
-          style="color: var(--theme-ink)"
+          class="min-h-11 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm shadow-sm"
+          style="color: var(--theme-ink); background: var(--theme-page-alt)"
           data-testid="shipit-challenge-filter"
           :value="filter"
           @change="onFilterChange(($event.target as HTMLSelectElement).value)"
@@ -179,17 +179,16 @@ onMounted(() => {
           <li v-for="challenge in section.challenges" :key="challenge.id">
             <button
               type="button"
-              class="flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left shadow-sm transition"
-              :class="
-                challenge.completed
-                  ? 'cursor-default opacity-55'
-                  : 'hover:brightness-[0.98]'
-              "
+              class="flex w-full items-start gap-3 px-3.5 py-3.5 text-left transition"
+              :class="challenge.completed ? 'cursor-default' : 'hover:brightness-[0.98]'"
               :style="{
                 background: challenge.completed
-                  ? 'color-mix(in srgb, var(--theme-card) 70%, #9aa3a0)'
-                  : 'var(--theme-card)',
+                  ? 'var(--theme-complete)'
+                  : 'var(--theme-page-alt)',
                 color: 'var(--theme-ink)',
+                borderRadius: 'var(--theme-card-radius)',
+                boxShadow: 'var(--theme-card-shadow)',
+                opacity: challenge.completed ? 0.92 : 1,
               }"
               :data-testid="`shipit-challenge-${challenge.canonical_key}`"
               :data-completed="challenge.completed ? 'true' : 'false'"
@@ -200,12 +199,12 @@ onMounted(() => {
               "
             >
               <span
-                class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+                class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
                 :style="{
                   background: challenge.completed
-                    ? 'color-mix(in srgb, var(--theme-primary) 35%, transparent)'
-                    : 'color-mix(in srgb, var(--theme-primary) 18%, transparent)',
-                  color: 'var(--theme-primary)',
+                    ? 'color-mix(in srgb, var(--theme-header) 28%, transparent)'
+                    : 'color-mix(in srgb, var(--theme-primary) 16%, transparent)',
+                  color: challenge.completed ? 'var(--theme-header)' : 'var(--theme-primary)',
                 }"
                 aria-hidden="true"
               >
@@ -216,7 +215,12 @@ onMounted(() => {
                 />
               </span>
               <span class="min-w-0 flex-1">
-                <span class="block font-semibold leading-snug">{{ challenge.title }}</span>
+                <span
+                  class="block font-semibold leading-snug"
+                  :style="challenge.completed ? { color: 'var(--theme-muted)' } : undefined"
+                >
+                  {{ challenge.title }}
+                </span>
                 <span
                   class="mt-1 block text-sm leading-snug"
                   style="color: var(--theme-muted)"
@@ -233,8 +237,8 @@ onMounted(() => {
               </span>
               <AppIcon
                 v-if="!challenge.completed"
-                name="nav.action"
-                class="mt-1 shrink-0 text-sm opacity-50"
+                name="action.open-row"
+                class="mt-1 shrink-0 text-sm opacity-55"
                 aria-hidden="true"
               />
             </button>

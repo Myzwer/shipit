@@ -139,8 +139,15 @@ try {
   }
 
   await page.waitForURL(/\/drinkit\/gallery/, { timeout: 30000 })
-  await page.waitForSelector('[data-testid="gallery-submission-card"]')
-  const submissionId = await page.getAttribute('[data-testid="gallery-submission-card"]', 'data-submission-id')
+  // Phase 5+ gallery cards use gallery-post (legacy gallery-submission-card retired).
+  await page.waitForSelector(
+    '[data-testid="gallery-post"], [data-testid="gallery-submission-card"]',
+    { timeout: 20000 },
+  )
+  const submissionId =
+    (await page.getAttribute('[data-testid="gallery-post"]', 'data-submission-id')) ||
+    (await page.getAttribute('[data-testid="gallery-submission-card"]', 'data-submission-id')) ||
+    new URL(page.url()).searchParams.get('submission')
   if (!submissionId) throw new Error('missing submission id')
   pass('gallery-stub')
 

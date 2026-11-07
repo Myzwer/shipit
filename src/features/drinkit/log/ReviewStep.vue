@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { copy } from '@/ui/copy'
+import { copy, formatCopy } from '@/ui/copy'
 import type { PreviewPayload, SelectedClaimChoice } from '@/types/drinkLog'
 
 const props = defineProps<{
@@ -136,42 +136,114 @@ const categories = [
       </button>
     </div>
 
-    <ul v-else class="mt-3 space-y-2" data-testid="review-bounties">
+    <ul v-else class="mt-3 space-y-2.5" data-testid="review-bounties">
       <li v-for="cat in categories" :key="cat.id">
         <button
           type="button"
-          class="flex w-full items-center justify-between rounded-2xl px-4 py-4 text-left disabled:opacity-60"
-          :style="
-            rowState(cat.id).kind === 'selected'
-              ? { background: 'var(--theme-primary)', color: '#fff' }
-              : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
-          "
+          class="flex min-h-[4.25rem] w-full items-stretch overflow-hidden text-left transition disabled:opacity-55"
+          :style="{
+            background:
+              rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'
+                ? 'color-mix(in srgb, var(--theme-surface) 55%, var(--theme-card))'
+                : 'var(--theme-card)',
+            color: 'var(--theme-ink)',
+            borderRadius: 'var(--theme-card-radius)',
+            boxShadow: 'var(--theme-card-shadow)',
+            opacity:
+              rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'
+                ? 0.72
+                : 1,
+          }"
           :disabled="rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'"
           :data-testid="`bounty-row-${cat.id}`"
           :data-state="rowState(cat.id).kind"
           @click="emit('toggleClaim', cat.id)"
         >
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-wide">{{ rowState(cat.id).label }}</p>
-            <p class="mt-1 font-semibold">{{ cat.title }}</p>
-            <p
-              v-if="rowState(cat.id).kind === 'selected'"
-              class="mt-1 text-xs opacity-90"
+          <span
+            class="flex w-11 shrink-0 items-center justify-center"
+            :style="{
+              background:
+                rowState(cat.id).kind === 'selected' ? 'var(--theme-accent)' : 'transparent',
+              color:
+                rowState(cat.id).kind === 'selected' ? '#fff' : 'var(--theme-muted)',
+            }"
+            aria-hidden="true"
+          >
+            <span
+              class="flex h-6 w-6 items-center justify-center rounded-md border-2 text-xs font-bold"
+              :style="{
+                borderColor:
+                  rowState(cat.id).kind === 'selected'
+                    ? 'rgba(255,255,255,0.85)'
+                    : 'color-mix(in srgb, var(--theme-ink) 35%, transparent)',
+              }"
             >
-              {{ copy.wizard.tapToDeselect }}
-            </p>
+              <span v-if="rowState(cat.id).kind === 'selected'">✓</span>
+            </span>
+          </span>
+          <div class="flex min-w-0 flex-1 items-center justify-between gap-3 px-3 py-3.5">
+            <div class="min-w-0">
+              <p
+                v-if="rowState(cat.id).kind === 'selected' || rowState(cat.id).kind === 'available'"
+                class="text-[0.65rem] font-semibold uppercase tracking-[0.12em]"
+                style="color: var(--theme-muted)"
+              >
+                {{ rowState(cat.id).label }}
+              </p>
+              <p
+                class="font-semibold leading-snug"
+                :class="
+                  rowState(cat.id).kind === 'selected' || rowState(cat.id).kind === 'available'
+                    ? 'mt-0.5'
+                    : undefined
+                "
+                :style="
+                  rowState(cat.id).kind === 'unavailable' ||
+                  rowState(cat.id).kind === 'already_claimed'
+                    ? { color: 'var(--theme-muted)' }
+                    : undefined
+                "
+              >
+                {{ cat.title }}
+              </p>
+              <p
+                v-if="rowState(cat.id).kind === 'selected'"
+                class="mt-1 text-xs"
+                style="color: var(--theme-muted)"
+              >
+                {{ copy.wizard.tapToDeselect }}
+              </p>
+            </div>
+            <span
+              v-if="rowState(cat.id).points"
+              class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold text-white"
+              style="background: var(--theme-accent)"
+            >
+              {{
+                formatCopy(copy.home.pointsLabel, { points: rowState(cat.id).points })
+              }}
+            </span>
+            <span
+              v-else
+              class="shrink-0 text-sm font-medium"
+              style="color: var(--theme-muted)"
+            >
+              {{ rowState(cat.id).label }}
+            </span>
           </div>
-          <p v-if="rowState(cat.id).points" class="font-display text-lg font-bold tabular-nums">
-            {{ rowState(cat.id).points }}
-          </p>
         </button>
       </li>
     </ul>
 
-    <p v-if="showIngredientMismatchLink" class="mt-4 text-center text-xs" style="color: var(--theme-muted)">
+    <p
+      v-if="showIngredientMismatchLink"
+      class="mt-5 text-center text-sm"
+      style="color: var(--theme-muted)"
+    >
       <button
         type="button"
-        class="underline"
+        class="font-medium underline underline-offset-2"
+        style="color: var(--theme-primary)"
         data-testid="ingredient-mismatch-link"
         @click="emit('openIngredientConfirm')"
       >

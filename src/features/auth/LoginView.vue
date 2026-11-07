@@ -103,8 +103,9 @@ async function onSubmit() {
       </div>
 
       <form
-        class="rounded-3xl px-5 py-6 shadow-sm"
-        style="background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(31, 41, 51, 0.08)"
+        class="rounded-[1.35rem] px-5 py-6 shadow-md"
+        style="background: rgba(255, 255, 255, 0.82); border: 1px solid rgba(31, 41, 51, 0.08)"
+        data-testid="login-form"
         @submit.prevent="onSubmit"
       >
         <p
@@ -165,8 +166,9 @@ async function onSubmit() {
 
         <button
           type="submit"
-          class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-md transition disabled:opacity-70"
+          class="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold text-white shadow-md transition disabled:opacity-70"
           style="background: #0a5c6b"
+          data-testid="login-submit"
           :disabled="submitting || directoryLoading"
         >
           {{ submitting ? copy.login.submitting : copy.login.submit }}

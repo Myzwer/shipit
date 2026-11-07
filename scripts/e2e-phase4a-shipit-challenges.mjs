@@ -104,12 +104,26 @@ try {
     fullPage: false,
   })
 
-  // Unfinished card shows unavailable notice (no pretend completion)
+  // Unfinished card: photo pipeline may open submit, or show unavailable notice.
   const openCard = page.locator('[data-actionable="true"]').first()
   await openCard.click()
-  await page.waitForSelector('[data-testid="shipit-submission-unavailable"]')
-  pass('no-fake-completion-action')
-  await page.click('[data-testid="shipit-submission-unavailable-dismiss"]')
+  const unavailable = page.locator('[data-testid="shipit-submission-unavailable"]')
+  try {
+    await Promise.race([
+      page.waitForURL(/\/shipit\/challenges\/.+\/submit|\/shipit\/submit/, { timeout: 8000 }),
+      unavailable.waitFor({ state: 'visible', timeout: 8000 }),
+    ])
+  } catch {
+    /* fall through to assert below */
+  }
+  if (page.url().includes('/submit') || (await unavailable.isVisible().catch(() => false))) {
+    pass('challenge-action-opens-submit-or-notice')
+    if (await unavailable.isVisible().catch(() => false)) {
+      await page.click('[data-testid="shipit-submission-unavailable-dismiss"]')
+    }
+  } else {
+    fail('challenge-action-opens-submit-or-notice', `url=${page.url()}`)
+  }
 } catch (err) {
   fail('suite-error', err instanceof Error ? err.message : String(err))
 } finally {

@@ -167,23 +167,27 @@ function onSelect(item: NavItem) {
 <template>
   <nav
     class="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center px-4"
-    style="padding-bottom: max(0.75rem, env(safe-area-inset-bottom))"
+    style="padding-bottom: max(0.85rem, env(safe-area-inset-bottom))"
     :aria-label="game === 'drinkit' ? 'Drink It! navigation' : 'Ship It! navigation'"
     :data-awards-mode="awardsMode.isAwardsMode ? 'true' : 'false'"
   >
     <div
-      class="pointer-events-auto flex w-full max-w-sm items-center justify-around rounded-2xl px-2 py-3 text-white shadow-lg"
-      style="background: var(--theme-nav)"
+      class="pointer-events-auto flex w-full max-w-[22rem] items-center justify-around px-3 py-3.5 text-white"
+      :style="{
+        background: 'var(--theme-nav)',
+        borderRadius: 'var(--theme-nav-radius, 1.35rem)',
+        boxShadow: 'var(--theme-nav-shadow)',
+      }"
     >
       <button
         v-for="item in items"
         :key="item.key"
         type="button"
-        class="relative flex h-11 w-11 items-center justify-center rounded-xl transition"
+        class="relative flex h-12 w-12 items-center justify-center rounded-2xl transition"
         :class="
           item.active
-            ? 'bg-white/15 opacity-100'
-            : 'opacity-55 hover:opacity-85'
+            ? 'bg-white/18 opacity-100'
+            : 'opacity-60 hover:opacity-90'
         "
         :aria-label="item.showDot && item.unreadAria ? item.unreadAria : item.label"
         :aria-current="item.active ? 'page' : undefined"
@@ -194,7 +198,7 @@ function onSelect(item: NavItem) {
         <AppIcon
           :name="item.icon"
           :style-variant="item.active ? 'solid' : 'outline'"
-          class="text-xl"
+          class="text-[1.35rem]"
         />
         <span
           v-if="item.showDot"

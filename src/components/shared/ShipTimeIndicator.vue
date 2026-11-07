@@ -15,10 +15,11 @@ onMounted(() => {
 
 <template>
   <p
-    class="px-4 py-1.5 text-center text-xs font-medium tracking-wide"
-    style="color: var(--theme-muted)"
+    class="px-4 py-2 text-center text-[0.7rem] font-semibold tracking-[0.08em]"
+    style="color: var(--theme-muted); background: color-mix(in srgb, var(--theme-page) 70%, transparent)"
     :data-clock-status="status"
     :data-awards-mode="awardsMode.isAwardsMode ? 'true' : 'false'"
+    data-testid="ship-time-indicator"
   >
     <template v-if="status === 'ready' && displayShipLocal">
       <span class="uppercase opacity-70">{{ copy.shipTime.label }}</span>

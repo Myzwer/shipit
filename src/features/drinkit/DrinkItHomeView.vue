@@ -128,11 +128,8 @@ function onClaim(card: HomeBountyCardView) {
     </section>
 
     <section class="mt-6" style="background: var(--theme-page-alt)">
-      <div
-        class="px-4 py-3 text-center text-white"
-        style="background: var(--theme-header)"
-      >
-        <h2 class="font-display text-sm font-bold tracking-[0.12em] uppercase">
+      <div class="ui-section-band">
+        <h2 class="ui-section-band-title">
           {{ copy.home.drinkLeaderboard }}
         </h2>
       </div>
@@ -142,7 +139,7 @@ function onClaim(card: HomeBountyCardView) {
     </section>
 
     <section class="px-4 py-6">
-      <details class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+      <details class="ui-card px-4 py-3">
         <summary class="cursor-pointer font-semibold" style="color: var(--theme-ink)">
           {{ copy.home.howToPlay }}
         </summary>

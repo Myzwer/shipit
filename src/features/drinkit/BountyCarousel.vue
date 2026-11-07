@@ -132,8 +132,13 @@ function cardMuted(card: HomeBountyCardView) {
       <article
         v-for="item in loopedCards"
         :key="item.key"
-        class="bounty-card shrink-0 snap-center rounded-3xl p-5 shadow-md"
-        style="background: var(--theme-surface); color: var(--theme-ink)"
+        class="bounty-card shrink-0 snap-center p-5"
+        :style="{
+          background: 'var(--theme-surface)',
+          color: 'var(--theme-ink)',
+          borderRadius: 'var(--theme-card-radius, 1.25rem)',
+          boxShadow: 'var(--theme-card-shadow)',
+        }"
         :class="{ 'opacity-80': cardMuted(item.card) }"
         :aria-hidden="item.key.startsWith('clone-') ? true : undefined"
         :data-bounty-id="item.card.id"
@@ -141,7 +146,7 @@ function cardMuted(card: HomeBountyCardView) {
         :data-testid="item.key.startsWith('clone-') ? undefined : `bounty-card-${item.card.id}`"
       >
         <div class="flex items-start justify-between gap-3">
-          <p class="text-sm" style="color: var(--theme-muted)">
+          <p class="text-sm font-medium" style="color: var(--theme-ink)">
             {{ item.card.tierOrEyebrow }}
           </p>
           <span
@@ -153,12 +158,12 @@ function cardMuted(card: HomeBountyCardView) {
           </span>
         </div>
 
-        <h3 class="font-display mt-3 text-2xl font-bold leading-tight">
+        <h3 class="font-display mt-3 text-[1.65rem] font-bold leading-tight">
           {{ item.card.title }}
         </h3>
         <p
           v-if="item.card.detail"
-          class="mt-2 text-sm leading-relaxed"
+          class="mt-2 text-sm leading-relaxed italic"
           style="color: var(--theme-muted)"
         >
           {{ item.card.detail }}
@@ -167,14 +172,14 @@ function cardMuted(card: HomeBountyCardView) {
         <div v-if="item.card.timerLabel || item.card.timerValue" class="mt-5">
           <p
             v-if="item.card.timerLabel"
-            class="text-xs uppercase tracking-wide"
+            class="text-xs font-semibold uppercase tracking-wide"
             style="color: var(--theme-muted)"
           >
             {{ item.card.timerLabel }}
           </p>
           <p
             v-if="item.card.timerValue"
-            class="font-display mt-1 text-2xl font-semibold tabular-nums"
+            class="font-display mt-1 text-[1.75rem] font-semibold tabular-nums leading-none"
             data-testid="bounty-timer"
           >
             {{ item.card.timerValue }}
@@ -183,8 +188,7 @@ function cardMuted(card: HomeBountyCardView) {
 
         <button
           type="button"
-          class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
-          style="background: var(--theme-primary)"
+          class="ui-primary-btn mt-5 w-full disabled:cursor-not-allowed"
           :disabled="!item.card.claimEnabled"
           :aria-disabled="!item.card.claimEnabled"
           :title="item.card.claimTitle"
@@ -196,7 +200,10 @@ function cardMuted(card: HomeBountyCardView) {
           <AppIcon name="action.next" />
         </button>
 
-        <p class="mt-3 text-center text-xs" style="color: var(--theme-muted)">
+        <p
+          class="mt-3 text-center text-xs font-semibold uppercase tracking-[0.08em]"
+          style="color: var(--theme-muted)"
+        >
           {{ item.card.footer }}
         </p>
       </article>
@@ -214,7 +221,7 @@ function cardMuted(card: HomeBountyCardView) {
 
 /* Center the active card and reveal neighboring peeks (UX §3.1). */
 .bounty-track {
-  --bounty-card-width: 78%;
+  --bounty-card-width: min(82%, 22rem);
   scroll-padding-inline: calc((100% - var(--bounty-card-width)) / 2);
   padding-inline: calc((100% - var(--bounty-card-width)) / 2);
 }
