@@ -1,4 +1,6 @@
-# Menu Reconstruction Agent contract (Phase 7B0)
+# Menu Reconstruction Agent contract (Phase 7B0 / 10B)
+
+**Phase 10B product note:** This agent is a **contingency** for onboard menu deltas — not a required launch dependency. If onboard menus match the launch-candidate catalog, run that catalog for the whole cruise (Path A). If menus differ, produce a reviewed `full_snapshot` and Admin stage/preview/publish (Path B). No mandatory Saturday reset.
 
 External agent + human review produce a **complete `full_snapshot` catalog JSON** for Admin Catalog Import. The app does **not** search the web, classify alcohol brands, or interpret menu photos.
 
@@ -26,11 +28,13 @@ External agent + human review produce a **complete `full_snapshot` catalog JSON*
 
 Brand knowledge belongs in curated metadata. If the menu says “Espolòn Reposado Tequila” and evidence supports it, tag `spirit-family-tequila` (and reposado-adjacent tags only when the vocabulary supports them). If the menu only says “Espolòn”, leave spirit family **unknown** — do not guess expression.
 
-## Princess Plus ($15)
+## Princess Plus ($15) — bounty eligibility categories
 
-- **Cocktail Bounty candidates** must be `verified_within_limit` (≤ $15) at the designated bar. Over-limit cocktails must **not** be featured Cocktail objectives.
-- **Ingredient Bounty corroboration** counts only within-limit (≤ $15, `verified_within_limit`) named cocktails at active bars. Over-limit and unverified offerings must **not** be used to claim `known_bar_count` / `distinct_qualifying_drinks`.
-- If correcting prices leaves too few corroborated Ingredient or Cocktail candidates, the import is blocked with a clear shortage — do not invent replacements.
+- **A** `verified_within_limit` + exact `price_usd` ≤ 15
+- **B** `approved_filtered_within_limit` + allowlisted `price_evidence_approval_id` + `price_usd` null (organizer-approved filtered source only; never invent $15)
+- **C** `unverified` — loggable, not bounty-eligible
+- **D** `verified_over_limit` — loggable, never a featured Cocktail/Ingredient bounty
+- Ingredient corroboration counts only A/B. Shortages block import — do not invent replacements.
 - Do not silently change already exposed objectives or historical points when republishing.
 
 ## Exception categories

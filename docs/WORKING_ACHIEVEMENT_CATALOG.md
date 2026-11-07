@@ -47,7 +47,16 @@ Enabled rows that still need **content** (tags, port/Thanksgiving config, ingred
 6. Named companion UUIDs become available → fill `companion_player_id`, flip readiness to `enabled`.
 7. Re-run `npm run db:load-working-achievements`.
 
-No production award-migration framework in this phase — definitions remain development-only.
+## Production release path (Phase 10B — not activated)
+
+- Mapping: `content/achievements/productionReleaseMapping.json` (140 rows; 129 release-enabled; 3 blocked_organizer; 8 blocked_metadata)
+- RPC: `admin_upsert_launch_achievement_definition(row, confirm)` — requires `p_confirm_non_test_only=true`
+- Script: `scripts/load-production-achievements.mjs` — double-gated; **refuses** unless `CONFIRM_PRODUCTION_ACHIEVEMENT_LOAD=I_UNDERSTAND_NON_TEST_ONLY` and `--confirm-non-test-only`
+- D-082/D-083/D-085 stay inactive until organizer decisions
+- D-086–D-093 stay blocked until private companion UUID map exists (no automatic dual-award)
+- **Do not run** this activation in Phase 10B
+
+Development loads continue via `npm run db:load-working-achievements` (`test_only=true`).
 
 ## Visibility
 

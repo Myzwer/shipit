@@ -1,59 +1,45 @@
-# Agent handoff — Phase 10A.1 closeout
+# Agent handoff — Phase 10B launch-candidate closeout
 
-**STOP.** Do not begin visual fidelity, production population, deployment, or Phase 10B until the Development Director authorizes the next phase.
+**STOP.** Do not begin visual fidelity, production provisioning, deployment, or another phase until the Development Director authorizes the next step.
 
 | | |
 |---|---|
 | Branch | `main` |
-| Phase | **10A.1** closeout (content verified; **runtime gate PENDING**) |
-| Baseline | Phase **9A** feature `4a6ad60` / checkpoint `2f42b55` |
-| Feature tip | `90b5ef2` — Phase **10A** provisional demo content |
-| Docs tip | `700b93f` — Phase **10A** readiness / demo docs |
-| HEAD | `357d241` |
-| CI | green — run [42391671156](https://github.com/Myzwer/shipit/actions/runs/42391671156) |
+| Phase | **10B** — launch-candidate content finalization |
+| Prior baseline | 10A feature `90b5ef2` / docs `700b93f` / HEAD `202e8e9` / CI [42391843165](https://github.com/Myzwer/shipit/actions/runs/42391843165) |
+| Feature tip | `4368cd1` — Phase **10B** launch-candidate catalog |
+| Docs tip | _(fill after docs commit)_ |
+| HEAD | _(fill after push)_ |
+| CI | _(fill after green run)_ |
 
-## Runtime gate (explicit)
+## Runtime gate (still open)
 
-Local Docker daemon was **not accessible** from the agent environment (`permission denied` on `unix:///Users/josh/.docker/run/docker.sock`). Therefore:
+Local Docker daemon remains **unavailable** in the agent environment. Live `demo:seed`, browser smoke, and screenshots stay **PENDING** (`docs/DEMO_SCENARIOS.md`).
 
-- Live `demo:seed` scenarios were **not** executed here
-- Browser smoke tests were **not** executed here
-- Scenario screenshots remain **PENDING** (`docs/phase10a-screenshots/`)
-- Full integration suite against local Supabase was **not** run here
+## Launch-candidate pools
 
-Organizer commands: see `docs/DEMO_SCENARIOS.md` → Runtime verification status.
-
-## Price evidence (corrected)
-
-| Category | Count | Catalog representation |
-|---|---:|---|
-| 1 Explicit verified ≤$15 (exact $) | **0** | — |
-| 2 Filter-confirmed, exact $ absent | **191** | `unverified` / `price_usd: null` |
-| 3 Unknown (Good Spirits) | **19** | `unverified` / null |
-| 4 Explicit over $15 | **0** (omitted from source) | — |
-
-Strict production validator: **0** Cocktail eligible · **0** Ingredient eligible · shortages **72 / 39** · readiness `valid_not_ready` · `safeToPublish: false`.  
-Provisional demo pools: **78** Cocktail · **44** Ingredient candidates for local `dev_*` seeding only — **not launch-ready**.
-
-## Read first (next agent)
-
-1. This file
-2. `docs/CONTENT_EVIDENCE_REPORT.md`
-3. `docs/CONTENT_READINESS.md`
-4. `docs/DEMO_SCENARIOS.md`
+| Metric | Value |
+|---|---:|
+| Bars / offerings / unique cocktails | 13 / 210 / 110 |
+| Category A / B / C / D | 0 / 191 / 19 / 0 |
+| Cocktail eligible | **79** (+10 GS pending) |
+| Ingredient eligible | **44** (Basil excluded) |
+| TS readiness | `ready_for_scheduling` |
+| `safeToPublish` | always **false** in TS preview |
 
 ## Just shipped
 
-1. Honest price evidence (no fabricated `$15` / no false `verified_within_limit`)
-2. Authentic preview catalog + provisional demo candidate pools
-3. Ship It! `[DEV]` title strip (migration `080`)
-4. Private roster/photo templates + ignore rules
-5. `demo:seed` scenarios + safety guards
-6. Unit/static tests for content honesty
+1. Category A/B/C/D price evidence + server allowlist gates (migrations 081–083)
+2. `content/catalogs/launch-candidate-v1.json` (shared with demos)
+3. Organizer ranking + filtered-source approval manifests
+4. Candidate reconciliation + evidence docs
+5. Guarded production achievement release path (not activated)
+6. Demo scenarios pointed at launch-candidate catalog
 
 ## Out of scope / do not start
 
 - Visual fidelity / CSS redesign
-- Production activation / Vercel / hosted Supabase
-- Final creative achievements or Wrapped jokes
-- Menu-photo reconstruction agent
+- Production guest provisioning / cruise activation / Vercel
+- Final creative achievement revisions / Wrapped jokes
+- Implementing the photo-reading Menu Reconstruction Agent
+- Gameplay redesign

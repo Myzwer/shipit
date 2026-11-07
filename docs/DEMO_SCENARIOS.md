@@ -1,13 +1,14 @@
-# Demo scenarios — Phase 10A
+# Demo scenarios — Phase 10B (launch-candidate catalog)
 
-Development-only preview for the organizer (family demo) and the Visual Fidelity Agent.  
-**Not** production activation. **Not** in-app save slots.
+Development-only scenarios for the organizer and Visual Fidelity Agent.  
+Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production import path.  
+**Not** production activation. **Not** in-app save slots. Simulated activity ≠ genuine onboard play.
 
-## Runtime verification status (Phase 10A.1)
+## Runtime verification status
 
 | Gate | Status |
 |---|---|
-| Static content / price evidence honesty | Done |
+| Launch-candidate static content / Category B evidence | Done (Phase 10B) |
 | Local Docker Desktop API access | **BLOCKED in agent environment** (`permission denied` on `docker.sock`) |
 | Live `demo:seed` / browser smoke / screenshots | **PENDING** — organizer must run below |
 
@@ -41,13 +42,11 @@ npm run db:provision           # synthetic roster unless private/roster/roster.l
 npm run dev                    # Vite on http://127.0.0.1:5173
 ```
 
-**Catalog honesty:** `development-preview-v1.json` keeps offerings `unverified` (exact $ absent). Provisional bounty candidate rows exist for local schedule generation only. Production validator reports `valid_not_ready` / shortage 72+39 — **not launch-ready**.
-
-Optional authentic catalog rebuild (already committed under `content/catalogs/`):
+**Catalog:** `launch-candidate-v1.json` (Category B approved filtered-source eligibility; `price_usd` null; never invents $15). TS preview reports `ready_for_scheduling` with `safeToPublish: false`. Demo seeds this artifact on `development-only` only.
 
 ```bash
-npm run catalog:build-preview
-npm run catalog:validate-preview
+npm run catalog:build-launch
+npm run catalog:validate-launch
 ```
 
 ## Load / reload a scenario
@@ -62,7 +61,7 @@ Each run:
 
 1. Verifies the Supabase URL is **local** (no production bypass).
 2. Requires / reseeds `cruise_config.label = development-only`.
-3. Activates `content/catalogs/development-preview-v1.json` (authentic names).
+3. Activates `content/catalogs/launch-candidate-v1.json` (authentic launch-candidate names).
 4. Generates bounty schedule + daily fixtures.
 5. Loads working achievements (`test_only`).
 6. Seeds scenario activity through canonical submit helpers.

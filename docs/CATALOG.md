@@ -16,9 +16,18 @@ Validated, version-aware data foundation for **Cocktail** and **Ingredient** Bou
 - Optional classification (Phase **7B0**): `ingredients[].classification_tags`, `drinks[].classification_tags`, `bar_offerings[].classification_tags` — approved vocabulary only; omitted = unknown
 - Layers: printed `display_ingredients` ≠ canonical `ingredient_keys` ≠ `classification_tags` ≠ display `aliases` (aliases are never scoring synonyms)
 
-Illustrative snippets in the Technical Spec are **not** production data. Handoff ranking drafts under `handoff/data/rankings/` are **review drafts**, not approved pools — do not load them as the active catalog.
+Illustrative snippets in the Technical Spec are **not** production data. Handoff ranking files under `handoff/data/rankings/` are **organizer-approved launch-candidate sources** (Phase 10B) — see `content/approvals/rankings-approval-v1.json`. Do not silently rewrite them.
 
-Menu Reconstruction Agent contract: [`docs/MENU_RECONSTRUCTION_AGENT.md`](./MENU_RECONSTRUCTION_AGENT.md).
+Menu Reconstruction Agent contract: [`docs/MENU_RECONSTRUCTION_AGENT.md`](./MENU_RECONSTRUCTION_AGENT.md) — **contingency** for onboard menu deltas, not a required launch dependency.
+
+### Optional onboard catalog update (no mandatory Saturday reset)
+
+| Path | When | Action |
+|---|---|---|
+| **A — menus unchanged** | Onboard menus match research | Run the current launch-candidate catalog for the whole cruise. No mandatory import. |
+| **B — menus differ** | Material differences found | External reconstruction prepares a reviewed `full_snapshot` → Admin stages, previews, publishes. Prior accepted logs/scores/achievements keep historical `catalog_version_id`. |
+
+Do not replace historical catalog revisions in place.
 
 ## Cocktail concept versus offering identity
 
@@ -47,11 +56,20 @@ An Ingredient candidate counts toward the **39**-slot pool only when:
 
 Zero matching offerings → ineligible. Mismatches are reported as business-rule errors; validators never invent qualifying drinks.
 
-Princess Plus **$15** policy (Phase **7B1**):
-- Featured **Cocktail Bounty** candidates must be `verified_within_limit` (≤ $15) at the designated bar.
-- **Ingredient Bounty** corroboration counts only active-bar named cocktails that are also `verified_within_limit` with price ≤ $15. Over-limit and unverified offerings do **not** count toward the bars/drinks required to make an Ingredient objective attainable within Princess Plus.
-- Declared `known_bar_count` / `distinct_qualifying_drinks` must match that within-limit corroboration. Shortages after correction block import.
-- Historical accepted claims and already exposed bounties are not rewritten by a catalog republish.
+Princess Plus **$15** policy (Phase **7B1** + **10B**):
+
+The $15 ceiling gates **bounty eligibility**, not ordinary named-drink logging.
+
+| Category | `price_status` | `price_usd` | Bounty eligible? | Notes |
+|---|---|---|---|---|
+| **A** Exact verified ≤$15 | `verified_within_limit` | required numeric ≤15 | Yes | Printed dollar retained |
+| **B** Organizer-approved filtered source | `approved_filtered_within_limit` | **must be null** | Yes, only with allowlisted `price_evidence_approval_id` | Never invent/display $15 as the menu price |
+| **C** Unknown / unresolved | `unverified` | null | No | e.g. Good Spirits — still loggable |
+| **D** Explicit >$15 | `verified_over_limit` | optional numeric | No | Still loggable; never a required bounty |
+
+Category B is server-enforced via `src/lib/catalog/priceEvidenceApprovals.ts` and migration `082` (`catalog_payload_price_evidence_errors`). Forged `evidence_reference`, `source_notes` text, or client `ready_for_scheduling` cannot authorize B. Ingredient corroboration counts only Category A/B offerings. Declared coverage must match that corroboration. Historical accepted claims keep their `catalog_version_id` on republish.
+
+Launch-candidate artifact: `content/catalogs/launch-candidate-v1.json` (schema 1.1). Rankings approval: `content/approvals/rankings-approval-v1.json`.
 
 ## Source-reported vs corroborated coverage
 
