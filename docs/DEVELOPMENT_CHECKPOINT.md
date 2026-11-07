@@ -6,8 +6,8 @@
 |---|---|
 | Branch | `main` (clean, synced with `origin/main`) |
 | Feature tip | `75bd4d0` — Phase **8** |
-| Docs tip | *(this commit)* — checkpoint tip + CI URL |
-| HEAD | *(this commit)* |
+| Docs tip | `9092c63` — checkpoint tip + CI URL |
+| HEAD | `9092c63` |
 | CI | green — run [42331834841](https://github.com/Myzwer/shipit/actions/runs/42331834841) |
 | Baseline | Phase **7B2** feature `3181eb7` / docs `55c7ae5` / CI `42270765927` |
 | Closed phase | Phase **8** — Awards Mode & Cruise Wrapped |
