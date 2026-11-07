@@ -8,8 +8,8 @@
 | Phase | **10C** — content integrity & playable demo readiness |
 | Prior baseline | 10B feature `4368cd1` / docs `489c98c` / HEAD `012a11c` / CI [42394614610](https://github.com/Myzwer/shipit/actions/runs/42394614610) |
 | Feature tip | `cff6d88` — Phase **10C** content integrity |
-| Docs tip | _(fill after docs commit)_ |
-| HEAD | _(fill after push)_ |
+| Docs tip | `bc26b62` — Phase **10C** integrity / coverage docs |
+| HEAD | `bc26b62` |
 | CI | _(fill after green run)_ |
 
 ## Runtime gate (still open)
