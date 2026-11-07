@@ -9,8 +9,8 @@
 | Baseline | Phase **9A** feature `4a6ad60` / checkpoint `2f42b55` |
 | Feature tip | `90b5ef2` — Phase **10A** provisional demo content |
 | Docs tip | `700b93f` — Phase **10A** readiness / demo docs |
-| HEAD | `f95b8ed` |
-| CI | _(fill when green)_ |
+| HEAD | `357d241` |
+| CI | green — run [42391671156](https://github.com/Myzwer/shipit/actions/runs/42391671156) |
 
 ## Runtime gate (explicit)
 
