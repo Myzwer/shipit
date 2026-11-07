@@ -5,6 +5,7 @@ import FloatingBottomNav from '@/components/shared/FloatingBottomNav.vue'
 import SectionHeaderBar from '@/components/shared/SectionHeaderBar.vue'
 import ShipTimeIndicator from '@/components/shared/ShipTimeIndicator.vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useSessionStore } from '@/stores/session'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
@@ -21,6 +22,7 @@ const props = withDefaults(
 
 const router = useRouter()
 const session = useSessionStore()
+const awardsMode = useAwardsModeStore()
 
 const themeClass = computed(() => (props.game === 'drinkit' ? 'theme-drink' : 'theme-ship'))
 const switchLabel = computed(() =>
@@ -29,6 +31,7 @@ const switchLabel = computed(() =>
 
 onMounted(() => {
   session.setCurrentGame(props.game)
+  awardsMode.ensureStarted()
 })
 
 onUnmounted(() => {
@@ -36,7 +39,8 @@ onUnmounted(() => {
 })
 
 function switchGame() {
-  void router.push(props.game === 'drinkit' ? '/shipit' : '/drinkit')
+  const target: GameId = props.game === 'drinkit' ? 'shipit' : 'drinkit'
+  void router.push(awardsMode.homePathForGame(target))
 }
 </script>
 

@@ -11,6 +11,7 @@ import PhotoStep from '@/features/drinkit/log/PhotoStep.vue'
 import ReviewStep from '@/features/drinkit/log/ReviewStep.vue'
 import WizardModal from '@/features/drinkit/log/WizardModal.vue'
 import WizardProgress from '@/features/drinkit/log/WizardProgress.vue'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useDrinkLogWizardStore } from '@/stores/drinkLogWizard'
 import { copy, formatCopy } from '@/ui/copy'
 import type { WizardEntrySource, WizardPrefill, WizardStep } from '@/types/drinkLog'
@@ -18,6 +19,7 @@ import type { WizardEntrySource, WizardPrefill, WizardStep } from '@/types/drink
 const route = useRoute()
 const router = useRouter()
 const wizard = useDrinkLogWizardStore()
+const awardsMode = useAwardsModeStore()
 
 type ModalKind =
   | null
@@ -70,12 +72,26 @@ function parsePrefill(): WizardPrefill {
 }
 
 onMounted(async () => {
+  awardsMode.ensureStarted()
   await wizard.startFresh(parsePrefill())
   bootstrapped.value = true
   if (wizard.formLockedForUnknown) {
     modal.value = 'unknown'
   }
+  if (awardsMode.isAwardsMode) {
+    modal.value = 'ended'
+  }
 })
+
+watch(
+  () => awardsMode.isAwardsMode,
+  (ended) => {
+    if (!ended || !wizard.active) return
+    if (wizard.submitStatus === 'success') return
+    // Mid-form Friday 6 PM: explain before discarding unfinished work.
+    modal.value = 'ended'
+  },
+)
 
 onBeforeUnmount(() => {
   // Keep store until explicit discard so Plus mid-wizard can detect; cleared on leave confirm.
@@ -95,6 +111,12 @@ onBeforeRouteLeave((to, _from, next) => {
     return
   }
   if (wizard.submitStatus === 'success') {
+    wizard.resetAll()
+    next()
+    return
+  }
+  // Awards Mode / View Wrapped — leave without Keep Editing prompt.
+  if (to.name === 'drinkit-wrapped' || awardsMode.isAwardsMode) {
     wizard.resetAll()
     next()
     return
@@ -132,12 +154,19 @@ function confirmExit() {
   pendingLeave.value = null
   wizard.resetAll()
   if (leave) leave()
-  else void router.push('/drinkit')
+  else void router.push(awardsMode.homePathForGame('drinkit'))
 }
 
 function cancelModal() {
   modal.value = null
   pendingLeave.value = null
+}
+
+function goToWrapped() {
+  modal.value = null
+  pendingLeave.value = null
+  wizard.resetAll()
+  void router.replace({ name: 'drinkit-wrapped' })
 }
 
 async function onSubmitClick() {
@@ -413,9 +442,9 @@ function onIngredientConfirmNo() {
       v-else-if="modal === 'ended'"
       :title="copy.wizard.gameEndedTitle"
       :body="copy.wizard.gameEndedBody"
-      :primary-label="copy.wizard.ok"
+      :primary-label="copy.wrapped.viewWrapped"
       test-id="modal-ended"
-      @primary="cancelModal"
+      @primary="goToWrapped"
     />
     <WizardModal
       v-else-if="modal === 'lockedEdit'"

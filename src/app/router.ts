@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useSessionStore } from '@/stores/session'
 import type { GameId } from '@/types/game'
 import { copy, formatCopy } from '@/ui/copy'
@@ -36,6 +37,12 @@ const router = createRouter({
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
     },
     {
+      path: '/drinkit/wrapped',
+      name: 'drinkit-wrapped',
+      component: () => import('@/features/drinkit/wrapped/DrinkItWrappedView.vue'),
+      meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
       path: '/drinkit/log',
       name: 'drinkit-log',
       component: () => import('@/features/drinkit/log/LogWizardView.vue'),
@@ -63,6 +70,12 @@ const router = createRouter({
       path: '/shipit',
       name: 'shipit-home',
       component: () => import('@/features/shipit/ShipItHomeView.vue'),
+      meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
+      path: '/shipit/wrapped',
+      name: 'shipit-wrapped',
+      component: () => import('@/features/shipit/wrapped/ShipItWrappedView.vue'),
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
     },
     {
@@ -120,6 +133,17 @@ const router = createRouter({
 function gameLabel(game: GameId) {
   return game === 'drinkit' ? copy.games.drinkIt : copy.games.shipIt
 }
+
+const SUBMISSION_ROUTE_NAMES = new Set([
+  'drinkit-log',
+  'drinkit-daily',
+  'shipit-challenges',
+  'shipit-submit',
+])
+
+const ACTIVE_HOME_NAMES = new Set(['drinkit-home', 'shipit-home'])
+
+const WRAPPED_NAMES = new Set(['drinkit-wrapped', 'shipit-wrapped'])
 
 router.beforeEach(async (to: RouteLocationNormalized) => {
   const session = useSessionStore()
@@ -181,6 +205,32 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
           gameName: gameLabel(requiredGame),
         }),
       },
+    }
+  }
+
+  // Awards Mode navigation (authoritative Ship Clock — not device time).
+  // Do not yank Gallery / Achievements / Admin; only remap homes + submission routes.
+  if (to.meta.game || WRAPPED_NAMES.has(String(to.name))) {
+    const awards = useAwardsModeStore()
+    awards.ensureStarted()
+    if (awards.status === 'idle' || awards.status === 'loading') {
+      await awards.refresh()
+    }
+
+    if (awards.isAwardsMode) {
+      const game = to.meta.game as GameId | undefined
+      const wrappedName = game === 'shipit' ? 'shipit-wrapped' : 'drinkit-wrapped'
+
+      if (ACTIVE_HOME_NAMES.has(String(to.name))) {
+        return { name: wrappedName }
+      }
+      if (SUBMISSION_ROUTE_NAMES.has(String(to.name)) && game) {
+        return { name: wrappedName }
+      }
+    } else if (WRAPPED_NAMES.has(String(to.name))) {
+      // Pre-finale: Wrapped route is not the active home.
+      // Allow the page to render its "not available" state (no redirect loop).
+      return true
     }
   }
 

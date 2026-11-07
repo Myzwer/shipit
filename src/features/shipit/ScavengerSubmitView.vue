@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import PhotoCapture from '@/components/shared/PhotoCapture.vue'
 import GameShell from '@/components/shared/GameShell.vue'
@@ -11,6 +11,7 @@ import {
   readPendingScavengerSubmit,
   writePendingScavengerSubmit,
 } from '@/lib/pendingScavengerSubmit'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useSessionStore } from '@/stores/session'
 import type { StagedPhotoRef } from '@/types/media'
 import type { ShipItChallengeCard } from '@/types/shipit'
@@ -19,6 +20,8 @@ import { copy, formatCopy } from '@/ui/copy'
 const route = useRoute()
 const router = useRouter()
 const session = useSessionStore()
+const awardsMode = useAwardsModeStore()
+const showFinaleGate = ref(false)
 
 const step = ref<'capture' | 'review'>('capture')
 const loading = ref(true)
@@ -222,19 +225,59 @@ function unlockAfterReject() {
 }
 
 function backToList() {
-  void router.push({ name: 'shipit-challenges' })
+  void router.push(
+    awardsMode.isAwardsMode ? { name: 'shipit-wrapped' } : { name: 'shipit-challenges' },
+  )
+}
+
+function goToWrapped() {
+  clearPendingScavengerSubmit()
+  void router.replace({ name: 'shipit-wrapped' })
 }
 
 onMounted(async () => {
+  awardsMode.ensureStarted()
+  if (awardsMode.isAwardsMode) {
+    showFinaleGate.value = true
+    loading.value = false
+    return
+  }
   await reconcileForeignPending()
   await loadChallenge()
   restorePending()
 })
+
+watch(
+  () => awardsMode.isAwardsMode,
+  (ended) => {
+    if (ended) showFinaleGate.value = true
+  },
+)
 </script>
 
 <template>
   <GameShell game="shipit" :title="copy.shipit.submitHeading" :show-switch="false">
     <div class="px-4 pb-28 pt-4" data-testid="scavenger-submit-page">
+      <div
+        v-if="showFinaleGate"
+        class="rounded-2xl px-4 py-6 text-center"
+        style="background: var(--theme-card); color: var(--theme-ink)"
+        data-testid="scavenger-finale-gate"
+      >
+        <p class="font-semibold">{{ copy.wizard.gameEndedTitle }}</p>
+        <p class="mt-2 text-sm" style="color: var(--theme-muted)">{{ copy.wizard.gameEndedBody }}</p>
+        <button
+          type="button"
+          class="mt-4 rounded-full px-4 py-2 text-sm font-semibold text-white"
+          style="background: var(--theme-primary)"
+          data-testid="scavenger-view-wrapped"
+          @click="goToWrapped"
+        >
+          {{ copy.wrapped.viewWrapped }}
+        </button>
+      </div>
+
+      <template v-else>
       <p v-if="loading" class="text-sm" style="color: var(--theme-muted)">{{ copy.shipit.loading }}</p>
       <p v-else-if="error" class="text-sm" style="color: var(--theme-ink)" data-testid="scavenger-error">
         {{ error }}
@@ -382,6 +425,7 @@ onMounted(async () => {
             {{ copy.shipit.editPhoto }}
           </button>
         </section>
+      </template>
       </template>
     </div>
   </GameShell>

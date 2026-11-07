@@ -5,10 +5,11 @@ import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import BountyCarousel from '@/features/drinkit/BountyCarousel.vue'
-import { drinkItMockLeaderboard } from '@/features/drinkit/mockHome'
 import { createHomeBountySync } from '@/lib/bounty/homeBountySync'
+import { fetchDrinkItLeaderboard } from '@/lib/wrapped/api'
 import { copy } from '@/ui/copy'
 import type { HomeBountyCardView, HomeBoardPhase, HomeBountyFetchStatus } from '@/types/bountyHome'
+import type { MockLeaderboardRow } from '@/types/game'
 
 const router = useRouter()
 
@@ -16,6 +17,7 @@ const cards = ref<HomeBountyCardView[]>([])
 const phase = ref<HomeBoardPhase>('loading')
 const status = ref<HomeBountyFetchStatus>('idle')
 const errorMessage = ref<string | null>(null)
+const leaderboardRows = ref<MockLeaderboardRow[]>([])
 
 const boardNote = computed(() => {
   // Never contradict paused / closed / finale with a "live" development notice.
@@ -26,6 +28,25 @@ const boardNote = computed(() => {
 const sync = createHomeBountySync({ tickMs: 1000, refreshMs: 60_000 })
 let unsubscribe: (() => void) | null = null
 
+async function loadLeaderboard() {
+  try {
+    const res = await fetchDrinkItLeaderboard()
+    if (!res.ok || !res.leaderboard) {
+      leaderboardRows.value = []
+      return
+    }
+    leaderboardRows.value = res.leaderboard.map((row) => ({
+      id: row.id,
+      rank: row.rank,
+      name: row.name,
+      metricLabel: row.metric_label,
+      points: row.points,
+    }))
+  } catch {
+    leaderboardRows.value = []
+  }
+}
+
 onMounted(() => {
   unsubscribe = sync.subscribe((snap) => {
     cards.value = snap.cards
@@ -34,6 +55,7 @@ onMounted(() => {
     errorMessage.value = snap.errorMessage
   })
   sync.start()
+  void loadLeaderboard()
 })
 
 onUnmounted(() => {
@@ -115,7 +137,7 @@ function onClaim(card: HomeBountyCardView) {
         </h2>
       </div>
       <div class="px-3 py-4">
-        <LeaderboardList :rows="drinkItMockLeaderboard" />
+        <LeaderboardList :rows="leaderboardRows" />
       </div>
     </section>
 

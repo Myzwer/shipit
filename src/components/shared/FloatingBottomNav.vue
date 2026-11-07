@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import { useAchievementsUnreadStore } from '@/stores/achievementsUnread'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useGalleryUnreadStore } from '@/stores/galleryUnread'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
@@ -21,28 +22,78 @@ const route = useRoute()
 const router = useRouter()
 const galleryUnread = useGalleryUnreadStore()
 const achievementsUnread = useAchievementsUnreadStore()
+const awardsMode = useAwardsModeStore()
 
 onMounted(() => {
+  awardsMode.ensureStarted()
   void galleryUnread.refresh(props.game)
   void achievementsUnread.refresh(props.game)
 })
 
-const homePath = computed(() => (props.game === 'drinkit' ? '/drinkit' : '/shipit'))
+const homePath = computed(() => awardsMode.homePathForGame(props.game))
 const onWizard = computed(() => route.name === 'drinkit-log')
 const onShipChallenges = computed(() => route.name === 'shipit-challenges')
 const onGallery = computed(
-    () => route.name === 'drinkit-gallery' || route.name === 'shipit-gallery',
-  )
+  () => route.name === 'drinkit-gallery' || route.name === 'shipit-gallery',
+)
 const onAchievements = computed(
   () => route.name === 'drinkit-achievements' || route.name === 'shipit-achievements',
 )
+const onWrapped = computed(
+  () => route.name === 'drinkit-wrapped' || route.name === 'shipit-wrapped',
+)
 
-const items = computed(() => {
+type NavItem = {
+  key: string
+  icon: SemanticIconKey
+  label: string
+  path: string
+  active: boolean
+  shellOnly: boolean
+  isAction?: boolean
+  showDot?: boolean
+  unreadAria?: string
+}
+
+const items = computed((): NavItem[] => {
+  if (awardsMode.isAwardsMode) {
+    return [
+      {
+        key: 'wrapped',
+        icon: 'nav.wrapped',
+        label: copy.nav.wrapped,
+        path: homePath.value,
+        active: onWrapped.value || route.path === homePath.value,
+        shellOnly: false,
+      },
+      {
+        key: 'gallery',
+        icon: 'nav.gallery',
+        label: copy.nav.gallery,
+        path: props.game === 'drinkit' ? '/drinkit/gallery' : '/shipit/gallery',
+        active: onGallery.value,
+        shellOnly: false,
+        showDot: galleryUnread.hasUnread(props.game),
+        unreadAria: copy.gallery.unreadAria,
+      },
+      {
+        key: 'achievements',
+        icon: 'nav.achievements',
+        label: copy.nav.achievements,
+        path: props.game === 'drinkit' ? '/drinkit/achievements' : '/shipit/achievements',
+        active: onAchievements.value,
+        shellOnly: false,
+        showDot: achievementsUnread.hasUnread(props.game),
+        unreadAria: copy.achievements.unreadAria,
+      },
+    ]
+  }
+
   const actionLabel = props.game === 'drinkit' ? copy.nav.logDrink : copy.nav.challenges
   return [
     {
       key: 'home',
-      icon: 'nav.home' as SemanticIconKey,
+      icon: 'nav.home',
       label: copy.nav.home,
       path: homePath.value,
       active: route.path === homePath.value,
@@ -50,7 +101,7 @@ const items = computed(() => {
     },
     {
       key: 'action',
-      icon: 'nav.action' as SemanticIconKey,
+      icon: 'nav.action',
       label: actionLabel,
       path: props.game === 'drinkit' ? '/drinkit/log' : '/shipit/challenges',
       active: onWizard.value || onShipChallenges.value,
@@ -59,7 +110,7 @@ const items = computed(() => {
     },
     {
       key: 'gallery',
-      icon: 'nav.gallery' as SemanticIconKey,
+      icon: 'nav.gallery',
       label: copy.nav.gallery,
       path: props.game === 'drinkit' ? '/drinkit/gallery' : '/shipit/gallery',
       active: onGallery.value,
@@ -69,7 +120,7 @@ const items = computed(() => {
     },
     {
       key: 'achievements',
-      icon: 'nav.achievements' as SemanticIconKey,
+      icon: 'nav.achievements',
       label: copy.nav.achievements,
       path: props.game === 'drinkit' ? '/drinkit/achievements' : '/shipit/achievements',
       active: onAchievements.value,
@@ -80,7 +131,20 @@ const items = computed(() => {
   ]
 })
 
-function onSelect(item: (typeof items.value)[number]) {
+watch(
+  () => awardsMode.isAwardsMode,
+  (awards) => {
+    if (!awards) return
+    // Remap active Home → Wrapped without yanking Gallery / Achievements.
+    if (route.name === 'drinkit-home' || route.name === 'shipit-home') {
+      void router.replace({
+        name: props.game === 'drinkit' ? 'drinkit-wrapped' : 'shipit-wrapped',
+      })
+    }
+  },
+)
+
+function onSelect(item: NavItem) {
   if (item.isAction && props.game === 'drinkit') {
     if (onWizard.value) {
       emit('action')
@@ -105,6 +169,7 @@ function onSelect(item: (typeof items.value)[number]) {
     class="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center px-4"
     style="padding-bottom: max(0.75rem, env(safe-area-inset-bottom))"
     :aria-label="game === 'drinkit' ? 'Drink It! navigation' : 'Ship It! navigation'"
+    :data-awards-mode="awardsMode.isAwardsMode ? 'true' : 'false'"
   >
     <div
       class="pointer-events-auto flex w-full max-w-sm items-center justify-around rounded-2xl px-2 py-3 text-white shadow-lg"

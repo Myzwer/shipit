@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import PhotoCapture from '@/components/shared/PhotoCapture.vue'
 import GameShell from '@/components/shared/GameShell.vue'
@@ -12,6 +12,7 @@ import {
   writePendingDailySubmit,
   type PendingDailySubmit,
 } from '@/lib/pendingDailySubmit'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useSessionStore } from '@/stores/session'
 import type { ActiveDailyChallenge } from '@/types/bountyHome'
 import type { StagedPhotoRef } from '@/types/media'
@@ -19,6 +20,8 @@ import { copy } from '@/ui/copy'
 
 const router = useRouter()
 const session = useSessionStore()
+const awardsMode = useAwardsModeStore()
+const showFinaleGate = ref(false)
 
 const step = ref<'confirm' | 'capture' | 'review'>('confirm')
 const loading = ref(true)
@@ -273,19 +276,57 @@ function unlockAfterReject() {
 }
 
 function backHome() {
-  void router.push({ name: 'drinkit-home' })
+  void router.push(awardsMode.homePathForGame('drinkit'))
+}
+
+function goToWrapped() {
+  clearPendingDailySubmit()
+  void router.replace({ name: 'drinkit-wrapped' })
 }
 
 onMounted(async () => {
+  awardsMode.ensureStarted()
+  if (awardsMode.isAwardsMode) {
+    showFinaleGate.value = true
+    loading.value = false
+    return
+  }
   // Pending recovery must not depend on today's active assignment.
   if (restorePending()) return
   await loadDaily()
 })
+
+watch(
+  () => awardsMode.isAwardsMode,
+  (ended) => {
+    if (ended) showFinaleGate.value = true
+  },
+)
 </script>
 
 <template>
   <GameShell game="drinkit" :title="copy.daily.heading" :show-switch="false">
     <div class="px-4 pb-28 pt-4" data-testid="daily-claim-page">
+      <div
+        v-if="showFinaleGate"
+        class="rounded-2xl px-4 py-6 text-center"
+        style="background: var(--theme-card); color: var(--theme-ink)"
+        data-testid="daily-finale-gate"
+      >
+        <p class="font-semibold">{{ copy.wizard.gameEndedTitle }}</p>
+        <p class="mt-2 text-sm" style="color: var(--theme-muted)">{{ copy.wizard.gameEndedBody }}</p>
+        <button
+          type="button"
+          class="mt-4 rounded-full px-4 py-2 text-sm font-semibold text-white"
+          style="background: var(--theme-primary)"
+          data-testid="daily-view-wrapped"
+          @click="goToWrapped"
+        >
+          {{ copy.wrapped.viewWrapped }}
+        </button>
+      </div>
+
+      <template v-if="!showFinaleGate">
       <p v-if="loading" class="text-sm" style="color: var(--theme-muted)">{{ copy.bounty.loadingTitle }}</p>
 
       <!-- Recovery takes precedence over closed/paused/already-claimed banners. -->
@@ -489,6 +530,7 @@ onMounted(async () => {
             {{ copy.daily.editPhoto }}
           </button>
         </section>
+      </template>
       </template>
     </div>
   </GameShell>

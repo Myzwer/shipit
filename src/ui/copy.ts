@@ -18,6 +18,36 @@ export const copy = {
     challenges: 'Challenges',
     gallery: 'Gallery',
     achievements: 'Achievements',
+    wrapped: 'Wrapped',
+  },
+  wrapped: {
+    heading: 'Cruise Wrapped',
+    readyHeadline: 'Ready to see how you did?',
+    readySupport: 'The games are over. Your week at sea is ready to revisit.',
+    seeDrinkIt: 'See My Drink It! Wrapped',
+    seeShipIt: 'See My Ship It! Wrapped',
+    yourWeek: 'Your Week at Sea',
+    yourTeamWeek: "Your Team's Week at Sea",
+    everyoneElse: "Let's See How Everyone Else Did",
+    finalLeaderboard: 'Final Leaderboard',
+    noWinner: 'No winner',
+    loading: 'Loading Wrapped…',
+    revealing: 'Opening…',
+    loadFailed: "Couldn't load Wrapped. Check your connection and try again.",
+    revealFailed: "Couldn't open Wrapped. Try again.",
+    unavailableTitle: "Couldn't Load Wrapped",
+    notAvailableTitle: 'Wrapped opens after the finale',
+    notAvailableDetail:
+      'Cruise Wrapped is available after Friday 6:00 PM Ship Time, when both games enter Awards Mode.',
+    backToGame: 'Back to Home',
+    viewWrapped: 'View Wrapped',
+    personalSupportDrink:
+      'A factual look at your Drink It! week from recorded activity.',
+    personalSupportShip:
+      "A factual look at your team's Ship It! week from recorded completions.",
+    everyoneElseSupport:
+      'Shared group results use the same recorded history. Ties show every winner.',
+    noAwardsConfigured: 'No group awards are configured for this cruise yet.',
   },
   home: {
     drinkDailyBounties: 'Daily Bounties',
@@ -408,7 +438,7 @@ export const copy = {
     pausedSecondary: 'Your previous posts, scores, and achievements are still available.',
     pausedOrganizerNote: 'Logging resumes when the organizer reopens the game.',
     finaleTitle: 'The games have ended. New submissions are closed.',
-    finaleDetail: 'Awards Mode arrives in a later phase.',
+    finaleDetail: 'Your results are ready in Wrapped.',
     loadingTitle: 'Loading bounties…',
     unavailableTitle: "Couldn't Load Game Data",
     unavailableDetail:

@@ -134,7 +134,7 @@ npm run screenshots:phase4b2
 npm run screenshots:phase4b3
 ```
 
-Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Gallery: [`docs/GALLERY.md`](./docs/GALLERY.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Media / photo staging: [`docs/MEDIA_PIPELINE.md`](./docs/MEDIA_PIPELINE.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin** (Players & Teams roster, Add Drink, Export / **Catalog Import**, Ship Clock, Pause, Skip, emergency **Void Submission** before Friday 6 PM). Roster/Auth ops: [`docs/ADMIN_ROSTER.md`](./docs/ADMIN_ROSTER.md). Add Drink / export: [`docs/ADMIN_ADD_DRINK_AND_EXPORT.md`](./docs/ADMIN_ADD_DRINK_AND_EXPORT.md). Catalog publish: [`docs/CATALOG.md`](./docs/CATALOG.md).
+Ship Clock + Admin: [`docs/SHIP_CLOCK.md`](./docs/SHIP_CLOCK.md). Awards Mode / Wrapped: [`docs/WRAPPED_AND_AWARDS.md`](./docs/WRAPPED_AND_AWARDS.md). Gallery: [`docs/GALLERY.md`](./docs/GALLERY.md). Ship It! challenges: [`docs/SHIPIT_CHALLENGES.md`](./docs/SHIPIT_CHALLENGES.md). Media / photo staging: [`docs/MEDIA_PIPELINE.md`](./docs/MEDIA_PIPELINE.md). Home bounties: [`docs/HOME_BOUNTIES.md`](./docs/HOME_BOUNTIES.md). Organizer: Home → Account → **Admin** (Players & Teams roster, Add Drink, Export / **Catalog Import**, Ship Clock, Pause, Skip, emergency **Void Submission** before Friday 6 PM). Roster/Auth ops: [`docs/ADMIN_ROSTER.md`](./docs/ADMIN_ROSTER.md). Add Drink / export: [`docs/ADMIN_ADD_DRINK_AND_EXPORT.md`](./docs/ADMIN_ADD_DRINK_AND_EXPORT.md). Catalog publish: [`docs/CATALOG.md`](./docs/CATALOG.md).
 
 ## Environment and secrets
 

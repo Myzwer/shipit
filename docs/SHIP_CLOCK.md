@@ -82,6 +82,8 @@ Historical nights that already applied explain that plan edits will not rewrite 
 
 Drink It! Pause/Resume is **not** a clock operation. Organizer controls live under Admin → Game Status (`admin_set_drinkit_paused`). Do not reuse manual clock correction RPCs to pause the game.
 
+**Awards Mode (Phase 8):** When Ship Time reaches Friday 6:00 PM Day 7, `ensure_finale_latched` freezes both games. The SPA reads `get_ship_clock_state` (`lifecycle: final`) and swaps to three-tab Awards navigation (Wrapped / Gallery / Achievements). See [`docs/WRAPPED_AND_AWARDS.md`](./WRAPPED_AND_AWARDS.md).
+
 ## RPCs
 
 | Function | Who | Purpose |

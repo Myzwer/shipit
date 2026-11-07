@@ -1,31 +1,15 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
-import { createShipClockSync } from '@/lib/shipClock'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { formatShipTimeOfDay } from '@/lib/shipClockFormat'
+import { useAwardsModeStore } from '@/stores/awardsMode'
 import { copy } from '@/ui/copy'
-import type { ClockFetchStatus, ShipClockState } from '@/types/shipClock'
 
-const status = ref<ClockFetchStatus>('idle')
-const displayLocal = ref<string | null>(null)
-const state = ref<ShipClockState | null>(null)
-const errorMessage = ref<string | null>(null)
-
-const sync = createShipClockSync({ tickMs: 1000, refreshMs: 30_000 })
-let unsubscribe: (() => void) | null = null
+const awardsMode = useAwardsModeStore()
+const { status, displayShipLocal, state, errorMessage } = storeToRefs(awardsMode)
 
 onMounted(() => {
-  unsubscribe = sync.subscribe((snap) => {
-    status.value = snap.status
-    displayLocal.value = snap.displayShipLocal
-    state.value = snap.state
-    errorMessage.value = snap.errorMessage
-  })
-  sync.start()
-})
-
-onUnmounted(() => {
-  unsubscribe?.()
-  sync.stop()
+  awardsMode.ensureStarted()
 })
 </script>
 
@@ -34,12 +18,13 @@ onUnmounted(() => {
     class="px-4 py-1.5 text-center text-xs font-medium tracking-wide"
     style="color: var(--theme-muted)"
     :data-clock-status="status"
+    :data-awards-mode="awardsMode.isAwardsMode ? 'true' : 'false'"
   >
-    <template v-if="status === 'ready' && displayLocal">
+    <template v-if="status === 'ready' && displayShipLocal">
       <span class="uppercase opacity-70">{{ copy.shipTime.label }}</span>
       <span class="mx-1.5 opacity-40">·</span>
       <span class="tabular-nums" style="color: var(--theme-ink)">{{
-        formatShipTimeOfDay(displayLocal)
+        formatShipTimeOfDay(displayShipLocal)
       }}</span>
       <span v-if="state?.cruise_day" class="ml-1.5 opacity-70"
         >Day {{ state.cruise_day }}</span
