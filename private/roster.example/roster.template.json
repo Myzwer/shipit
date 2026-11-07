@@ -1,7 +1,13 @@
 {
-  "$schema_comment": "Copy to private/roster/roster.local.json (gitignored). Never put passwords or Auth UUIDs here. Passwords come from LOCAL_TEST_PASSWORD or PRIVATE_ROSTER_PASSWORD.",
+  "$schema_comment": "Copy to private/roster/roster.local.json (gitignored). Never put passwords, Auth UUIDs, or real guest names in committed files. Passwords come from LOCAL_TEST_PASSWORD or PRIVATE_ROSTER_PASSWORD.",
   "version": 1,
-  "notes": "Organizer-supplied development preview roster. Synthetic defaults are used when this file is absent.",
+  "notes": "Capacity contract for the confirmed 22-guest cruise. Replace Demo Guest labels with organizer-approved display names only in the gitignored local file. Do not invent unconfirmed Ship It! team assignments — leave team_key null until the organizer confirms. Two Davids must remain separate player keys. Synthetic demo accounts remain acceptable when this file is absent.",
+  "capacity": {
+    "total_guests": 22,
+    "drink_it_memberships": 11,
+    "ship_it_only_slots": 1,
+    "two_davids_required": true
+  },
   "teams": [
     { "key": "alpha", "name": "Demo Team Alpha", "color": null },
     { "key": "bravo", "name": "Demo Team Bravo", "color": null },
@@ -18,51 +24,196 @@
       "is_admin": true
     },
     {
-      "key": "both_games",
-      "display_name": "Demo Both Games",
-      "login_alias": "both.games@star-princess.local",
+      "key": "guest_01",
+      "display_name": "Demo Guest 01",
+      "login_alias": "guest.01@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": "alpha",
-      "is_admin": false
-    },
-    {
-      "key": "drink_only",
-      "display_name": "Demo Drink Only",
-      "login_alias": "drink.only@star-princess.local",
-      "drink_it": true,
-      "ship_it": false,
       "team_key": null,
       "is_admin": false
     },
     {
-      "key": "ship_only",
-      "display_name": "Demo Ship Only",
-      "login_alias": "ship.only@star-princess.local",
-      "drink_it": false,
+      "key": "guest_02",
+      "display_name": "Demo Guest 02",
+      "login_alias": "guest.02@star-princess.local",
+      "drink_it": true,
       "ship_it": true,
-      "team_key": "alpha",
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_03",
+      "display_name": "Demo Guest 03",
+      "login_alias": "guest.03@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_04",
+      "display_name": "Demo Guest 04",
+      "login_alias": "guest.04@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_05",
+      "display_name": "Demo Guest 05",
+      "login_alias": "guest.05@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_06",
+      "display_name": "Demo Guest 06",
+      "login_alias": "guest.06@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_07",
+      "display_name": "Demo Guest 07",
+      "login_alias": "guest.07@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
       "is_admin": false
     },
     {
       "key": "david_a",
-      "display_name": "David AlphaLast",
-      "login_alias": "david.alpha@star-princess.local",
+      "display_name": "Demo David A",
+      "login_alias": "david.a@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": "alpha",
+      "team_key": null,
       "is_admin": false,
-      "notes": "Placeholder — replace with approved distinct display name when authentic roster supplied. Two Davids must remain separate identities."
+      "notes": "First of two distinct David identities. Replace display_name only in roster.local.json."
     },
     {
       "key": "david_b",
-      "display_name": "David BravoLast",
-      "login_alias": "david.bravo@star-princess.local",
+      "display_name": "Demo David B",
+      "login_alias": "david.b@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": "bravo",
+      "team_key": null,
       "is_admin": false,
-      "notes": "Placeholder — second David identity."
+      "notes": "Second David identity — must stay a separate player key."
+    },
+    {
+      "key": "guest_10",
+      "display_name": "Demo Guest 10",
+      "login_alias": "guest.10@star-princess.local",
+      "drink_it": true,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "ship_only_01",
+      "display_name": "Demo Guest Ship-Only",
+      "login_alias": "guest.shiponly@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false,
+      "notes": "Confirmed Ship It! only membership slot (no Drink It!). Map the organizer-confirmed Ship-It-only guest here in roster.local.json. Do not invent a team_key until assigned."
+    },
+    {
+      "key": "guest_12",
+      "display_name": "Demo Guest 12",
+      "login_alias": "guest.12@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_13",
+      "display_name": "Demo Guest 13",
+      "login_alias": "guest.13@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_14",
+      "display_name": "Demo Guest 14",
+      "login_alias": "guest.14@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_15",
+      "display_name": "Demo Guest 15",
+      "login_alias": "guest.15@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_16",
+      "display_name": "Demo Guest 16",
+      "login_alias": "guest.16@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_17",
+      "display_name": "Demo Guest 17",
+      "login_alias": "guest.17@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_18",
+      "display_name": "Demo Guest 18",
+      "login_alias": "guest.18@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_19",
+      "display_name": "Demo Guest 19",
+      "login_alias": "guest.19@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_20",
+      "display_name": "Demo Guest 20",
+      "login_alias": "guest.20@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
+    },
+    {
+      "key": "guest_21",
+      "display_name": "Demo Guest 21",
+      "login_alias": "guest.21@star-princess.local",
+      "drink_it": false,
+      "ship_it": true,
+      "team_key": null,
+      "is_admin": false
     }
   ]
 }

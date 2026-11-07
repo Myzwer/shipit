@@ -1,0 +1,18 @@
+LOGS_BEFORE=null
+SHOT 02c-review-or-submit
+SHOT 02d-after-submit
+AFTER=THE GALLERY SHIP TIME·2:02 PMDay 4 THE GALLERY Everyone My Gallery ACHIEVEMENT UNLOCKED SUBMITTED BY DEMO DRINK ONLY These Boots Are Made for Walkin' Log drinks at 5 different game bars. 2:02 PM · Ship Time ❤️ 0 😂 0 🤙 0 NO PHOTO ADDED DEMO DRINK ONLY Beer Bellini's Cocktail Bar Phase 10D Tuesday interactive beer 2:02 PM · Ship Time ❤
+LOGS_AFTER=null
+LOG_INCREMENTED=false
+SHOT 03-drinkit-gallery
+SHOT 04-drinkit-achievements
+SHOT 01b-both-drinkit-home
+SHOT 05-shipit-home
+SHIP_HOME_HAS_400=true
+SHIP_HOME_HAS_ALPHA=true
+SHOT 06-shipit-challenges
+SHOT 07-shipit-gallery
+SHOT 08-ship-only-drinkit-permission
+SHIP_ONLY_DRINK=You no longer have access to Drink It!. Go to your game
+SHOT 09-no-games-permission
+NO_GAMES=No Games Available You aren't enrolled in either game. Ask the organizer if you think this is a mistake. Log Out

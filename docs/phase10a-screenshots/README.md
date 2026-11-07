@@ -1,8 +1,6 @@
-# Phase 10A scenario screenshots
+# Phase 10A/10D scenario screenshots
 
-**PENDING** — not captured in Phase 10A.1 agent closeout (Docker socket inaccessible).
-
-Capture after local Supabase + demo seed:
+Captured in **Phase 10D** local runtime qualification against `launch-candidate-v1` on local Supabase.
 
 ```bash
 npx supabase start
@@ -18,4 +16,10 @@ LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
 PHASE10A_SCENARIO=wrapped LOCAL_TEST_PASSWORD='…' npm run screenshots:phase10a
 ```
 
-Outputs land in `docs/phase10a-screenshots/<scenario>/`.
+Outputs: `docs/phase10a-screenshots/<scenario>/`.
+
+| Scenario | Notes |
+|---|---|
+| `embarkation/` | Drink It! Home (Strawberries & Cream), log wizard bars, Ship It! Home/challenges |
+| `tuesday/` | Day 4 bounties, interactive beer submit, Gallery/achievements, permission denials |
+| `wrapped/` | Day 7 Cruise Wrapped intro + Drink It!/Ship It! results (`14`/`15`) |

@@ -1,45 +1,35 @@
-# Agent handoff — Phase 10C content integrity
+# Agent handoff — Phase 10D local runtime qualification
 
-**STOP.** Do not begin visual fidelity, production provisioning, deployment, or another phase until the Development Director authorizes the next step.
+**STOP.** Runtime verification gate closed. Do not begin visual fidelity, production provisioning, deployment, or another feature phase until the Development Director authorizes the next step.
 
 | | |
 |---|---|
 | Branch | `main` |
-| Phase | **10C** — content integrity & playable demo readiness |
-| Prior baseline | 10B feature `4368cd1` / docs `489c98c` / HEAD `012a11c` / CI [42394614610](https://github.com/Myzwer/shipit/actions/runs/42394614610) |
-| Feature tip | `cff6d88` — Phase **10C** content integrity |
-| Docs tip | `bc26b62` — Phase **10C** integrity / coverage docs |
-| HEAD | `100aaba` |
-| CI | [42396959581](https://github.com/Myzwer/shipit/actions/runs/42396959581) — success |
+| Phase | **10D** — local runtime qualification only |
+| Prior baseline | 10C HEAD `b9c434b` / CI [42397192970](https://github.com/Myzwer/shipit/actions/runs/42397192970) |
+| Feature tip | _(screenshot account-switch fix — fill after commit)_ |
+| Docs tip | _(fill after docs commit)_ |
+| HEAD | _(fill after push)_ |
+| CI | _(fill after green run)_ |
 
-## Runtime gate (still open)
+## Runtime gate (closed — PASS)
 
-Local Docker daemon remains unavailable in the agent environment. Live `demo:seed`, browser smoke, and screenshots stay **PENDING**.
+| Check | Result |
+|---|---|
+| Docker Desktop | PASS |
+| Local Supabase only | PASS (`127.0.0.1:54321`) |
+| Migrations reset through `084` | PASS |
+| Unit / integration | 187 unit; 353 integration passed / 2 skipped |
+| embarkation / tuesday / wrapped | PASS |
+| Browser + screenshots | PASS → `docs/phase10a-screenshots/` |
 
-## Launch-candidate pools (after 10C)
+## Still open (not 10D failures)
 
-| Metric | Value |
-|---|---:|
-| Bars / offerings / cocktails | 13 / 210 / 110 |
-| Category B fingerprinted offerings | 191 |
-| Canonical ingredient definitions | ~111 |
-| Ingredient bounty objectives | 44 |
-| Cocktail eligible | 79 (+10 GS pending) |
-| TS readiness | `ready_for_scheduling` |
-| `safeToPublish` | always **false** in TS preview |
-
-## Just shipped
-
-1. Category B bound to drink@bar + recipe fingerprint (migration 084)
-2. Printed→canonical ingredient map (no invented bounty objectives)
-3. Achievement evidence coverage matrix
-4. Regenerated launch-candidate catalog
-5. Forged-approval-at-authorized-bar regression tests
+- Real `private/roster/roster.local.json` not supplied (template supports 22 / 11 Drink It! / Ship-It-only slot)
+- Visual fidelity / production activation
 
 ## Out of scope / do not start
 
 - Visual fidelity / CSS redesign
 - Production guest provisioning / cruise activation / Vercel
-- Menu photo reconstruction agent
-- Achievement creative rewrites / Wrapped jokes
-- Gameplay redesign
+- Gameplay, catalog, ranking, or achievement changes

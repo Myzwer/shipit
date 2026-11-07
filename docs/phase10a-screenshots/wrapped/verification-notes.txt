@@ -1,0 +1,7 @@
+DAY=Day 7
+WRAPPED_MARKERS=true
+LOG_CUTOFF=false
+LOG_SNIP=CRUISE WRAPPED SHIP TIME·7:00 PMDay 7 Ready to see how you did? The games are over. Your week at sea is ready to revisit. See My Drink It! Wrapped
+WRAP_URL=http://127.0.0.1:5173/drinkit/wrapped
+WRAP_SNIP=CRUISE WRAPPED SHIP TIME·7:00 PMDay 7 Ready to see how you did? The games are over. Your week at sea is ready to revisit. See My Drink It! Wrapped
+SHIP_FINALE_SNIP=CRUISE WRAPPED SHIP TIME·7:01 PMDay 7 Ready to see how you did? The games are over. Your week at sea is ready to revisit. See My Ship It! Wrapped

@@ -31,9 +31,11 @@ Phase 10C strengthens Category B offering identity, completes printed→canonica
 
 Contract: copy `private/roster.example/roster.template.json` → `private/roster/roster.local.json` (gitignored).
 
-Must represent: all **22** final guests, final Drink It! participation, Ship It! memberships, real team keys, **two distinct Davids**, optional companion UUID map out-of-band.  
+Template capacity (Phase 10D): **22** guest slots, **11** `drink_it`, dedicated Ship-It-only slot, **two distinct David** keys. No real names in the tracked template; `team_key` stays null until organizer-confirmed.
+
+Must represent in the gitignored local file: final display names, final Drink It! participation, Ship It! memberships, confirmed team keys only, optional companion UUID map out-of-band.  
 **Not yet supplied** to this workspace — demos keep synthetic accounts.
 
 ## Runtime gate
 
-Local Docker/Supabase demo scenarios remain **PENDING** when the daemon is inaccessible. Commands: `docs/DEMO_SCENARIOS.md`.
+Phase **10D** local Docker/Supabase qualification: **PASS** (embarkation / tuesday / wrapped + screenshots). Details: `docs/DEMO_SCENARIOS.md`.

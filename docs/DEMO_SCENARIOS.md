@@ -1,33 +1,67 @@
-# Demo scenarios — Phase 10B (launch-candidate catalog)
+# Demo scenarios — Phase 10D runtime qualification
 
 Development-only scenarios for the organizer and Visual Fidelity Agent.  
 Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production import path.  
 **Not** production activation. **Not** in-app save slots. Simulated activity ≠ genuine onboard play.
 
-## Runtime verification status
+## Runtime verification status (Phase 10D)
 
 | Gate | Status |
 |---|---|
-| Launch-candidate static content / Category B fingerprints / ingredient map | Done (Phase 10C) |
-| Local Docker Desktop API access | **BLOCKED in agent environment** (`permission denied` on `docker.sock`) |
-| Live `demo:seed` / browser smoke / screenshots | **PENDING** — organizer must run below |
+| Docker Desktop (`docker info` Server section) | **PASS** — Docker 29.9.2 / Desktop context |
+| Local Supabase target before reset | **PASS** — `http://127.0.0.1:54321` (API) / `127.0.0.1:54322` (DB); `.env` local-only |
+| `npx supabase db reset` (migrations through `084`) | **PASS** |
+| Unit tests | **PASS** — 187 / 187 |
+| Integration suite (`npm run test:integration`) | **PASS** — 353 passed / 2 skipped |
+| Demo seed `embarkation` | **PASS** — catalog `star-princess-launch-candidate-v1` |
+| Demo seed `tuesday` | **PASS** — Day 4 mid-cruise; interactive beer log accepted |
+| Demo seed `wrapped` | **PASS** — Day 7 19:00 finale; Wrapped results shown |
+| Browser smoke + screenshots | **PASS** — see locations below |
+| Private roster.local.json (real names) | **ABSENT** — synthetic accounts used |
 
-First executable smoke once Docker works: `npx supabase db reset` → `LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation` → open Drink It! Home.
+### Actual browser checks performed
 
-### Organizer setup (exact)
+| Check | Result |
+|---|---|
+| Real cocktail / bar names | Embarkation: **Strawberries & Cream** @ Sea View Bar (50). Tuesday: **Lychee Vodka Mojito** @ Lido Bar (50); ingredient **mint leaves** (25). Log wizard lists authentic bars (Bellini's, Crooners, Good Spirits, …). |
+| Bounties / points | Unequal Tuesday Drink It! board (Organizer 25 / others 0). Ship It! Alpha & Bravo **400** pts with unequal completions. |
+| Tuesday new drink log | Interactive generic beer @ Bellini's submitted; gallery card caption `Phase 10D Tuesday interactive beer`. |
+| Achievements + Gallery | Gallery showed unlock **These Boots Are Made for Walkin'** plus seeded cocktail logs (Figs & Honey, Amazonia). |
+| Ship It! + team scoring | Home progress 3/50 / 400 pts; challenges list loads working titles. |
+| Permissions | Ship-only → Drink It! denied. No-games → enrollment denial. |
+| Wrapped + finale cutoff | Ship time Day 7 ~7:00 PM. `/drinkit/log` routes to Cruise Wrapped (“games are over”). Drink It! Wrapped stats + Ship It! Wrapped team results (400 pts, provisional awards). |
+
+### Screenshot locations (Visual Fidelity Agent)
+
+| Scenario | Directory |
+|---|---|
+| Embarkation | `docs/phase10a-screenshots/embarkation/` (`01`–`07`) |
+| Tuesday | `docs/phase10a-screenshots/tuesday/` (`01`–`09`, review/submit extras, `verification-notes.txt`) |
+| Wrapped | `docs/phase10a-screenshots/wrapped/` (`01`–`15`, including `14`/`15` results + `verification-notes.txt`) |
+
+Capture helper: `npm run screenshots:phase10a` (account-switch logout fix applied in Phase 10D).
+
+### Remaining blockers (not runtime failures)
+
+- Real 22-guest `private/roster/roster.local.json` still not supplied (template capacity verified; synthetic OK for qualification).
+- Confirmed Ship It! team assignments for non-demo guests still organizer-owned (`team_key` null in template).
+- Companion UUID map for D-086…D-093 still private/out-of-band.
+- Good Spirits still unpriced (Category C).
+- Visual fidelity / CSS redesign — **out of scope** for 10D.
+- Production activation — **blocked**.
+
+## Organizer setup (exact)
 
 ```bash
-# 1) Start Docker Desktop and ensure the CLI can talk to the daemon
 open -a Docker
 export PATH="$HOME/.docker/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
-docker info   # must show Server section without permission errors
+docker info   # must show Server Version without permission errors
 
-# 2) Local Supabase
 cd "/path/to/Ship It"
 npx supabase start
+# Confirm API_URL is http://127.0.0.1:54321 before any reset
 npx supabase db reset
 
-# 3) Demo content
 export LOCAL_TEST_PASSWORD='your-local-only-password-12+'
 LOCAL_TEST_PASSWORD="$LOCAL_TEST_PASSWORD" npm run demo:seed -- --scenario embarkation
 npm run dev
@@ -36,20 +70,14 @@ npm run dev
 ## Prerequisites
 
 ```bash
-# Docker Desktop running + docker info OK
 npx supabase start
-npx supabase db reset          # applies migrations including Phase 10A title strip + schema 1.1 fixture activate
+npx supabase db reset
 export LOCAL_TEST_PASSWORD='your-local-only-password-12+'
 npm run db:provision           # synthetic roster unless private/roster/roster.local.json exists
 npm run dev                    # Vite on http://127.0.0.1:5173
 ```
 
-**Catalog:** `launch-candidate-v1.json` (Category B approved filtered-source eligibility; `price_usd` null; never invents $15). TS preview reports `ready_for_scheduling` with `safeToPublish: false`. Demo seeds this artifact on `development-only` only.
-
-```bash
-npm run catalog:build-launch
-npm run catalog:validate-launch
-```
+**Catalog:** `launch-candidate-v1.json` (Category B fingerprinted eligibility; `price_usd` null). Demo seeds this artifact on `development-only` only.
 
 ## Load / reload a scenario
 
@@ -59,16 +87,9 @@ LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
 ```
 
-Each run:
+Each run verifies local Supabase URL, requires `cruise_config.label = development-only`, activates launch-candidate, schedules bounties, loads working achievements (`test_only`), and seeds scenario activity.
 
-1. Verifies the Supabase URL is **local** (no production bypass).
-2. Requires / reseeds `cruise_config.label = development-only`.
-3. Activates `content/catalogs/launch-candidate-v1.json` (authentic launch-candidate names).
-4. Generates bounty schedule + daily fixtures.
-5. Loads working achievements (`test_only`).
-6. Seeds scenario activity through canonical submit helpers.
-
-**Impact:** destructive to the **local preview** database only. Documented at command start. Never touches remote DBs.
+**Impact:** destructive to the **local preview** database only. Never touches remote DBs.
 
 ## Demo accounts (synthetic default)
 
@@ -82,114 +103,37 @@ Each run:
 
 Password: `LOCAL_TEST_PASSWORD` (never stored in roster JSON).
 
-### Suggested perspectives
-
-| Goal | Account |
-|---|---|
-| Drink It! Home / log wizard / bounties | Demo Drink Only or Demo Both Games |
-| Ship It! challenges / team board | Demo Ship Only or Demo Both Games |
-| Gallery + both games | Demo Both Games |
-| Admin clock / roster | Demo Organizer |
-| Wrapped intro (unrevealed) | Any game member after `wrapped` seed |
-| Membership denial | Demo No Games |
-
-Switch perspectives: log out → pick another name on Login → same password.
-
 ## What each scenario demonstrates
 
 ### A. Embarkation (`embarkation`)
 
 - Ship time ≈ Saturday Day 1 ~12:30.
-- Authentic bars + cocktail names in the logging wizard.
-- Working Ship It! titles (no `[DEV]`).
-- Working achievement definitions loaded; **no** fabricated awards.
-- Empty / near-empty score ledgers; initial bounties + Daily assignments.
+- Authentic bars + cocktail names; empty / near-empty ledgers.
 - Interactive: log a drink, open challenges, browse Home.
 
 ### B. Tuesday (`tuesday`)
 
 - Ship time ≈ Tuesday Day 4 afternoon.
-- Multiple Drink It! players with unequal scores from accepted claims.
-- Ordinary (non-scoring) beer logs mixed in.
-- Ship It! teams with unequal completions + Gallery events/reactions.
-- Claimed and available achievements; incomplete tasks remain.
-- Interactive: further logs/claims still allowed.
+- Unequal Drink It! / Ship It! scores; Gallery + achievements present.
+- Interactive logs still allowed (verified Phase 10D).
 
 ### C. Wrapped (`wrapped`)
 
 - Ship time ≈ Friday Day 7 after 6 PM finale.
-- Completed cruise history + final boards.
-- Provisional Wrapped awards only (`test_only`, development-only).
-- Secrets visible under finale rules; intro for unrevealed viewers.
-- **No** new gameplay submissions after finale.
-
-Restore start state:
-
-```bash
-LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
-```
+- Cruise Wrapped intro + results; gameplay submissions closed (log routes to Wrapped).
 
 ## Private roster / photos
 
 | Input | Location | Git |
 |---|---|---|
-| Roster template | `private/roster.example/roster.template.json` | tracked |
+| Roster template | `private/roster.example/roster.template.json` | tracked — **22** guest slots, **11** `drink_it`, **1** Ship-It-only slot, two David keys; no real names |
 | Live roster | `private/roster/roster.local.json` | **ignored** |
 | Photo convention | `private/photos.example/` | tracked |
 | Live photos | `private/photos/` | **ignored** |
 
-Copy the template, fill display names / game toggles / teams. Do **not** put passwords or Auth UUIDs in the file. Two Davids = two rows with distinct approved display names.
+Copy the template, fill approved display names / game toggles / confirmed teams only. Do **not** put passwords or Auth UUIDs in the file.
 
-Without private inputs, synthetic accounts + `tests/fixtures/tiny.jpg` placeholders are used (clearly development media).
-
-## Visual Fidelity Agent screenshots
-
-**Status: PENDING** until local Docker/Supabase is available. Do not treat empty scenario folders as captured output.
-
-```bash
-LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
-npm run dev   # separate terminal
-LOCAL_TEST_PASSWORD='…' npm run screenshots:phase10a
-# → docs/phase10a-screenshots/embarkation/
-
-LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
-PHASE10A_SCENARIO=tuesday LOCAL_TEST_PASSWORD='…' npm run screenshots:phase10a
-
-LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
-PHASE10A_SCENARIO=wrapped LOCAL_TEST_PASSWORD='…' npm run screenshots:phase10a
-```
-
-Expected captures (real app, development accounts — not static HTML):
-
-| Scenario | Shots |
-|---|---|
-| Embarkation | Drink It! Home, Ship It! Home, drink-log wizard |
-| Tuesday | Both Homes, Gallery, Achievements, logging screen |
-| Wrapped | Intro + results for both games |
-
-Simulated seed activity ≠ genuine onboard guest photos. Fixture JPEG placeholders are development media only.
-
-**Do not redesign CSS in this phase.**
-
-## Installed reference data
-
-| Layer | Source |
-|---|---|
-| Catalog | `content/catalogs/development-preview-v1.json` from handoff menus + ranking drafts |
-| Evidence report | `docs/CONTENT_EVIDENCE_REPORT.md` |
-| Challenges | 50 working titles (keys unchanged) |
-| Achievements | `content/achievements/workingCatalog.*` via `db:load-working-achievements` |
-
-## Provisional / unresolved
-
-- Exact printed dollar amounts not transcribed → ceiling `$15` with `PRICE_TRANSCRIPTION_CEILING` flag.
-- Good Spirits unpriced → excluded from featured bounty corroboration.
-- Shared pool menu (Promenade / Lido / MIX / Star).
-- Ranking drafts are editorial, not onboard-verified production approval.
-- D-082 / D-083 / D-085 organizer-blocked; D-086…D-093 companions need private UUID map.
-- Real 22-guest roster / Drink It! participant list / permissioned photos: organizer private inputs.
-- Final creative achievement catalog + Wrapped superlatives: **out of scope**.
-- Production catalog: **BLOCKED** until onboard menu verification.
+Without private inputs, synthetic accounts + `tests/fixtures/tiny.jpg` placeholders are used.
 
 ## Safety
 
