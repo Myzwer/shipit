@@ -47,7 +47,11 @@ Enabled rows that still need **content** (tags, port/Thanksgiving config, ingred
 6. Named companion UUIDs become available → fill `companion_player_id`, flip readiness to `enabled`.
 7. Re-run `npm run db:load-working-achievements`.
 
-## Production release path (Phase 10B — not activated)
+## Evidence coverage (Phase 10C)
+
+See [`docs/ACHIEVEMENT_EVIDENCE_COVERAGE.md`](./ACHIEVEMENT_EVIDENCE_COVERAGE.md) for the A/B/C/D matrix on spirit/ingredient/recipe achievements. Thresholds and names are unchanged. No fake metadata invented to unlock awards.
+
+## Production release path (Phase 10B/10C — not activated)
 
 - Mapping: `content/achievements/productionReleaseMapping.json` (140 rows; 129 release-enabled; 3 blocked_organizer; 8 blocked_metadata)
 - RPC: `admin_upsert_launch_achievement_definition(row, confirm)` — requires `p_confirm_non_test_only=true`

@@ -8,9 +8,11 @@ Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production 
 
 | Gate | Status |
 |---|---|
-| Launch-candidate static content / Category B evidence | Done (Phase 10B) |
+| Launch-candidate static content / Category B fingerprints / ingredient map | Done (Phase 10C) |
 | Local Docker Desktop API access | **BLOCKED in agent environment** (`permission denied` on `docker.sock`) |
 | Live `demo:seed` / browser smoke / screenshots | **PENDING** — organizer must run below |
+
+First executable smoke once Docker works: `npx supabase db reset` → `LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation` → open Drink It! Home.
 
 ### Organizer setup (exact)
 

@@ -63,11 +63,13 @@ The $15 ceiling gates **bounty eligibility**, not ordinary named-drink logging.
 | Category | `price_status` | `price_usd` | Bounty eligible? | Notes |
 |---|---|---|---|---|
 | **A** Exact verified ≤$15 | `verified_within_limit` | required numeric ≤15 | Yes | Printed dollar retained |
-| **B** Organizer-approved filtered source | `approved_filtered_within_limit` | **must be null** | Yes, only with allowlisted `price_evidence_approval_id` | Never invent/display $15 as the menu price |
+| **B** Organizer-approved filtered source | `approved_filtered_within_limit` | **must be null** | Yes, only with allowlisted `price_evidence_approval_id` **and** matching approved `drink@bar` + `price_evidence_recipe_fingerprint` | Never invent/display $15 as the menu price. New drinks at authorized bars cannot inherit B by copying the approval ID. |
 | **C** Unknown / unresolved | `unverified` | null | No | e.g. Good Spirits — still loggable |
 | **D** Explicit >$15 | `verified_over_limit` | optional numeric | No | Still loggable; never a required bounty |
 
-Category B is server-enforced via `src/lib/catalog/priceEvidenceApprovals.ts` and migration `082` (`catalog_payload_price_evidence_errors`). Forged `evidence_reference`, `source_notes` text, or client `ready_for_scheduling` cannot authorize B. Ingredient corroboration counts only Category A/B offerings. Declared coverage must match that corroboration. Historical accepted claims keep their `catalog_version_id` on republish.
+Category B is server-enforced via `src/lib/catalog/priceEvidenceApprovals.ts`, the offering fingerprint set (`filtered-source-offerings-v1.json` / migration `084`), and `catalog_payload_price_evidence_errors`. Forged `evidence_reference`, `source_notes` text, copied approval IDs on new drinks, or client `ready_for_scheduling` cannot authorize B. Ingredient corroboration counts only Category A/B offerings. Declared coverage must match that corroboration. Historical accepted claims keep their `catalog_version_id` on republish.
+
+Printed recipe tokens map to canonical ingredient identities via `content/catalogs/printed-ingredient-map-v1.json` without inventing Ingredient Bounty objectives (candidates remain the approved ranking set only).
 
 Launch-candidate artifact: `content/catalogs/launch-candidate-v1.json` (schema 1.1). Rankings approval: `content/approvals/rankings-approval-v1.json`.
 

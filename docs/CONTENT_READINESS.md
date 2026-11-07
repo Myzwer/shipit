@@ -1,15 +1,15 @@
-# Content readiness — Phase 10B launch candidate
+# Content readiness — Phase 10C
 
-Organizer-approved researched menus + bounty rankings are the **intended launch content**.  
-They are no longer disposable demo placeholders. Phase 10B does **not** activate a production cruise.
+Organizer-approved researched menus + rankings remain the intended launch content.  
+Phase 10C strengthens Category B offering identity, completes printed→canonical ingredient mapping, and documents achievement evidence coverage. **No production activation.**
 
 | | |
 |---|---|
 | Launch-candidate catalog | `content/catalogs/launch-candidate-v1.json` |
-| Rankings approval | `content/approvals/rankings-approval-v1.json` |
-| Price-evidence approval | `content/approvals/price-evidence-approval-v1.json` |
+| Category B offering set | `content/approvals/filtered-source-offerings-v1.json` (191 fingerprints) |
+| Printed ingredient map | `content/catalogs/printed-ingredient-map-v1.json` |
+| Achievement coverage | `docs/ACHIEVEMENT_EVIDENCE_COVERAGE.md` |
 | Reconciliation | `docs/CANDIDATE_RECONCILIATION.md` |
-| Evidence report | `docs/CONTENT_EVIDENCE_REPORT.md` |
 
 ## Inventory
 
@@ -18,39 +18,22 @@ They are no longer disposable demo placeholders. Phase 10B does **not** activate
 | Game bars | 13 |
 | Offering rows | 210 |
 | Unique cocktails | 110 |
-| Category A (exact ≤$15) | 0 |
-| Category B (approved filtered) | 191 |
-| Category C (Good Spirits unknown) | 19 |
-| Category D (explicit >$15) | 0 (none reconstructed) |
-| Cocktail eligible (Category B) | **79** |
-| Cocktail pending Good Spirits | **10** (`eligible:false`) |
-| Ingredient eligible | **44** (Basil excluded by hidden-hunt guardrail) |
-| Slot targets | 72 / 39 |
-| Ship It! challenges | 50 authentic |
-| Working achievements | 140 (129 release-enabled) |
+| Category B offerings (fingerprinted) | 191 |
+| Category C (Good Spirits) | 19 |
+| Canonical ingredient definitions | ~111 |
+| Ingredient Bounty objectives | **44** (Basil excluded) |
+| Cocktail eligible | **79** (+10 GS pending) |
+| Printed tokens mapped / unknown | 212 / 8 |
+| Slot targets | 72 / 39 — met |
+| Working achievements | 140 unchanged |
 
-## Logging vs bounty
+## Private roster (still required before provisioning)
 
-Named menu drinks remain **loggable** when present in the catalog regardless of bounty eligibility.  
-Cuts stay loggable. Over-limit / unknown-price drinks do not justify Cocktail or Ingredient Bounties.  
-Bar Bounty never requires purchasing an over-limit drink.
+Contract: copy `private/roster.example/roster.template.json` → `private/roster/roster.local.json` (gitignored).
 
-## Good Spirits onboard check (optional)
+Must represent: all **22** final guests, final Drink It! participation, Ship It! memberships, real team keys, **two distinct Davids**, optional companion UUID map out-of-band.  
+**Not yet supplied** to this workspace — demos keep synthetic accounts.
 
-Photograph / price-check the ten pending ranking selections. If an exact printed price ≤$15 is confirmed, set Category **A** (`verified_within_limit` + numeric `price_usd`). Do not invent $15. The 72-slot schedule does **not** require these ten.
+## Runtime gate
 
-## Private organizer inputs (still required before provisioning)
-
-- Final 22-guest roster + Drink It! participation + teams (private template under `private/roster.example/`)
-- Two distinct Davids display names
-- Companion UUID map for D-086–D-093
-- Permissioned photos
-
-No real names/passwords/UUIDs/photos in Git.
-
-## Production activation (out of scope here)
-
-1. Supply private roster → Auth provision
-2. Admin stage/publish launch-candidate catalog (or Path B reconstruction if menus differ)
-3. Explicit achievement production load (`docs/WORKING_ACHIEVEMENT_CATALOG.md`)
-4. Do **not** treat Menu Reconstruction Agent as mandatory if menus match
+Local Docker/Supabase demo scenarios remain **PENDING** when the daemon is inaccessible. Commands: `docs/DEMO_SCENARIOS.md`.
