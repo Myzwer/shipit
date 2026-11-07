@@ -1,0 +1,1524 @@
+{
+  "version": 1,
+  "purpose": "Evidence-based printed menu token → canonical ingredient identity. Not bounty rankings. Unknowns listed explicitly.",
+  "mapped_unique_tokens": 212,
+  "unknown_unique_tokens": 8,
+  "tokens": {
+    "lime": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lime"
+    },
+    "fresh lime": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "fresh lime"
+    },
+    "fresh lime juice": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "fresh lime juice"
+    },
+    "lime juice": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lime juice"
+    },
+    "lime wheel": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lime wheel"
+    },
+    "lemon": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lemon"
+    },
+    "lemon juice": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lemon juice"
+    },
+    "fresh lemon juice": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "fresh lemon juice"
+    },
+    "lemon peel": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lemon peel"
+    },
+    "pineapple": {
+      "key": "pineapple-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-pineapple",
+        "fruit-tropical"
+      ],
+      "name": "pineapple"
+    },
+    "fresh pineapple": {
+      "key": "pineapple-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-pineapple",
+        "fruit-tropical"
+      ],
+      "name": "fresh pineapple"
+    },
+    "caramelized pineapple": {
+      "key": "pineapple-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-pineapple",
+        "fruit-tropical"
+      ],
+      "name": "caramelized pineapple"
+    },
+    "agave": {
+      "key": "agave",
+      "classification_tags": [],
+      "name": "agave"
+    },
+    "mint": {
+      "key": "mint",
+      "classification_tags": [],
+      "name": "mint"
+    },
+    "fresh mint": {
+      "key": "mint",
+      "classification_tags": [],
+      "name": "fresh mint"
+    },
+    "Aperol": {
+      "key": "aperol",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Aperol"
+    },
+    "coconut": {
+      "key": "coconut-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-tropical"
+      ],
+      "name": "coconut"
+    },
+    "coconut cream": {
+      "key": "coconut-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-tropical"
+      ],
+      "name": "coconut cream"
+    },
+    "coconut milk": {
+      "key": "coconut-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-tropical"
+      ],
+      "name": "coconut milk"
+    },
+    "Cointreau": {
+      "key": "triple-sec-cointreau",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Cointreau"
+    },
+    "triple sec": {
+      "key": "triple-sec-cointreau",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "triple sec"
+    },
+    "orange curaçao": {
+      "key": "triple-sec-cointreau",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "orange curaçao"
+    },
+    "honey": {
+      "key": "honey",
+      "classification_tags": [],
+      "name": "honey"
+    },
+    "honey syrup": {
+      "key": "honey",
+      "classification_tags": [],
+      "name": "honey syrup"
+    },
+    "honey thyme syrup": {
+      "key": "honey",
+      "classification_tags": [],
+      "name": "honey thyme syrup"
+    },
+    "Angostura bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "Angostura bitters"
+    },
+    "habanero bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "habanero bitters"
+    },
+    "walnut bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "walnut bitters"
+    },
+    "orange bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "orange bitters"
+    },
+    "chocolate bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "chocolate bitters"
+    },
+    "passion fruit": {
+      "key": "passion-fruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-passion-fruit",
+        "fruit-tropical"
+      ],
+      "name": "passion fruit"
+    },
+    "Chinola passion fruit liqueur": {
+      "key": "passion-fruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-passion-fruit",
+        "fruit-tropical",
+        "spirit-family-liqueur"
+      ],
+      "name": "Chinola passion fruit liqueur"
+    },
+    "Chinola Passionfruit Liqueur": {
+      "key": "passion-fruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-passion-fruit",
+        "fruit-tropical",
+        "spirit-family-liqueur"
+      ],
+      "name": "Chinola Passionfruit Liqueur"
+    },
+    "jalapeños": {
+      "key": "jalapeno",
+      "classification_tags": [
+        "hot-pepper"
+      ],
+      "name": "jalapeños"
+    },
+    "jalapeño": {
+      "key": "jalapeno",
+      "classification_tags": [
+        "hot-pepper"
+      ],
+      "name": "jalapeño"
+    },
+    "serrano pepper": {
+      "key": "jalapeno",
+      "classification_tags": [
+        "hot-pepper"
+      ],
+      "name": "serrano pepper"
+    },
+    "ginger": {
+      "key": "ginger-flavor",
+      "classification_tags": [],
+      "name": "ginger"
+    },
+    "Gosling's ginger beer": {
+      "key": "ginger-flavor",
+      "classification_tags": [],
+      "name": "Gosling's ginger beer"
+    },
+    "ginger beer": {
+      "key": "ginger-flavor",
+      "classification_tags": [],
+      "name": "ginger beer"
+    },
+    "lemongrass and ginger syrup": {
+      "key": "ginger-flavor",
+      "classification_tags": [],
+      "name": "lemongrass and ginger syrup"
+    },
+    "Grand Marnier": {
+      "key": "triple-sec-cointreau",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Grand Marnier"
+    },
+    "Brother's Bond Bourbon": {
+      "key": "bourbon",
+      "classification_tags": [
+        "spirit-family-bourbon",
+        "spirit-family-whiskey"
+      ],
+      "name": "Brother's Bond Bourbon"
+    },
+    "Brother's Bond Straight Bourbon": {
+      "key": "bourbon",
+      "classification_tags": [
+        "spirit-family-bourbon",
+        "spirit-family-whiskey"
+      ],
+      "name": "Brother's Bond Straight Bourbon"
+    },
+    "Woodford Reserve Bourbon": {
+      "key": "bourbon",
+      "classification_tags": [
+        "spirit-family-bourbon",
+        "spirit-family-whiskey"
+      ],
+      "name": "Woodford Reserve Bourbon"
+    },
+    "Sláinte Irish Whiskey": {
+      "key": "irish-whiskey",
+      "classification_tags": [
+        "spirit-family-whiskey"
+      ],
+      "name": "Sláinte Irish Whiskey"
+    },
+    "Jameson Irish Whiskey": {
+      "key": "irish-whiskey",
+      "classification_tags": [
+        "spirit-family-whiskey"
+      ],
+      "name": "Jameson Irish Whiskey"
+    },
+    "orange": {
+      "key": "orange-fruit",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "orange"
+    },
+    "orange peel": {
+      "key": "orange-fruit",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "orange peel"
+    },
+    "orange marmalade": {
+      "key": "orange-fruit",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "orange marmalade"
+    },
+    "Tito's Handmade Vodka": {
+      "key": "titos-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Tito's Handmade Vodka"
+    },
+    "Tito's Vodka": {
+      "key": "titos-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Tito's Vodka"
+    },
+    "amaretto": {
+      "key": "amaretto-disaronno",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "amaretto"
+    },
+    "Disaronno Amaretto": {
+      "key": "amaretto-disaronno",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Disaronno Amaretto"
+    },
+    "Licor 43": {
+      "key": "licor-43",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Licor 43"
+    },
+    "Licor 43 Original": {
+      "key": "licor-43",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Licor 43 Original"
+    },
+    "Licor 43 Chocolate": {
+      "key": "chocolate-cacao",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Licor 43 Chocolate"
+    },
+    "Licor 43 Crème Brûlée": {
+      "key": "licor-43",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Licor 43 Crème Brûlée"
+    },
+    "mango": {
+      "key": "mango-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-mango",
+        "fruit-tropical"
+      ],
+      "name": "mango"
+    },
+    "Patrón Silver Tequila": {
+      "key": "blanco-silver-tequila",
+      "classification_tags": [
+        "spirit-family-tequila",
+        "spirit-clear"
+      ],
+      "name": "Patrón Silver Tequila"
+    },
+    "Silver tequila": {
+      "key": "blanco-silver-tequila",
+      "classification_tags": [
+        "spirit-family-tequila",
+        "spirit-clear"
+      ],
+      "name": "Silver tequila"
+    },
+    "Don Julio Blanco Tequila": {
+      "key": "blanco-silver-tequila",
+      "classification_tags": [
+        "spirit-family-tequila",
+        "spirit-clear"
+      ],
+      "name": "Don Julio Blanco Tequila"
+    },
+    "Pantalones Blanco Tequila": {
+      "key": "blanco-silver-tequila",
+      "classification_tags": [
+        "spirit-family-tequila",
+        "spirit-clear"
+      ],
+      "name": "Pantalones Blanco Tequila"
+    },
+    "Pantalones Tequila": {
+      "key": "blanco-silver-tequila",
+      "classification_tags": [
+        "spirit-family-tequila",
+        "spirit-clear"
+      ],
+      "name": "Pantalones Tequila"
+    },
+    "elderflower liqueur": {
+      "key": "elderflower-st-germain",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "elderflower liqueur"
+    },
+    "St-Germain": {
+      "key": "elderflower-st-germain",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "St-Germain"
+    },
+    "St-Germain liqueur": {
+      "key": "elderflower-st-germain",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "St-Germain liqueur"
+    },
+    "St-Germain elderflower liqueur": {
+      "key": "elderflower-st-germain",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "St-Germain elderflower liqueur"
+    },
+    "orgeat": {
+      "key": "orgeat",
+      "classification_tags": [],
+      "name": "orgeat"
+    },
+    "orgeat syrup": {
+      "key": "orgeat",
+      "classification_tags": [],
+      "name": "orgeat syrup"
+    },
+    "almond syrup": {
+      "key": "orgeat",
+      "classification_tags": [],
+      "name": "almond syrup"
+    },
+    "banana liqueur": {
+      "key": "banana-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "banana liqueur"
+    },
+    "Banane du Brésil": {
+      "key": "banana-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "Banane du Brésil"
+    },
+    "Giffard Banana Liqueur": {
+      "key": "banana-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "Giffard Banana Liqueur"
+    },
+    "espresso": {
+      "key": "espresso",
+      "classification_tags": [],
+      "name": "espresso"
+    },
+    "Lavazza espresso": {
+      "key": "espresso",
+      "classification_tags": [],
+      "name": "Lavazza espresso"
+    },
+    "Prosecco": {
+      "key": "prosecco-in-cocktail",
+      "classification_tags": [
+        "wine",
+        "prosecco"
+      ],
+      "name": "Prosecco"
+    },
+    "Val d'Oca Prosecco": {
+      "key": "prosecco-in-cocktail",
+      "classification_tags": [
+        "wine",
+        "prosecco"
+      ],
+      "name": "Val d'Oca Prosecco"
+    },
+    "peach purée": {
+      "key": "peach-flavor",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "peach purée"
+    },
+    "peach": {
+      "key": "peach-flavor",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "peach"
+    },
+    "peach schnapps": {
+      "key": "peach-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "peach schnapps"
+    },
+    "peach liqueur": {
+      "key": "peach-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "peach liqueur"
+    },
+    "raspberries": {
+      "key": "raspberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry"
+      ],
+      "name": "raspberries"
+    },
+    "raspberry": {
+      "key": "raspberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry"
+      ],
+      "name": "raspberry"
+    },
+    "Chambord": {
+      "key": "raspberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry",
+        "spirit-family-liqueur"
+      ],
+      "name": "Chambord"
+    },
+    "Campari": {
+      "key": "campari",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Campari"
+    },
+    "Baileys": {
+      "key": "baileys-irish-cream",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Baileys"
+    },
+    "Malibu Rum": {
+      "key": "coconut-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-tropical",
+        "spirit-family-rum"
+      ],
+      "name": "Malibu Rum"
+    },
+    "Malibu Coconut Rum": {
+      "key": "coconut-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-tropical",
+        "spirit-family-rum"
+      ],
+      "name": "Malibu Coconut Rum"
+    },
+    "strawberry": {
+      "key": "strawberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry"
+      ],
+      "name": "strawberry"
+    },
+    "strawberries": {
+      "key": "strawberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry"
+      ],
+      "name": "strawberries"
+    },
+    "Betty Buzz grapefruit soda": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Betty Buzz grapefruit soda"
+    },
+    "Betty Buzz sparkling grapefruit": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Betty Buzz sparkling grapefruit"
+    },
+    "grapefruit": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "grapefruit"
+    },
+    "grapefruit soda": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "grapefruit soda"
+    },
+    "pamplemousse liqueur": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus",
+        "spirit-family-liqueur"
+      ],
+      "name": "pamplemousse liqueur"
+    },
+    "Hampton Water Rosé": {
+      "key": "rose-wine-in-cocktail",
+      "classification_tags": [
+        "wine",
+        "rose"
+      ],
+      "name": "Hampton Water Rosé"
+    },
+    "Hampton Water Bubbly Rosé": {
+      "key": "rose-wine-in-cocktail",
+      "classification_tags": [
+        "wine",
+        "rose"
+      ],
+      "name": "Hampton Water Bubbly Rosé"
+    },
+    "Hendrick's Gin": {
+      "key": "hendricks-gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Hendrick's Gin"
+    },
+    "Beefeater Gin": {
+      "key": "beefeater-gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Beefeater Gin"
+    },
+    "Bombay Gin": {
+      "key": "bombay-gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Bombay Gin"
+    },
+    "Gin": {
+      "key": "gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Gin"
+    },
+    "Olive oil-washed Tanqueray Gin": {
+      "key": "tanqueray-gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Olive oil-washed Tanqueray Gin"
+    },
+    "Tanqueray Gin": {
+      "key": "tanqueray-gin",
+      "classification_tags": [
+        "spirit-family-gin",
+        "spirit-clear"
+      ],
+      "name": "Tanqueray Gin"
+    },
+    "Bacardi White Rum": {
+      "key": "white-light-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-white"
+      ],
+      "name": "Bacardi White Rum"
+    },
+    "Bacardi light rum": {
+      "key": "white-light-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-white"
+      ],
+      "name": "Bacardi light rum"
+    },
+    "Bacardi Spiced Rum": {
+      "key": "spiced-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-spiced"
+      ],
+      "name": "Bacardi Spiced Rum"
+    },
+    "Bacardi dark rum": {
+      "key": "bacardi-dark-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-dark"
+      ],
+      "name": "Bacardi dark rum"
+    },
+    "Bacardi 8 Rum": {
+      "key": "bacardi-aged-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-aged"
+      ],
+      "name": "Bacardi 8 Rum"
+    },
+    "Bacardi Reserva Ocho Rum": {
+      "key": "bacardi-aged-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-aged"
+      ],
+      "name": "Bacardi Reserva Ocho Rum"
+    },
+    "Gosling's Black Seal Rum": {
+      "key": "goslings-dark-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-dark"
+      ],
+      "name": "Gosling's Black Seal Rum"
+    },
+    "Gosling's Rum": {
+      "key": "goslings-dark-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-dark"
+      ],
+      "name": "Gosling's Rum"
+    },
+    "Appleton Rum": {
+      "key": "appleton-rum",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-aged"
+      ],
+      "name": "Appleton Rum"
+    },
+    "Crossfire Rum": {
+      "key": "crossfire-rum",
+      "classification_tags": [
+        "spirit-family-rum"
+      ],
+      "name": "Crossfire Rum"
+    },
+    "Crossfire Hurricane Rum": {
+      "key": "crossfire-rum",
+      "classification_tags": [
+        "spirit-family-rum"
+      ],
+      "name": "Crossfire Hurricane Rum"
+    },
+    "dark rum float": {
+      "key": "dark-rum-float",
+      "classification_tags": [
+        "spirit-family-rum",
+        "rum-style-dark"
+      ],
+      "name": "dark rum float"
+    },
+    "blue curaçao": {
+      "key": "blue-curacao",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "blue curaçao"
+    },
+    "basil": {
+      "key": "basil",
+      "classification_tags": [],
+      "name": "basil"
+    },
+    "vanilla": {
+      "key": "vanilla-flavor",
+      "classification_tags": [],
+      "name": "vanilla"
+    },
+    "Absolut Vanilla Vodka": {
+      "key": "vanilla-flavor",
+      "classification_tags": [
+        "spirit-family-vodka"
+      ],
+      "name": "Absolut Vanilla Vodka"
+    },
+    "Vanilla vodka": {
+      "key": "vanilla-flavor",
+      "classification_tags": [
+        "spirit-family-vodka"
+      ],
+      "name": "Vanilla vodka"
+    },
+    "vanilla syrup": {
+      "key": "vanilla-flavor",
+      "classification_tags": [],
+      "name": "vanilla syrup"
+    },
+    "soda": {
+      "key": "soda-water",
+      "classification_tags": [],
+      "name": "soda"
+    },
+    "Absolut Elyx Vodka": {
+      "key": "absolut-elyx-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Absolut Elyx Vodka"
+    },
+    "Absolut Vodka": {
+      "key": "absolut-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Absolut Vodka"
+    },
+    "Absolut Raspberry Vodka": {
+      "key": "raspberry-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry",
+        "spirit-family-vodka"
+      ],
+      "name": "Absolut Raspberry Vodka"
+    },
+    "Kahlúa": {
+      "key": "coffee-liqueur-kahlua",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Kahlúa"
+    },
+    "Meili Vodka": {
+      "key": "meili-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Meili Vodka"
+    },
+    "Ketel One Vodka": {
+      "key": "ketel-one-vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Ketel One Vodka"
+    },
+    "Vodka": {
+      "key": "vodka",
+      "classification_tags": [
+        "spirit-family-vodka",
+        "spirit-clear"
+      ],
+      "name": "Vodka"
+    },
+    "Skrewball Peanut Butter Whiskey": {
+      "key": "peanut-butter-whiskey",
+      "classification_tags": [
+        "spirit-family-whiskey"
+      ],
+      "name": "Skrewball Peanut Butter Whiskey"
+    },
+    "Ilegal Joven Mezcal": {
+      "key": "mezcal",
+      "classification_tags": [
+        "spirit-family-mezcal"
+      ],
+      "name": "Ilegal Joven Mezcal"
+    },
+    "Ilegal Mezcal Joven": {
+      "key": "mezcal",
+      "classification_tags": [
+        "spirit-family-mezcal"
+      ],
+      "name": "Ilegal Mezcal Joven"
+    },
+    "Ilegal Reposado Mezcal": {
+      "key": "mezcal",
+      "classification_tags": [
+        "spirit-family-mezcal"
+      ],
+      "name": "Ilegal Reposado Mezcal"
+    },
+    "falernum": {
+      "key": "falernum",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "falernum"
+    },
+    "Velvet Falernum": {
+      "key": "falernum",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Velvet Falernum"
+    },
+    "cranberry": {
+      "key": "cranberry",
+      "classification_tags": [
+        "fruit",
+        "fruit-berry"
+      ],
+      "name": "cranberry"
+    },
+    "melon": {
+      "key": "melon-flavor",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "melon"
+    },
+    "Melon liqueur": {
+      "key": "melon-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "Melon liqueur"
+    },
+    "melon liqueur": {
+      "key": "melon-flavor",
+      "classification_tags": [
+        "fruit",
+        "spirit-family-liqueur"
+      ],
+      "name": "melon liqueur"
+    },
+    "lychee": {
+      "key": "lychee-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-lychee"
+      ],
+      "name": "lychee"
+    },
+    "lychee liqueur": {
+      "key": "lychee-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-lychee",
+        "spirit-family-liqueur"
+      ],
+      "name": "lychee liqueur"
+    },
+    "Truly Hard Seltzer Pineapple": {
+      "key": "hard-seltzer-truly",
+      "classification_tags": [],
+      "name": "Truly Hard Seltzer Pineapple"
+    },
+    "Truly Hard Seltzer Wild Berry": {
+      "key": "hard-seltzer-truly",
+      "classification_tags": [],
+      "name": "Truly Hard Seltzer Wild Berry"
+    },
+    "Truly Strawberry Lemonade": {
+      "key": "hard-seltzer-truly",
+      "classification_tags": [],
+      "name": "Truly Strawberry Lemonade"
+    },
+    "crème de cacao": {
+      "key": "chocolate-cacao",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "crème de cacao"
+    },
+    "dark crème de cacao": {
+      "key": "chocolate-cacao",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "dark crème de cacao"
+    },
+    "chocolate": {
+      "key": "chocolate-cacao",
+      "classification_tags": [],
+      "name": "chocolate"
+    },
+    "chocolate liqueur": {
+      "key": "chocolate-cacao",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "chocolate liqueur"
+    },
+    "Frangelico": {
+      "key": "frangelico",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Frangelico"
+    },
+    "cream": {
+      "key": "cream",
+      "classification_tags": [],
+      "name": "cream"
+    },
+    "whipped cream": {
+      "key": "cream",
+      "classification_tags": [],
+      "name": "whipped cream"
+    },
+    "cucumber": {
+      "key": "cucumber",
+      "classification_tags": [],
+      "name": "cucumber"
+    },
+    "coffee": {
+      "key": "coffee",
+      "classification_tags": [],
+      "name": "coffee"
+    },
+    "simple syrup": {
+      "key": "simple-syrup",
+      "classification_tags": [],
+      "name": "simple syrup"
+    },
+    "grenadine": {
+      "key": "grenadine",
+      "classification_tags": [],
+      "name": "grenadine"
+    },
+    "Limoncello": {
+      "key": "limoncello",
+      "classification_tags": [
+        "spirit-family-liqueur",
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Limoncello"
+    },
+    "limoncello": {
+      "key": "limoncello",
+      "classification_tags": [
+        "spirit-family-liqueur",
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "limoncello"
+    },
+    "Villa Massa Limoncello": {
+      "key": "limoncello",
+      "classification_tags": [
+        "spirit-family-liqueur",
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Villa Massa Limoncello"
+    },
+    "dragon fruit": {
+      "key": "dragon-fruit",
+      "classification_tags": [
+        "fruit",
+        "fruit-dragon-fruit",
+        "fruit-tropical"
+      ],
+      "name": "dragon fruit"
+    },
+    "guava": {
+      "key": "guava",
+      "classification_tags": [
+        "fruit",
+        "fruit-guava",
+        "fruit-tropical"
+      ],
+      "name": "guava"
+    },
+    "watermelon": {
+      "key": "watermelon",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "watermelon"
+    },
+    "pear": {
+      "key": "pear",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "pear"
+    },
+    "apples": {
+      "key": "apple",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "apples"
+    },
+    "fig jam": {
+      "key": "fig",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "fig jam"
+    },
+    "beetroot": {
+      "key": "beetroot",
+      "classification_tags": [],
+      "name": "beetroot"
+    },
+    "lavender": {
+      "key": "lavender",
+      "classification_tags": [],
+      "name": "lavender"
+    },
+    "cinnamon": {
+      "key": "cinnamon",
+      "classification_tags": [],
+      "name": "cinnamon"
+    },
+    "nutmeg": {
+      "key": "nutmeg",
+      "classification_tags": [],
+      "name": "nutmeg"
+    },
+    "grated nutmeg": {
+      "key": "nutmeg",
+      "classification_tags": [],
+      "name": "grated nutmeg"
+    },
+    "kosher salt": {
+      "key": "salt",
+      "classification_tags": [],
+      "name": "kosher salt"
+    },
+    "salted caramel": {
+      "key": "salted-caramel",
+      "classification_tags": [],
+      "name": "salted caramel"
+    },
+    "aquafaba": {
+      "key": "aquafaba",
+      "classification_tags": [],
+      "name": "aquafaba"
+    },
+    "olive brine": {
+      "key": "olive-brine",
+      "classification_tags": [],
+      "name": "olive brine"
+    },
+    "port": {
+      "key": "port-wine",
+      "classification_tags": [
+        "wine"
+      ],
+      "name": "port"
+    },
+    "red wine float": {
+      "key": "red-wine",
+      "classification_tags": [
+        "wine"
+      ],
+      "name": "red wine float"
+    },
+    "Seven Daughters Moscato": {
+      "key": "moscato",
+      "classification_tags": [
+        "wine"
+      ],
+      "name": "Seven Daughters Moscato"
+    },
+    "Calvados": {
+      "key": "calvados",
+      "classification_tags": [
+        "spirit-family-brandy"
+      ],
+      "name": "Calvados"
+    },
+    "Grappa": {
+      "key": "grappa",
+      "classification_tags": [
+        "spirit-family-brandy"
+      ],
+      "name": "Grappa"
+    },
+    "Cachaça": {
+      "key": "cachaca",
+      "classification_tags": [
+        "spirit-family-rum"
+      ],
+      "name": "Cachaça"
+    },
+    "Galliano": {
+      "key": "galliano",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Galliano"
+    },
+    "Italicus": {
+      "key": "italicus",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Italicus"
+    },
+    "Montenegro Amaro": {
+      "key": "montenegro-amaro",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "Montenegro Amaro"
+    },
+    "Don Julio Reposado Tequila": {
+      "key": "reposado-tequila",
+      "classification_tags": [
+        "spirit-family-tequila"
+      ],
+      "name": "Don Julio Reposado Tequila"
+    },
+    "Unicorn Butterfly Tea Tequila": {
+      "key": "tequila",
+      "classification_tags": [
+        "spirit-family-tequila"
+      ],
+      "name": "Unicorn Butterfly Tea Tequila"
+    },
+    "Whiskey": {
+      "key": "whiskey",
+      "classification_tags": [
+        "spirit-family-whiskey"
+      ],
+      "name": "Whiskey"
+    },
+    "Canadian whiskey": {
+      "key": "whiskey",
+      "classification_tags": [
+        "spirit-family-whiskey"
+      ],
+      "name": "Canadian whiskey"
+    },
+    "Betty Buzz sparkling lime": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Betty Buzz sparkling lime"
+    },
+    "Betty Buzz Meyer Lemon": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Betty Buzz Meyer Lemon"
+    },
+    "Fever-Tree Yuzu Lime": {
+      "key": "lime-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "Fever-Tree Yuzu Lime"
+    },
+    "sweet and sour": {
+      "key": "sweet-and-sour",
+      "classification_tags": [],
+      "name": "sweet and sour"
+    },
+    "lemonade": {
+      "key": "lemon-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "lemonade"
+    },
+    "pumpkin syrup": {
+      "key": "pumpkin",
+      "classification_tags": [],
+      "name": "pumpkin syrup"
+    },
+    "elderflower foam": {
+      "key": "elderflower-st-germain",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "elderflower foam"
+    },
+    "pink peppercorn": {
+      "key": "pink-peppercorn",
+      "classification_tags": [],
+      "name": "pink peppercorn"
+    },
+    "hibiscus syrup": {
+      "key": "hibiscus",
+      "classification_tags": [],
+      "name": "hibiscus syrup"
+    },
+    "apricot liqueur": {
+      "key": "apricot-liqueur",
+      "classification_tags": [
+        "spirit-family-liqueur",
+        "fruit"
+      ],
+      "name": "apricot liqueur"
+    },
+    "Sprite": {
+      "key": "lemon-lime-soda",
+      "classification_tags": [],
+      "name": "Sprite"
+    },
+    "tonic": {
+      "key": "tonic",
+      "classification_tags": [],
+      "name": "tonic"
+    },
+    "juniper": {
+      "key": "juniper",
+      "classification_tags": [],
+      "name": "juniper"
+    },
+    "Ouzo": {
+      "key": "ouzo",
+      "classification_tags": [
+        "spirit-family-other"
+      ],
+      "name": "Ouzo"
+    },
+    "Aquavit": {
+      "key": "aquavit",
+      "classification_tags": [
+        "spirit-family-other"
+      ],
+      "name": "Aquavit"
+    },
+    "Nutella": {
+      "key": "nutella",
+      "classification_tags": [],
+      "name": "Nutella"
+    },
+    "apple juice": {
+      "key": "apple",
+      "classification_tags": [
+        "fruit"
+      ],
+      "name": "apple juice"
+    },
+    "bitters": {
+      "key": "bitters",
+      "classification_tags": [],
+      "name": "bitters"
+    },
+    "club soda": {
+      "key": "soda-water",
+      "classification_tags": [],
+      "name": "club soda"
+    },
+    "fresh ginger": {
+      "key": "ginger-flavor",
+      "classification_tags": [],
+      "name": "fresh ginger"
+    },
+    "fresh grapefruit juice": {
+      "key": "grapefruit-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "fresh grapefruit juice"
+    },
+    "mint leaves": {
+      "key": "mint",
+      "classification_tags": [],
+      "name": "mint leaves"
+    },
+    "orange juice": {
+      "key": "orange-fruit",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "orange juice"
+    },
+    "orange liqueur": {
+      "key": "triple-sec-cointreau",
+      "classification_tags": [
+        "spirit-family-liqueur"
+      ],
+      "name": "orange liqueur"
+    },
+    "pineapple juice": {
+      "key": "pineapple-flavor",
+      "classification_tags": [
+        "fruit",
+        "fruit-pineapple",
+        "fruit-tropical"
+      ],
+      "name": "pineapple juice"
+    },
+    "salt": {
+      "key": "salt",
+      "classification_tags": [],
+      "name": "salt"
+    },
+    "condensed milk": {
+      "key": "condensed-milk",
+      "classification_tags": [],
+      "name": "condensed milk"
+    },
+    "pastis": {
+      "key": "pastis",
+      "classification_tags": [
+        "spirit-family-other"
+      ],
+      "name": "pastis"
+    },
+    "citrus": {
+      "key": "citrus",
+      "classification_tags": [
+        "fruit",
+        "fruit-citrus"
+      ],
+      "name": "citrus"
+    }
+  },
+  "unknown_tokens": [
+    "Absolut Elyx Vodka or Tanqueray Gin",
+    "Banana-infused Irish coffee with Jameson Irish Whiskey (other ingredients not specified)",
+    "Chamomile-infused Absolut Vanilla Vodka",
+    "Lemon Betty Buzz (as printed; specific product unclear)",
+    "black charcoal tea",
+    "graham cracker and cinnamon rim",
+    "lime/lemonade",
+    "simple syrup; butterfly tea mentioned in menu description (not explicitly in ingredient line)"
+  ]
+}

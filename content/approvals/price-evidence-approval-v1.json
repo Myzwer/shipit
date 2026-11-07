@@ -19,6 +19,7 @@
     "star-bar"
   ],
   "invents_price_usd": false,
-  "notes": "Organizer Phase 10B approval: previously filtered venue menus (known >$15 omitted) are sufficient Category B bounty-eligibility evidence. Exact printed prices were not retained — never write or display $15 as the menu price. Good Spirits is excluded (Category C).",
-  "server_allowlist_mirror": "src/lib/catalog/priceEvidenceApprovals.ts and supabase migration 082"
+  "notes": "Organizer Phase 10B/10C approval: previously filtered venue menus (known >$15 omitted) are sufficient Category B bounty-eligibility evidence for the approved offering set only. Exact printed prices were not retained — never write or display $15 as the menu price. Good Spirits is excluded (Category C). Phase 10C binds each offering to drink@bar + recipe fingerprint (content/approvals/filtered-source-offerings-v1.json).",
+  "offering_set": "content/approvals/filtered-source-offerings-v1.json",
+  "server_allowlist_mirror": "src/lib/catalog/priceEvidenceApprovals.ts, filteredSourceOfferingData.ts, migrations 082+084"
 }

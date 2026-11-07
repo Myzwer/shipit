@@ -38,6 +38,7 @@ describe('Phase 10B price evidence policy', () => {
           catB += 1
           expect(o.price_usd).toBeNull()
           expect(o.price_evidence_approval_id).toBe(FILTERED_SOURCE_APPROVAL_ID)
+          expect(o.price_evidence_recipe_fingerprint).toMatch(/^[a-f0-9]{64}$/)
         } else if (o.price_status === 'unverified') {
           catC += 1
           expect(o.bar_key).toBe('good-spirits-at-sea')
@@ -65,13 +66,17 @@ describe('Phase 10B price evidence policy', () => {
   })
 
   it('approved filtered-source offering counts toward bounty eligibility', () => {
+    const doc = loadLaunchCandidate()
+    const drink = doc.drinks.find((d: { bar_offerings: Array<{ bar_key: string; price_status: string }> }) =>
+      d.bar_offerings.some(
+        (o) => o.bar_key === 'crooners' && o.price_status === 'approved_filtered_within_limit',
+      ),
+    )
+    const off = drink.bar_offerings.find(
+      (o: { bar_key: string }) => o.bar_key === 'crooners',
+    )
     expect(
-      offeringSupportsBountyEligibility({
-        bar_key: 'crooners',
-        price_status: 'approved_filtered_within_limit',
-        price_usd: null,
-        price_evidence_approval_id: FILTERED_SOURCE_APPROVAL_ID,
-      }),
+      offeringSupportsBountyEligibility(off, { drink_key: drink.key }),
     ).toBe(true)
   })
 

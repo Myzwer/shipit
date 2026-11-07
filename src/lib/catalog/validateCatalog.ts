@@ -30,6 +30,7 @@ import {
   isAuthorizedFilteredBar,
   offeringSupportsBountyEligibility,
 } from './priceEvidenceApprovals'
+import { isApprovedFilteredOfferingIdentity } from './filteredSourceOfferings'
 
 export function countClassificationTagAssignments(doc: CatalogImportDocument): number {
   let n = 0
@@ -155,7 +156,7 @@ export function corroborateIngredientEvidence(
     for (const offering of drink.bar_offerings) {
       if (!activeBars.has(offering.bar_key)) continue
       if (!offering.ingredient_keys.includes(ingredientKey)) continue
-      if (!offeringSupportsBountyEligibility(offering)) continue
+      if (!offeringSupportsBountyEligibility(offering, { drink_key: drink.key })) continue
       barKeys.add(offering.bar_key)
       drinkKeys.add(drink.key)
     }
@@ -246,7 +247,7 @@ function isCocktailEligible(
       ),
     )
   }
-  if (!offeringSupportsBountyEligibility(offering)) {
+  if (!offeringSupportsBountyEligibility(offering, { drink_key: drink.key })) {
     // Unknown / unresolved / forged Category B — not schedule-eligible.
     if (candidate.eligible !== false && offering.price_status === 'unverified') {
       reasons.push(
@@ -513,7 +514,7 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           ),
         )
       }
-      // Category B: organizer-approved filtered source — narrow allowlist only.
+      // Category B: organizer-approved filtered source — identity + recipe fingerprint.
       if (offering.price_status === 'approved_filtered_within_limit') {
         if (offering.price_usd != null) {
           errors.push(
@@ -542,6 +543,21 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
               'APPROVED_FILTERED_BAR_NOT_AUTHORIZED',
               'error',
               `Offering ${offeringId} is not authorized under approval "${approval.approval_id}".`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        } else if (
+          !isApprovedFilteredOfferingIdentity(
+            drink.key,
+            offering.bar_key,
+            offering.price_evidence_recipe_fingerprint,
+          )
+        ) {
+          errors.push(
+            issue(
+              'APPROVED_FILTERED_OFFERING_NOT_IN_SET',
+              'error',
+              `Offering ${offeringId} is not in the approved filtered-source offering set (unknown drink@bar or recipe fingerprint mismatch).`,
               `drinks/${drink.key}/bar_offerings`,
             ),
           )

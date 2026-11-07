@@ -99,6 +99,11 @@ export interface CatalogBarOffering {
    * Must match a server allowlisted approval_id — free-text evidence is not enough.
    */
   price_evidence_approval_id?: string | null
+  /**
+   * Required for Category B. sha256(drink_key|bar_key|normalized printed recipe).
+   * Must match the approved filtered-source offering set for this drink@bar.
+   */
+  price_evidence_recipe_fingerprint?: string | null
   evidence_reference?: string | null
   seasonal?: boolean
   availability?: 'standard' | 'seasonal' | 'limited'
@@ -151,6 +156,7 @@ export interface CatalogSourceNotes {
    */
   price_evidence_approvals?: Array<{
     approval_id: string
+    offering_set_sha256?: string
   }>
 }
 

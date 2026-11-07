@@ -83,6 +83,13 @@
                 "minLength": 1,
                 "maxLength": 128,
                 "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+              },
+              "offering_set_sha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64,
+                "pattern": "^[a-f0-9]{64}$",
+                "description": "Optional audit hash of the approved Category B offering set (drink@bar + recipe fingerprints)."
               }
             }
           },
@@ -251,6 +258,13 @@
           "maxLength": 128,
           "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$",
           "description": "Required for approved_filtered_within_limit. Must match the server allowlist; evidence_reference alone cannot authorize Category B."
+        },
+        "price_evidence_recipe_fingerprint": {
+          "type": ["string", "null"],
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Required for Category B. sha256 of drink_key, bar_key, and normalized printed recipe. Must match the approved filtered-source offering set."
         },
         "evidence_reference": {
           "type": ["string", "null"],

@@ -10,6 +10,7 @@
  *
  * Usage: node scripts/build-launch-candidate-catalog.mjs
  */
+import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -17,6 +18,21 @@ import { spawnSync } from 'node:child_process'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
+
+const PRINTED_INGREDIENT_MAP = JSON.parse(
+  readFileSync(join(root, 'content/catalogs/printed-ingredient-map-v1.json'), 'utf8'),
+)
+const FILTERED_OFFERING_ALLOWLIST = JSON.parse(
+  readFileSync(join(root, 'content/approvals/filtered-source-offerings-v1.json'), 'utf8'),
+)
+const FILTERED_FP_BY_IDENTITY = new Map(
+  FILTERED_OFFERING_ALLOWLIST.offerings.map((o) => [`${o.drink_key}@${o.bar_key}`, o.recipe_fingerprint]),
+)
+
+function computeRecipeFingerprint(drinkKey, barKey, printedParts) {
+  const normalized = printedParts.map((p) => p.trim().toLowerCase().replace(/\s+/g, ' ')).filter(Boolean)
+  return createHash('sha256').update(`${drinkKey}\0${barKey}\0${normalized.join('\n')}`, 'utf8').digest('hex')
+}
 
 const BAR_DEFS = [
   { heading: 'Good Spirits at Sea (Deck 7)', key: 'good-spirits-at-sea', name: "Good Spirits at Sea", deck: '7', verified: false },
@@ -276,46 +292,80 @@ function build() {
 
   /** @type {Map<string, any>} */
   const drinks = new Map()
+  /** @type {Map<string, { key: string, name: string, classification_tags: string[] }>} */
+  const ingredientDefs = new Map()
+  const unmappedTokenHits = new Map()
   let offeringRows = 0
+
+  function ensureIngredientDef(key, name, tags) {
+    const existing = ingredientDefs.get(key)
+    if (!existing) {
+      ingredientDefs.set(key, {
+        key,
+        name,
+        classification_tags: [...new Set(tags || [])],
+      })
+      return
+    }
+    for (const t of tags || []) {
+      if (!existing.classification_tags.includes(t)) existing.classification_tags.push(t)
+    }
+  }
 
   for (const [barKey, { def, cocktails }] of byBar) {
     for (const c of cocktails) {
       const key = slug(c.name)
       if (!drinks.has(key)) {
+        const drinkTags = []
+        if (/margarita/i.test(c.name)) drinkTags.push('margarita')
         drinks.set(key, {
           key,
           name: c.name,
           kind: 'named_cocktail',
+          ...(drinkTags.length ? { classification_tags: drinkTags } : {}),
           bar_offerings: [],
         })
+      } else if (/margarita/i.test(c.name)) {
+        const drink = drinks.get(key)
+        drink.classification_tags = [...new Set([...(drink.classification_tags || []), 'margarita'])]
       }
       const drink = drinks.get(key)
-      const display = splitDisplayIngredients(c.recipe)
-      // Apply display alias parentheticals only as display text, not as extra ingredients.
-      const displayAliased = display.map((token) => {
+      const printed = splitDisplayIngredients(c.recipe)
+      const displayAliased = printed.map((token) => {
         const expl = lexicon[token]
         return expl ? `${token} (${expl})` : token
       })
+      const ingredientKeys = []
+      for (const token of printed) {
+        const mapped = PRINTED_INGREDIENT_MAP.tokens[token]
+        if (!mapped) {
+          unmappedTokenHits.set(token, (unmappedTokenHits.get(token) || 0) + 1)
+          continue
+        }
+        if (!ingredientKeys.includes(mapped.key)) ingredientKeys.push(mapped.key)
+        ensureIngredientDef(mapped.key, mapped.name || token, mapped.classification_tags || [])
+      }
+
       // Price evidence (do NOT invent dollar amounts / never write $15 as menu price):
-      // A exact verified ≤$15 — none retained
-      // B organizer-approved filtered source → approved_filtered_within_limit + approval_id
-      // C unknown / Good Spirits → unverified
-      // D explicit >$15 — omitted from source (none reconstructed)
       if (def.verified) {
+        const fp =
+          FILTERED_FP_BY_IDENTITY.get(`${key}@${barKey}`) ||
+          computeRecipeFingerprint(key, barKey, printed)
         drink.bar_offerings.push({
           bar_key: barKey,
-          ingredient_keys: [],
-          display_ingredients: displayAliased.length ? displayAliased : display,
+          ingredient_keys: ingredientKeys,
+          display_ingredients: displayAliased.length ? displayAliased : printed,
           price_usd: null,
           price_status: 'approved_filtered_within_limit',
           price_evidence_approval_id: FILTERED_SOURCE_APPROVAL_ID,
+          price_evidence_recipe_fingerprint: fp,
           evidence_reference: `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md#${barKey}; Category B organizer-approved filtered source (exact $ absent)`,
         })
       } else {
         drink.bar_offerings.push({
           bar_key: barKey,
-          ingredient_keys: [],
-          display_ingredients: displayAliased.length ? displayAliased : display,
+          ingredient_keys: ingredientKeys,
+          display_ingredients: displayAliased.length ? displayAliased : printed,
           price_usd: null,
           price_status: 'unverified',
           evidence_reference: `handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md#${barKey}; Good Spirits Category C — price unknown / unresolved`,
@@ -327,8 +377,8 @@ function build() {
 
   const filterConfirmedBarKeys = new Set(BAR_DEFS.filter((b) => b.verified).map((b) => b.key))
 
-  // Ingredient definitions + attach keys using ranking qualifying bar×drink evidence only.
-  const ingredients = []
+  // Ranking objectives: ensure defs + attach keys on ranking bar×drink evidence (may add keys).
+  // Do NOT create Ingredient Bounty candidates for non-ranking printed ingredients.
   const ingredientCandidates = []
   const shortages = []
   const nameToObj = new Map(INGREDIENT_OBJECTIVES.map((row) => [row[1], row]))
@@ -340,19 +390,11 @@ function build() {
       continue
     }
     const [ingKey, displayName, tags] = obj
-    ingredients.push({
-      key: ingKey,
-      name: displayName,
-      aliases: [],
-      family: null,
-      ...(tags.length ? { classification_tags: tags } : {}),
-    })
+    ensureIngredientDef(ingKey, displayName, tags)
 
     const drinkNameSet = new Set(row.drinkNames)
     const barKeySet = new Set(row.barKeys)
     for (const drink of drinks.values()) {
-      if (![...drinkNameSet].some((n) => slug(n) === drink.key || n === drink.name)) continue
-      // Match by slug of ranking drink name to drink.key
       const matched = [...drinkNameSet].some((n) => slug(n) === drink.key)
       if (!matched) continue
       for (const off of drink.bar_offerings) {
@@ -361,6 +403,16 @@ function build() {
       }
     }
   }
+
+  const ingredients = [...ingredientDefs.values()]
+    .sort((a, b) => a.key.localeCompare(b.key))
+    .map((ing) => ({
+      key: ing.key,
+      name: ing.name,
+      aliases: [],
+      family: null,
+      ...(ing.classification_tags.length ? { classification_tags: ing.classification_tags } : {}),
+    }))
 
   // Also keep lightweight printed-token keys for lime/lemon/etc when already in ranking —
   // no extra invented ingredients beyond ranking objectives + empty keys already set.
@@ -595,9 +647,14 @@ function build() {
       verified_bar_keys: BAR_DEFS.filter((b) => b.verified).map((b) => b.key),
       carried_forward_bar_keys: [],
       uncertainty_flags,
-      price_evidence_approvals: [{ approval_id: FILTERED_SOURCE_APPROVAL_ID }],
+      price_evidence_approvals: [
+        {
+          approval_id: FILTERED_SOURCE_APPROVAL_ID,
+          offering_set_sha256: FILTERED_OFFERING_ALLOWLIST.offering_set_sha256,
+        },
+      ],
       evidence_summary:
-        'Launch-candidate catalog from organizer-approved menus + rankings. Category B filtered-source eligibility for 12 priced bars (price_usd null). Good Spirits Category C pending. Authentic names/recipes only. Demo scenarios and production import path share this artifact; do not activate a cruise in Phase 10B.',
+        'Launch-candidate catalog from organizer-approved menus + rankings. Category B bound to approved drink@bar + recipe fingerprints (price_usd null). Printed recipe tokens mapped to canonical ingredients without inventing bounty objectives. Good Spirits Category C pending. Demo and production import share this artifact; Phase 10C does not activate a cruise.',
     },
     bars,
     ingredients,
@@ -609,6 +666,11 @@ function build() {
   const report = {
     offering_rows: offeringRows,
     unique_cocktails: drinks.size,
+    ingredient_definitions: ingredients.length,
+    ingredient_bounty_objectives: ingredientCandidates.length,
+    printed_tokens_mapped: PRINTED_INGREDIENT_MAP.mapped_unique_tokens,
+    printed_tokens_unknown: PRINTED_INGREDIENT_MAP.unknown_unique_tokens,
+    unmapped_token_hits: Object.fromEntries([...unmappedTokenHits.entries()].sort()),
     price_category_A_exact_verified_usd: 0,
     price_category_B_approved_filtered: offeringRows - [...drinks.values()].reduce(
       (n, d) => n + d.bar_offerings.filter((o) => o.bar_key === 'good-spirits-at-sea').length,
