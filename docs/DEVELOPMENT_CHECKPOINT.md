@@ -1,59 +1,59 @@
-# Agent handoff — Phase 9A complete
+# Agent handoff — Phase 10A.1 closeout
 
-**STOP.** Do not begin Phase 9B, production population, or deployment until the Development Director authorizes the next phase.
+**STOP.** Do not begin visual fidelity, production population, deployment, or Phase 10B until the Development Director authorizes the next phase.
 
 | | |
 |---|---|
 | Branch | `main` |
-| Feature tip | `4a6ad60` — Phase **9A** |
-| Docs tip | `756ca2b` — checkpoint tip + CI URL |
-| HEAD | `756ca2b` |
-| CI | green — run [42334914169](https://github.com/Myzwer/shipit/actions/runs/42334914169) |
-| Baseline | Phase **8** feature `75bd4d0` / docs `9092c63` / CI `42331834841` |
-| Closed phase | Phase **9A** — Core Player Visual Fidelity + Wrapped `test_only` guard |
-| Local tests (Phase 9A report) | Unit **166** / Integration **350** / E2E login + Drink log + Ship challenges + Awards Mode |
+| Phase | **10A.1** closeout (content verified; **runtime gate PENDING**) |
+| Baseline | Phase **9A** feature `4a6ad60` / checkpoint `2f42b55` |
+| Feature tip | `90b5ef2` — Phase **10A** provisional demo content |
+| Docs tip | _(fill after docs commit)_ |
+| HEAD | _(fill after docs commit / push)_ |
+| CI | _(fill when green)_ |
+
+## Runtime gate (explicit)
+
+Local Docker daemon was **not accessible** from the agent environment (`permission denied` on `unix:///Users/josh/.docker/run/docker.sock`). Therefore:
+
+- Live `demo:seed` scenarios were **not** executed here
+- Browser smoke tests were **not** executed here
+- Scenario screenshots remain **PENDING** (`docs/phase10a-screenshots/`)
+- Full integration suite against local Supabase was **not** run here
+
+Organizer commands: see `docs/DEMO_SCENARIOS.md` → Runtime verification status.
+
+## Price evidence (corrected)
+
+| Category | Count | Catalog representation |
+|---|---:|---|
+| 1 Explicit verified ≤$15 (exact $) | **0** | — |
+| 2 Filter-confirmed, exact $ absent | **191** | `unverified` / `price_usd: null` |
+| 3 Unknown (Good Spirits) | **19** | `unverified` / null |
+| 4 Explicit over $15 | **0** (omitted from source) | — |
+
+Strict production validator: **0** Cocktail eligible · **0** Ingredient eligible · shortages **72 / 39** · readiness `valid_not_ready` · `safeToPublish: false`.  
+Provisional demo pools: **78** Cocktail · **44** Ingredient candidates for local `dev_*` seeding only — **not launch-ready**.
 
 ## Read first (next agent)
 
 1. This file
-2. `docs/VISUAL_FIDELITY_AUDIT.md`
-3. `docs/WRAPPED_AND_AWARDS.md` · `docs/SHIP_CLOCK.md`
-4. Migration `079` `phase9a_wrapped_test_only_guard`
-5. Theme: `src/styles/theme.css` + shared shell components
+2. `docs/CONTENT_EVIDENCE_REPORT.md`
+3. `docs/CONTENT_READINESS.md`
+4. `docs/DEMO_SCENARIOS.md`
 
-## Just shipped (Phase 9A)
+## Just shipped
 
-1. **Gate 1:** `wrapped_compute_group_awards` filters `test_only` definitions unless `cruise_config.label = 'development-only'` (server-authoritative)
-2. Shared shell/token polish: header, floating nav, cards, section bands, leaderboard members ` - `
-3. Visual fidelity for Login, Game selection, Drink It! Home, Drink log wizard (incl. Review), Ship It! Home, Challenges
-4. Audit + AFTER screenshots under `docs/phase9a-screenshots/`
-5. E2E selector updates for current Gallery posts + Ship It! submit-ready challenges
+1. Honest price evidence (no fabricated `$15` / no false `verified_within_limit`)
+2. Authentic preview catalog + provisional demo candidate pools
+3. Ship It! `[DEV]` title strip (migration `080`)
+4. Private roster/photo templates + ignore rules
+5. `demo:seed` scenarios + safety guards
+6. Unit/static tests for content honesty
 
-Migrations: `079` `phase9a_wrapped_test_only_guard`  
-Screenshots: `docs/phase9a-screenshots/`  
-Audit: `docs/VISUAL_FIDELITY_AUDIT.md`
+## Out of scope / do not start
 
-## Local bring-up (visual QA)
-
-```bash
-npx supabase db reset
-LOCAL_TEST_PASSWORD='…' npm run db:provision
-LOCAL_TEST_PASSWORD='…' npm run db:seed-bounty-now
-npm run dev
-LOCAL_TEST_PASSWORD='…' npm run screenshots:phase9a
-```
-
-## Out of scope until authorized
-
-- Phase **9B** (Wrapped / Achievements / Gallery / Admin visual passes)
-- Final humorous Wrapped award / quip catalog
-- Production achievement population (`test_only = false`)
-- Real companion UUID maps / real cruise dates
-- Vercel / Supabase production deployment
-
-## Do not do next without a new brief
-
-Do **not** start Phase 9B visual work.  
-Do **not** invent final creative Wrapped awards.  
-Do **not** publish the working achievement catalog to production.  
-Do **not** start deployment.
+- Visual fidelity / CSS redesign
+- Production activation / Vercel / hosted Supabase
+- Final creative achievements or Wrapped jokes
+- Menu-photo reconstruction agent
