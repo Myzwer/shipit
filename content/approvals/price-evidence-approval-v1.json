@@ -1,0 +1,24 @@
+{
+  "approval_id": "star-princess-filtered-source-2026-11-07",
+  "kind": "filtered_source_within_limit",
+  "approved_at": "2026-11-07",
+  "status": "organizer_approved_category_b",
+  "source_path": "handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md",
+  "authorized_bar_keys": [
+    "omalleys-irish-pub",
+    "princess-live",
+    "bellinis-cocktail-bar",
+    "wheelhouse-bar",
+    "crooners",
+    "wake-view-bar",
+    "promenade-bars",
+    "sea-view-bar",
+    "cascade-bar",
+    "lido-bar",
+    "the-mix",
+    "star-bar"
+  ],
+  "invents_price_usd": false,
+  "notes": "Organizer Phase 10B approval: previously filtered venue menus (known >$15 omitted) are sufficient Category B bounty-eligibility evidence. Exact printed prices were not retained — never write or display $15 as the menu price. Good Spirits is excluded (Category C).",
+  "server_allowlist_mirror": "src/lib/catalog/priceEvidenceApprovals.ts and supabase migration 082"
+}

@@ -1,0 +1,29 @@
+{
+  "approval_id": "star-princess-rankings-2026-11-07",
+  "approved_at": "2026-11-07",
+  "status": "organizer_approved_launch_candidate",
+  "notes": "Organizer approved these ranking files as intended launch content. Do not silently rewrite lists, points, names, cuts, or classification notes. Obsolete projected rotation counts in the ranking docs are informational only — current engine cadence (72 Cocktail / 39 Ingredient slots) governs scheduling.",
+  "sources": [
+    {
+      "path": "handoff/data/rankings/Cocktail-Bounty-Rankings-REVIEW-DRAFT.md",
+      "role": "cocktail_bounty_rankings",
+      "preserved_verbatim": true
+    },
+    {
+      "path": "handoff/data/rankings/Ingredient-Bounty-Rankings-Bar-First-REVIEW-DRAFT.md",
+      "role": "ingredient_bounty_rankings",
+      "preserved_verbatim": true
+    }
+  ],
+  "engine_bands": {
+    "note": "When ranking document bar bands differ from Master Rules, remapping uses engine bands without changing slot timing.",
+    "ingredient_tier_bar_coverage": {
+      "easy_to_find": [11, 13],
+      "less_common": [7, 10],
+      "hard_to_find": [4, 6],
+      "elusive": [2, 3]
+    },
+    "cocktail_slots": 72,
+    "ingredient_slots": 39
+  }
+}

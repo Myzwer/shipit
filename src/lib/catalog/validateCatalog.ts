@@ -25,6 +25,11 @@ import {
   type IngredientEvidenceSummary,
   type IngredientTier,
 } from './types'
+import {
+  getPriceEvidenceApproval,
+  isAuthorizedFilteredBar,
+  offeringSupportsBountyEligibility,
+} from './priceEvidenceApprovals'
 
 export function countClassificationTagAssignments(doc: CatalogImportDocument): number {
   let n = 0
@@ -134,8 +139,9 @@ function normalizeAlias(value: string): string {
 
 /**
  * Qualifying Ingredient evidence: named cocktails at *active* bars that list the
- * ingredient AND are Princess Plus attainable (`verified_within_limit`, price ≤ $15).
- * Over-limit and unverified offerings do not corroborate attainability.
+ * ingredient AND are Princess Plus attainable via Category A (exact verified ≤$15)
+ * or Category B (organizer-approved filtered source with allowlisted approval_id).
+ * Over-limit and unknown/unverified offerings do not corroborate attainability.
  */
 export function corroborateIngredientEvidence(
   doc: CatalogImportDocument,
@@ -149,8 +155,7 @@ export function corroborateIngredientEvidence(
     for (const offering of drink.bar_offerings) {
       if (!activeBars.has(offering.bar_key)) continue
       if (!offering.ingredient_keys.includes(ingredientKey)) continue
-      if (offering.price_status !== 'verified_within_limit') continue
-      if (offering.price_usd == null || offering.price_usd > PRINCESS_PLUS_PRICE_LIMIT_USD) continue
+      if (!offeringSupportsBountyEligibility(offering)) continue
       barKeys.add(offering.bar_key)
       drinkKeys.add(drink.key)
     }
@@ -241,9 +246,9 @@ function isCocktailEligible(
       ),
     )
   }
-  if (offering.price_status === 'unverified' || offering.price_usd == null) {
-    // Unknown price is not confidently qualifying — not schedule-eligible.
-    if (candidate.eligible !== false) {
+  if (!offeringSupportsBountyEligibility(offering)) {
+    // Unknown / unresolved / forged Category B — not schedule-eligible.
+    if (candidate.eligible !== false && offering.price_status === 'unverified') {
       reasons.push(
         issue(
           'COCKTAIL_CANDIDATE_UNVERIFIED_PRICE',
@@ -253,12 +258,6 @@ function isCocktailEligible(
         ),
       )
     }
-    return { eligible: false, reasons }
-  }
-  if (offering.price_status !== 'verified_within_limit') {
-    return { eligible: false, reasons }
-  }
-  if (offering.price_usd > PRINCESS_PLUS_PRICE_LIMIT_USD) {
     return { eligible: false, reasons }
   }
   if (candidate.eligible === false) {
@@ -488,6 +487,19 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
         )
       }
       if (
+        offering.price_status === 'verified_within_limit' &&
+        (offering.price_usd == null || !Number.isFinite(offering.price_usd))
+      ) {
+        errors.push(
+          issue(
+            'PRICE_STATUS_INCONSISTENT',
+            'error',
+            `Offering ${offeringId} claims verified_within_limit (Category A) but has no exact price_usd.`,
+            `drinks/${drink.key}/bar_offerings`,
+          ),
+        )
+      }
+      if (
         offering.price_status === 'verified_over_limit' &&
         offering.price_usd != null &&
         offering.price_usd <= PRINCESS_PLUS_PRICE_LIMIT_USD
@@ -501,6 +513,81 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           ),
         )
       }
+      // Category B: organizer-approved filtered source — narrow allowlist only.
+      if (offering.price_status === 'approved_filtered_within_limit') {
+        if (offering.price_usd != null) {
+          errors.push(
+            issue(
+              'APPROVED_FILTERED_INVENTS_PRICE',
+              'error',
+              `Offering ${offeringId} uses approved_filtered_within_limit but sets price_usd=${offering.price_usd}. Category B must keep price_usd null (never invent the $15 ceiling).`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        const approvalId = offering.price_evidence_approval_id ?? null
+        const approval = getPriceEvidenceApproval(approvalId)
+        if (!approval) {
+          errors.push(
+            issue(
+              'APPROVED_FILTERED_UNKNOWN_APPROVAL',
+              'error',
+              `Offering ${offeringId} claims approved_filtered_within_limit with unknown or missing price_evidence_approval_id "${approvalId ?? ''}".`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        } else if (!isAuthorizedFilteredBar(approval.approval_id, offering.bar_key)) {
+          errors.push(
+            issue(
+              'APPROVED_FILTERED_BAR_NOT_AUTHORIZED',
+              'error',
+              `Offering ${offeringId} is not authorized under approval "${approval.approval_id}".`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        } else {
+          const declared = new Set(
+            (doc.source_notes.price_evidence_approvals ?? []).map((a) => a.approval_id),
+          )
+          if (!declared.has(approval.approval_id)) {
+            errors.push(
+              issue(
+                'APPROVED_FILTERED_APPROVAL_UNDECLARED',
+                'error',
+                `Offering ${offeringId} uses approval "${approval.approval_id}" but source_notes.price_evidence_approvals does not declare it.`,
+                `drinks/${drink.key}/bar_offerings`,
+              ),
+            )
+          }
+        }
+      }
+      // Free-text evidence / forged readiness cannot authorize Category B alone.
+      if (
+        offering.price_status !== 'approved_filtered_within_limit' &&
+        offering.price_evidence_approval_id
+      ) {
+        errors.push(
+          issue(
+            'PRICE_APPROVAL_STATUS_MISMATCH',
+            'error',
+            `Offering ${offeringId} sets price_evidence_approval_id without approved_filtered_within_limit status.`,
+            `drinks/${drink.key}/bar_offerings`,
+          ),
+        )
+      }
+    }
+  }
+
+  for (const declared of doc.source_notes.price_evidence_approvals ?? []) {
+    if (!getPriceEvidenceApproval(declared.approval_id)) {
+      errors.push(
+        issue(
+          'PRICE_APPROVAL_UNKNOWN',
+          'error',
+          `source_notes.price_evidence_approvals references unknown approval_id "${declared.approval_id}".`,
+          'source_notes/price_evidence_approvals',
+        ),
+      )
     }
   }
 

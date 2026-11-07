@@ -1,0 +1,1274 @@
+{
+  "mapping_id": "working-achievements-production-release-v1",
+  "source": "content/achievements/workingCatalog.ts",
+  "test_only_in_development": true,
+  "production_activation": "scripts/load-production-achievements.mjs + admin_upsert_launch_achievement_definition (explicit confirm only; not run in Phase 10B)",
+  "summary": {
+    "total": 140,
+    "release_enabled": 129,
+    "blocked_organizer": 3,
+    "blocked_metadata": 8
+  },
+  "rows": [
+    {
+      "stableKey": "working-shipit-s001",
+      "snapshotRef": "S-001",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s002",
+      "snapshotRef": "S-002",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s003",
+      "snapshotRef": "S-003",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s004",
+      "snapshotRef": "S-004",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s005",
+      "snapshotRef": "S-005",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s006",
+      "snapshotRef": "S-006",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s007",
+      "snapshotRef": "S-007",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s008",
+      "snapshotRef": "S-008",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s009",
+      "snapshotRef": "S-009",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s010",
+      "snapshotRef": "S-010",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s011",
+      "snapshotRef": "S-011",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s012",
+      "snapshotRef": "S-012",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s013",
+      "snapshotRef": "S-013",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s014",
+      "snapshotRef": "S-014",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s015",
+      "snapshotRef": "S-015",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s016",
+      "snapshotRef": "S-016",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s017",
+      "snapshotRef": "S-017",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s018",
+      "snapshotRef": "S-018",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s019",
+      "snapshotRef": "S-019",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s020",
+      "snapshotRef": "S-020",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s021",
+      "snapshotRef": "S-021",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s022",
+      "snapshotRef": "S-022",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s023",
+      "snapshotRef": "S-023",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s024",
+      "snapshotRef": "S-024",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s025",
+      "snapshotRef": "S-025",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s026",
+      "snapshotRef": "S-026",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s027",
+      "snapshotRef": "S-027",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s028",
+      "snapshotRef": "S-028",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s029",
+      "snapshotRef": "S-029",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s030",
+      "snapshotRef": "S-030",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s031",
+      "snapshotRef": "S-031",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s032",
+      "snapshotRef": "S-032",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s033",
+      "snapshotRef": "S-033",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s034",
+      "snapshotRef": "S-034",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s035",
+      "snapshotRef": "S-035",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s036",
+      "snapshotRef": "S-036",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s037",
+      "snapshotRef": "S-037",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s038",
+      "snapshotRef": "S-038",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s039",
+      "snapshotRef": "S-039",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s040",
+      "snapshotRef": "S-040",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s041",
+      "snapshotRef": "S-041",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s042",
+      "snapshotRef": "S-042",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s043",
+      "snapshotRef": "S-043",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s044",
+      "snapshotRef": "S-044",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s045",
+      "snapshotRef": "S-045",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s046",
+      "snapshotRef": "S-046",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s047",
+      "snapshotRef": "S-047",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-shipit-s048",
+      "snapshotRef": "S-048",
+      "game": "shipit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d001",
+      "snapshotRef": "D-001",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d002",
+      "snapshotRef": "D-002",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d003",
+      "snapshotRef": "D-003",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d004",
+      "snapshotRef": "D-004",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d005",
+      "snapshotRef": "D-005",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d006",
+      "snapshotRef": "D-006",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d007",
+      "snapshotRef": "D-007",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d008",
+      "snapshotRef": "D-008",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d009",
+      "snapshotRef": "D-009",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d010",
+      "snapshotRef": "D-010",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d011",
+      "snapshotRef": "D-011",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d012",
+      "snapshotRef": "D-012",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d013",
+      "snapshotRef": "D-013",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d014",
+      "snapshotRef": "D-014",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d015",
+      "snapshotRef": "D-015",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d016",
+      "snapshotRef": "D-016",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d017",
+      "snapshotRef": "D-017",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d018",
+      "snapshotRef": "D-018",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d019",
+      "snapshotRef": "D-019",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d020",
+      "snapshotRef": "D-020",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d021",
+      "snapshotRef": "D-021",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d022",
+      "snapshotRef": "D-022",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d023",
+      "snapshotRef": "D-023",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d024",
+      "snapshotRef": "D-024",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d025",
+      "snapshotRef": "D-025",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d026",
+      "snapshotRef": "D-026",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d028",
+      "snapshotRef": "D-028",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d029",
+      "snapshotRef": "D-029",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d030",
+      "snapshotRef": "D-030",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d031",
+      "snapshotRef": "D-031",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d032",
+      "snapshotRef": "D-032",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d033",
+      "snapshotRef": "D-033",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d034",
+      "snapshotRef": "D-034",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d035",
+      "snapshotRef": "D-035",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d036",
+      "snapshotRef": "D-036",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d037",
+      "snapshotRef": "D-037",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d038",
+      "snapshotRef": "D-038",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d039",
+      "snapshotRef": "D-039",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d040",
+      "snapshotRef": "D-040",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d041",
+      "snapshotRef": "D-041",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d042",
+      "snapshotRef": "D-042",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d043",
+      "snapshotRef": "D-043",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d044",
+      "snapshotRef": "D-044",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d045",
+      "snapshotRef": "D-045",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d046",
+      "snapshotRef": "D-046",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d047",
+      "snapshotRef": "D-047",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d048",
+      "snapshotRef": "D-048",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d049",
+      "snapshotRef": "D-049",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d050",
+      "snapshotRef": "D-050",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d051",
+      "snapshotRef": "D-051",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d052",
+      "snapshotRef": "D-052",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d053",
+      "snapshotRef": "D-053",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d054",
+      "snapshotRef": "D-054",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d055",
+      "snapshotRef": "D-055",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d056",
+      "snapshotRef": "D-056",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d057",
+      "snapshotRef": "D-057",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d058",
+      "snapshotRef": "D-058",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d059",
+      "snapshotRef": "D-059",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d060",
+      "snapshotRef": "D-060",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d061",
+      "snapshotRef": "D-061",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d062",
+      "snapshotRef": "D-062",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d063",
+      "snapshotRef": "D-063",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d064",
+      "snapshotRef": "D-064",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d065",
+      "snapshotRef": "D-065",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d066",
+      "snapshotRef": "D-066",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d067",
+      "snapshotRef": "D-067",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d068",
+      "snapshotRef": "D-068",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d069",
+      "snapshotRef": "D-069",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d070",
+      "snapshotRef": "D-070",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d071",
+      "snapshotRef": "D-071",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d072",
+      "snapshotRef": "D-072",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d073",
+      "snapshotRef": "D-073",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d074",
+      "snapshotRef": "D-074",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d075",
+      "snapshotRef": "D-075",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d076",
+      "snapshotRef": "D-076",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d077",
+      "snapshotRef": "D-077",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d078",
+      "snapshotRef": "D-078",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d079",
+      "snapshotRef": "D-079",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d080",
+      "snapshotRef": "D-080",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d081",
+      "snapshotRef": "D-081",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d082",
+      "snapshotRef": "D-082",
+      "game": "drinkit",
+      "readiness": "blocked_organizer",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_organizer",
+      "notes": "Inactive until organizer decision (D-082/083/085)"
+    },
+    {
+      "stableKey": "working-drinkit-d083",
+      "snapshotRef": "D-083",
+      "game": "drinkit",
+      "readiness": "blocked_organizer",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_organizer",
+      "notes": "Inactive until organizer decision (D-082/083/085)"
+    },
+    {
+      "stableKey": "working-drinkit-d084",
+      "snapshotRef": "D-084",
+      "game": "drinkit",
+      "readiness": "enabled",
+      "enabledInProductionRelease": true,
+      "blockedReason": null,
+      "notes": null
+    },
+    {
+      "stableKey": "working-drinkit-d085",
+      "snapshotRef": "D-085",
+      "game": "drinkit",
+      "readiness": "blocked_organizer",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_organizer",
+      "notes": "Inactive until organizer decision (D-082/083/085)"
+    },
+    {
+      "stableKey": "working-drinkit-d086",
+      "snapshotRef": "D-086",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d087",
+      "snapshotRef": "D-087",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d088",
+      "snapshotRef": "D-088",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d089",
+      "snapshotRef": "D-089",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d090",
+      "snapshotRef": "D-090",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d091",
+      "snapshotRef": "D-091",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d092",
+      "snapshotRef": "D-092",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    },
+    {
+      "stableKey": "working-drinkit-d093",
+      "snapshotRef": "D-093",
+      "game": "drinkit",
+      "readiness": "blocked_metadata",
+      "enabledInProductionRelease": false,
+      "blockedReason": "blocked_metadata",
+      "notes": "Requires private companion UUID map (D-086–D-093); no dual-award"
+    }
+  ]
+}

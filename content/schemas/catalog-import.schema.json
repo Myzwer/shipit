@@ -69,6 +69,24 @@
         "evidence_summary": {
           "type": "string",
           "maxLength": 2000
+        },
+        "price_evidence_approvals": {
+          "type": "array",
+          "description": "Declared Category B organizer price-evidence approval ids. Each id must match the server allowlist; forging this array alone does not grant bounty eligibility.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["approval_id"],
+            "properties": {
+              "approval_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+              }
+            }
+          },
+          "uniqueItems": true
         }
       }
     },
@@ -189,7 +207,14 @@
     },
     "priceStatus": {
       "type": "string",
-      "enum": ["verified_within_limit", "verified_over_limit", "unverified", "not_applicable"]
+      "enum": [
+        "verified_within_limit",
+        "approved_filtered_within_limit",
+        "verified_over_limit",
+        "unverified",
+        "not_applicable"
+      ],
+      "description": "A=verified_within_limit (exact $). B=approved_filtered_within_limit (organizer-approved filtered source; price_usd null). C=unverified. D=verified_over_limit."
     },
     "barOffering": {
       "type": "object",
@@ -216,9 +241,17 @@
         "price_usd": {
           "type": ["number", "null"],
           "minimum": 0,
-          "maximum": 500
+          "maximum": 500,
+          "description": "Exact printed menu price when known. Must be null for approved_filtered_within_limit — never invent the $15 ceiling as a price."
         },
         "price_status": { "$ref": "#/$defs/priceStatus" },
+        "price_evidence_approval_id": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$",
+          "description": "Required for approved_filtered_within_limit. Must match the server allowlist; evidence_reference alone cannot authorize Category B."
+        },
         "evidence_reference": {
           "type": ["string", "null"],
           "maxLength": 256

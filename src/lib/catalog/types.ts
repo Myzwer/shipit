@@ -1,6 +1,6 @@
 /**
  * Catalog import types — mirror content/schemas/catalog-import.schema.json.
- * Ranking drafts under handoff/data/rankings are NOT production data.
+ * Organizer-approved ranking sources: see content/approvals/rankings-approval-v1.json.
  */
 
 import type {
@@ -40,7 +40,7 @@ export const INGREDIENT_TIER_BAR_COVERAGE = {
   elusive: { min: 2, max: 3 },
 } as const
 
-export const PRINCESS_PLUS_PRICE_LIMIT_USD = 15
+export { PRINCESS_PLUS_PRICE_LIMIT_USD } from './priceEvidenceApprovals'
 
 export type CocktailTier = keyof typeof COCKTAIL_TIER_POINTS
 export type IngredientTier = keyof typeof INGREDIENT_TIER_POINTS
@@ -50,8 +50,17 @@ export type DrinkKind =
   | 'wine'
   | 'other_alcoholic'
   | 'nonalcoholic'
+/**
+ * Offering price_status:
+ * - verified_within_limit (A): exact printed $ ≤ 15
+ * - approved_filtered_within_limit (B): organizer-approved filtered source; price_usd must be null
+ * - verified_over_limit (D): explicit >$15 — loggable, never bounty-required
+ * - unverified (C): unknown / unresolved
+ * - not_applicable: non-priced kinds
+ */
 export type PriceStatus =
   | 'verified_within_limit'
+  | 'approved_filtered_within_limit'
   | 'verified_over_limit'
   | 'unverified'
   | 'not_applicable'
@@ -79,8 +88,17 @@ export interface CatalogBarOffering {
   ingredient_keys: string[]
   /** Original printed menu text — not used for achievement classification. */
   display_ingredients: string[]
+  /**
+   * Exact printed menu price when known. Must be null for Category B
+   * (`approved_filtered_within_limit`) — never invent $15 as a ceiling price.
+   */
   price_usd?: number | null
   price_status: PriceStatus
+  /**
+   * Required when price_status is approved_filtered_within_limit.
+   * Must match a server allowlisted approval_id — free-text evidence is not enough.
+   */
+  price_evidence_approval_id?: string | null
   evidence_reference?: string | null
   seasonal?: boolean
   availability?: 'standard' | 'seasonal' | 'limited'
@@ -126,6 +144,14 @@ export interface CatalogSourceNotes {
     drink_key?: string
   }>
   evidence_summary?: string
+  /**
+   * Declared Category B approval ids used in this snapshot.
+   * Each id must exist in the server allowlist; declaration alone is insufficient
+   * without matching offering.price_evidence_approval_id + authorized bar.
+   */
+  price_evidence_approvals?: Array<{
+    approval_id: string
+  }>
 }
 
 export interface CatalogImportDocument {

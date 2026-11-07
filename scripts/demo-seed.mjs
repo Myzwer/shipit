@@ -1,5 +1,5 @@
 /**
- * Phase 10A — deterministic development preview scenarios.
+ * Phase 10B — deterministic demo scenarios using the launch-candidate catalog.
  *
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
@@ -7,10 +7,9 @@
  *
  * Local Supabase + development-only cruise only. No production bypass.
  *
- * Catalog note: development-preview-v1.json uses unverified offerings (exact $
- * absent). Provisional cocktail/ingredient candidate rows exist so local
- * `dev_generate_bounty_schedule` can run. Production previewCatalogImport
- * correctly reports valid_not_ready / not launch-ready — do not Admin-publish.
+ * Catalog: content/catalogs/launch-candidate-v1.json (identical twin:
+ * development-preview-v1.json). Category B filtered-source eligibility.
+ * Simulated activity uses synthetic demo accounts — not production guest Auth.
  */
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'node:crypto'
@@ -68,7 +67,7 @@ const service = createClient(url, serviceRole, {
 
 const TINY_JPEG = readFileSync(join(root, 'tests/fixtures/tiny.jpg'))
 const CATALOG = JSON.parse(
-  readFileSync(join(root, 'content/catalogs/development-preview-v1.json'), 'utf8'),
+  readFileSync(join(root, 'content/catalogs/launch-candidate-v1.json'), 'utf8'),
 )
 
 function dayDate(day1, dayNumber) {
