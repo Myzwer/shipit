@@ -6,8 +6,8 @@
 |---|---|
 | Branch | `main` |
 | Feature tip | `4a6ad60` — Phase **9A** |
-| Docs tip | `ac0ac14` — tip hashes (CI fill follows) |
-| HEAD | `ac0ac14` |
+| Docs tip | `756ca2b` — checkpoint tip + CI URL |
+| HEAD | `756ca2b` |
 | CI | green — run [42334914169](https://github.com/Myzwer/shipit/actions/runs/42334914169) |
 | Baseline | Phase **8** feature `75bd4d0` / docs `9092c63` / CI `42331834841` |
 | Closed phase | Phase **9A** — Core Player Visual Fidelity + Wrapped `test_only` guard |
