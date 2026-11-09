@@ -136,7 +136,10 @@ describe('Stage A3 all-bar gauntlets + Cooler exclusion', () => {
       readFileSync(join(process.cwd(), 'content/achievements/barGauntlets.json'), 'utf8'),
     )
     expect(pack.report).toHaveLength(13)
-    expect(pack.report.every((r: { included: boolean }) => r.included)).toBe(true)
+    expect(pack.report.filter((r: { included: boolean }) => r.included)).toHaveLength(12)
+    expect(
+      pack.report.find((r: { bar_key: string }) => r.bar_key === 'good-spirits-at-sea')?.included,
+    ).toBe(false)
 
     const inserted: Array<{ id: string; bar: string; scope: string }> = []
     for (const def of pack.definitions) {
@@ -152,7 +155,7 @@ describe('Stage A3 all-bar gauntlets + Cooler exclusion', () => {
         scope: def.conditionConfig.scope,
       })
     }
-    expect(inserted).toHaveLength(26)
+    expect(inserted).toHaveLength(24)
 
     const lidoPersonal = inserted.find((r) => r.bar === 'lido-bar' && r.scope === 'personal')!
     const status = await collectionStatus(lidoPersonal.id, alpha)

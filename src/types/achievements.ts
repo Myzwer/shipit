@@ -11,6 +11,19 @@ export type AchievementGroup =
 export interface AchievementProgress {
   current: number
   target: number
+  kind?: 'collection' | string
+}
+
+/** Lightweight collection summary on list cards (no cocktail checklist). */
+export interface AchievementCollectionSummary {
+  scope: 'personal' | 'collective' | string
+  bar_key: string | null
+  live_current: number
+  live_target: number
+  /** Historically earned badge (pinned award), independent of current-menu completeness. */
+  badge_earned: boolean
+  pin_target: number | null
+  current_menu_complete: boolean
 }
 
 export interface AchievementCard {
@@ -27,10 +40,20 @@ export interface AchievementCard {
   awarded_at_utc: string | null
   award_id: string | null
   progress: AchievementProgress | null
+  collection?: AchievementCollectionSummary | null
   exclusive_claimed: boolean
   exclusive_owner_name: string | null
   masked: boolean
   view: AchievementView
+}
+
+export interface AchievementCategoryMeta {
+  key: string
+  name: string
+  group_key: AchievementGroup
+  all_view_order: number
+  organize_children_by?: string
+  description?: string
 }
 
 export interface AchievementsListResult {
@@ -39,6 +62,8 @@ export interface AchievementsListResult {
   view: AchievementView
   finale_revealed: boolean
   achievements: AchievementCard[]
+  /** Present when client enriches listAchievements with categories.json ordering. */
+  categories?: AchievementCategoryMeta[]
   code?: string
   message?: string
 }
@@ -49,4 +74,71 @@ export interface AchievementsUnreadState {
   has_unread: boolean
   latest_award_id: string | null
   latest_awarded_at_utc: string | null
+}
+
+export interface BarGauntletSideSummary {
+  definition_id: string
+  stable_key: string
+  earned: boolean
+  badge_earned: boolean
+  live_current: number
+  live_target: number
+  pin_target: number | null
+  icon_key: string | null
+}
+
+export interface BarGauntletSummary {
+  bar_key: string
+  bar_name: string
+  live_target: number
+  personal: BarGauntletSideSummary
+  collective: BarGauntletSideSummary
+}
+
+export interface BarGauntletSummariesResult {
+  ok: boolean
+  bars: BarGauntletSummary[]
+  code?: string
+  message?: string
+}
+
+export interface CollectionChecklistItem {
+  offering_id: string
+  concept_key: string
+  display_name: string
+  mine: boolean
+  everyone: boolean
+}
+
+export interface CollectionChecklistSide {
+  definition_id: string
+  stable_key: string
+  badge_earned: boolean
+  live_current: number
+  live_target: number
+  pin_target: number | null
+  current_menu_complete: boolean
+}
+
+export interface CollectionChecklistResult {
+  ok: boolean
+  bar_key: string
+  bar_name: string
+  items: CollectionChecklistItem[]
+  personal: CollectionChecklistSide | null
+  collective: CollectionChecklistSide | null
+  code?: string
+  message?: string
+}
+
+/** Presentation-only filters derived from checklist items (never award eligibility). */
+export type CollectionChecklistFilter = 'all' | 'i_need' | 'we_need'
+
+export function filterCollectionChecklistItems(
+  items: CollectionChecklistItem[],
+  filter: CollectionChecklistFilter,
+): CollectionChecklistItem[] {
+  if (filter === 'i_need') return items.filter((i) => !i.mine)
+  if (filter === 'we_need') return items.filter((i) => !i.everyone)
+  return items
 }
