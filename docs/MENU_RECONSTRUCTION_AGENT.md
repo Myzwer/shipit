@@ -62,10 +62,13 @@ Required preserved identities:
 |---|---|
 | `tequila-shot` | `lido-bar`, `the-mix`, `promenade-bars`, `star-bar` |
 | `loaded-corona` | `lido-bar`, `the-mix`, `promenade-bars`, `star-bar` |
+| `princess-ultimate-cooler` | `lido-bar`, `the-mix`, `promenade-bars`, `star-bar` |
 | `fireball-shot` | `princess-live` |
 | `sambuca-shot` | `princess-live` |
 
-Keep `collection-excluded` + `organizer-authorized-exception`, `price_status: unverified`, `price_usd: null`, and omit cocktail/ingredient candidates. Do not invent Category A/B fingerprints for these rows. Stable drink and bar keys preserve historical logs and A1 collection pins across publication.
+Keep `collection-excluded` + `organizer-authorized-exception`, `price_status: unverified`, `price_usd: null`, and omit cocktail/ingredient candidates. Do not invent Category A/B fingerprints or Ingredient Bounty keys from provisional Cooler notes. Stable drink and bar keys preserve historical logs and A1 collection pins across publication.
+
+**Fail closed:** Before staging, run `node scripts/prepare-reconstructed-catalog.mjs <snapshot.json>` (merges the registry and exits non-zero if any required exception is missing). `previewCatalogImport` also rejects launch/reconstructed snapshots that omit registry rows, drop exclusion tags, or place exceptions into `cocktail_candidates`. Development-only fixture catalogs without the exception contract are not forced to embed the specials.
 
 ## App boundaries
 

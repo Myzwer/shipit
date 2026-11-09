@@ -1,0 +1,125 @@
+{
+  "schema_comment": "Stage A3 Drinking with Davids. Companion identities use companion_alias tokens resolved at load time from private roster. Never commit player UUIDs.",
+  "category_key": "drinking-with-davids",
+  "definitions": [
+    {
+      "snapshotRef": "A3-DWD-001",
+      "stableKey": "working-drinkit-dwd-margarita-kickoff",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "drinking_with_davids",
+      "title": "Margarita Kickoff",
+      "displayDescription": "Log an eligible Margarita with David F. or David B., any day. Separate from Bon Voyage! / first-drink awards.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "same_log",
+      "conditionConfig": {
+        "player_aliases": ["companion-david-f", "companion-david-b"],
+        "drink_tag": "margarita"
+      },
+      "dependencies": ["private roster aliases companion-david-f and companion-david-b"],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "PROVISIONAL — secret/public not final",
+      "iconKey": "score.friends"
+    },
+    {
+      "snapshotRef": "A3-DWD-002",
+      "stableKey": "working-drinkit-dwd-fireball-shot",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "drinking_with_davids",
+      "title": "Fireball Shot",
+      "displayDescription": "Log Fireball Shot at Princess Live! with David F. or David B.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "same_log",
+      "conditionConfig": {
+        "player_aliases": ["companion-david-f", "companion-david-b"],
+        "drink_concept_key": "fireball-shot",
+        "bar_key": "princess-live"
+      },
+      "dependencies": ["private roster aliases companion-david-f and companion-david-b"],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "PROVISIONAL — secret/public not final",
+      "iconKey": "score.friends"
+    },
+    {
+      "snapshotRef": "A3-DWD-003",
+      "stableKey": "working-drinkit-dwd-sambuca-shot",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "drinking_with_davids",
+      "title": "Sambuca Shot",
+      "displayDescription": "Log Sambuca Shot at Princess Live! with David F. or David B.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "same_log",
+      "conditionConfig": {
+        "player_aliases": ["companion-david-f", "companion-david-b"],
+        "drink_concept_key": "sambuca-shot",
+        "bar_key": "princess-live"
+      },
+      "dependencies": ["private roster aliases companion-david-f and companion-david-b"],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "PROVISIONAL — secret/public not final",
+      "iconKey": "score.friends"
+    },
+    {
+      "snapshotRef": "A3-DWD-004",
+      "stableKey": "working-drinkit-dwd-sunset-toast",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "drinking_with_davids",
+      "title": "Sunset Toast",
+      "displayDescription": "Log any eligible drink between 5:00 PM and 7:00 PM ship time with David F. or David B.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "same_log",
+      "conditionConfig": {
+        "player_aliases": ["companion-david-f", "companion-david-b"],
+        "hour_start": 17,
+        "hour_end": 19
+      },
+      "dependencies": ["private roster aliases companion-david-f and companion-david-b"],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "PROVISIONAL — secret/public not final",
+      "iconKey": "score.calendar"
+    },
+    {
+      "snapshotRef": "A3-DWD-005",
+      "stableKey": "working-drinkit-dwd-jimmy-buffett-toast",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "drinking_with_davids",
+      "title": "Jimmy Buffett Toast",
+      "displayDescription": "Log Loaded Corona at an authorized pool bar with David F. specifically.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "same_log",
+      "conditionConfig": {
+        "player_aliases": ["companion-david-f"],
+        "drink_concept_key": "loaded-corona",
+        "bar_keys": ["lido-bar", "the-mix", "promenade-bars", "star-bar"]
+      },
+      "dependencies": ["private roster alias companion-david-f"],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "PROVISIONAL — secret/public not final",
+      "iconKey": "score.friends"
+    }
+  ]
+}

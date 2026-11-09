@@ -59,7 +59,7 @@ describe('Phase 10B price evidence policy', () => {
     expect(catA).toBe(0)
     expect(catB).toBe(191)
     expect(catC).toBe(19)
-    expect(organizerExceptions).toBe(10)
+    expect(organizerExceptions).toBe(14)
     expect(catD).toBe(0)
 
     const preview = previewCatalogImport(doc)

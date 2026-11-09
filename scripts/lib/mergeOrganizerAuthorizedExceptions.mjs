@@ -87,8 +87,9 @@ export function mergeOrganizerAuthorizedExceptions(doc, exceptions = loadOrganiz
         offering.classification_tags = [
           ...new Set([...(offering.classification_tags || []), ...tags]),
         ]
-        offering.ingredient_keys = offering.ingredient_keys || []
-        offering.display_ingredients = offering.display_ingredients || []
+        // Never promote provisional organizer notes into bounty ingredient keys.
+        offering.ingredient_keys = []
+        offering.display_ingredients = []
       }
     }
   }

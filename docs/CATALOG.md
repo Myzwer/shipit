@@ -69,7 +69,7 @@ The $15 ceiling gates **bounty eligibility**, not ordinary named-drink logging.
 
 ### Organizer-authorized loggable exceptions (Stage A2)
 
-Permanent organizer exceptions (Tequila Shot, Loaded Corona, Fireball Shot, Sambuca Shot) are **not** Category A/B menu evidence and **not** Cocktail Bounty candidates.
+Permanent organizer exceptions (Tequila Shot, Loaded Corona, Fireball Shot, Sambuca Shot, Princess Ultimate Cooler) are **not** Category A/B menu evidence and **not** Cocktail Bounty candidates.
 
 | Field | Required value |
 |---|---|

@@ -1,0 +1,39 @@
+{
+  "schema_comment": "Source-controlled achievement category metadata for future All-view filters. Ordering is data-driven — do not hardcode filter order in Vue. Bar Gauntlets is a single top-level filter; individual bars nest inside it.",
+  "version": "1.0",
+  "categories": [
+    {
+      "key": "drinking-with-davids",
+      "name": "Drinking with Davids",
+      "group_key": "drinking_with_davids",
+      "all_view_order": 1,
+      "description": "Automatically evaluated same-log achievements involving David F. or David B."
+    },
+    {
+      "key": "milestones",
+      "name": "Milestones",
+      "group_key": "milestones",
+      "all_view_order": 2
+    },
+    {
+      "key": "firsts",
+      "name": "Firsts",
+      "group_key": "firsts",
+      "all_view_order": 3
+    },
+    {
+      "key": "other",
+      "name": "Other",
+      "group_key": "other",
+      "all_view_order": 4
+    },
+    {
+      "key": "bar-gauntlets",
+      "name": "Bar Gauntlets",
+      "group_key": "bar_gauntlets",
+      "all_view_order": 99,
+      "organize_children_by": "bar_key",
+      "description": "Personal and collective cocktail collections per qualifying bar. One top-level filter; bars nest inside."
+    }
+  ]
+}

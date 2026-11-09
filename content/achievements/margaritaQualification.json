@@ -1,0 +1,14 @@
+{
+  "schema_comment": "Margarita Kickoff qualifies via curated drink_concept classification tag 'margarita' on the accepted log's catalog version. Do not infer from drink names or ingredients.",
+  "drink_tag": "margarita",
+  "qualified_drink_concept_keys": [
+    "passion-fruit-chili-margarita",
+    "24k-margarita",
+    "blue-pineapple-margarita",
+    "guava-margarita",
+    "coconut-margarita",
+    "aperol-coconut-margarita",
+    "spicy-mango-margarita"
+  ],
+  "notes": "List mirrors launch-candidate drinks currently tagged margarita. Future menu publications may add/remove tagged concepts; evaluation follows live catalog tags, not this snapshot list."
+}

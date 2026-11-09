@@ -96,6 +96,30 @@
         "message": "Sambuca Shot at princess-live is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
         "drink_key": "sambuca-shot",
         "bar_key": "princess-live"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Princess Ultimate Cooler at lido-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "lido-bar"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Princess Ultimate Cooler at the-mix is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "the-mix"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Princess Ultimate Cooler at promenade-bars is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "promenade-bars"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Princess Ultimate Cooler at star-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "star-bar"
       }
     ],
     "price_evidence_approvals": [
@@ -155,6 +179,26 @@
         "drink_key": "sambuca-shot",
         "bar_key": "princess-live",
         "name": "Sambuca Shot"
+      },
+      {
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "lido-bar",
+        "name": "Princess Ultimate Cooler"
+      },
+      {
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "the-mix",
+        "name": "Princess Ultimate Cooler"
+      },
+      {
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "promenade-bars",
+        "name": "Princess Ultimate Cooler"
+      },
+      {
+        "drink_key": "princess-ultimate-cooler",
+        "bar_key": "star-bar",
+        "name": "Princess Ultimate Cooler"
       }
     ]
   },
@@ -6553,7 +6597,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6565,7 +6609,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6577,7 +6621,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6589,7 +6633,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6608,7 +6652,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6620,7 +6664,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6632,7 +6676,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6644,7 +6688,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6663,7 +6707,7 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"
@@ -6682,7 +6726,62 @@
           "display_ingredients": [],
           "price_usd": null,
           "price_status": "unverified",
-          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "princess-ultimate-cooler",
+      "name": "Princess Ultimate Cooler",
+      "kind": "other_alcoholic",
+      "bar_offerings": [
+        {
+          "bar_key": "lido-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "the-mix",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "promenade-bars",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "star-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
           "classification_tags": [
             "collection-excluded",
             "organizer-authorized-exception"

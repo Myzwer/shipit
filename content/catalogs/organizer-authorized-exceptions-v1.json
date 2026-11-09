@@ -1,6 +1,6 @@
 {
   "schema_comment": "Organizer-authorized loggable drink exceptions. Not menu-sourced Category A/B offerings. Merge into every full_snapshot (including future onboard menu reconstructions). Never invent prices, fingerprints, or cocktail_candidates for these rows.",
-  "version": "1.0",
+  "version": "1.1",
   "registry": [
     {
       "drink_key": "tequila-shot",
@@ -25,6 +25,20 @@
       "name": "Sambuca Shot",
       "kind": "other_alcoholic",
       "bar_keys": ["princess-live"]
+    },
+    {
+      "drink_key": "princess-ultimate-cooler",
+      "name": "Princess Ultimate Cooler",
+      "kind": "other_alcoholic",
+      "bar_keys": ["lido-bar", "the-mix", "promenade-bars", "star-bar"],
+      "provisional_ingredient_notes": [
+        "Vodka",
+        "Watermelon syrup or juice",
+        "Passion fruit puree or juice",
+        "Cranberry juice",
+        "Lemon garnish"
+      ],
+      "provisional_notes_comment": "Organizer-provided tentative notes only. Not a verified onboard recipe. Do not map to ingredient_keys, classification tags, or Ingredient Bounty candidates."
     }
   ],
   "offering_classification_tags": [
@@ -33,5 +47,5 @@
   ],
   "price_status": "unverified",
   "price_usd": null,
-  "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates."
+  "evidence_reference": "Organizer-authorized loggable exception (Stage A2/A3). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates."
 }

@@ -1,0 +1,14 @@
+{
+  "schema_comment": "Public companion_alias vocabulary only. Never store roster keys, login aliases, Auth IDs, or player UUIDs here. Private resolution lives in gitignored private/roster/companion-alias-map.local.json (see private/roster.example/companion-alias-map.template.json).",
+  "version": "1.1",
+  "aliases": [
+    "companion-david-f",
+    "companion-david-b",
+    "companion-josh",
+    "companion-cindy",
+    "companion-jordan",
+    "companion-dan",
+    "companion-katie",
+    "companion-jonathan"
+  ]
+}

@@ -1,18 +1,26 @@
 /**
- * Load the Phase 7B2 working achievement catalog into local development.
+ * Load the working achievement catalog into local development.
  *
  *   npx supabase db reset && LOCAL_TEST_PASSWORD='…' npm run db:provision
  *   npm run db:load-working-achievements
  *
+ * Composes base 140 + Stage A3 packs. Resolves companion aliases via private roster.
  * Idempotent upsert by stable_key. Only runs against development-only cruises.
  * Never invents awards. Never writes from the browser client.
+ * Never runs the production achievement loader.
  */
 import { createClient } from '@supabase/supabase-js'
 import { execSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ws from 'ws'
+import { composeWorkingAchievements } from './lib/composeWorkingAchievements.mjs'
+import {
+  loadCompanionAliasVocabulary,
+  loadPrivateCompanionAliasMap,
+  loadPrivateRosterPlayers,
+  materializeConditionConfig,
+} from './lib/resolveCompanionAliases.mjs'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 
@@ -25,20 +33,6 @@ function readSupabaseEnv() {
     env[match[1]] = match[2].replace(/^"|"$/g, '')
   }
   return env
-}
-
-function loadCatalog() {
-  // Prefer compiled/transpiled path via vite-node when available; fall back to JSON export.
-  const jsonPath = join(__dir, '../content/achievements/workingCatalog.json')
-  try {
-    return JSON.parse(readFileSync(jsonPath, 'utf8'))
-  } catch {
-    /* continue */
-  }
-  // Dynamic import of TS via vite-node spawn is awkward; generate JSON alongside.
-  throw new Error(
-    'Missing content/achievements/workingCatalog.json — run: node scripts/export-working-catalog.mjs',
-  )
 }
 
 const sb = readSupabaseEnv()
@@ -54,7 +48,6 @@ const admin = createClient(url, serviceRole, {
   realtime: { transport: ws },
 })
 
-// Ensure an active development-only cruise exists (loader is gated on that label).
 {
   const { data: cruise } = await admin
     .from('cruise_config')
@@ -74,23 +67,56 @@ const admin = createClient(url, serviceRole, {
   }
 }
 
-const catalog = loadCatalog()
+const { definitions: catalog, counts } = composeWorkingAchievements()
+const aliasVocab = loadCompanionAliasVocabulary()
+const privateAliasMap = loadPrivateCompanionAliasMap()
+const rosterPlayers = loadPrivateRosterPlayers()
+const { data: playerRows, error: playerError } = await admin
+  .from('players')
+  .select('id, login_alias')
+  .eq('active', true)
+if (playerError) {
+  console.error('Failed to load players for alias resolution', playerError.message)
+  process.exit(1)
+}
+const loginAliasToPlayerId = new Map(
+  (playerRows || []).map((p) => [String(p.login_alias).toLowerCase(), p.id]),
+)
+const resolveCtx = {
+  publicAliases: aliasVocab.aliases || [],
+  privateAliasMap,
+  rosterPlayers: rosterPlayers || [],
+  loginAliasToPlayerId,
+}
+
 const keepKeys = []
 let enabled = 0
 let disabled = 0
 let errors = 0
+const aliasFailures = []
 
 for (const row of catalog) {
-  const stub =
-    !row.conditionType || !row.conditionConfig
-      ? {
-          condition_type: 'event_count',
-          condition_config: { event: 'drink_log', threshold: 999999 },
-        }
-      : {
-          condition_type: row.conditionType,
-          condition_config: row.conditionConfig,
-        }
+  let conditionType = row.conditionType
+  let conditionConfig = row.conditionConfig
+
+  if (!conditionType || !conditionConfig) {
+    conditionType = 'event_count'
+    conditionConfig = { event: 'drink_log', threshold: 999999 }
+  } else {
+    const materialized = materializeConditionConfig(conditionConfig, resolveCtx)
+    if (materialized.unresolved.length > 0 && row.enabledInDev) {
+      aliasFailures.push({
+        stable_key: row.stableKey,
+        unresolved: materialized.unresolved.map((u) => ({
+          alias: u.alias,
+          reason: u.reason,
+        })),
+      })
+      errors += 1
+      continue
+    }
+    conditionConfig = materialized.config
+  }
 
   const payload = {
     stable_key: row.stableKey,
@@ -102,9 +128,10 @@ for (const row of catalog) {
     secret: !!row.secret,
     exclusive: !!row.exclusive,
     enabled: !!row.enabledInDev,
-    condition_type: stub.condition_type,
-    condition_config: stub.condition_config,
+    condition_type: conditionType,
+    condition_config: conditionConfig,
     test_only: true,
+    icon_key: row.iconKey || null,
   }
 
   const { data, error } = await admin.rpc('dev_upsert_working_achievement_definition', {
@@ -120,6 +147,23 @@ for (const row of catalog) {
   else disabled += 1
 }
 
+if (aliasFailures.length > 0) {
+  console.error(
+    JSON.stringify(
+      {
+        ok: false,
+        code: 'COMPANION_ALIAS_UNRESOLVED',
+        message:
+          'Required private roster aliases could not be resolved. Fail closed — fix private/roster or provision identities.',
+        failures: aliasFailures,
+      },
+      null,
+      2,
+    ),
+  )
+  process.exit(1)
+}
+
 const { data: disableRes, error: disableErr } = await admin.rpc(
   'dev_disable_missing_working_achievements',
   { p_keep_keys: keepKeys },
@@ -133,12 +177,17 @@ console.log(
   JSON.stringify(
     {
       ok: errors === 0,
-      total: catalog.length,
+      composed: counts,
       upserted: keepKeys.length,
       enabled,
       disabled,
       removedDisabled: disableRes?.disabled ?? 0,
       errors,
+      alias_resolution:
+        privateAliasMap && rosterPlayers
+          ? 'private_alias_map'
+          : 'unavailable_private_alias_map',
+      companion_aliases_public: (aliasVocab.aliases || []).length,
     },
     null,
     2,

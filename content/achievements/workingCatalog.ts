@@ -12,12 +12,20 @@ export type WorkingReadiness =
   | 'blocked_organizer'
   | 'missing_capability'
 
+/** DB achievement_group values, including Stage A3 categories. */
+export type WorkingGroupKey =
+  | 'milestones'
+  | 'firsts'
+  | 'other'
+  | 'drinking_with_davids'
+  | 'bar_gauntlets'
+
 export interface WorkingAchievementDefinition {
   snapshotRef: string
   stableKey: string
   game: 'drinkit' | 'shipit'
   ownerType: 'player' | 'team'
-  groupKey: 'milestones' | 'firsts' | 'other'
+  groupKey: WorkingGroupKey
   title: string
   displayDescription: string
   secret: boolean
@@ -31,6 +39,8 @@ export interface WorkingAchievementDefinition {
   enabledInDev: boolean
   testOnly: true
   visibilityNote: string
+  /** Optional semantic icon key from src/ui/icons.ts */
+  iconKey?: string
 }
 
 export const WORKING_ACHIEVEMENT_SNAPSHOT = '2026-11-06' as const

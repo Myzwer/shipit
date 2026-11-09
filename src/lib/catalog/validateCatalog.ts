@@ -26,6 +26,10 @@ import {
   type IngredientTier,
 } from './types'
 import {
+  catalogRequiresOrganizerExceptions,
+  findMissingOrganizerAuthorizedExceptions,
+} from './organizerAuthorizedExceptions'
+import {
   getPriceEvidenceApproval,
   isAuthorizedFilteredBar,
   offeringSupportsBountyEligibility,
@@ -656,6 +660,24 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           'error',
           `Cocktail candidate "${candidate.drink_key}" is an organizer-authorized exception and must not enter Cocktail Bounty pools.`,
           'cocktail_candidates',
+        ),
+      )
+    }
+  }
+
+  // Fail closed when a snapshot opts into the organizer-exception contract
+  // (explicit source_notes list, launch/reconstructed catalog ids, or evidence marker).
+  // Development fixtures without that contract are unchanged.
+  if (doc.mode === 'full_snapshot' && catalogRequiresOrganizerExceptions(doc)) {
+    for (const missing of findMissingOrganizerAuthorizedExceptions(doc)) {
+      errors.push(
+        issue(
+          missing.code,
+          'error',
+          missing.message,
+          missing.drink_key
+            ? `drinks/${missing.drink_key}${missing.bar_key ? `@${missing.bar_key}` : ''}`
+            : 'source_notes/organizer_authorized_exceptions',
         ),
       )
     }

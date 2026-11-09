@@ -1,0 +1,14 @@
+{
+  "$schema_comment": "Copy to private/roster/companion-alias-map.local.json (gitignored). Maps public companion_alias tokens to private roster player keys from roster.local.json. Never commit the local file.",
+  "version": 1,
+  "aliases": {
+    "companion-david-f": { "roster_key": "guest_david_f", "label": "David F." },
+    "companion-david-b": { "roster_key": "guest_david_b", "label": "David B." },
+    "companion-josh": { "roster_key": "guest_01", "label": "Josh" },
+    "companion-cindy": { "roster_key": "guest_02", "label": "Cindy" },
+    "companion-jordan": { "roster_key": "guest_03", "label": "Jordan" },
+    "companion-dan": { "roster_key": "guest_04", "label": "Dan" },
+    "companion-katie": { "roster_key": "guest_05", "label": "Katie" },
+    "companion-jonathan": { "roster_key": "guest_06", "label": "Jonathan" }
+  }
+}

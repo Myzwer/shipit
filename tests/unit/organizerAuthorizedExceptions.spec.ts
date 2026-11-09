@@ -9,6 +9,7 @@ const POOL = ['lido-bar', 'the-mix', 'promenade-bars', 'star-bar'] as const
 const SPECIALS = {
   'tequila-shot': POOL,
   'loaded-corona': POOL,
+  'princess-ultimate-cooler': POOL,
   'fireball-shot': ['princess-live'],
   'sambuca-shot': ['princess-live'],
 } as const
@@ -42,7 +43,7 @@ describe('organizer-authorized exceptions (Stage A2)', () => {
         Object.keys(SPECIALS).includes(c.drink_key),
       ),
     ).toBe(false)
-    expect(doc.source_notes.organizer_authorized_exceptions).toHaveLength(10)
+    expect(doc.source_notes.organizer_authorized_exceptions).toHaveLength(14)
   })
 
   it('launch-candidate remains stage-ready after exceptions are merged', () => {

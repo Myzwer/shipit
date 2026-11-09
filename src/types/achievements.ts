@@ -1,7 +1,12 @@
 import type { GameId } from '@/types/game'
 
 export type AchievementView = 'all' | 'mine'
-export type AchievementGroup = 'milestones' | 'firsts' | 'other'
+export type AchievementGroup =
+  | 'milestones'
+  | 'firsts'
+  | 'other'
+  | 'drinking_with_davids'
+  | 'bar_gauntlets'
 
 export interface AchievementProgress {
   current: number

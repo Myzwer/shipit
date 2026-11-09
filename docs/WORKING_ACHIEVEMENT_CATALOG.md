@@ -26,7 +26,16 @@ npm run db:load-working-achievements
 - Removed snapshot rows are disabled explicitly (`dev_disable_missing_working_achievements`)
 - No client writes; no Admin achievement CMS
 
-## Snapshot → readiness (140 / 140)
+## Snapshot → readiness (base 140 + Stage A3 packs)
+
+| Pack | Count | Notes |
+|---|---:|---|
+| Base interim snapshot | 140 | Preserved; D-083 remains `blocked_organizer` |
+| Drinking with Davids | 5 | `same_log` + private companion aliases |
+| Bar Gauntlets | 26 | Personal + collective per eligible catalog bar |
+| **Composed total** | **171** | Loaded via `composeWorkingAchievements` |
+
+### Base 140 readiness
 
 | Readiness | Count | Meaning |
 |---|---:|---|
@@ -36,6 +45,19 @@ npm run db:load-working-achievements
 | **missing_capability** | 0 | — |
 
 Enabled rows that still need **content** (tags, port/Thanksgiving config, ingredient keys) remain enabled: they simply will not unlock until metadata exists. That is intentional — do not invent evidence.
+
+### Stage A3 category metadata
+
+Source: `content/achievements/categories.json`
+
+- **Drinking with Davids** — first in All-view order (`all_view_order: 1`)
+- **Bar Gauntlets** — last (`all_view_order: 99`), single top-level filter; nest bars inside (A4/A5 UI)
+
+Companion aliases: `content/achievements/companionAliases.json` lists public `companion-*` tokens only. Private alias→roster_key mapping lives in gitignored `private/roster/companion-alias-map.local.json` (template under `private/roster.example/`). The working loader resolves alias → roster → login → `players.id` and **fails closed** if unresolved. Synthetic tests must not depend on private family identities.
+
+### Frozen Tropical (deferred content)
+
+Approved conceptually; milestones and eligible drink lists are unfinished. Reuse `tag_match` / future tag-scoped collections once curated `frozen` (+ tropical) tags and thresholds exist. Do **not** invent lists or thresholds now. Leave uncreated/disabled until organizer content arrives.
 
 ## Final creative reconciliation (when the next Google Doc arrives)
 
