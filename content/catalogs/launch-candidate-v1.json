@@ -36,6 +36,66 @@
       {
         "code": "RANKINGS_ORGANIZER_APPROVED",
         "message": "Cocktail and Ingredient bounty rankings are organizer-approved (content/approvals/rankings-approval-v1.json). Ingredient tiers are remapped to Master Rules bar bands when ranking document bands differ; schedule slot timing is not restored from obsolete ranking projections."
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Tequila Shot at lido-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "tequila-shot",
+        "bar_key": "lido-bar"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Tequila Shot at the-mix is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "tequila-shot",
+        "bar_key": "the-mix"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Tequila Shot at promenade-bars is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "tequila-shot",
+        "bar_key": "promenade-bars"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Tequila Shot at star-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "tequila-shot",
+        "bar_key": "star-bar"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Loaded Corona at lido-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "loaded-corona",
+        "bar_key": "lido-bar"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Loaded Corona at the-mix is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "loaded-corona",
+        "bar_key": "the-mix"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Loaded Corona at promenade-bars is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "loaded-corona",
+        "bar_key": "promenade-bars"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Loaded Corona at star-bar is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "loaded-corona",
+        "bar_key": "star-bar"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Fireball Shot at princess-live is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "fireball-shot",
+        "bar_key": "princess-live"
+      },
+      {
+        "code": "ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION",
+        "message": "Sambuca Shot at princess-live is an organizer-authorized loggable exception. Retain on menu replacement with collection-excluded + organizer-authorized-exception; do not invent Category A/B prices or cocktail_candidates.",
+        "drink_key": "sambuca-shot",
+        "bar_key": "princess-live"
       }
     ],
     "price_evidence_approvals": [
@@ -44,7 +104,59 @@
         "offering_set_sha256": "7987b21ceac19e173f662bae27fa6171c5329a205c8057e2f15c41303dff094a"
       }
     ],
-    "evidence_summary": "Launch-candidate catalog from organizer-approved menus + rankings. Category B bound to approved drink@bar + recipe fingerprints (price_usd null). Printed recipe tokens mapped to canonical ingredients without inventing bounty objectives. Good Spirits Category C pending. Demo and production import share this artifact; Phase 10C does not activate a cruise."
+    "evidence_summary": "Launch-candidate catalog from organizer-approved menus + rankings. Category B bound to approved drink@bar + recipe fingerprints (price_usd null). Printed recipe tokens mapped to canonical ingredients without inventing bounty objectives. Good Spirits Category C pending. Demo and production import share this artifact; Phase 10C does not activate a cruise. Stage A2 organizer-authorized exceptions retained via content/catalogs/organizer-authorized-exceptions-v1.json.",
+    "organizer_authorized_exceptions": [
+      {
+        "drink_key": "tequila-shot",
+        "bar_key": "lido-bar",
+        "name": "Tequila Shot"
+      },
+      {
+        "drink_key": "tequila-shot",
+        "bar_key": "the-mix",
+        "name": "Tequila Shot"
+      },
+      {
+        "drink_key": "tequila-shot",
+        "bar_key": "promenade-bars",
+        "name": "Tequila Shot"
+      },
+      {
+        "drink_key": "tequila-shot",
+        "bar_key": "star-bar",
+        "name": "Tequila Shot"
+      },
+      {
+        "drink_key": "loaded-corona",
+        "bar_key": "lido-bar",
+        "name": "Loaded Corona"
+      },
+      {
+        "drink_key": "loaded-corona",
+        "bar_key": "the-mix",
+        "name": "Loaded Corona"
+      },
+      {
+        "drink_key": "loaded-corona",
+        "bar_key": "promenade-bars",
+        "name": "Loaded Corona"
+      },
+      {
+        "drink_key": "loaded-corona",
+        "bar_key": "star-bar",
+        "name": "Loaded Corona"
+      },
+      {
+        "drink_key": "fireball-shot",
+        "bar_key": "princess-live",
+        "name": "Fireball Shot"
+      },
+      {
+        "drink_key": "sambuca-shot",
+        "bar_key": "princess-live",
+        "name": "Sambuca Shot"
+      }
+    ]
   },
   "bars": [
     {
@@ -6427,6 +6539,154 @@
           "price_evidence_approval_id": "star-princess-filtered-source-2026-11-07",
           "price_evidence_recipe_fingerprint": "97dbde8a413e1e77355017acc7e16dcb7b0abd5c61ced4a0a03982462e983995",
           "evidence_reference": "handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md#cascade-bar; Category B organizer-approved filtered source (exact $ absent)"
+        }
+      ]
+    },
+    {
+      "key": "tequila-shot",
+      "name": "Tequila Shot",
+      "kind": "other_alcoholic",
+      "bar_offerings": [
+        {
+          "bar_key": "lido-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "the-mix",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "promenade-bars",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "star-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "loaded-corona",
+      "name": "Loaded Corona",
+      "kind": "other_alcoholic",
+      "bar_offerings": [
+        {
+          "bar_key": "lido-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "the-mix",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "promenade-bars",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        },
+        {
+          "bar_key": "star-bar",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fireball-shot",
+      "name": "Fireball Shot",
+      "kind": "other_alcoholic",
+      "bar_offerings": [
+        {
+          "bar_key": "princess-live",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "sambuca-shot",
+      "name": "Sambuca Shot",
+      "kind": "other_alcoholic",
+      "bar_offerings": [
+        {
+          "bar_key": "princess-live",
+          "ingredient_keys": [],
+          "display_ingredients": [],
+          "price_usd": null,
+          "price_status": "unverified",
+          "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates.",
+          "classification_tags": [
+            "collection-excluded",
+            "organizer-authorized-exception"
+          ]
         }
       ]
     }

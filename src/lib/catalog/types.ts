@@ -158,6 +158,15 @@ export interface CatalogSourceNotes {
     approval_id: string
     offering_set_sha256?: string
   }>
+  /**
+   * Stage A2 permanent organizer loggable exceptions (drink@bar).
+   * Not Category A/B menu evidence; future full_snapshot imports must retain these rows.
+   */
+  organizer_authorized_exceptions?: Array<{
+    drink_key: string
+    bar_key: string
+    name?: string
+  }>
 }
 
 export interface CatalogImportDocument {

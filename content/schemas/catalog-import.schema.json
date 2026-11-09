@@ -70,6 +70,20 @@
           "type": "string",
           "maxLength": 2000
         },
+        "organizer_authorized_exceptions": {
+          "type": "array",
+          "description": "Permanent organizer-authorized loggable exceptions (Stage A2). Not Category A/B menu evidence. Future full_snapshot imports must retain these drink@bar rows with collection-excluded + organizer-authorized-exception tags.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["drink_key", "bar_key"],
+            "properties": {
+              "drink_key": { "$ref": "#/$defs/canonicalKey" },
+              "bar_key": { "$ref": "#/$defs/canonicalKey" },
+              "name": { "type": "string", "minLength": 1, "maxLength": 160 }
+            }
+          }
+        },
         "price_evidence_approvals": {
           "type": "array",
           "description": "Declared Category B organizer price-evidence approval ids. Each id must match the server allowlist; forging this array alone does not grant bounty eligibility.",
@@ -182,7 +196,13 @@
     },
     "offeringClassificationTag": {
       "type": "string",
-      "enum": ["frozen", "margarita", "mixed-spirits", "collection-excluded"]
+      "enum": [
+        "frozen",
+        "margarita",
+        "mixed-spirits",
+        "collection-excluded",
+        "organizer-authorized-exception"
+      ]
     },
     "ingredient": {
       "type": "object",

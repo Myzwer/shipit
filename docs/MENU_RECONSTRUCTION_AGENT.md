@@ -48,8 +48,24 @@ Brand knowledge belongs in curated metadata. If the menu says “Espolòn Reposa
 | `UNSUPPORTED_FROZEN_OR_RECIPE_CLASS` | Frozen/margarita/mixed-spirits cannot be verified |
 | `CONFLICTING_INGREDIENT_IDENTITY` | Old vs new catalog disagree on canonical key |
 | `MISSING_ACHIEVEMENT_METADATA` | Achievement row needs a tag/key the snapshot omits |
+| `ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION` | Retained Stage A2 loggable exceptions (not menu-sourced) |
 
 Record these under `source_notes.uncertainty_flags` and/or the separate exception report. Omitted classification remains unknown; the app must never invent tags.
+
+## Retain organizer-authorized loggable exceptions
+
+Before finishing a reconstructed `full_snapshot`, merge `content/catalogs/organizer-authorized-exceptions-v1.json` (or call `mergeOrganizerAuthorizedExceptions` / `node scripts/apply-organizer-authorized-exceptions.mjs`).
+
+Required preserved identities:
+
+| Drink key | Bars |
+|---|---|
+| `tequila-shot` | `lido-bar`, `the-mix`, `promenade-bars`, `star-bar` |
+| `loaded-corona` | `lido-bar`, `the-mix`, `promenade-bars`, `star-bar` |
+| `fireball-shot` | `princess-live` |
+| `sambuca-shot` | `princess-live` |
+
+Keep `collection-excluded` + `organizer-authorized-exception`, `price_status: unverified`, `price_usd: null`, and omit cocktail/ingredient candidates. Do not invent Category A/B fingerprints for these rows. Stable drink and bar keys preserve historical logs and A1 collection pins across publication.
 
 ## App boundaries
 

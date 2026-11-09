@@ -1,0 +1,37 @@
+{
+  "schema_comment": "Organizer-authorized loggable drink exceptions. Not menu-sourced Category A/B offerings. Merge into every full_snapshot (including future onboard menu reconstructions). Never invent prices, fingerprints, or cocktail_candidates for these rows.",
+  "version": "1.0",
+  "registry": [
+    {
+      "drink_key": "tequila-shot",
+      "name": "Tequila Shot",
+      "kind": "other_alcoholic",
+      "bar_keys": ["lido-bar", "the-mix", "promenade-bars", "star-bar"]
+    },
+    {
+      "drink_key": "loaded-corona",
+      "name": "Loaded Corona",
+      "kind": "other_alcoholic",
+      "bar_keys": ["lido-bar", "the-mix", "promenade-bars", "star-bar"]
+    },
+    {
+      "drink_key": "fireball-shot",
+      "name": "Fireball Shot",
+      "kind": "other_alcoholic",
+      "bar_keys": ["princess-live"]
+    },
+    {
+      "drink_key": "sambuca-shot",
+      "name": "Sambuca Shot",
+      "kind": "other_alcoholic",
+      "bar_keys": ["princess-live"]
+    }
+  ],
+  "offering_classification_tags": [
+    "collection-excluded",
+    "organizer-authorized-exception"
+  ],
+  "price_status": "unverified",
+  "price_usd": null,
+  "evidence_reference": "Organizer-authorized loggable exception (Stage A2). Not present in filtered menu source; do not invent Category A/B price evidence or cocktail_candidates."
+}

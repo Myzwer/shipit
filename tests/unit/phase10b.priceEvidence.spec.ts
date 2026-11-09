@@ -29,6 +29,7 @@ describe('Phase 10B price evidence policy', () => {
     let catB = 0
     let catC = 0
     let catD = 0
+    let organizerExceptions = 0
     for (const d of doc.drinks) {
       for (const o of d.bar_offerings) {
         if (o.price_status === 'verified_within_limit') {
@@ -40,8 +41,16 @@ describe('Phase 10B price evidence policy', () => {
           expect(o.price_evidence_approval_id).toBe(FILTERED_SOURCE_APPROVAL_ID)
           expect(o.price_evidence_recipe_fingerprint).toMatch(/^[a-f0-9]{64}$/)
         } else if (o.price_status === 'unverified') {
-          catC += 1
-          expect(o.bar_key).toBe('good-spirits-at-sea')
+          const tags = o.classification_tags ?? []
+          if (tags.includes('organizer-authorized-exception')) {
+            organizerExceptions += 1
+            expect(tags).toContain('collection-excluded')
+            expect(o.price_usd).toBeNull()
+            expect(o.price_evidence_approval_id).toBeUndefined()
+          } else {
+            catC += 1
+            expect(o.bar_key).toBe('good-spirits-at-sea')
+          }
         } else if (o.price_status === 'verified_over_limit') {
           catD += 1
         }
@@ -50,6 +59,7 @@ describe('Phase 10B price evidence policy', () => {
     expect(catA).toBe(0)
     expect(catB).toBe(191)
     expect(catC).toBe(19)
+    expect(organizerExceptions).toBe(10)
     expect(catD).toBe(0)
 
     const preview = previewCatalogImport(doc)

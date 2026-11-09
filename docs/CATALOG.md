@@ -67,6 +67,23 @@ The $15 ceiling gates **bounty eligibility**, not ordinary named-drink logging.
 | **C** Unknown / unresolved | `unverified` | null | No | e.g. Good Spirits — still loggable |
 | **D** Explicit >$15 | `verified_over_limit` | optional numeric | No | Still loggable; never a required bounty |
 
+### Organizer-authorized loggable exceptions (Stage A2)
+
+Permanent organizer exceptions (Tequila Shot, Loaded Corona, Fireball Shot, Sambuca Shot) are **not** Category A/B menu evidence and **not** Cocktail Bounty candidates.
+
+| Field | Required value |
+|---|---|
+| Source registry | `content/catalogs/organizer-authorized-exceptions-v1.json` |
+| `kind` | `other_alcoholic` |
+| `price_status` | `unverified` with `price_usd: null` (never invent $15 or Category B fingerprints) |
+| Offering tags | `collection-excluded` **and** `organizer-authorized-exception` |
+| Cocktail / Ingredient candidates | Omit entirely |
+| Catalog notes | `source_notes.organizer_authorized_exceptions` + uncertainty flag `ORGANIZER_AUTHORIZED_LOGGABLE_EXCEPTION` |
+
+`list_drinkit_bar_drinks` sorts `organizer-authorized-exception` offerings after ordinary menu drinks so Princess Live! shots appear at the end of that bar list. Pool-bar gauntlets ignore these offerings via `collection-excluded` (A1 engine).
+
+**Future onboard menu replacement:** merge the exceptions registry into every new `full_snapshot` (build hook `mergeOrganizerAuthorizedExceptions`, or `node scripts/apply-organizer-authorized-exceptions.mjs`). Keep the same drink and bar canonical keys so historical logs and awards remain stable. Do not discard these rows because they are absent from photographed menus.
+
 Category B is server-enforced via `src/lib/catalog/priceEvidenceApprovals.ts`, the offering fingerprint set (`filtered-source-offerings-v1.json` / migration `084`), and `catalog_payload_price_evidence_errors`. Forged `evidence_reference`, `source_notes` text, copied approval IDs on new drinks, or client `ready_for_scheduling` cannot authorize B. Ingredient corroboration counts only Category A/B offerings. Declared coverage must match that corroboration. Historical accepted claims keep their `catalog_version_id` on republish.
 
 Printed recipe tokens map to canonical ingredient identities via `content/catalogs/printed-ingredient-map-v1.json` without inventing Ingredient Bounty objectives (candidates remain the approved ranking set only).

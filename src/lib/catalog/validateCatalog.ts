@@ -591,6 +591,73 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           ),
         )
       }
+
+      // Stage A2: permanent organizer loggable exceptions are not Category A/B bounty evidence.
+      const offeringTags = offering.classification_tags ?? []
+      if (offeringTags.includes('organizer-authorized-exception')) {
+        if (!offeringTags.includes('collection-excluded')) {
+          errors.push(
+            issue(
+              'ORGANIZER_EXCEPTION_MISSING_COLLECTION_EXCLUSION',
+              'error',
+              `Offering ${offeringId} is organizer-authorized-exception but missing collection-excluded.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (offering.price_status === 'approved_filtered_within_limit') {
+          errors.push(
+            issue(
+              'ORGANIZER_EXCEPTION_FORGED_CATEGORY_B',
+              'error',
+              `Offering ${offeringId} is an organizer-authorized exception and must not use Category B price evidence.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (offering.price_status === 'verified_within_limit') {
+          errors.push(
+            issue(
+              'ORGANIZER_EXCEPTION_FORGED_CATEGORY_A',
+              'error',
+              `Offering ${offeringId} is an organizer-authorized exception and must not invent Category A verified pricing.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (offering.price_usd != null) {
+          errors.push(
+            issue(
+              'ORGANIZER_EXCEPTION_INVENTS_PRICE',
+              'error',
+              `Offering ${offeringId} is an organizer-authorized exception and must keep price_usd null.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+      }
+    }
+  }
+
+  const exceptionDrinkKeys = new Set(
+    doc.drinks
+      .filter((drink) =>
+        drink.bar_offerings.some((o) =>
+          (o.classification_tags ?? []).includes('organizer-authorized-exception'),
+        ),
+      )
+      .map((drink) => drink.key),
+  )
+  for (const candidate of doc.cocktail_candidates) {
+    if (exceptionDrinkKeys.has(candidate.drink_key)) {
+      errors.push(
+        issue(
+          'ORGANIZER_EXCEPTION_IN_COCKTAIL_CANDIDATES',
+          'error',
+          `Cocktail candidate "${candidate.drink_key}" is an organizer-authorized exception and must not enter Cocktail Bounty pools.`,
+          'cocktail_candidates',
+        ),
+      )
     }
   }
 

@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
+import { mergeOrganizerAuthorizedExceptions } from './lib/mergeOrganizerAuthorizedExceptions.mjs'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
@@ -699,6 +700,7 @@ function build() {
 }
 
 const { doc, report } = build()
+mergeOrganizerAuthorizedExceptions(doc)
 const outDir = join(root, 'content/catalogs')
 mkdirSync(outDir, { recursive: true })
 const outJson = join(outDir, 'launch-candidate-v1.json')

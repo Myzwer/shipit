@@ -59,6 +59,8 @@ export const OFFERING_CLASSIFICATION_TAGS = [
   'mixed-spirits',
   // Loggable offering that must not count toward a drink collection.
   'collection-excluded',
+  // Permanent organizer loggable exception (not Category A/B menu evidence).
+  'organizer-authorized-exception',
 ] as const
 
 export type IngredientClassificationTag = (typeof INGREDIENT_CLASSIFICATION_TAGS)[number]
