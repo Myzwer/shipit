@@ -67,9 +67,9 @@ describe('shipitTeamConfig (private roster when present)', () => {
     expect(verdict.ok).toBe(true)
     expect(verdict.teamCount).toBe(6)
     expect(verdict.assignedCount).toBe(21)
-    expect(verdict.unassignedCount).toBe(1)
-    // Contract key only — no UUIDs / login aliases in assertions.
-    expect(verdict.unassignedKeys).toEqual(ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedKeys)
+    expect(verdict.unassignedCount).toBe(ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedCount)
+    // Do not assert private roster keys in tracked tests.
+    expect(verdict.unassignedKeys).toHaveLength(ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedCount)
   })
 
   it('fails closed when confirmed teams are required but missing', () => {

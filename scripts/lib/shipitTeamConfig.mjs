@@ -18,10 +18,8 @@ export const ORGANIZER_TEAM_CONTRACT = {
   teamCount: 6,
   assignedPlayers: 21,
   totalPlayers: 22,
-  deliberatelyUnassignedKeys: ['june_becker'],
+  deliberatelyUnassignedCount: 1,
   drinkItMemberships: 11,
-  /** Player keys that must remain Drink It! excluded. */
-  drinkItExcludedKeys: ['debbie_forrester'],
   /**
    * Unassigned players cannot have shipit game membership enabled:
    * DB constraint requires exactly one active team for Ship It! enrollment.
@@ -155,16 +153,17 @@ export function assertOrganizerShipItTeams(cfg, opts = {}) {
     }
   }
 
-  for (const key of ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedKeys) {
-    if (cfg.assignments[key]) {
-      errors.push(`${key} must remain unassigned (found team_key "${cfg.assignments[key]}")`)
-    }
+  if (cfg.unassignedKeys.length !== ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedCount) {
+    errors.push(
+      `expected ${ORGANIZER_TEAM_CONTRACT.deliberatelyUnassignedCount} deliberately unassigned player(s), found ${cfg.unassignedKeys.length}`,
+    )
+  }
+
+  for (const key of cfg.unassignedKeys) {
     const row = cfg.players.find((p) => p.key === key)
-    if (!row) {
-      errors.push(`deliberately unassigned player key "${key}" missing from private roster`)
-    } else if (ORGANIZER_TEAM_CONTRACT.unassignedMustDisableShipIt && row.ship_it) {
+    if (ORGANIZER_TEAM_CONTRACT.unassignedMustDisableShipIt && row?.ship_it) {
       errors.push(
-        `${key} is unassigned but ship_it=true; disable Ship It! membership until a team is chosen (DB constraint)`,
+        `unassigned player has ship_it=true; disable Ship It! membership until a team is chosen (DB constraint)`,
       )
     }
   }
@@ -182,10 +181,8 @@ export function assertOrganizerShipItTeams(cfg, opts = {}) {
     )
   }
 
-  for (const key of ORGANIZER_TEAM_CONTRACT.drinkItExcludedKeys) {
-    const row = cfg.players.find((p) => p.key === key)
-    if (row?.drink_it) errors.push(`${key} must remain excluded from Drink It!`)
-  }
+  // Drink It! exclusion is validated by membership count (11). Specific excluded
+  // guest keys stay only in the gitignored private roster.
 
   // Every team must have at least one member.
   for (const t of cfg.teams) {
