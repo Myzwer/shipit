@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import FloatingBottomNav from '@/components/shared/FloatingBottomNav.vue'
-import ShipTimeIndicator from '@/components/shared/ShipTimeIndicator.vue'
 import BarStep from '@/features/drinkit/log/BarStep.vue'
 import DrinkStep from '@/features/drinkit/log/DrinkStep.vue'
 import FriendsStep from '@/features/drinkit/log/FriendsStep.vue'
@@ -37,6 +36,19 @@ type ModalKind =
 
 const modal = ref<ModalKind>(null)
 const bootstrapped = ref(false)
+const wizardEl = ref<HTMLElement | null>(null)
+const showBack = computed(() => wizard.step !== 'bar')
+
+/**
+ * Route the player already chose when a guard cancelled navigation.
+ * Header Exit leaves this null and falls back to the Drink It! home.
+ * Completed only after Exit and Discard, via a fresh router.push.
+ */
+let pendingDestination: string | null = null
+let confirmLeave = false
+let discardOnLeave = false
+let exitInFlight = false
+let scrollFrame = 0
 
 const completed = computed(() => {
   const set = new Set<WizardStep>()
@@ -94,8 +106,56 @@ watch(
 )
 
 onBeforeUnmount(() => {
-  // Keep store until explicit discard so Plus mid-wizard can detect; cleared on leave confirm.
+  // Discard only after a confirmed leave actually unmounts the wizard.
+  // A cancelled or failed navigation never reaches this hook, so the draft stays.
+  if (discardOnLeave) {
+    discardOnLeave = false
+    wizard.resetAll()
+  }
+  if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
 })
+
+function resetWizardScroll() {
+  const seen = new Set<HTMLElement>()
+  const queue: HTMLElement[] = []
+  const push = (node: unknown) => {
+    if (node instanceof HTMLElement) queue.push(node)
+  }
+  push(wizardEl.value)
+  push(document.scrollingElement)
+  push(document.documentElement)
+  push(document.body)
+
+  while (queue.length) {
+    const el = queue.pop()
+    if (!el || seen.has(el)) continue
+    seen.add(el)
+    push(el.parentElement)
+    if (typeof el.scrollTo === 'function') {
+      el.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }
+    el.scrollTop = 0
+    el.scrollLeft = 0
+  }
+}
+
+function scheduleWizardScrollReset() {
+  resetWizardScroll()
+  if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
+  scrollFrame = requestAnimationFrame(() => {
+    scrollFrame = 0
+    resetWizardScroll()
+  })
+}
+
+watch(
+  () => wizard.step,
+  async () => {
+    await nextTick()
+    if (!wizardEl.value?.isConnected) return
+    scheduleWizardScrollReset()
+  },
+)
 
 watch(
   () => route.fullPath,
@@ -105,66 +165,91 @@ watch(
   },
 )
 
-onBeforeRouteLeave((to, _from, next) => {
-  if (!wizard.active) {
-    next()
-    return
-  }
+/** First Log It screen (BAR). Exiting here never asks to leave — even after brief interaction. */
+const isFirstWizardScreen = computed(() => wizard.step === wizard.STEPS[0])
+
+onBeforeRouteLeave((to) => {
+  // A confirmed Exit and Discard is already in flight. Allow it, including
+  // redirects, without opening the dialog again.
+  if (confirmLeave) return true
+  if (!wizard.active) return true
   if (wizard.submitStatus === 'success') {
     wizard.resetAll()
-    next()
-    return
+    return true
   }
   // Awards Mode / View Wrapped — leave without Keep Editing prompt.
   if (to.name === 'drinkit-wrapped' || awardsMode.isAwardsMode) {
     wizard.resetAll()
-    next()
-    return
+    return true
   }
   if (wizard.formLockedForUnknown) {
     modal.value = 'unknown'
-    next(false)
-    return
+    return false
   }
-  if (to.name === 'drinkit-log') {
-    next()
-    return
-  }
-  modal.value = 'exit'
-  pendingLeave.value = () => {
+  if (to.name === 'drinkit-log') return true
+  // Screen one (BAR): leave immediately with no confirmation, discarding any
+  // brief first-screen interaction. Screen two+ keep the Leave This Log? modal.
+  if (isFirstWizardScreen.value) {
     wizard.resetAll()
-    next()
+    return true
   }
-  next(false)
+  // Returning false cancels this attempt. Resume the same URL with router.push
+  // only after Exit and Discard — next() cannot continue a cancelled navigation.
+  pendingDestination = to.fullPath
+  modal.value = 'exit'
+  return false
 })
 
-const pendingLeave = ref<null | (() => void)>(null)
-
 function requestExit() {
+  if (exitInFlight) return
   if (wizard.formLockedForUnknown) {
     modal.value = 'unknown'
     return
   }
+  // Header Exit on the first screen skips the leave confirmation.
+  if (isFirstWizardScreen.value) {
+    pendingDestination = null
+    void confirmExit()
+    return
+  }
+  pendingDestination = null
   modal.value = 'exit'
 }
 
-function confirmExit() {
+async function confirmExit() {
+  if (exitInFlight) return
+  if (wizard.formLockedForUnknown) {
+    pendingDestination = null
+    modal.value = 'unknown'
+    return
+  }
+  exitInFlight = true
+  const dest = pendingDestination ?? awardsMode.homePathForGame('drinkit')
+  pendingDestination = null
   modal.value = null
-  const leave = pendingLeave.value
-  pendingLeave.value = null
-  wizard.resetAll()
-  if (leave) leave()
-  else void router.push(awardsMode.homePathForGame('drinkit'))
+  confirmLeave = true
+  discardOnLeave = true
+  try {
+    await router.push(dest)
+  } catch {
+    // Unexpected navigation failure. Leave the draft intact.
+  } finally {
+    confirmLeave = false
+    exitInFlight = false
+    if (router.currentRoute.value.name === 'drinkit-log') {
+      discardOnLeave = false
+    }
+  }
 }
 
 function cancelModal() {
   modal.value = null
-  pendingLeave.value = null
+  pendingDestination = null
 }
 
 function goToWrapped() {
   modal.value = null
-  pendingLeave.value = null
+  pendingDestination = null
   wizard.resetAll()
   void router.replace({ name: 'drinkit-wrapped' })
 }
@@ -255,14 +340,17 @@ function onIngredientConfirmNo() {
 </script>
 
 <template>
-  <div class="theme-drink min-h-dvh" style="background: var(--theme-page)" data-testid="log-wizard">
-    <header
-      class="sticky top-0 z-20 flex items-center justify-between px-3 py-3 text-white"
-      style="background: var(--theme-header); padding-top: max(0.75rem, env(safe-area-inset-top))"
-    >
+  <div
+    ref="wizardEl"
+    class="theme-drink log-wizard-root min-h-dvh"
+    style="background: var(--theme-gradient-warm)"
+    data-testid="log-wizard"
+  >
+    <header class="wizard-header" style="padding-top: max(0.4rem, env(safe-area-inset-top))">
       <button
+        v-if="showBack"
         type="button"
-        class="rounded-full p-2 hover:bg-white/10"
+        class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-white/10"
         :aria-label="copy.wizard.goBack"
         data-testid="wizard-back"
         :disabled="wizard.formLockedForUnknown"
@@ -270,20 +358,24 @@ function onIngredientConfirmNo() {
       >
         <AppIcon name="header.back" class="text-lg" />
       </button>
-      <h1 class="font-display text-lg font-bold tracking-[0.08em] uppercase">
+      <span
+        v-else
+        class="inline-flex h-11 w-11 shrink-0"
+        data-testid="wizard-back-spacer"
+        aria-hidden="true"
+      />
+      <h1>
         {{ copy.wizard.title }}
       </h1>
       <button
         type="button"
-        class="rounded-full px-3 py-2 text-sm font-semibold hover:bg-white/10"
+        class="shrink-0 rounded-full px-2 py-2 text-sm font-semibold hover:bg-white/10"
         data-testid="wizard-exit"
         @click="requestExit"
       >
         {{ copy.wizard.exit }}
       </button>
     </header>
-
-    <ShipTimeIndicator />
 
     <WizardProgress
       :step="wizard.step"
@@ -468,3 +560,11 @@ function onIngredientConfirmNo() {
     />
   </div>
 </template>
+
+<style>
+/* Keep a step change from re-anchoring the window to the previous list offset. */
+.log-wizard-root,
+.log-wizard-root * {
+  overflow-anchor: none;
+}
+</style>
