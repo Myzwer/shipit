@@ -122,7 +122,7 @@ export function findMissingOrganizerAuthorizedExceptions(
         drink_key: entry.drink_key,
       })
     }
-    if (doc.ingredient_candidates?.some((c) => false)) {
+    if (doc.ingredient_candidates?.some(() => false)) {
       /* ingredient candidates are ingredient-keyed; never invent from provisional notes */
     }
     const drink = drinksByKey.get(entry.drink_key)

@@ -67,7 +67,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-002",
@@ -89,7 +90,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-003",
@@ -111,7 +113,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-004",
@@ -133,7 +136,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-005",
@@ -155,7 +159,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-006",
@@ -176,7 +181,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-007",
@@ -197,7 +203,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-008",
@@ -218,7 +225,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-009",
@@ -240,7 +248,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-010",
@@ -262,7 +271,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-011",
@@ -285,7 +295,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.team"
   },
   {
     "snapshotRef": "S-012",
@@ -307,7 +318,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "S-013",
@@ -329,7 +341,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "S-014",
@@ -356,7 +369,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-015",
@@ -379,7 +393,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "S-016",
@@ -401,7 +416,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "S-017",
@@ -422,7 +438,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-018",
@@ -443,7 +460,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-019",
@@ -464,7 +482,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-020",
@@ -485,7 +504,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-021",
@@ -506,7 +526,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-022",
@@ -527,7 +548,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-023",
@@ -548,7 +570,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-024",
@@ -569,7 +592,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-025",
@@ -590,7 +614,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-026",
@@ -611,7 +636,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-027",
@@ -632,7 +658,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-028",
@@ -653,7 +680,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-029",
@@ -674,7 +702,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-030",
@@ -695,7 +724,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-031",
@@ -716,7 +746,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-032",
@@ -737,7 +768,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-033",
@@ -758,7 +790,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-034",
@@ -779,7 +812,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-035",
@@ -800,7 +834,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-036",
@@ -821,7 +856,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-037",
@@ -842,7 +878,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-038",
@@ -863,7 +900,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-039",
@@ -884,7 +922,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-040",
@@ -905,7 +944,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-041",
@@ -926,7 +966,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-042",
@@ -947,7 +988,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-043",
@@ -968,7 +1010,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-044",
@@ -989,7 +1032,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-045",
@@ -1010,7 +1054,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-046",
@@ -1031,7 +1076,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-047",
@@ -1052,7 +1098,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-048",
@@ -1078,7 +1125,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "D-001",
@@ -1100,7 +1148,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-002",
@@ -1122,7 +1171,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-003",
@@ -1144,7 +1194,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-004",
@@ -1166,7 +1217,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-005",
@@ -1188,7 +1240,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-006",
@@ -1210,7 +1263,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-007",
@@ -1233,7 +1287,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-008",
@@ -1256,7 +1311,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-009",
@@ -1279,7 +1335,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-010",
@@ -1301,7 +1358,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-011",
@@ -1322,7 +1380,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "D-012",
@@ -1347,7 +1406,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "D-013",
@@ -1370,7 +1430,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-014",
@@ -1392,7 +1453,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-015",
@@ -1415,7 +1477,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-016",
@@ -1438,7 +1501,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-017",
@@ -1461,7 +1525,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-018",
@@ -1483,7 +1548,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-019",
@@ -1505,7 +1571,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-020",
@@ -1527,7 +1594,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-021",
@@ -1549,7 +1617,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-022",
@@ -1571,7 +1640,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-023",
@@ -1594,7 +1664,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-024",
@@ -1617,7 +1688,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-025",
@@ -1640,7 +1712,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-026",
@@ -1663,7 +1736,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-028",
@@ -1685,7 +1759,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-029",
@@ -1707,7 +1782,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-030",
@@ -1730,7 +1806,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.points"
   },
   {
     "snapshotRef": "D-031",
@@ -1751,7 +1828,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-032",
@@ -1772,7 +1850,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "D-033",
@@ -1799,7 +1878,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.snowflake"
   },
   {
     "snapshotRef": "D-034",
@@ -1820,7 +1900,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.wine"
   },
   {
     "snapshotRef": "D-035",
@@ -1841,7 +1922,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-036",
@@ -1881,7 +1963,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.layer"
   },
   {
     "snapshotRef": "D-037",
@@ -1910,7 +1993,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.cocktail"
   },
   {
     "snapshotRef": "D-038",
@@ -1939,7 +2023,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.pepper"
   },
   {
     "snapshotRef": "D-039",
@@ -1968,7 +2053,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.palm"
   },
   {
     "snapshotRef": "D-040",
@@ -1998,7 +2084,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.whiskey"
   },
   {
     "snapshotRef": "D-041",
@@ -2027,7 +2114,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bottle"
   },
   {
     "snapshotRef": "D-042",
@@ -2056,7 +2144,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.whiskey"
   },
   {
     "snapshotRef": "D-043",
@@ -2086,7 +2175,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.layer"
   },
   {
     "snapshotRef": "D-044",
@@ -2109,7 +2199,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.fire"
   },
   {
     "snapshotRef": "D-045",
@@ -2145,7 +2236,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-046",
@@ -2168,7 +2260,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-047",
@@ -2200,7 +2293,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-048",
@@ -2223,7 +2317,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-049",
@@ -2246,7 +2341,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-050",
@@ -2273,7 +2369,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.pepper"
   },
   {
     "snapshotRef": "D-051",
@@ -2296,7 +2393,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.coffee"
   },
   {
     "snapshotRef": "D-052",
@@ -2328,7 +2426,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-053",
@@ -2351,7 +2450,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-054",
@@ -2374,7 +2474,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-055",
@@ -2406,7 +2507,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-056",
@@ -2429,7 +2531,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-057",
@@ -2452,7 +2555,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-058",
@@ -2475,7 +2579,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-059",
@@ -2498,7 +2603,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-060",
@@ -2521,7 +2627,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-061",
@@ -2553,7 +2660,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-062",
@@ -2574,7 +2682,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "D-063",
@@ -2610,7 +2719,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.cocktail"
   },
   {
     "snapshotRef": "D-064",
@@ -2643,7 +2753,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.palm"
   },
   {
     "snapshotRef": "D-065",
@@ -2673,7 +2784,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.wine"
   },
   {
     "snapshotRef": "D-066",
@@ -2706,7 +2818,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-067",
@@ -2728,7 +2841,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-068",
@@ -2750,7 +2864,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-069",
@@ -2774,7 +2889,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-070",
@@ -2796,7 +2912,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-071",
@@ -2818,7 +2935,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-072",
@@ -2840,7 +2958,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.sun"
   },
   {
     "snapshotRef": "D-073",
@@ -2862,7 +2981,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.moon"
   },
   {
     "snapshotRef": "D-074",
@@ -2884,7 +3004,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-075",
@@ -2909,7 +3030,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "D-076",
@@ -2931,7 +3053,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-077",
@@ -2953,7 +3076,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-078",
@@ -2976,7 +3100,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-079",
@@ -2999,7 +3124,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-080",
@@ -3020,7 +3146,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-081",
@@ -3044,7 +3171,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-082",
@@ -3065,7 +3193,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-083",
@@ -3086,7 +3215,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-084",
@@ -3107,7 +3237,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "D-085",
@@ -3128,7 +3259,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-086",
@@ -3155,7 +3287,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-087",
@@ -3182,7 +3315,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-088",
@@ -3209,7 +3343,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-089",
@@ -3244,7 +3379,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-090",
@@ -3271,7 +3407,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-091",
@@ -3298,7 +3435,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-092",
@@ -3325,7 +3463,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-093",
@@ -3352,7 +3491,8 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   }
 ]
 

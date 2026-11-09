@@ -19,7 +19,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-002",
@@ -41,7 +42,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-003",
@@ -63,7 +65,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-004",
@@ -85,7 +88,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-005",
@@ -107,7 +111,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-006",
@@ -128,7 +133,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-007",
@@ -149,7 +155,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-008",
@@ -170,7 +177,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "S-009",
@@ -192,7 +200,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-010",
@@ -214,7 +223,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-011",
@@ -237,7 +247,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.team"
   },
   {
     "snapshotRef": "S-012",
@@ -259,7 +270,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "S-013",
@@ -281,7 +293,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "S-014",
@@ -308,7 +321,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "S-015",
@@ -331,7 +345,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "S-016",
@@ -353,7 +368,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "S-017",
@@ -374,7 +390,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-018",
@@ -395,7 +412,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-019",
@@ -416,7 +434,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-020",
@@ -437,7 +456,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-021",
@@ -458,7 +478,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-022",
@@ -479,7 +500,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-023",
@@ -500,7 +522,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-024",
@@ -521,7 +544,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-025",
@@ -542,7 +566,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-026",
@@ -563,7 +588,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-027",
@@ -584,7 +610,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-028",
@@ -605,7 +632,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-029",
@@ -626,7 +654,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-030",
@@ -647,7 +676,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-031",
@@ -668,7 +698,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-032",
@@ -689,7 +720,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-033",
@@ -710,7 +742,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-034",
@@ -731,7 +764,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-035",
@@ -752,7 +786,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-036",
@@ -773,7 +808,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-037",
@@ -794,7 +830,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-038",
@@ -815,7 +852,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.ship-it"
   },
   {
     "snapshotRef": "S-039",
@@ -836,7 +874,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-040",
@@ -857,7 +896,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-041",
@@ -878,7 +918,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-042",
@@ -899,7 +940,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-043",
@@ -920,7 +962,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-044",
@@ -941,7 +984,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-045",
@@ -962,7 +1006,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-046",
@@ -983,7 +1028,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-047",
@@ -1004,7 +1050,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.medal"
   },
   {
     "snapshotRef": "S-048",
@@ -1030,7 +1077,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "D-001",
@@ -1052,7 +1100,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-002",
@@ -1074,7 +1123,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-003",
@@ -1096,7 +1146,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-004",
@@ -1118,7 +1169,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-005",
@@ -1140,7 +1192,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-006",
@@ -1162,7 +1215,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-007",
@@ -1185,7 +1239,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-008",
@@ -1208,7 +1263,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-009",
@@ -1231,7 +1287,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-010",
@@ -1253,7 +1310,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-011",
@@ -1274,7 +1332,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "D-012",
@@ -1299,7 +1358,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bolt"
   },
   {
     "snapshotRef": "D-013",
@@ -1322,7 +1382,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-014",
@@ -1344,7 +1405,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-015",
@@ -1367,7 +1429,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-016",
@@ -1390,7 +1453,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-017",
@@ -1413,7 +1477,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-018",
@@ -1435,7 +1500,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bullseye"
   },
   {
     "snapshotRef": "D-019",
@@ -1457,7 +1523,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-020",
@@ -1479,7 +1546,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-021",
@@ -1501,7 +1569,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-022",
@@ -1523,7 +1592,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-023",
@@ -1546,7 +1616,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-024",
@@ -1569,7 +1640,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-025",
@@ -1592,7 +1664,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-026",
@@ -1615,7 +1688,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-028",
@@ -1637,7 +1711,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-029",
@@ -1659,7 +1734,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-030",
@@ -1682,7 +1758,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.points"
   },
   {
     "snapshotRef": "D-031",
@@ -1703,7 +1780,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-032",
@@ -1724,7 +1802,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "D-033",
@@ -1751,7 +1830,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.snowflake"
   },
   {
     "snapshotRef": "D-034",
@@ -1772,7 +1852,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.wine"
   },
   {
     "snapshotRef": "D-035",
@@ -1793,7 +1874,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-036",
@@ -1833,7 +1915,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.layer"
   },
   {
     "snapshotRef": "D-037",
@@ -1862,7 +1945,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.cocktail"
   },
   {
     "snapshotRef": "D-038",
@@ -1891,7 +1975,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.pepper"
   },
   {
     "snapshotRef": "D-039",
@@ -1920,7 +2005,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.palm"
   },
   {
     "snapshotRef": "D-040",
@@ -1950,7 +2036,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.whiskey"
   },
   {
     "snapshotRef": "D-041",
@@ -1979,7 +2066,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bottle"
   },
   {
     "snapshotRef": "D-042",
@@ -2008,7 +2096,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.whiskey"
   },
   {
     "snapshotRef": "D-043",
@@ -2038,7 +2127,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.layer"
   },
   {
     "snapshotRef": "D-044",
@@ -2061,7 +2151,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.fire"
   },
   {
     "snapshotRef": "D-045",
@@ -2097,7 +2188,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-046",
@@ -2120,7 +2212,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-047",
@@ -2152,7 +2245,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-048",
@@ -2175,7 +2269,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-049",
@@ -2198,7 +2293,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-050",
@@ -2225,7 +2321,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.pepper"
   },
   {
     "snapshotRef": "D-051",
@@ -2248,7 +2345,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.coffee"
   },
   {
     "snapshotRef": "D-052",
@@ -2280,7 +2378,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-053",
@@ -2303,7 +2402,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-054",
@@ -2326,7 +2426,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-055",
@@ -2358,7 +2459,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-056",
@@ -2381,7 +2483,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-057",
@@ -2404,7 +2507,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-058",
@@ -2427,7 +2531,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-059",
@@ -2450,7 +2555,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-060",
@@ -2473,7 +2579,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-061",
@@ -2505,7 +2612,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-062",
@@ -2526,7 +2634,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.list"
   },
   {
     "snapshotRef": "D-063",
@@ -2562,7 +2671,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.cocktail"
   },
   {
     "snapshotRef": "D-064",
@@ -2595,7 +2705,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.palm"
   },
   {
     "snapshotRef": "D-065",
@@ -2625,7 +2736,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.wine"
   },
   {
     "snapshotRef": "D-066",
@@ -2658,7 +2770,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.lemon"
   },
   {
     "snapshotRef": "D-067",
@@ -2680,7 +2793,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-068",
@@ -2702,7 +2816,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-069",
@@ -2726,7 +2841,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-070",
@@ -2748,7 +2864,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-071",
@@ -2770,7 +2887,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-072",
@@ -2792,7 +2910,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.sun"
   },
   {
     "snapshotRef": "D-073",
@@ -2814,7 +2933,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.moon"
   },
   {
     "snapshotRef": "D-074",
@@ -2836,7 +2956,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.repeat"
   },
   {
     "snapshotRef": "D-075",
@@ -2861,7 +2982,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.clock"
   },
   {
     "snapshotRef": "D-076",
@@ -2883,7 +3005,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-077",
@@ -2905,7 +3028,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-078",
@@ -2928,7 +3052,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-079",
@@ -2951,7 +3076,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.bar"
   },
   {
     "snapshotRef": "D-080",
@@ -2972,7 +3098,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.beer"
   },
   {
     "snapshotRef": "D-081",
@@ -2996,7 +3123,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.calendar"
   },
   {
     "snapshotRef": "D-082",
@@ -3017,7 +3145,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-083",
@@ -3038,7 +3167,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-084",
@@ -3059,7 +3189,8 @@
     "blockers": [],
     "enabledInDev": true,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.compass"
   },
   {
     "snapshotRef": "D-085",
@@ -3080,7 +3211,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.achievement"
   },
   {
     "snapshotRef": "D-086",
@@ -3107,7 +3239,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-087",
@@ -3134,7 +3267,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-088",
@@ -3161,7 +3295,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-089",
@@ -3196,7 +3331,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "theme.drink-it"
   },
   {
     "snapshotRef": "D-090",
@@ -3223,7 +3359,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-091",
@@ -3250,7 +3387,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-092",
@@ -3277,7 +3415,8 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   },
   {
     "snapshotRef": "D-093",
@@ -3304,6 +3443,7 @@
     ],
     "enabledInDev": false,
     "testOnly": true,
-    "visibilityNote": "PROVISIONAL — secret/public not final"
+    "visibilityNote": "PROVISIONAL — secret/public not final",
+    "iconKey": "score.friends"
   }
 ]

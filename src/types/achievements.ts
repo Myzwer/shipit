@@ -38,6 +38,8 @@ export interface AchievementCard {
   description: string
   earned: boolean
   awarded_at_utc: string | null
+  /** Server-authoritative historical ship-local wall time (never device TZ). */
+  awarded_at_ship_local?: string | null
   award_id: string | null
   progress: AchievementProgress | null
   collection?: AchievementCollectionSummary | null

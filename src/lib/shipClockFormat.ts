@@ -36,6 +36,25 @@ export function formatShipTimeOfDay(shipLocal: string): string {
   return `${h12}:${String(p.minutes).padStart(2, '0')} ${period}`
 }
 
+/** `Tuesday · 1:00 PM` from a historical ship-local wall timestamp. */
+export function formatShipWeekdayTime(shipLocal: string): string {
+  const p = parseShipLocal(shipLocal)
+  if (!p) return shipLocal
+  const weekday = weekdayForShipDate(p.date)
+  const time = formatShipTimeOfDay(shipLocal)
+  return weekday ? `${weekday} · ${time}` : time
+}
+
+/** Achievement badge: `EARNED TUESDAY AT 9:18 PM` from ship-local wall time. */
+export function formatShipEarnedBadge(shipLocal: string): string {
+  const p = parseShipLocal(shipLocal)
+  if (!p) return ''
+  const weekday = weekdayForShipDate(p.date)
+  const time = formatShipTimeOfDay(shipLocal)
+  if (!weekday) return `EARNED AT ${time}`
+  return `EARNED ${weekday.toUpperCase()} AT ${time}`
+}
+
 export function formatShipDateTime(shipLocal: string): string {
   const p = parseShipLocal(shipLocal)
   if (!p) return shipLocal

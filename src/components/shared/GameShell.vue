@@ -48,11 +48,13 @@ function switchGame() {
   <div :class="[themeClass, 'min-h-dvh']" :style="{ background: 'var(--theme-page)' }">
     <SectionHeaderBar :title="title">
       <template #actions>
+        <slot name="header-actions" />
         <button
           v-if="showSwitch !== false && session.isDualGame"
           type="button"
           class="rounded-full p-2 text-white/90 transition hover:bg-white/10"
           :aria-label="switchLabel"
+          data-testid="switch-game"
           @click="switchGame"
         >
           <AppIcon name="header.switch-game" class="text-lg" />

@@ -7,17 +7,47 @@ import { WORKING_ACHIEVEMENT_CATALOG } from '../../../content/achievements/worki
 import drinkingWithDavids from '../../../content/achievements/drinkingWithDavids.json'
 import barGauntlets from '../../../content/achievements/barGauntlets.json'
 
-const KNOWN_ACHIEVEMENT_ICON_KEYS = new Set<string>([
-  'score.achievement',
-  'score.medal',
-  'score.friends',
-  'score.team',
-  'score.bar',
-  'score.calendar',
-  'score.leaderboard',
-  'score.points',
+/** Achievement-safe semantic keys (subset of the Font Awesome Pro registry). */
+export const KNOWN_ACHIEVEMENT_ICON_KEYS = new Set<string>([
   'theme.drink-it',
   'theme.ship-it',
+  'score.leaderboard',
+  'score.achievement',
+  'score.medal',
+  'score.points',
+  'score.bar',
+  'score.friends',
+  'score.team',
+  'score.calendar',
+  'score.list',
+  'score.clock',
+  'score.compass',
+  'score.bolt',
+  'score.bullseye',
+  'score.snowflake',
+  'score.wine',
+  'score.beer',
+  'score.layer',
+  'score.cocktail',
+  'score.pepper',
+  'score.palm',
+  'score.whiskey',
+  'score.bottle',
+  'score.fire',
+  'score.lemon',
+  'score.coffee',
+  'score.sun',
+  'score.moon',
+  'score.repeat',
+  'score.camera',
+  'score.music',
+  'score.beach',
+  'score.route',
+  'score.utensils',
+  'score.gem',
+  'score.flower',
+  'score.leaf',
+  'score.secret',
 ])
 
 export type AchievementIconResolution =
@@ -37,7 +67,9 @@ export function resolveAchievementIconKey(
   return { ok: true, icon_key: iconKey as SemanticIconKey }
 }
 
-export function listWorkingAchievementIconCoverage(): {
+export function listWorkingAchievementIconCoverage(opts?: {
+  enabledOnly?: boolean
+}): {
   total: number
   with_icon: number
   missing_icon_keys: string[]
@@ -47,7 +79,11 @@ export function listWorkingAchievementIconCoverage(): {
     ...WORKING_ACHIEVEMENT_CATALOG,
     ...(drinkingWithDavids.definitions || []),
     ...(barGauntlets.definitions || []),
-  ]
+  ].filter((row) => {
+    if (!opts?.enabledOnly) return true
+    const enabled = (row as { enabledInDev?: boolean }).enabledInDev
+    return enabled !== false
+  })
   const missing: string[] = []
   const unknown: Array<{ stable_key: string; icon_key: string }> = []
   let withIcon = 0

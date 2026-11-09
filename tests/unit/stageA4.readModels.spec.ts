@@ -38,9 +38,9 @@ describe('Stage A4 category and icon contracts', () => {
   })
 
   it('reports icon coverage without treating photos as icons', () => {
-    const coverage = listWorkingAchievementIconCoverage()
+    const coverage = listWorkingAchievementIconCoverage({ enabledOnly: true })
     expect(coverage.total).toBeGreaterThan(140)
-    expect(coverage.missing_icon_keys.length).toBeGreaterThan(100)
+    expect(coverage.missing_icon_keys).toEqual([])
     expect(coverage.unknown_icon_assignments).toEqual([])
     expect(resolveAchievementIconKey('score.friends').ok).toBe(true)
     expect(resolveAchievementIconKey(null).reason).toBe('missing')
