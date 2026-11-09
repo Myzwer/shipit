@@ -57,6 +57,8 @@ export const OFFERING_CLASSIFICATION_TAGS = [
   'frozen',
   'margarita',
   'mixed-spirits',
+  // Loggable offering that must not count toward a drink collection.
+  'collection-excluded',
 ] as const
 
 export type IngredientClassificationTag = (typeof INGREDIENT_CLASSIFICATION_TAGS)[number]

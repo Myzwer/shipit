@@ -18,6 +18,8 @@ export const ACHIEVEMENT_CONDITION_TYPES = [
   'ship_time_window',
   'cruise_day',
   'recipe_ingredient_count',
+  'same_log',
+  'offering_collection',
   'all',
   'any',
 ] as const
@@ -189,6 +191,40 @@ export interface CruiseDayCondition extends ConditionBase {
   event: EventKind
 }
 
+/**
+ * Every listed constraint must match one accepted drink log.
+ * `all` / `any` stay cross-log. player_ids match the author or a selected companion.
+ */
+export interface SameLogCondition extends ConditionBase {
+  type: 'same_log'
+  /** Synthetic or out-of-band player UUIDs. Never commit real roster maps. */
+  player_ids?: string[]
+  drink_concept_key?: string
+  drink_concept_id?: string
+  bar_key?: string
+  bar_keys?: string[]
+  /** Versioned drink-concept or offering tag on the log's catalog version. */
+  drink_tag?: string
+  /** Inclusive ship-local hour. */
+  hour_start?: number
+  /** Exclusive ship-local hour. 17 and 19 is 5:00pm through 6:59pm. */
+  hour_end?: number
+}
+
+/**
+ * Distinct eligible offerings at one bar.
+ * full_menu target is the active catalog's eligible set and moves when that catalog changes.
+ * threshold target is a fixed count of those eligible offerings.
+ * Earned awards keep the set they completed and are not revoked by a later publication.
+ */
+export interface OfferingCollectionCondition extends ConditionBase {
+  type: 'offering_collection'
+  bar_key: string
+  scope?: 'personal' | 'collective'
+  mode?: 'full_menu' | 'threshold'
+  threshold?: number
+}
+
 export interface AllCondition extends ConditionBase {
   type: 'all'
   conditions: AchievementCondition[]
@@ -214,6 +250,8 @@ export type AchievementCondition =
   | CompanionPredicateCondition
   | ShipTimeWindowCondition
   | CruiseDayCondition
+  | SameLogCondition
+  | OfferingCollectionCondition
   | AllCondition
   | AnyCondition
 
