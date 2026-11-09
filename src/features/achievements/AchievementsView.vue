@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import GameShell from '@/components/shared/GameShell.vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import AchievementCard from '@/features/achievements/AchievementCard.vue'
+import AchievementCategoryFilter from '@/features/achievements/AchievementCategoryFilter.vue'
 import BarGauntletTracker from '@/features/achievements/BarGauntletTracker.vue'
 import {
   listAchievements,
@@ -38,14 +39,15 @@ const view = ref<AchievementView>(route.query.view === 'all' ? 'all' : 'mine')
 const filter = ref<AchievementsFilterKey>('all')
 const status = ref<'loading' | 'ready' | 'error'>('loading')
 const refreshing = ref(false)
-const cards = ref<AchievementCardModel[]>([])
-/** Full available set for truthful overall / category denominators (not view-filtered). */
-const censusCards = ref<AchievementCardModel[]>([])
+/** Full masked catalog from a single `list_achievements('all')` fetch. */
+const catalogCards = ref<AchievementCardModel[]>([])
 const categories = ref<AchievementCategoryMeta[]>(achievementCategoriesOrdered())
 const gauntlets = ref<BarGauntletSummary[]>([])
 const finaleRevealed = ref(false)
+/** Account-scoped snapshot used to derive My vs All without extra RPCs. */
+let catalogLoadedForGame: GameId | null = null
 
-const overall = computed(() => overallAchievementCounts(censusCards.value))
+const overall = computed(() => overallAchievementCounts(catalogCards.value))
 const overallPct = computed(() => {
   if (!overall.value.total) return 0
   return Math.min(100, Math.round((overall.value.earned / overall.value.total) * 100))
@@ -59,13 +61,13 @@ const filterOptions = computed(() => [
 const sections = computed(() => {
   if (view.value === 'mine') {
     return composeMineSections({
-      cards: censusCards.value.length ? censusCards.value : cards.value,
+      cards: catalogCards.value,
       filter: filter.value,
       categories: categories.value,
     })
   }
   return composeAllSections({
-    cards: cards.value,
+    cards: catalogCards.value,
     gauntlets: props.game === 'drinkit' ? gauntlets.value : [],
     filter: filter.value,
     categories: categories.value,
@@ -81,19 +83,45 @@ const emptyCopy = computed(() =>
 
 let loadGeneration = 0
 
+async function clearUnreadForLoadedCatalog(gameAtStart: GameId, generation: number) {
+  const earned = catalogCards.value.filter((c) => c.earned && c.award_id && c.awarded_at_utc)
+  if (earned.length === 0) {
+    await unread.refresh(gameAtStart)
+    return
+  }
+  const newest = earned.reduce<(typeof earned)[0] | null>((best, c) => {
+    if (!best) return c
+    if (!best.awarded_at_utc) return c
+    if (!c.awarded_at_utc) return best
+    return c.awarded_at_utc > best.awarded_at_utc ? c : best
+  }, null)
+  if (newest?.award_id && newest.awarded_at_utc) {
+    try {
+      await markAchievementsSeen(gameAtStart, newest.award_id, newest.awarded_at_utc)
+      if (generation !== loadGeneration) return
+      await unread.refresh(gameAtStart)
+      if (generation !== loadGeneration) return
+      unread.setUnread(gameAtStart, false)
+    } catch {
+      if (generation !== loadGeneration) return
+      await unread.refresh(gameAtStart)
+    }
+  } else {
+    await unread.refresh(gameAtStart)
+  }
+}
+
 async function load(opts?: { soft?: boolean }) {
   const generation = ++loadGeneration
   const gameAtStart = props.game
-  const viewAtStart = view.value
   if (opts?.soft) refreshing.value = true
   else status.value = 'loading'
   try {
-    const [listRes, censusRes, gauntletRes] = await Promise.all([
-      listAchievements(gameAtStart, viewAtStart),
-      viewAtStart === 'mine'
-        ? listAchievements(gameAtStart, 'all')
-        : Promise.resolve(null),
-      gameAtStart === 'drinkit' && viewAtStart === 'all'
+    // One secure masked catalog + lightweight gauntlet summaries.
+    // My / All are local presentation filters over the same result.
+    const [listRes, gauntletRes] = await Promise.all([
+      listAchievements(gameAtStart, 'all'),
+      gameAtStart === 'drinkit'
         ? listDrinkItBarGauntletSummaries().catch(() => ({
             ok: false,
             bars: [] as BarGauntletSummary[],
@@ -101,8 +129,8 @@ async function load(opts?: { soft?: boolean }) {
         : Promise.resolve({ ok: true, bars: [] as BarGauntletSummary[] }),
     ])
     if (generation !== loadGeneration) return
-    cards.value = listRes.achievements
-    censusCards.value = censusRes?.achievements ?? listRes.achievements
+    catalogCards.value = listRes.achievements
+    catalogLoadedForGame = gameAtStart
     categories.value = listRes.categories?.length
       ? listRes.categories
       : achievementCategoriesOrdered()
@@ -110,30 +138,7 @@ async function load(opts?: { soft?: boolean }) {
     finaleRevealed.value = !!listRes.finale_revealed
     status.value = 'ready'
 
-    if (viewAtStart === 'mine' && cards.value.length > 0) {
-      const newest = cards.value.reduce<(typeof cards.value)[0] | null>((best, c) => {
-        if (!c.award_id || !c.awarded_at_utc) return best
-        if (!best) return c
-        if (!best.awarded_at_utc) return c
-        return c.awarded_at_utc > best.awarded_at_utc ? c : best
-      }, null)
-      if (newest?.award_id && newest.awarded_at_utc) {
-        try {
-          await markAchievementsSeen(gameAtStart, newest.award_id, newest.awarded_at_utc)
-          if (generation !== loadGeneration) return
-          await unread.refresh(gameAtStart)
-          if (generation !== loadGeneration) return
-          unread.setUnread(gameAtStart, false)
-        } catch {
-          if (generation !== loadGeneration) return
-          await unread.refresh(gameAtStart)
-        }
-      } else if (viewAtStart === 'mine') {
-        await unread.refresh(gameAtStart)
-      }
-    } else {
-      await unread.refresh(gameAtStart)
-    }
+    await clearUnreadForLoadedCatalog(gameAtStart, generation)
   } catch {
     if (generation !== loadGeneration) return
     status.value = 'error'
@@ -147,8 +152,12 @@ onMounted(() => {
 })
 
 watch(
-  () => [props.game, view.value] as const,
-  () => {
+  () => props.game,
+  (next, prev) => {
+    if (next === prev) return
+    catalogCards.value = []
+    gauntlets.value = []
+    catalogLoadedForGame = null
     void load()
   },
 )
@@ -156,11 +165,19 @@ watch(
 function setView(next: AchievementView) {
   if (view.value === next) return
   view.value = next
+  // Local filter only — no RPC. Soft-refresh if catalog was never loaded.
+  if (catalogLoadedForGame !== props.game || status.value !== 'ready') {
+    void load()
+  }
 }
 </script>
 
 <template>
-  <GameShell :game="game" :title="copy.achievements.heading" :show-switch="false">
+  <GameShell
+    :game="game"
+    :title="copy.achievements.heading"
+    :show-ship-time="false"
+  >
     <template #header-actions>
       <button
         type="button"
@@ -241,36 +258,7 @@ function setView(next: AchievementView) {
         </button>
       </div>
 
-      <div class="mb-4 flex items-center gap-2" data-testid="achievements-filter">
-        <label
-          class="text-sm font-semibold"
-          style="color: var(--theme-ink)"
-          for="achievements-filter-select"
-        >
-          {{ copy.achievements.filterBy }}
-        </label>
-        <div class="relative min-w-[8.5rem] flex-1">
-          <select
-            id="achievements-filter-select"
-            v-model="filter"
-            class="w-full appearance-none rounded-xl px-3 py-2 pr-9 text-sm font-semibold"
-            style="
-              background: var(--theme-gradient-cool);
-              color: var(--theme-ink);
-              box-shadow: var(--theme-card-shadow, var(--shadow-card));
-            "
-            data-testid="achievements-filter-select"
-          >
-            <option v-for="opt in filterOptions" :key="opt.key" :value="opt.key">
-              {{ opt.label }}
-            </option>
-          </select>
-          <AppIcon
-            name="action.expand"
-            class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm opacity-70"
-          />
-        </div>
-      </div>
+      <AchievementCategoryFilter v-model="filter" :options="filterOptions" />
 
       <p v-if="status === 'loading'" class="text-sm opacity-70" data-testid="achievements-loading">
         {{ copy.achievements.loading }}
@@ -320,29 +308,22 @@ function setView(next: AchievementView) {
             </p>
           </div>
 
-          <div v-if="section.children?.length" class="space-y-4">
-            <div
-              v-for="child in section.children"
-              :key="child.key"
-              :data-testid="`achievements-bar-${child.key}`"
-            >
-              <h3
-                class="mb-2 text-sm font-semibold opacity-80"
-                style="color: var(--theme-ink)"
+          <ul
+            v-if="section.children?.length"
+            class="space-y-3"
+            data-testid="achievements-bar-gauntlets-list"
+          >
+            <template v-for="child in section.children" :key="child.key">
+              <li
+                v-for="(item, idx) in child.items"
+                :key="`${child.key}-${idx}`"
+                :data-testid="`achievements-bar-${child.key}`"
               >
-                {{ child.label }}
-              </h3>
-              <ul class="space-y-3">
-                <li v-for="(item, idx) in child.items" :key="`${child.key}-${idx}`">
-                  <AchievementCard v-if="item.kind === 'card'" :card="item.card" />
-                  <BarGauntletTracker
-                    v-else
-                    :summary="item.summary"
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
+                <AchievementCard v-if="item.kind === 'card'" :card="item.card" />
+                <BarGauntletTracker v-else :summary="item.summary" />
+              </li>
+            </template>
+          </ul>
 
           <ul v-else class="space-y-3">
             <li v-for="(item, idx) in section.items" :key="`${section.key}-${idx}`">
