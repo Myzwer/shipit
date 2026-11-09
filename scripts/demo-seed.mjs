@@ -28,6 +28,14 @@ import {
   readSupabaseEnv,
 } from './lib/demoLocalSafety.mjs'
 import { createPhotoPicker, loadPrivateDemoPhotos } from './lib/demoPrivatePhotos.mjs'
+import {
+  PRIVATE_TUESDAY_EXPECTED_POINTS,
+  PRIVATE_TUESDAY_SCAVENGER_PLAN,
+  SYNTHETIC_TUESDAY_SCAVENGER_PLAN,
+  assertOrganizerShipItTeams,
+  loadPrivateShipItTeamConfig,
+  pickTeamSubmitter,
+} from './lib/shipitTeamConfig.mjs'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
@@ -488,7 +496,8 @@ async function seedBase(aligned) {
 }
 
 async function seedTuesdayActivity(identities, aligned) {
-  const { drinkOnly, both, admin, shipOnly } = resolveDemoCast(identities)
+  const cast = resolveDemoCast(identities)
+  const { drinkOnly, both, admin, shipOnly } = cast
 
   const bothClient = await signIn(both.login_alias)
   const adminClient = await signIn(admin.login_alias)
@@ -564,38 +573,146 @@ async function seedTuesdayActivity(identities, aligned) {
     })
   }
 
-  // Ship It! completions — Alpha (both+ship) and Bravo (admin) intentionally tied at 400:
-  // Alpha: 100+100+200; Bravo: 200+200. Drink It! scores stay unequal for a clear individual winner.
-  const scavPlan = [
-    { key: 'the-piazza-grandeur', player: both, client: bothClient, day: 1, hour: '11:00:00' },
-    { key: 'movies-under-the-stars', player: both, client: bothClient, day: 1, hour: '16:00:00' },
-    { key: 'soft-serve-swirl', player: shipOnly, client: shipClient, day: 3, hour: '12:00:00' },
-    { key: 'international-cafe', player: admin, client: adminClient, day: 2, hour: '11:30:00' },
-    { key: 'omalleys-irish-pub', player: admin, client: adminClient, day: 2, hour: '14:00:00' },
-    // Extra incomplete-looking activity: Bravo also has a 100 left available (not completed)
-  ]
-  for (const [i, s] of scavPlan.entries()) {
-    if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
-    const at = shipLocalToUtcIso(dayDate(aligned.day1, s.day), s.hour, aligned.offsetMinutes)
-    const data = await scavengerComplete(s.client, s.player.player_id, s.key, at, `scav-${i}`)
-    activity.push({ type: 'scavenger', key: s.key, player: s.player.key, ok: data?.ok, points: data?.awarded_points })
-  }
+  // Ship It! completions — private roster uses the six-team mid-cruise plan;
+  // synthetic fixtures keep the classic Alpha/Bravo 400-point tie.
+  const scavActivity = await seedShipItTuesdayCompletions(identities, aligned, cast)
+  activity.push(...scavActivity)
 
-  // Gallery reactions from another member
-  const { data: events } = await service
+  // Gallery reactions across Drink It! + Ship It! posts for visual density.
+  // Allowed emoji keys: heart | laugh | hang_loose (see gallery reaction RPC).
+  const { data: events, error: eventsErr } = await service
     .from('gallery_events')
-    .select('id, game')
-    .order('created_at', { ascending: true })
-    .limit(8)
+    .select('id, game, kind')
+    .eq('active', true)
+    .in('kind', ['drink_log', 'daily', 'scavenger'])
+    .order('created_at_utc', { ascending: true })
+    .limit(24)
+  if (eventsErr) console.warn(`  gallery reaction query failed: ${eventsErr.message}`)
   if (events?.length) {
     const drinkClient = await signIn(drinkOnly.login_alias)
-    for (const [i, ev] of events.slice(0, 3).entries()) {
+    const reactors = [
+      { game: 'drinkit', client: drinkClient },
+      { game: 'drinkit', client: bothClient },
+      { game: 'shipit', client: bothClient },
+      { game: 'shipit', client: adminClient },
+      { game: 'shipit', client: shipClient },
+    ]
+    const emojis = ['heart', 'laugh', 'hang_loose']
+    let reactionOk = 0
+    for (const [i, ev] of events.entries()) {
       if (ev.game !== 'drinkit' && ev.game !== 'shipit') continue
-      const reactor = ev.game === 'drinkit' ? drinkClient : bothClient
-      await reactor.rpc('set_gallery_reaction', { p_event_id: ev.id, p_emoji: i % 2 ? 'laugh' : 'heart' })
+      const pool = reactors.filter((r) => r.game === ev.game)
+      const reactor = pool[i % pool.length]?.client
+      if (!reactor) continue
+      const res = await reactor.rpc('set_gallery_reaction', {
+        p_event_id: ev.id,
+        p_emoji: emojis[i % emojis.length],
+      })
+      if (res.error || !res.data?.ok) {
+        console.warn(
+          `  reaction skip ${ev.game}/${ev.kind}: ${res.error?.message || res.data?.code || 'failed'}`,
+        )
+      } else {
+        reactionOk += 1
+      }
     }
+    console.log(`Gallery reactions applied: ${reactionOk}/${events.length}`)
   }
 
+  return activity
+}
+
+/**
+ * Seed authentic scavenger completions for Tuesday/Wrapped.
+ * Private roster: six organizer teams with varied mid-cruise scores.
+ * Synthetic: Demo Team Alpha/Bravo tied at 400.
+ */
+async function seedShipItTuesdayCompletions(identities, aligned, cast) {
+  const ids = identities.identities || []
+  const byKey = Object.fromEntries(ids.map((i) => [i.key, i]))
+  const teamCfg = loadPrivateShipItTeamConfig(root)
+  const activity = []
+
+  if (cast.mode === 'private') {
+    assertOrganizerShipItTeams(teamCfg, { requireConfirmed: true })
+    const membersByTeamKey = new Map()
+    for (const team of teamCfg.teams) {
+      const memberKeys = Object.entries(teamCfg.assignments)
+        .filter(([, k]) => k === team.key)
+        .map(([playerKey]) => playerKey)
+      const members = memberKeys.map((k) => byKey[k]).filter(Boolean)
+      if (!members.length) {
+        throw new Error(`SHIPIT_TEAMS: no provisioned members for ${team.key}`)
+      }
+      membersByTeamKey.set(team.key, members)
+    }
+
+    console.log(
+      `Ship It! mid-cruise plan: ${PRIVATE_TUESDAY_SCAVENGER_PLAN.length} authentic completions across ${teamCfg.teams.length} teams ` +
+        `(expected points ${Object.entries(PRIVATE_TUESDAY_EXPECTED_POINTS)
+          .map(([n, p]) => `${n}=${p}`)
+          .join(', ')})`,
+    )
+
+    const perTeamIndex = new Map()
+    for (const [i, step] of PRIVATE_TUESDAY_SCAVENGER_PLAN.entries()) {
+      const members = membersByTeamKey.get(step.teamKey)
+      if (!members) {
+        throw new Error(`SHIPIT_TEAMS: scavenger plan references unknown team_key "${step.teamKey}"`)
+      }
+      const idx = perTeamIndex.get(step.teamKey) || 0
+      perTeamIndex.set(step.teamKey, idx + 1)
+      const player = pickTeamSubmitter(members, idx)
+      if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
+      const client = await signIn(player.login_alias)
+      const at = shipLocalToUtcIso(dayDate(aligned.day1, step.day), step.hour, aligned.offsetMinutes)
+      const data = await scavengerComplete(
+        client,
+        player.player_id,
+        step.challengeKey,
+        at,
+        `scav-${step.teamKey}-${step.challengeKey}-${i}`,
+      )
+      activity.push({
+        type: 'scavenger',
+        key: step.challengeKey,
+        team_key: step.teamKey,
+        team: player.team,
+        player: player.key,
+        ok: data?.ok,
+        points: data?.awarded_points,
+        photo: true,
+      })
+    }
+    return activity
+  }
+
+  console.log('Ship It! mid-cruise plan: synthetic Alpha/Bravo (400/400).')
+  for (const [i, step] of SYNTHETIC_TUESDAY_SCAVENGER_PLAN.entries()) {
+    const player = byKey[step.playerKey]
+    if (!player) {
+      throw new Error(`SHIPIT_TEAMS: synthetic plan references unknown key "${step.playerKey}"`)
+    }
+    if (scenarioKey === 'wrapped') await clearFinaleLatchForHistoricalSeed()
+    const client = await signIn(player.login_alias)
+    const at = shipLocalToUtcIso(dayDate(aligned.day1, step.day), step.hour, aligned.offsetMinutes)
+    const data = await scavengerComplete(
+      client,
+      player.player_id,
+      step.challengeKey,
+      at,
+      `scav-${step.playerKey}-${step.challengeKey}-${i}`,
+    )
+    activity.push({
+      type: 'scavenger',
+      key: step.challengeKey,
+      player: player.key,
+      team: player.team,
+      ok: data?.ok,
+      points: data?.awarded_points,
+      photo: true,
+    })
+  }
   return activity
 }
 

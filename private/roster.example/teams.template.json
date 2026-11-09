@@ -1,0 +1,44 @@
+{
+  "$schema_comment": "Optional overlay. Copy to private/roster/teams.local.json (gitignored) OR set top-level teams[] + player team_key in roster.local.json. Never put real guest names, Auth UUIDs, or passwords in tracked files.",
+  "version": 1,
+  "status": "organizer_confirmed_memberships_temporary_names",
+  "notes": "Example of the six-team mid-cruise contract. Team display names are temporary placeholders (Team 1–6) until real names are chosen. Exactly 21 players are assigned; the deliberately-unassigned slot stays null (guest_21 in this synthetic template; map the matching private roster key locally). Synthetic Demo Guest keys below are for the tracked template only.",
+  "teams": [
+    { "key": "team_1", "name": "Team 1", "color": null },
+    { "key": "team_2", "name": "Team 2", "color": null },
+    { "key": "team_3", "name": "Team 3", "color": null },
+    { "key": "team_4", "name": "Team 4", "color": null },
+    { "key": "team_5", "name": "Team 5", "color": null },
+    { "key": "team_6", "name": "Team 6", "color": null }
+  ],
+  "assignments": {
+    "guest_01": "team_1",
+    "guest_02": "team_1",
+    "guest_03": "team_1",
+    "guest_04": "team_2",
+    "guest_05": "team_2",
+    "guest_06": "team_2",
+    "guest_07": "team_3",
+    "guest_10": "team_3",
+    "guest_12": "team_3",
+    "guest_13": "team_3",
+    "david_a": "team_4",
+    "david_b": "team_4",
+    "guest_14": "team_4",
+    "ship_only_01": "team_4",
+    "organizer": "team_5",
+    "guest_15": "team_5",
+    "guest_16": "team_5",
+    "guest_17": "team_6",
+    "guest_18": "team_6",
+    "guest_19": "team_6",
+    "guest_20": "team_6",
+    "guest_21": null
+  },
+  "deliberately_unassigned": ["guest_21"],
+  "capacity": {
+    "team_count": 6,
+    "assigned_players": 21,
+    "total_players": 22
+  }
+}

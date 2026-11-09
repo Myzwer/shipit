@@ -63,7 +63,10 @@ describe('Phase 10A demo safety (always)', () => {
     const gi = readFileSync(join(process.cwd(), '.gitignore'), 'utf8')
     expect(gi.includes('private/roster/')).toBe(true)
     expect(gi.includes('private/photos/')).toBe(true)
-    expect(existsSync(join(process.cwd(), 'private/roster/roster.local.json'))).toBe(false)
+    expect(gi.includes('!private/roster.example/')).toBe(true)
+    // Local preview may create roster.local.json; never assert it absent.
+    expect(existsSync(join(process.cwd(), 'private/roster.example/roster.template.json'))).toBe(true)
+    expect(existsSync(join(process.cwd(), 'private/roster.example/teams.template.json'))).toBe(true)
   })
 })
 

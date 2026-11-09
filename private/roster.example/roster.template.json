@@ -1,21 +1,63 @@
 {
   "$schema_comment": "Copy to private/roster/roster.local.json (gitignored). Never put passwords, Auth UUIDs, or real guest names in committed files. Passwords come from LOCAL_TEST_PASSWORD or PRIVATE_ROSTER_PASSWORD.",
   "version": 1,
-  "notes": "Capacity contract for the confirmed 22-guest cruise. Replace Demo Guest labels with organizer-approved display names only in the gitignored local file. Confirmed team_key stays null until Dad supplies final Ship It! teams. Optional local_demo_provisional may add TEMPORARY demo teams for local Embarkation/Tuesday/Wrapped only. Two Davids must remain separate player keys. Synthetic demo accounts remain acceptable when this file is absent.",
+  "notes": "Capacity contract for the confirmed 22-guest cruise. Replace Demo Guest labels with organizer-approved display names only in the gitignored local file. Organizer-final Ship It! memberships use top-level teams[] + player team_key (temporary Team 1–6 labels until real names are chosen). Exactly one player stays deliberately unassigned (guest_21 / June in the private file). Optional teams.local.json overlay: see teams.template.json. Optional local_demo_provisional remains only for pre-confirmation scaffolding. Two Davids must remain separate player keys. Synthetic demo accounts remain acceptable when this file is absent.",
   "capacity": {
     "total_guests": 22,
     "drink_it_memberships": 11,
     "ship_it_only_slots": 1,
-    "two_davids_required": true
+    "two_davids_required": true,
+    "ship_it_teams": 6,
+    "ship_it_assigned_players": 21,
+    "ship_it_deliberately_unassigned": 1
   },
-  "teams": [],
+  "teams": [
+    {
+      "key": "team_1",
+      "name": "Team 1",
+      "color": null
+    },
+    {
+      "key": "team_2",
+      "name": "Team 2",
+      "color": null
+    },
+    {
+      "key": "team_3",
+      "name": "Team 3",
+      "color": null
+    },
+    {
+      "key": "team_4",
+      "name": "Team 4",
+      "color": null
+    },
+    {
+      "key": "team_5",
+      "name": "Team 5",
+      "color": null
+    },
+    {
+      "key": "team_6",
+      "name": "Team 6",
+      "color": null
+    }
+  ],
   "local_demo_provisional": {
-    "status": "temporary_local_demo_only",
+    "status": "obsolete_when_confirmed_teams_present",
     "not_organizer_confirmed": true,
-    "notes": "Example only — copy into roster.local.json if local Ship It! boards need temporary teams before final assignments exist.",
+    "notes": "Ignored when top-level teams[] + team_key assignments are present. Kept only as a pre-confirmation example.",
     "teams": [
-      { "key": "temp_a", "name": "[TEMP DEMO] Team A", "color": null },
-      { "key": "temp_b", "name": "[TEMP DEMO] Team B", "color": null }
+      {
+        "key": "temp_a",
+        "name": "[TEMP DEMO] Team A",
+        "color": null
+      },
+      {
+        "key": "temp_b",
+        "name": "[TEMP DEMO] Team B",
+        "color": null
+      }
     ],
     "assignments": {
       "organizer": "temp_b",
@@ -29,7 +71,7 @@
       "login_alias": "organizer@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": "bravo",
+      "team_key": "team_5",
       "is_admin": true
     },
     {
@@ -38,7 +80,7 @@
       "login_alias": "guest.01@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_1",
       "is_admin": false
     },
     {
@@ -47,7 +89,7 @@
       "login_alias": "guest.02@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_1",
       "is_admin": false
     },
     {
@@ -56,7 +98,7 @@
       "login_alias": "guest.03@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_1",
       "is_admin": false
     },
     {
@@ -65,7 +107,7 @@
       "login_alias": "guest.04@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_2",
       "is_admin": false
     },
     {
@@ -74,7 +116,7 @@
       "login_alias": "guest.05@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_2",
       "is_admin": false
     },
     {
@@ -83,7 +125,7 @@
       "login_alias": "guest.06@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_2",
       "is_admin": false
     },
     {
@@ -92,7 +134,7 @@
       "login_alias": "guest.07@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_3",
       "is_admin": false
     },
     {
@@ -101,7 +143,7 @@
       "login_alias": "david.a@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_4",
       "is_admin": false,
       "notes": "First of two distinct David identities. Replace display_name only in roster.local.json."
     },
@@ -111,7 +153,7 @@
       "login_alias": "david.b@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_4",
       "is_admin": false,
       "notes": "Second David identity — must stay a separate player key."
     },
@@ -121,7 +163,7 @@
       "login_alias": "guest.10@star-princess.local",
       "drink_it": true,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_3",
       "is_admin": false
     },
     {
@@ -130,9 +172,9 @@
       "login_alias": "guest.shiponly@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_4",
       "is_admin": false,
-      "notes": "Confirmed Ship It! only membership slot (no Drink It!). Map the organizer-confirmed Ship-It-only guest here in roster.local.json. Do not invent a team_key until assigned."
+      "notes": "Confirmed Ship It! only membership slot (no Drink It!)."
     },
     {
       "key": "guest_12",
@@ -140,7 +182,7 @@
       "login_alias": "guest.12@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_3",
       "is_admin": false
     },
     {
@@ -149,7 +191,7 @@
       "login_alias": "guest.13@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_3",
       "is_admin": false
     },
     {
@@ -158,7 +200,7 @@
       "login_alias": "guest.14@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_4",
       "is_admin": false
     },
     {
@@ -167,7 +209,7 @@
       "login_alias": "guest.15@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_5",
       "is_admin": false
     },
     {
@@ -176,7 +218,7 @@
       "login_alias": "guest.16@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_5",
       "is_admin": false
     },
     {
@@ -185,7 +227,7 @@
       "login_alias": "guest.17@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_6",
       "is_admin": false
     },
     {
@@ -194,7 +236,7 @@
       "login_alias": "guest.18@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_6",
       "is_admin": false
     },
     {
@@ -203,7 +245,7 @@
       "login_alias": "guest.19@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_6",
       "is_admin": false
     },
     {
@@ -212,7 +254,7 @@
       "login_alias": "guest.20@star-princess.local",
       "drink_it": false,
       "ship_it": true,
-      "team_key": null,
+      "team_key": "team_6",
       "is_admin": false
     },
     {
@@ -220,9 +262,10 @@
       "display_name": "Demo Guest 21",
       "login_alias": "guest.21@star-princess.local",
       "drink_it": false,
-      "ship_it": true,
+      "ship_it": false,
       "team_key": null,
-      "is_admin": false
+      "is_admin": false,
+      "notes": "Deliberately unassigned Ship It! slot. Ordinary login retained; ship_it stays false until a team is assigned (DB requires team for Ship It! membership). Maps to the unassigned private-roster guest locally."
     }
   ]
 }

@@ -13,6 +13,10 @@ import { createClient } from '@supabase/supabase-js'
 import { execSync } from 'node:child_process'
 import { join } from 'node:path'
 import ws from 'ws'
+import {
+  assertOrganizerShipItTeams,
+  loadPrivateShipItTeamConfig,
+} from './lib/shipitTeamConfig.mjs'
 
 function readSupabaseEnv() {
   const raw = execSync('npx supabase status -o env', { encoding: 'utf8' })
@@ -97,27 +101,29 @@ function loadIdentitiesFromPrivateRoster() {
     console.log('FORCE_SYNTHETIC_ROSTER=1 — ignoring private/roster/roster.local.json')
     return null
   }
-  const rosterPath = join(process.cwd(), 'private/roster/roster.local.json')
-  if (!existsSync(rosterPath)) return null
-  const raw = JSON.parse(readFileSync(rosterPath, 'utf8'))
-  if (!raw?.players?.length) return null
-  const provisional = raw.local_demo_provisional
-  const teamNameByKey = new Map([
-    ...(raw.teams || []).map((t) => [t.key, t.name]),
-    ...((provisional?.teams || []).map((t) => [t.key, t.name])),
-  ])
-  const provisionalAssign = provisional?.assignments || {}
-  if (provisional?.not_organizer_confirmed) {
+  const cfg = loadPrivateShipItTeamConfig(process.cwd())
+  if (cfg.source === 'absent' || !cfg.players.length) return null
+
+  // Fail closed when private roster exists but organizer teams are incomplete.
+  // ALLOW_PROVISIONAL_TEAMS=1 keeps pre-confirmation [TEMP DEMO] scaffolding usable.
+  const allowProvisional = process.env.ALLOW_PROVISIONAL_TEAMS === '1'
+  if (cfg.source === 'private_confirmed' || !allowProvisional) {
+    const verdict = assertOrganizerShipItTeams(cfg, { requireConfirmed: true })
+    console.log(
+      `Applying organizer-confirmed Ship It! teams (${verdict.teamCount} teams, ${verdict.assignedCount} assigned, ${verdict.unassignedCount} unassigned).`,
+    )
+  } else {
     console.log(
       'Applying TEMPORARY local-demo Ship It! team assignments (not organizer-confirmed).',
     )
   }
-  return raw.players.map((p) => {
+
+  const teamNameByKey = new Map(cfg.teams.map((t) => [t.key, t.name]))
+  return cfg.players.map((p) => {
     const games = []
     if (p.drink_it) games.push('drinkit')
     if (p.ship_it) games.push('shipit')
-    // Confirmed team_key wins; else optional provisional demo assignment.
-    const teamKey = p.team_key ?? provisionalAssign[p.key] ?? null
+    const teamKey = cfg.assignments[p.key] ?? null
     return {
       key: p.key,
       display_name: p.display_name,

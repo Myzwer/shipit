@@ -11,9 +11,9 @@ Uses the **same** `content/catalogs/launch-candidate-v1.json` as the production 
 | Phase 10D Docker / integration / synthetic demos | **PASS** (baseline `618ea92`) |
 | Private `roster.local.json` (gitignored) | **PASS** locally — 22 players / 11 Drink It! when file present |
 | Synthetic Demo/Gate fixtures | Fallback **only** when private roster file is absent (`FORCE_SYNTHETIC_ROSTER=1` forces fixtures) |
-| Provisional Ship It! teams | Local-demo only via `local_demo_provisional` (`[TEMP DEMO] …`) — **not** organizer-final |
+| Organizer Ship It! teams | Private roster `teams[]` + `team_key` (temporary Team 1–6 labels; June unassigned) — fail closed if missing |
 | Login selector | Real display names only; no Demo/Gate/Roster fixtures when private roster active |
-| Embarkation / Tuesday / Wrapped | **PASS** on private roster (Drink activity limited to enrolled Drink It! players) |
+| Embarkation / Tuesday / Wrapped | **PASS** on private roster (Drink activity limited to enrolled Drink It! players; Tuesday Ship It! seeds six-team mid-cruise completions) |
 | Migration `085` daily bar fixtures | Launch-candidate bar keys (fixes post-activate `BAR_KEY_MISSING`) |
 | Private-roster screenshots | Keep under ignored local paths — **do not** commit real-name captures |
 | Private Gallery photos (`private/photos/`) | Optional; Tuesday/Wrapped attach arbitrarily for visual demos (Phase 10F). Embarkation stays photo-empty. Never commit media. |
@@ -42,7 +42,8 @@ Capture helper: `npm run screenshots:phase10a` (account-switch logout fix applie
 
 ### Remaining blockers (not runtime failures)
 
-- Confirmed final Ship It! team assignments still organizer-owned (local preview may use clearly labeled temporary demo teams).
+- Ship It! team **names** still temporary (Team 1–6); memberships are organizer-final in the private roster.
+- June stays deliberately unassigned: ordinary login retained, Ship It! membership left off until she joins (DB requires a team for `shipit` enrollment).
 - Companion UUID map for D-086…D-093 still private/out-of-band.
 - Good Spirits still unpriced (Category C).
 - Visual fidelity / CSS redesign — **out of scope** for 10E.
@@ -87,13 +88,26 @@ LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
 ```
 
-Each run verifies local Supabase URL, requires `cruise_config.label = development-only`, activates launch-candidate, schedules bounties, loads working achievements (`test_only`), and seeds scenario activity.
+### Combined mid-cruise recreation (Drink It! + Ship It!)
+
+Use this when resetting the Visual Fidelity Tuesday preview for both games:
+
+```bash
+open -a Docker   # local Supabase must be running
+npx supabase status   # confirm API_URL is http://127.0.0.1:54321
+export LOCAL_TEST_PASSWORD='your-local-only-password-12+'
+LOCAL_TEST_PASSWORD="$LOCAL_TEST_PASSWORD" npm run demo:seed -- --scenario tuesday
+```
+
+Requires gitignored `private/roster/roster.local.json` with organizer-confirmed `teams[]` (six teams) and exactly 21 `team_key` assignments (June unassigned). Optional overlay: `private/roster/teams.local.json` (see `private/roster.example/teams.template.json`). If that contract is missing, the seed **fails closed** rather than inventing teams.
+
+Each run verifies local Supabase URL, requires `cruise_config.label = development-only`, activates launch-candidate, schedules bounties, loads working achievements (`test_only`), and seeds scenario activity for **both** Drink It! and Ship It!.
 
 **Impact:** destructive to the **local preview** database only. Never touches remote DBs.
 
 ## Demo accounts
 
-**Preferred:** gitignored `private/roster/roster.local.json` (confirmed guests + memberships; optional `local_demo_provisional` temporary teams). Login selector shows those display names only.
+**Preferred:** gitignored `private/roster/roster.local.json` (confirmed guests, Drink It! memberships, organizer-final Ship It! `teams[]` + `team_key`). Login selector shows those display names only.
 
 **Fallback (no private file):** synthetic fixtures below.
 
@@ -136,7 +150,7 @@ Password: `LOCAL_TEST_PASSWORD` (never stored in roster JSON).
 | Live photos | `private/photos/` | **ignored** |
 | Private preview screenshots | keep outside tracked `docs/phase10a-screenshots/` or under ignored paths | **do not commit real-name UI** |
 
-Copy the template into the ignored local file. Confirmed guest rows use `team_key: null` until Dad supplies final teams; optional `local_demo_provisional` supplies temporary demo teams for local Ship It! boards only. Do **not** put passwords or Auth UUIDs in the file.
+Copy the template into the ignored local file. Organizer-final memberships use top-level `teams[]` plus per-player `team_key` (temporary Team 1–6 labels until real names are chosen; one deliberately unassigned player). Optional `teams.local.json` overlay is documented in `private/roster.example/teams.template.json`. Do **not** put passwords or Auth UUIDs in the file.
 
 Without private inputs, synthetic accounts + `tests/fixtures/tiny.jpg` placeholders are used.
 
