@@ -7,11 +7,13 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   activateReadyCatalogAndSchedule,
   DEV_BASE_OFFSET_MIN,
-  loadBountyFixtures,
   noonDay1Utc,
   slotUtc,
 } from '../helpers/bountyFixtures'
-import { clearTestAchievements } from '../helpers/achievementFixtures'
+import {
+  clearTestAchievementsInDisposableEnv,
+  loadAchievementFixtures,
+} from '../helpers/achievementFixtures'
 import {
   drinkPayload,
   exposeCurrentSlots,
@@ -29,12 +31,12 @@ let fixtures: ClockFixtures
 let admin: SupabaseClient
 
 beforeAll(async () => {
-  fixtures = await loadBountyFixtures()
+  fixtures = await loadAchievementFixtures()
   admin = fixtures.admin!
 })
 
 beforeEach(async () => {
-  await clearTestAchievements(fixtures.service!)
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
   const { error } = await fixtures.service!.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: '2099-01-03',
     p_base_offset_minutes: DEV_BASE_OFFSET_MIN,

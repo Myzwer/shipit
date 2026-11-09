@@ -9,10 +9,12 @@ import { join } from 'node:path'
 import {
   activateReadyCatalogAndSchedule,
   DEV_BASE_OFFSET_MIN,
-  loadBountyFixtures,
   noonDay1Utc,
 } from '../helpers/bountyFixtures'
-import { clearTestAchievements } from '../helpers/achievementFixtures'
+import {
+  clearTestAchievementsInDisposableEnv,
+  loadAchievementFixtures,
+} from '../helpers/achievementFixtures'
 import { drinkPayload, playerId, submitAt } from '../helpers/drinkitSubmit'
 import { signInAs } from '../helpers/localSupabase'
 import type { ClockFixtures } from '../helpers/clockFixtures'
@@ -73,12 +75,12 @@ async function activeWorkingKeys(player: string): Promise<string[]> {
 }
 
 beforeAll(async () => {
-  fixtures = await loadBountyFixtures()
+  fixtures = await loadAchievementFixtures()
   service = fixtures.service!
 })
 
 beforeEach(async () => {
-  await clearTestAchievements(fixtures.service!)
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
   const { error } = await fixtures.service!.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: '2099-01-03',
     p_base_offset_minutes: DEV_BASE_OFFSET_MIN,

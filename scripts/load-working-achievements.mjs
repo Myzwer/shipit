@@ -12,6 +12,7 @@ import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import ws from 'ws'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 
@@ -50,6 +51,7 @@ if (!url || !serviceRole) {
 
 const admin = createClient(url, serviceRole, {
   auth: { autoRefreshToken: false, persistSession: false },
+  realtime: { transport: ws },
 })
 
 // Ensure an active development-only cruise exists (loader is gated on that label).

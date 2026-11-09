@@ -1,4 +1,37 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import {
+  DEV_BASE_OFFSET_MIN,
+  DEV_DAY1,
+  type ClockFixtures,
+} from './clockFixtures'
+import { createLocalClient, loadLocalFixtures, signInAs } from './localSupabase'
+import { assertDisposableDevEnvironment } from './devEnvironmentGuard'
+import { ensureSyntheticRoleIdentities } from './syntheticRoles'
+
+/**
+ * Achievement integration fixtures: disposable local guard + synthetic role accounts.
+ * Does not depend on private roster keys such as family login aliases.
+ */
+export async function loadAchievementFixtures(): Promise<ClockFixtures> {
+  const base = await loadLocalFixtures()
+  if (!base.available || !base.summary || !base.serviceRoleKey || !base.password) {
+    throw new Error('Achievement fixtures require local Supabase + LOCAL_TEST_PASSWORD')
+  }
+
+  const withRoles = await ensureSyntheticRoleIdentities(base)
+  const service = createLocalClient(withRoles.summary!.supabase_url, withRoles.serviceRoleKey!)
+  await assertDisposableDevEnvironment(withRoles, service)
+
+  const { error: seedError } = await service.rpc('dev_seed_cruise_clock', {
+    p_day1_ship_date: DEV_DAY1,
+    p_base_offset_minutes: DEV_BASE_OFFSET_MIN,
+    p_label: 'development-only',
+  })
+  if (seedError) throw seedError
+
+  const admin = await signInAs(withRoles, 'admin')
+  return { ...withRoles, admin, service }
+}
 
 /** Small test-only catalog covering condition families A–K. Never production content. */
 export async function seedTestAchievementCatalog(service: SupabaseClient) {
@@ -178,4 +211,16 @@ export async function clearTestAchievements(service: SupabaseClient) {
     await service.from('drink_concept_tags').delete().gte('tag', '')
     await service.from('read_cursors').delete().eq('scope', 'achievements_mine')
   }
+}
+
+/**
+ * Clears awards/test defs only after the disposable development-only guard passes.
+ * Prefer this from destructive achievement suites.
+ */
+export async function clearTestAchievementsInDisposableEnv(
+  service: SupabaseClient,
+  fixtures: Parameters<typeof assertDisposableDevEnvironment>[0],
+) {
+  await assertDisposableDevEnvironment(fixtures, service)
+  await clearTestAchievements(service)
 }

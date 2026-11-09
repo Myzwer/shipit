@@ -8,12 +8,12 @@ import { join } from 'node:path'
 import {
   activateReadyCatalogAndSchedule,
   DEV_BASE_OFFSET_MIN,
-  loadBountyFixtures,
   noonDay1Utc,
   slotUtc,
 } from '../helpers/bountyFixtures'
 import {
-  clearTestAchievements,
+  clearTestAchievementsInDisposableEnv,
+  loadAchievementFixtures,
   seedTestAchievementCatalog,
 } from '../helpers/achievementFixtures'
 import {
@@ -33,8 +33,8 @@ let moviesId: string
 let domeId: string
 
 beforeAll(async () => {
-  fixtures = await loadBountyFixtures()
-  await clearTestAchievements(fixtures.service!)
+  fixtures = await loadAchievementFixtures()
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
   const { data: ch } = await fixtures.service!
     .from('scavenger_challenges')
     .select('id, canonical_key, category')
@@ -46,7 +46,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await clearTestAchievements(fixtures.service!)
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
   await fixtures.service!.rpc('dev_reset_scavenger_test_data')
   const { error } = await fixtures.service!.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: '2099-01-03',

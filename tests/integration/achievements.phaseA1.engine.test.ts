@@ -2,24 +2,23 @@
  * Stage A1 — same-log predicates and version-aware drink collections.
  * Players created here are synthetic. Condition configs embed those generated ids only.
  */
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { buildScheduleReadyCatalog } from '../fixtures/catalog/builders'
-import { clearTestAchievements } from '../helpers/achievementFixtures'
+import {
+  clearTestAchievementsInDisposableEnv,
+  loadAchievementFixtures,
+} from '../helpers/achievementFixtures'
+import { assertDisposableDevEnvironment } from '../helpers/devEnvironmentGuard'
 import {
   DEV_BASE_OFFSET_MIN,
-  DEV_DAY1,
   noonDay1Utc,
   slotUtc,
 } from '../helpers/bountyFixtures'
 import { drinkPayload, exposeCurrentSlots, lookupOffering, submitAt } from '../helpers/drinkitSubmit'
-import {
-  createLocalClient,
-  loadLocalFixtures,
-  signInAs,
-  type LocalFixtures,
-} from '../helpers/localSupabase'
+import { signInAs } from '../helpers/localSupabase'
+import type { ClockFixtures } from '../helpers/clockFixtures'
 
 type CollectionItem = {
   offering_id: string
@@ -41,9 +40,9 @@ type CollectionStatus = {
   items: CollectionItem[]
 }
 
-const BASE_CATALOG_ID = 'a1-base'
+const BASE_CATALOG_ID = 'a1-engine-base'
 
-let fixtures: LocalFixtures
+let fixtures: ClockFixtures
 let service: SupabaseClient
 let admin: SupabaseClient
 let member: SupabaseClient
@@ -55,31 +54,18 @@ let syntheticTeam = ''
 const createdPlayers: string[] = []
 
 beforeAll(async () => {
-  fixtures = await loadLocalFixtures()
-  if (!fixtures.available || !fixtures.summary || !fixtures.serviceRoleKey) {
-    throw new Error('A1 engine tests require local Supabase, identities, and LOCAL_TEST_PASSWORD')
-  }
-  service = createLocalClient(fixtures.summary.supabase_url, fixtures.serviceRoleKey)
-  const adminIdentity = fixtures.summary.identities.find((row) => row.is_admin)
-  const memberIdentity = fixtures.summary.identities.find((row) => !row.is_admin)
-  if (!adminIdentity || !memberIdentity) {
-    throw new Error('A1 engine tests require one admin identity and one non-admin identity')
-  }
-  admin = await signInAs(fixtures, adminIdentity.key)
-  member = await signInAs(fixtures, memberIdentity.key)
-
-  const { error: seedError } = await service.rpc('dev_seed_cruise_clock', {
-    p_day1_ship_date: DEV_DAY1,
-    p_base_offset_minutes: DEV_BASE_OFFSET_MIN,
-    p_label: 'development-only',
-  })
-  if (seedError) throw seedError
-  await clearTestAchievements(service)
+  fixtures = await loadAchievementFixtures()
+  service = fixtures.service!
+  await assertDisposableDevEnvironment(fixtures, service)
+  admin = fixtures.admin!
+  member = await signInAs(fixtures, 'drink_only')
+  await clearTestAchievementsInDisposableEnv(service, fixtures)
   await deleteSyntheticPlayers()
   await publishFixture(BASE_CATALOG_ID)
 }, 180000)
 
 beforeEach(async () => {
+  await assertDisposableDevEnvironment(fixtures, service)
   await service.from('game_control').update({ status: 'active', finalized_at_utc: null }).eq('game', 'drinkit')
   await service.rpc('dev_set_drinkit_paused', { p_paused: false })
   const active = await activeCatalog()
@@ -93,7 +79,7 @@ beforeEach(async () => {
     .from('admin_manual_offerings')
     .delete()
     .eq('catalog_version_id', (await activeCatalog()).version_id)
-  await clearTestAchievements(service)
+  await clearTestAchievementsInDisposableEnv(service, fixtures)
   alpha = await makePlayer('alpha', ['drinkit'])
   beta = await makePlayer('beta', ['drinkit'])
   gamma = await makePlayer('gamma', ['drinkit'])
@@ -101,13 +87,18 @@ beforeEach(async () => {
 }, 180000)
 
 afterEach(async () => {
-  await clearTestAchievements(service)
+  await clearTestAchievementsInDisposableEnv(service, fixtures)
   if (createdPlayers.length === 0) return
   await service.from('admin_manual_offerings').delete().in('created_by_player_id', createdPlayers)
   await service.from('submissions').delete().in('author_player_id', createdPlayers)
   await service.from('gallery_events').delete().in('owner_player_id', createdPlayers)
   await service.from('players').delete().in('id', createdPlayers)
   createdPlayers.length = 0
+}, 180000)
+
+afterAll(async () => {
+  // Leave awards/defs clear; demo restoration reloads launch-candidate + working catalog.
+  await clearTestAchievementsInDisposableEnv(service, fixtures)
 }, 180000)
 
 describe('same-log predicates', () => {

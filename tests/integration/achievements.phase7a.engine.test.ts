@@ -8,12 +8,12 @@ import { join } from 'node:path'
 import {
   activateReadyCatalogAndSchedule,
   DEV_BASE_OFFSET_MIN,
-  loadBountyFixtures,
   noonDay1Utc,
   slotUtc,
 } from '../helpers/bountyFixtures'
 import {
-  clearTestAchievements,
+  clearTestAchievementsInDisposableEnv,
+  loadAchievementFixtures,
   seedTestAchievementCatalog,
 } from '../helpers/achievementFixtures'
 import {
@@ -31,13 +31,13 @@ const TINY_JPEG = readFileSync(join(process.cwd(), 'tests/fixtures/tiny.jpg'))
 let fixtures: ClockFixtures
 
 beforeAll(async () => {
-  fixtures = await loadBountyFixtures()
-  await clearTestAchievements(fixtures.service!)
+  fixtures = await loadAchievementFixtures()
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
 })
 
 beforeEach(async () => {
   // Awards hold FKs into gallery_events; clear before cruise reseed cascades submissions/gallery.
-  await clearTestAchievements(fixtures.service!)
+  await clearTestAchievementsInDisposableEnv(fixtures.service!, fixtures)
   const { error } = await fixtures.service!.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: '2099-01-03',
     p_base_offset_minutes: DEV_BASE_OFFSET_MIN,

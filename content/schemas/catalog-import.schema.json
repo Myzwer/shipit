@@ -180,6 +180,10 @@
       "type": "string",
       "enum": ["frozen", "margarita", "mixed-spirits"]
     },
+    "offeringClassificationTag": {
+      "type": "string",
+      "enum": ["frozen", "margarita", "mixed-spirits", "collection-excluded"]
+    },
     "ingredient": {
       "type": "object",
       "additionalProperties": false,
@@ -277,9 +281,9 @@
         },
         "classification_tags": {
           "type": "array",
-          "items": { "$ref": "#/$defs/drinkClassificationTag" },
+          "items": { "$ref": "#/$defs/offeringClassificationTag" },
           "uniqueItems": true,
-          "description": "Offering-specific classifications when recipes differ by bar (e.g. frozen at one bar only)."
+          "description": "Offering-specific classifications when recipes differ by bar (e.g. frozen at one bar only). collection-excluded keeps a loggable offering out of drink collections."
         }
       }
     },
