@@ -247,7 +247,7 @@ export function parseDailyChallengePayload(raw: unknown): DailyChallengePayload 
   const participationMode =
     row.participation_mode === 'all_hands' || row.participation_mode === 'bring_a_friend'
       ? row.participation_mode
-      : Boolean(row.is_all_hands)
+      : row.is_all_hands
         ? 'all_hands'
         : 'bring_a_friend'
 

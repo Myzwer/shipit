@@ -70,11 +70,13 @@ describe('mapHomeBountyCards', () => {
         status: 'active',
         challenge_id: 'd1',
         cruise_day: 1,
-        title: 'Fixture Easy Stretch',
-        instructions: 'Stretch and photograph. Development fixture only.',
-        location_name: 'Sea View Bar',
-        meeting_time_ship_local: '14:30',
-        is_all_hands: false,
+        title: 'Tequila Shot',
+        instructions: 'Detailed challenge instructions pending organizer supply.',
+        location_name: 'Lido',
+        meeting_time_ship_local: null,
+        is_all_hands: true,
+        participation_mode: 'all_hands',
+        admin_announcement: 'Meet @ 3 PM',
         photo_required: true,
         points: 50,
         public_end_utc: '2026-11-05T23:00:00.000Z',
@@ -111,10 +113,70 @@ describe('mapHomeBountyCards', () => {
 
     const daily = cards.find((c) => c.id === 'daily')!
     expect(daily.presentation).toBe('active')
-    expect(daily.title).toBe('Fixture Easy Stretch')
+    expect(daily.title).toBe('Tequila Shot')
+    expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyAllHandsEyebrow)
+    expect(daily.detail).toContain('Location: Lido')
+    expect(daily.detail).toContain('Meet @ 3 PM')
+    expect(daily.detail).not.toMatch(/pending organizer supply/i)
+    expect(daily.detail).not.toMatch(/Everyone does this at the same time/i)
     expect(daily.pointsLabel).toBe('50 Points')
     expect(daily.claimEnabled).toBe(true)
     expect(daily.claimPrefill?.source).toBe('daily')
+  })
+
+  it('maps Bring a Friend Daily cards without empty meetup rows', () => {
+    const { cards } = mapHomeBountyCards({
+      fetchStatus: 'ready',
+      fetchedAtMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      nowMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      clock: baseClock('2099-01-05T13:00:00', { cruise_day: 3 }),
+      cocktail: {
+        status: 'active',
+        offer_id: 'c1',
+        slot_key: 'cocktail:day:3:h13',
+        offering_id: 'off-1',
+        drink_name: 'Fixture Spritz',
+        designated_bar_key: 'piazza',
+        designated_bar_name: 'Fixture Piazza',
+        tier: 'familiar',
+        points: 25,
+        listed_ingredients: [],
+        public_end_utc: '2026-11-07T23:00:00.000Z',
+      },
+      ingredient: {
+        status: 'active',
+        offer_id: 'i1',
+        slot_key: 'ingredient:day:3:h12',
+        ingredient_key: 'orgeat',
+        display_name: 'Orgeat',
+        tier: 'less_common',
+        points: 50,
+        known_bar_count: 5,
+        public_end_utc: '2026-11-07T23:00:00.000Z',
+      },
+      bar: { status: 'unavailable' },
+      daily: {
+        status: 'active',
+        challenge_id: 'd3',
+        cruise_day: 3,
+        title: 'Irish Pub Pick',
+        instructions: 'Detailed challenge instructions pending organizer supply.',
+        location_name: "O'Malley's",
+        meeting_time_ship_local: null,
+        is_all_hands: false,
+        participation_mode: 'bring_a_friend',
+        admin_announcement: null,
+        photo_required: true,
+        points: 50,
+        public_end_utc: '2026-11-07T23:00:00.000Z',
+      },
+    })
+    const daily = cards.find((c) => c.id === 'daily')!
+    expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyBringFriendEyebrow)
+    expect(daily.detail).toContain("O'Malley's")
+    expect(daily.detail).toMatch(/Bring a Friend/i)
+    expect(daily.detail).not.toMatch(/Meetup:/i)
+    expect(daily.detail).not.toMatch(/pending organizer supply/i)
   })
 
   it('maps already-claimed Bar Bounty to claimed presentation with ledger points', () => {

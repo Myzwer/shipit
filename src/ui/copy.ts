@@ -62,6 +62,41 @@ export const copy = {
     admin: 'Admin',
     /** Shown only while the board is in an open/active window. */
     partialLiveNote: 'Daily bounties update with Ship Time. Claim It opens the logging wizard.',
+    noDrinkStandings: 'No points yet. The leaderboard will update as bounties are claimed.',
+    howToPlaySummary:
+      '**Earn points by completing bounties throughout the cruise.** There are four ways to score: Cocktail, Ingredient, Bar, and Daily Challenges. You can claim each type once per day. The player with the most points wins!',
+    howToPlayBasicsTitle: 'The Basics',
+    howToPlayBasicsPlay:
+      "**Play together.** For Cocktail, Ingredient, and Bar Bounties, you must be with at least one other person playing Drink It! when you order. Your companion doesn't have to order the same drink. Daily Challenges follow their own instructions.",
+    howToPlayBasicsChoose:
+      "**You choose what to claim.** Any bounties your drink qualifies for are selected automatically when you log it. You can uncheck a bounty on Review if you'd rather save that category for later.",
+    howToPlayBasicsMulti:
+      "**One drink can count for more than one bounty.** If it qualifies for multiple categories you haven't used today, you can earn all of those points with the same drink.",
+    howToPlayBasicsLogs:
+      "**Regular logs are fine, too.** You can log drinks without claiming a bounty, including when you're on your own. Regular drink photos are optional.",
+    howToPlayCocktailTitle: 'Cocktail & Ingredient Bounties',
+    howToPlayCocktail:
+      '**Cocktail Bounty:** Order the exact featured cocktail at the bar shown on the card. The featured cocktail changes every hour while bounties are open. More unusual drinks are worth more points (25–100).',
+    howToPlayIngredient:
+      "**Ingredient Bounty:** Find a named cocktail on a bar's menu that contains the featured ingredient. Ingredients change every two hours. The app shows how many bars may carry the ingredient, but finding one is up to you. Rarer ingredients earn more points (25–100).",
+    howToPlayMenu:
+      "**Menu mismatches:** If an actual named menu cocktail is missing from the app, use **My drink isn't listed**. If its ingredient is missing in the app, use the confirmation link on Review. Don't add ingredients to a drink just to qualify.",
+    howToPlayBarTitle: 'Bar Bounty & Daily Challenge',
+    howToPlayBar:
+      "**Bar Bounty:** Visit today's featured bar and order an alcoholic drink with **at least one person from your assigned daily crew**. Only selected assigned crewmates count. Earn **20–40 points** depending on how many of your crew are with you. Each player claims independently, once per day. Extra friends outside your crew don't change Bar Bounty points.",
+    howToPlayDaily:
+      "**Daily Challenge:** Complete the day's activity and submit its required photo to earn **50 points**. Some days are **All Hands**; others are **Bring a Friend** (another active Drink It! player). Follow that challenge's directions; you don't need to select companions in the Daily submission form.",
+    howToPlayHoursTitle: 'Hours & Fine Print',
+    howToPlayHoursOpen:
+      '**Bounty hours:** Bounties open at **12:00 PM Ship Time** and close at **11:00 PM** on the first six days. On Friday, they end at **6:00 PM**. You can still log ordinary drinks outside bounty hours until the game ends Friday.',
+    howToPlayHoursOnce:
+      "**One claim per category per day.** Everyone sees the same current bounties, and someone else claiming one doesn't take it away from you. Rotating Cocktail and Ingredient Bounties aren't repeated during the cruise.",
+    howToPlayHoursHonor:
+      "**Honor system:** Log what you actually ordered and who was there. There's no teammate approval process for Drink It! claims.",
+    howToPlayHoursFinal:
+      "**Final submissions:** Check your selections before tapping **Submit Drink**. Saved entries can't be edited later.",
+    howToPlayHoursFinish:
+      '**The finish:** Both games end Friday at **6:00 PM Ship Time**, when Wrapped and the final results open. Achievements are for fun and do not add points.',
     retryLoad: 'Retry',
     allChallenges: 'All Challenges',
     challengesCount: '{completedCount}/50 Challenges',
@@ -80,12 +115,12 @@ export const copy = {
   shipit: {
     submitHeading: 'Complete Challenge',
     teamCredit: 'Team: {teamName}',
-    pointsLabel: '{points} points',
+    pointsLabel: '{points} Points',
     continueReview: 'Continue',
     reviewChallenge: 'Challenge',
     reviewTeam: 'Team earning credit',
     reviewPoints: 'Points',
-    submit: 'Submit',
+    submit: 'Submit Challenge',
     submitting: 'Submitting…',
     editPhoto: 'Edit photo or caption',
     alreadyCompletedTitle: 'Your team already completed this.',
@@ -106,16 +141,51 @@ export const copy = {
     submissionSoonBody:
       'Every Ship It! challenge needs a photo. Submitting opens once the shared photo pipeline is ready.',
     actionUnavailable: 'Unavailable',
-    howToPlayBasics:
-      "One team, one score. You're assigned to a team, and any team member can submit a challenge for that team. A challenge only counts once per team, even if several teammates take photos. Other teams can still complete the same challenge.",
-    howToPlayFind:
-      'Find your next challenge. Open Challenges, browse the five categories, and tap any unfinished challenge to submit it. Completed challenges appear checked and can\'t be submitted again by your team.',
-    howToPlayPhotos:
-      "Every challenge needs one photo. Videos aren't part of this game. Captions are optional. Follow each challenge's instructions — not every challenge requires a photo of the entire team.",
-    howToPlayPoints:
-      'Harder categories earn more points. Challenges are worth 100, 200, 300, 400, or 500 points, depending on their category. Each category has ten challenges, for a maximum of 15,000 team points.',
-    howToPlayHours:
-      'Explore any time, including mornings. Ship It! closes Friday at 6:00 PM Ship Time. Tied teams share their finishing position.',
+    /** Two-step challenge submission wizard */
+    steps: {
+      photo: 'Upload Photo',
+      review: 'Review',
+    },
+    photoRequired: 'Every Ship It! challenge needs a photo.',
+    selectedChallenge: 'Selected Challenge',
+    teamWideCompletion:
+      'Completing this challenge will complete it for your entire team.',
+    leaveTitle: 'Leave This Challenge?',
+    leaveBody: "You haven't submitted yet. Leaving will discard your photo and caption.",
+    exitDiscard: 'Exit and Discard',
+    keepEditing: 'Keep Editing',
+    startOverTitle: 'Start Over?',
+    startOverBody: "This will discard the challenge submission you're currently working on.",
+    startOverConfirm: 'Start Over',
+    progressAria: 'Challenge submission progress',
+    howToPlaySummary:
+      '**Explore the ship and complete photo challenges with your team.** Each challenge earns points for the whole team, and the highest-scoring team wins. There are **50 challenges** across five categories.',
+    howToPlayBasicsTitle: 'The Basics',
+    howToPlayBasicsOne:
+      "**One team, one score.** You're assigned to a team, and any team member can submit a challenge for that team. A challenge only counts **once per team**, even if several teammates take photos. Other teams can still complete the same challenge.",
+    howToPlayBasicsFind:
+      '**Find your next challenge.** Open Challenges, browse the five categories, and tap any unfinished challenge to submit it. Completed challenges appear checked and can\'t be submitted again by your team.',
+    howToPlayPhotosTitle: 'Photos & Participation',
+    howToPlayPhotosEvery:
+      '**Every challenge needs one photo.** You can take one or choose one from your phone. Photos are required; videos aren\'t part of this game. Captions are optional.',
+    howToPlayPhotosFollow:
+      "**Follow each challenge's instructions.** Selfies are fine when they meet the challenge's requirements. If a challenge says certain teammates must participate or appear in the picture, make sure they do. **Not every challenge requires a photo of the entire team.**",
+    howToPlayPhotosHonor:
+      "**Honor system.** Your team decides whether you've completed the task honestly. Photos count when submitted—there's no routine approval wait.",
+    howToPlayPointsTitle: 'Points & Progress',
+    howToPlayPointsHarder:
+      '**Harder categories earn more points.** Challenges are worth **100, 200, 300, 400, or 500 points**, depending on their category. Each category has ten challenges, for a maximum of **15,000 team points**.',
+    howToPlayPointsShare:
+      "**Your team shares the progress.** When one teammate submits an eligible challenge, everyone on the team sees it marked complete and the team's points update.",
+    howToPlayPointsAchievements:
+      "**Achievements are extras.** They celebrate discoveries and teamwork but don't add leaderboard points.",
+    howToPlayHoursTitle: 'Hours & Fine Print',
+    howToPlayHoursExplore:
+      '**Explore any time.** Unlike Drink It! bounties, Ship It! challenges can be completed throughout the cruise, including mornings.',
+    howToPlayHoursFinal:
+      '**Final submissions:** Review your photo and challenge before tapping **Submit Challenge**. Saved submissions can\'t be edited later.',
+    howToPlayHoursFinish:
+      '**The finish:** Ship It! closes Friday at **6:00 PM Ship Time**. The final standings and Wrapped open then. Tied teams share their finishing position.',
   },
   login: {
     heading: 'Welcome Aboard',
@@ -350,7 +420,7 @@ export const copy = {
     removeAddedDrinkNotFound: 'That drink is not an admin-added drink.',
     barCrewsSection: 'Bar Bounty Crews',
     barCrewsNote:
-      "Read-only view of today's assigned Bar Bounty crews. Crews generate once per Ship day and are not editable here.",
+      'Read-only view of today’s assigned Bar Bounty crews. Crews generate once per Ship day and are not editable here.',
     barCrewsDay: 'Ship day {day}',
     barCrewsRoster: '{roster} Drink It! players · {crews} crews',
     barCrewsEmpty: 'No crews for today yet.',
@@ -358,6 +428,30 @@ export const copy = {
     barCrewsLoadError: 'Could not load Bar Bounty crews.',
     barCrewsRefresh: 'Refresh Crews',
     barCrewSize: 'Crew of {size}',
+    dailyAnnounceSection: 'Daily Challenge Announcements',
+    dailyAnnounceNote:
+      'Optional meetup notes for All Hands days. Display only — they do not open, close, or score challenges.',
+    dailyAnnounceRefresh: 'Refresh',
+    dailyAnnounceDay: 'Day {day}',
+    dailyAnnounceModeAllHands: 'All Hands',
+    dailyAnnounceModeBringFriend: 'Bring a Friend',
+    dailyAnnouncePlaceholder: 'e.g. Meet @ 3 PM',
+    dailyAnnounceSave: 'Save',
+    dailyAnnounceClear: 'Clear',
+    dailyAnnounceSaving: 'Saving…',
+    dailyAnnounceSaved: 'Announcement saved.',
+    dailyAnnounceCleared: 'Announcement cleared.',
+    dailyAnnounceUnchanged: 'No changes to save.',
+    dailyAnnounceFailureTitle: 'Announcement Not Saved',
+    dailyAnnounceFailureBody: "The announcement didn't save. Nothing was updated. Please try again.",
+    dailyAnnounceUnknownTitle: 'Confirm Announcement',
+    dailyAnnounceUnknownBody:
+      'We could not confirm whether that announcement was saved. Refresh the list, or retry the same change.',
+    dailyAnnounceRetry: 'Retry Same Change',
+    dailyAnnounceLoadError: 'Could not load Daily Challenges.',
+    dailyAnnounceTooLong: 'Keep announcements to 280 characters.',
+    dailyAnnounceBringFriendNote: 'Bring a Friend days do not use a scheduled group meetup note.',
+    dailyAnnounceChars: '{count}/280',
     exportSection: 'Export Current Game Data',
     exportAction: 'Export Current Game Data',
     exportingAction: 'Exporting…',
@@ -433,7 +527,7 @@ export const copy = {
     availableUntilTemplate: 'Available until {time}',
     location: 'Location: {barName}',
     availableAt: 'Available at {barCount} {barOrBars}',
-    barCompanionEyebrow: '+10 Per Friend You Bring',
+    barBonusEyebrow: '+{points} Per Additional Eligible Player',
     barCrewEyebrow: "Today's assigned crew",
     barDetail: 'Order an alcoholic drink with at least one assigned crewmate.',
     barClaimedDetail: "You've already claimed today's Bar Bounty.",
@@ -443,9 +537,15 @@ export const copy = {
     barCrewTooSmall: 'Need at least 7 Drink It! players for daily crews.',
     barCrewUnavailable: "Today's Bar Bounty crew isn't available right now.",
     barCrewLoading: "Loading today's crew…",
-    barPointsRange: '20–40 Points',
+    dailyAllHandsEyebrow: 'All Hands',
+    dailyBringFriendEyebrow: 'Bring a Friend',
+    dailyAllHandsDetail: 'All Hands — a group meetup day.',
+    dailyBringFriendDetail: 'Bring a Friend — complete it with another active Drink It! player.',
+    dailyAnnouncementLabel: 'Meetup',
+    dailyMeetAt: 'Meet at',
     dailyEyebrow: 'Photo required',
     claimed: 'Claimed',
+    pointsEarned: '{points} Points Earned',
     seeYouTomorrow: 'See You Tomorrow',
     preOpening: 'Game begins at 12:00 PM',
     preOpeningDetail: 'Drink It! starts at 12:00 PM Ship Time.',
@@ -507,8 +607,7 @@ export const copy = {
     unlistedPhase3cNote:
       'Only genuine named menu cocktails can qualify for Cocktail or Ingredient via honor confirmation. Invented off-menu drinks log as ordinary entries.',
     friendsPrompt: 'Who are you with?',
-    friendsHelper:
-      "Select anyone from Drink It! who's with you. Only assigned crewmates count for Bar Bounty.",
+    friendsHelper: "Select anyone from Drink It! who's with you. Only assigned crewmates count for Bar Bounty.",
     friendsSoloNote: 'Must be with someone else to log a bounty.',
     friendsEmpty: 'No other Drink It! players are available to select.',
     friendsCrewBadge: 'Crew',
@@ -525,11 +624,17 @@ export const copy = {
     photoHeading: 'Add a Photo',
     photoOptional: 'Optional — you can log your drink without a photo.',
     photoStagedNote: 'Photo uploaded and ready to attach to this drink log.',
-    captionLabel: 'Caption (optional)',
-    captionPlaceholder: 'Anything you\'d like to add?',
+    captionLabel: 'Add a Caption',
+    captionOptional: 'Optional',
+    captionPlaceholder: "What's the story behind this one?",
     photoContinue: 'Continue',
     photoContinueBusy: 'Wait for the photo to finish…',
     reviewTitle: 'Review',
+    reviewPostPreview: 'Gallery post preview',
+    editPhotoFraming: 'Adjust photo framing',
+    editCaption: 'Edit caption',
+    addCaptionAction: 'Add Caption',
+    addPhotoAction: 'Add a photo',
     labelDrink: 'Drink',
     labelBar: 'Bar',
     labelWith: 'With',
@@ -604,7 +709,8 @@ export const copy = {
     confirmQuestion: 'Did you complete it?',
     photoTitle: 'Add Your Photo',
     photoHelper: "A photo is required to complete today's challenge.",
-    captionLabel: 'Caption (optional)',
+    captionLabel: 'Add a Caption',
+    captionOptional: 'Optional',
     reviewTitle: 'Review Your Challenge',
     pointsLine: '50 Points',
     submit: 'Submit Challenge',
@@ -619,13 +725,20 @@ export const copy = {
     galleryHeading: 'Daily Challenge complete',
     recoveryBanner:
       'Your previous Daily Challenge submission is still unresolved. Retry uses the same saved request.',
+    locationLabel: 'Location',
+    allHandsLabel: 'All Hands',
+    bringFriendLabel: 'Bring a Friend',
+    allHandsHint: 'All Hands — a group meetup day.',
+    bringFriendHint: 'Bring a Friend — complete it with another active Drink It! player.',
+    announcementLabel: 'Meetup',
   },
   photo: {
     takePhoto: 'Take Photo',
     uploadPhoto: 'Upload Photo',
     retake: 'Retake',
     replace: 'Replace',
-    remove: 'Remove',
+    remove: 'Remove photo',
+    adjustPhoto: 'Adjust',
     retry: 'Retry upload',
     processing: 'Preparing photo…',
     processFailed: 'We could not prepare that photo. Try another image.',
@@ -635,10 +748,16 @@ export const copy = {
     requiredHint: 'A photo is required to continue.',
     reselectHint:
       'If you reloaded the page, choose the photo again — the original file is no longer available.',
+    /** Kept for error/context copy; not shown as standing instructions under the capture UI. */
     limitsHint: 'One photo. JPEG, PNG, or WebP preferred. Large phone photos are resized before upload.',
+    framingTitle: 'Frame Photo',
+    framingHint: 'Drag to reposition · Pinch to zoom',
+    usePhoto: 'Use Photo',
+    framingCancel: 'Cancel',
   },
   gallery: {
     heading: 'The Gallery',
+    showAchievements: 'Show Achievements',
     everyone: 'Everyone',
     myGallery: 'My Gallery',
     myTeam: 'My Team',
@@ -711,7 +830,7 @@ export const copy = {
     unlockTitleSingular: 'Achievement Unlocked!',
     unlockTitlePlural: '{count} Achievements Unlocked!',
     unlockSeeIt: 'See It',
-    unlockSeeThem: 'See Them',
+    unlockSeeAll: 'See All',
     unlockClose: 'Close Achievement',
   },
 } as const

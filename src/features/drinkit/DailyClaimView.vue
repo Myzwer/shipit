@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import FramedPhoto from '@/components/shared/FramedPhoto.vue'
 import PhotoCapture from '@/components/shared/PhotoCapture.vue'
 import GameShell from '@/components/shared/GameShell.vue'
+import type { PhotoFraming } from '@/lib/media/framing'
 import { fetchHomeBountySnapshot } from '@/lib/bounty/fetchHomeBounties'
 import { submitDaily } from '@/lib/drinkit/submitDaily'
 import {
@@ -32,6 +34,9 @@ const confirmed = ref(false)
 const caption = ref('')
 const staged = ref<StagedPhotoRef | null>(null)
 const previewUrl = ref<string | null>(null)
+const previewWidth = ref<number | null>(null)
+const previewHeight = ref<number | null>(null)
+const photoFraming = ref<PhotoFraming | null>(null)
 const photoBusy = ref(false)
 const submitting = ref(false)
 const formLocked = ref(false)
@@ -50,6 +55,42 @@ const canSubmit = computed(
     (recoveringPending.value || !!challenge.value),
 )
 
+const PENDING_DAILY_INSTRUCTIONS =
+  'Detailed challenge instructions pending organizer supply.'
+
+function displayableInstructions(raw: string | null | undefined): string | null {
+  const text = (raw ?? '').trim()
+  if (!text || text === PENDING_DAILY_INSTRUCTIONS) return null
+  return text
+}
+
+function participationModeOf(
+  offer: Pick<ActiveDailyChallenge, 'participation_mode' | 'is_all_hands'>,
+): 'all_hands' | 'bring_a_friend' {
+  if (offer.participation_mode === 'all_hands' || offer.participation_mode === 'bring_a_friend') {
+    return offer.participation_mode
+  }
+  return offer.is_all_hands ? 'all_hands' : 'bring_a_friend'
+}
+
+const modeLabel = computed(() => {
+  if (!challenge.value) return ''
+  return participationModeOf(challenge.value) === 'all_hands'
+    ? copy.daily.allHandsLabel
+    : copy.daily.bringFriendLabel
+})
+
+const modeHint = computed(() => {
+  if (!challenge.value) return ''
+  return participationModeOf(challenge.value) === 'all_hands'
+    ? copy.daily.allHandsHint
+    : copy.daily.bringFriendHint
+})
+
+const shownInstructions = computed(() => displayableInstructions(challenge.value?.instructions))
+
+const shownAnnouncement = computed(() => challenge.value?.admin_announcement?.trim() || null)
+
 function challengeFromPending(pending: PendingDailySubmit): ActiveDailyChallenge {
   return {
     status: 'active',
@@ -60,6 +101,8 @@ function challengeFromPending(pending: PendingDailySubmit): ActiveDailyChallenge
     location_name: null,
     meeting_time_ship_local: null,
     is_all_hands: false,
+    participation_mode: 'bring_a_friend',
+    admin_announcement: null,
     photo_required: true,
     points: pending.summary.points || 50,
     public_end_utc: '',
@@ -84,13 +127,16 @@ async function loadDaily() {
           challenge_id: daily.challenge_id ?? '',
           cruise_day: daily.cruise_day ?? 1,
           title: daily.title,
-          instructions: '',
-          location_name: null,
+          instructions: daily.instructions ?? '',
+          location_name: daily.location_name ?? null,
+          bar_canonical_key: daily.bar_canonical_key ?? null,
           meeting_time_ship_local: null,
-          is_all_hands: false,
-          photo_required: true,
+          is_all_hands: daily.is_all_hands ?? false,
+          participation_mode: daily.participation_mode,
+          admin_announcement: daily.admin_announcement ?? null,
+          photo_required: daily.photo_required ?? true,
           points: daily.points ?? 50,
-          public_end_utc: '',
+          public_end_utc: daily.public_end_utc ?? '',
         }
       }
       return
@@ -152,10 +198,18 @@ function restorePending(): boolean {
 
 function onStaged(ref: StagedPhotoRef | null) {
   staged.value = ref
+  if (ref?.framing) photoFraming.value = ref.framing
 }
 
-function onLocal(image: { previewUrl: string } | null) {
+function onLocal(image: { previewUrl: string; width: number; height: number } | null) {
   previewUrl.value = image?.previewUrl ?? null
+  previewWidth.value = image?.width ?? null
+  previewHeight.value = image?.height ?? null
+  if (!image) photoFraming.value = null
+}
+
+function onFraming(next: PhotoFraming | null) {
+  photoFraming.value = next
 }
 
 function goCapture() {
@@ -310,7 +364,7 @@ watch(
       <div
         v-if="showFinaleGate"
         class="rounded-2xl px-4 py-6 text-center"
-        style="background: var(--theme-card); color: var(--theme-ink)"
+        style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
         data-testid="daily-finale-gate"
       >
         <p class="font-semibold">{{ copy.wizard.gameEndedTitle }}</p>
@@ -333,7 +387,7 @@ watch(
       <template v-if="!loading && recoveringPending && step === 'review'">
         <p
           class="mb-4 rounded-2xl px-4 py-3 text-sm"
-          style="background: var(--theme-card); color: var(--theme-muted)"
+          style="background: var(--theme-gradient-warm); color: var(--theme-muted)"
           data-testid="daily-recovery-banner"
         >
           {{ copy.daily.recoveryBanner }}
@@ -347,7 +401,7 @@ watch(
         <section class="mt-6 space-y-4" data-testid="daily-review-step">
           <div
             class="rounded-2xl px-4 py-3 text-sm"
-            style="background: var(--theme-card)"
+            style="background: var(--theme-gradient-warm)"
             data-testid="daily-unknown"
           >
             <p class="font-semibold">{{ copy.wizard.unknownTitle }}</p>
@@ -396,11 +450,42 @@ watch(
       </div>
 
       <template v-else-if="!loading && challenge && !recoveringPending">
-        <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
+        <p
+          class="text-xs font-semibold uppercase tracking-wide"
+          style="color: var(--theme-muted)"
+          data-testid="daily-mode"
+        >
+          {{ modeLabel }}
+        </p>
+        <h2 class="mt-1 font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
           {{ challenge.title }}
         </h2>
-        <p class="mt-2 text-sm" style="color: var(--theme-ink)" data-testid="daily-instructions">
-          {{ challenge.instructions }}
+        <p
+          v-if="challenge.location_name"
+          class="mt-2 text-sm"
+          style="color: var(--theme-ink)"
+          data-testid="daily-location"
+        >
+          {{ copy.daily.locationLabel }}: {{ challenge.location_name }}
+        </p>
+        <p class="mt-2 text-sm" style="color: var(--theme-muted)" data-testid="daily-mode-hint">
+          {{ modeHint }}
+        </p>
+        <p
+          v-if="shownAnnouncement"
+          class="mt-3 rounded-2xl px-4 py-3 text-sm font-semibold"
+          style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
+          data-testid="daily-announcement"
+        >
+          {{ copy.daily.announcementLabel }}: {{ shownAnnouncement }}
+        </p>
+        <p
+          v-if="shownInstructions"
+          class="mt-2 text-sm"
+          style="color: var(--theme-ink)"
+          data-testid="daily-instructions"
+        >
+          {{ shownInstructions }}
         </p>
         <p class="mt-2 text-sm font-semibold" style="color: var(--theme-primary)" data-testid="daily-points">
           {{ copy.daily.pointsLine }}
@@ -435,16 +520,22 @@ watch(
               :disabled="formLocked && submitError !== 'unknown'"
               @staged="onStaged"
               @local-ready="onLocal"
+              @framing="onFraming"
               @busy="photoBusy = $event"
             />
           </div>
-          <label class="mt-6 block text-sm font-semibold" style="color: var(--theme-ink)">
-            {{ copy.daily.captionLabel }}
+          <label class="mt-7 block" style="color: var(--theme-ink)" data-testid="caption-field">
+            <span class="font-display text-lg font-bold tracking-tight">
+              {{ copy.daily.captionLabel }}
+            </span>
+            <span class="text-sm font-medium" style="color: var(--theme-muted)">
+              — {{ copy.daily.captionOptional }}
+            </span>
             <textarea
               v-model="caption"
               rows="3"
-              class="mt-1 w-full resize-none rounded-2xl px-4 py-3 font-normal outline-none"
-              style="background: var(--theme-card)"
+              class="mt-2 w-full resize-none rounded-2xl px-4 py-3 text-sm font-normal outline-none"
+              style="background: var(--theme-gradient-warm)"
               :placeholder="copy.wizard.captionPlaceholder"
               data-testid="daily-caption"
               :disabled="formLocked && submitError !== 'unknown'"
@@ -466,26 +557,34 @@ watch(
           <h3 class="font-display text-lg font-bold" data-testid="daily-review-title">
             {{ copy.daily.reviewTitle }}
           </h3>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
             <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
               {{ copy.bounty.daily }}
             </p>
             <p class="mt-1 font-semibold" style="color: var(--theme-ink)">{{ challenge.title }}</p>
           </div>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
             <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
               {{ copy.wizard.labelPhoto }}
             </p>
-            <img
-              v-if="previewUrl"
-              :src="previewUrl"
-              alt=""
-              class="mt-2 aspect-square w-full max-w-[200px] rounded-xl object-cover"
-              data-testid="daily-review-photo"
-            />
+            <div v-if="previewUrl" class="mt-2 w-full max-w-[200px]" data-testid="daily-review-photo">
+              <FramedPhoto
+                v-if="previewWidth && previewHeight"
+                :src="previewUrl"
+                :width="previewWidth"
+                :height="previewHeight"
+                :framing="photoFraming"
+              />
+              <img
+                v-else
+                :src="previewUrl"
+                alt=""
+                class="aspect-square w-full rounded-xl object-cover"
+              />
+            </div>
             <p v-else class="mt-2 text-sm">{{ copy.photo.stagedReady }}</p>
           </div>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
             <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">Points</p>
             <p class="mt-1 font-semibold" data-testid="daily-review-points">{{ copy.daily.pointsLine }}</p>
           </div>
@@ -493,7 +592,7 @@ watch(
           <div
             v-if="submitError === 'unknown'"
             class="rounded-2xl px-4 py-3 text-sm"
-            style="background: var(--theme-card)"
+            style="background: var(--theme-gradient-warm)"
             data-testid="daily-unknown"
           >
             <p class="font-semibold">{{ copy.wizard.unknownTitle }}</p>

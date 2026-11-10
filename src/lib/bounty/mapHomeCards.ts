@@ -235,19 +235,48 @@ function barClaimedCard(offer: ClaimedBarBounty): HomeBountyCardView {
   }
 }
 
-function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
-  const bits: string[] = [offer.instructions]
-  if (offer.location_name) bits.push(`Location: ${offer.location_name}`)
-  if (offer.meeting_time_ship_local) {
-    bits.push(`Meet at ${formatMeetingTime(offer.meeting_time_ship_local)}`)
+const PENDING_DAILY_INSTRUCTIONS =
+  'Detailed challenge instructions pending organizer supply.'
+
+function isDisplayableDailyInstructions(raw: string | null | undefined): boolean {
+  const text = (raw ?? '').trim()
+  if (!text) return false
+  return text !== PENDING_DAILY_INSTRUCTIONS
+}
+
+function dailyParticipationMode(
+  offer: Pick<ActiveDailyChallenge, 'participation_mode' | 'is_all_hands'>,
+): 'all_hands' | 'bring_a_friend' {
+  if (offer.participation_mode === 'all_hands' || offer.participation_mode === 'bring_a_friend') {
+    return offer.participation_mode
   }
-  if (offer.is_all_hands) bits.push('All-Hands')
+  return offer.is_all_hands ? 'all_hands' : 'bring_a_friend'
+}
+
+function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
+  const mode = dailyParticipationMode(offer)
+  const bits: string[] = []
+  if (isDisplayableDailyInstructions(offer.instructions)) {
+    bits.push(offer.instructions.trim())
+  }
+  if (offer.location_name?.trim()) bits.push(`Location: ${offer.location_name.trim()}`)
+  bits.push(
+    mode === 'all_hands' ? copy.bounty.dailyAllHandsDetail : copy.bounty.dailyBringFriendDetail,
+  )
+  const announcement = offer.admin_announcement?.trim()
+  if (announcement) {
+    bits.push(`${copy.bounty.dailyAnnouncementLabel}: ${announcement}`)
+  } else if (offer.meeting_time_ship_local) {
+    // Legacy structured meeting time only — never invent a blank meetup row.
+    bits.push(`${copy.bounty.dailyMeetAt} ${formatMeetingTime(offer.meeting_time_ship_local)}`)
+  }
 
   return {
     id: 'daily',
     heading: copy.bounty.daily,
     presentation: 'active',
-    tierOrEyebrow: offer.is_all_hands ? 'All-Hands' : copy.bounty.dailyEyebrow,
+    tierOrEyebrow:
+      mode === 'all_hands' ? copy.bounty.dailyAllHandsEyebrow : copy.bounty.dailyBringFriendEyebrow,
     title: offer.title,
     detail: bits.join(' · '),
     pointsLabel: pointsLabel(offer.points),

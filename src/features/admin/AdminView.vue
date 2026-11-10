@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import AddDrinkSection from '@/features/admin/AddDrinkSection.vue'
 import BarBountyCrewsSection from '@/features/admin/BarBountyCrewsSection.vue'
+import DailyAnnouncementsSection from '@/features/admin/DailyAnnouncementsSection.vue'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import CatalogExportSection from '@/features/admin/CatalogExportSection.vue'
 import CatalogImportSection from '@/features/admin/CatalogImportSection.vue'
@@ -22,8 +23,8 @@ function backHome() {
 
 <template>
   <div
-    class="flex min-h-dvh flex-col"
-    style="background: #f7f4ef; padding-top: env(safe-area-inset-top)"
+    class="ui-mint-panel flex min-h-dvh flex-col"
+    style="padding-top: env(safe-area-inset-top)"
     data-testid="admin-view"
   >
     <header class="px-4 py-4 text-center text-white" style="background: #2f3a44">
@@ -36,6 +37,7 @@ function backHome() {
       <CatalogImportSection />
       <ShipClockSection />
       <BarBountyCrewsSection />
+      <DailyAnnouncementsSection />
       <GameStatusSection />
       <BountySkipSection />
       <VoidSubmissionSection />

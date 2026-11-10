@@ -1,4 +1,5 @@
 import { createLocalClient, loadLocalFixtures, signInAs, type LocalFixtures } from './localSupabase'
+import { ensureSyntheticRoleIdentities } from './syntheticRoles'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 /** Development-only Day 1 = Saturday 2099-01-03 (not a production sailing date). */
@@ -17,7 +18,11 @@ export async function loadClockFixtures(): Promise<ClockFixtures> {
     return { ...base, admin: null, service: null }
   }
 
-  const service = createLocalClient(base.summary.supabase_url, base.serviceRoleKey)
+  // Private roster fixtures may omit synthetic role keys (admin/drink_only/…).
+  // Merge disposable synthetics in-memory without rewriting the private roster file.
+  const withRoles = await ensureSyntheticRoleIdentities(base)
+
+  const service = createLocalClient(withRoles.summary!.supabase_url, withRoles.serviceRoleKey!)
   const { error: seedError } = await service.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: DEV_DAY1,
     p_base_offset_minutes: DEV_BASE_OFFSET_MIN,
@@ -25,8 +30,8 @@ export async function loadClockFixtures(): Promise<ClockFixtures> {
   })
   if (seedError) throw seedError
 
-  const admin = await signInAs(base, 'admin')
-  return { ...base, admin, service }
+  const admin = await signInAs(withRoles, 'admin')
+  return { ...withRoles, admin, service }
 }
 
 /** UTC instant corresponding to ship-local wall time on a given cruise day, with a known offset. */
