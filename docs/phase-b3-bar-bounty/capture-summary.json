@@ -1,0 +1,30 @@
+[
+  {
+    "viewport": "360",
+    "shot": "bar-card-360.png",
+    "crewText": "Today's crew: Cindy, Jordan, Lindsey"
+  },
+  {
+    "viewport": "390",
+    "shot": "bar-card-390.png",
+    "crewText": "Today's crew: Cindy, Jordan, Lindsey"
+  },
+  {
+    "viewport": "402",
+    "shot": "bar-card-402.png",
+    "crewText": "Today's crew: Cindy, Jordan, Lindsey"
+  },
+  {
+    "shot": "friends-one-crewmate-402.png",
+    "preview": "Bar Bounty — 20 points"
+  },
+  {
+    "shot": "friends-full-crew-402.png",
+    "preview": "Bar Bounty — 30 points"
+  },
+  {
+    "viewport": "430",
+    "shot": "bar-card-430.png",
+    "crewText": "Today's crew: Cindy, Jordan, Lindsey"
+  }
+]

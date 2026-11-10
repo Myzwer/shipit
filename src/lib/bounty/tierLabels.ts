@@ -25,3 +25,9 @@ export function ingredientTierLabel(tier: string): string {
 export function pointsLabel(points: number): string {
   return `${points} Points`
 }
+
+/** Potential award range — never imply these points are already earned. */
+export function pointsRangeLabel(min: number, max: number): string {
+  if (min === max) return pointsLabel(min)
+  return `${min}–${max} Points`
+}

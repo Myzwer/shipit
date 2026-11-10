@@ -4,6 +4,9 @@
  */
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { fetchMyBarBountyCrew } from '@/lib/bounty/barBountyApi'
+import { pointsFromSelectedMates } from '@/lib/bounty/barBountyPoints'
+import { createBarBountyPreviewClient } from '@/lib/bounty/barBountyPreviewClient'
 import {
   buildSubmitPayload,
   fetchBarBountyReminder,
@@ -14,6 +17,9 @@ import {
   submitDrink,
   type SubmitCallOutcome,
 } from '@/lib/drinkLog/api'
+import { copy, formatCopy } from '@/ui/copy'
+import type { MyBarBountyCrewResult } from '@/types/barBountyCrew'
+import type { BarBountyPreviewResult } from '@/types/barBountyPreview'
 import {
   buildDefaultSelections,
   hasManuallyUnselectedEligible,
@@ -43,6 +49,7 @@ import type {
   WizardPrefill,
   WizardStep,
 } from '@/types/drinkLog'
+import type { PhotoFraming } from '@/lib/media/framing'
 import type { StagedPhotoRef } from '@/types/media'
 import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
 
@@ -82,10 +89,70 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const selectedCompanionIds = ref<string[]>([])
   const showBarReminder = ref(false)
 
+  const barCrew = ref<MyBarBountyCrewResult | null>(null)
+  const barCrewStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
+  const barPointsPreview = ref<BarBountyPreviewResult | null>(null)
+  const barPointsPreviewStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
+  const barPointsPreviewClient = createBarBountyPreviewClient()
+
+  const crewMateIds = computed(() => {
+    if (!barCrew.value || !barCrew.value.ok || barCrew.value.status !== 'assigned') return []
+    return barCrew.value.members.filter((m) => !m.is_self).map((m) => m.player_id)
+  })
+
+  const selectedCrewMateCount = computed(
+    () => selectedCompanionIds.value.filter((id) => crewMateIds.value.includes(id)).length,
+  )
+
+  const provisionalBarPoints = computed(() => {
+    if (!barCrew.value || !barCrew.value.ok || barCrew.value.status !== 'assigned') return 0
+    return pointsFromSelectedMates(barCrew.value.crew_size, selectedCrewMateCount.value)
+  })
+
+  const barPreviewKind = computed(() => {
+    if (!selectedBar.value) return 'hidden' as const
+    const server = barPointsPreview.value
+    if (server?.already_claimed || server?.status === 'already_claimed') return 'claimed' as const
+    if (barPointsPreviewStatus.value === 'loading' && !server) return 'checking' as const
+    if (server?.claimable && (server.points ?? 0) > 0) return 'eligible' as const
+    if (barCrewStatus.value === 'ready' && crewMateIds.value.length) {
+      if (selectedCrewMateCount.value < 1) return 'need_crewmate' as const
+      if (provisionalBarPoints.value > 0) return 'eligible' as const
+    }
+    if (server && !server.claimable) return 'unavailable' as const
+    if (barCrewStatus.value === 'ready' && !crewMateIds.value.length) return 'unavailable' as const
+    return 'hidden' as const
+  })
+
+  const barPreviewLabel = computed(() => {
+    const kind = barPreviewKind.value
+    if (kind === 'hidden') return null
+    if (kind === 'checking') return copy.wizard.barPreviewChecking
+    if (kind === 'claimed') return copy.wizard.barPreviewClaimed
+    if (kind === 'need_crewmate') return copy.wizard.barPreviewNeedCrewmate
+    if (kind === 'eligible') {
+      const points =
+        barPointsPreview.value?.claimable && typeof barPointsPreview.value.points === 'number'
+          ? barPointsPreview.value.points
+          : provisionalBarPoints.value
+      return formatCopy(copy.wizard.barPreviewEligible, { points })
+    }
+    return copy.wizard.barPreviewUnavailable
+  })
+
+  const barPreviewProvisional = computed(() => {
+    if (barPreviewKind.value !== 'eligible') return false
+    if (barPointsPreviewStatus.value === 'ready' && barPointsPreview.value?.claimable) return false
+    return true
+  })
+
   const caption = ref('')
   /** Staged in private Storage; not yet bound to submit_drink (Phase 4B1 deferral). */
   const stagedPhoto = ref<StagedPhotoRef | null>(null)
   const photoPreviewUrl = ref<string | null>(null)
+  const photoPreviewWidth = ref<number | null>(null)
+  const photoPreviewHeight = ref<number | null>(null)
+  const photoFraming = ref<PhotoFraming | null>(null)
 
   const preview = ref<PreviewPayload | null>(null)
   const previewStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -173,9 +240,17 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     featuredCocktailHint.value = null
     selectedCompanionIds.value = []
     showBarReminder.value = false
+    barCrew.value = null
+    barCrewStatus.value = 'idle'
+    barPointsPreview.value = null
+    barPointsPreviewStatus.value = 'idle'
+    barPointsPreviewClient.cancel()
     caption.value = ''
     stagedPhoto.value = null
     photoPreviewUrl.value = null
+    photoPreviewWidth.value = null
+    photoPreviewHeight.value = null
+    photoFraming.value = null
     preview.value = null
     previewStatus.value = 'idle'
     selectedClaims.value = []
@@ -207,6 +282,9 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     }
     preview.value = null
     previewStatus.value = 'idle'
+    barPointsPreview.value = null
+    barPointsPreviewStatus.value = 'idle'
+    barPointsPreviewClient.cancel()
     selectedClaims.value = []
     manuallyDeselected.value = new Set()
     if (submitStatus.value !== 'unknown') {
@@ -342,7 +420,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
           displayName: drink.display_name,
         }
         step.value = 'friends'
-        await refreshBarReminder()
+        await Promise.all([refreshBarReminder(), loadBarCrew(), refreshBarPointsPreview()])
         return
       }
     }
@@ -390,6 +468,44 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     }
   }
 
+  async function loadBarCrew() {
+    barCrewStatus.value = 'loading'
+    try {
+      barCrew.value = await fetchMyBarBountyCrew()
+      barCrewStatus.value = 'ready'
+    } catch {
+      barCrew.value = null
+      barCrewStatus.value = 'error'
+    }
+  }
+
+  async function refreshBarPointsPreview() {
+    if (!selectedBar.value) return
+    barPointsPreviewStatus.value = 'loading'
+    const drink = selectedDrink.value
+      ? buildSubmitPayload({
+          idempotencyKey: crypto.randomUUID(),
+          barCanonicalKey: selectedBar.value.canonical_key,
+          drink: selectedDrink.value,
+          companionIds: selectedCompanionIds.value,
+          selectedClaims: [],
+          caption: null,
+        }).drink
+      : { mode: 'generic_beer' }
+    try {
+      const result = await barPointsPreviewClient.schedule({
+        barCanonicalKey: selectedBar.value.canonical_key,
+        companionIds: selectedCompanionIds.value,
+        drink: drink as Record<string, unknown>,
+      })
+      if (!result) return
+      barPointsPreview.value = result
+      barPointsPreviewStatus.value = 'ready'
+    } catch {
+      barPointsPreviewStatus.value = 'error'
+    }
+  }
+
   async function refreshBarReminder() {
     showBarReminder.value = false
     if (!selectedBar.value) return
@@ -420,7 +536,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     showUnlistedForm.value = false
     invalidateFrom('drink')
     step.value = 'friends'
-    await refreshBarReminder()
+    await Promise.all([refreshBarReminder(), loadBarCrew(), refreshBarPointsPreview()])
   }
 
   async function selectGeneric(mode: 'generic_beer' | 'generic_wine' | 'generic_other') {
@@ -434,7 +550,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     showUnlistedForm.value = false
     invalidateFrom('drink')
     step.value = 'friends'
-    await refreshBarReminder()
+    await Promise.all([refreshBarReminder(), loadBarCrew(), refreshBarPointsPreview()])
   }
 
   function openUnlistedForm() {
@@ -467,7 +583,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     showUnlistedForm.value = false
     invalidateFrom('drink')
     step.value = 'friends'
-    await refreshBarReminder()
+    await Promise.all([refreshBarReminder(), loadBarCrew(), refreshBarPointsPreview()])
   }
 
   async function confirmIngredientYes() {
@@ -493,6 +609,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     else set.add(playerId)
     selectedCompanionIds.value = [...set]
     invalidateFrom('friends')
+    void refreshBarPointsPreview()
   }
 
   function goToStep(target: WizardStep) {
@@ -552,6 +669,24 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   function setPhotoPreviewUrl(url: string | null) {
     if (formLockedForUnknown.value) return
     photoPreviewUrl.value = url
+    if (!url) {
+      photoPreviewWidth.value = null
+      photoPreviewHeight.value = null
+    }
+  }
+
+  function setPhotoPreviewImage(
+    image: { previewUrl: string; width: number; height: number } | null,
+  ) {
+    if (formLockedForUnknown.value) return
+    photoPreviewUrl.value = image?.previewUrl ?? null
+    photoPreviewWidth.value = image?.width ?? null
+    photoPreviewHeight.value = image?.height ?? null
+  }
+
+  function setPhotoFraming(next: PhotoFraming | null) {
+    if (formLockedForUnknown.value) return
+    photoFraming.value = next
   }
 
   /** Optional drink_log photo contract for submit_drink. */
@@ -772,12 +907,22 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     selectedCompanionIds,
     companionNames,
     showBarReminder,
+    crewMateIds,
+    barCrewStatus,
+    barPreviewKind,
+    barPreviewLabel,
+    barPreviewProvisional,
     caption,
     stagedPhoto,
     photoPreviewUrl,
+    photoPreviewWidth,
+    photoPreviewHeight,
+    photoFraming,
     photoSubmitContract,
     setStagedPhoto,
     setPhotoPreviewUrl,
+    setPhotoPreviewImage,
+    setPhotoFraming,
     preview,
     previewStatus,
     selectedClaims,

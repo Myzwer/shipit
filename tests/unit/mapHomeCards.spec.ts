@@ -59,9 +59,11 @@ describe('mapHomeBountyCards', () => {
         bar_id: 'uuid-bar',
         bar_canonical_key: 'wake-view',
         bar_display_name: 'Wake View',
-        points_base: 25,
-        points_per_companion: 10,
-        points_cap: 95,
+        points_base: 20,
+        points_per_companion: 0,
+        points_cap: 40,
+        points_min: 20,
+        points_max: 40,
         public_end_utc: '2026-11-05T23:00:00.000Z',
       },
       daily: {
@@ -69,9 +71,9 @@ describe('mapHomeBountyCards', () => {
         challenge_id: 'd1',
         cruise_day: 1,
         title: 'Fixture Easy Stretch',
-        instructions: 'Stretch and photograph.',
-        location_name: null,
-        meeting_time_ship_local: null,
+        instructions: 'Stretch and photograph. Development fixture only.',
+        location_name: 'Sea View Bar',
+        meeting_time_ship_local: '14:30',
         is_all_hands: false,
         photo_required: true,
         points: 50,
@@ -100,7 +102,10 @@ describe('mapHomeBountyCards', () => {
     const bar = cards.find((c) => c.id === 'bar')!
     expect(bar.presentation).toBe('active')
     expect(bar.title).toBe('Wake View')
-    expect(bar.pointsLabel).toBe('35–95 Points')
+    expect(bar.pointsLabel).toMatch(/20.40 Points/)
+    expect(bar.tierOrEyebrow).toBe(copy.bounty.barCrewEyebrow)
+    expect(bar.detail).toMatch(/crewmate/i)
+    expect(bar.detail).not.toMatch(/nonalcoholic/i)
     expect(bar.timerLabel).toContain('11:00 PM')
     expect(bar.claimEnabled).toBe(true)
 
@@ -110,6 +115,53 @@ describe('mapHomeBountyCards', () => {
     expect(daily.pointsLabel).toBe('50 Points')
     expect(daily.claimEnabled).toBe(true)
     expect(daily.claimPrefill?.source).toBe('daily')
+  })
+
+  it('maps already-claimed Bar Bounty to claimed presentation with ledger points', () => {
+    const { cards } = mapHomeBountyCards({
+      fetchStatus: 'ready',
+      fetchedAtMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      nowMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      clock: baseClock('2099-01-03T13:00:00'),
+      cocktail: {
+        status: 'active',
+        offer_id: 'c1',
+        slot_key: 'cocktail:day:1:h13',
+        offering_id: 'off-1',
+        drink_name: 'Fixture Spritz',
+        designated_bar_key: 'piazza',
+        designated_bar_name: 'Fixture Piazza',
+        tier: 'familiar',
+        points: 25,
+        listed_ingredients: [],
+        public_end_utc: '2026-11-05T18:00:00.000Z',
+      },
+      ingredient: {
+        status: 'active',
+        offer_id: 'i1',
+        slot_key: 'ingredient:day:1:h12',
+        ingredient_key: 'orgeat',
+        display_name: 'Orgeat',
+        tier: 'less_common',
+        points: 50,
+        known_bar_count: 5,
+        public_end_utc: '2026-11-05T19:00:00.000Z',
+      },
+      bar: {
+        status: 'already_claimed',
+        reason: 'category_used_today',
+        cruise_day: 1,
+        assignment_id: 'b1',
+        bar_display_name: 'Wake View',
+        points: 30,
+      },
+    })
+    const bar = cards.find((c) => c.id === 'bar')!
+    expect(bar.presentation).toBe('claimed')
+    expect(bar.title).toBe('Wake View')
+    expect(bar.pointsLabel).toBe('30 Points')
+    expect(bar.claimEnabled).toBe(false)
+    expect(bar.detail).toBe(copy.bounty.barClaimedDetail)
   })
 
   it('E pre-opening hides objectives', () => {

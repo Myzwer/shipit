@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import AddDrinkSection from '@/features/admin/AddDrinkSection.vue'
+import BarBountyCrewsSection from '@/features/admin/BarBountyCrewsSection.vue'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import CatalogExportSection from '@/features/admin/CatalogExportSection.vue'
 import CatalogImportSection from '@/features/admin/CatalogImportSection.vue'
@@ -34,6 +35,7 @@ function backHome() {
       <CatalogExportSection />
       <CatalogImportSection />
       <ShipClockSection />
+      <BarBountyCrewsSection />
       <GameStatusSection />
       <BountySkipSection />
       <VoidSubmissionSection />

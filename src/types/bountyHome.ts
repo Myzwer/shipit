@@ -59,10 +59,26 @@ export interface ActiveBarBounty {
   bar_id: string
   bar_canonical_key: string
   bar_display_name: string
+  /** Legacy parse field; B3 UI uses points_min/points_max. */
   points_base: number
   points_per_companion: number
   points_cap: number
+  /** B2 band floor shown on the card (not an awarded value). */
+  points_min?: number
+  /** B2 band ceiling shown on the card (not an awarded value). */
+  points_max?: number
+  scoring?: string
   public_end_utc: string
+}
+
+export interface ClaimedBarBounty {
+  status: 'already_claimed'
+  reason?: string
+  cruise_day?: number | null
+  assignment_id?: string
+  bar_display_name?: string
+  /** Accepted ledger points for today (not recalculated). */
+  points?: number
 }
 
 export interface ActiveDailyChallenge {
@@ -97,11 +113,19 @@ export interface ClaimedDailyChallenge {
 
 export type CocktailBountyPayload = ActiveCocktailBounty | NonActiveBounty
 export type IngredientBountyPayload = ActiveIngredientBounty | NonActiveBounty
-export type BarBountyPayload = ActiveBarBounty | NonActiveBounty
+export type BarBountyPayload = ActiveBarBounty | ClaimedBarBounty | NonActiveBounty
 export type DailyChallengePayload =
   | ActiveDailyChallenge
   | ClaimedDailyChallenge
   | NonActiveBounty
+
+/** Compact crew presentation attached to the Bar card (B3). */
+export type HomeBarCrewView = {
+  status: 'assigned' | 'unassigned' | 'unavailable' | 'loading' | 'error'
+  mateNames?: string[]
+  crewSize?: 3 | 4
+  message?: string
+}
 
 /** Shared board lifecycle derived from clock + bounty RPCs. */
 export type HomeBoardPhase =
@@ -130,7 +154,11 @@ export interface HomeBountyCardView {
   presentation: HomeCardPresentation
   tierOrEyebrow: string
   title: string
+  /** Italic lead-in. Presentation only; not stored catalog text. */
+  lead?: string
   detail: string
+  /** Short presentation note, such as a development-fixture flag. */
+  note?: string
   pointsLabel: string
   footer: string
   timerLabel: string
@@ -138,6 +166,8 @@ export interface HomeBountyCardView {
   /** Cocktail / Ingredient / Bar open the log wizard; Daily opens Claim It flow. */
   claimEnabled: boolean
   claimTitle: string
+  /** Compact today's Bar Bounty crew (Bar card only). */
+  crew?: HomeBarCrewView
   /** Prefill hints for the logging wizard or Daily challenge route. */
   claimPrefill?: {
     source: 'cocktail' | 'ingredient' | 'bar' | 'daily'

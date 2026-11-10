@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
-import { copy } from '@/ui/copy'
+import { copy, formatCopy } from '@/ui/copy'
 import type { HomeBountyCardView } from '@/types/bountyHome'
 
 const props = defineProps<{
@@ -167,6 +167,25 @@ function cardMuted(card: HomeBountyCardView) {
           style="color: var(--theme-muted)"
         >
           {{ item.card.detail }}
+        </p>
+
+        <p
+          v-if="item.card.id === 'bar' && item.card.crew"
+          class="mt-2 line-clamp-2 text-xs leading-snug"
+          style="color: var(--theme-ink)"
+          data-testid="bar-bounty-crew"
+          :data-crew-status="item.card.crew.status"
+        >
+          <template v-if="item.card.crew.status === 'assigned' && item.card.crew.mateNames?.length">
+            {{
+              formatCopy(copy.bounty.barCrewLine, {
+                names: item.card.crew.mateNames.join(', '),
+              })
+            }}
+          </template>
+          <template v-else>
+            {{ item.card.crew.message || copy.bounty.barCrewUnavailable }}
+          </template>
         </p>
 
         <div v-if="item.card.timerLabel || item.card.timerValue" class="mt-5">

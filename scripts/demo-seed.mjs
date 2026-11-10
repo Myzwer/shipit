@@ -821,6 +821,31 @@ if (scenarioKey === 'wrapped') {
   console.log('Finale latched at', finaleUtc)
 }
 
+// B3: lock today's Bar Bounty crews for the mid-cruise demo (generate-once; safe to re-run).
+if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
+  try {
+    const at = shipLocalToUtcIso(
+      dayDate(aligned.day1, scenario.cruiseDay),
+      `${String(scenario.hour).padStart(2, '0')}:${String(scenario.minute).padStart(2, '0')}:00`,
+      aligned.offsetMinutes,
+    )
+    const { data: crewEnsure, error: crewErr } = await service.rpc('dev_ensure_bar_bounty_crews_at', {
+      p_at_utc: at,
+      p_seed: `demo-${scenarioKey}`,
+    })
+    if (crewErr) throw crewErr
+    if (crewEnsure?.ok) {
+      console.log(
+        `Bar Bounty crews ready: day ${crewEnsure.cruise_day}, ${crewEnsure.crews?.length ?? 0} crews`,
+      )
+    } else {
+      console.warn('Bar Bounty crew ensure:', JSON.stringify(crewEnsure))
+    }
+  } catch (e) {
+    console.warn('Bar Bounty crew ensure skipped:', e.message)
+  }
+}
+
 const scores = await scoreSnapshot()
 
 // Bound photos linked to accepted submissions that still have an active Gallery event

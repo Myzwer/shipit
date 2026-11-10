@@ -4,6 +4,7 @@ import {
   cocktailTierLabel,
   ingredientTierLabel,
   pointsLabel,
+  pointsRangeLabel,
 } from '@/lib/bounty/tierLabels'
 import { copy, formatCopy } from '@/ui/copy'
 import type {
@@ -12,6 +13,7 @@ import type {
   ActiveDailyChallenge,
   ActiveIngredientBounty,
   BarBountyPayload,
+  ClaimedBarBounty,
   ClaimedDailyChallenge,
   CocktailBountyPayload,
   DailyChallengePayload,
@@ -192,14 +194,16 @@ function availableUntilLabel(cruiseDay: number | null | undefined): string {
 }
 
 function barActiveCard(offer: ActiveBarBounty): HomeBountyCardView {
+  const min = offer.points_min ?? 20
+  const max = offer.points_max ?? 40
   return {
     id: 'bar',
     heading: copy.bounty.bar,
     presentation: 'active',
-    tierOrEyebrow: copy.bounty.barCompanionEyebrow,
+    tierOrEyebrow: copy.bounty.barCrewEyebrow,
     title: offer.bar_display_name,
     detail: copy.bounty.barDetail,
-    pointsLabel: copy.bounty.barPointsRange,
+    pointsLabel: pointsRangeLabel(min, max),
     footer: copy.bounty.bar,
     timerLabel: formatCopy(copy.bounty.availableUntilTemplate, {
       time: availableUntilLabel(offer.cruise_day),
@@ -211,6 +215,23 @@ function barActiveCard(offer: ActiveBarBounty): HomeBountyCardView {
       source: 'bar',
       barCanonicalKey: offer.bar_canonical_key,
     },
+  }
+}
+
+function barClaimedCard(offer: ClaimedBarBounty): HomeBountyCardView {
+  return {
+    id: 'bar',
+    heading: copy.bounty.bar,
+    presentation: 'claimed',
+    tierOrEyebrow: copy.bounty.claimed,
+    title: offer.bar_display_name?.trim() || copy.bounty.bar,
+    detail: copy.bounty.barClaimedDetail,
+    pointsLabel: pointsLabel(offer.points ?? 0),
+    footer: copy.bounty.bar,
+    timerLabel: '',
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: copy.bounty.claimed,
   }
 }
 
@@ -413,12 +434,14 @@ export function mapHomeBountyCards(input: {
   const bar =
     input.bar?.status === 'active'
       ? barActiveCard(input.bar)
-      : unavailableCard(
-          'bar',
-          headings.bar,
-          copy.bounty.unavailableTitle,
-          copy.bounty.unavailableDetail,
-        )
+      : input.bar?.status === 'already_claimed'
+        ? barClaimedCard(input.bar)
+        : unavailableCard(
+            'bar',
+            headings.bar,
+            copy.bounty.unavailableTitle,
+            copy.bounty.unavailableDetail,
+          )
 
   const daily =
     input.daily?.status === 'active'

@@ -126,6 +126,20 @@ export function parseBarBountyPayload(raw: unknown): BarBountyPayload {
     return { status: 'unavailable', reason: 'empty_payload' }
   }
   const row = raw as Record<string, unknown>
+  if (row.status === 'already_claimed') {
+    const cruiseDay =
+      typeof row.cruise_day === 'number' ? row.cruise_day : Number(row.cruise_day)
+    const points = typeof row.points === 'number' ? row.points : Number(row.points)
+    return {
+      status: 'already_claimed',
+      reason: typeof row.reason === 'string' ? row.reason : 'category_used_today',
+      cruise_day: Number.isFinite(cruiseDay) ? cruiseDay : null,
+      assignment_id: typeof row.assignment_id === 'string' ? row.assignment_id : undefined,
+      bar_display_name:
+        typeof row.bar_display_name === 'string' ? row.bar_display_name : undefined,
+      points: Number.isFinite(points) ? points : undefined,
+    }
+  }
   if (row.status !== 'active') return asNonActive(row)
 
   const assignment_id = typeof row.assignment_id === 'string' ? row.assignment_id : ''
@@ -138,6 +152,8 @@ export function parseBarBountyPayload(raw: unknown): BarBountyPayload {
       ? row.points_per_companion
       : Number(row.points_per_companion)
   const points_cap = typeof row.points_cap === 'number' ? row.points_cap : Number(row.points_cap)
+  const points_min = typeof row.points_min === 'number' ? row.points_min : Number(row.points_min)
+  const points_max = typeof row.points_max === 'number' ? row.points_max : Number(row.points_max)
 
   if (
     !assignment_id ||
@@ -157,8 +173,11 @@ export function parseBarBountyPayload(raw: unknown): BarBountyPayload {
     bar_canonical_key: typeof row.bar_canonical_key === 'string' ? row.bar_canonical_key : '',
     bar_display_name,
     points_base,
-    points_per_companion: Number.isFinite(points_per_companion) ? points_per_companion : 10,
-    points_cap: Number.isFinite(points_cap) ? points_cap : 95,
+    points_per_companion: Number.isFinite(points_per_companion) ? points_per_companion : 0,
+    points_cap: Number.isFinite(points_cap) ? points_cap : 40,
+    points_min: Number.isFinite(points_min) ? points_min : 20,
+    points_max: Number.isFinite(points_max) ? points_max : 40,
+    scoring: typeof row.scoring === 'string' ? row.scoring : undefined,
     public_end_utc,
   }
   return active

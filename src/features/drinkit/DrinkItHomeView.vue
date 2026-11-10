@@ -5,10 +5,16 @@ import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import BountyCarousel from '@/features/drinkit/BountyCarousel.vue'
+import { fetchMyBarBountyCrew } from '@/lib/bounty/barBountyApi'
 import { createHomeBountySync } from '@/lib/bounty/homeBountySync'
 import { fetchDrinkItLeaderboard } from '@/lib/wrapped/api'
 import { copy } from '@/ui/copy'
-import type { HomeBountyCardView, HomeBoardPhase, HomeBountyFetchStatus } from '@/types/bountyHome'
+import type {
+  HomeBarCrewView,
+  HomeBountyCardView,
+  HomeBoardPhase,
+  HomeBountyFetchStatus,
+} from '@/types/bountyHome'
 import type { MockLeaderboardRow } from '@/types/game'
 
 const router = useRouter()
@@ -18,6 +24,38 @@ const phase = ref<HomeBoardPhase>('loading')
 const status = ref<HomeBountyFetchStatus>('idle')
 const errorMessage = ref<string | null>(null)
 const leaderboardRows = ref<MockLeaderboardRow[]>([])
+const barCrew = ref<HomeBarCrewView>({ status: 'loading', message: copy.bounty.barCrewLoading })
+let lastCards: HomeBountyCardView[] = []
+
+function applyCrewToCards(list: HomeBountyCardView[]): HomeBountyCardView[] {
+  return list.map((card) =>
+    card.id === 'bar' && (card.presentation === 'active' || card.presentation === 'claimed')
+      ? { ...card, crew: barCrew.value }
+      : card,
+  )
+}
+
+async function refreshBarCrew() {
+  try {
+    const res = await fetchMyBarBountyCrew()
+    if (res.ok && res.status === 'assigned') {
+      barCrew.value = {
+        status: 'assigned',
+        crewSize: res.crew_size,
+        mateNames: res.members.filter((m) => !m.is_self).map((m) => m.display_name),
+      }
+    } else if (res.ok && res.status === 'unassigned') {
+      barCrew.value = { status: 'unassigned', message: copy.bounty.barCrewUnassigned }
+    } else if (!res.ok && res.status === 'roster_too_small') {
+      barCrew.value = { status: 'unavailable', message: copy.bounty.barCrewTooSmall }
+    } else {
+      barCrew.value = { status: 'unavailable', message: copy.bounty.barCrewUnavailable }
+    }
+  } catch {
+    barCrew.value = { status: 'error', message: copy.bounty.barCrewUnavailable }
+  }
+  cards.value = applyCrewToCards(lastCards)
+}
 
 const boardNote = computed(() => {
   // Never contradict paused / closed / finale with a "live" development notice.
@@ -49,13 +87,16 @@ async function loadLeaderboard() {
 
 onMounted(() => {
   unsubscribe = sync.subscribe((snap) => {
-    cards.value = snap.cards
+    lastCards = snap.cards
+    cards.value = applyCrewToCards(snap.cards)
     phase.value = snap.phase
     status.value = snap.status
     errorMessage.value = snap.errorMessage
+    if (snap.status === 'ready') void refreshBarCrew()
   })
   sync.start()
   void loadLeaderboard()
+  void refreshBarCrew()
 })
 
 onUnmounted(() => {
@@ -65,6 +106,7 @@ onUnmounted(() => {
 
 function retry() {
   void sync.refresh()
+  void refreshBarCrew()
 }
 
 function onClaim(card: HomeBountyCardView) {

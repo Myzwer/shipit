@@ -424,6 +424,10 @@ function onIngredientConfirmNo() {
         :selected-ids="wizard.selectedCompanionIds"
         :status="wizard.companionsStatus"
         :show-bar-reminder="wizard.showBarReminder"
+        :crew-mate-ids="wizard.crewMateIds"
+        :bar-preview-label="wizard.barPreviewLabel"
+        :bar-preview-kind="wizard.barPreviewKind"
+        :bar-preview-provisional="wizard.barPreviewProvisional"
         @toggle="wizard.toggleCompanion($event)"
         @continue="wizard.continueFromFriends()"
       />
