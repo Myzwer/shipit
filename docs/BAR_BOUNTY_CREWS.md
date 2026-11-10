@@ -110,31 +110,31 @@ All of today's crews (same generate-on-demand). On `<7` players returns explicit
 
 `p_roster_override` is **dev-only** so tests can use synthetic ids without private roster material.
 
-## B2 integration points (not implemented in B1)
+## B2 scoring (implemented)
 
-Planned claim rules use **assigned crewmates only** (selected companions ∩ assigned mates):
+Claim rules use **assigned crewmates only** (selected `companion_player_ids` ∩ assigned mates):
 
-| Present assigned mates (incl. self) | Points |
-|---|---|
-| Solo / cannot claim | 0 |
-| 2 of crew (incl. self) | 20 |
-| Full 3-person crew | 40 |
-| 3 of 4-person crew | 30 |
-| Full 4-person crew | 40 |
+| Present assigned members (incl. claimant) | Crew of 3 | Crew of 4 |
+|---|---:|---:|
+| 1 | 0 / ineligible | 0 / ineligible |
+| 2 | 20 | 20 |
+| 3 | 40 | 30 |
+| 4 | — | 40 |
 
-Helper for scoring RPCs:
+- Formula: `drinkit_bar_crew_points(crew_size, present_count)`
+- Shared eval: `drinkit_bar_bounty_crew_eval` (used by `drinkit_evaluate_eligibility`)
+- Preview: `preview_my_bar_bounty(p_payload)` — same rules, never awards
+- Mate helper: `bar_bounty_crew_mate_ids(cruise_config_id, day_number, player_id)`
+- Pre-B2 `drinkit_bar_points` is deprecated for new awards; historical ledger rows keep stored points
+- Home card may still advertise obsolete 25+10×N copy until B3 UI
 
-`bar_bounty_crew_mate_ids(cruise_config_id, day_number, player_id) → uuid[]`
+Claim path:
 
-Read path for B2:
-
-1. Server stamps `cruise_day` from Ship Clock (existing submit path).
-2. Load locked crew via members table / mate helper (do not regenerate).
-3. Intersect claim companion ids with assigned mates.
-4. Map presence count + `crew_size` to points.
-5. Keep one claim per player per day (existing `bounty_claims` uniqueness pattern).
-
-Do **not** change B1 tables for ordinary client writes; claims remain RPC-only.
+1. Ship Clock stamps cruise day (existing submit).
+2. `bar_bounty_ensure_crews_at` returns the locked day (generate-once).
+3. Intersect selected companions with assigned mates.
+4. Award exact band points into `bounty_claims` when `selected_claims` includes bar.
+5. Ordinary drink logs without qualifying crewmates still succeed.
 
 ## Tests
 

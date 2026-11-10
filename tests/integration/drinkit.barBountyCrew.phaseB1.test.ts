@@ -438,8 +438,8 @@ describe('Phase B1 security and visibility', () => {
   }, 180000)
 })
 
-describe('Phase B1 does not alter old Bar Bounty scoring contract', () => {
-  it('drinkit_bar_points formula remains unchanged', async () => {
+describe('Phase B1 historical bar helper', () => {
+  it('deprecated drinkit_bar_points helper remains available for ledger history', async () => {
     const { data, error } = await service.rpc('drinkit_bar_points', { p_companion_count: 3 })
     expect(error).toBeNull()
     expect(data).toBe(55)

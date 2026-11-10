@@ -207,6 +207,22 @@ export function baseCatalogSkeleton(): CatalogImportDocument {
   }
 }
 
+/**
+ * Launch-candidate bar keys required by `dev_seed_daily_assignments` (phase 10E).
+ * Fixture catalogs historically used `wake-view` / `good-spirits` / `poolside` for offerings;
+ * those stay. These seven keys must exist in `public.bars` so daily Bar seeding does not raise
+ * `BAR_KEY_MISSING:wake-view-bar` after a clean disposable reset.
+ */
+export const LAUNCH_DAILY_BAR_KEYS: Array<{ key: string; name: string; deck: string | null }> = [
+  { key: 'wake-view-bar', name: 'Wake View Bar', deck: '8' },
+  { key: 'good-spirits-at-sea', name: "Good Spirits at Sea", deck: '5' },
+  { key: 'sea-view-bar', name: 'Sea View Bar', deck: '7' },
+  { key: 'crooners', name: 'Crooners', deck: '7' },
+  { key: 'omalleys-irish-pub', name: "O'Malley's Irish Pub", deck: '6' },
+  { key: 'lido-bar', name: 'Lido Bar', deck: '15' },
+  { key: 'promenade-bars', name: 'Promenade Bars', deck: '7' },
+]
+
 /** Ensure at least `count` active bars exist on the document. */
 function ensureActiveBars(doc: CatalogImportDocument, count: number) {
   let n = doc.bars.filter((b) => b.active).length
@@ -227,6 +243,23 @@ function ensureActiveBars(doc: CatalogImportDocument, count: number) {
   }
 }
 
+/** Upsert launch daily Bar keys without removing fixture offering bars. */
+function ensureLaunchDailyBars(doc: CatalogImportDocument) {
+  for (const bar of LAUNCH_DAILY_BAR_KEYS) {
+    if (!doc.bars.some((b) => b.key === bar.key)) {
+      doc.bars.push({
+        key: bar.key,
+        name: bar.name,
+        deck: bar.deck,
+        active: true,
+      })
+    }
+    if (!doc.source_notes.verified_bar_keys.includes(bar.key)) {
+      doc.source_notes.verified_bar_keys.push(bar.key)
+    }
+  }
+}
+
 /**
  * Expand skeleton into a schedule-ready pool with N distinct cocktail concepts
  * and M ingredient objectives that have real matching offerings.
@@ -238,6 +271,7 @@ export function buildScheduleReadyCatalog(
   const doc = baseCatalogSkeleton()
   doc.catalog_id = 'dev-fixture-schedule-ready-v1'
   ensureActiveBars(doc, 13)
+  ensureLaunchDailyBars(doc)
   const activeBars = doc.bars.filter((b) => b.active)
 
   const cocktailCandidates: CocktailCandidate[] = []

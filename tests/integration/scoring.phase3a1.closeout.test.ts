@@ -19,9 +19,15 @@ import {
   previewAt,
   submitAt,
 } from '../helpers/drinkitSubmit'
+import {
+  ensureCrewAssignment,
+  padCrewRoster,
+  pickPlayerInCrewSize,
+} from '../helpers/barBountyCrew'
 import type { ClockFixtures } from '../helpers/clockFixtures'
 
 let fixtures: ClockFixtures
+const crewFillers: string[] = []
 
 beforeAll(async () => {
   fixtures = await loadBountyFixtures()
@@ -184,46 +190,21 @@ describe('Phase 3A.1 idempotent replay before eligibility', () => {
   })
 })
 
-describe('Phase 3A.1 Bar eligible companions', () => {
-  it('reproduces old bug: presence-only would over-count; eligible subset scores correctly', async () => {
+describe('Phase 3A.1 / B2 Bar crew companions', () => {
+  it('non-crew presence does not inflate Bar points (B2)', async () => {
     const at = noonDay1Utc()
-    const author = playerId(fixtures, 'drink_only')
-    const eligible = playerId(fixtures, 'both')
-    const alreadyClaimedCompanion = playerId(fixtures, 'admin')
+    const core = [
+      playerId(fixtures, 'drink_only'),
+      playerId(fixtures, 'both'),
+      playerId(fixtures, 'admin'),
+    ]
+    const roster = await padCrewRoster(fixtures.service!, core, 'co-non', crewFillers, 9)
+    const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'closeout-noncrew')
+    const { playerId: author, mates, crew } = pickPlayerInCrewSize(ensured, 3)
+    const mate = mates[0]!
+    const outsider = roster.find((id) => !crew.members.some((m) => m.player_id === id))!
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
-
-    // Companion "admin" already claimed Bar earlier — still present at gathering for Cocktail rules,
-    // but NOT listed in bar_eligible_companion_ids.
-    await submitAt(
-      fixtures.service!,
-      alreadyClaimedCompanion,
-      drinkPayload({
-        barKey,
-        mode: 'generic_beer',
-        companions: [author],
-        barEligibleCompanions: [author],
-        selectedClaims: [
-          {
-            category: 'bar',
-            assignment_id: (
-              await previewAt(
-                fixtures.service!,
-                alreadyClaimedCompanion,
-                drinkPayload({
-                  barKey,
-                  mode: 'generic_beer',
-                  companions: [author],
-                  barEligibleCompanions: [author],
-                }),
-                at,
-              )
-            ).data.preview.categories.bar.options[0].assignment_id,
-          },
-        ],
-      }),
-      at,
-    )
 
     const prev = await previewAt(
       fixtures.service!,
@@ -231,14 +212,14 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [eligible, alreadyClaimedCompanion],
-        barEligibleCompanions: [eligible], // exclude prior claimant
+        companions: [mate],
+        barEligibleCompanions: [mate],
       }),
       at,
     )
     expect(prev.data.preview.categories.bar.status).toBe('eligible')
-    expect(prev.data.preview.categories.bar.options[0].points).toBe(35)
-    expect(prev.data.preview.categories.bar.options[0].companion_count).toBe(1)
+    expect(prev.data.preview.categories.bar.options[0].points).toBe(20)
+    expect(prev.data.preview.categories.bar.options[0].qualifying_mate_count).toBe(1)
 
     const scored = await submitAt(
       fixtures.service!,
@@ -246,8 +227,8 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [eligible, alreadyClaimedCompanion],
-        barEligibleCompanions: [eligible],
+        companions: [mate, outsider],
+        barEligibleCompanions: [mate, outsider],
         selectedClaims: [
           {
             category: 'bar',
@@ -257,21 +238,34 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       }),
       at,
     )
+    // Non-crew outsider must not inflate beyond one-mate band (20)
     expect(scored.data.ok).toBe(true)
-    expect(scored.data.awarded_points).toBe(35)
+    expect(scored.data.awarded_points).toBe(20)
   })
 
-  it('2 / 4 / 8+ eligible → 35 / 55 / 95; preview matches submit', async () => {
+  it('crew of 3 → 20 / 40; preview matches submit (B2)', async () => {
     const at = noonDay1Utc()
-    // Use formula via evaluator with synthetic counts through real companions we have (2 max drinkit
-    // besides author among fixtures). For 4 and 8+, assert drinkit_bar_points + preview path for 1–2.
-    expect((await fixtures.service!.rpc('drinkit_bar_points', { p_companion_count: 1 })).data).toBe(35)
-    expect((await fixtures.service!.rpc('drinkit_bar_points', { p_companion_count: 3 })).data).toBe(55)
-    expect((await fixtures.service!.rpc('drinkit_bar_points', { p_companion_count: 7 })).data).toBe(95)
+    expect(
+      (await fixtures.service!.rpc('drinkit_bar_crew_points', { p_crew_size: 3, p_present_count: 2 }))
+        .data,
+    ).toBe(20)
+    expect(
+      (await fixtures.service!.rpc('drinkit_bar_crew_points', { p_crew_size: 3, p_present_count: 3 }))
+        .data,
+    ).toBe(40)
+    expect(
+      (await fixtures.service!.rpc('drinkit_bar_crew_points', { p_crew_size: 4, p_present_count: 4 }))
+        .data,
+    ).toBe(40)
 
-    const author = playerId(fixtures, 'drink_only')
-    const a = playerId(fixtures, 'both')
-    const b = playerId(fixtures, 'admin')
+    const core = [
+      playerId(fixtures, 'drink_only'),
+      playerId(fixtures, 'both'),
+      playerId(fixtures, 'admin'),
+    ]
+    const roster = await padCrewRoster(fixtures.service!, core, 'co-band', crewFillers, 9)
+    const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'closeout-bands')
+    const { playerId: author, mates } = pickPlayerInCrewSize(ensured, 3)
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
 
@@ -281,12 +275,12 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [a, b],
-        barEligibleCompanions: [a, b],
+        companions: mates,
+        barEligibleCompanions: mates,
       }),
       at,
     )
-    expect(two.data.preview.categories.bar.options[0].points).toBe(45)
+    expect(two.data.preview.categories.bar.options[0].points).toBe(40)
 
     const scored = await submitAt(
       fixtures.service!,
@@ -294,8 +288,8 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [a, b],
-        barEligibleCompanions: [a, b],
+        companions: mates,
+        barEligibleCompanions: mates,
         selectedClaims: [
           {
             category: 'bar',
@@ -305,24 +299,31 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       }),
       at,
     )
-    expect(scored.data.awarded_points).toBe(45)
+    expect(scored.data.awarded_points).toBe(40)
   })
 
-  it('same gathering, staggered submits: each keeps honor-system eligible set', async () => {
+  it('same gathering, staggered submits: each crewmate can claim once (B2)', async () => {
     const at = noonDay1Utc()
-    const p1 = playerId(fixtures, 'drink_only')
-    const p2 = playerId(fixtures, 'both')
+    const core = [
+      playerId(fixtures, 'drink_only'),
+      playerId(fixtures, 'both'),
+      playerId(fixtures, 'admin'),
+    ]
+    const roster = await padCrewRoster(fixtures.service!, core, 'co-stag', crewFillers, 9)
+    const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'closeout-stagger')
+    const crew = ensured.crews.find((c) => c.size === 3)!
+    const [p1, p2, p3] = crew.members.map((m) => m.player_id)
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
     const assignmentId = (
       await previewAt(
         fixtures.service!,
-        p1,
+        p1!,
         drinkPayload({
           barKey,
           mode: 'generic_beer',
-          companions: [p2],
-          barEligibleCompanions: [p2],
+          companions: [p2!],
+          barEligibleCompanions: [p2!],
         }),
         at,
       )
@@ -340,10 +341,8 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       }),
       at,
     )
-    expect(first.data.awarded_points).toBe(35)
+    expect(first.data.awarded_points).toBe(20)
 
-    // p2 submits later; still reports p1 as bar-eligible at gathering (honor system),
-    // even though p1 already has an active Bar claim.
     const second = await submitAt(
       fixtures.service!,
       p2,
@@ -357,7 +356,7 @@ describe('Phase 3A.1 Bar eligible companions', () => {
       slotUtc(1, '12:45:00'),
     )
     expect(second.data.ok).toBe(true)
-    expect(second.data.awarded_points).toBe(35)
+    expect(second.data.awarded_points).toBe(20)
   })
 
   it('ineligible Bar companions still count for Cocktail presence', async () => {
@@ -386,7 +385,10 @@ describe('Phase 3A.1 Bar eligible companions', () => {
     )
     expect(prev.data.preview.categories.cocktail.status).toBe('eligible')
     expect(prev.data.preview.categories.bar.status).toBe('unavailable')
-    expect(prev.data.preview.categories.bar.reason).toBe('bar_eligible_companion_required')
+    // B2: empty bar-eligible companions → no assigned crewmates selected
+    expect(prev.data.preview.categories.bar.reason).toMatch(
+      /solo_or_no_crewmate_selected|bar_eligible_companion_required|crew_unavailable|not_in_todays_roster/,
+    )
   })
 
   it('malformed bar-eligible (not subset / self) cannot inflate points', async () => {

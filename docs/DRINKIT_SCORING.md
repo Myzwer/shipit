@@ -63,12 +63,15 @@ Rules:
 
 - Must be unique UUIDs, Drink It!-enrolled (via presence normalization), and ⊆ `companion_player_ids`.
 - Cannot include self; cannot invent IDs not in the presence list (`BAR_ELIGIBLE_NOT_SUBSET`).
-- Bar points use **N = length(bar_eligible_companion_ids)** only: `min(95, 25 + 10×N)`.
-- Bar claim requires **N ≥ 1**. Empty / omitted bar-eligible list → Bar unavailable (`bar_eligible_companion_required`); Cocktail/Ingredient still use presence companions.
-- Server does **not** exclude someone who already claimed Bar today. Simultaneous gathering members may each report the others as bar-eligible even if one submitted first.
-- No player-entered points. Points always from `drinkit_bar_points`.
+- **Phase B2:** Bar points use locked daily crew assignment (see `docs/BAR_BOUNTY_CREWS.md`).  
+  Present count = 1 (claimant) + selected companions who are assigned crewmates.  
+  Bands: crew of 3 → 20 / 40; crew of 4 → 20 / 30 / 40. Solo / no crewmate selected → ineligible.  
+  Non-crew companions never add points. Max award 40.
+- `bar_eligible_companion_ids` remains accepted (Phase 3B auto-fill) but **does not** drive B2 points.
+- No player-entered points. New awards use `drinkit_bar_crew_points`. Historical rows keep stored points.
+- Preview: `preview_my_bar_bounty` (and enriched `preview_drink_claims` bar category) use the same evaluator as submit.
 
-Phase 3B Friends uses **one** companion selector and auto-fills `bar_eligible_companion_ids` from the same selection (honor-system reminder when Bar Bounty could apply). See [`docs/DRINKIT_LOGGING.md`](./DRINKIT_LOGGING.md).
+Phase 3B Friends uses **one** companion selector and auto-fills `bar_eligible_companion_ids` from the same selection. B3 will show exact crew-based points in the wizard. Until then, Home/card copy may still mention the obsolete 25+10×N formula.
 
 Forbidden client fields: `points`, `score`, `author_player_id`, `player_id`, `received_at_utc`, `ship_day`.
 
@@ -80,7 +83,7 @@ Uses Ship Clock, active catalog, bounty ledger (`bounty_resolve_at` with grace),
 |---|---|---|
 | Cocktail | Exact catalog offering = current/grace offer; ≥1 **presence** companion; not already claimed | Imported offer points |
 | Ingredient | Offering contains current/grace ingredient (catalog ∪ active correction ∪ in-request confirm); ≥1 **presence** companion; named catalog **or** unlisted honor key | Imported offer points |
-| Bar | Featured bar that day; alcoholic; ≥1 **bar-eligible** companion; noon–daily close | `min(95, 25 + 10×N)` with N = bar-eligible count |
+| Bar | Featured bar that day; alcoholic; locked crew with ≥1 selected assigned crewmate; noon–daily close | `drinkit_bar_crew_points` (20 / 30 / 40; max 40) |
 | Daily | **Not** via `submit_drink` | — |
 
 Generic beer/wine/other never auto-qualify Cocktail/Ingredient. Grace is private (15 minutes after public end; none after Friday 6 PM). Choose **one** offer per category when current + grace both match.

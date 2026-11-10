@@ -19,9 +19,16 @@ import {
   previewAt,
   submitAt,
 } from '../helpers/drinkitSubmit'
+import {
+  crewForPlayer,
+  ensureCrewAssignment,
+  padCrewRoster,
+  pickPlayerInCrewSize,
+} from '../helpers/barBountyCrew'
 import type { ClockFixtures } from '../helpers/clockFixtures'
 
 let fixtures: ClockFixtures
+const crewFillers: string[] = []
 
 beforeAll(async () => {
   fixtures = await loadBountyFixtures()
@@ -210,6 +217,17 @@ describe('Phase 3A eligibility', () => {
     await exposeCurrentSlots(fixtures.service!, at)
     const author = playerId(fixtures, 'drink_only')
     const companion = playerId(fixtures, 'both')
+    const third = playerId(fixtures, 'admin')
+    const roster = await padCrewRoster(
+      fixtures.service!,
+      [author, companion, third],
+      'p3a7',
+      crewFillers,
+      9,
+    )
+    const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'phase3a-bar-7')
+    const { mates } = crewForPlayer(ensured, author)
+    const mate = mates[0]!
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
     const prev = await previewAt(
@@ -218,14 +236,15 @@ describe('Phase 3A eligibility', () => {
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [companion],
-        barEligibleCompanions: [companion],
+        companions: [mate],
+        barEligibleCompanions: [mate],
       }),
       at,
     )
     expect(prev.data.preview.categories.cocktail.status).not.toBe('eligible')
     expect(prev.data.preview.categories.ingredient.status).not.toBe('eligible')
     expect(prev.data.preview.categories.bar.status).toBe('eligible')
+    expect(prev.data.preview.categories.bar.options[0].points).toBe(20)
   })
 
   it('8/9/10 overlap select all vs deselect one', async () => {
@@ -364,44 +383,48 @@ describe('Phase 3A eligibility', () => {
     expect(res.data.code).toMatch(/ELIGIBILITY_CHANGED/)
   })
 
-  it('13 Bar points for 1 / 2 / 7+ companions', async () => {
-    // Formula is min(95, 25 + 10×N) — exercised via eligibility/preview at featured bar.
+  it('13 Bar points for assigned crew presence (B2 bands)', async () => {
+    // B2: locked crew of 3 → 20 with one mate, 40 with both mates. Cap 40.
     const at = noonDay1Utc()
-    const author = playerId(fixtures, 'drink_only')
+    const core = [
+      playerId(fixtures, 'drink_only'),
+      playerId(fixtures, 'both'),
+      playerId(fixtures, 'admin'),
+    ]
+    const roster = await padCrewRoster(fixtures.service!, core, 'p3a13', crewFillers, 9)
+    const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'phase3a-bar-13')
+    const { playerId: author, mates } = pickPlayerInCrewSize(ensured, 3)
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
-    const both = playerId(fixtures, 'both')
-    const admin = playerId(fixtures, 'admin')
-    // Provisioned identities: drink_only, ship_only, both, admin, no_games — only Drink It! companions count.
     const one = await previewAt(
       fixtures.service!,
       author,
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [both],
-        barEligibleCompanions: [both],
+        companions: [mates[0]!],
+        barEligibleCompanions: [mates[0]!],
       }),
       at,
     )
-    expect(one.data.preview.categories.bar.options[0].points).toBe(35)
+    expect(one.data.preview.categories.bar.options[0].points).toBe(20)
     const two = await previewAt(
       fixtures.service!,
       author,
       drinkPayload({
         barKey,
         mode: 'generic_beer',
-        companions: [both, admin],
-        barEligibleCompanions: [both, admin],
+        companions: mates,
+        barEligibleCompanions: mates,
       }),
       at,
     )
-    expect(two.data.preview.categories.bar.options[0].points).toBe(45)
-    // Synthesize 7 companions by repeating is rejected; use formula assertion via SQL service.
-    const { data: pts } = await fixtures.service!.rpc('drinkit_bar_points' as never, {
-      p_companion_count: 7,
-    } as never)
-    expect(pts).toBe(95)
+    expect(two.data.preview.categories.bar.options[0].points).toBe(40)
+    const { data: pts } = await fixtures.service!.rpc('drinkit_bar_crew_points', {
+      p_crew_size: 4,
+      p_present_count: 4,
+    })
+    expect(pts).toBe(40)
   })
 
   it('14 no-companion claim blocked; ordinary log allowed', async () => {
