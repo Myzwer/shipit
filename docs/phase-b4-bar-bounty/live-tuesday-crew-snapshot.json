@@ -1,0 +1,36 @@
+{
+  "note": "Pre-rehearsal live Tuesday cruise (days 1–4 already locked). Synthetic ids omitted; counts only.",
+  "days": [
+    {
+      "day_number": 1,
+      "roster_size": 11,
+      "seed": "0e642c94-87ca-4490-869b-ee184008df91"
+    },
+    {
+      "day_number": 2,
+      "roster_size": 11,
+      "seed": "c46c7ca4-a0f9-4839-bf59-8c41d2dcf342"
+    },
+    {
+      "day_number": 3,
+      "roster_size": 11,
+      "seed": "8fcc0594-766d-4088-8eb1-bff96fd1c904"
+    },
+    {
+      "day_number": 4,
+      "roster_size": 11,
+      "seed": "3d90501a-4acc-4c00-a518-eb350e4a524e"
+    }
+  ],
+  "sizesByDay": {},
+  "memberCount": 44,
+  "pairStats": {
+    "uniquePairs": 45,
+    "histogram": {
+      "1": 31,
+      "2": 13,
+      "3": 1
+    },
+    "repeatMass": 15
+  }
+}

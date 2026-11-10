@@ -1,0 +1,203 @@
+{
+  "phase": "B4",
+  "started_at": "2026-11-10T21:26:07.160Z",
+  "seven_day": {
+    "days": [
+      {
+        "day": 1,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-1"
+      },
+      {
+        "day": 2,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-2"
+      },
+      {
+        "day": 3,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-3"
+      },
+      {
+        "day": 4,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-4"
+      },
+      {
+        "day": 5,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-5"
+      },
+      {
+        "day": 6,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-6"
+      },
+      {
+        "day": 7,
+        "sizes": [
+          4,
+          4,
+          3
+        ],
+        "generated": true,
+        "idempotent": true,
+        "seed": "b4-week-7"
+      }
+    ],
+    "pairStats": {
+      "unique_pairs": 54,
+      "pairs_seen_once": 18,
+      "pairs_seen_twice": 22,
+      "pairs_seen_thrice_plus": 14,
+      "repeat_mass": 51,
+      "histogram": {
+        "1": 18,
+        "2": 22,
+        "3": 13,
+        "4": 1
+      },
+      "unweighted_baseline_median_repeat_mass": 56
+    }
+  },
+  "scoring": [
+    {
+      "label": "c3-solo",
+      "crew_size": 3,
+      "mates_selected": 0,
+      "present_including_player": 1,
+      "preview_points": 0,
+      "full_preview_points": 0,
+      "receipt_points": 0,
+      "ledger_points": null,
+      "agree": true
+    },
+    {
+      "label": "c3-one",
+      "crew_size": 3,
+      "mates_selected": 1,
+      "present_including_player": 2,
+      "preview_points": 20,
+      "full_preview_points": 20,
+      "receipt_points": 20,
+      "ledger_points": 20,
+      "agree": true
+    },
+    {
+      "label": "c3-full",
+      "crew_size": 3,
+      "mates_selected": 2,
+      "present_including_player": 3,
+      "preview_points": 40,
+      "full_preview_points": 40,
+      "receipt_points": 40,
+      "ledger_points": 40,
+      "agree": true
+    },
+    {
+      "label": "c4-solo",
+      "crew_size": 4,
+      "mates_selected": 0,
+      "present_including_player": 1,
+      "preview_points": 0,
+      "full_preview_points": 0,
+      "receipt_points": 0,
+      "ledger_points": null,
+      "agree": true
+    },
+    {
+      "label": "c4-one",
+      "crew_size": 4,
+      "mates_selected": 1,
+      "present_including_player": 2,
+      "preview_points": 20,
+      "full_preview_points": 20,
+      "receipt_points": 20,
+      "ledger_points": 20,
+      "agree": true
+    },
+    {
+      "label": "c4-two",
+      "crew_size": 4,
+      "mates_selected": 2,
+      "present_including_player": 3,
+      "preview_points": 30,
+      "full_preview_points": 30,
+      "receipt_points": 30,
+      "ledger_points": 30,
+      "agree": true
+    },
+    {
+      "label": "c4-full",
+      "crew_size": 4,
+      "mates_selected": 3,
+      "present_including_player": 4,
+      "preview_points": 40,
+      "full_preview_points": 40,
+      "receipt_points": 40,
+      "ledger_points": 40,
+      "agree": true
+    }
+  ],
+  "roster": {
+    "mid_day_locked": true,
+    "late_unassigned_day1": true,
+    "day2_includes_late_excludes_opted": true,
+    "roster_too_small": true
+  },
+  "lifecycle": {
+    "pause_blocks": true,
+    "resume_ok": true,
+    "friday_finale_blocks": true,
+    "same_day_clock_no_duplicate": true
+  },
+  "integrity": {
+    "idempotent_replay": true,
+    "concurrent_single_claim": true,
+    "wrong_bar_no_points": true,
+    "void_and_reclaim": true,
+    "deprecated_formula_retained": 55
+  },
+  "rls_advisory": {
+    "table": "catalog_category_b_approved_offerings",
+    "row_count": 191,
+    "sensitivity": "Catalog reference allowlist (bar_id + drink_concept_id). Not player PII. Migration revokes anon/authenticated and grants service_role SELECT only; RLS remains disabled — production review should enable RLS with service_role-only policies or confirm revoke-only posture."
+  },
+  "finished_at": "2026-11-10T21:26:45.514Z"
+}

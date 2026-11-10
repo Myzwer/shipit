@@ -1,0 +1,34 @@
+{
+  "cruise_day": 4,
+  "ship_local": "2026-11-10T14:01:11",
+  "drinkitMembers": 11,
+  "crewDays": [
+    {
+      "day_number": 1,
+      "roster_size": 11,
+      "seed": "85cc5f0d-46b5-4d99-aea7-c2aa8dcd165f"
+    },
+    {
+      "day_number": 2,
+      "roster_size": 11,
+      "seed": "07343821-69f5-4d23-9ec5-8d73dcaaf01e"
+    },
+    {
+      "day_number": 3,
+      "roster_size": 11,
+      "seed": "4fe8ca8f-5558-4837-a235-9211b133a1bb"
+    },
+    {
+      "day_number": 4,
+      "roster_size": 11,
+      "seed": "37fdb830-49e1-49cc-8dd7-fa08ddce0089"
+    }
+  ],
+  "activeBarClaimsForPlayer": [
+    {
+      "points": 20,
+      "status": "active",
+      "game_day": 4
+    }
+  ]
+}

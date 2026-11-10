@@ -1,0 +1,30 @@
+[
+  {
+    "viewport": "360",
+    "shot": "bar-card-360.png",
+    "crewText": "Today's crew: Dan, David B."
+  },
+  {
+    "viewport": "390",
+    "shot": "bar-card-390.png",
+    "crewText": "Today's crew: Dan, David B."
+  },
+  {
+    "viewport": "402",
+    "shot": "bar-card-402.png",
+    "crewText": "Today's crew: Dan, David B."
+  },
+  {
+    "shot": "friends-one-crewmate-402.png",
+    "preview": "You've already claimed today's Bar Bounty."
+  },
+  {
+    "shot": "friends-full-crew-402.png",
+    "preview": "You've already claimed today's Bar Bounty."
+  },
+  {
+    "viewport": "430",
+    "shot": "bar-card-430.png",
+    "crewText": "Today's crew: Dan, David B."
+  }
+]
