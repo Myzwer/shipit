@@ -192,14 +192,35 @@ export function parseDailyChallengePayload(raw: unknown): DailyChallengePayload 
     const cruiseDay =
       typeof row.cruise_day === 'number' ? row.cruise_day : Number(row.cruise_day)
     const points = typeof row.points === 'number' ? row.points : Number(row.points)
+    const participationMode =
+      row.participation_mode === 'all_hands' || row.participation_mode === 'bring_a_friend'
+        ? row.participation_mode
+        : undefined
     const claimed: ClaimedDailyChallenge = {
       status: 'already_claimed',
       reason: typeof row.reason === 'string' ? row.reason : 'category_used_today',
       cruise_day: Number.isFinite(cruiseDay) ? cruiseDay : null,
       challenge_id: typeof row.challenge_id === 'string' ? row.challenge_id : undefined,
       title: typeof row.title === 'string' ? row.title : undefined,
+      instructions: typeof row.instructions === 'string' ? row.instructions : undefined,
+      location_name: typeof row.location_name === 'string' ? row.location_name : null,
+      bar_canonical_key:
+        typeof row.bar_canonical_key === 'string' ? row.bar_canonical_key : null,
+      is_all_hands:
+        typeof row.is_all_hands === 'boolean'
+          ? row.is_all_hands
+          : participationMode
+            ? participationMode === 'all_hands'
+            : undefined,
+      participation_mode: participationMode,
+      admin_announcement:
+        typeof row.admin_announcement === 'string' ? row.admin_announcement : null,
+      photo_required:
+        typeof row.photo_required === 'boolean' ? row.photo_required : undefined,
       points: Number.isFinite(points) ? points : 50,
       submission_id: typeof row.submission_id === 'string' ? row.submission_id : undefined,
+      public_end_utc:
+        typeof row.public_end_utc === 'string' ? row.public_end_utc : undefined,
     }
     return claimed
   }
@@ -223,6 +244,13 @@ export function parseDailyChallengePayload(raw: unknown): DailyChallengePayload 
     return { status: 'unavailable', reason: 'incomplete_active_payload' }
   }
 
+  const participationMode =
+    row.participation_mode === 'all_hands' || row.participation_mode === 'bring_a_friend'
+      ? row.participation_mode
+      : Boolean(row.is_all_hands)
+        ? 'all_hands'
+        : 'bring_a_friend'
+
   const active: ActiveDailyChallenge = {
     status: 'active',
     challenge_id,
@@ -230,9 +258,14 @@ export function parseDailyChallengePayload(raw: unknown): DailyChallengePayload 
     title,
     instructions,
     location_name: typeof row.location_name === 'string' ? row.location_name : null,
+    bar_canonical_key:
+      typeof row.bar_canonical_key === 'string' ? row.bar_canonical_key : null,
     meeting_time_ship_local:
       typeof row.meeting_time_ship_local === 'string' ? row.meeting_time_ship_local : null,
-    is_all_hands: Boolean(row.is_all_hands),
+    is_all_hands: participationMode === 'all_hands',
+    participation_mode: participationMode,
+    admin_announcement:
+      typeof row.admin_announcement === 'string' ? row.admin_announcement : null,
     photo_required: row.photo_required !== false,
     points: 50,
     public_end_utc,

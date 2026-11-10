@@ -81,6 +81,9 @@ export interface ClaimedBarBounty {
   points?: number
 }
 
+/** C1 participation intent. Honor-system only; no partner verification. */
+export type DailyChallengeParticipationMode = 'all_hands' | 'bring_a_friend'
+
 export interface ActiveDailyChallenge {
   status: 'active'
   challenge_id: string
@@ -88,8 +91,12 @@ export interface ActiveDailyChallenge {
   title: string
   instructions: string
   location_name: string | null
+  bar_canonical_key?: string | null
   meeting_time_ship_local: string | null
   is_all_hands: boolean
+  participation_mode?: DailyChallengeParticipationMode
+  /** Admin meetup note. Display only; never gates claims. */
+  admin_announcement?: string | null
   photo_required: boolean
   points: number
   public_end_utc: string
@@ -107,8 +114,16 @@ export interface ClaimedDailyChallenge {
   cruise_day?: number | null
   challenge_id?: string
   title?: string
+  instructions?: string
+  location_name?: string | null
+  bar_canonical_key?: string | null
+  is_all_hands?: boolean
+  participation_mode?: DailyChallengeParticipationMode
+  admin_announcement?: string | null
+  photo_required?: boolean
   points?: number
   submission_id?: string
+  public_end_utc?: string
 }
 
 export type CocktailBountyPayload = ActiveCocktailBounty | NonActiveBounty

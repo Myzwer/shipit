@@ -17,6 +17,7 @@
     "test:catalog": "vitest run --fileParallelism=false tests/unit/catalogValidate.spec.ts tests/unit/catalogValidate.phase2c1.spec.ts tests/integration/catalog.phase2c.test.ts tests/integration/catalog.phase2c1.hints.test.ts",
     "test:bounty": "vitest run --fileParallelism=false tests/integration/bounty.phase2da.schedule.test.ts tests/integration/bounty.phase2da.closeout.test.ts tests/integration/bounty.phase2db1.home.test.ts tests/integration/bounty.phase2db2.daily.test.ts tests/integration/bounty.phase2db2_1.pause.test.ts",
     "test:crew": "vitest run --fileParallelism=false tests/unit/barBountyCrewPartition.spec.ts tests/integration/drinkit.barBountyCrew.phaseB1.test.ts tests/integration/drinkit.barBountyCrew.phaseB2.test.ts",
+    "test:c1": "vitest run --fileParallelism=false tests/unit/finalDailyChallenges.spec.ts tests/integration/drinkit.dailyChallenge.phaseC1.test.ts",
     "test:integration": "vitest run --fileParallelism=false tests/integration",
     "test:e2e:phase1b": "node scripts/e2e-phase1b-login.mjs",
     "test:e2e:phase2b": "node scripts/e2e-phase2b-admin-clock.mjs",

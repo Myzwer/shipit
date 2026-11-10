@@ -208,10 +208,10 @@ export function baseCatalogSkeleton(): CatalogImportDocument {
 }
 
 /**
- * Launch-candidate bar keys required by `dev_seed_daily_assignments` (phase 10E).
+ * Launch-candidate bar keys required by `dev_seed_daily_assignments`.
+ * Phase 10E / B4 featured Bar Bounty keys + Phase C1 Daily Challenge location keys.
  * Fixture catalogs historically used `wake-view` / `good-spirits` / `poolside` for offerings;
- * those stay. These seven keys must exist in `public.bars` so daily Bar seeding does not raise
- * `BAR_KEY_MISSING:wake-view-bar` after a clean disposable reset.
+ * those stay. These keys must exist in `public.bars` after a clean disposable reset.
  */
 export const LAUNCH_DAILY_BAR_KEYS: Array<{ key: string; name: string; deck: string | null }> = [
   { key: 'wake-view-bar', name: 'Wake View Bar', deck: '8' },
@@ -221,6 +221,9 @@ export const LAUNCH_DAILY_BAR_KEYS: Array<{ key: string; name: string; deck: str
   { key: 'omalleys-irish-pub', name: "O'Malley's Irish Pub", deck: '6' },
   { key: 'lido-bar', name: 'Lido Bar', deck: '15' },
   { key: 'promenade-bars', name: 'Promenade Bars', deck: '7' },
+  // C1 Daily Challenge locations (not all overlap Bar Bounty days).
+  { key: 'bellinis-cocktail-bar', name: "Bellini's Cocktail Bar", deck: '7' },
+  { key: 'cascade-bar', name: 'Cascade Bar', deck: '17' },
 ]
 
 /** Ensure at least `count` active bars exist on the document. */
