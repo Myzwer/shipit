@@ -34,7 +34,7 @@ const iconName = computed(() => {
     class="rounded-2xl px-4 py-4 shadow-sm"
     :style="{
       background:
-        tone === 'aqua' ? 'var(--theme-page-alt)' : 'var(--theme-card)',
+        tone === 'aqua' ? 'var(--theme-gradient-cool)' : 'var(--theme-gradient-warm)',
       color: 'var(--theme-ink)',
     }"
     data-testid="wrapped-award-card"

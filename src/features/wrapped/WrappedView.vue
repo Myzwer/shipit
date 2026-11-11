@@ -5,20 +5,18 @@ import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import WrappedStatCard from '@/features/wrapped/WrappedStatCard.vue'
-import WrappedAwardCard from '@/features/wrapped/WrappedAwardCard.vue'
+import WrappedFinalAwardCard from '@/features/wrapped/WrappedFinalAwardCard.vue'
 import { fetchMyWrapped, revealMyWrapped, WrappedApiError } from '@/lib/wrapped/api'
 import {
-  buildDrinkItStatCards,
-  buildShipItStatCards,
-} from '@/lib/wrapped/buildStatCards'
+  buildCollectiveCards,
+  buildGlobalAwardCards,
+  buildPersonalCards,
+} from '@/lib/wrapped/buildFinalCards'
+import { inventoryIdsForGame } from '@/lib/wrapped/inventory'
 import { useAwardsModeStore } from '@/stores/awardsMode'
 import { copy } from '@/ui/copy'
 import type { GameId, MockLeaderboardRow } from '@/types/game'
-import type {
-  DrinkItPersonalStats,
-  ShipItTeamStats,
-  WrappedPayload,
-} from '@/types/wrapped'
+import type { WrappedPayload } from '@/types/wrapped'
 
 const props = defineProps<{
   game: GameId
@@ -33,6 +31,7 @@ const payload = ref<WrappedPayload | null>(null)
 const revealing = ref(false)
 const justRevealed = ref(false)
 const preferReducedMotion = ref(false)
+const resultsTop = ref<HTMLElement | null>(null)
 
 const revealed = computed(() => Boolean(payload.value?.revealed))
 
@@ -40,31 +39,86 @@ const personalHeading = computed(() =>
   props.game === 'drinkit' ? copy.wrapped.yourWeek : copy.wrapped.yourTeamWeek,
 )
 
+const introHeadline = computed(() =>
+  props.game === 'drinkit'
+    ? copy.wrapped.drinkIntroHeadline
+    : copy.wrapped.shipIntroHeadline,
+)
+
+const introBody = computed(() =>
+  props.game === 'drinkit' ? copy.wrapped.drinkIntroBody : copy.wrapped.shipIntroBody,
+)
+
+const everyoneSupport = computed(() =>
+  props.game === 'drinkit'
+    ? copy.wrapped.everyoneElseSupportDrink
+    : copy.wrapped.everyoneElseSupportShip,
+)
+
+const collectiveHeading = computed(() =>
+  props.game === 'drinkit' ? copy.wrapped.collectiveDrink : copy.wrapped.collectiveShip,
+)
+
 const startButton = computed(() =>
   props.game === 'drinkit' ? copy.wrapped.seeDrinkIt : copy.wrapped.seeShipIt,
 )
 
-const statCards = computed(() => {
-  const stats = payload.value?.personal_stats
-  if (!stats) return []
-  if (props.game === 'drinkit') {
-    return buildDrinkItStatCards(stats as DrinkItPersonalStats)
-  }
-  return buildShipItStatCards(stats as ShipItTeamStats)
+const personalCards = computed(() =>
+  buildPersonalCards(payload.value?.sections?.personal ?? []),
+)
+
+const globalCards = computed(() =>
+  buildGlobalAwardCards(payload.value?.sections?.global ?? []),
+)
+
+const collectiveCards = computed(() =>
+  buildCollectiveCards(payload.value?.sections?.collective ?? []),
+)
+
+const inventoryMismatch = computed(() => {
+  const expected = inventoryIdsForGame(props.game)
+  const got = [
+    ...(payload.value?.sections?.personal ?? []).map((e) => e.spec_id),
+    ...(payload.value?.sections?.global ?? []).map((e) => e.spec_id),
+    ...(payload.value?.sections?.collective ?? []).map((e) => e.spec_id),
+  ]
+  return expected.length !== got.length || expected.some((id, i) => id !== got[i])
 })
 
-const leaderboardRows = computed<MockLeaderboardRow[]>(() =>
-  (payload.value?.leaderboard ?? []).map((row) => ({
+const standingsEntry = computed(() =>
+  (payload.value?.sections?.collective ?? []).find((e) => e.spec_id === 'SI-C12'),
+)
+
+const leaderboardRows = computed<MockLeaderboardRow[]>(() => {
+  if (props.game === 'shipit' && standingsEntry.value?.items?.length) {
+    return (standingsEntry.value.items as Array<Record<string, unknown>>).map((row, idx) => ({
+      id: String(row.id ?? idx),
+      rank: Number(row.rank ?? idx + 1),
+      name: String(row.name ?? ''),
+      members: Array.isArray(row.members) ? (row.members as string[]) : undefined,
+      metricLabel: `${row.points ?? 0} points`,
+      points: Number(row.points ?? 0),
+    }))
+  }
+  return (payload.value?.leaderboard ?? []).map((row) => ({
     id: row.id,
     rank: row.rank,
     name: row.name,
     members: row.members,
     metricLabel: row.metric_label,
     points: row.points,
-  })),
-)
+  }))
+})
 
 const showMembers = computed(() => props.game === 'shipit')
+
+const collectiveWithoutStandings = computed(() =>
+  collectiveCards.value.filter((c) => c.key !== 'SI-C12'),
+)
+
+function scrollToTop() {
+  resultsTop.value?.scrollIntoView({ behavior: preferReducedMotion.value ? 'auto' : 'smooth' })
+}
 
 async function load() {
   status.value = 'loading'
@@ -151,7 +205,7 @@ watch(
     <div
       v-else-if="status === 'not_available'"
       class="mx-4 mt-8 rounded-2xl px-4 py-6 text-center"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="wrapped-not-available"
     >
       <p class="font-semibold">{{ copy.wrapped.notAvailableTitle }}</p>
@@ -171,7 +225,7 @@ watch(
     <div
       v-else-if="status === 'error'"
       class="mx-4 mt-8 rounded-2xl px-4 py-6 text-center"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="wrapped-error"
     >
       <p class="font-semibold">{{ copy.wrapped.unavailableTitle }}</p>
@@ -193,16 +247,16 @@ watch(
     <section
       v-else-if="!revealed"
       class="flex min-h-[70dvh] flex-col items-center justify-center px-6 pb-24 pt-8 text-center"
-      style="background: var(--theme-page-alt)"
+      style="background: var(--theme-gradient-cool)"
       data-testid="wrapped-intro"
       :data-game="game"
     >
       <AppIcon name="nav.wrapped" style-variant="outline" class="text-5xl opacity-90" />
       <h2 class="font-display mt-6 max-w-xs text-2xl font-bold leading-snug">
-        {{ copy.wrapped.readyHeadline }}
+        {{ introHeadline }}
       </h2>
       <p class="mt-3 max-w-sm text-sm" style="color: var(--theme-muted)">
-        {{ copy.wrapped.readySupport }}
+        {{ introBody }}
       </p>
       <button
         type="button"
@@ -225,12 +279,14 @@ watch(
       </p>
     </section>
 
-    <!-- Full results (no per-stat View buttons) -->
+    <!-- Full results: three scrollable sections -->
     <div
       v-else
+      ref="resultsTop"
       class="pb-8"
       data-testid="wrapped-results"
       :data-game="game"
+      :data-inventory-ok="inventoryMismatch ? 'false' : 'true'"
       :class="
         justRevealed && !preferReducedMotion
           ? 'wrapped-reveal-anim'
@@ -238,18 +294,25 @@ watch(
       "
     >
       <section
-        class="px-4 py-6 text-white"
+        class="relative px-4 py-6 text-white"
         style="background: var(--theme-primary)"
         data-testid="wrapped-personal-intro"
       >
-        <h2 class="font-display text-xl font-bold">{{ personalHeading }}</h2>
-        <p class="mt-2 text-sm text-white/85">
-          {{
-            game === 'drinkit'
-              ? copy.wrapped.personalSupportDrink
-              : copy.wrapped.personalSupportShip
-          }}
+        <button
+          type="button"
+          class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15"
+          :aria-label="'Back to top'"
+          data-testid="wrapped-back-to-top"
+          @click="scrollToTop"
+        >
+          <AppIcon name="action.next" class="rotate-[-90deg] text-sm" />
+        </button>
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-white/80">
+          {{ copy.wrapped.heading }}
         </p>
+        <h2 class="font-display mt-2 text-2xl font-bold">{{ introHeadline }}</h2>
+        <p class="mt-2 text-sm text-white/85">{{ introBody }}</p>
+        <h3 class="font-display mt-5 text-lg font-bold">{{ personalHeading }}</h3>
       </section>
 
       <section
@@ -257,7 +320,12 @@ watch(
         :aria-label="personalHeading"
         data-testid="wrapped-stat-grid"
       >
-        <WrappedStatCard v-for="card in statCards" :key="card.key" :card="card" />
+        <WrappedStatCard
+          v-for="card in personalCards"
+          :key="card.key"
+          :card="card"
+          :class="card.kind === 'photo' ? 'col-span-2' : undefined"
+        />
       </section>
 
       <section
@@ -266,26 +334,39 @@ watch(
         data-testid="wrapped-group-intro"
       >
         <h2 class="font-display text-xl font-bold">{{ copy.wrapped.everyoneElse }}</h2>
-        <p class="mt-2 text-sm text-white/85">{{ copy.wrapped.everyoneElseSupport }}</p>
+        <p class="mt-2 text-sm text-white/85">{{ everyoneSupport }}</p>
       </section>
 
       <section class="space-y-3 px-3 py-4" data-testid="wrapped-awards-list">
-        <WrappedAwardCard
-          v-for="(award, idx) in payload?.group_awards ?? []"
-          :key="award.stable_key"
-          :award="award"
-          :tone="idx % 2 === 0 ? 'aqua' : 'cream'"
+        <WrappedFinalAwardCard
+          v-for="card in globalCards"
+          :key="card.key"
+          :card="card"
         />
-        <p
-          v-if="!(payload?.group_awards?.length)"
-          class="rounded-2xl px-4 py-6 text-center text-sm"
-          style="background: var(--theme-card); color: var(--theme-muted)"
-        >
-          {{ copy.wrapped.noAwardsConfigured }}
-        </p>
       </section>
 
-      <section class="mt-2" style="background: var(--theme-page-alt)" data-testid="wrapped-leaderboard">
+      <section
+        class="px-4 py-6 text-white"
+        style="background: var(--theme-primary)"
+        data-testid="wrapped-collective-intro"
+      >
+        <h2 class="font-display text-xl font-bold">{{ collectiveHeading }}</h2>
+      </section>
+
+      <section class="space-y-3 px-3 py-4" data-testid="wrapped-collective-list">
+        <WrappedFinalAwardCard
+          v-for="card in collectiveWithoutStandings"
+          :key="card.key"
+          :card="card"
+        />
+      </section>
+
+      <section
+        v-if="game === 'shipit'"
+        class="mt-2"
+        style="background: var(--theme-gradient-cool)"
+        data-testid="wrapped-leaderboard"
+      >
         <div
           class="px-4 py-3 text-center text-white"
           style="background: var(--theme-header)"
@@ -297,6 +378,17 @@ watch(
         <div class="px-3 py-4">
           <LeaderboardList :rows="leaderboardRows" :show-members="showMembers" />
         </div>
+      </section>
+
+      <section
+        class="mx-3 mt-4 rounded-2xl px-4 py-6 text-center"
+        style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
+        data-testid="wrapped-ending"
+      >
+        <h2 class="font-display text-2xl font-bold">{{ copy.wrapped.wrapHeading }}</h2>
+        <p class="mt-2 text-sm" style="color: var(--theme-muted)">
+          {{ copy.wrapped.wrapBody }}
+        </p>
       </section>
     </div>
   </GameShell>

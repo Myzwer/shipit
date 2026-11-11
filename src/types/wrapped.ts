@@ -8,6 +8,7 @@ export interface WrappedOwner {
   display_name: string
 }
 
+/** Phase 8 legacy personal stats (kept for compat / tests). */
 export interface DrinkItPersonalStats {
   final_points: number
   drink_logs: number
@@ -33,6 +34,7 @@ export interface ShipItCategoryCompletion {
   points: number
 }
 
+/** Phase 8 legacy team stats (kept for compat / tests). */
 export interface ShipItTeamStats {
   final_points: number
   challenges_completed: number
@@ -75,6 +77,49 @@ export interface WrappedLeaderboardRow {
   is_my_team?: boolean
 }
 
+/** Final Wrapped entry winner (sections payload). */
+export interface WrappedEntryWinner {
+  id: string
+  name: string
+  value: number | null
+  detail: string | null
+}
+
+export interface WrappedEntryPhoto {
+  photo_id: string
+  width: number | null
+  height: number | null
+  crop_zoom?: number | null
+  crop_center_x?: number | null
+  crop_center_y?: number | null
+}
+
+/**
+ * Final approved Wrapped entry from the server read model.
+ * `spec_id` matches CRUISE_WRAPPED_FINAL_IMPLEMENTATION_SPEC identifiers.
+ */
+export interface WrappedEntry {
+  spec_id: string
+  label: string
+  available: boolean
+  kind: string
+  primary: string | null
+  secondary: string | null
+  value_numeric: number | null
+  unit: string | null
+  winners: WrappedEntryWinner[]
+  items: unknown[]
+  photo: WrappedEntryPhoto | null
+  explanation: string | null
+  empty_reason: string | null
+}
+
+export interface WrappedSections {
+  personal: WrappedEntry[]
+  global: WrappedEntry[]
+  collective: WrappedEntry[]
+}
+
 export interface WrappedPayload {
   ok: boolean
   code?: string
@@ -86,6 +131,9 @@ export interface WrappedPayload {
   revealed?: boolean
   revealed_at_utc?: string | null
   owner?: WrappedOwner
+  /** Final 80-entry read model (preferred). */
+  sections?: WrappedSections
+  /** Phase 8 legacy fields retained for tests / transitional UI. */
   personal_stats?: DrinkItPersonalStats | ShipItTeamStats
   group_awards?: WrappedGroupAward[]
   leaderboard?: WrappedLeaderboardRow[]
@@ -101,8 +149,8 @@ export interface RevealWrappedResult {
   game?: GameId
 }
 
-/** Card templates for personal stats (factual labels; creative quips later). */
-export type WrappedStatCardKind = 'number' | 'named'
+/** Card templates for personal/team stats. */
+export type WrappedStatCardKind = 'number' | 'named' | 'photo'
 
 export interface WrappedStatCard {
   kind: WrappedStatCardKind
@@ -113,4 +161,21 @@ export interface WrappedStatCard {
   copy: string
   chip?: string
   tone: 'aqua' | 'cream'
+  available?: boolean
+  photo?: WrappedEntryPhoto | null
+  expandableNames?: string[]
+}
+
+export interface WrappedAwardCardModel {
+  key: string
+  title: string
+  primary: string
+  secondary: string | null
+  copy: string | null
+  available: boolean
+  tone: 'aqua' | 'cream'
+  icon: string
+  expandableNames?: string[]
+  items?: Array<{ label: string; detail: string }>
+  photo?: WrappedEntryPhoto | null
 }
