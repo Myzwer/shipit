@@ -67,7 +67,7 @@ Deferred (no proxy implementation): D-082 roster membership, D-083 pool-menu set
 
 ## Gallery / unread
 
-- Kind `achievement` compact cards (secret titles masked pre-finale on the feed)
+- Kind `achievement` compact cards for earned awards (earned secrets reveal title/icon; unearned secrets stay masked on `list_achievements` only)
 - Gallery unread remains separate from Achievement unread (`read_cursors.scope = achievements_mine`)
 - Only a successful **My Achievements** load + `mark_achievements_seen` clears the achievement dot
 - Unlock celebration popup overlays Gallery after a confirmed submit with new awards; dismiss does **not** clear the achievement unread dot (Phase **7B1**)

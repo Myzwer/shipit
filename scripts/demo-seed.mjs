@@ -2,10 +2,13 @@
  * Phase 10B — deterministic demo scenarios using the launch-candidate catalog.
  *
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
+ *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario precruise
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
  *
  * Local Supabase + development-only cruise only. No production bypass.
+ * Prefer `npm run qa:prepare` for restorable QA snapshots (does not leave
+ * Pre-Cruise/Wrapped active in the organizer Tuesday review environment).
  *
  * Catalog: content/catalogs/launch-candidate-v1.json (identical twin:
  * development-preview-v1.json). Category B filtered-source eligibility.
@@ -41,15 +44,24 @@ const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
 
 const SCENARIOS = {
-  embarkation: { cruiseDay: 1, hour: 12, minute: 30, label: 'Embarkation — Saturday Day 1' },
-  tuesday: { cruiseDay: 4, hour: 14, minute: 0, label: 'Mid-cruise — Tuesday Day 4' },
-  wrapped: { cruiseDay: 7, hour: 19, minute: 0, label: 'Wrapped — Friday Day 7 after 6 PM' },
+  // True pre-game: ship date is the day before day1 → lifecycle pre_cruise.
+  precruise: {
+    kind: 'precruise',
+    cruiseDay: null,
+    hour: 10,
+    minute: 0,
+    label: 'Pre-cruise — before Day 1 gameplay',
+  },
+  // Day 1 morning after embarkation opens (accepting submissions; sparse/empty ledgers).
+  embarkation: { kind: 'cruise_day', cruiseDay: 1, hour: 12, minute: 30, label: 'Embarkation — Saturday Day 1' },
+  tuesday: { kind: 'cruise_day', cruiseDay: 4, hour: 14, minute: 0, label: 'Mid-cruise — Tuesday Day 4' },
+  wrapped: { kind: 'cruise_day', cruiseDay: 7, hour: 19, minute: 0, label: 'Wrapped — Friday Day 7 after 6 PM' },
 }
 
 const scenarioArg = process.argv.find((a) => a.startsWith('--scenario='))?.split('=')[1]
 const scenarioKey = scenarioArg || process.argv[process.argv.indexOf('--scenario') + 1]
 if (!scenarioKey || !SCENARIOS[scenarioKey]) {
-  console.error('Usage: npm run demo:seed -- --scenario embarkation|tuesday|wrapped')
+  console.error('Usage: npm run demo:seed -- --scenario precruise|embarkation|tuesday|wrapped')
   process.exit(1)
 }
 const scenario = SCENARIOS[scenarioKey]
@@ -109,21 +121,34 @@ function shipLocalToUtcIso(shipDate, time, offsetMinutes) {
   return new Date(ship.getTime() - offsetMinutes * 60_000).toISOString()
 }
 
-function computeNowAligned({ cruiseDay, hour, minute }) {
+function computeNowAligned({ kind, cruiseDay, hour, minute }) {
   const now = Date.now()
   const provisional = new Date(now)
   const y = provisional.getUTCFullYear()
   const mo = String(provisional.getUTCMonth() + 1).padStart(2, '0')
   const da = String(provisional.getUTCDate()).padStart(2, '0')
   const shipDateOnDay = `${y}-${mo}-${da}`
-  const day1Date = new Date(`${shipDateOnDay}T12:00:00Z`)
-  day1Date.setUTCDate(day1Date.getUTCDate() - (cruiseDay - 1))
-  const day1 = day1Date.toISOString().slice(0, 10)
   const targetShipWall = Date.parse(
     `${shipDateOnDay}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00Z`,
   )
   const offsetMinutes = Math.round((targetShipWall - now) / 60_000)
-  return { day1, offsetMinutes, shipDateOnDay }
+
+  // Pre-cruise: day1 is tomorrow relative to the aligned ship date → lifecycle pre_cruise.
+  if (kind === 'precruise') {
+    const day1Date = new Date(`${shipDateOnDay}T12:00:00Z`)
+    day1Date.setUTCDate(day1Date.getUTCDate() + 1)
+    return {
+      day1: day1Date.toISOString().slice(0, 10),
+      offsetMinutes,
+      shipDateOnDay,
+      cruiseDay: null,
+    }
+  }
+
+  const day1Date = new Date(`${shipDateOnDay}T12:00:00Z`)
+  day1Date.setUTCDate(day1Date.getUTCDate() - (cruiseDay - 1))
+  const day1 = day1Date.toISOString().slice(0, 10)
+  return { day1, offsetMinutes, shipDateOnDay, cruiseDay }
 }
 
 function detUuid(seed) {
@@ -354,7 +379,7 @@ async function claimAt(
   if (withPhoto) {
     const client = await signIn(player.login_alias)
     const staged = await stagePhoto(client, 'drinkit', 'drink_log', `drink-${seed}`, {
-      preferPrivate: scenarioKey !== 'embarkation',
+      preferPrivate: scenarioKey !== 'embarkation' && scenarioKey !== 'precruise',
     })
     photoId = staged.photoId
     photoStats.drink_with_photo += 1
@@ -389,7 +414,7 @@ async function ordinaryBeer(player, barKey, atUtc, seed, { withPhoto = false } =
   if (withPhoto) {
     const client = await signIn(player.login_alias)
     const staged = await stagePhoto(client, 'drinkit', 'drink_log', `beer-${seed}`, {
-      preferPrivate: scenarioKey !== 'embarkation',
+      preferPrivate: scenarioKey !== 'embarkation' && scenarioKey !== 'precruise',
     })
     photoId = staged.photoId
     photoStats.drink_with_photo += 1
@@ -421,7 +446,7 @@ async function scavengerComplete(client, playerId, challengeKey, atUtc, seed) {
     .eq('canonical_key', challengeKey)
     .single()
   const staged = await stagePhoto(client, 'shipit', 'scavenger', seed, {
-    preferPrivate: scenarioKey !== 'embarkation',
+    preferPrivate: scenarioKey !== 'embarkation' && scenarioKey !== 'precruise',
   })
   photoStats.scavenger_with_photo += 1
   const res = await service.rpc('dev_submit_scavenger_at', {
@@ -459,8 +484,20 @@ async function clearFinaleLatchForHistoricalSeed() {
 }
 
 async function seedBase(aligned) {
-  // Clear bound scavenger state that blocks reseed.
-  await service.rpc('dev_reset_scavenger_test_data')
+  // Wipe prior preview gameplay so scenarios do not inherit each other's ledgers.
+  // Roster / teams / Auth identities are preserved by provision + this reset.
+  const { data: ledgerReset, error: ledgerErr } = await service.rpc(
+    'dev_reset_preview_gameplay_ledger',
+  )
+  if (ledgerErr) {
+    // Backward-compatible fallback when the migration is not yet applied locally.
+    console.warn(
+      `dev_reset_preview_gameplay_ledger unavailable (${ledgerErr.message}); falling back to scavenger reset only`,
+    )
+    await service.rpc('dev_reset_scavenger_test_data')
+  } else {
+    console.log('Preview gameplay ledger cleared:', JSON.stringify(ledgerReset))
+  }
 
   const { error: clockErr } = await service.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: aligned.day1,
@@ -473,7 +510,13 @@ async function seedBase(aligned) {
   if (!cruise) throw new Error('No active development-only cruise after seed')
 
   await service.rpc('dev_set_drinkit_paused', { p_paused: false })
-  if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
+  // Pre-cruise / embarkation must not inherit a sticky finale latch from a prior Wrapped seed.
+  if (
+    scenarioKey === 'tuesday' ||
+    scenarioKey === 'wrapped' ||
+    scenarioKey === 'precruise' ||
+    scenarioKey === 'embarkation'
+  ) {
     await clearFinaleLatchForHistoricalSeed()
   }
 
@@ -743,7 +786,15 @@ async function scoreSnapshot() {
 // --- main ---
 const aligned = computeNowAligned(scenario)
 console.log(`Scenario: ${scenario.label}`)
-console.log(`Aligned day1=${aligned.day1} offset=${aligned.offsetMinutes} (wall clock ≈ Day ${scenario.cruiseDay} ${scenario.hour}:${String(scenario.minute).padStart(2, '0')})`)
+if (scenario.kind === 'precruise') {
+  console.log(
+    `Aligned day1=${aligned.day1} offset=${aligned.offsetMinutes} (wall clock ≈ day-before-day1 ${scenario.hour}:${String(scenario.minute).padStart(2, '0')} → pre_cruise)`,
+  )
+} else {
+  console.log(
+    `Aligned day1=${aligned.day1} offset=${aligned.offsetMinutes} (wall clock ≈ Day ${scenario.cruiseDay} ${scenario.hour}:${String(scenario.minute).padStart(2, '0')})`,
+  )
+}
 
 const identities = await provisionRoster()
 await seedBase(aligned)
@@ -751,6 +802,10 @@ await seedBase(aligned)
 let activity = []
 if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
   activity = await seedTuesdayActivity(identities, aligned)
+}
+if (scenarioKey === 'precruise') {
+  // Memberships + catalog + achievements only. No claims, scavenger, or Gallery photos.
+  console.log('Pre-cruise: skipping gameplay activity (PRE_CRUISE acceptance gates apply).')
 }
 if (scenarioKey === 'wrapped') {
   // Extra day 5–7 activity for a fuller cruise Gallery, then finale

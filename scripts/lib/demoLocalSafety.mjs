@@ -65,8 +65,10 @@ export function printResetImpact(scenario) {
 This command may RESET local preview game state on the local Supabase instance:
   - development-only cruise clock / schedule
   - active catalog (authentic development preview)
-  - Drink It! / Ship It! submissions for the preview cruise
-  - Gallery / reactions / achievement awards for the preview cruise
+  - Drink It! / Ship It! submissions, bounty claims, Bar Bounty crews
+  - Gallery / reactions / achievement awards / bound photos for the preview cruise
+  - Wrapped reveals (definitions retained)
+It preserves Auth identities, roster memberships, and team assignments from provision.
 It will NEVER target a remote/production database (no bypass flag).
 =====================================
 `)

@@ -82,7 +82,12 @@ When `private/roster/roster.local.json` exists, `demo:seed` provisions that rost
 
 ## Load / reload a scenario
 
+For **restorable** final QA slots (`tuesday` / `precruise` / `wrapped`) that preserve a Tuesday organizer snapshot, use [`docs/QA_SCENARIOS.md`](./QA_SCENARIOS.md) (`npm run qa:prepare` / `qa:activate`). Do not leave Pre-Cruise or Wrapped active in the organizer review DB without authorization.
+
+Direct seeds (destructive to the live local preview DB; no automatic restore):
+
 ```bash
+LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario precruise
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped

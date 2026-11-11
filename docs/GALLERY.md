@@ -9,7 +9,7 @@ Game-specific chronological activity feed with reactions, photo viewer, unread d
 | Drink It! | Everyone / My Gallery | `drink_log`, `daily`, `achievement` |
 | Ship It! | Everyone / My Team | `scavenger`, `achievement` |
 
-No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are compact announcements for earned awards (secret titles masked pre-finale). See [`docs/ACHIEVEMENTS.md`](./ACHIEVEMENTS.md).
+No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are compact announcements for **earned** awards (including secrets once unlocked). Unearned secrets stay masked only on the Achievements catalog. See [`docs/ACHIEVEMENTS.md`](./ACHIEVEMENTS.md). QA note: [`docs/qa/QA-ACH-GALLERY-001.md`](./qa/QA-ACH-GALLERY-001.md).
 
 ## Secure read contract
 
@@ -18,6 +18,7 @@ No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are
 - Membership derived server-side (`has_game`)
 - Keyset cursor: `(created_at_utc DESC, id DESC)` — page size ~5
 - Returns immutable `display` snapshots, caption, bound `photo_id`, reaction counts, `my_reaction`
+- Drink-log events also return `companion_names` (authorized display names from recorded `drink_log_companions`; empty when none)
 - **`created_ship_local`**: ship-local wall time from `clock_offset_at` at the event’s absolute UTC (not the visitor’s device timezone). Later clock corrections with a later effective time do not rewrite older labels.
 - Inactive / non-accepted / voided submissions excluded
 

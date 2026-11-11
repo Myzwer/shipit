@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import ReactionBar from '@/features/gallery/ReactionBar.vue'
+import {
+  achievementAnnouncementTitle,
+} from '@/lib/gallery/achievementAnnouncement'
 import { fetchGalleryPhotoSignedUrl } from '@/lib/gallery/api'
 import { formatShipTimeOfDay } from '@/lib/shipClockFormat'
 import type { GameId } from '@/types/game'
@@ -38,7 +41,7 @@ watch(
 const title = computed(() => {
   const d = props.event.display
   if (props.event.kind === 'achievement') {
-    return String(d.title ?? copy.achievements.unlockedCompact)
+    return achievementAnnouncementTitle(d)
   }
   if (props.event.kind === 'drink_log') return String(d.drink_name ?? 'Drink')
   if (props.event.kind === 'daily') return String(d.title ?? copy.bounty.daily)
@@ -48,7 +51,9 @@ const title = computed(() => {
 const subtitle = computed(() => {
   const d = props.event.display
   if (props.event.kind === 'achievement') {
-    return d.description ? String(d.description) : copy.achievements.unlockedCompact
+    if (d.description) return String(d.description)
+    // Secret masking intentionally omits description; do not invent masking copy for ordinary awards.
+    return d.secret === true ? copy.achievements.unlockedCompact : ''
   }
   if (props.event.kind === 'drink_log') return String(d.bar_name ?? '')
   if (props.event.kind === 'daily') return copy.bounty.daily
