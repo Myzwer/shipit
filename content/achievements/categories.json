@@ -1,39 +1,109 @@
 {
-  "schema_comment": "Source-controlled achievement category metadata for future All-view filters. Ordering is data-driven — do not hardcode filter order in Vue. Bar Gauntlets is a single top-level filter; individual bars nest inside it.",
-  "version": "1.0",
+  "schema_comment": "FINAL locked achievement categories (2026-11-10). Ordering is data-driven. Bar Gauntlets / Collections last for Drink It!. No Drink It! First to Find.",
+  "version": "final-2026-11-10",
   "categories": [
     {
       "key": "drinking-with-davids",
       "name": "Drinking with Davids",
       "group_key": "drinking_with_davids",
-      "all_view_order": 1,
-      "description": "Automatically evaluated same-log achievements involving David F. or David B."
+      "games": [
+        "drinkit"
+      ],
+      "all_view_order": 1
     },
     {
-      "key": "milestones",
-      "name": "Milestones",
-      "group_key": "milestones",
+      "key": "firsts-early-wins",
+      "name": "Firsts & Early Wins",
+      "group_key": "firsts_early_wins",
+      "games": [
+        "drinkit"
+      ],
       "all_view_order": 2
     },
     {
-      "key": "firsts",
-      "name": "Firsts",
-      "group_key": "firsts",
+      "key": "bounties-competition",
+      "name": "Bounties & Competition",
+      "group_key": "bounties_competition",
+      "games": [
+        "drinkit"
+      ],
       "all_view_order": 3
     },
     {
-      "key": "other",
-      "name": "Other",
-      "group_key": "other",
+      "key": "bars-exploration",
+      "name": "Bars & Exploration",
+      "group_key": "bars_exploration",
+      "games": [
+        "drinkit"
+      ],
       "all_view_order": 4
     },
     {
-      "key": "bar-gauntlets",
-      "name": "Bar Gauntlets",
+      "key": "spirits-ingredients",
+      "name": "Spirits & Ingredients",
+      "group_key": "spirits_ingredients",
+      "games": [
+        "drinkit"
+      ],
+      "all_view_order": 5
+    },
+    {
+      "key": "friends-social",
+      "name": "Friends & Social",
+      "group_key": "friends_social",
+      "games": [
+        "drinkit"
+      ],
+      "all_view_order": 6
+    },
+    {
+      "key": "ship-time-milestones",
+      "name": "Ship-Time & Cruise Milestones",
+      "group_key": "ship_time_milestones",
+      "games": [
+        "drinkit",
+        "shipit"
+      ],
+      "all_view_order": 7
+    },
+    {
+      "key": "collections-bar-gauntlets",
+      "name": "Collections & Bar Gauntlets",
       "group_key": "bar_gauntlets",
+      "games": [
+        "drinkit"
+      ],
       "all_view_order": 99,
       "organize_children_by": "bar_key",
-      "description": "Personal and collective cocktail collections per qualifying bar. One top-level filter; bars nest inside."
+      "description": "Frozen tropical collections plus personal/collective full-menu gauntlets. Good Spirits remains verification-gated."
+    },
+    {
+      "key": "progress-completion",
+      "name": "Progress & Completion",
+      "group_key": "progress_completion",
+      "games": [
+        "shipit"
+      ],
+      "all_view_order": 1
+    },
+    {
+      "key": "challenge-spotlights",
+      "name": "Challenge Spotlights",
+      "group_key": "challenge_spotlights",
+      "games": [
+        "shipit"
+      ],
+      "all_view_order": 8
+    },
+    {
+      "key": "first-to-find",
+      "name": "First to Find",
+      "group_key": "firsts",
+      "games": [
+        "shipit"
+      ],
+      "all_view_order": 9,
+      "description": "Ship It! exclusive team race achievements only."
     }
   ]
 }

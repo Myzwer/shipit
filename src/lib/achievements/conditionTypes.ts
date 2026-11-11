@@ -20,6 +20,7 @@ export const ACHIEVEMENT_CONDITION_TYPES = [
   'recipe_ingredient_count',
   'same_log',
   'offering_collection',
+  'day_bounty_score',
   'all',
   'any',
 ] as const
@@ -164,14 +165,25 @@ export interface CompanionPredicateCondition extends ConditionBase {
     | 'distinct_companions'
     | 'same_companion_distinct_bars'
     | 'named_companion'
+    | 'all_other_enrolled_companions'
   threshold?: number
   /** Test-only / out-of-band player UUID — never commit real roster maps. */
   companion_player_id?: string
+  companion_alias?: string
   require_drink_mode?: EventCountCondition['drink_mode']
   require_ingredient_tag?: string
+  require_ingredient_key?: string
   require_drink_concept_tag?: string
+  require_alcoholic?: boolean
+  forbid_bounty_claims?: boolean
   ship_hour_start?: number
   ship_hour_end?: number
+}
+
+export interface DayBountyScoreCondition extends ConditionBase {
+  type: 'day_bounty_score'
+  min_points: number
+  require_categories: Array<'cocktail' | 'ingredient' | 'bar' | 'daily'>
 }
 
 export interface ShipTimeWindowCondition extends ConditionBase {
@@ -219,10 +231,16 @@ export interface SameLogCondition extends ConditionBase {
  */
 export interface OfferingCollectionCondition extends ConditionBase {
   type: 'offering_collection'
-  bar_key: string
+  /** Bar-scoped gauntlets. Omit when using cross-bar drink_tag collections. */
+  bar_key?: string
   scope?: 'personal' | 'collective'
   mode?: 'full_menu' | 'threshold'
   threshold?: number
+  /** Cross-bar collection filter (e.g. frozen tropical). */
+  drink_tag?: string
+  require_tropical?: boolean
+  /** Definition present but incomplete until menu prices are verified. */
+  verification_required?: boolean
 }
 
 export interface AllCondition extends ConditionBase {
@@ -252,6 +270,7 @@ export type AchievementCondition =
   | CruiseDayCondition
   | SameLogCondition
   | OfferingCollectionCondition
+  | DayBountyScoreCondition
   | AllCondition
   | AnyCondition
 

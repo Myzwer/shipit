@@ -41,7 +41,14 @@ export function eligibleGauntletOfferingsForBar(doc, barKey) {
   return rows
 }
 
-export function buildBarGauntletDefinitions(doc) {
+/**
+ * Build personal + collective Bar Gauntlet rows.
+ * Bars with zero price-verified offerings are still included when
+ * `includeUnverified` is true (FINAL Good Spirits definitions), marked
+ * verification_required so the evaluator never auto-completes an empty set.
+ */
+export function buildBarGauntletDefinitions(doc, opts = {}) {
+  const includeUnverified = opts.includeUnverified === true
   const bars = (doc.bars || []).filter((b) => b.active !== false)
   const definitions = []
   const report = []
@@ -49,14 +56,20 @@ export function buildBarGauntletDefinitions(doc) {
   for (const bar of bars) {
     const eligible = eligibleGauntletOfferingsForBar(doc, bar.key)
     const target = eligible.length
+    const verificationRequired = target < 1
     report.push({
       bar_key: bar.key,
       bar_name: bar.name || bar.key,
       eligible_count: target,
-      included: target > 0,
-      skip_reason: target > 0 ? null : 'no_within_limit_price_evidence',
+      included: target > 0 || includeUnverified,
+      skip_reason:
+        target > 0
+          ? null
+          : includeUnverified
+            ? 'verification_required_included'
+            : 'no_within_limit_price_evidence',
     })
-    if (target < 1) continue
+    if (target < 1 && !includeUnverified) continue
 
     const barName = bar.name || bar.key
     definitions.push({
@@ -75,12 +88,15 @@ export function buildBarGauntletDefinitions(doc) {
         bar_key: bar.key,
         scope: 'personal',
         mode: 'full_menu',
+        ...(verificationRequired ? { verification_required: true } : {}),
       },
       dependencies: [],
       blockers: [],
       enabledInDev: true,
       testOnly: true,
-      visibilityNote: 'PROVISIONAL — secret/public not final',
+      visibilityNote: verificationRequired
+        ? 'FINAL — verification pending'
+        : 'FINAL — public',
       iconKey: 'score.bar',
     })
     definitions.push({
@@ -99,12 +115,15 @@ export function buildBarGauntletDefinitions(doc) {
         bar_key: bar.key,
         scope: 'collective',
         mode: 'full_menu',
+        ...(verificationRequired ? { verification_required: true } : {}),
       },
       dependencies: [],
       blockers: [],
       enabledInDev: true,
       testOnly: true,
-      visibilityNote: 'PROVISIONAL — secret/public not final',
+      visibilityNote: verificationRequired
+        ? 'FINAL — verification pending'
+        : 'FINAL — public',
       iconKey: 'score.team',
     })
   }

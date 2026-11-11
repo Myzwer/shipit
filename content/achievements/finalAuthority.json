@@ -1,0 +1,1466 @@
+{
+  "schema_comment": "Machine snapshot of FINAL MD authority rows (2026-11-10).",
+  "source": "/Users/josh/Downloads/Documents/Cruise Challenge/Finals/MD/STAR_PRINCESS_ACHIEVEMENTS_FINAL_STANDALONE.md",
+  "approved_date": "2026-11-10",
+  "counts": {
+    "drinkit": 126,
+    "shipit": 48,
+    "total": 174
+  },
+  "categories": [
+    {
+      "game": "drinkit",
+      "name": "Drinking with Davids",
+      "expected": 6
+    },
+    {
+      "game": "drinkit",
+      "name": "Firsts & Early Wins",
+      "expected": 11
+    },
+    {
+      "game": "drinkit",
+      "name": "Bounties & Competition",
+      "expected": 12
+    },
+    {
+      "game": "drinkit",
+      "name": "Bars & Exploration",
+      "expected": 16
+    },
+    {
+      "game": "drinkit",
+      "name": "Spirits & Ingredients",
+      "expected": 31
+    },
+    {
+      "game": "drinkit",
+      "name": "Friends & Social",
+      "expected": 14
+    },
+    {
+      "game": "drinkit",
+      "name": "Ship-Time & Cruise Milestones",
+      "expected": 8
+    },
+    {
+      "game": "drinkit",
+      "name": "Collections & Bar Gauntlets",
+      "expected": 28
+    },
+    {
+      "game": "shipit",
+      "name": "Progress & Completion",
+      "expected": 8
+    },
+    {
+      "game": "shipit",
+      "name": "Ship-Time & Cruise Milestones",
+      "expected": 8
+    },
+    {
+      "game": "shipit",
+      "name": "Challenge Spotlights",
+      "expected": 23
+    },
+    {
+      "game": "shipit",
+      "name": "First to Find",
+      "expected": 9
+    }
+  ],
+  "rows": [
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "Wasted Away Again In Margaritaville",
+      "trigger": "Log a named margarita with either David.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "Tampico Trauma",
+      "trigger": "Log a tequila shot at an eligible pool-deck bar with either David.",
+      "iconClass": "fas fa-glass-water",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "When the Volcano Blows",
+      "trigger": "Log a Fireball shot at Princess Live! with either David.",
+      "iconClass": "fas fa-fire-flame-curved",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "Desperation Sambuca",
+      "trigger": "Log a Sambuca shot at Princess Live! with either David.",
+      "iconClass": "fas fa-glass-water",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "The Night I Painted the Sky",
+      "trigger": "Log a drink between 5:00 PM and 7:00 PM Ship Time with either David.",
+      "iconClass": "fas fa-sun",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Drinking with Davids",
+      "name": "Jimmy Buffett Toast",
+      "trigger": "Log a Loaded Corona at an eligible pool bar with either David.",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Bon Voyage!",
+      "trigger": "Log your first drink.",
+      "iconClass": "fas fa-champagne-glasses",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Third Time's the Charm",
+      "trigger": "Log 3 drinks across the cruise.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Light Work",
+      "trigger": "Log 7 drinks across the cruise.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "15 Minutes of Fame",
+      "trigger": "Log 15 drinks across the cruise.",
+      "iconClass": "fas fa-medal",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "The AA meeting is Wednesday",
+      "trigger": "Log 30 drinks across the cruise.",
+      "iconClass": "fas fa-trophy",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Bounty Hunting",
+      "trigger": "Claim your first Drink It! bounty of any kind.",
+      "iconClass": "fas fa-bullseye",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "One Particular Cocktail",
+      "trigger": "Claim your first Cocktail Bounty.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Elementary, My Dear Watson",
+      "trigger": "Claim your first Ingredient Bounty.",
+      "iconClass": "fas fa-flask",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "This Round is on Me",
+      "trigger": "Claim your first Bar Bounty.",
+      "iconClass": "fas fa-user-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Your mission should you choose to accept it",
+      "trigger": "Complete your first Daily Challenge.",
+      "iconClass": "fas fa-clipboard-check",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Firsts & Early Wins",
+      "name": "Gotta Start Somewhere",
+      "trigger": "Log 3 distinct named cocktails.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Double Kill",
+      "trigger": "Claim 2 different bounty categories with one drink.",
+      "iconClass": "fas fa-layer-group",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "This shouldn’t be possible!!",
+      "trigger": "Claim active Cocktail, Ingredient, and Bar Bounties with the same accepted drink log on one cruise day.",
+      "iconClass": "fas fa-wand-magic-sparkles",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Try Harding",
+      "trigger": "Complete all 4 bounty categories on one cruise day.",
+      "iconClass": "fas fa-trophy",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Its a marathon, not a Sprint",
+      "trigger": "Claim at least one bounty on 3 different cruise days.",
+      "iconClass": "fas fa-calendar-check",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Three Sheets to the Wind",
+      "trigger": "Claim Cocktail Bounties on 3 different cruise days.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Barometer Soup",
+      "trigger": "Claim Ingredient Bounties on 3 different cruise days.",
+      "iconClass": "fas fa-flask",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "The Pascagoula Run",
+      "trigger": "Claim Bar Bounties on 3 different cruise days.",
+      "iconClass": "fas fa-people-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Four of a Kind",
+      "trigger": "Claim each of the 4 different bounty categories at least once during the cruise.",
+      "iconClass": "fas fa-layer-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "So Nice I had it twice",
+      "trigger": "After claiming a Cocktail Bounty, log the same named cocktail again in a later submission.",
+      "iconClass": "fas fa-repeat",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Take it to the limit",
+      "trigger": "Earn at least 275 total bounty points on a single ship-local cruise day, with accepted claims in all four categories: Cocktail, Ingredient, Bar, and Daily Challenge.",
+      "iconClass": "fas fa-crown",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "All Hands on Deck",
+      "trigger": "Complete the Daily Challenge on 3 different cruise days.",
+      "iconClass": "fas fa-people-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bounties & Competition",
+      "name": "Seven Days, Seven Ways",
+      "trigger": "Complete the Daily Challenge on each of the 7 cruise days, including the final day before the 6:00 PM Ship Time cutoff.",
+      "iconClass": "fas fa-calendar-check",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Bar None",
+      "trigger": "Log drinks at 2 different game bars.",
+      "iconClass": "fas fa-location-dot",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Changes in Latitudes, Changes in Attitudes",
+      "trigger": "Log drinks at 5 different game bars.",
+      "iconClass": "fas fa-person-walking",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Life Is a Highway",
+      "trigger": "Log drinks at 10 different game bars.",
+      "iconClass": "fas fa-route",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "I've Been Everywhere, Man",
+      "trigger": "Log at least one drink at all 13 game bars.",
+      "iconClass": "fas fa-compass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Its kind of a Triathlon",
+      "trigger": "Log drinks at 3 different game bars during one cruise day.",
+      "iconClass": "fas fa-map-location-dot",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Repeat Offender",
+      "trigger": "Log drinks at the same bar at least 2 hours apart.",
+      "iconClass": "fas fa-arrows-rotate",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "I’ll have what I’m having",
+      "trigger": "Log the same named cocktail at 2 different game bars.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Three's Company",
+      "trigger": "Log 3 different named cocktails from one bar across the cruise.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "It’s called “Branching out”",
+      "trigger": "Log 8 distinct named cocktails.",
+      "iconClass": "fas fa-route",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "They Serve Other Stuff Here",
+      "trigger": "Log the same named cocktail 3 times across the cruise.",
+      "iconClass": "fas fa-repeat",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Stuck in Colder Weather",
+      "trigger": "Log a named cocktail classified as frozen.",
+      "iconClass": "fas fa-snowflake",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Red, Red Wine",
+      "trigger": "Log a drink using the Wine option.",
+      "iconClass": "fas fa-wine-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "One of Each, Please",
+      "trigger": "Log at least one named cocktail, one Beer option, and one Wine option.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Where everyone knows my name",
+      "trigger": "Log drinks at the same bar on at least 3 different cruise days.",
+      "iconClass": "fas fa-house",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "Not a worry in the world, cold beer in my hand",
+      "trigger": "Log a drink using the Beer option.",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Bars & Exploration",
+      "name": "The menu is more of a “guideline” anyway",
+      "trigger": "Log a drink using the 'Other alcoholic drink' option.",
+      "iconClass": "fas fa-clipboard-list",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "The Gintleman",
+      "trigger": "Log 3 cocktails containing gin.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Tequila Mockingbird",
+      "trigger": "Log 3 cocktails containing tequila.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Rum, Forrest, Rum!",
+      "trigger": "Log 3 cocktails containing rum.",
+      "iconClass": "fas fa-bottle-droplet",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Whiskey Business",
+      "trigger": "Log 3 cocktails containing whiskey or bourbon.",
+      "iconClass": "fas fa-whiskey-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Crystal Clear",
+      "trigger": "Log 5 cocktails containing a clear base spirit.",
+      "iconClass": "fas fa-droplet",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Paint It Black",
+      "trigger": "Log 5 cocktails containing a dark base spirit.",
+      "iconClass": "fas fa-moon",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "The Fantastic Four",
+      "trigger": "Across logged cocktails, encounter gin, vodka, rum, and tequila.",
+      "iconClass": "fas fa-layer-group",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Tastes like a Campfire",
+      "trigger": "Log a cocktail containing mezcal.",
+      "iconClass": "fas fa-fire",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Easy Peasy Lemon Squeezy",
+      "trigger": "Log a named cocktail containing lemon or fresh lemon juice.",
+      "iconClass": "fas fa-lemon",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Pineapple Express",
+      "trigger": "Log a named cocktail containing pineapple.",
+      "iconClass": "fas fa-pineapple",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Heard it on the Coconut Telegraph",
+      "trigger": "Log a named cocktail containing coconut or coconut milk.",
+      "iconClass": "fas fa-coconut",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Orange You Glad?",
+      "trigger": "Log a named cocktail containing Aperol.",
+      "iconClass": "fas fa-sun",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "How do you milk an almond?",
+      "trigger": "Log a named cocktail containing orgeat.",
+      "iconClass": "fas fa-seedling",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "That’s a Spicy Meatball!",
+      "trigger": "Log a named cocktail containing a hot pepper, jalapeño, serrano, or habanero ingredient.",
+      "iconClass": "fas fa-pepper-hot",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Wake Me Up Before You Go-Go",
+      "trigger": "Log a named cocktail containing espresso.",
+      "iconClass": "fas fa-mug-hot",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Flower Power",
+      "trigger": "Log a named cocktail containing elderflower liqueur or St-Germain.",
+      "iconClass": "fas fa-seedling",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Almond Joy",
+      "trigger": "Log a named cocktail containing amaretto.",
+      "iconClass": "fas fa-cookie-bite",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Fa-la-la-la Falernum",
+      "trigger": "Log a named cocktail containing falernum or Velvet Falernum.",
+      "iconClass": "fas fa-leaf",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Last Lychee in Paris",
+      "trigger": "Log a named cocktail containing lychee or lychee liqueur.",
+      "iconClass": "fas fa-apple-whole",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "We aren’t even going to that island!",
+      "trigger": "Log a named cocktail containing blue curaçao.",
+      "iconClass": "fas fa-droplet",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Peanut Butter Conspiracy",
+      "trigger": "Log a named cocktail containing peanut butter whiskey.",
+      "iconClass": "fas fa-peanut",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Beet It",
+      "trigger": "Log a named cocktail containing beetroot.",
+      "iconClass": "fas fa-carrot",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Grease Is the Word",
+      "trigger": "Log a named cocktail containing an olive oil-washed spirit.",
+      "iconClass": "fas fa-olive",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Bitter Sweet Symphony",
+      "trigger": "Log a named cocktail containing Campari.",
+      "iconClass": "fas fa-bottle-droplet",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Anyone got the Thyme?",
+      "trigger": "Log a named cocktail containing basil or rosemary.",
+      "iconClass": "fas fa-leaf",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Kitchen Sink Drink",
+      "trigger": "Log a named cocktail with at least 7 separately listed recipe ingredients.",
+      "iconClass": "fas fa-blender",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Double Trouble",
+      "trigger": "Log a cocktail containing at least 2 different base-spirit families.",
+      "iconClass": "fas fa-layer-group",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Little a this, little a that",
+      "trigger": "Log a cocktail containing at least 2 distinct rum styles.",
+      "iconClass": "fas fa-bottle-droplet",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "The Wine makes it Classy",
+      "trigger": "Log a named cocktail containing wine, rosé, Prosecco, or Champagne.",
+      "iconClass": "fas fa-wine-glass",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Fruitcakes in the kitchen",
+      "trigger": "Across logged cocktails, encounter at least 3 different fruits from pineapple, mango, passion fruit, guava, dragon fruit, and lychee.",
+      "iconClass": "fas fa-apple-whole",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Spirits & Ingredients",
+      "name": "Bananaday Dreamin'",
+      "trigger": "Log an eligible named cocktail whose listed menu ingredients include banana, banana liqueur, banana purée, banana syrup, or banana flavoring.",
+      "iconClass": "fas fa-banana",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Three's a Crowd",
+      "trigger": "Log a drink with at least 2 other enrolled Drink It! players.",
+      "iconClass": "fas fa-user-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "We Are the People Our Parents Warned Us About",
+      "trigger": "Log a drink with at least 5 other enrolled Drink It! players.",
+      "iconClass": "fas fa-people-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Drinking on Lunch Break",
+      "trigger": "Log a drink with another enrolled player between noon and 1:00 PM Ship Time.",
+      "iconClass": "fas fa-clock",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "With a Little Help from My Friends",
+      "trigger": "Log drinks with at least 3 different enrolled companions across the cruise.",
+      "iconClass": "fas fa-users",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Road Trip!",
+      "trigger": "Log drinks at 3 different bars with the same enrolled companion.",
+      "iconClass": "fas fa-route",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Wrinkles only go where the smiles have been",
+      "trigger": "Across the cruise, log a drink with every other participating Drink It! player selected as a companion at least once.",
+      "iconClass": "fas fa-people-group",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Something something alcohol tolerance",
+      "trigger": "Log an alcoholic drink with Josh as the selected companion, without using that same drink log for any bounty claim.",
+      "iconClass": "fas fa-user",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "At Least it isn't coors lite",
+      "trigger": "Log a cocktail with Aperol in it with Cindy selected as a companion.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Feeding the Fishes",
+      "trigger": "Log a rum-containing named cocktail with Jordan selected as a companion.",
+      "iconClass": "fas fa-fish",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "This is too sweet for me",
+      "trigger": "Log a bourbon-containing named cocktail with Dan selected as a companion.",
+      "iconClass": "fas fa-whiskey-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "The Wino and I know",
+      "trigger": "Log a drink using the Wine option with Katie selected as a companion.",
+      "iconClass": "fas fa-wine-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "Dear Maria, Count me Gin",
+      "trigger": "Log a gin-containing named cocktail with Jonathan selected as a companion.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "One Peppy Lopez, Please.",
+      "trigger": "Log a tequila-containing named cocktail with David B selected as a companion.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Friends & Social",
+      "name": "A Pirate Looks at 40",
+      "trigger": "Log a drink using the Beer option with David F selected as a companion.",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "You Can't Drink All Day Unless You Start in the Morning",
+      "trigger": "Log an accepted ordinary drink before 11:00 AM Ship Time. (Ordinary logs count even when bounties are inactive)",
+      "iconClass": "fas fa-sun",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Working on the Night Moves",
+      "trigger": "Log an accepted ordinary drink after 11:00 PM Ship Time (Ordinary logs count even when bounties are inactive)",
+      "iconClass": "fas fa-moon",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Slamma Jamma",
+      "trigger": "Submit 2 drink logs within 30 minutes of each other.",
+      "iconClass": "fas fa-stopwatch",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Weather Is Here, Wish You Were Beautiful",
+      "trigger": "Log a drink during the daytime port-hours window.",
+      "iconClass": "fas fa-anchor",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Come Sail Away",
+      "trigger": "Log a drink on the first cruise day.",
+      "iconClass": "fas fa-ship",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "It's Been a Lovely Cruise",
+      "trigger": "Log a drink on the final cruise day before the game ends.",
+      "iconClass": "fas fa-flag-checkered",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "The Days Drift By",
+      "trigger": "Log at least one drink on 3 different cruise days.",
+      "iconClass": "fas fa-calendar-days",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Dawn of the Peck",
+      "trigger": "Log a drink on Thanksgiving Day (Thursday, according to Ship Time).",
+      "iconClass": "fas fa-drumstick-bite",
+      "secret": true
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Frozen Concoctions",
+      "trigger": "Log 3 distinct frozen tropical named cocktails across the cruise.",
+      "iconClass": "fas fa-snowflake",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "License to Chill",
+      "trigger": "Log every eligible distinct frozen tropical named cocktail in the verified catalog.",
+      "iconClass": "fas fa-snowflake",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Lido Shuffle",
+      "trigger": "Individually log every distinct eligible named cocktail offered at Lido Bar (≤$15; exclude beer, wine and organizer-added off-menu shots/Loaded Corona).",
+      "iconClass": "fas fa-umbrella-beach",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Screamin' Boat Drinks",
+      "trigger": "Across all Drink It! participants, collectively log every distinct eligible named cocktail offered at Lido Bar; award to every participant once completed, even noncontributors.",
+      "iconClass": "fas fa-umbrella-beach",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The MIX Tape",
+      "trigger": "Individually log every distinct eligible named cocktail offered at The MIX (≤$15; exclude beer, wine and organizer-added off-menu shots/Loaded Corona).",
+      "iconClass": "fas fa-blender",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "MIX Tape Masters",
+      "trigger": "Across all Drink It! participants, collectively log every distinct eligible named cocktail offered at The MIX; award to every participant once completed, even noncontributors.",
+      "iconClass": "fas fa-blender",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Daiquiri is too Fruitiful",
+      "trigger": "Individually log every distinct eligible named cocktail offered at Promenade Bars (≤$15; exclude beer, wine and organizer-added off-menu shots/Loaded Corona).",
+      "iconClass": "fas fa-person-walking",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Promenade Pirates",
+      "trigger": "Across all Drink It! participants, collectively log every distinct eligible named cocktail offered at Promenade Bars; award to every participant once completed, even noncontributors.",
+      "iconClass": "fas fa-person-walking",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Super Star!",
+      "trigger": "Individually log every distinct eligible named cocktail offered at Star Bar (≤$15; exclude beer, wine and organizer-added off-menu shots/Loaded Corona).",
+      "iconClass": "fas fa-star",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Stars on the Water",
+      "trigger": "Across all Drink It! participants, collectively log every distinct eligible named cocktail offered at Star Bar; award to every participant once completed, even noncontributors.",
+      "iconClass": "fas fa-star",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Spirited Away",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Good Spirits at Sea (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-flask",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Former Spirit Airlines Flight Crew",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Good Spirits at Sea (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-flask",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Luck of the Irish",
+      "trigger": "Personally log every distinct eligible named cocktail offered at O'Malley's Irish Pub (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Whole Paddy Wagon",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at O'Malley's Irish Pub (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Live and Let Drink",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Princess Live! (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-microphone",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Just here for the Karaoke",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Princess Live! (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-microphone",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Bellini There, Done That",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Bellini's Cocktail Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Bellini Bunch",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Bellini's Cocktail Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-martini-glass-citrus",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Steady as She Goes",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Wheelhouse Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-ship",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Wheelhouse Rock",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Wheelhouse Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-ship",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "I did it My Way",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Crooners (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-microphone-lines",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Rat Pack",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Crooners (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-microphone-lines",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "View to Thrill",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Wake View Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-water",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "We like a nice Aft",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Wake View Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-water",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Son of a Son of a Sailor",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Sea View Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-sailboat",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Coral Reefers",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Sea View Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-sailboat",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "Chasing Waterfalls",
+      "trigger": "Personally log every distinct eligible named cocktail offered at Cascade Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions).",
+      "iconClass": "fas fa-water",
+      "secret": false
+    },
+    {
+      "game": "drinkit",
+      "category": "Collections & Bar Gauntlets",
+      "name": "The Ripple Effect",
+      "trigger": "Collectively, Drink It! players log every distinct eligible named cocktail offered at Cascade Bar (priced at $15 or less; exclude beer, wine, and organizer-only off-menu additions). Awarded to every player, including noncontributors.",
+      "iconClass": "fas fa-water",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "The Start of Something New",
+      "trigger": "Complete your first Ship It! challenge.",
+      "iconClass": "fas fa-flag-checkered",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "We’re just getting started baby",
+      "trigger": "Complete 5 Ship It! challenges.",
+      "iconClass": "fas fa-rocket",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Double Digits",
+      "trigger": "Complete 10 Ship It! challenges.",
+      "iconClass": "fas fa-hashtag",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Cant Stop Won’t Stop",
+      "trigger": "Complete 15 Ship It! challenges.",
+      "iconClass": "fas fa-fire",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Whoaaaa We're Halfway There",
+      "trigger": "Complete 25 Ship It! challenges.",
+      "iconClass": "fas fa-gauge-high",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Ah The Stories We Could Tell",
+      "trigger": "Complete all 50 Ship It! challenges.",
+      "iconClass": "fas fa-trophy",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Gotta Catch 'Em All!",
+      "trigger": "Complete at least one challenge in each of the five scavenger categories.",
+      "iconClass": "fas fa-layer-group",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Progress & Completion",
+      "name": "Finders Keepers",
+      "trigger": "Complete every challenge in any one scavenger category.",
+      "iconClass": "fas fa-list-check",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "The Early Bird Special",
+      "trigger": "Submit a challenge before 10:00 AM Ship Time.",
+      "iconClass": "fas fa-sun",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Night Moves",
+      "trigger": "Submit a challenge after 10:00 PM Ship Time.",
+      "iconClass": "fas fa-moon",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "You don’t get extra credit",
+      "trigger": "Complete 3 challenges on the same cruise day.",
+      "iconClass": "fas fa-bolt",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "The Love Boat",
+      "trigger": "Complete a challenge on the first cruise day.",
+      "iconClass": "fas fa-ship",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Under The Wire",
+      "trigger": "Complete a challenge on the final cruise day before the game ends.",
+      "iconClass": "fas fa-hourglass-end",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Why are you even on the ship?",
+      "trigger": "Submit a challenge between 10:00 AM and 4:00 PM Ship Time on a designated port day.",
+      "iconClass": "fas fa-anchor",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "Same Ship, Different Day",
+      "trigger": "Complete at least one challenge on 3 different cruise days.",
+      "iconClass": "fas fa-calendar-days",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Ship-Time & Cruise Milestones",
+      "name": "The Fast & The Curious",
+      "trigger": "Submit 2 challenges within 30 minutes of each other.",
+      "iconClass": "fas fa-stopwatch",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Wax On, Wax Off",
+      "trigger": "Complete the Lotus Spa Zen challenge.",
+      "iconClass": "fas fa-spa",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Cultural Infidel",
+      "trigger": "Complete the Art Critic challenge.",
+      "iconClass": "fas fa-palette",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Eye of the Tiger",
+      "trigger": "Complete the Gym Buffs challenge.",
+      "iconClass": "fas fa-dumbbell",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Hot & Ready",
+      "trigger": "Complete the Poolside Slice challenge.",
+      "iconClass": "fas fa-pizza-slice",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "You Scream I Scream",
+      "trigger": "Complete the Soft Serve Swirl challenge.",
+      "iconClass": "fas fa-ice-cream",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Buffet the Vampire Slayer",
+      "trigger": "Complete the Buffet Multi-Tasker challenge.",
+      "iconClass": "fas fa-utensils",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "If You Like Piña Coladas",
+      "trigger": "Complete the Tropical Paradise challenge.",
+      "iconClass": "fas fa-umbrella-beach",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "The Breakfast Club",
+      "trigger": "Complete the Room Service Delivery challenge.",
+      "iconClass": "fas fa-bell-concierge",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "The Safety Dance",
+      "trigger": "Complete the Safety First challenge.",
+      "iconClass": "fas fa-life-ring",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Animal House",
+      "trigger": "Complete the Towel Zoo challenge.",
+      "iconClass": "fas fa-paw",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Jolly Mon Sing",
+      "trigger": "Complete the Lounge Spotlight challenge.",
+      "iconClass": "fas fa-masks-theater",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Wake Me Up Before You Go-Go",
+      "trigger": "Complete the Ocean Wake challenge.",
+      "iconClass": "fas fa-water",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Fins Up!",
+      "trigger": "Complete the Crew High-Five challenge.",
+      "iconClass": "fas fa-hand-shaka",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "My Whole Life Is Waiting Behind Door Number 3",
+      "trigger": "Complete the Trivia Masters challenge.",
+      "iconClass": "fas fa-brain",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "We Build this Ship on Rock and Roll",
+      "trigger": "Complete the Live Music Backdrop challenge.",
+      "iconClass": "fas fa-music",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Footloose",
+      "trigger": "Complete the Deck Dance Move challenge.",
+      "iconClass": "fas fa-music",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "We Came, We Saw, We Souvenired",
+      "trigger": "Complete the Souvenir Selection challenge.",
+      "iconClass": "fas fa-bag-shopping",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Don't Let the Sun Go Down on Me",
+      "trigger": "Complete the Sunset Silhouette challenge.",
+      "iconClass": "fas fa-sun",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "I'm Flying, Jack!",
+      "trigger": "Complete the King of the World challenge.",
+      "iconClass": "fas fa-ship",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "The Three Amigos",
+      "trigger": "Complete the Triple Match challenge.",
+      "iconClass": "fas fa-users",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Full House",
+      "trigger": "Complete the Chair Squeeze challenge.",
+      "iconClass": "fas fa-chair",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "Where in the World Is Carmen Sandiego?",
+      "trigger": "Complete the Comically Lost challenge.",
+      "iconClass": "fas fa-map-location-dot",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "Challenge Spotlights",
+      "name": "My own kind of paradise",
+      "trigger": "Complete the Tropical Paradise, Sunset Silhouette, and Ocean Wake scavenger challenges.",
+      "iconClass": "fas fa-umbrella-beach",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Honey, I Shrunk the Ship",
+      "trigger": "Complete the Miniature Masterpiece challenge before any other team.",
+      "iconClass": "fas fa-magnifying-glass",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Irish You Were Here",
+      "trigger": "Complete the O'Malley's Irish Pub challenge before any other team.",
+      "iconClass": "fas fa-beer-mug-empty",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Spirit in the Sky",
+      "trigger": "Complete the Good Spirits Mixology challenge before any other team.",
+      "iconClass": "fas fa-martini-glass",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "North by Northwest",
+      "trigger": "Complete the Carpet Compass challenge before any other team.",
+      "iconClass": "fas fa-compass",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Every Rose Has Its Thorn",
+      "trigger": "Complete the Nautical Rose challenge before any other team.",
+      "iconClass": "fas fa-seedling",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Friday the 13th",
+      "trigger": "Complete the Deck 13 Mystery challenge before any other team.",
+      "iconClass": "fas fa-ghost",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Shadow Dancing",
+      "trigger": "Complete the Shadow Art challenge before any other team.",
+      "iconClass": "fas fa-moon",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Hawaii Five-O!",
+      "trigger": "Be the first team to complete at least one challenge in each of the five scavenger categories.",
+      "iconClass": "fas fa-layer-group",
+      "secret": false
+    },
+    {
+      "game": "shipit",
+      "category": "First to Find",
+      "name": "Get The Broom Out Cause That’s a Sweep!",
+      "trigger": "Be the first team to complete every challenge in any one scavenger category.",
+      "iconClass": "fas fa-broom",
+      "secret": false
+    }
+  ]
+}

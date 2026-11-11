@@ -13,10 +13,10 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 describe('Stage A4 category and icon contracts', () => {
-  it('orders Drinking with Davids first and Bar Gauntlets last from metadata', () => {
-    const ordered = achievementCategoriesOrdered()
+  it('orders Drinking with Davids first and Collections & Bar Gauntlets last for Drink It!', () => {
+    const ordered = achievementCategoriesOrdered('drinkit')
     expect(ordered[0].key).toBe('drinking-with-davids')
-    expect(ordered[ordered.length - 1].key).toBe('bar-gauntlets')
+    expect(ordered[ordered.length - 1].key).toBe('collections-bar-gauntlets')
     expect(ordered[ordered.length - 1].organize_children_by).toBe('bar_key')
     expect(categoryKeyForGroup('drinking_with_davids')).toBe('drinking-with-davids')
   })
@@ -47,12 +47,16 @@ describe('Stage A4 category and icon contracts', () => {
     expect(resolveAchievementIconKey('score.friends', { masked: true }).reason).toBe('masked')
   })
 
-  it('skips Good Spirits until within-limit price evidence exists', () => {
+  it('skips Good Spirits by default; includes verification-gated when requested', () => {
     const catalog = JSON.parse(
       readFileSync(join(process.cwd(), 'content/catalogs/launch-candidate-v1.json'), 'utf8'),
     )
-    const { report } = buildBarGauntletDefinitions(catalog)
-    expect(report.find((r) => r.bar_key === 'good-spirits-at-sea')?.included).toBe(false)
-    expect(report.filter((r) => r.included)).toHaveLength(12)
+    const skipped = buildBarGauntletDefinitions(catalog)
+    expect(skipped.report.find((r) => r.bar_key === 'good-spirits-at-sea')?.included).toBe(false)
+    expect(skipped.report.filter((r) => r.included)).toHaveLength(12)
+
+    const included = buildBarGauntletDefinitions(catalog, { includeUnverified: true })
+    expect(included.report.find((r) => r.bar_key === 'good-spirits-at-sea')?.included).toBe(true)
+    expect(included.report.filter((r) => r.included)).toHaveLength(13)
   })
 })

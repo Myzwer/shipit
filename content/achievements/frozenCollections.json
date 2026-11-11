@@ -1,0 +1,56 @@
+{
+  "schema_comment": "FINAL frozen tropical collections. Denominators use verified catalog offerings tagged frozen (+ tropical when required).",
+  "definitions": [
+    {
+      "snapshotRef": "FINAL-FROZEN-001",
+      "stableKey": "working-drinkit-frozen-concoctions",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "bar_gauntlets",
+      "title": "Frozen Concoctions",
+      "displayDescription": "Log 3 distinct frozen tropical named cocktails across the cruise.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "offering_collection",
+      "conditionConfig": {
+        "scope": "personal",
+        "mode": "threshold",
+        "drink_tag": "frozen",
+        "threshold": 3,
+        "require_tropical": true
+      },
+      "dependencies": [],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "FINAL — public",
+      "iconKey": "fas fa-snowflake"
+    },
+    {
+      "snapshotRef": "FINAL-FROZEN-002",
+      "stableKey": "working-drinkit-license-to-chill",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "bar_gauntlets",
+      "title": "License to Chill",
+      "displayDescription": "Log every eligible distinct frozen tropical named cocktail in the verified catalog.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "enabled",
+      "conditionType": "offering_collection",
+      "conditionConfig": {
+        "scope": "personal",
+        "mode": "full_menu",
+        "drink_tag": "frozen",
+        "require_tropical": true
+      },
+      "dependencies": [],
+      "blockers": [],
+      "enabledInDev": true,
+      "testOnly": true,
+      "visibilityNote": "FINAL — public",
+      "iconKey": "fas fa-snowflake"
+    }
+  ]
+}

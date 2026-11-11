@@ -1,0 +1,75 @@
+{
+  "schema_comment": "Retired definitions removed from the FINAL active catalog. Loader disables these keys; award history is preserved.",
+  "definitions": [
+    {
+      "snapshotRef": "D-032",
+      "stableKey": "working-drinkit-d032",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "other",
+      "title": "Off the Beaten Path",
+      "displayDescription": "Log a drink using the 'Other alcoholic drink' option.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "retired",
+      "conditionType": "exact_match",
+      "conditionConfig": {
+        "drink_mode": "generic_other"
+      },
+      "dependencies": [],
+      "blockers": [
+        "retired_final_catalog"
+      ],
+      "enabledInDev": false,
+      "testOnly": true,
+      "visibilityNote": "RETIRED — not in FINAL catalog; preserved for award history",
+      "iconKey": "score.compass"
+    },
+    {
+      "snapshotRef": "D-035",
+      "stableKey": "working-drinkit-d035",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "other",
+      "title": "Can’t beat the classics",
+      "displayDescription": "Log a drink using the Beer option.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "retired",
+      "conditionType": "exact_match",
+      "conditionConfig": {
+        "drink_mode": "generic_beer"
+      },
+      "dependencies": [],
+      "blockers": [
+        "retired_final_catalog"
+      ],
+      "enabledInDev": false,
+      "testOnly": true,
+      "visibilityNote": "RETIRED — not in FINAL catalog; preserved for award history",
+      "iconKey": "score.beer"
+    },
+    {
+      "snapshotRef": "D-083",
+      "stableKey": "working-drinkit-d083",
+      "game": "drinkit",
+      "ownerType": "player",
+      "groupKey": "other",
+      "title": "Screamin' Boat Drinks",
+      "displayDescription": "Across the cruise, log every distinct eligible named cocktail on the shared pool-bar menu used for Lido Bar, The MIX, Promenade Bars and Star Bar. Each cocktail counts once regardless of which of those bars served it.",
+      "secret": false,
+      "exclusive": false,
+      "readiness": "retired",
+      "conditionType": null,
+      "conditionConfig": null,
+      "dependencies": [],
+      "blockers": [
+        "retired_final_catalog"
+      ],
+      "enabledInDev": false,
+      "testOnly": true,
+      "visibilityNote": "RETIRED — not in FINAL catalog; preserved for award history",
+      "iconKey": "score.achievement"
+    }
+  ]
+}

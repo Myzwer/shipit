@@ -7,6 +7,14 @@ export type AchievementGroup =
   | 'other'
   | 'drinking_with_davids'
   | 'bar_gauntlets'
+  | 'firsts_early_wins'
+  | 'bounties_competition'
+  | 'bars_exploration'
+  | 'spirits_ingredients'
+  | 'friends_social'
+  | 'ship_time_milestones'
+  | 'progress_completion'
+  | 'challenge_spotlights'
 
 export interface AchievementProgress {
   current: number
@@ -56,6 +64,7 @@ export interface AchievementCategoryMeta {
   all_view_order: number
   organize_children_by?: string
   description?: string
+  games?: Array<'drinkit' | 'shipit'>
 }
 
 export interface AchievementsListResult {
@@ -93,6 +102,8 @@ export interface BarGauntletSummary {
   bar_key: string
   bar_name: string
   live_target: number
+  /** True when menu price/offerings are not yet verified (e.g. Good Spirits). */
+  verification_pending?: boolean
   personal: BarGauntletSideSummary
   collective: BarGauntletSideSummary
 }

@@ -37,7 +37,7 @@ export async function listAchievements(
     ...row,
     achievements,
     // Client-side category ordering metadata for A5 (not hardcoded names in Vue).
-    categories: achievementCategoriesOrdered(),
+    categories: achievementCategoriesOrdered(game),
   } as AchievementsListResult & { categories: ReturnType<typeof achievementCategoriesOrdered> }
 }
 

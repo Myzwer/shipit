@@ -44,11 +44,11 @@ describe('Phase 10A content readiness (retained)', () => {
     expect(gi).toMatch(/private\/roster\//)
   })
 
-  it('working achievement catalog still reports 129 enabled / blocked organizer rows', () => {
+  it('FINAL working achievement base catalog is fully enabled (140 rows)', () => {
     expect(WORKING_ACHIEVEMENT_CATALOG).toHaveLength(140)
     const summary = workingCatalogSummary()
-    expect(summary.enabled).toBe(129)
-    expect(summary.blocked_organizer).toBe(3)
-    expect(summary.blocked_metadata).toBe(8)
+    expect(summary.enabled).toBe(140)
+    expect(summary.blocked_organizer ?? 0).toBe(0)
+    expect(summary.blocked_metadata ?? 0).toBe(0)
   })
 })

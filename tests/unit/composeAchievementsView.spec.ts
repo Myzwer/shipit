@@ -75,7 +75,7 @@ describe('composeAchievementsView', () => {
     expect(sections.map((s) => s.key)).toEqual([
       'drinking-with-davids',
       'milestones',
-      'bar-gauntlets',
+      'collections-bar-gauntlets',
     ])
   })
 
@@ -135,7 +135,7 @@ describe('composeAchievementsView', () => {
       }),
     ]
     const sections = composeAllSections({ cards, gauntlets: [s], filter: 'all' })
-    const gaunt = sections.find((x) => x.key === 'bar-gauntlets')!
+    const gaunt = sections.find((x) => x.key === 'collections-bar-gauntlets')!
     const kinds = gaunt.children![0].items.map((i) => i.kind)
     expect(kinds).toEqual(['card', 'gauntlet_tracker'])
   })
@@ -196,7 +196,7 @@ describe('composeAchievementsView', () => {
       }),
     ]
     const sections = composeAllSections({ cards, gauntlets: [s], filter: 'all' })
-    const kinds = sections.find((x) => x.key === 'bar-gauntlets')!.children![0].items.map((i) => i.kind)
+    const kinds = sections.find((x) => x.key === 'collections-bar-gauntlets')!.children![0].items.map((i) => i.kind)
     expect(kinds).toEqual(['card', 'card'])
   })
 
@@ -262,7 +262,7 @@ describe('composeAchievementsView', () => {
       onAnomaly: anomaly,
     })
     expect(anomaly).toHaveBeenCalled()
-    const kinds = sections.find((x) => x.key === 'bar-gauntlets')!.children![0].items.map((i) => i.kind)
+    const kinds = sections.find((x) => x.key === 'collections-bar-gauntlets')!.children![0].items.map((i) => i.kind)
     expect(kinds).toEqual(['card', 'gauntlet_tracker'])
   })
 

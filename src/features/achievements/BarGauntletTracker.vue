@@ -99,6 +99,14 @@ watch(
               })
             }}
           </p>
+          <p
+            v-if="summary.verification_pending"
+            class="mt-1 text-sm font-semibold"
+            style="color: var(--theme-ink)"
+            data-testid="gauntlet-verification-pending"
+          >
+            Menu verification pending — unavailable to complete until prices are verified.
+          </p>
         </div>
       </div>
 

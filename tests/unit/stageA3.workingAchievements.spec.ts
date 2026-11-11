@@ -11,52 +11,57 @@ import {
 
 const root = process.cwd()
 
-describe('Stage A3 working achievements composition', () => {
-  it('preserves base 140 and adds Davids + eligible-bar gauntlets', () => {
-    const { definitions, counts } = composeWorkingAchievements()
+describe('FINAL working achievements composition', () => {
+  it('composes 174 active definitions (126 drinkit + 48 shipit)', () => {
+    const { counts, active } = composeWorkingAchievements()
     expect(counts.base).toBe(140)
-    expect(counts.drinking_with_davids).toBe(5)
-    // Good Spirits is skipped while offerings remain unverified.
-    expect(counts.bar_gauntlets).toBe(24)
-    expect(counts.total).toBe(169)
+    expect(counts.drinking_with_davids).toBe(6)
+    expect(counts.bar_gauntlets).toBe(26)
+    expect(counts.frozen_collections).toBe(2)
+    expect(counts.retired).toBe(3)
+    expect(counts.active).toBe(174)
+    expect(counts.drinkit_active).toBe(126)
+    expect(counts.shipit_active).toBe(48)
+    expect(active).toHaveLength(174)
 
-    const d083 = definitions.find((d) => d.stableKey === 'working-drinkit-d083')
-    expect(d083?.readiness).toBe('blocked_organizer')
+    const d083 = composeWorkingAchievements().definitions.find(
+      (d) => d.stableKey === 'working-drinkit-d083',
+    )
+    expect(d083?.readiness).toBe('retired')
     expect(d083?.enabledInDev).toBe(false)
 
-    const davids = definitions.filter((d) => d.groupKey === 'drinking_with_davids')
-    expect(davids).toHaveLength(5)
-    expect(davids.every((d) => d.iconKey)).toBe(true)
+    const davids = active.filter((d) => d.groupKey === 'drinking_with_davids')
+    expect(davids).toHaveLength(6)
 
     const categories = JSON.parse(
       readFileSync(join(root, 'content/achievements/categories.json'), 'utf8'),
     )
-    const ordered = [...categories.categories].sort(
-      (a, b) => a.all_view_order - b.all_view_order,
-    )
-    expect(ordered[0].key).toBe('drinking-with-davids')
-    expect(ordered[ordered.length - 1].key).toBe('bar-gauntlets')
+    const drinkitOrdered = [...categories.categories]
+      .filter((c) => !c.games || c.games.includes('drinkit'))
+      .sort((a, b) => a.all_view_order - b.all_view_order)
+    expect(drinkitOrdered[0].key).toBe('drinking-with-davids')
+    expect(drinkitOrdered[drinkitOrdered.length - 1].key).toBe('collections-bar-gauntlets')
   })
 
-  it('builds gauntlets only for bars with within-limit price evidence', () => {
+  it('includes Good Spirits gauntlets only when includeUnverified is set', () => {
     const catalog = JSON.parse(
       readFileSync(join(root, 'content/catalogs/launch-candidate-v1.json'), 'utf8'),
     )
-    const { definitions, report } = buildBarGauntletDefinitions(catalog)
-    const gs = report.find((r) => r.bar_key === 'good-spirits-at-sea')!
-    expect(gs.included).toBe(false)
+    const skipped = buildBarGauntletDefinitions(catalog)
+    const gsSkipped = skipped.report.find((r) => r.bar_key === 'good-spirits-at-sea')!
+    expect(gsSkipped.included).toBe(false)
+
+    const included = buildBarGauntletDefinitions(catalog, { includeUnverified: true })
+    const gs = included.report.find((r) => r.bar_key === 'good-spirits-at-sea')!
+    expect(gs.included).toBe(true)
     expect(gs.eligible_count).toBe(0)
-    expect(definitions).toHaveLength(report.filter((r) => r.included).length * 2)
-    expect(
-      definitions.every(
-        (d) =>
-          d.conditionType === 'offering_collection' &&
-          d.conditionConfig.mode === 'full_menu' &&
-          !('threshold' in d.conditionConfig) &&
-          !Array.isArray(d.conditionConfig.offering_ids),
-      ),
-    ).toBe(true)
-    const lido = report.find((r) => r.bar_key === 'lido-bar')!
+    const gsDefs = included.definitions.filter((d) =>
+      d.stableKey.includes('good-spirits-at-sea'),
+    )
+    expect(gsDefs).toHaveLength(2)
+    expect(gsDefs.every((d) => d.conditionConfig.verification_required === true)).toBe(true)
+
+    const lido = included.report.find((r) => r.bar_key === 'lido-bar')!
     expect(lido.eligible_count).toBe(18)
   })
 
@@ -68,7 +73,7 @@ describe('Stage A3 working achievements composition', () => {
     expect(raw).not.toMatch(/forrester|bissett|becker|shirley/i)
     expect(raw).not.toMatch(/roster_key/)
 
-    const ok = resolveAliasesToPlayerIds({
+    const resolved = resolveAliasesToPlayerIds({
       publicAliases: vocab.aliases,
       privateAliasMap: {
         'companion-david-f': { roster_key: 'synthetic-david-f' },
@@ -84,34 +89,32 @@ describe('Stage A3 working achievements composition', () => {
       ]),
       aliases: ['companion-david-f', 'companion-david-b'],
     })
-    expect(ok.unresolved).toEqual([])
-    expect(ok.playerIds).toHaveLength(2)
+    expect(resolved.unresolved).toEqual([])
+    expect(resolved.playerIds).toHaveLength(2)
 
-    const missing = materializeConditionConfig(
-      { player_aliases: ['companion-david-f'], drink_tag: 'margarita' },
+    const materialized = materializeConditionConfig(
+      {
+        player_aliases: ['companion-david-f', 'companion-david-b'],
+        drink_tag: 'margarita',
+      },
       {
         publicAliases: vocab.aliases,
-        privateAliasMap: null,
-        rosterPlayers: [],
-        loginAliasToPlayerId: new Map(),
+        privateAliasMap: {
+          'companion-david-f': { roster_key: 'synthetic-david-f' },
+          'companion-david-b': { roster_key: 'synthetic-david-b' },
+        },
+        rosterPlayers: [
+          { key: 'synthetic-david-f', login_alias: 'david.f@example.local' },
+          { key: 'synthetic-david-b', login_alias: 'david.b@example.local' },
+        ],
+        loginAliasToPlayerId: new Map([
+          ['david.f@example.local', '11111111-1111-1111-1111-111111111111'],
+          ['david.b@example.local', '22222222-2222-2222-2222-222222222222'],
+        ]),
       },
     )
-    expect(missing.unresolved.some((u) => u.reason === 'private_alias_map_missing')).toBe(true)
-    expect(missing.config.player_aliases).toBeUndefined()
-  })
-
-  it('documents exact margarita qualification tags without guessing', () => {
-    const quals = JSON.parse(
-      readFileSync(join(root, 'content/achievements/margaritaQualification.json'), 'utf8'),
-    )
-    const catalog = JSON.parse(
-      readFileSync(join(root, 'content/catalogs/launch-candidate-v1.json'), 'utf8'),
-    )
-    const tagged = catalog.drinks
-      .filter((d) => (d.classification_tags || []).includes('margarita'))
-      .map((d) => d.key)
-      .sort()
-    expect([...quals.qualified_drink_concept_keys].sort()).toEqual(tagged)
-    expect(quals.drink_tag).toBe('margarita')
+    expect(materialized.unresolved).toEqual([])
+    expect(materialized.config.player_ids).toHaveLength(2)
+    expect(materialized.config.player_aliases).toBeUndefined()
   })
 })

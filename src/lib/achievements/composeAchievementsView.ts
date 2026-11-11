@@ -73,12 +73,17 @@ function orderedCategoriesForGame(
   categories: AchievementCategoryMeta[] = achievementCategoriesOrdered(),
 ): AchievementCategoryMeta[] {
   const present = new Set(cards.map((c) => c.group_key))
-  const ordered = categories.filter((c) => present.has(c.group_key))
-  // Include any unexpected group_keys after known categories, before nothing.
+  const game = cards[0]?.game
+  const scoped = categories.filter((c) => {
+    if (!present.has(c.group_key)) return false
+    if (!c.games || !game) return true
+    return c.games.includes(game)
+  })
+  // Include any unexpected group_keys after known categories.
   for (const key of present) {
-    if (!ordered.some((c) => c.group_key === key)) {
+    if (!scoped.some((c) => c.group_key === key)) {
       const meta = categoryMetaForGroup(key)
-      ordered.push(
+      scoped.push(
         meta ?? {
           key,
           name: key,
@@ -88,7 +93,7 @@ function orderedCategoriesForGame(
       )
     }
   }
-  return ordered.sort((a, b) => a.all_view_order - b.all_view_order)
+  return scoped.sort((a, b) => a.all_view_order - b.all_view_order)
 }
 
 function gauntletCardsByBar(cards: AchievementCard[]): Map<string, AchievementCard[]> {
@@ -137,6 +142,7 @@ export function composeAllSections(opts: {
                 bar_key,
                 bar_name: bar_key,
                 live_target: 0,
+                verification_pending: bar_key === 'good-spirits-at-sea',
                 personal: {
                   definition_id: '',
                   stable_key: '',
@@ -159,6 +165,18 @@ export function composeAllSections(opts: {
                 },
               }) satisfies BarGauntletSummary,
           )
+
+      // Non-bar collection cards (Frozen Concoctions / License to Chill) render first.
+      const collectionCards = opts.cards.filter(
+        (c) =>
+          c.group_key === 'bar_gauntlets' &&
+          !c.collection?.bar_key &&
+          !c.stable_key.includes('-gauntlet-'),
+      )
+      const topItems: AchievementSectionItem[] = collectionCards.map((card) => ({
+        kind: 'card' as const,
+        card,
+      }))
 
       for (const summary of barOrder) {
         const state = gauntletPresentationState(summary)
@@ -183,7 +201,9 @@ export function composeAllSections(opts: {
             c.stable_key === summary.personal.stable_key,
         )
 
-        if (state === 'both') {
+        if (summary.verification_pending && state === 'neither') {
+          items.push({ kind: 'gauntlet_tracker', summary })
+        } else if (state === 'both') {
           if (collectiveCard?.earned) items.push({ kind: 'card', card: collectiveCard })
           if (personalCard?.earned) items.push({ kind: 'card', card: personalCard })
         } else if (state === 'team_only') {
@@ -198,7 +218,9 @@ export function composeAllSections(opts: {
 
         children.push({
           key: summary.bar_key,
-          label: summary.bar_name,
+          label: summary.verification_pending
+            ? `${summary.bar_name} (verification pending)`
+            : summary.bar_name,
           items,
         })
       }
@@ -209,7 +231,7 @@ export function composeAllSections(opts: {
         group_key: cat.group_key,
         earned: counts.earned,
         total: counts.total,
-        items: [],
+        items: topItems,
         children,
       })
       continue
