@@ -71,8 +71,9 @@ describe('mapHomeBountyCards', () => {
         challenge_id: 'd1',
         cruise_day: 1,
         title: 'Tequila Shot',
-        instructions: 'Detailed challenge instructions pending organizer supply.',
-        location_name: 'Lido',
+        instructions:
+          'Kick off the cruise with a shot of tequila! Gather the crew at Lido for our first group toast of the week.',
+        location_name: 'Lido Bar',
         meeting_time_ship_local: null,
         is_all_hands: true,
         participation_mode: 'all_hands',
@@ -115,7 +116,8 @@ describe('mapHomeBountyCards', () => {
     expect(daily.presentation).toBe('active')
     expect(daily.title).toBe('Tequila Shot')
     expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyAllHandsEyebrow)
-    expect(daily.detail).toContain('Location: Lido')
+    expect(daily.detail).toContain('Location: Lido Bar')
+    expect(daily.detail).toContain('shot of tequila')
     expect(daily.detail).toContain('Meet @ 3 PM')
     expect(daily.detail).not.toMatch(/pending organizer supply/i)
     expect(daily.detail).not.toMatch(/Everyone does this at the same time/i)
@@ -160,8 +162,9 @@ describe('mapHomeBountyCards', () => {
         challenge_id: 'd3',
         cruise_day: 3,
         title: 'Irish Pub Pick',
-        instructions: 'Detailed challenge instructions pending organizer supply.',
-        location_name: "O'Malley's",
+        instructions:
+          "Head to O'Malley's with a friend and embrace your Irish side! Choose from whiskey, Guinness, Irish Red, or Irish Coffee.",
+        location_name: "O'Malley's Irish Pub",
         meeting_time_ship_local: null,
         is_all_hands: false,
         participation_mode: 'bring_a_friend',
@@ -173,7 +176,8 @@ describe('mapHomeBountyCards', () => {
     })
     const daily = cards.find((c) => c.id === 'daily')!
     expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyBringFriendEyebrow)
-    expect(daily.detail).toContain("O'Malley's")
+    expect(daily.detail).toContain("O'Malley's Irish Pub")
+    expect(daily.detail).toMatch(/Irish side/i)
     expect(daily.detail).toMatch(/Bring a Friend/i)
     expect(daily.detail).not.toMatch(/Meetup:/i)
     expect(daily.detail).not.toMatch(/pending organizer supply/i)

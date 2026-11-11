@@ -23,7 +23,6 @@ import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 import { seedNowAlignedSchedule } from '../helpers/nowAlignedCruise'
 import type { ClockFixtures } from '../helpers/clockFixtures'
 import {
-  DAILY_CHALLENGE_INSTRUCTIONS_PENDING,
   FINAL_DAILY_CHALLENGES,
 } from '../../content/dailyChallenges/finalSchedule'
 
@@ -121,12 +120,19 @@ describe('Phase C1 Daily Challenge schedule', () => {
       expect(row.is_all_hands).toBe(expected.participation_mode === 'all_hands')
       expect(row.points).toBe(50)
       expect(row.photo_required).toBe(true)
-      expect(row.instructions).toBe(DAILY_CHALLENGE_INSTRUCTIONS_PENDING)
+      expect(row.instructions).toBe(expected.instructions)
+      expect(String(row.instructions)).not.toMatch(/pending organizer supply/i)
     }
 
     // No alternate/fixture challenge titles remain active.
     const titles = rows!.map((r) => r.title)
     expect(titles.some((t) => String(t).startsWith('Fixture '))).toBe(false)
+
+    // C2.1 Day 5/6 correction
+    expect(rows![4]!.title).toBe("Bartender's Choice")
+    expect(rows![4]!.participation_mode).toBe('all_hands')
+    expect(rows![5]!.title).toBe('Martini Choice')
+    expect(rows![5]!.participation_mode).toBe('bring_a_friend')
   })
 
   it('exposes the schedule through timed sim reads for each cruise day', async () => {
