@@ -88,7 +88,7 @@ Drink It! Pause/Resume is **not** a clock operation. Organizer controls live und
 
 | Function | Who | Purpose |
 |---|---|---|
-| `get_ship_clock_state()` | authenticated | Clock snapshot at server time |
+| `get_ship_clock_state()` | authenticated | Clock snapshot at server time (includes `cruise_opens_at_utc` / `shipit_opens_at_utc` / `drinkit_opens_at_utc` / `drinkit_bounty_opens_at_utc`) |
 | `evaluate_submission_acceptance(game)` | authenticated | Acceptance using server receipt time |
 | `admin_*` diagnostics / corrections | admin | Privileged mutations + audit; client `p_at_utc` ignored unless `service_role` |
 | `admin_save_ship_clock_plan(p_days)` | admin | Atomic validated seven-day plan write + single rebuild |
