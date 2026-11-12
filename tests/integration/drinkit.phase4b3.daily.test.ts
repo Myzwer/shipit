@@ -87,6 +87,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: randomUUID(),
         caption: null,
+        attest_participation: true
       },
     })
     expect(missing.data.ok).toBe(false)
@@ -100,6 +101,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoId,
         caption: 'Daily win',
+        attest_participation: true
       },
     })
     expect(ok.error).toBeNull()
@@ -129,6 +131,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoId,
         caption: 'Daily win',
+        attest_participation: true
       },
     })
     expect(replay.data.ok).toBe(true)
@@ -141,6 +144,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoId,
         caption: 'changed',
+        attest_participation: true
       },
     })
     expect(mismatch.data.ok).toBe(false)
@@ -152,6 +156,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: await stageDailyPhoto(drink),
         caption: null,
+        attest_participation: true
       },
     })
     expect(second.data.ok).toBe(false)
@@ -201,6 +206,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     expect(first.data.ok).toBe(true)
@@ -214,6 +220,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoB,
         caption: null,
+        attest_participation: true
       },
     })
     expect(secondPlayer.data.ok).toBe(true)
@@ -228,6 +235,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     // Already claimed wins over pause for second UUID; use a player with no claim
@@ -254,6 +262,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     expect(replayPaused.data.ok).toBe(true)
@@ -278,6 +287,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     expect(lateRes.data.ok).toBe(false)
@@ -292,6 +302,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     expect(finaleNew.data.ok).toBe(false)
@@ -307,6 +318,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photoA,
         caption: null,
+        attest_participation: true
       },
     })
     expect(finaleReplay.data.ok).toBe(true)
@@ -351,6 +363,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: drinkLog.data.photo_id,
         caption: null,
+        attest_participation: true
       },
     })
     expect(wrongPurpose.data.ok).toBe(false)
@@ -365,6 +378,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photo,
         caption: null,
+        attest_participation: true,
         points: 999,
       },
     })
@@ -379,6 +393,7 @@ describe('Phase 4B3 submit_daily', () => {
         challenge_id: challengeId,
         photo_id: photo,
         caption: null,
+        attest_participation: true
       },
     })
     expect(stolen.data.ok).toBe(false)

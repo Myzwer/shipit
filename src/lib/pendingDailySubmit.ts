@@ -14,6 +14,8 @@ export interface PendingDailySubmit {
     challenge_id: string
     photo_id: string
     caption: string | null
+    /** Required on Submit for NEW Daily accepts (PC1 honor acknowledgment). */
+    attest_participation: true
   }
   summary: {
     title: string

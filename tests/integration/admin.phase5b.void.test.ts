@@ -301,6 +301,7 @@ describe('Phase 5B Admin Void', () => {
         challenge_id: challengeIdDaily,
         photo_id: photoId,
         caption: 'daily',
+        attest_participation: true
       },
     })
     expect(daily.data.ok).toBe(true)

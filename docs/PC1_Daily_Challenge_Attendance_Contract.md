@@ -1,43 +1,11 @@
-# PC1 — Daily Challenge attendance / companionship contract (proposal)
+# PC1 — Daily Challenge participation acknowledgment (implemented)
 
-**Status:** Awaiting Development Director approval.  
-**Do not implement UI or restrictive schema changes until approved.**
+**Status:** Approved Option A — implemented in migration `20261105010800_pc1_daily_attest_participation.sql`.  
+**Branch:** `rules/pc1-gameplay-backend` (isolated). Do not apply to organizer Pre-Cruise until merge is approved.
 
-## Current server contract
+## Server contract
 
-`submit_daily` / `drinkit_submit_daily_core` accept exactly:
-
-- `idempotency_key`
-- `challenge_id`
-- `photo_id`
-- `caption`
-
-Fingerprint and client type (`DailySubmitPayload`) match those four fields.  
-`participation_mode` (`all_hands` | `bring_a_friend`) is stored on `daily_challenges` for display only.  
-`meeting_time_ship_local` is null on the final seven rows.  
-`admin_announcement` is free-text display only — **not** a machine-readable meetup timestamp.
-
-The claim path does **not** read companionship, attendance, or announcement text.  
-A photo uploaded after the meetup is already eligible (no upload-time attendance gate).
-
-## Owner-approved rules (honor system)
-
-| Mode | Requirement |
-|------|-------------|
-| **All Hands** | Player personally attended and participated at the announced meetup time. Later photo OK. Not all 11 players must attend. |
-| **Bring a Friend** | Completed with another active Drink It! participant (not necessarily Bar crew). |
-
-Points remain **50**. No face analysis, reciprocal logging, or Admin-inferred timestamp.
-
-## Gap
-
-Backend cannot record or validate All Hands attendance or Bring a Friend companionship because the claim payload has no attestation / companion field. Existing Drink It! companion selector lives on the drink-log wizard, not Daily Claim.
-
-## Smallest practical honor-based contract (recommended)
-
-**Option A — preferred (no new screen, no second picker):**
-
-Extend `submit_daily` payload with one explicit honor boolean the existing Daily Claim confirmation can set:
+`submit_daily` / `drinkit_submit_daily_core` payload:
 
 ```ts
 {
@@ -45,30 +13,78 @@ Extend `submit_daily` payload with one explicit honor boolean the existing Daily
   challenge_id: string
   photo_id: string
   caption: string | null
-  // NEW — required true for acceptance; false/missing → clear error
+  attest_participation: true  // required for NEW accepts
+}
+```
+
+### Validation (new claims only)
+
+| `attest_participation` | Result |
+|------------------------|--------|
+| missing / false / non-true | `ok: false`, `code: 'ATTEST_PARTICIPATION_REQUIRED'` (mode-specific message) |
+| `true` | Proceed with existing eligibility (membership, lifecycle, today-only, photo, one/day, 50 pts) |
+
+Meaning is honor-based from `daily_challenges.participation_mode`:
+
+- **All Hands** — player confirms personal attendance/participation at the announced meetup. Photo may be uploaded later. No upload-time vs meetup comparison. Not all players must attend.
+- **Bring a Friend** — player confirms completion with another active Drink It! participant (not necessarily Bar crew). No companion picker / reciprocal log / approval.
+
+Extra keys such as `companion_player_ids` or `attended_at` are **not** part of the fingerprint and are ignored for eligibility (not stored as attendance proof).
+
+### Idempotency / history
+
+- Fingerprint includes `attest_participation` **only when the key is present** (legacy-compatible, same pattern as optional drink `photo_id`).
+- Replay of an already-accepted submission returns the original `result_json` before re-checking attestation — including accepts created **before** this contract (4-field payload still matches stored hash).
+- One active Daily claim per player/day and 50-point award unchanged.
+
+### Not created
+
+- No attendance table, proof-of-presence, Admin approval queue, face analysis, or companion collection on Daily Claim.
+
+## Frontend integration (required before players can claim)
+
+**Do not silently set `attest_participation` before the final Submit action.**
+
+Approved concise copy above the existing final submission action:
+
+**All Hands:**  
+`By submitting, I confirm I attended and participated in today's scheduled meetup.`
+
+**Bring a Friend:**  
+`By submitting, I confirm I completed this challenge with another Drink It! player.`
+
+On that existing Submit action only, send:
+
+```ts
+await submitDaily({
+  idempotency_key,
+  challenge_id,
+  photo_id,
+  caption,
+  attest_participation: true,
+})
+```
+
+No new screen, checkbox, companion selector, or extra button.
+
+### Client type update
+
+```ts
+export interface DailySubmitPayload {
+  idempotency_key: string
+  challenge_id: string
+  photo_id: string
+  caption: string | null
   attest_participation: true
 }
 ```
 
-Server behavior:
+Pending-submit recovery must persist and replay the same five-field payload (including `attest_participation: true`) so lost-response recovery still matches the fingerprint.
 
-- Require `attest_participation === true` for both modes (honor acknowledgment of the mode rules shown on the card).
-- Do **not** parse `admin_announcement` as a timestamp.
-- Do **not** reject based on claim/upload time vs meetup.
-- Fingerprint must include the new field; keep a legacy-hash compatibility path for in-flight retries (same pattern as optional `photo_id`).
+### Mode source
 
-Frontend change (owned by Pre-Cruise / Daily Claim agent after approval):
+Use the challenge’s authoritative `participation_mode` from `get_my_current_daily_challenge` (or equivalent home card) to choose which confirmation sentence to show.
 
-- On the existing Daily Claim review/confirm action, set `attest_participation: true`.
-- Optionally show one short honor line already implied by rules copy (“I attended…” / “I completed this with another Drink It! player…”), without a companion picker.
+## Error handling
 
-**Option B — Bring a Friend only companion id (heavier):**
-
-Add optional `companion_player_id` validated as another active Drink It! member. Requires UI selection and conflicts with “no second picker / no Daily companion step” guidance. Not recommended unless Director rejects Option A for Bring a Friend.
-
-## Out of scope until approved
-
-- New Daily Challenge form
-- Attendance verification / geo / photo analysis
-- Invented Admin meetup time column without an approved machine-readable contract
-- Inferring attendance from other players’ logs or photos
+On `ATTEST_PARTICIPATION_REQUIRED`, surface the server `message` (or the approved confirmation sentence) and keep the user on the review/submit step — do not invent a second form.

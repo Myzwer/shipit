@@ -204,10 +204,7 @@ describe('PC1 Drink It! buddy rule + schedule', () => {
     ).toBe(true)
   })
 
-  it('Daily Challenge claim path still accepts later photo without attendance timestamp gate', async () => {
-    // Contract gap: no companionship/attendance fields on submit_daily.
-    // Assert we do not reject solely based on upload time vs announcement.
-    const at = slotUtc(1, '20:00:00')
+  it('Daily Challenge meeting announcement remains non-gating display text', async () => {
     const { data: challenge } = await fixtures.service!
       .from('daily_challenges')
       .select('id, participation_mode, meeting_time_ship_local, admin_announcement')
@@ -216,14 +213,11 @@ describe('PC1 Drink It! buddy rule + schedule', () => {
 
     expect(challenge).toBeTruthy()
     expect(challenge!.meeting_time_ship_local).toBeNull()
-    // Free-text announcement is not a machine-readable attendance gate.
     expect(typeof (challenge!.admin_announcement ?? '')).toBe('string')
-
-    // Fingerprint / payload contract remains the four existing fields only —
-    // documented for Development Director approval before any schema change.
-    expect(challenge!.participation_mode === 'all_hands' || challenge!.participation_mode === 'bring_a_friend').toBe(
-      true,
-    )
-    expect(at).toBeTruthy()
+    expect(
+      challenge!.participation_mode === 'all_hands' ||
+        challenge!.participation_mode === 'bring_a_friend',
+    ).toBe(true)
+    // Attestation contract covered in drinkit.pc1.dailyAttest.test.ts
   })
 })

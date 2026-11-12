@@ -283,6 +283,7 @@ describe('Phase C1 claims and announcement non-gating', () => {
         challenge_id: current.data.challenge_id,
         photo_id: photoId,
         caption: null,
+        attest_participation: true
       },
     })
     expect(ok.error).toBeNull()
@@ -296,6 +297,7 @@ describe('Phase C1 claims and announcement non-gating', () => {
         challenge_id: current.data.challenge_id,
         photo_id: photoId,
         caption: null,
+        attest_participation: true
       },
     })
     expect(replay.error).toBeNull()
@@ -349,6 +351,7 @@ describe('Phase C1 claims and announcement non-gating', () => {
         challenge_id: current.data.challenge_id,
         photo_id: photoId,
         caption: 'announcement present',
+        attest_participation: true
       },
     })
     expect(submit.data.ok).toBe(true)

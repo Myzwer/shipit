@@ -15,6 +15,8 @@ export interface DailySubmitPayload {
   challenge_id: string
   photo_id: string
   caption: string | null
+  /** Honor acknowledgment required for NEW Daily accepts (PC1). */
+  attest_participation: true
 }
 
 export interface DailySubmitResult {

@@ -39,6 +39,7 @@ describe('pendingDailySubmit', () => {
       challenge_id: 'day1-challenge',
       photo_id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
       caption: 'Day 1',
+      attest_participation: true as const,
     }
     writePendingDailySubmit(
       {
@@ -67,6 +68,7 @@ describe('pendingDailySubmit', () => {
           challenge_id: 'c1',
           photo_id: 'dddddddd-dddd-4ddd-8ddd-dddddddddddd',
           caption: null,
+          attest_participation: true as const,
         },
         summary: { title: 'T', points: 50 },
       },

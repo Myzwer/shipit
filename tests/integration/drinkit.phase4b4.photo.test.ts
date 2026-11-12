@@ -662,6 +662,7 @@ describe('Phase 4B4 submit_drink optional photo', () => {
           challenge_id: daily.data.challenge_id,
           photo_id: photoId,
           caption: null,
+          attest_participation: true
         },
       })
       expect(badDaily.data.ok).toBe(false)
