@@ -33,6 +33,9 @@ supabase/.temp
 # Local-only secrets / provisioned identity summaries
 .local/
 
+# Local Tuesday / midgame QA evidence (screenshots may include fixture photos)
+docs/qa/tuesday-midgame/
+
 # Private organizer inputs (real roster, credentials maps, guest photos)
 private/roster/
 private/photos/
