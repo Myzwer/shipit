@@ -200,14 +200,14 @@ describe('Phase 4A secure player reads / RLS', () => {
     expect(write.error).toBeTruthy()
   })
 
-  it('category filter returns one section; ties share ranks with stable order', async () => {
+  it('category filter returns one section; equal points get unique score-reached ranks', async () => {
     const at = noonDay1Utc()
     const alpha = await teamIdFor('both')
     const bravo = await teamIdFor('admin')
     const authorA = playerId(fixtures, 'both')
     const authorB = playerId(fixtures, 'admin')
 
-    // Equal points: both complete one 100-pt classic
+    // Equal points: both complete one 100-pt classic; Alpha reaches total first.
     await fixtures.service!.rpc('dev_fixture_scavenger_completion', {
       p_team_id: alpha,
       p_challenge_canonical_key: 'the-piazza-grandeur',
@@ -227,15 +227,17 @@ describe('Phase 4A secure player reads / RLS', () => {
     })
     expect(home.data.ok).toBe(true)
     const board = home.data.leaderboard as Array<{
+      team_id: string
       team_name: string
       points: number
       rank: number
     }>
     const tied = board.filter((r) => r.points === 100)
     expect(tied.length).toBeGreaterThanOrEqual(2)
-    expect(tied.every((r) => r.rank === tied[0].rank)).toBe(true)
-    // Incumbent (earlier first completion) stays above
-    expect(board[0].team_name).toBeTruthy()
+    expect(tied[0].team_id).toBe(alpha)
+    expect(tied[0].rank).toBe(1)
+    expect(tied[1].rank).toBe(2)
+    expect(tied[0].rank).not.toBe(tied[1].rank)
 
     const ship = await signInAs(fixtures, 'both')
     const filtered = await ship.rpc('get_my_shipit_challenges', {
