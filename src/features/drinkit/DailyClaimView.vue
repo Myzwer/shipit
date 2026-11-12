@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import FramedPhoto from '@/components/shared/FramedPhoto.vue'
+import AppIcon from '@/components/shared/AppIcon.vue'
 import PhotoCapture from '@/components/shared/PhotoCapture.vue'
 import GameShell from '@/components/shared/GameShell.vue'
-import type { PhotoFraming } from '@/lib/media/framing'
+import DailyReviewStep from '@/features/drinkit/DailyReviewStep.vue'
+import {
+  cloneFraming,
+  type PhotoFraming,
+} from '@/lib/media/framing'
+import { setPhotoFraming as persistStagedFraming } from '@/lib/media/stagePhoto'
+import { formatMeetingTime } from '@/lib/bounty/mapHomeCards'
 import { fetchHomeBountySnapshot } from '@/lib/bounty/fetchHomeBounties'
+import { pointsLabel } from '@/lib/bounty/tierLabels'
 import { submitDaily } from '@/lib/drinkit/submitDaily'
 import {
   clearPendingDailySubmit,
@@ -44,6 +51,28 @@ const submitError = ref<string | null>(null)
 const idempotencyKey = ref<string | null>(null)
 /** True when showing recovery for a prior payload that may not match today's assignment. */
 const recoveringPending = ref(false)
+const focusCaption = ref(false)
+const captionInput = ref<HTMLTextAreaElement | null>(null)
+const dailyEl = ref<HTMLElement | null>(null)
+let scrollFrame = 0
+
+const photoRestoreSnapshot = computed(() => {
+  const url = previewUrl.value
+  const width = previewWidth.value
+  const height = previewHeight.value
+  if (!url || !(width && height)) return null
+  return {
+    previewUrl: url,
+    width,
+    height,
+    framing: photoFraming.value,
+    staged: staged.value,
+  }
+})
+
+const reviewLocked = computed(
+  () => formLocked.value && submitError.value === 'unknown',
+)
 
 const canSubmit = computed(
   () =>
@@ -73,23 +102,39 @@ function participationModeOf(
   return offer.is_all_hands ? 'all_hands' : 'bring_a_friend'
 }
 
+const isAllHands = computed(
+  () => !!challenge.value && participationModeOf(challenge.value) === 'all_hands',
+)
+
 const modeLabel = computed(() => {
   if (!challenge.value) return ''
-  return participationModeOf(challenge.value) === 'all_hands'
-    ? copy.daily.allHandsLabel
-    : copy.daily.bringFriendLabel
+  return isAllHands.value ? copy.daily.allHandsLabel : copy.daily.bringFriendLabel
 })
 
-const modeHint = computed(() => {
-  if (!challenge.value) return ''
-  return participationModeOf(challenge.value) === 'all_hands'
-    ? copy.daily.allHandsHint
-    : copy.daily.bringFriendHint
+/** Authorized mode for review acknowledgment + submit contract. */
+const authorizedParticipationMode = computed<'all_hands' | 'bring_a_friend' | null>(() => {
+  if (!challenge.value) return null
+  return participationModeOf(challenge.value)
 })
 
 const shownInstructions = computed(() => displayableInstructions(challenge.value?.instructions))
 
 const shownAnnouncement = computed(() => challenge.value?.admin_announcement?.trim() || null)
+
+const shownMeetingTime = computed(() => {
+  const raw = challenge.value?.meeting_time_ship_local
+  if (!raw) return null
+  return `${copy.bounty.dailyMeetAt} ${formatMeetingTime(raw)}`
+})
+
+const meetupVenue = computed(() => challenge.value?.location_name?.trim() || null)
+
+/** Structured time and/or organizer meetup note — never invent times from prose. */
+const hasMeetupInfo = computed(() => Boolean(shownMeetingTime.value || shownAnnouncement.value))
+
+const challengePointsLabel = computed(() =>
+  pointsLabel(challenge.value?.points && challenge.value.points > 0 ? challenge.value.points : 50),
+)
 
 function challengeFromPending(pending: PendingDailySubmit): ActiveDailyChallenge {
   return {
@@ -214,24 +259,118 @@ function onFraming(next: PhotoFraming | null) {
 
 function goCapture() {
   confirmed.value = true
+  focusCaption.value = false
   step.value = 'capture'
 }
 
 function goReview() {
   if (!staged.value?.photoId || photoBusy.value) return
+  focusCaption.value = false
   step.value = 'review'
 }
+
+function focusCaptionField() {
+  const el = captionInput.value
+  if (!el) return
+  el.focus()
+  const len = el.value.length
+  el.setSelectionRange(len, len)
+  focusCaption.value = false
+}
+
+function onEditCaption() {
+  if (reviewLocked.value) return
+  formLocked.value = false
+  submitError.value = null
+  recoveringPending.value = false
+  focusCaption.value = true
+  step.value = 'capture'
+}
+
+async function onReviewFraming(next: PhotoFraming) {
+  if (reviewLocked.value) return
+  const framing = cloneFraming(next)
+  photoFraming.value = framing
+  const current = staged.value
+  if (!current?.photoId) return
+  try {
+    const saved = await persistStagedFraming(current.photoId, framing)
+    photoFraming.value = saved
+    staged.value = { ...current, framing: cloneFraming(saved) }
+  } catch {
+    // Keep local framing; submit still uses staged photo_id.
+  }
+}
+
+/** Same ancestor-walking reset as ordinary Drink It! LogWizardView. */
+function resetWizardScroll() {
+  const seen = new Set<HTMLElement>()
+  const queue: HTMLElement[] = []
+  const push = (node: unknown) => {
+    if (node instanceof HTMLElement) queue.push(node)
+  }
+  push(dailyEl.value)
+  push(document.scrollingElement)
+  push(document.documentElement)
+  push(document.body)
+
+  while (queue.length) {
+    const el = queue.pop()
+    if (!el || seen.has(el)) continue
+    seen.add(el)
+    push(el.parentElement)
+    if (typeof el.scrollTo === 'function') {
+      el.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }
+    el.scrollTop = 0
+    el.scrollLeft = 0
+  }
+}
+
+function scheduleWizardScrollReset(after?: () => void) {
+  resetWizardScroll()
+  if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
+  scrollFrame = requestAnimationFrame(() => {
+    scrollFrame = 0
+    resetWizardScroll()
+    after?.()
+  })
+}
+
+watch(
+  () => step.value,
+  async () => {
+    await nextTick()
+    if (!dailyEl.value?.isConnected) return
+    const shouldFocusCaption = step.value === 'capture' && focusCaption.value
+    scheduleWizardScrollReset(() => {
+      if (shouldFocusCaption) focusCaptionField()
+    })
+  },
+)
 
 async function performSubmit() {
   if (!session.profile?.player_id) return
   const existingPending = readPendingDailySubmit()
 
-  // Locked unknown recovery: always retry the exact stored payload/UUID.
+  // Locked unknown recovery: retry same UUID; ensure attest is present on this Submit action.
   if (submitError.value === 'unknown' && existingPending) {
+    const payload = {
+      ...existingPending.payload,
+      attest_participation: true as const,
+    }
+    writePendingDailySubmit({
+      clientRequestId: existingPending.clientRequestId,
+      playerId: existingPending.playerId,
+      cruiseConfigId: existingPending.cruiseConfigId,
+      payload,
+      summary: existingPending.summary,
+      createdAt: existingPending.createdAt,
+    })
     formLocked.value = true
     submitting.value = true
     try {
-      const result = await submitDaily(existingPending.payload)
+      const result = await submitDaily(payload)
       await handleSubmitResult(result)
     } catch {
       submitError.value = 'unknown'
@@ -253,11 +392,13 @@ async function performSubmit() {
 
   if (!challenge.value || !staged.value?.photoId) return
   if (!idempotencyKey.value) idempotencyKey.value = crypto.randomUUID()
+  // Attestation is set only on this final Submit action (not earlier wizard steps).
   const payload = {
     idempotency_key: idempotencyKey.value,
     challenge_id: challenge.value.challenge_id,
     photo_id: staged.value.photoId,
     caption: caption.value.trim() || null,
+    attest_participation: true as const,
   }
   writePendingDailySubmit({
     clientRequestId: idempotencyKey.value,
@@ -313,20 +454,24 @@ async function handleSubmitResult(result: Awaited<ReturnType<typeof submitDaily>
     submitError.value = result.message ?? copy.daily.submitFailed
     return
   }
+  if (result.code === 'ATTEST_PARTICIPATION_REQUIRED') {
+    clearPendingDailySubmit()
+    formLocked.value = false
+    recoveringPending.value = false
+    idempotencyKey.value = null
+    submitError.value =
+      result.message ??
+      (authorizedParticipationMode.value === 'all_hands'
+        ? copy.daily.attestAllHands
+        : copy.daily.attestBringFriend)
+    return
+  }
   // Definitive rejection (closed window, wrong day, pause for NEW submits, etc.)
   clearPendingDailySubmit()
   formLocked.value = false
   recoveringPending.value = false
   idempotencyKey.value = null
   submitError.value = result.message ?? result.code ?? copy.daily.submitFailed
-}
-
-function unlockAfterReject() {
-  if (submitError.value === 'unknown') return
-  formLocked.value = false
-  submitError.value = null
-  recoveringPending.value = false
-  step.value = 'capture'
 }
 
 function backHome() {
@@ -350,6 +495,10 @@ onMounted(async () => {
   await loadDaily()
 })
 
+onBeforeUnmount(() => {
+  if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
+})
+
 watch(
   () => awardsMode.isAwardsMode,
   (ended) => {
@@ -359,8 +508,25 @@ watch(
 </script>
 
 <template>
-  <GameShell game="drinkit" :title="copy.daily.heading" :show-switch="false">
-    <div class="px-4 pb-28 pt-4" data-testid="daily-claim-page">
+  <GameShell
+    game="drinkit"
+    :title="copy.daily.heading"
+    :show-switch="false"
+    :show-ship-time="false"
+    :header-pinned="false"
+  >
+    <template #header-actions>
+      <button
+        type="button"
+        class="shrink-0 rounded-full px-2.5 py-2 text-sm font-semibold text-white hover:bg-white/10"
+        data-testid="daily-exit"
+        @click="backHome"
+      >
+        {{ copy.wizard.exit }}
+      </button>
+    </template>
+
+    <div ref="dailyEl" class="px-4 pb-28 pt-4" data-testid="daily-claim-page">
       <div
         v-if="showFinaleGate"
         class="rounded-2xl px-4 py-6 text-center"
@@ -371,8 +537,7 @@ watch(
         <p class="mt-2 text-sm" style="color: var(--theme-muted)">{{ copy.wizard.gameEndedBody }}</p>
         <button
           type="button"
-          class="mt-4 rounded-full px-4 py-2 text-sm font-semibold text-white"
-          style="background: var(--theme-primary)"
+          class="ui-primary-btn mt-4"
           data-testid="daily-view-wrapped"
           @click="goToWrapped"
         >
@@ -384,7 +549,7 @@ watch(
       <p v-if="loading" class="text-sm" style="color: var(--theme-muted)">{{ copy.bounty.loadingTitle }}</p>
 
       <!-- Recovery takes precedence over closed/paused/already-claimed banners. -->
-      <template v-if="!loading && recoveringPending && step === 'review'">
+      <template v-if="!loading && recoveringPending && step === 'review' && challenge">
         <p
           class="mb-4 rounded-2xl px-4 py-3 text-sm"
           style="background: var(--theme-gradient-warm); color: var(--theme-muted)"
@@ -392,33 +557,26 @@ watch(
         >
           {{ copy.daily.recoveryBanner }}
         </p>
-        <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
-          {{ challenge?.title }}
-        </h2>
-        <p class="mt-2 text-sm font-semibold" style="color: var(--theme-primary)">
-          {{ copy.daily.pointsLine }}
-        </p>
-        <section class="mt-6 space-y-4" data-testid="daily-review-step">
-          <div
-            class="rounded-2xl px-4 py-3 text-sm"
-            style="background: var(--theme-gradient-warm)"
-            data-testid="daily-unknown"
-          >
-            <p class="font-semibold">{{ copy.wizard.unknownTitle }}</p>
-            <p class="mt-1" style="color: var(--theme-muted)">{{ copy.wizard.unknownBody }}</p>
-            <p class="mt-2 text-xs" style="color: var(--theme-muted)">{{ copy.wizard.resolveBeforeEdit }}</p>
-          </div>
-          <button
-            type="button"
-            class="w-full rounded-full py-3 text-sm font-semibold text-white disabled:opacity-60"
-            style="background: var(--theme-primary)"
-            data-testid="daily-submit"
-            :disabled="!canSubmit"
-            @click="performSubmit"
-          >
-            {{ submitting ? copy.daily.submitting : copy.wizard.retry }}
-          </button>
-        </section>
+        <DailyReviewStep
+          :challenge-title="challenge.title"
+          :location-name="challenge.location_name"
+          :points="challenge.points || 50"
+          :player-name="session.displayName"
+          :caption="caption"
+          :photo-preview-url="previewUrl"
+          :photo-preview-width="previewWidth"
+          :photo-preview-height="previewHeight"
+          :photo-framing="photoFraming"
+          :photo-staged="!!staged"
+          :submitting="submitting"
+          :can-submit="canSubmit"
+          :locked="true"
+          :submit-error="submitError"
+          :participation-mode="authorizedParticipationMode"
+          @submit="performSubmit"
+          @update-framing="onReviewFraming"
+          @edit-caption="onEditCaption"
+        />
       </template>
 
       <p
@@ -440,8 +598,7 @@ watch(
         </h2>
         <button
           type="button"
-          class="w-full rounded-full py-3 text-sm font-semibold text-white"
-          style="background: var(--theme-primary)"
+          class="ui-primary-btn w-full"
           data-testid="daily-back-home"
           @click="backHome"
         >
@@ -450,74 +607,105 @@ watch(
       </div>
 
       <template v-else-if="!loading && challenge && !recoveringPending">
-        <p
-          class="text-xs font-semibold uppercase tracking-wide"
-          style="color: var(--theme-muted)"
-          data-testid="daily-mode"
-        >
-          {{ modeLabel }}
-        </p>
-        <h2 class="mt-1 font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="daily-title">
-          {{ challenge.title }}
-        </h2>
-        <p
-          v-if="challenge.location_name"
-          class="mt-2 text-sm"
-          style="color: var(--theme-ink)"
-          data-testid="daily-location"
-        >
-          {{ copy.daily.locationLabel }}: {{ challenge.location_name }}
-        </p>
-        <p class="mt-2 text-sm" style="color: var(--theme-muted)" data-testid="daily-mode-hint">
-          {{ modeHint }}
-        </p>
-        <p
-          v-if="shownAnnouncement"
-          class="mt-3 rounded-2xl px-4 py-3 text-sm font-semibold"
-          style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
-          data-testid="daily-announcement"
-        >
-          {{ copy.daily.announcementLabel }}: {{ shownAnnouncement }}
-        </p>
-        <p
-          v-if="shownInstructions"
-          class="mt-2 text-sm"
-          style="color: var(--theme-ink)"
-          data-testid="daily-instructions"
-        >
-          {{ shownInstructions }}
-        </p>
-        <p class="mt-2 text-sm font-semibold" style="color: var(--theme-primary)" data-testid="daily-points">
-          {{ copy.daily.pointsLine }}
-        </p>
+        <!-- Details: identity → what to do → meetup → completion CTA -->
+        <section v-if="step === 'confirm'" class="daily-details" data-testid="daily-confirm-step">
+          <article class="daily-identity ui-mint-panel" data-testid="daily-identity">
+            <p
+              class="daily-mode"
+              data-testid="daily-mode"
+            >
+              {{ modeLabel }}
+            </p>
+            <h2 class="daily-title ui-display-name" data-testid="daily-title">
+              {{ challenge.title }}
+            </h2>
+            <p
+              v-if="challenge.location_name"
+              class="daily-venue"
+              data-testid="daily-location"
+            >
+              {{ challenge.location_name }}
+            </p>
+            <p class="daily-points" data-testid="daily-points">
+              {{ challengePointsLabel }}
+            </p>
+          </article>
 
-        <section v-if="step === 'confirm'" class="mt-8 space-y-4" data-testid="daily-confirm-step">
-          <p class="font-display text-lg font-bold" style="color: var(--theme-ink)">
-            {{ copy.daily.confirmQuestion }}
-          </p>
-          <button
-            type="button"
-            class="w-full rounded-full py-3 text-sm font-semibold text-white"
-            style="background: var(--theme-primary)"
-            data-testid="daily-confirm-yes"
-            @click="goCapture"
-          >
-            {{ copy.wizard.continue }}
-          </button>
+          <div class="daily-what" data-testid="daily-what-to-do">
+            <h3 class="daily-what-heading">{{ copy.daily.whatToDo }}</h3>
+            <p
+              v-if="shownInstructions"
+              class="daily-instructions"
+              data-testid="daily-instructions"
+            >
+              {{ shownInstructions }}
+            </p>
+
+            <p
+              v-if="isAllHands"
+              class="daily-all-hands-rule"
+              data-testid="daily-all-hands-rule"
+            >
+              {{ copy.daily.allHandsAttendanceRule }}
+            </p>
+
+            <aside
+              v-if="hasMeetupInfo"
+              class="daily-meetup"
+              data-testid="daily-meetup"
+            >
+              <AppIcon name="status.time" class="daily-meetup-icon" aria-hidden="true" />
+              <div class="daily-meetup-copy">
+                <p
+                  v-if="shownMeetingTime"
+                  class="daily-meetup-time"
+                  data-testid="daily-meeting-time"
+                >
+                  <template v-if="meetupVenue">
+                    {{ shownMeetingTime }} · {{ meetupVenue }}
+                  </template>
+                  <template v-else>
+                    {{ shownMeetingTime }}
+                  </template>
+                </p>
+                <p
+                  v-if="shownAnnouncement"
+                  class="daily-meetup-body"
+                  data-testid="daily-announcement"
+                >
+                  {{ shownAnnouncement }}
+                </p>
+              </div>
+            </aside>
+          </div>
+
+          <div class="daily-complete" data-testid="daily-complete">
+            <p class="daily-complete-question">{{ copy.daily.confirmQuestion }}</p>
+            <button
+              type="button"
+              class="daily-continue ui-primary-btn"
+              data-testid="daily-confirm-yes"
+              @click="goCapture"
+            >
+              <span class="daily-continue-label">{{ copy.daily.yesAddPhoto }}</span>
+              <AppIcon name="action.next" class="daily-continue-icon" />
+            </button>
+          </div>
         </section>
 
-        <section v-else-if="step === 'capture'" class="mt-6" data-testid="daily-capture-step">
-          <h3 class="font-display text-lg font-bold" style="color: var(--theme-ink)">
+        <section v-if="step === 'capture'" class="mt-2" data-testid="daily-capture-step">
+          <h2 class="wizard-prompt" data-testid="daily-photo-title">
             {{ copy.daily.photoTitle }}
-          </h3>
-          <p class="mt-1 text-sm" style="color: var(--theme-muted)">{{ copy.daily.photoHelper }}</p>
+          </h2>
+          <p class="mt-1.5 text-sm" style="color: var(--theme-muted)">{{ copy.daily.photoHelper }}</p>
           <div class="mt-4">
             <PhotoCapture
               game="drinkit"
               purpose="daily"
               :required="true"
               :auto-stage="true"
-              :disabled="formLocked && submitError !== 'unknown'"
+              :disabled="reviewLocked"
+              :restore="photoRestoreSnapshot"
               @staged="onStaged"
               @local-ready="onLocal"
               @framing="onFraming"
@@ -532,105 +720,215 @@ watch(
               — {{ copy.daily.captionOptional }}
             </span>
             <textarea
+              ref="captionInput"
               v-model="caption"
               rows="3"
-              class="mt-2 w-full resize-none rounded-2xl px-4 py-3 text-sm font-normal outline-none"
-              style="background: var(--theme-gradient-warm)"
+              class="mt-2 w-full resize-none rounded-2xl bg-white px-4 py-3 text-sm font-normal shadow-sm outline-none"
               :placeholder="copy.wizard.captionPlaceholder"
               data-testid="daily-caption"
-              :disabled="formLocked && submitError !== 'unknown'"
+              :disabled="reviewLocked"
             />
           </label>
           <button
             type="button"
-            class="mt-6 w-full rounded-full py-3 text-sm font-semibold text-white disabled:opacity-60"
-            style="background: var(--theme-primary)"
+            class="ui-primary-btn mt-6 w-full"
             data-testid="daily-continue-review"
-            :disabled="!staged?.photoId || photoBusy || (formLocked && submitError !== 'unknown')"
+            :disabled="!staged?.photoId || photoBusy || reviewLocked"
             @click="goReview"
           >
             {{ copy.daily.continueReview }}
+            <AppIcon name="action.next" />
           </button>
         </section>
 
-        <section v-else class="mt-6 space-y-4" data-testid="daily-review-step">
-          <h3 class="font-display text-lg font-bold" data-testid="daily-review-title">
-            {{ copy.daily.reviewTitle }}
-          </h3>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
-            <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-              {{ copy.bounty.daily }}
-            </p>
-            <p class="mt-1 font-semibold" style="color: var(--theme-ink)">{{ challenge.title }}</p>
-          </div>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
-            <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-              {{ copy.wizard.labelPhoto }}
-            </p>
-            <div v-if="previewUrl" class="mt-2 w-full max-w-[200px]" data-testid="daily-review-photo">
-              <FramedPhoto
-                v-if="previewWidth && previewHeight"
-                :src="previewUrl"
-                :width="previewWidth"
-                :height="previewHeight"
-                :framing="photoFraming"
-              />
-              <img
-                v-else
-                :src="previewUrl"
-                alt=""
-                class="aspect-square w-full rounded-xl object-cover"
-              />
-            </div>
-            <p v-else class="mt-2 text-sm">{{ copy.photo.stagedReady }}</p>
-          </div>
-          <div class="rounded-2xl px-4 py-3" style="background: var(--theme-gradient-warm)">
-            <p class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">Points</p>
-            <p class="mt-1 font-semibold" data-testid="daily-review-points">{{ copy.daily.pointsLine }}</p>
-          </div>
-
-          <div
-            v-if="submitError === 'unknown'"
-            class="rounded-2xl px-4 py-3 text-sm"
-            style="background: var(--theme-gradient-warm)"
-            data-testid="daily-unknown"
-          >
-            <p class="font-semibold">{{ copy.wizard.unknownTitle }}</p>
-            <p class="mt-1" style="color: var(--theme-muted)">{{ copy.wizard.unknownBody }}</p>
-            <p class="mt-2 text-xs" style="color: var(--theme-muted)">{{ copy.wizard.resolveBeforeEdit }}</p>
-          </div>
-          <p
-            v-else-if="submitError"
-            class="text-sm"
-            style="color: var(--theme-ink)"
-            data-testid="daily-submit-error"
-          >
-            {{ submitError }}
-          </p>
-
-          <button
-            type="button"
-            class="w-full rounded-full py-3 text-sm font-semibold text-white disabled:opacity-60"
-            style="background: var(--theme-primary)"
-            data-testid="daily-submit"
-            :disabled="!canSubmit"
-            @click="performSubmit"
-          >
-            {{ submitting ? copy.daily.submitting : copy.daily.submit }}
-          </button>
-          <button
-            v-if="!formLocked || submitError !== 'unknown'"
-            type="button"
-            class="w-full text-sm font-semibold underline"
-            style="color: var(--theme-primary)"
-            data-testid="daily-edit"
-            @click="unlockAfterReject"
-          >
-            {{ copy.daily.editPhoto }}
-          </button>
-        </section>
+        <DailyReviewStep
+          v-else-if="step === 'review'"
+          :challenge-title="challenge.title"
+          :location-name="challenge.location_name"
+          :points="challenge.points || 50"
+          :player-name="session.displayName"
+          :caption="caption"
+          :photo-preview-url="previewUrl"
+          :photo-preview-width="previewWidth"
+          :photo-preview-height="previewHeight"
+          :photo-framing="photoFraming"
+          :photo-staged="!!staged"
+          :submitting="submitting"
+          :can-submit="canSubmit"
+          :locked="reviewLocked"
+          :submit-error="submitError"
+          :participation-mode="authorizedParticipationMode"
+          @submit="performSubmit"
+          @update-framing="onReviewFraming"
+          @edit-caption="onEditCaption"
+        />
       </template>
       </template>
     </div>
   </GameShell>
 </template>
+
+<style scoped>
+.daily-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding-bottom: 0.5rem;
+}
+
+.daily-identity {
+  border-radius: 1.35rem;
+  padding: 1.2rem 1.15rem 1.25rem;
+  text-align: center;
+  color: var(--theme-ink);
+  box-shadow: var(--theme-card-shadow, 0 5px 12px rgba(36, 72, 78, 0.12));
+}
+
+.daily-mode {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-muted);
+}
+
+.daily-title {
+  margin: 0.55rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.daily-venue {
+  margin: 0.45rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.daily-points {
+  margin: 0.85rem auto 0;
+  display: inline-flex;
+  min-height: 1.7rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--theme-accent);
+  padding: 0.22rem 0.95rem;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.daily-what {
+  padding: 0.15rem 0.15rem 0;
+}
+
+.daily-what-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--theme-ink);
+}
+
+.daily-instructions {
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--theme-ink);
+}
+
+.daily-all-hands-rule {
+  margin: 0.7rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--theme-ink);
+}
+
+.daily-meetup {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin: 0.85rem 0 0;
+  border-radius: 1.1rem;
+  background: linear-gradient(to right, #b7e6e1, #e0f5ee);
+  padding: 0.9rem 1rem;
+  color: var(--theme-ink);
+  box-shadow: var(--theme-card-shadow, 0 5px 12px rgba(36, 72, 78, 0.1));
+}
+
+.daily-meetup-icon {
+  flex-shrink: 0;
+  font-size: 1.15rem;
+  color: var(--theme-primary);
+}
+
+.daily-meetup-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.daily-meetup-time {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.daily-meetup-body {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.daily-meetup-time + .daily-meetup-body {
+  margin-top: 0.4rem;
+}
+
+.daily-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.15rem;
+}
+
+.daily-complete-question {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--theme-ink);
+}
+
+.daily-continue {
+  position: relative;
+  width: min(100%, 20rem);
+  margin: 0;
+  justify-content: center;
+  gap: 0;
+}
+
+.daily-continue-label {
+  text-align: center;
+}
+
+.daily-continue-icon {
+  position: absolute;
+  right: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+</style>

@@ -7,6 +7,7 @@ import { mkdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
@@ -81,6 +82,7 @@ try {
   await page.click('[data-testid="daily-confirm-yes"]')
   await page.waitForSelector('[data-testid="daily-capture-step"]')
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   await page.click('[data-testid="daily-continue-review"]')
   await page.waitForSelector('[data-testid="daily-review-step"]')
@@ -173,6 +175,7 @@ try {
           challenge_id: acceptedChallengeId,
           photo_id: '00000000-0000-4000-8000-000000000099',
           caption: null,
+          attest_participation: true,
         },
         summary: { title: 'Foreign', points: 50 },
         createdAt: new Date().toISOString(),
@@ -211,6 +214,7 @@ try {
             challenge_id: challengeId,
             photo_id: '11111111-1111-4111-8111-111111111111',
             caption: null,
+            attest_participation: true,
           },
           summary: { title: 'Unaccepted', points: 50 },
           createdAt: new Date().toISOString(),
@@ -248,6 +252,7 @@ try {
             challenge_id: challengeId,
             photo_id: '22222222-2222-4222-8222-222222222222',
             caption: null,
+            attest_participation: true,
           },
           summary: { title: 'Prior day pending', points: 50 },
           createdAt: new Date().toISOString(),
