@@ -19,4 +19,15 @@ describe('router scaffold', () => {
       ]),
     )
   })
+
+  it('registers pre-cruise rules routes as allowAnyMember', () => {
+    const drinkRules = router.getRoutes().find((r) => r.name === 'drinkit-rules')
+    const shipRules = router.getRoutes().find((r) => r.name === 'shipit-rules')
+    expect(drinkRules?.path).toBe('/drinkit/rules')
+    expect(shipRules?.path).toBe('/shipit/rules')
+    expect(drinkRules?.meta.allowAnyMember).toBe(true)
+    expect(shipRules?.meta.allowAnyMember).toBe(true)
+    expect(drinkRules?.meta.requiresAuth).toBe(true)
+    expect(shipRules?.meta.requiresAuth).toBe(true)
+  })
 })

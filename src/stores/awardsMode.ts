@@ -11,6 +11,7 @@ export const useAwardsModeStore = defineStore('awardsMode', () => {
   const status = ref<ClockFetchStatus>('idle')
   const state = ref<ShipClockState | null>(null)
   const displayShipLocal = ref<string | null>(null)
+  const fetchedAtMs = ref<number | null>(null)
   const errorMessage = ref<string | null>(null)
   const started = ref(false)
 
@@ -23,6 +24,9 @@ export const useAwardsModeStore = defineStore('awardsMode', () => {
     if (!s?.configured) return false
     return Boolean(s.finalized) || s.lifecycle === 'final'
   })
+
+  /** Pre-cruise welcome gate — server lifecycle only, never device time. */
+  const isPreCruise = computed(() => state.value?.lifecycle === 'pre_cruise')
 
   const acceptingSubmissions = computed(() => {
     if (isAwardsMode.value) return false
@@ -40,6 +44,7 @@ export const useAwardsModeStore = defineStore('awardsMode', () => {
       status.value = snap.status
       state.value = snap.state
       displayShipLocal.value = snap.displayShipLocal
+      fetchedAtMs.value = snap.fetchedAtMs
       errorMessage.value = snap.errorMessage
     })
     sync.start()
@@ -68,8 +73,10 @@ export const useAwardsModeStore = defineStore('awardsMode', () => {
     status,
     state,
     displayShipLocal,
+    fetchedAtMs,
     errorMessage,
     isAwardsMode,
+    isPreCruise,
     acceptingSubmissions,
     ensureStarted,
     stop,

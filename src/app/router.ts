@@ -12,6 +12,8 @@ declare module 'vue-router' {
     requiresAuth?: boolean
     requiresAdmin?: boolean
     requiresDualGame?: boolean
+    /** Rules readable by any authenticated guest (no game membership required). */
+    allowAnyMember?: boolean
   }
 }
 
@@ -35,6 +37,12 @@ const router = createRouter({
       name: 'drinkit-home',
       component: () => import('@/features/drinkit/DrinkItHomeView.vue'),
       meta: { theme: 'drink', game: 'drinkit', requiresAuth: true },
+    },
+    {
+      path: '/drinkit/rules',
+      name: 'drinkit-rules',
+      component: () => import('@/features/drinkit/DrinkItRulesView.vue'),
+      meta: { theme: 'drink', requiresAuth: true, allowAnyMember: true },
     },
     {
       path: '/drinkit/wrapped',
@@ -71,6 +79,12 @@ const router = createRouter({
       name: 'shipit-home',
       component: () => import('@/features/shipit/ShipItHomeView.vue'),
       meta: { theme: 'ship', game: 'shipit', requiresAuth: true },
+    },
+    {
+      path: '/shipit/rules',
+      name: 'shipit-rules',
+      component: () => import('@/features/shipit/ShipItRulesView.vue'),
+      meta: { theme: 'ship', requiresAuth: true, allowAnyMember: true },
     },
     {
       path: '/shipit/wrapped',
@@ -145,6 +159,36 @@ const ACTIVE_HOME_NAMES = new Set(['drinkit-home', 'shipit-home'])
 
 const WRAPPED_NAMES = new Set(['drinkit-wrapped', 'shipit-wrapped'])
 
+/** Gameplay surfaces blocked while Ship Clock lifecycle is pre_cruise. */
+const PRECRUISE_BLOCKED_NAMES = new Set([
+  ...ACTIVE_HOME_NAMES,
+  ...SUBMISSION_ROUTE_NAMES,
+  ...WRAPPED_NAMES,
+  'drinkit-gallery',
+  'shipit-gallery',
+  'drinkit-achievements',
+  'shipit-achievements',
+])
+
+const PRECRUISE_ALLOWED_NAMES = new Set([
+  'game-selection',
+  'drinkit-rules',
+  'shipit-rules',
+  'admin',
+  'unavailable',
+  'access-denied',
+  'login',
+])
+
+async function ensureClockReady() {
+  const awards = useAwardsModeStore()
+  awards.ensureStarted()
+  if (awards.status === 'idle' || awards.status === 'loading' || !awards.state) {
+    await awards.refresh()
+  }
+  return awards
+}
+
 router.beforeEach(async (to: RouteLocationNormalized) => {
   const session = useSessionStore()
   await session.init()
@@ -165,6 +209,10 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
 
   // Authenticated visitors leave login for their membership home.
   if (to.name === 'login') {
+    const awards = await ensureClockReady()
+    if (awards.isPreCruise && session.enabledGames.length > 0) {
+      return { name: 'game-selection' }
+    }
     return session.homePathForMembership()
   }
 
@@ -173,6 +221,7 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     to.meta.game ||
     to.meta.requiresAdmin ||
     to.meta.requiresDualGame ||
+    to.meta.allowAnyMember ||
     to.name === 'unavailable'
   ) {
     await session.refreshProfile()
@@ -184,10 +233,17 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
   }
 
   if (to.name === 'unavailable') {
+    const awards = await ensureClockReady()
+    if (awards.isPreCruise) return { name: 'game-selection' }
     return session.homePathForMembership()
   }
 
+  // Pre-Cruise: shared countdown landing for every enabled guest (not dual-only).
   if (to.meta.requiresDualGame && !session.isDualGame) {
+    const awards = await ensureClockReady()
+    if (awards.isPreCruise && to.name === 'game-selection') {
+      return true
+    }
     return session.homePathForMembership()
   }
 
@@ -196,7 +252,7 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
   }
 
   const requiredGame = to.meta.game
-  if (requiredGame && !session.hasGame(requiredGame)) {
+  if (requiredGame && !to.meta.allowAnyMember && !session.hasGame(requiredGame)) {
     return {
       name: 'access-denied',
       query: {
@@ -208,14 +264,31 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     }
   }
 
+  // Pre-Cruise navigation gate (authoritative Ship Clock — not device time).
+  // Hide gameplay shells / bottom nav by keeping guests on landing + rules.
+  if (
+    to.meta.game ||
+    PRECRUISE_BLOCKED_NAMES.has(String(to.name)) ||
+    PRECRUISE_ALLOWED_NAMES.has(String(to.name)) ||
+    to.meta.allowAnyMember
+  ) {
+    const awards = await ensureClockReady()
+
+    if (awards.isPreCruise) {
+      const name = String(to.name)
+      if (PRECRUISE_ALLOWED_NAMES.has(name) || to.meta.allowAnyMember) {
+        return true
+      }
+      if (PRECRUISE_BLOCKED_NAMES.has(name) || to.meta.game) {
+        return { name: 'game-selection' }
+      }
+    }
+  }
+
   // Awards Mode navigation (authoritative Ship Clock — not device time).
   // Do not yank Gallery / Achievements / Admin; only remap homes + submission routes.
   if (to.meta.game || WRAPPED_NAMES.has(String(to.name))) {
-    const awards = useAwardsModeStore()
-    awards.ensureStarted()
-    if (awards.status === 'idle' || awards.status === 'loading') {
-      await awards.refresh()
-    }
+    const awards = await ensureClockReady()
 
     if (awards.isAwardsMode) {
       const game = to.meta.game as GameId | undefined
