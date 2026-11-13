@@ -6,7 +6,7 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { assertDisposableDevEnvironment } from '../helpers/devEnvironmentGuard'
-import { noonDay1Utc } from '../helpers/bountyFixtures'
+import { DEV_BASE_OFFSET_MIN, DEV_DAY1, noonDay1Utc } from '../helpers/bountyFixtures'
 import {
   drinkPayload,
   exposeCurrentSlots,
@@ -20,6 +20,7 @@ import {
   signInAs,
   type LocalFixtures,
 } from '../helpers/localSupabase'
+import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 import { MOBILE_ORDER_BAR_KEY } from '@/types/drinkLog'
 
 let fixtures: LocalFixtures | null = null
@@ -35,10 +36,19 @@ beforeAll(async () => {
       skipReason = 'local fixtures unavailable'
       return
     }
-    fixtures = base
-    service = createLocalClient(base.summary.supabase_url, base.serviceRoleKey)
-    await assertDisposableDevEnvironment(base, service)
-    drinkClient = await signInAs(base, 'drink_only')
+    fixtures = await ensureSyntheticRoleIdentities(base)
+    service = createLocalClient(fixtures.summary!.supabase_url, fixtures.serviceRoleKey!)
+    await assertDisposableDevEnvironment(fixtures, service)
+    const { error: clockErr } = await service.rpc('dev_seed_cruise_clock', {
+      p_day1_ship_date: DEV_DAY1,
+      p_base_offset_minutes: DEV_BASE_OFFSET_MIN,
+      p_label: 'development-only',
+    })
+    if (clockErr) {
+      skipReason = `clock seed failed (${clockErr.message})`
+      return
+    }
+    drinkClient = await signInAs(fixtures, 'drink_only')
     const { error } = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
     if (error) {
       skipReason = `migration not applied (${error.message})`
@@ -79,7 +89,7 @@ describe('Mobile Order (disposable DB + migration applied)', () => {
     }
     let offeringId: string
     try {
-      offeringId = (await lookupOffering(service, 'lido-bar', 'mai-tai')).offering_id
+      offeringId = (await lookupOffering(service, 'lido-bar', 'tropical-alibi')).offering_id
     } catch {
       const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
       const row = (listed.data as Array<{ offering_id: string }>)[0]
@@ -115,7 +125,7 @@ describe('Mobile Order (disposable DB + migration applied)', () => {
     const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
     const row = (listed.data as Array<{ offering_id: string }>)[0]
     expect(row?.offering_id).toBeTruthy()
-    const buddy = playerId(fixtures, 'both_games')
+    const buddy = playerId(fixtures, 'both')
     const payload = drinkPayload({
       barKey: MOBILE_ORDER_BAR_KEY,
       offeringId: row.offering_id,
@@ -141,5 +151,88 @@ describe('Mobile Order (disposable DB + migration applied)', () => {
     })
     expect(lido.error).toBeNull()
     expect(Array.isArray(lido.data) && (lido.data as unknown[]).length).toBeGreaterThan(0)
+  })
+
+  it('blocks Cocktail for Mobile Order and preserves idempotent replay', async () => {
+    if (!migrationReady || !drinkClient || !service || !fixtures) {
+      expect(skipReason).toBeTruthy()
+      return
+    }
+    const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
+    const row = (listed.data as Array<{ offering_id: string }>)[0]
+    const buddy = playerId(fixtures, 'both')
+    const author = playerId(fixtures, 'drink_only')
+    const at = noonDay1Utc()
+    await exposeCurrentSlots(service, at)
+    const idempotencyKey = crypto.randomUUID()
+    const payload = drinkPayload({
+      barKey: MOBILE_ORDER_BAR_KEY,
+      offeringId: row.offering_id,
+      companions: [buddy],
+      caption: 'mo-idempotent',
+      idempotencyKey,
+    })
+    const preview = await drinkClient.rpc('preview_drink_claims', { p_payload: payload })
+    expect(preview.error).toBeNull()
+    const cocktail = (
+      preview.data as {
+        preview?: { categories?: { cocktail?: { status?: string; reason?: string } } }
+      }
+    )?.preview?.categories?.cocktail
+    expect(cocktail?.status).not.toBe('eligible')
+
+    const first = await submitAt(service, author, payload, at)
+    expect(first.error).toBeNull()
+    const firstId = (first.data as { submission_id?: string; ok?: boolean }).submission_id
+    expect((first.data as { ok?: boolean }).ok).toBe(true)
+
+    const replay = await submitAt(service, author, payload, at)
+    expect(replay.error).toBeNull()
+    const replayData = replay.data as {
+      ok?: boolean
+      submission_id?: string
+      idempotent_replay?: boolean
+    }
+    expect(replayData.ok).toBe(true)
+    expect(replayData.submission_id).toBe(firstId)
+    expect(replayData.idempotent_replay === true || replayData.submission_id === firstId).toBe(true)
+
+    const { data: companions } = await service
+      .from('drink_log_companions')
+      .select('companion_player_id')
+      .eq('submission_id', firstId!)
+    expect((companions ?? []).some((c) => c.companion_player_id === buddy)).toBe(true)
+
+    const { data: log } = await service
+      .from('drink_logs')
+      .select('bar_display_name')
+      .eq('submission_id', firstId!)
+      .single()
+    expect(log?.bar_display_name).toBe('Mobile Order')
+  })
+
+  it('excludes Mobile Order from wrapped bar venue stats', async () => {
+    if (!migrationReady || !service || !fixtures) {
+      expect(skipReason).toBeTruthy()
+      return
+    }
+    const { data: cruise } = await service
+      .from('cruise_config')
+      .select('id')
+      .eq('is_active', true)
+      .single()
+    const { data: rows, error } = await service.rpc('wrapped_di_log_rows', {
+      p_cruise_config_id: cruise!.id,
+    })
+    if (error) {
+      // Prefer skip over failing organizer-less environments without wrapped grants exposed.
+      expect(error.message).toBeTruthy()
+      return
+    }
+    const mo = (
+      rows as Array<{ bar_id: string | null; bar_name: string; bar_canonical_key?: string }>
+    ).filter((r) => r.bar_name === 'Mobile Order')
+    expect(mo.length).toBeGreaterThan(0)
+    expect(mo.every((r) => r.bar_id === null)).toBe(true)
   })
 })

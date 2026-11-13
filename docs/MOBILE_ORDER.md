@@ -27,7 +27,7 @@ Mobile Order is **not** added as an active catalog venue with duplicated offerin
 |---|---|
 | Ordinary log | Allowed |
 | Bar Bounty | Ineligible (`not_featured_bar`) |
-| Cocktail Bounty (designated offering / bar) | Ineligible (offering/bar mismatch) |
+| Cocktail Bounty (designated offering / bar) | **Blocked** (`virtual_order_source`) — location-restricted |
 | Ingredient Bounty | **Blocked** (`virtual_order_source`) until a separate product rule |
 | Daily Challenge | Separate submit path; location text only |
 | Buddy requirement for scored bounties | Preserved |
@@ -37,6 +37,7 @@ Mobile Order is **not** added as an active catalog venue with duplicated offerin
 Physical-bar conditions ignore `is_virtual` bars (distinct bars, bars same day, same cocktail distinct bars, distinct cocktails one bar, same-bar intervals, companion distinct bars). Drink/ingredient variety still counts from the log.
 
 Bar Gauntlets remain per physical bar offerings; Mobile Order does not create a gauntlet venue.
+Collection credit requires the log’s `bar_id` to match the offering’s physical bar (Mobile Order cannot progress a venue gauntlet).
 
 ## Gallery
 
