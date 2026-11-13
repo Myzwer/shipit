@@ -130,6 +130,11 @@ export function loadPrivateDemoPhotos(root) {
   for (const abs of orderedPaths) {
     const ext = extname(abs).toLowerCase()
     if (!SUPPORTED_EXT.has(ext)) continue
+    // Decorative placeholder — never use for featured Gallery / Wrapped photos.
+    if (basename(abs).toLowerCase() === 'no_image.jpg') {
+      errors.push(`skip ${relative(photosRoot, abs)}: decorative placeholder`)
+      continue
+    }
     try {
       let usePath = abs
       let mime = mimeForExt(ext)

@@ -6,7 +6,8 @@ Development-only harness for three restorable review scenarios:
 |---|---|---|
 | `tuesday` | Active midgame (organizer review default) | live snapshot (default) / `tuesday` with `--reseed` |
 | `precruise` | Before Day 1 gameplay (`lifecycle=pre_cruise`) | `precruise` |
-| `wrapped` | After Friday 6 PM finale | `wrapped` |
+| `wrapped` | After Friday 6 PM finale | `wrapped` (optional `--plan-c-full` for 15/15 + 12/12 featured coverage) |
+| `wrapped-scenario-c` | Safety copy of organizer Scenario C Wrapped review DB | snapshot only (not seedable) |
 
 **CRITICAL:** Tuesday/midgame must remain the active organizer review environment unless the organizer explicitly authorizes a switch. `qa:prepare` for `precruise` / `wrapped` always restores the Tuesday snapshot before exit.
 
@@ -81,9 +82,15 @@ npm run qa:prepare -- precruise --confirm-env=local-development-only
 
 # 3) Build Wrapped fixture in isolation, then auto-restore Tuesday
 npm run qa:prepare -- wrapped --confirm-env=local-development-only
+
+# 3b) Plan C full featured-slide coverage (15 Drink It! + 12 Ship It!)
+# If live is already Wrapped (Scenario C), saves wrapped-scenario-c first,
+# verifies coverage, snapshots wrapped, then restores Scenario C (not Tuesday).
+npm run qa:prepare -- wrapped --plan-c-full --confirm-env=local-development-only
+npm run qa:wrapped-plan-c-coverage   # re-check against whatever is live
 ```
 
-After steps 2–3, `npm run qa:inspect` must still show Tuesday midgame.
+After steps 2–3, `npm run qa:inspect` must still show Tuesday midgame (unless step 3b restored Scenario C).
 
 To deliberately rebuild Tuesday from `demo:seed` (destructive):
 

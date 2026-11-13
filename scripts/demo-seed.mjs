@@ -5,8 +5,12 @@
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario precruise
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
  *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
+ *   LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped --plan-c-full
  *
  * Local Supabase + development-only cruise only. No production bypass.
+ * `--plan-c-full` (Wrapped only): deterministic activity for Plan C 15/15 + 12/12
+ * featured-slide coverage. Prefer `qa:prepare` / snapshot restore over leaving
+ * this active in the organizer review DB.
  * Prefer `npm run qa:prepare` for restorable QA snapshots (does not leave
  * Pre-Cruise/Wrapped active in the organizer Tuesday review environment).
  *
@@ -39,6 +43,7 @@ import {
   loadPrivateShipItTeamConfig,
   pickTeamSubmitter,
 } from './lib/shipitTeamConfig.mjs'
+import { seedWrappedPlanCFull } from './lib/wrappedPlanCFullSeed.mjs'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
@@ -61,10 +66,17 @@ const SCENARIOS = {
 const scenarioArg = process.argv.find((a) => a.startsWith('--scenario='))?.split('=')[1]
 const scenarioKey = scenarioArg || process.argv[process.argv.indexOf('--scenario') + 1]
 if (!scenarioKey || !SCENARIOS[scenarioKey]) {
-  console.error('Usage: npm run demo:seed -- --scenario precruise|embarkation|tuesday|wrapped')
+  console.error(
+    'Usage: npm run demo:seed -- --scenario precruise|embarkation|tuesday|wrapped [--plan-c-full]',
+  )
   process.exit(1)
 }
 const scenario = SCENARIOS[scenarioKey]
+const planCFull = process.argv.includes('--plan-c-full')
+if (planCFull && scenarioKey !== 'wrapped') {
+  console.error('--plan-c-full is only valid with --scenario wrapped')
+  process.exit(1)
+}
 
 const password = process.env.LOCAL_TEST_PASSWORD || process.env.PRIVATE_ROSTER_PASSWORD
 if (!password || password.length < 12) {
@@ -800,84 +812,110 @@ const identities = await provisionRoster()
 await seedBase(aligned)
 
 let activity = []
-if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
-  activity = await seedTuesdayActivity(identities, aligned)
-}
+let planCMeta = null
+
 if (scenarioKey === 'precruise') {
   // Memberships + catalog + achievements only. No claims, scavenger, or Gallery photos.
   console.log('Pre-cruise: skipping gameplay activity (PRE_CRUISE acceptance gates apply).')
-}
-if (scenarioKey === 'wrapped') {
-  // Extra day 5–7 activity for a fuller cruise Gallery, then finale
-  const cast = resolveDemoCast(identities)
-  const latePairs = [
-    ['crooners', 'rum-brulee'],
-    ['lido-bar', 'lychee-vodka-mojito'],
-    ['sea-view-bar', 'strawberries-and-cream'],
-    ['omalleys-irish-pub', 'passion-of-the-irish'],
-  ]
-  const lateOfferings = []
-  for (const [bar, drink] of latePairs) {
-    try {
-      lateOfferings.push({ bar, id: await lookupOffering(bar, drink) })
-    } catch {
-      console.warn(`  late skip ${drink}@${bar}`)
-    }
-  }
-  for (const [di, day] of [5, 6, 7].entries()) {
-    const offer = lateOfferings[di % Math.max(lateOfferings.length, 1)]
-    if (!offer) continue
-    const at = shipLocalToUtcIso(dayDate(aligned.day1, day), '14:00:00', aligned.offsetMinutes)
-    const at2 = shipLocalToUtcIso(dayDate(aligned.day1, day), '16:30:00', aligned.offsetMinutes)
-    try {
-      await clearFinaleLatchForHistoricalSeed()
-      await claimAt(cast.drinkOnly, offer.bar, offer.id, at, `late-${day}-a`, [cast.both.player_id], true, {
-        withPhoto: true,
-      })
-      await clearFinaleLatchForHistoricalSeed()
-      await claimAt(cast.both, offer.bar, offer.id, at2, `late-${day}-b`, [], true, { withPhoto: true })
-      await clearFinaleLatchForHistoricalSeed()
-      await claimAt(cast.admin, offer.bar, offer.id, at, `late-${day}-c`, [], true, {
-        withPhoto: day !== 7,
-      })
-    } catch (e) {
-      console.warn(`late-cruise drinks day ${day} skipped`, e.message)
-    }
-  }
-
-  // Challenges not used in the Tuesday mid-cruise block (avoid TEAM_CHALLENGE_DONE).
-  const lateScav = [
-    { key: 'under-the-dome', player: cast.shipOnly, day: 5, hour: '11:00:00' },
-    { key: 'lotus-spa-zen', player: cast.both, day: 5, hour: '15:00:00' },
-    { key: 'poolside-slice', player: cast.admin, day: 6, hour: '12:00:00' },
-    { key: 'art-critic', player: cast.shipOnly, day: 6, hour: '17:00:00' },
-    { key: 'casino-neon', player: cast.both, day: 7, hour: '10:30:00' },
-  ]
-  for (const [i, s] of lateScav.entries()) {
-    try {
-      await clearFinaleLatchForHistoricalSeed()
-      const client = await signIn(s.player.login_alias)
-      const at = shipLocalToUtcIso(dayDate(aligned.day1, s.day), s.hour, aligned.offsetMinutes)
-      const data = await scavengerComplete(client, s.player.player_id, s.key, at, `late-scav-${i}`)
-      activity.push({
-        type: 'scavenger',
-        key: s.key,
-        player: s.player.key,
-        ok: data?.ok,
-        points: data?.awarded_points,
-        photo: true,
-      })
-    } catch (e) {
-      console.warn(`late scavenger ${s.key}: ${e.message}`)
-    }
-  }
-
+} else if (scenarioKey === 'wrapped' && planCFull) {
+  console.log('Plan C full-coverage Wrapped fixture — replacing sparse tuesday/late activity plans.')
+  planCMeta = await seedWrappedPlanCFull({
+    service,
+    identities,
+    aligned,
+    dayDate,
+    shipLocalToUtcIso,
+    clearFinaleLatchForHistoricalSeed,
+    signIn,
+    claimAt,
+    ordinaryBeer,
+    scavengerComplete,
+    stagePhoto,
+    lookupOffering,
+    pickTeamSubmitter,
+    loadPrivateShipItTeamConfig,
+    assertOrganizerShipItTeams,
+    root,
+    detUuid,
+    photoStats,
+  })
+  activity = planCMeta.activity || []
   const finaleUtc = await latchFinale(aligned)
   console.log('Finale latched at', finaleUtc)
+} else if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
+  activity = await seedTuesdayActivity(identities, aligned)
+  if (scenarioKey === 'wrapped') {
+    // Extra day 5–7 activity for a fuller cruise Gallery, then finale
+    const cast = resolveDemoCast(identities)
+    const latePairs = [
+      ['crooners', 'rum-brulee'],
+      ['lido-bar', 'lychee-vodka-mojito'],
+      ['sea-view-bar', 'strawberries-and-cream'],
+      ['omalleys-irish-pub', 'passion-of-the-irish'],
+    ]
+    const lateOfferings = []
+    for (const [bar, drink] of latePairs) {
+      try {
+        lateOfferings.push({ bar, id: await lookupOffering(bar, drink) })
+      } catch {
+        console.warn(`  late skip ${drink}@${bar}`)
+      }
+    }
+    for (const [di, day] of [5, 6, 7].entries()) {
+      const offer = lateOfferings[di % Math.max(lateOfferings.length, 1)]
+      if (!offer) continue
+      const at = shipLocalToUtcIso(dayDate(aligned.day1, day), '14:00:00', aligned.offsetMinutes)
+      const at2 = shipLocalToUtcIso(dayDate(aligned.day1, day), '16:30:00', aligned.offsetMinutes)
+      try {
+        await clearFinaleLatchForHistoricalSeed()
+        await claimAt(cast.drinkOnly, offer.bar, offer.id, at, `late-${day}-a`, [cast.both.player_id], true, {
+          withPhoto: true,
+        })
+        await clearFinaleLatchForHistoricalSeed()
+        await claimAt(cast.both, offer.bar, offer.id, at2, `late-${day}-b`, [], true, { withPhoto: true })
+        await clearFinaleLatchForHistoricalSeed()
+        await claimAt(cast.admin, offer.bar, offer.id, at, `late-${day}-c`, [], true, {
+          withPhoto: day !== 7,
+        })
+      } catch (e) {
+        console.warn(`late-cruise drinks day ${day} skipped`, e.message)
+      }
+    }
+
+    const lateScav = [
+      { key: 'under-the-dome', player: cast.shipOnly, day: 5, hour: '11:00:00' },
+      { key: 'lotus-spa-zen', player: cast.both, day: 5, hour: '15:00:00' },
+      { key: 'poolside-slice', player: cast.admin, day: 6, hour: '12:00:00' },
+      { key: 'art-critic', player: cast.shipOnly, day: 6, hour: '17:00:00' },
+      { key: 'casino-neon', player: cast.both, day: 7, hour: '10:30:00' },
+    ]
+    for (const [i, s] of lateScav.entries()) {
+      try {
+        await clearFinaleLatchForHistoricalSeed()
+        const client = await signIn(s.player.login_alias)
+        const at = shipLocalToUtcIso(dayDate(aligned.day1, s.day), s.hour, aligned.offsetMinutes)
+        const data = await scavengerComplete(client, s.player.player_id, s.key, at, `late-scav-${i}`)
+        activity.push({
+          type: 'scavenger',
+          key: s.key,
+          player: s.player.key,
+          ok: data?.ok,
+          points: data?.awarded_points,
+          photo: true,
+        })
+      } catch (e) {
+        console.warn(`late scavenger ${s.key}: ${e.message}`)
+      }
+    }
+
+    const finaleUtc = await latchFinale(aligned)
+    console.log('Finale latched at', finaleUtc)
+  }
 }
 
 // B3: lock today's Bar Bounty crews for the mid-cruise demo (generate-once; safe to re-run).
-if (scenarioKey === 'tuesday' || scenarioKey === 'wrapped') {
+// Plan C full seed already ensured crews for claim days 1–3 inside its timeline.
+if ((scenarioKey === 'tuesday' || scenarioKey === 'wrapped') && !planCFull) {
   try {
     const at = shipLocalToUtcIso(
       dayDate(aligned.day1, scenario.cruiseDay),
@@ -925,6 +963,7 @@ const galleryPhotoCounts = {
 const out = {
   scenario: scenarioKey,
   label: scenario.label,
+  plan_c_full: planCFull,
   day1: aligned.day1,
   offsetMinutes: aligned.offsetMinutes,
   catalog_id: CATALOG.catalog_id,
@@ -933,6 +972,7 @@ const out = {
   photo_upload_stats: photoStats,
   gallery_photo_posts: galleryPhotoCounts,
   scores,
+  plan_c_qa: planCMeta?.qa ?? null,
   identities: identities.identities.map((i) => ({
     key: i.key,
     display_name: i.display_name,

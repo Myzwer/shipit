@@ -9,7 +9,10 @@ import {
 } from './demoLocalSafety.mjs'
 
 export const QA_CONFIRM_ENV = 'local-development-only'
-export const QA_SCENARIO_NAMES = ['tuesday', 'precruise', 'wrapped']
+/** Core review slots + safety copy of the organizer's live Scenario C Wrapped DB. */
+export const QA_SCENARIO_NAMES = ['tuesday', 'precruise', 'wrapped', 'wrapped-scenario-c']
+/** Slots that demo-seed can prepare (excludes safety-only copies). */
+export const QA_SEEDABLE_SCENARIOS = ['tuesday', 'precruise', 'wrapped']
 
 export function requireConfirmEnv(argv = process.argv) {
   const flag = argv.find((a) => a.startsWith('--confirm-env='))

@@ -31,6 +31,7 @@ describe('QA scenario harness safety', () => {
     expect(assertQaScenarioName('tuesday')).toBe('tuesday')
     expect(assertQaScenarioName('precruise')).toBe('precruise')
     expect(assertQaScenarioName('wrapped')).toBe('wrapped')
+    expect(assertQaScenarioName('wrapped-scenario-c')).toBe('wrapped-scenario-c')
     expect(() => assertQaScenarioName('embarkation')).toThrow(/unknown scenario/)
   })
 })

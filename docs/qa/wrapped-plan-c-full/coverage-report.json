@@ -1,0 +1,440 @@
+{
+  "captured_at": "2026-11-13T19:34:25.685Z",
+  "target": {
+    "url": "http://127.0.0.1:54321",
+    "cruise_label": "development-only",
+    "drinkit_player": {
+      "key": "david_forrester",
+      "name": "David F."
+    },
+    "shipit_player": {
+      "key": "katie_forrester",
+      "name": "Katie",
+      "team": "Team 3"
+    }
+  },
+  "drinkit": {
+    "included_count": 15,
+    "expected": 15,
+    "ok": true,
+    "included_ids": [
+      "DI-01",
+      "DI-02",
+      "DI-03",
+      "DI-04",
+      "DI-05",
+      "DI-06",
+      "DI-07",
+      "DI-08",
+      "DI-09",
+      "DI-10",
+      "DI-11",
+      "DI-12",
+      "DI-13",
+      "DI-14",
+      "DI-15"
+    ],
+    "skipped_ids": [],
+    "slides": [
+      {
+        "id": "DI-01",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Week",
+          "headline": "You've been busy 👀"
+        },
+        "displayed": "9",
+        "eyebrow": "Your Week"
+      },
+      {
+        "id": "DI-02",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "You've Got Taste",
+          "headline": "You've got taste!"
+        },
+        "displayed": "Passion of the Irish",
+        "eyebrow": "You've Got Taste"
+      },
+      {
+        "id": "DI-03",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "438309bf-431a-4281-8740-4481da350876",
+          "event_id": "125fd2e6-5aaf-4149-be71-4153462e1d52",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L01-earliest). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:438309bf",
+        "eyebrow": "First uploaded photo"
+      },
+      {
+        "id": "DI-04",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Hangouts",
+          "headline": "You've been EVERYWHERE!"
+        },
+        "displayed": "7",
+        "eyebrow": "Your Hangouts"
+      },
+      {
+        "id": "DI-05",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The Competition",
+          "headline": "You came to play!"
+        },
+        "displayed": "100",
+        "eyebrow": "The Competition"
+      },
+      {
+        "id": "DI-06",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "d050620c-da46-45fa-985a-2ee5ddf9ba9b",
+          "event_id": "6bbc5ac0-9821-4e5a-9486-90bcf2f6a338",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L18-laugh1). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:d050620c",
+        "eyebrow": "Funniest Photo"
+      },
+      {
+        "id": "DI-07",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Best Days",
+          "headline": "Some days just hit different!"
+        },
+        "displayed": "Day 3 | Day 5",
+        "eyebrow": "Your Best Days"
+      },
+      {
+        "id": "DI-08",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "aee829d0-6659-439a-8602-212f27b373db",
+          "event_id": "535dedab-e5c8-48f1-9d5f-906797f018c6",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L15-laugh2). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:aee829d0",
+        "eyebrow": "Still Laughing"
+      },
+      {
+        "id": "DI-09",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "What a Crew!",
+          "headline": "You weren't the only one having fun!"
+        },
+        "displayed": "43",
+        "eyebrow": "What a Crew!"
+      },
+      {
+        "id": "DI-10",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The People's Favorites",
+          "headline": "The people have spoken!"
+        },
+        "displayed": "Sand Meets the Sea",
+        "eyebrow": "The People's Favorites"
+      },
+      {
+        "id": "DI-11",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "7b4e3648-a8d9-488c-8d13-39870f457914",
+          "event_id": "e29e1b87-892f-4ffd-9382-f0d949ca710f",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L08-heart). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:7b4e3648",
+        "eyebrow": "All the Love"
+      },
+      {
+        "id": "DI-12",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The Dynamic Duo",
+          "headline": "Some people were practically inseparable!"
+        },
+        "displayed": "David F. & Katie",
+        "eyebrow": "The Dynamic Duo"
+      },
+      {
+        "id": "DI-13",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "b94132a0-1a66-4125-bf80-b6f220e258d8",
+          "event_id": "b1085d8e-76b1-4632-b8f8-5e10cee576f0",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L21-total). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:b94132a0",
+        "eyebrow": "The Crowd Favorite"
+      },
+      {
+        "id": "DI-14",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Early Birds & Night Owls",
+          "headline": "Some started early. Others stayed late!"
+        },
+        "displayed": "Jonathan | Cindy",
+        "eyebrow": "Early Birds & Night Owls"
+      },
+      {
+        "id": "DI-15",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "1ac53e7b-2d0c-4e53-ba6e-32290cc5fa15",
+          "event_id": "f7bf6a37-4882-4f4d-a5c9-cebdbfba69e1",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (L20-hang). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:1ac53e7b",
+        "eyebrow": "Good Vibrations"
+      }
+    ],
+    "duplicate_photos": [],
+    "gallery_photos": 18,
+    "gallery_truncated": false
+  },
+  "shipit": {
+    "included_count": 12,
+    "expected": 12,
+    "ok": true,
+    "included_ids": [
+      "SI-01",
+      "SI-02",
+      "SI-03",
+      "SI-04",
+      "SI-05",
+      "SI-06",
+      "SI-07",
+      "SI-08",
+      "SI-09",
+      "SI-10",
+      "SI-11",
+      "SI-12"
+    ],
+    "skipped_ids": [],
+    "slides": [
+      {
+        "id": "SI-01",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Team's Adventure",
+          "headline": "Well, somebody understood the assignment!"
+        },
+        "displayed": "12",
+        "eyebrow": "Your Team's Adventure"
+      },
+      {
+        "id": "SI-02",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "108789d8-9ba8-44c0-8c73-15c3c34c3b59",
+          "event_id": "b6c29c3c-6595-4c68-ae4f-32772574c447",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (team_3-the-piazza-grandeur). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:108789d8",
+        "eyebrow": "Where It All Began"
+      },
+      {
+        "id": "SI-03",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Specialty",
+          "headline": "You had a type!"
+        },
+        "displayed": "Food & Drink Discoveries",
+        "eyebrow": "Your Specialty"
+      },
+      {
+        "id": "SI-04",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Your Best Days",
+          "headline": "Some days you found all the things!"
+        },
+        "displayed": "Day 4 | Day 2",
+        "eyebrow": "Your Best Days"
+      },
+      {
+        "id": "SI-05",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "35f4cb92-1c46-4db4-a951-6a5ce3b17c0c",
+          "event_id": "1a2aeec4-5ff6-459b-8769-8cbe3d459847",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (team_5-soft-serve-swirl). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:35f4cb92",
+        "eyebrow": "Everybody Got In on the Fun"
+      },
+      {
+        "id": "SI-06",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "What a Crew!",
+          "headline": "Y'all really went for it!"
+        },
+        "displayed": "42",
+        "eyebrow": "What a Crew!"
+      },
+      {
+        "id": "SI-07",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The Crowd Favorites",
+          "headline": "The people have spoken!"
+        },
+        "displayed": "Soft Serve Swirl",
+        "eyebrow": "The Crowd Favorites"
+      },
+      {
+        "id": "SI-08",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "f0ca40ea-39c2-4d5d-a5a0-03487ad3982b",
+          "event_id": "450079ce-2049-4d2c-8252-414c1fddbb45",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (team_5-bridge-wing-peek). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:f0ca40ea",
+        "eyebrow": "Big Points, Big Memories"
+      },
+      {
+        "id": "SI-09",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "Record Breakers",
+          "headline": "Somebody came to WIN!"
+        },
+        "displayed": "Team 3 | Team 3",
+        "eyebrow": "Record Breakers"
+      },
+      {
+        "id": "SI-10",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The Overachievers",
+          "headline": "Some teams just don't know when to quit!"
+        },
+        "displayed": "Team 3 | Team 5",
+        "eyebrow": "The Overachievers"
+      },
+      {
+        "id": "SI-11",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "photo_id": "6d8471d2-d6d7-4a87-a78d-f1eb4cd99ad4",
+          "event_id": "1e7adc39-2d28-4b0a-b7ab-056a31d5c7f8",
+          "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore (team_3-lounge-spotlight). Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        },
+        "displayed": "photo:6d8471d2",
+        "eyebrow": "One Last Memory"
+      },
+      {
+        "id": "SI-12",
+        "included": true,
+        "exclusion_reason": null,
+        "source": {
+          "eyebrow": "The Ones That Got Away",
+          "headline": "You can't win 'em all!"
+        },
+        "displayed": "11",
+        "eyebrow": "The Ones That Got Away"
+      }
+    ],
+    "duplicate_photos": [],
+    "gallery_photos": 42,
+    "gallery_truncated": false
+  },
+  "photo_urls": [
+    {
+      "photo_id": "438309bf-431a-4281-8740-4481da350876",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "d050620c-da46-45fa-985a-2ee5ddf9ba9b",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "aee829d0-6659-439a-8602-212f27b373db",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "7b4e3648-a8d9-488c-8d13-39870f457914",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "b94132a0-1a66-4125-bf80-b6f220e258d8",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "1ac53e7b-2d0c-4e53-ba6e-32290cc5fa15",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "108789d8-9ba8-44c0-8c73-15c3c34c3b59",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "35f4cb92-1c46-4db4-a951-6a5ce3b17c0c",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "f0ca40ea-39c2-4d5d-a5a0-03487ad3982b",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    },
+    {
+      "photo_id": "6d8471d2-d6d7-4a87-a78d-f1eb4cd99ad4",
+      "ok": true,
+      "status": "bound",
+      "reason": null
+    }
+  ],
+  "photo_urls_ok": true,
+  "ok": true
+}

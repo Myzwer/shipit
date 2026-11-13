@@ -91,7 +91,10 @@ LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario precruise
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario embarkation
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario tuesday
 LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped
+LOCAL_TEST_PASSWORD='…' npm run demo:seed -- --scenario wrapped --plan-c-full
 ```
+
+`--plan-c-full` builds deterministic Drink It! + Ship It! activity so Plan C featured carousels hit **15/15** and **12/12** under unchanged eligibility. Prefer the QA harness (`npm run qa:prepare -- wrapped --plan-c-full --confirm-env=local-development-only`) so Scenario C / Tuesday review DBs are snapshotted and restored. Do not activate the new Wrapped slot without organizer authorization.
 
 ### Combined mid-cruise recreation (Drink It! + Ship It!)
 

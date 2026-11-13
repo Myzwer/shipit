@@ -39,6 +39,7 @@ import {
 import {
   QA_CONFIRM_ENV,
   QA_SCENARIO_NAMES,
+  QA_SEEDABLE_SCENARIOS,
   assertQaScenarioName,
   requireConfirmEnv,
 } from './lib/qaScenarioSafety.mjs'
@@ -61,9 +62,15 @@ function usage(exitCode = 1) {
   node scripts/qa-scenario.mjs inspect
   node scripts/qa-scenario.mjs snapshot save <name> --confirm-env=${QA_CONFIRM_ENV}
   node scripts/qa-scenario.mjs snapshot restore <name> --confirm-env=${QA_CONFIRM_ENV}
-  node scripts/qa-scenario.mjs prepare <tuesday|precruise|wrapped> --confirm-env=${QA_CONFIRM_ENV}
-  node scripts/qa-scenario.mjs activate <tuesday|precruise|wrapped> --confirm-env=${QA_CONFIRM_ENV}
+  node scripts/qa-scenario.mjs prepare <tuesday|precruise|wrapped> [--plan-c-full] --confirm-env=${QA_CONFIRM_ENV}
+  node scripts/qa-scenario.mjs activate <tuesday|precruise|wrapped|wrapped-scenario-c> --confirm-env=${QA_CONFIRM_ENV}
   node scripts/qa-scenario.mjs list
+
+  Snapshot names: ${QA_SCENARIO_NAMES.join(', ')}
+  Seedable prepare targets: ${QA_SEEDABLE_SCENARIOS.join(', ')}
+  --plan-c-full (wrapped only): build Plan C 15/15 + 12/12 coverage fixture.
+    When live is already Wrapped, saves Scenario C to wrapped-scenario-c first and
+    restores it after prepare (does not switch the organizer to Tuesday).
 `)
   process.exit(exitCode)
 }
@@ -469,14 +476,24 @@ function readPassword() {
   throw new Error('Set LOCAL_TEST_PASSWORD (≥12) or provide .local/runtime-qual-password.txt')
 }
 
-function runDemoSeed(scenarioKey) {
+function runDemoSeed(scenarioKey, { planCFull = false } = {}) {
   const password = readPassword()
-  console.log(`Seeding demo scenario via demo-seed: ${scenarioKey}`)
-  execFileSync('node', ['scripts/demo-seed.mjs', '--scenario', scenarioKey], {
+  const args = ['scripts/demo-seed.mjs', '--scenario', scenarioKey]
+  if (planCFull) args.push('--plan-c-full')
+  console.log(`Seeding demo scenario via demo-seed: ${scenarioKey}${planCFull ? ' --plan-c-full' : ''}`)
+  execFileSync('node', args, {
     cwd: root,
     env: { ...process.env, LOCAL_TEST_PASSWORD: password },
     stdio: 'inherit',
   })
+}
+
+function looksLikeWrappedFinale(inspect) {
+  return (
+    inspect.inferred_scenario === 'wrapped' ||
+    Boolean(inspect.clock?.finalized) ||
+    inspect.clock?.lifecycle === 'final'
+  )
 }
 
 function looksLikeTuesdayMidgame(inspect) {
@@ -490,7 +507,16 @@ function looksLikeTuesdayMidgame(inspect) {
 
 async function prepareScenario(name) {
   assertQaScenarioName(name)
+  if (!QA_SEEDABLE_SCENARIOS.includes(name)) {
+    throw new Error(
+      `QA_SAFETY: "${name}" is not seedable via prepare. Use snapshot save/restore, or prepare one of: ${QA_SEEDABLE_SCENARIOS.join(', ')}`,
+    )
+  }
   const forceReseed = process.argv.includes('--reseed')
+  const planCFull = process.argv.includes('--plan-c-full')
+  if (planCFull && name !== 'wrapped') {
+    throw new Error('QA_SAFETY: --plan-c-full is only valid with prepare wrapped')
+  }
   const { service } = createService()
   await assertDevelopmentOnlyCruise(service)
 
@@ -503,6 +529,18 @@ async function prepareScenario(name) {
     hasTuesdaySnapshot = true
   } catch {
     hasTuesdaySnapshot = false
+  }
+
+  // When live is already Wrapped (Scenario C visual review), preserve it before reseeding.
+  const liveWasWrapped = looksLikeWrappedFinale(before)
+  if (liveWasWrapped && name === 'wrapped') {
+    console.log(
+      'Live environment is Wrapped — saving Scenario C safety snapshot to wrapped-scenario-c…',
+    )
+    await saveSnapshot('wrapped-scenario-c', {
+      role: 'scenario-c-safety',
+      seedScenario: null,
+    })
   }
 
   // Tuesday preparation: snapshot the live organizer review environment by default.
@@ -532,9 +570,13 @@ async function prepareScenario(name) {
     if (looksLikeTuesdayMidgame(before)) {
       console.log('No tuesday snapshot yet — capturing organizer review environment first…')
       await saveSnapshot(ORGANIZER_SLOT, { role: 'organizer-review-baseline' })
-    } else {
+    } else if (!liveWasWrapped) {
       throw new Error(
         'QA_SAFETY: refusing to prepare non-tuesday scenario without an existing tuesday snapshot while the live environment is not Tuesday midgame. Save tuesday first.',
+      )
+    } else {
+      console.warn(
+        'QA: no tuesday snapshot on disk, but live is Wrapped with wrapped-scenario-c safety captured. Continuing prepare.',
       )
     }
   } else if (looksLikeTuesdayMidgame(before)) {
@@ -543,8 +585,36 @@ async function prepareScenario(name) {
   }
 
   const seedKey = DEMO_SEED_ALIAS[name]
-  runDemoSeed(seedKey)
-  await saveSnapshot(name, { role: 'prepared-fixture', seedScenario: seedKey })
+  runDemoSeed(seedKey, { planCFull })
+
+  if (planCFull) {
+    console.log('Verifying Plan C featured-slide coverage against live fixture…')
+    execFileSync('node', ['scripts/qa-wrapped-plan-c-coverage.mjs'], {
+      cwd: root,
+      env: { ...process.env, LOCAL_TEST_PASSWORD: readPassword() },
+      stdio: 'inherit',
+    })
+  }
+
+  await saveSnapshot(name, {
+    role: planCFull ? 'prepared-fixture-plan-c-full' : 'prepared-fixture',
+    seedScenario: seedKey,
+  })
+
+  // Restore prior review environment: Scenario C if we interrupted Wrapped review,
+  // otherwise the organizer Tuesday midgame slot.
+  if (liveWasWrapped && name === 'wrapped') {
+    console.log('Restoring Scenario C (wrapped-scenario-c) — not switching organizer to Tuesday…')
+    await restoreSnapshot('wrapped-scenario-c')
+    const after = await inspectEnvironment(createService().service)
+    if (!looksLikeWrappedFinale(after)) {
+      throw new Error(
+        `QA_SAFETY: failed to restore wrapped-scenario-c after preparing ${name}. inferred=${after.inferred_scenario} lifecycle=${after.clock.lifecycle} finalized=${after.clock.finalized}`,
+      )
+    }
+    console.log('Scenario C Wrapped review environment restored. Plan C full fixture is saved in the wrapped slot (not activated).')
+    return
+  }
 
   console.log('Restoring organizer Tuesday snapshot (do not leave review env switched)…')
   await restoreSnapshot(ORGANIZER_SLOT)

@@ -78,6 +78,7 @@
     "qa:snapshot": "node scripts/qa-scenario.mjs snapshot",
     "qa:prepare": "node scripts/qa-scenario.mjs prepare",
     "qa:activate": "node scripts/qa-scenario.mjs activate",
+    "qa:wrapped-plan-c-coverage": "node scripts/qa-wrapped-plan-c-coverage.mjs",
     "screenshots:phase10a": "node scripts/capture-phase10a-screens.mjs",
     "test:e2e:phase7b2": "node scripts/e2e-phase7b2-working-catalog.mjs",
     "screenshots:phase7b2": "node scripts/e2e-phase7b2-working-catalog.mjs",
