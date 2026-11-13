@@ -79,7 +79,11 @@ const emit = defineEmits<{
         >
           <span class="font-semibold">{{ bar.name }}</span>
           <span class="text-sm" style="color: var(--theme-muted)">
-            {{ formatCopy(copy.wizard.deckLabel, { deckNumber: bar.deck }) }}
+            {{
+              bar.is_virtual
+                ? copy.wizard.mobileOrderMeta
+                : formatCopy(copy.wizard.deckLabel, { deckNumber: bar.deck })
+            }}
           </span>
         </button>
       </li>

@@ -15,6 +15,7 @@ vi.mock('@/lib/supabase', () => ({
 vi.mock('@/lib/drinkLog/api', () => ({
   listDrinkitBars: vi.fn(async () => []),
   listDrinkitBarDrinks: vi.fn(async () => []),
+  listDrinkitMobileOrderDrinks: vi.fn(async () => []),
   listDrinkitCompanions: vi.fn(async () => []),
   previewDrinkClaims: vi.fn(),
   submitDrink: vi.fn(),

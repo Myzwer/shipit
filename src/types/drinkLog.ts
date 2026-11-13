@@ -18,7 +18,12 @@ export interface DrinkitBarRow {
   canonical_key: string
   name: string
   deck: number
+  /** Virtual ordering source (Mobile Order) — not a physical ship bar. */
+  is_virtual?: boolean
 }
+
+/** Stable canonical key for the Mobile Order virtual source. */
+export const MOBILE_ORDER_BAR_KEY = 'mobile-order'
 
 export interface DrinkitBarDrinkRow {
   offering_id: string

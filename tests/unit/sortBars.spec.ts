@@ -8,6 +8,17 @@ const bars: DrinkitBarRow[] = [
   { bar_id: '3', canonical_key: 'good-spirits', name: 'Good Spirits', deck: 7 },
 ]
 
+const withMobile: DrinkitBarRow[] = [
+  ...bars,
+  {
+    bar_id: 'mo',
+    canonical_key: 'mobile-order',
+    name: 'Mobile Order',
+    deck: 0,
+    is_virtual: true,
+  },
+]
+
 describe('sortDrinkitBars', () => {
   it('sorts alphabetically by default', () => {
     const sorted = sortDrinkitBars(bars, 'alpha')
@@ -17,5 +28,10 @@ describe('sortDrinkitBars', () => {
   it('sorts by deck ascending', () => {
     const sorted = sortDrinkitBars(bars, 'deck')
     expect(sorted.map((b) => b.deck)).toEqual([7, 15, 16])
+  })
+
+  it('keeps Mobile Order last for alpha and deck sorts', () => {
+    expect(sortDrinkitBars(withMobile, 'alpha').at(-1)?.canonical_key).toBe('mobile-order')
+    expect(sortDrinkitBars(withMobile, 'deck').at(-1)?.canonical_key).toBe('mobile-order')
   })
 })

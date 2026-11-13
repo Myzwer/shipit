@@ -2,6 +2,8 @@
 
 Five-step functional wizard: **Bar → Drink → Friends → Photo → Review**.
 
+Mobile Order (Princess app) is a virtual final location option — see `docs/MOBILE_ORDER.md`.
+
 ## Routes
 
 | Path | Purpose |

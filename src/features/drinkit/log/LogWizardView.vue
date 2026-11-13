@@ -407,6 +407,7 @@ function onIngredientConfirmNo() {
         :show-featured-confirm="wizard.showFeaturedConfirm"
         :featured-drink-name="wizard.featuredCocktailHint?.drinkName ?? null"
         :unlisted-confirm-featured="wizard.unlistedConfirmFeatured"
+        :is-mobile-order="wizard.selectedBar?.is_virtual === true"
         @update:search="wizard.drinkSearch = $event"
         @update:unlisted-name="wizard.unlistedName = $event"
         @update:unlisted-type="wizard.unlistedType = $event"

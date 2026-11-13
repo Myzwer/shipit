@@ -14,6 +14,8 @@ defineProps<{
   showFeaturedConfirm: boolean
   featuredDrinkName: string | null
   unlistedConfirmFeatured: boolean
+  /** Mobile Order virtual source — cross-catalog search, not a venue menu. */
+  isMobileOrder?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -34,7 +36,7 @@ const emit = defineEmits<{
   <section data-testid="wizard-drink-step" class="px-4 pb-28">
     <template v-if="!showUnlisted">
       <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
-        {{ copy.wizard.drinkPrompt }}
+        {{ isMobileOrder ? copy.wizard.mobileOrderDrinkPrompt : copy.wizard.drinkPrompt }}
       </h2>
 
       <label class="mt-4 block">
@@ -60,7 +62,7 @@ const emit = defineEmits<{
         style="color: var(--theme-muted)"
         data-testid="drinks-bar-empty"
       >
-        {{ copy.wizard.drinksBarEmpty }}
+        {{ isMobileOrder ? copy.wizard.drinksMobileOrderEmpty : copy.wizard.drinksBarEmpty }}
       </p>
 
       <p
@@ -73,12 +75,12 @@ const emit = defineEmits<{
       </p>
 
       <ul v-else class="mt-4 space-y-2" data-testid="drink-list">
-        <li v-for="drink in drinks" :key="drink.offering_id">
+        <li v-for="drink in drinks" :key="drink.drink_concept_id || drink.offering_id">
           <button
             type="button"
             class="w-full rounded-2xl px-4 py-4 text-left font-semibold"
             style="background: var(--theme-card); color: var(--theme-ink)"
-            :data-testid="`drink-row-${drink.offering_id}`"
+            :data-testid="`drink-row-${drink.canonical_key || drink.offering_id}`"
             @click="emit('selectNamed', drink)"
           >
             {{ drink.display_name }}
@@ -131,7 +133,9 @@ const emit = defineEmits<{
       <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="unlisted-form">
         {{ copy.wizard.unlistedHeading }}
       </h2>
-      <p class="mt-2 text-sm" style="color: var(--theme-muted)">{{ copy.wizard.unlistedIntro }}</p>
+      <p class="mt-2 text-sm" style="color: var(--theme-muted)">
+        {{ isMobileOrder ? copy.wizard.unlistedMobileOrderIntro : copy.wizard.unlistedIntro }}
+      </p>
       <p class="mt-2 text-xs" style="color: var(--theme-muted)">{{ copy.wizard.unlistedPhase3cNote }}</p>
 
       <label class="mt-4 block text-sm font-semibold" style="color: var(--theme-ink)">

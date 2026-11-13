@@ -19,25 +19,7 @@ async function rpc(fn: string, args?: Record<string, unknown>) {
   return client.rpc(fn as 'get_ship_clock_state', (args ?? {}) as never)
 }
 
-export async function listDrinkitBars(): Promise<DrinkitBarRow[]> {
-  const { data, error } = await rpc('list_drinkit_bars')
-  if (error) throw error
-  if (!Array.isArray(data)) return []
-  return (data as Array<Record<string, unknown>>)
-    .map((r) => ({
-      bar_id: String(r.bar_id ?? ''),
-      canonical_key: String(r.canonical_key ?? ''),
-      name: String(r.name ?? ''),
-      deck: Number.parseInt(String(r.deck ?? '0'), 10) || 0,
-    }))
-    .filter((b) => b.canonical_key && b.name)
-}
-
-export async function listDrinkitBarDrinks(barKey: string): Promise<DrinkitBarDrinkRow[]> {
-  const { data, error } = await rpc('list_drinkit_bar_drinks', {
-    p_bar_canonical_key: barKey,
-  })
-  if (error) throw error
+function mapDrinkRows(data: unknown): DrinkitBarDrinkRow[] {
   if (!Array.isArray(data)) return []
   return (data as Array<Record<string, unknown>>)
     .map((r) => ({
@@ -48,6 +30,36 @@ export async function listDrinkitBarDrinks(barKey: string): Promise<DrinkitBarDr
       kind: String(r.kind ?? ''),
     }))
     .filter((d) => d.offering_id && d.display_name)
+}
+
+export async function listDrinkitBars(): Promise<DrinkitBarRow[]> {
+  const { data, error } = await rpc('list_drinkit_bars')
+  if (error) throw error
+  if (!Array.isArray(data)) return []
+  return (data as Array<Record<string, unknown>>)
+    .map((r) => ({
+      bar_id: String(r.bar_id ?? ''),
+      canonical_key: String(r.canonical_key ?? ''),
+      name: String(r.name ?? ''),
+      deck: Number.parseInt(String(r.deck ?? '0'), 10) || 0,
+      is_virtual: r.is_virtual === true,
+    }))
+    .filter((b) => b.canonical_key && b.name)
+}
+
+export async function listDrinkitBarDrinks(barKey: string): Promise<DrinkitBarDrinkRow[]> {
+  const { data, error } = await rpc('list_drinkit_bar_drinks', {
+    p_bar_canonical_key: barKey,
+  })
+  if (error) throw error
+  return mapDrinkRows(data)
+}
+
+/** Distinct catalog drink concepts for Mobile Order (deduped across physical bars). */
+export async function listDrinkitMobileOrderDrinks(): Promise<DrinkitBarDrinkRow[]> {
+  const { data, error } = await rpc('list_drinkit_mobile_order_drinks')
+  if (error) throw error
+  return mapDrinkRows(data)
 }
 
 export async function listDrinkitCompanions(): Promise<DrinkitCompanionRow[]> {

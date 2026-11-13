@@ -13,6 +13,7 @@ import {
   listDrinkitBarDrinks,
   listDrinkitBars,
   listDrinkitCompanions,
+  listDrinkitMobileOrderDrinks,
   previewDrinkClaims,
   submitDrink,
   type SubmitCallOutcome,
@@ -49,6 +50,7 @@ import type {
   WizardPrefill,
   WizardStep,
 } from '@/types/drinkLog'
+import { MOBILE_ORDER_BAR_KEY } from '@/types/drinkLog'
 import type { PhotoFraming } from '@/lib/media/framing'
 import type { StagedPhotoRef } from '@/types/media'
 import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
@@ -353,11 +355,13 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     submitErrorMessage.value = 'Submission not confirmed'
     // Minimal display context from summary
     if (!selectedBar.value) {
+      const pendingKey = String(pending.payload.bar_canonical_key ?? '')
       selectedBar.value = {
         bar_id: '',
-        canonical_key: String(pending.payload.bar_canonical_key ?? ''),
+        canonical_key: pendingKey,
         name: pending.summary.barName,
         deck: 0,
+        is_virtual: pendingKey === MOBILE_ORDER_BAR_KEY,
       }
     }
     if (!selectedDrink.value) {
@@ -407,7 +411,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
           : undefined)
       if (match) {
         selectedBar.value = match
-        await loadDrinksForBar(match.canonical_key)
+        await loadDrinksForBar(match.canonical_key, { isVirtual: match.is_virtual === true })
       }
     }
 
@@ -448,10 +452,13 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     }
   }
 
-  async function loadDrinksForBar(barKey: string) {
+  async function loadDrinksForBar(barKey: string, opts?: { isVirtual?: boolean }) {
     drinksStatus.value = 'loading'
     try {
-      drinks.value = await listDrinkitBarDrinks(barKey)
+      drinks.value =
+        opts?.isVirtual === true
+          ? await listDrinkitMobileOrderDrinks()
+          : await listDrinkitBarDrinks(barKey)
       drinksStatus.value = 'ready'
     } catch {
       drinksStatus.value = 'error'
@@ -522,7 +529,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     const changed = selectedBar.value?.canonical_key !== bar.canonical_key
     selectedBar.value = bar
     if (changed) invalidateFrom('bar')
-    await loadDrinksForBar(bar.canonical_key)
+    await loadDrinksForBar(bar.canonical_key, { isVirtual: bar.is_virtual === true })
     step.value = 'drink'
   }
 
