@@ -68,14 +68,14 @@ describe('QA3B Ship It! score-reached tie rule (WRP consistency)', () => {
 describe('QA3B Wrapped photo signed URL path (links REL-008)', () => {
   it('WRP-002/REL-008: WrappedPhotoCard must refresh or reload signed URLs on error', () => {
     const card = src('src/features/wrapped/WrappedPhotoCard.vue')
-    expect(card).toContain('fetchGalleryPhotoSignedUrl')
-    // Expected: expiry-aware refresh and/or @error → reload (same class as REL-008).
-    expect(card).toMatch(/@error|onError|reload|refresh|expires/)
+    // Shared lifecycle helper or direct gallery sign + error/refresh recovery.
+    expect(card).toMatch(/fetchGalleryPhotoSignedUrl|useSignedPhotoUrl|signedPhotoLifecycle/)
+    expect(card).toMatch(/@error|onError|onPhotoError|reload|refresh|expires/)
   })
 
   it('gallery API still signs for 3600s by default (same expiry class as REL-008)', () => {
     const api = src('src/lib/gallery/api.ts')
-    expect(api).toContain('expires_in ?? 3600')
+    expect(api).toMatch(/expiresSeconds\s*\?\?\s*3600|expires_in\s*\?\?\s*expiresSeconds|expires_in\s*\?\?\s*3600/)
   })
 })
 

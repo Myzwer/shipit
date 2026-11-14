@@ -90,22 +90,56 @@ export async function markGallerySeen(game: GameId, cursor: GalleryCursor): Prom
   if (!row?.ok) throw new Error(row?.code ?? 'Could not mark seen')
 }
 
-export async function fetchGalleryPhotoSignedUrl(
+export type GallerySignedUrlResult =
+  | { ok: true; url: string; expiresIn: number }
+  | { ok: false; permanent: boolean; code: string | null }
+
+/**
+ * Authorize + mint a Storage signed URL for a gallery-bound photo.
+ * Never logs the URL. Callers must not print private image URLs into evidence.
+ */
+export async function requestGalleryPhotoSignedUrl(
   game: GameId,
   photoId: string,
-): Promise<string | null> {
+  options?: { expiresSeconds?: number },
+): Promise<GallerySignedUrlResult> {
   const client = requireClient()
   const rpcName =
     game === 'drinkit' ? 'create_drinkit_photo_signed_url' : 'create_shipit_photo_signed_url'
+  const expiresSeconds = options?.expiresSeconds ?? 3600
   const { data, error } = await rpc(rpcName, {
     p_photo_id: photoId,
-    p_expires_seconds: 3600,
+    // Default one-hour TTL; callers may pass a shorter window for tests only.
+    p_expires_seconds: options?.expiresSeconds ?? 3600,
   })
-  if (error) return null
-  const row = data as { ok?: boolean; bucket?: string; storage_path?: string; expires_in?: number }
-  if (!row?.ok || !row.bucket || !row.storage_path) return null
-  const signed = await client.storage
-    .from(row.bucket)
-    .createSignedUrl(row.storage_path, row.expires_in ?? 3600)
-  return signed.data?.signedUrl ?? null
+  if (error) {
+    const msg = error.message ?? ''
+    const permanent = /NOT_AUTHENTICATED|JWT|permission|42501/i.test(msg)
+    return { ok: false, permanent, code: permanent ? 'NOT_AUTHENTICATED' : 'NETWORK' }
+  }
+  const row = data as {
+    ok?: boolean
+    code?: string
+    bucket?: string
+    storage_path?: string
+    expires_in?: number
+  }
+  if (!row?.ok || !row.bucket || !row.storage_path) {
+    return { ok: false, permanent: true, code: row?.code ?? 'UNAVAILABLE' }
+  }
+  const ttl = row.expires_in ?? expiresSeconds
+  const signed = await client.storage.from(row.bucket).createSignedUrl(row.storage_path, ttl)
+  if (signed.error || !signed.data?.signedUrl) {
+    return { ok: false, permanent: false, code: 'SIGN_FAILED' }
+  }
+  return { ok: true, url: signed.data.signedUrl, expiresIn: ttl }
+}
+
+export async function fetchGalleryPhotoSignedUrl(
+  game: GameId,
+  photoId: string,
+  options?: { expiresSeconds?: number },
+): Promise<string | null> {
+  const result = await requestGalleryPhotoSignedUrl(game, photoId, options)
+  return result.ok ? result.url : null
 }

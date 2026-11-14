@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import FramedPhoto from '@/components/shared/FramedPhoto.vue'
-import { fetchGalleryPhotoSignedUrl } from '@/lib/gallery/api'
+import { useSignedPhotoUrl } from '@/lib/gallery/useSignedPhotoUrl'
 import { copy } from '@/ui/copy'
 import type { GameId } from '@/types/game'
 import type { WrappedPhotoSlide } from '@/types/wrappedPlanC'
@@ -16,9 +16,18 @@ const emit = defineEmits<{
   open: [payload: { url: string; photoId: string }]
 }>()
 
-const photoUrl = ref<string | null>(null)
-const loading = ref(false)
-const errored = ref(false)
+const {
+  url: photoUrl,
+  state: photoState,
+  onPhotoError,
+  reload: refreshSignedUrl,
+} = useSignedPhotoUrl({
+  game: () => props.game,
+  photoId: () => props.slide.photo.photo_id,
+})
+
+const loading = computed(() => photoState.value === 'loading' || photoState.value === 'idle')
+const errored = computed(() => photoState.value === 'error')
 const dragGuard = ref(false)
 let pointerStartX = 0
 
@@ -37,25 +46,6 @@ const framing = computed(() => {
   }
 })
 
-async function loadPhoto() {
-  const photoId = props.slide.photo.photo_id
-  if (!photoId) {
-    photoUrl.value = null
-    return
-  }
-  loading.value = true
-  errored.value = false
-  try {
-    photoUrl.value = await fetchGalleryPhotoSignedUrl(props.game, photoId)
-    if (!photoUrl.value) errored.value = true
-  } catch {
-    photoUrl.value = null
-    errored.value = true
-  } finally {
-    loading.value = false
-  }
-}
-
 function onPointerDown(e: PointerEvent) {
   pointerStartX = e.clientX
   dragGuard.value = false
@@ -65,21 +55,14 @@ function onPointerMove(e: PointerEvent) {
   if (Math.abs(e.clientX - pointerStartX) > 10) dragGuard.value = true
 }
 
-function onActivate() {
-  if (dragGuard.value || !photoUrl.value) return
+async function onActivate() {
+  if (dragGuard.value) return
+  if (!photoUrl.value) {
+    await refreshSignedUrl()
+  }
+  if (!photoUrl.value) return
   emit('open', { url: photoUrl.value, photoId: props.slide.photo.photo_id })
 }
-
-onMounted(() => {
-  void loadPhoto()
-})
-
-watch(
-  () => props.slide.photo.photo_id,
-  () => {
-    void loadPhoto()
-  },
-)
 </script>
 
 <template>
@@ -111,6 +94,7 @@ watch(
           :height="slide.photo.height ?? 1080"
           :framing="framing"
           class="w-full"
+          @error="onPhotoError"
         />
         <div
           v-else-if="loading"
@@ -123,6 +107,7 @@ watch(
           v-else
           class="photo-card__fallback"
           data-testid="wrapped-photo-fallback"
+          :data-errored="errored ? '1' : '0'"
         >
           {{ copy.wrapped.photoUnavailable }}
         </div>

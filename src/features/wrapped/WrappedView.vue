@@ -264,6 +264,8 @@ watch(
     <PhotoViewer
       v-if="viewer"
       :src="viewer.url"
+      :photo-id="viewer.photoId"
+      :game="game"
       :download-name="`wrapped-${viewer.photoId}.jpg`"
       @close="viewer = null"
     />

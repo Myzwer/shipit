@@ -4,7 +4,6 @@ import AppIcon from '@/components/shared/AppIcon.vue'
 import FramedPhoto from '@/components/shared/FramedPhoto.vue'
 import ReactionBar from '@/features/gallery/ReactionBar.vue'
 import { resolveAchievementIconKey } from '@/lib/achievements/icons'
-import { fetchGalleryPhotoSignedUrl } from '@/lib/gallery/api'
 import {
   achievementAnnouncementTitle,
   isSecretMaskedAnnouncement,
@@ -14,6 +13,7 @@ import {
   formatNaturalNameList,
   sanitizeCompanionNames,
 } from '@/lib/gallery/formatCompanionNames'
+import { useSignedPhotoUrl } from '@/lib/gallery/useSignedPhotoUrl'
 import { DEFAULT_PHOTO_FRAMING, framingFromWire } from '@/lib/media/framing'
 import { formatShipWeekdayTime } from '@/lib/shipClockFormat'
 import type { GameId } from '@/types/game'
@@ -38,8 +38,15 @@ const emit = defineEmits<{
   ]
 }>()
 
-const thumbUrl = ref<string | null>(null)
-const photoState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
+const {
+  url: thumbUrl,
+  state: photoState,
+  onPhotoError,
+  reload: reloadSignedUrl,
+} = useSignedPhotoUrl({
+  game: () => props.game,
+  photoId: () => props.event.photo_id,
+})
 const localReaction = ref(props.event.my_reaction)
 const localCounts = ref({ ...props.event.reactions })
 
@@ -186,28 +193,13 @@ const framedThumb = computed(() => {
   }
 })
 
-async function loadThumb() {
-  if (!props.event.photo_id) {
-    thumbUrl.value = null
-    photoState.value = 'idle'
-    return
-  }
-  photoState.value = 'loading'
-  const url = await fetchGalleryPhotoSignedUrl(props.game, props.event.photo_id)
-  thumbUrl.value = url
-  photoState.value = url ? 'ready' : 'error'
-}
-
 async function openPhoto() {
   if (!props.event.photo_id) return
-  const url =
-    thumbUrl.value ?? (await fetchGalleryPhotoSignedUrl(props.game, props.event.photo_id))
-  if (!url) {
-    photoState.value = 'error'
-    return
+  if (!thumbUrl.value) {
+    await reloadSignedUrl()
   }
-  thumbUrl.value = url
-  photoState.value = 'ready'
+  const url = thumbUrl.value
+  if (!url) return
   emit('openPhoto', { url, photoId: props.event.photo_id })
 }
 
@@ -221,7 +213,6 @@ function onReaction(p: {
 }
 
 onMounted(() => {
-  void loadThumb()
   void measureCaptionOverflow()
   if (typeof ResizeObserver !== 'undefined') {
     captionRo = new ResizeObserver(() => {
@@ -315,8 +306,15 @@ onBeforeUnmount(() => {
           :height="framedThumb.height"
           :framing="framedThumb.framing"
           frame-class="gallery-polaroid-photo"
+          @error="onPhotoError"
         />
-        <img v-else :src="thumbUrl" alt="" class="gallery-polaroid-photo" />
+        <img
+          v-else
+          :src="thumbUrl"
+          alt=""
+          class="gallery-polaroid-photo"
+          @error="onPhotoError"
+        />
       </button>
       <div
         v-else-if="event.photo_id && photoState === 'error'"

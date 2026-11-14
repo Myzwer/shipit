@@ -11,7 +11,8 @@ const ROOT = resolve(import.meta.dirname, '../../..')
 describe('QA2 gallery signed URL lifecycle', () => {
   it('requests one-hour signed URLs from gallery API', () => {
     const api = readFileSync(resolve(ROOT, 'src/lib/gallery/api.ts'), 'utf8')
-    expect(api).toMatch(/p_expires_seconds:\s*3600/)
+    // Default TTL remains 3600s (optional override only for short-lived tests).
+    expect(api).toMatch(/p_expires_seconds:\s*(?:options\?\.expiresSeconds\s*\?\?\s*)?3600/)
     expect(api).toMatch(/createSignedUrl/)
   })
 

@@ -27,6 +27,10 @@ const props = withDefaults(
   },
 )
 
+defineEmits<{
+  error: [event: Event]
+}>()
+
 const resolved = computed(() => {
   const raw = normalizeFramingInput(props.framing ?? DEFAULT_PHOTO_FRAMING)
   return framedImageStyle(props.width, props.height, raw)
@@ -45,6 +49,7 @@ const resolved = computed(() => {
       :style="resolved"
       draggable="false"
       :data-testid="imgTestId"
+      @error="$emit('error', $event)"
     />
   </div>
 </template>
