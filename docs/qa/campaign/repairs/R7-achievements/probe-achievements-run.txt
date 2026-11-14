@@ -1,0 +1,30 @@
+[INFO] SETUP-LEFTOVERS — removed prior qa2a-* leftovers
+[PASS] SETUP-STRAY-DEFS — no stray definitions
+[PASS] CLOCK-ACTIVE — dev_seed_cruise_clock 2099-01-03 / -240, finalized_at cleared, drinkit unpaused
+[PASS] ACH-DEFS-174 — enabled=174 (drinkit 126, shipit 48); composed active=174
+[PASS] INT-ACH-00-SEQUENCE-ACCEPTED — 7 synthetic drink logs accepted
+[FAIL] INT-ACH-01 — first drink log unlocks threshold-1 + generic-beer definitions; award linked to submission; one gallery event; other player unaffected
+[PASS] INT-ACH-02 — thresholds: drink_log 3 (d002) at log 3, 7 (d003) at log 7, 3 distinct concepts (d028) at log 6, bars>=2 (d019) at log 3; none early
+[PASS] INT-ACH-03 — one log (3rd, second bar) unlocks multiple definitions and RPC returns every new award id
+[PASS] INT-ACH-04 — replay of the multi-unlock log key returns idempotent_replay, no new submission/award/gallery rows
+[PASS] INT-ACH-04b-KEY-REUSE-GUARD — same idempotency key with a different payload is rejected (not silently replayed or double-awarded)
+[PASS] INT-ACH-05-GALLERY-1TO1 — each active award has exactly one active achievement gallery event
+[PASS] INT-ACH-06 — voiding the 7th log revokes the threshold-7 award (d003), keeps earlier awards, deactivates its gallery event
+[PASS] INT-ACH-06b-RESTORE-AFTER-RELOG — after void + new log (7 accepted again) d003 re-awarded once (single active award row)
+[PASS] INT-ACH-06c-DOUBLE-VOID — second void of an already voided submission is rejected
+[INFO] INT-ACH-EXEC-PROOF-KEYS — real definitions awarded during sequence
+[FAIL] ACH-001-ACTIVE-CATALOG — frozen collections on the ACTIVE launch-candidate catalog: eligible universe is empty -> cannot be earned (FAIL = defect confirmed)
+[BLOCKED] ACH-001-WHATIF-ENGINE-WITH-TAGS — with 3 synthetic `frozen` offering tags on tropical drinks, both collections become reachable and award (temporary tags removed after run)
+[PASS] ACH-001-WHATIF-CLEANUP — temporary frozen tags removed
+[PASS] ACH-002-PHYSICAL-BAR — physical-bar logging of all 3 eligible omalleys-irish-pub offerings completes the personal gauntlet
+[PASS] ACH-002-MOBILE-ORDER — Mobile Order logs of the SAME offerings must NOT progress/award a physical bar gauntlet (docs/MOBILE_ORDER.md, FINAL §3.4)
+[PASS] ACH-002-WRONG-PHYSICAL-BAR — same offering ids logged through a different physical bar: either rejected or not credited to the gauntlet bar
+[PASS] ACH-002-VIRTUAL-NOT-A-BAR — Mobile Order logs do not count toward distinct-bar definitions (d019 bars>=2 not awarded to mobile-only player)
+[INFO] ACH-002-AWARD-DIFF — award sets: physical-bar player vs Mobile Order player (same 12 offerings)
+wrote docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION_MATRIX.json
+[PASS] ACH-003-PRODUCTION-MAP — 164/174 reachable via release map, 10 blocked, 0 missing from map
+[FAIL] ACH-003-ENGINE-REACHABILITY — 44 active definitions cannot be earned on the active launch-candidate catalog (empty collection or missing catalog dependency)
+[PASS] CLEANUP — synthetic players/defs/tags removed
+[PASS] ORGANIZER-CRUISE-UNCHANGED — organizer cruise id 48fa40c6-e7cd-4f8f-8b81-e3e48d10eb13
+wrote docs/qa/campaign/agent-2-backend-integration/evidence/probe-achievements-integration-results.json
+TOTALS { pass: 20, fail: 3, info: 3, blocked: 1, total: 27 }

@@ -1,12 +1,16 @@
 /**
- * QA-3B — Bar Gauntlet / collection location contract (ACH-002).
+ * QA-3B / R7 — Bar Gauntlet / collection location contract (ACH-002).
  *
  * Spec (STAR_PRINCESS_ACHIEVEMENTS_FINAL_STANDALONE §3.4): personal gauntlet
  * progress requires logs recorded at that bar. Mobile Order must not qualify.
  *
- * Production SQL `achievement_log_counts_for_collection` / covered_count match
- * by offering_id only — no drink_logs.bar_id = bar_offerings.bar_id check and
- * no is_virtual exclusion on the logged bar.
+ * Authoritative production SQL:
+ * - `achievement_log_counts_for_collection` hardened in `11000` (bar_id + !virtual)
+ * - `achievement_collection_covered_count` aligned in `11400` (same guards)
+ * Award path uses covered_ids → log_counts; live progress uses covered_count.
+ *
+ * QA-4A INT-ACH-09: MO leak was NOT reproduced against qa2 with 11000 applied.
+ * Wrong-bar physical same-offering submit is rejected (OFFERING_NOT_AT_BAR).
  */
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -19,52 +23,45 @@ function readMigration(name: string) {
   return readFileSync(join(root, 'supabase/migrations', name), 'utf8')
 }
 
+function fnBody(sql: string, name: string) {
+  const start = sql.indexOf(`create or replace function public.${name}`)
+  expect(start, `missing ${name}`).toBeGreaterThanOrEqual(0)
+  const end = sql.indexOf('$$;', start)
+  expect(end, `unclosed ${name}`).toBeGreaterThan(start)
+  return sql.slice(start, end + 3)
+}
+
 describe('QA3B gauntlet location / Mobile Order contract (ACH-002)', () => {
-  it('ACH-002: collection coverage must require log bar_id match and exclude virtual bars', () => {
-    const a1 = readMigration('20261105008600_phase_a1_same_log_collections.sql')
-    const a5 = readMigration('20261105009200_phase_a5_achievement_read_perf.sql')
-
-    const logCountsFn = a1.slice(
-      a1.indexOf('create or replace function public.achievement_log_counts_for_collection'),
-      a1.indexOf('$$;', a1.indexOf('create or replace function public.achievement_log_counts_for_collection')) +
-        3,
-    )
-    // Expected (FINAL §3.4 + Mobile Order exclusion): location-bound coverage.
-    // Observed: offering_id-only match; no bar_id equality; no is_virtual filter.
+  it('ACH-002: authoritative log_counts require bar_id match and exclude virtual bars', () => {
+    const sql = readMigration('20261105011000_activity_day_reporting_boundary.sql')
+    const logCountsFn = fnBody(sql, 'achievement_log_counts_for_collection')
     expect(logCountsFn).toMatch(/d\.bar_id\s*=\s*bo\.bar_id/)
-    expect(logCountsFn).toMatch(/is_virtual/)
-
-    const coveredCount = a5.slice(
-      a5.indexOf('create or replace function public.achievement_collection_covered_count'),
-      a5.indexOf(
-        '$$;',
-        a5.indexOf('create or replace function public.achievement_collection_covered_count'),
-      ) + 3,
-    )
-    expect(coveredCount).toMatch(/d\.bar_id\s*=\s*bo\.bar_id/)
-    expect(coveredCount).toMatch(/is_virtual/)
+    expect(logCountsFn).toMatch(/is_virtual\s+is\s+false/)
   })
 
-  it('mobile-order eval patch excludes virtual bars for distinct/grouped bar subjects but not offering_collection', () => {
+  it('ACH-002: covered_count live progress matches the same location guards', () => {
+    const sql = readMigration('20261105011400_r7_gauntlet_covered_count_location.sql')
+    const coveredCount = fnBody(sql, 'achievement_collection_covered_count')
+    expect(coveredCount).toMatch(/d\.bar_id\s*=\s*bo\.bar_id/)
+    expect(coveredCount).toMatch(/is_virtual\s+is\s+false/)
+  })
+
+  it('mobile-order eval patch still excludes virtual bars for distinct/grouped bar subjects', () => {
     const mo = readMigration('20261105010900_mobile_order_virtual_source.sql')
-    expect(mo).toContain("b.is_virtual is false")
+    expect(mo).toContain('b.is_virtual is false')
     expect(mo).toContain("subject' = 'bars'")
-    // offering_collection still delegates to pre_mobile_order path / collection helpers
+    // offering_collection delegates to helpers; location binding is in log_counts/covered_count.
     const evalSlice = mo.slice(
       mo.indexOf('create or replace function public.achievement_eval_condition_as_of('),
-      mo.indexOf(
-        "comment on function public.achievement_eval_condition_as_of",
-      ),
+      mo.indexOf('comment on function public.achievement_eval_condition_as_of'),
     )
-    expect(evalSlice).not.toContain("v_type = 'offering_collection'")
     expect(evalSlice).toContain('achievement_eval_condition_as_of_pre_mobile_order')
   })
 
   it('empty full_menu / threshold universes do not auto-complete (guards phantom unlocks)', () => {
     const final = readMigration('20261105009900_phase_final_achievements_catalog.sql')
-    expect(final).toContain("or (v_target = 0)")
+    expect(final).toContain('or (v_target = 0)')
     expect(final).toContain("'verification_pending'")
-    // live_met_config returns false when target < 1 (a1):
     const a1 = readMigration('20261105008600_phase_a1_same_log_collections.sql')
     expect(a1).toContain('achievement_collection_live_met_config')
     expect(a1).toMatch(

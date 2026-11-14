@@ -388,7 +388,8 @@
       "family": null,
       "classification_tags": [
         "spirit-family-rum",
-        "rum-style-dark"
+        "rum-style-dark",
+        "spirit-dark"
       ]
     },
     {
@@ -599,7 +600,8 @@
       "family": null,
       "classification_tags": [
         "spirit-family-rum",
-        "rum-style-dark"
+        "rum-style-dark",
+        "spirit-dark"
       ]
     },
     {
@@ -687,7 +689,8 @@
       "family": null,
       "classification_tags": [
         "spirit-family-rum",
-        "rum-style-dark"
+        "rum-style-dark",
+        "spirit-dark"
       ]
     },
     {
@@ -5173,6 +5176,9 @@
           "price_evidence_recipe_fingerprint": "26b33ea89dd5e8e06b0afbd9175219e479ceffc525264da4a58dfe09ec311f7a",
           "evidence_reference": "handoff/data/menus/Star-Princess-Beverage-Source-Unmodified.md#star-bar; Category B organizer-approved filtered source (exact $ absent)"
         }
+      ],
+      "classification_tags": [
+        "frozen"
       ]
     },
     {

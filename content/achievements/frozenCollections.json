@@ -18,10 +18,13 @@
         "mode": "threshold",
         "drink_tag": "frozen",
         "threshold": 3,
-        "require_tropical": true
+        "require_tropical": true,
+        "verification_required": true
       },
       "dependencies": [],
-      "blockers": [],
+      "blockers": [
+        "Organizer must confirm frozen+tropical eligible drink set (menu evidence currently: Frozen Aperol Spritz is frozen but not tropical)"
+      ],
       "enabledInDev": true,
       "testOnly": true,
       "visibilityNote": "FINAL — public",
@@ -43,10 +46,13 @@
         "scope": "personal",
         "mode": "full_menu",
         "drink_tag": "frozen",
-        "require_tropical": true
+        "require_tropical": true,
+        "verification_required": true
       },
       "dependencies": [],
-      "blockers": [],
+      "blockers": [
+        "Organizer must confirm frozen+tropical eligible drink set (menu evidence currently: Frozen Aperol Spritz is frozen but not tropical)"
+      ],
       "enabledInDev": true,
       "testOnly": true,
       "visibilityNote": "FINAL — public",

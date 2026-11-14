@@ -1156,14 +1156,15 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "conditionConfig": {
       "scope": "ingredient",
       "tags": [
-        "spirit-dark"
+        "spirit-dark",
+        "rum-style-dark"
       ],
       "match": "any",
       "count_logs": true,
       "threshold": 5
     },
     "dependencies": [
-      "catalog ingredient classification_tags"
+      "catalog ingredient classification_tags spirit-dark|rum-style-dark"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1251,11 +1252,15 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
         {
           "type": "exact_match",
           "ingredient_key": "fresh-lemon-juice"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "lemon-flavor"
         }
       ]
     },
     "dependencies": [
-      "catalog ingredient keys: lemon, lemon-juice, fresh-lemon-juice"
+      "catalog ingredient keys: lemon, lemon-juice, fresh-lemon-juice, lemon-flavor"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1274,12 +1279,21 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "secret": true,
     "exclusive": false,
     "readiness": "enabled",
-    "conditionType": "exact_match",
+    "conditionType": "any",
     "conditionConfig": {
-      "ingredient_key": "pineapple"
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "pineapple"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "pineapple-flavor"
+        }
+      ]
     },
     "dependencies": [
-      "catalog ingredient key `pineapple`"
+      "catalog ingredient keys: pineapple, pineapple-flavor"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1308,11 +1322,15 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
         {
           "type": "exact_match",
           "ingredient_key": "coconut-milk"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "coconut-flavor"
         }
       ]
     },
     "dependencies": [
-      "catalog ingredient keys: coconut, coconut-milk"
+      "catalog ingredient keys: coconut, coconut-milk, coconut-flavor"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1441,11 +1459,15 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
         {
           "type": "exact_match",
           "ingredient_key": "st-germain"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "elderflower-st-germain"
         }
       ]
     },
     "dependencies": [
-      "catalog ingredient keys: elderflower-liqueur, st-germain"
+      "catalog ingredient keys: elderflower-liqueur, st-germain, elderflower-st-germain"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1464,12 +1486,21 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "secret": false,
     "exclusive": false,
     "readiness": "enabled",
-    "conditionType": "exact_match",
+    "conditionType": "any",
     "conditionConfig": {
-      "ingredient_key": "amaretto"
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "amaretto"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "amaretto-disaronno"
+        }
+      ]
     },
     "dependencies": [
-      "catalog ingredient key `amaretto`"
+      "catalog ingredient keys: amaretto, amaretto-disaronno"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1522,11 +1553,15 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
         {
           "type": "exact_match",
           "ingredient_key": "lychee-liqueur"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "lychee-flavor"
         }
       ]
     },
     "dependencies": [
-      "catalog ingredient keys: lychee, lychee-liqueur"
+      "catalog ingredient keys: lychee, lychee-liqueur, lychee-flavor"
     ],
     "blockers": [],
     "enabledInDev": true,
@@ -1617,12 +1652,21 @@ export const WORKING_ACHIEVEMENT_CATALOG: WorkingAchievementDefinition[] =
     "secret": false,
     "exclusive": false,
     "readiness": "enabled",
-    "conditionType": "exact_match",
+    "conditionType": "any",
     "conditionConfig": {
-      "ingredient_key": "olive-oil-washed-spirit"
+      "conditions": [
+        {
+          "type": "exact_match",
+          "ingredient_key": "olive-oil-washed-spirit"
+        },
+        {
+          "type": "exact_match",
+          "ingredient_key": "tanqueray-gin"
+        }
+      ]
     },
     "dependencies": [
-      "catalog ingredient key `olive-oil-washed-spirit`"
+      "catalog ingredient keys: olive-oil-washed-spirit, tanqueray-gin (Lilypad oil-washed display)"
     ],
     "blockers": [],
     "enabledInDev": true,

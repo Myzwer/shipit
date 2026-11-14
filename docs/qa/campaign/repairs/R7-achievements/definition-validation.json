@@ -1,0 +1,1501 @@
+{
+  "summary": {
+    "active": 174,
+    "map_rows": 174,
+    "map_enabled": 164,
+    "frozen_tag_in_launch_json": true,
+    "verification_gated_frozen": [
+      "working-drinkit-frozen-concoctions",
+      "working-drinkit-license-to-chill"
+    ],
+    "missing_map": 0,
+    "exact_still_missing": [],
+    "ing_tag_still_missing": []
+  },
+  "rows": [
+    {
+      "stableKey": "working-drinkit-d001",
+      "title": "Bon Voyage!",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d002",
+      "title": "Third Time's the Charm",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d003",
+      "title": "Light Work",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d004",
+      "title": "15 Minutes of Fame",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d005",
+      "title": "The AA meeting is Wednesday",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d006",
+      "title": "Bounty Hunting",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d007",
+      "title": "One Particular Cocktail",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d008",
+      "title": "Elementary, My Dear Watson",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d009",
+      "title": "This Round is on Me",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d010",
+      "title": "Your mission should you choose to accept it",
+      "game": "drinkit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d028",
+      "title": "Gotta Start Somewhere",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d011",
+      "title": "Double Kill",
+      "game": "drinkit",
+      "conditionType": "same_submission_claims",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d012",
+      "title": "This shouldn’t be possible!!",
+      "game": "drinkit",
+      "conditionType": "same_submission_claims",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d013",
+      "title": "Try Harding",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d014",
+      "title": "Its a marathon, not a Sprint",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d015",
+      "title": "Three Sheets to the Wind",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d016",
+      "title": "Barometer Soup",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d017",
+      "title": "The Pascagoula Run",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d018",
+      "title": "Four of a Kind",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d031",
+      "title": "So Nice I had it twice",
+      "game": "drinkit",
+      "conditionType": "ordered_after",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d085",
+      "title": "Take it to the limit",
+      "game": "drinkit",
+      "conditionType": "day_bounty_score",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_organizer"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d094",
+      "title": "All Hands on Deck",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d095",
+      "title": "Seven Days, Seven Ways",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d019",
+      "title": "Bar None",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d020",
+      "title": "Changes in Latitudes, Changes in Attitudes",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d021",
+      "title": "Life Is a Highway",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d022",
+      "title": "I've Been Everywhere, Man",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d023",
+      "title": "Its kind of a Triathlon",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d024",
+      "title": "Repeat Offender",
+      "game": "drinkit",
+      "conditionType": "event_interval",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d025",
+      "title": "I’ll have what I’m having",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d026",
+      "title": "Three's Company",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d029",
+      "title": "It’s called “Branching out”",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d030",
+      "title": "They Serve Other Stuff Here",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d033",
+      "title": "Stuck in Colder Weather",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "D033_FROZEN_OK"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d034",
+      "title": "Red, Red Wine",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d036",
+      "title": "One of Each, Please",
+      "game": "drinkit",
+      "conditionType": "all",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d079",
+      "title": "Where everyone knows my name",
+      "game": "drinkit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d080",
+      "title": "Not a worry in the world, cold beer in my hand",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d084",
+      "title": "The menu is more of a “guideline” anyway",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d037",
+      "title": "The Gintleman",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-family-gin"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d038",
+      "title": "Tequila Mockingbird",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-family-tequila"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d039",
+      "title": "Rum, Forrest, Rum!",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-family-rum"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d040",
+      "title": "Whiskey Business",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-family-whiskey|spirit-family-bourbon"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d041",
+      "title": "Crystal Clear",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-clear"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d042",
+      "title": "Paint It Black",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-dark|rum-style-dark"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d043",
+      "title": "The Fantastic Four",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d044",
+      "title": "Tastes like a Campfire",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:mezcal"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d045",
+      "title": "Easy Peasy Lemon Squeezy",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:lemon-flavor"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d046",
+      "title": "Pineapple Express",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:pineapple-flavor"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d047",
+      "title": "Heard it on the Coconut Telegraph",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:coconut-flavor"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d048",
+      "title": "Orange You Glad?",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:aperol"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d049",
+      "title": "How do you milk an almond?",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:orgeat"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d050",
+      "title": "That’s a Spicy Meatball!",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:hot-pepper"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d051",
+      "title": "Wake Me Up Before You Go-Go",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:espresso"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d052",
+      "title": "Flower Power",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:elderflower-st-germain"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d053",
+      "title": "Almond Joy",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:amaretto-disaronno"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d054",
+      "title": "Fa-la-la-la Falernum",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:falernum"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d055",
+      "title": "Last Lychee in Paris",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:lychee-flavor"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d056",
+      "title": "We aren’t even going to that island!",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:blue-curacao"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d057",
+      "title": "Peanut Butter Conspiracy",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:peanut-butter-whiskey"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d058",
+      "title": "Beet It",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:beetroot"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d059",
+      "title": "Grease Is the Word",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:tanqueray-gin"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d060",
+      "title": "Bitter Sweet Symphony",
+      "game": "drinkit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:campari"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d061",
+      "title": "Anyone got the Thyme?",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:basil"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d062",
+      "title": "Kitchen Sink Drink",
+      "game": "drinkit",
+      "conditionType": "recipe_ingredient_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d063",
+      "title": "Double Trouble",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:spirit-family-gin|spirit-family-vodka|spirit-family-rum|spirit-family-tequila|spirit-family-mezcal|spirit-family-whiskey|spirit-family-bourbon|spirit-family-brandy"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d064",
+      "title": "Little a this, little a that",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:rum-style-white|rum-style-dark|rum-style-spiced|rum-style-aged"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d065",
+      "title": "The Wine makes it Classy",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:wine|rose|prosecco"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d066",
+      "title": "Fruitcakes in the kitchen",
+      "game": "drinkit",
+      "conditionType": "tag_match",
+      "map_enabled": true,
+      "flags": [
+        "ING_TAGS_OK:fruit-pineapple|fruit-mango|fruit-passion-fruit|fruit-guava|fruit-dragon-fruit|fruit-lychee"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d096",
+      "title": "Bananaday Dreamin'",
+      "game": "drinkit",
+      "conditionType": "any",
+      "map_enabled": true,
+      "flags": [
+        "EXACT_KEYS_OK:banana-flavor"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d067",
+      "title": "Three's a Crowd",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d068",
+      "title": "We Are the People Our Parents Warned Us About",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d069",
+      "title": "Drinking on Lunch Break",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d070",
+      "title": "With a Little Help from My Friends",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d071",
+      "title": "Road Trip!",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d082",
+      "title": "Wrinkles only go where the smiles have been",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_organizer"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d087",
+      "title": "Something something alcohol tolerance",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d089",
+      "title": "At Least it isn't coors lite",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d090",
+      "title": "Feeding the Fishes",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d091",
+      "title": "This is too sweet for me",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d092",
+      "title": "The Wino and I know",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d093",
+      "title": "Dear Maria, Count me Gin",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d086",
+      "title": "One Peppy Lopez, Please.",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d088",
+      "title": "A Pirate Looks at 40",
+      "game": "drinkit",
+      "conditionType": "companion_predicate",
+      "map_enabled": false,
+      "flags": [
+        "BLOCKED_IN_MAP:blocked_metadata"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-d072",
+      "title": "You Can't Drink All Day Unless You Start in the Morning",
+      "game": "drinkit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d073",
+      "title": "Working on the Night Moves",
+      "game": "drinkit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d074",
+      "title": "Slamma Jamma",
+      "game": "drinkit",
+      "conditionType": "event_interval",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d075",
+      "title": "Weather Is Here, Wish You Were Beautiful",
+      "game": "drinkit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d076",
+      "title": "Come Sail Away",
+      "game": "drinkit",
+      "conditionType": "cruise_day",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d077",
+      "title": "It's Been a Lovely Cruise",
+      "game": "drinkit",
+      "conditionType": "cruise_day",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d078",
+      "title": "The Days Drift By",
+      "game": "drinkit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-d081",
+      "title": "Dawn of the Peck",
+      "game": "drinkit",
+      "conditionType": "cruise_day",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s001",
+      "title": "The Start of Something New",
+      "game": "shipit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s002",
+      "title": "We’re just getting started baby",
+      "game": "shipit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s003",
+      "title": "Double Digits",
+      "game": "shipit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s004",
+      "title": "Cant Stop Won’t Stop",
+      "game": "shipit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s005",
+      "title": "Whoaaaa We're Halfway There",
+      "game": "shipit",
+      "conditionType": "event_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s006",
+      "title": "Ah The Stories We Could Tell",
+      "game": "shipit",
+      "conditionType": "set_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s007",
+      "title": "Gotta Catch 'Em All!",
+      "game": "shipit",
+      "conditionType": "category_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s008",
+      "title": "Finders Keepers",
+      "game": "shipit",
+      "conditionType": "category_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s009",
+      "title": "The Early Bird Special",
+      "game": "shipit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s010",
+      "title": "Night Moves",
+      "game": "shipit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s011",
+      "title": "You don’t get extra credit",
+      "game": "shipit",
+      "conditionType": "grouped_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s012",
+      "title": "The Love Boat",
+      "game": "shipit",
+      "conditionType": "cruise_day",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s013",
+      "title": "Under The Wire",
+      "game": "shipit",
+      "conditionType": "cruise_day",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s014",
+      "title": "Why are you even on the ship?",
+      "game": "shipit",
+      "conditionType": "ship_time_window",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s015",
+      "title": "Same Ship, Different Day",
+      "game": "shipit",
+      "conditionType": "distinct_count",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s016",
+      "title": "The Fast & The Curious",
+      "game": "shipit",
+      "conditionType": "event_interval",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s017",
+      "title": "Wax On, Wax Off",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s018",
+      "title": "Cultural Infidel",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s019",
+      "title": "Eye of the Tiger",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s020",
+      "title": "Hot & Ready",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s021",
+      "title": "You Scream I Scream",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s022",
+      "title": "Buffet the Vampire Slayer",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s023",
+      "title": "If You Like Piña Coladas",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s024",
+      "title": "The Breakfast Club",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s025",
+      "title": "The Safety Dance",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s026",
+      "title": "Animal House",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s027",
+      "title": "Jolly Mon Sing",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s028",
+      "title": "Wake Me Up Before You Go-Go",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s029",
+      "title": "Fins Up!",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s030",
+      "title": "My Whole Life Is Waiting Behind Door Number 3",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s031",
+      "title": "We Build this Ship on Rock and Roll",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s032",
+      "title": "Footloose",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s033",
+      "title": "We Came, We Saw, We Souvenired",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s034",
+      "title": "Don't Let the Sun Go Down on Me",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s035",
+      "title": "I'm Flying, Jack!",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s036",
+      "title": "The Three Amigos",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s037",
+      "title": "Full House",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s038",
+      "title": "Where in the World Is Carmen Sandiego?",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s048",
+      "title": "My own kind of paradise",
+      "game": "shipit",
+      "conditionType": "set_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s039",
+      "title": "Honey, I Shrunk the Ship",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s040",
+      "title": "Irish You Were Here",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s041",
+      "title": "Spirit in the Sky",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s042",
+      "title": "North by Northwest",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s043",
+      "title": "Every Rose Has Its Thorn",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s044",
+      "title": "Friday the 13th",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s045",
+      "title": "Shadow Dancing",
+      "game": "shipit",
+      "conditionType": "exact_match",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s046",
+      "title": "Hawaii Five-O!",
+      "game": "shipit",
+      "conditionType": "category_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-shipit-s047",
+      "title": "Get The Broom Out Cause That’s a Sweep!",
+      "game": "shipit",
+      "conditionType": "category_completion",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-margarita-kickoff",
+      "title": "Wasted Away Again In Margaritaville",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-tampico-trauma",
+      "title": "Tampico Trauma",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-fireball-shot",
+      "title": "When the Volcano Blows",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-sambuca-shot",
+      "title": "Desperation Sambuca",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-sunset-toast",
+      "title": "The Night I Painted the Sky",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-dwd-jimmy-buffett-toast",
+      "title": "Jimmy Buffett Toast",
+      "game": "drinkit",
+      "conditionType": "same_log",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-lido-bar",
+      "title": "Lido Shuffle",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-lido-bar",
+      "title": "Screamin' Boat Drinks",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-the-mix",
+      "title": "The MIX Tape",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-the-mix",
+      "title": "MIX Tape Masters",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-promenade-bars",
+      "title": "The Daiquiri is too Fruitiful",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-promenade-bars",
+      "title": "Promenade Pirates",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-star-bar",
+      "title": "Super Star!",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-star-bar",
+      "title": "Stars on the Water",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-good-spirits-at-sea",
+      "title": "Spirited Away",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": [
+        "GOOD_SPIRITS_GATED"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-good-spirits-at-sea",
+      "title": "Former Spirit Airlines Flight Crew",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": [
+        "GOOD_SPIRITS_GATED"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-omalleys-irish-pub",
+      "title": "Luck of the Irish",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-omalleys-irish-pub",
+      "title": "The Whole Paddy Wagon",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-princess-live",
+      "title": "Live and Let Drink",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-princess-live",
+      "title": "Just here for the Karaoke",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-bellinis-cocktail-bar",
+      "title": "Bellini There, Done That",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-bellinis-cocktail-bar",
+      "title": "The Bellini Bunch",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-wheelhouse-bar",
+      "title": "Steady as She Goes",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-wheelhouse-bar",
+      "title": "Wheelhouse Rock",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-crooners",
+      "title": "I did it My Way",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-crooners",
+      "title": "The Rat Pack",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-wake-view-bar",
+      "title": "View to Thrill",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-wake-view-bar",
+      "title": "We like a nice Aft",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-sea-view-bar",
+      "title": "Son of a Son of a Sailor",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-sea-view-bar",
+      "title": "The Coral Reefers",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-cascade-bar",
+      "title": "Chasing Waterfalls",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-cascade-bar",
+      "title": "The Ripple Effect",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": []
+    },
+    {
+      "stableKey": "working-drinkit-frozen-concoctions",
+      "title": "Frozen Concoctions",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": [
+        "FROZEN_TAG_PRESENT",
+        "REQUIRES_TROPICAL",
+        "VERIFICATION_GATED"
+      ]
+    },
+    {
+      "stableKey": "working-drinkit-license-to-chill",
+      "title": "License to Chill",
+      "game": "drinkit",
+      "conditionType": "offering_collection",
+      "map_enabled": true,
+      "flags": [
+        "FROZEN_TAG_PRESENT",
+        "REQUIRES_TROPICAL",
+        "VERIFICATION_GATED"
+      ]
+    }
+  ]
+}

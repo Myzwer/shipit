@@ -1,0 +1,208 @@
+{
+  "generated_at": "2026-11-14T19:37:15.237Z",
+  "totals": {
+    "pass": 20,
+    "fail": 3,
+    "info": 3,
+    "blocked": 1,
+    "total": 27
+  },
+  "defects": [
+    {
+      "id": "INT-ACH-001",
+      "severity": "P1",
+      "title": "Frozen Concoctions / License to Chill cannot unlock: active catalog has zero `frozen` tags",
+      "ach_ref": "ACH-001",
+      "observed": "achievement_collection_status live_target=0 for both; no frozen tag rows on concepts/offerings",
+      "impact": "3 enabled definitions depend on the frozen tag"
+    },
+    {
+      "id": "INT-ACH-004",
+      "severity": "P2",
+      "title": "Definitions with no reachable eligible set on the active catalog",
+      "observed": [
+        "working-drinkit-d033(unreachable_missing_catalog_dependency: tags(drink_concept): need 1 of [frozen], present [])",
+        "working-drinkit-d037(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-family-gin], present [])",
+        "working-drinkit-d038(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-family-tequila], present [])",
+        "working-drinkit-d039(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-family-rum], present [])",
+        "working-drinkit-d040(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-family-whiskey,spirit-family-bourbon], present [])",
+        "working-drinkit-d041(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-clear], present [])",
+        "working-drinkit-d042(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [spirit-dark,rum-style-dark], present [])",
+        "working-drinkit-d043(unreachable_missing_catalog_dependency: tags(any): need 1 of [spirit-family-gin,spirit-family-vodka,spirit-family-rum,spirit-family-tequila], present [])",
+        "working-drinkit-d044(unreachable_missing_catalog_dependency: ingredient_key:mezcal)",
+        "working-drinkit-d045(unreachable_missing_catalog_dependency: ingredient_key:lemon,ingredient_key:lemon-juice,ingredient_key:fresh-lemon-juice,ingredient_key:lemon-flavor)",
+        "working-drinkit-d046(unreachable_missing_catalog_dependency: ingredient_key:pineapple,ingredient_key:pineapple-flavor)",
+        "working-drinkit-d047(unreachable_missing_catalog_dependency: ingredient_key:coconut,ingredient_key:coconut-milk,ingredient_key:coconut-flavor)",
+        "working-drinkit-d048(unreachable_missing_catalog_dependency: ingredient_key:aperol)",
+        "working-drinkit-d050(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [hot-pepper], present [])",
+        "working-drinkit-d051(unreachable_missing_catalog_dependency: ingredient_key:espresso)",
+        "working-drinkit-d052(unreachable_missing_catalog_dependency: ingredient_key:elderflower-liqueur,ingredient_key:st-germain,ingredient_key:elderflower-st-germain)",
+        "working-drinkit-d053(unreachable_missing_catalog_dependency: ingredient_key:amaretto,ingredient_key:amaretto-disaronno)",
+        "working-drinkit-d055(unreachable_missing_catalog_dependency: ingredient_key:lychee,ingredient_key:lychee-liqueur,ingredient_key:lychee-flavor)",
+        "working-drinkit-d056(unreachable_missing_catalog_dependency: ingredient_key:blue-curacao)",
+        "working-drinkit-d057(unreachable_missing_catalog_dependency: ingredient_key:peanut-butter-whiskey)",
+        "working-drinkit-d058(unreachable_missing_catalog_dependency: ingredient_key:beetroot)",
+        "working-drinkit-d059(unreachable_missing_catalog_dependency: ingredient_key:olive-oil-washed-spirit,ingredient_key:tanqueray-gin)",
+        "working-drinkit-d060(unreachable_missing_catalog_dependency: ingredient_key:campari)",
+        "working-drinkit-d061(unreachable_missing_catalog_dependency: ingredient_key:basil,ingredient_key:rosemary)",
+        "working-drinkit-d063(unreachable_missing_catalog_dependency: tags(ingredient): need 2 of [spirit-family-gin,spirit-family-vodka,spirit-family-rum,spirit-family-tequila,spirit-family-mezcal,spirit-family-whiskey,spirit-family-bourbon,spirit-family-brandy,spirit-family-cognac], present [])",
+        "working-drinkit-d064(unreachable_missing_catalog_dependency: tags(ingredient): need 2 of [rum-style-white,rum-style-gold,rum-style-dark,rum-style-spiced,rum-style-aged,rum-style-overproof], present [])",
+        "working-drinkit-d065(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [wine,rose,prosecco,champagne], present [])",
+        "working-drinkit-d066(unreachable_missing_catalog_dependency: tags(ingredient): need 1 of [fruit-pineapple,fruit-mango,fruit-passion-fruit,fruit-guava,fruit-dragon-fruit,fruit-lychee], present [])",
+        "working-drinkit-d096(unreachable_missing_catalog_dependency: ingredient_key:banana,ingredient_key:banana-liqueur,ingredient_key:banana-flavor,ingredient_key:banana-puree,ingredient_key:banana-syrup)",
+        "working-drinkit-dwd-fireball-shot(unreachable_missing_catalog_dependency: bar_key:princess-live,drink_concept_key:fireball-shot)",
+        "working-drinkit-dwd-jimmy-buffett-toast(unreachable_missing_catalog_dependency: drink_concept_key:loaded-corona)",
+        "working-drinkit-dwd-margarita-kickoff(unreachable_missing_catalog_dependency: drink_tag:margarita)",
+        "working-drinkit-dwd-sambuca-shot(unreachable_missing_catalog_dependency: bar_key:princess-live,drink_concept_key:sambuca-shot)",
+        "working-drinkit-dwd-tampico-trauma(unreachable_missing_catalog_dependency: drink_concept_key:tequila-shot)",
+        "working-drinkit-frozen-concoctions(unreachable_empty_collection: drink_tag:frozen)",
+        "working-drinkit-gauntlet-collective-princess-live(unreachable_empty_collection: bar_key:princess-live)",
+        "working-drinkit-gauntlet-collective-star-bar(unreachable_empty_collection: bar_key:star-bar)",
+        "working-drinkit-gauntlet-collective-the-mix(unreachable_empty_collection: bar_key:the-mix)",
+        "working-drinkit-gauntlet-collective-wheelhouse-bar(unreachable_empty_collection: bar_key:wheelhouse-bar)",
+        "working-drinkit-gauntlet-personal-princess-live(unreachable_empty_collection: bar_key:princess-live)",
+        "working-drinkit-gauntlet-personal-star-bar(unreachable_empty_collection: bar_key:star-bar)",
+        "working-drinkit-gauntlet-personal-the-mix(unreachable_empty_collection: bar_key:the-mix)",
+        "working-drinkit-gauntlet-personal-wheelhouse-bar(unreachable_empty_collection: bar_key:wheelhouse-bar)",
+        "working-drinkit-license-to-chill(unreachable_empty_collection: drink_tag:frozen)"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "SETUP-LEFTOVERS",
+      "status": "INFO",
+      "summary": "removed prior qa2a-* leftovers"
+    },
+    {
+      "id": "SETUP-STRAY-DEFS",
+      "status": "PASS",
+      "summary": "no stray definitions"
+    },
+    {
+      "id": "CLOCK-ACTIVE",
+      "status": "PASS",
+      "summary": "dev_seed_cruise_clock 2099-01-03 / -240, finalized_at cleared, drinkit unpaused"
+    },
+    {
+      "id": "ACH-DEFS-174",
+      "status": "PASS",
+      "summary": "enabled=174 (drinkit 126, shipit 48); composed active=174"
+    },
+    {
+      "id": "INT-ACH-00-SEQUENCE-ACCEPTED",
+      "status": "PASS",
+      "summary": "7 synthetic drink logs accepted"
+    },
+    {
+      "id": "INT-ACH-01",
+      "status": "FAIL",
+      "summary": "first drink log unlocks threshold-1 + generic-beer definitions; award linked to submission; one gallery event; other player unaffected"
+    },
+    {
+      "id": "INT-ACH-02",
+      "status": "PASS",
+      "summary": "thresholds: drink_log 3 (d002) at log 3, 7 (d003) at log 7, 3 distinct concepts (d028) at log 6, bars>=2 (d019) at log 3; none early"
+    },
+    {
+      "id": "INT-ACH-03",
+      "status": "PASS",
+      "summary": "one log (3rd, second bar) unlocks multiple definitions and RPC returns every new award id"
+    },
+    {
+      "id": "INT-ACH-04",
+      "status": "PASS",
+      "summary": "replay of the multi-unlock log key returns idempotent_replay, no new submission/award/gallery rows"
+    },
+    {
+      "id": "INT-ACH-04b-KEY-REUSE-GUARD",
+      "status": "PASS",
+      "summary": "same idempotency key with a different payload is rejected (not silently replayed or double-awarded)"
+    },
+    {
+      "id": "INT-ACH-05-GALLERY-1TO1",
+      "status": "PASS",
+      "summary": "each active award has exactly one active achievement gallery event"
+    },
+    {
+      "id": "INT-ACH-06",
+      "status": "PASS",
+      "summary": "voiding the 7th log revokes the threshold-7 award (d003), keeps earlier awards, deactivates its gallery event"
+    },
+    {
+      "id": "INT-ACH-06b-RESTORE-AFTER-RELOG",
+      "status": "PASS",
+      "summary": "after void + new log (7 accepted again) d003 re-awarded once (single active award row)"
+    },
+    {
+      "id": "INT-ACH-06c-DOUBLE-VOID",
+      "status": "PASS",
+      "summary": "second void of an already voided submission is rejected"
+    },
+    {
+      "id": "INT-ACH-EXEC-PROOF-KEYS",
+      "status": "INFO",
+      "summary": "real definitions awarded during sequence"
+    },
+    {
+      "id": "ACH-001-ACTIVE-CATALOG",
+      "status": "FAIL",
+      "summary": "frozen collections on the ACTIVE launch-candidate catalog: eligible universe is empty -> cannot be earned (FAIL = defect confirmed)"
+    },
+    {
+      "id": "ACH-001-WHATIF-ENGINE-WITH-TAGS",
+      "status": "BLOCKED",
+      "summary": "with 3 synthetic `frozen` offering tags on tropical drinks, both collections become reachable and award (temporary tags removed after run)"
+    },
+    {
+      "id": "ACH-001-WHATIF-CLEANUP",
+      "status": "PASS",
+      "summary": "temporary frozen tags removed"
+    },
+    {
+      "id": "ACH-002-PHYSICAL-BAR",
+      "status": "PASS",
+      "summary": "physical-bar logging of all 3 eligible omalleys-irish-pub offerings completes the personal gauntlet"
+    },
+    {
+      "id": "ACH-002-MOBILE-ORDER",
+      "status": "PASS",
+      "summary": "Mobile Order logs of the SAME offerings must NOT progress/award a physical bar gauntlet (docs/MOBILE_ORDER.md, FINAL §3.4)"
+    },
+    {
+      "id": "ACH-002-WRONG-PHYSICAL-BAR",
+      "status": "PASS",
+      "summary": "same offering ids logged through a different physical bar: either rejected or not credited to the gauntlet bar"
+    },
+    {
+      "id": "ACH-002-VIRTUAL-NOT-A-BAR",
+      "status": "PASS",
+      "summary": "Mobile Order logs do not count toward distinct-bar definitions (d019 bars>=2 not awarded to mobile-only player)"
+    },
+    {
+      "id": "ACH-002-AWARD-DIFF",
+      "status": "INFO",
+      "summary": "award sets: physical-bar player vs Mobile Order player (same 12 offerings)"
+    },
+    {
+      "id": "ACH-003-PRODUCTION-MAP",
+      "status": "PASS",
+      "summary": "164/174 reachable via release map, 10 blocked, 0 missing from map"
+    },
+    {
+      "id": "ACH-003-ENGINE-REACHABILITY",
+      "status": "FAIL",
+      "summary": "44 active definitions cannot be earned on the active launch-candidate catalog (empty collection or missing catalog dependency)"
+    },
+    {
+      "id": "CLEANUP",
+      "status": "PASS",
+      "summary": "synthetic players/defs/tags removed"
+    },
+    {
+      "id": "ORGANIZER-CRUISE-UNCHANGED",
+      "status": "PASS",
+      "summary": "organizer cruise id 48fa40c6-e7cd-4f8f-8b81-e3e48d10eb13"
+    }
+  ]
+}
