@@ -73,6 +73,8 @@ const editorOpen = ref(false)
 const editorMode = ref<'new' | 'adjust'>('new')
 const editorImage = ref<ProcessedImage | null>(null)
 const editorInitialFraming = ref<PhotoFraming>(cloneFraming())
+/** Aborts the in-flight Storage upload when the guest removes/replaces/cancels. */
+let uploadAbort: AbortController | null = null
 
 const busy = computed(
   () =>
@@ -81,6 +83,17 @@ const busy = computed(
     uploadInFlight.value ||
     editorOpen.value,
 )
+
+function hasUploadableBytes(image: ProcessedImage | null): boolean {
+  return !!image && image.blob.size > 0 && image.byteSize > 0
+}
+
+function cancelInFlightUpload() {
+  if (uploadAbort) {
+    uploadAbort.abort()
+    uploadAbort = null
+  }
+}
 
 watch(busy, (v) => emit('busy', v))
 
@@ -150,6 +163,7 @@ async function abandonSlot(slot: PendingUploadSlot | StagedPhotoRef | null) {
 }
 
 async function abandonCurrent() {
+  cancelInFlightUpload()
   await abandonSlot(pending.value ?? staged.value)
   pending.value = null
   staged.value = null
@@ -159,6 +173,7 @@ async function abandonCurrent() {
 }
 
 function clearLocal(options?: { abandonRemote?: boolean }) {
+  cancelInFlightUpload()
   revokeProcessedPreview(processed.value)
   processed.value = null
   framing.value = cloneFraming()
@@ -307,12 +322,21 @@ async function runStage() {
     }
     return
   }
+  if (!hasUploadableBytes(processed.value)) {
+    setError(copy.photo.reselectHint)
+    status.value = 'error'
+    return
+  }
   if (offline()) {
     setError(copy.photo.offline)
     return
   }
 
   if (!beginRequestId.value) beginRequestId.value = crypto.randomUUID()
+
+  cancelInFlightUpload()
+  uploadAbort = new AbortController()
+  const signal = uploadAbort.signal
 
   uploadInFlight.value = true
   status.value = 'uploading'
@@ -326,6 +350,7 @@ async function runStage() {
       pending: pending.value,
       framing: framing.value,
       beginRequestId: beginRequestId.value,
+      signal,
       onPending: (slot) => {
         pending.value = slot
         emit('pending', slot)
@@ -334,6 +359,10 @@ async function runStage() {
         progressMessage.value = p.message
       },
     })
+    if (signal.aborted) {
+      // Upload finished after cancel — do not treat as staged; abandon runs via clearLocal.
+      return
+    }
     pending.value = result.pending
     staged.value = result.staged
     if (result.staged.framing) {
@@ -347,6 +376,21 @@ async function runStage() {
   } catch (err) {
     progressMessage.value = null
     if (err instanceof StagePhotoError) {
+      if (err.code === 'ABORTED') {
+        // Guest cancelled — leave empty/error-free if clearLocal already ran.
+        if (!processed.value) {
+          status.value = 'empty'
+          return
+        }
+        setError(err.message)
+        status.value = 'error'
+        return
+      }
+      if (err.code === 'LOCAL_BYTES_MISSING') {
+        setError(copy.photo.reselectHint)
+        status.value = 'error'
+        return
+      }
       if (err.code === 'BEGIN_REQUEST_CONSUMED' || err.code === 'PHOTO_ABANDONED') {
         beginRequestId.value = crypto.randomUUID()
         pending.value = null
@@ -359,6 +403,7 @@ async function runStage() {
     // Preserve local image + pending reservation for Retry.
     status.value = 'error'
   } finally {
+    if (uploadAbort?.signal === signal) uploadAbort = null
     uploadInFlight.value = false
   }
 }
@@ -412,6 +457,11 @@ function adjustPhoto() {
 
 function retryUpload() {
   if (!processed.value || busy.value) return
+  if (!hasUploadableBytes(processed.value)) {
+    setError(copy.photo.reselectHint)
+    status.value = 'error'
+    return
+  }
   void runStage()
 }
 

@@ -53,7 +53,7 @@ import type {
 import { MOBILE_ORDER_BAR_KEY } from '@/types/drinkLog'
 import type { PhotoFraming } from '@/lib/media/framing'
 import type { StagedPhotoRef } from '@/types/media'
-import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
+import { abandonPhotoUpload, buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
 
 const STEPS: WizardStep[] = ['bar', 'drink', 'friends', 'photo', 'review']
 
@@ -233,6 +233,14 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
 
   function resetAll() {
     const preserveInFlight = drinkSubmitInFlight != null || submitStatus.value === 'submitting'
+    // Abandon draft staged media only when no in-flight submit still needs the photo_id.
+    const photoToAbandon =
+      !preserveInFlight && !formLockedForUnknown.value ? stagedPhoto.value?.photoId ?? null : null
+    if (photoToAbandon) {
+      void abandonPhotoUpload(photoToAbandon).catch(() => {
+        /* best-effort; bound photos correctly refuse */
+      })
+    }
     active.value = false
     step.value = 'bar'
     entrySource.value = 'plus'

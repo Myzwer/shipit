@@ -10,7 +10,8 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 
 | REP-* | Status | Notes |
 |---|---|---|
-| **REP-SUB-001** | **Repaired (R1)** | REL-001/002 contract assertions now pass; E2B-S07 / remint race verified on disposable `:55321`. See `docs/qa/campaign/repairs/R1-submission-integrity/`. Media assertions in the same `submitGuards` file remain expected-red for R2. |
+| **REP-SUB-001** | **Repaired (R1)** | REL-001/002 contract assertions now pass; E2B-S07 / remint race verified on disposable `:55321`. See `docs/qa/campaign/repairs/R1-submission-integrity/`. |
+| **REP-MEDIA-001** | **Repaired (R2)** | REL-003/004/005/007 (+ RISK-B, E2E-031) green on unit contracts; real Storage abandon proof on `:55321`. See `docs/qa/campaign/repairs/R2-media-recovery/`. |
 
 ## Expected red — unit / contract (non-mutating)
 
@@ -19,9 +20,9 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 | Test file | Assertion theme | Defect IDs | REP-* | Status |
 |---|---|---|---|---|
 | `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Scavenger/Daily in-flight early return | REL-001, REL-002 | REP-SUB-001 | **Repaired (R1)** — must stay green |
-| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Discard/reset abandons staged photo | REL-003, REL-004 | REP-MEDIA-001 | Expected red |
-| `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 | Expected red |
-| `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 | Expected red |
+| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Discard/reset abandons staged photo | REL-003, REL-004 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
+| `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
+| `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
 | `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 | Expected red |
 | `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 | Expected red |
 
@@ -59,7 +60,8 @@ Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wr
 
 | Suite | Key cases | REP-* | Status |
 |---|---|---|---|
-| QA-2A `scripts/qa2a/` | E2E-030, E2E-031 | REP-SIGNED-001, REP-MEDIA-001 | Expected red |
+| QA-2A `scripts/qa2a/` | E2E-030 | REP-SIGNED-001 | Expected red (R3) |
+| QA-2A / focused repro | E2E-031 / E2E-ME-009 orphan | REP-MEDIA-001 | **Repaired (R2)** — status+Storage proof (`repro-r2-media-abandon.mjs`); row-count oracle remains misleading |
 | QA-2A `scripts/qa2a/` | E2E-032 | REP-SUB-001 | **Covered by R1** (REL-001 guard + scavenger latch) |
 | QA-2B `scripts/qa2b/` | E2B-S07 / E2B-001 | REP-SUB-001 | **Repaired (R1)** — focused repro + remint race on `:55321` |
 | QA-2B `scripts/qa2b/` | E2B-L03, E2B-002 | REP-SIGNED-001, REP-CLAIM-001 | Expected red |

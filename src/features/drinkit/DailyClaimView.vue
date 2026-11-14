@@ -9,7 +9,10 @@ import {
   cloneFraming,
   type PhotoFraming,
 } from '@/lib/media/framing'
-import { setPhotoFraming as persistStagedFraming } from '@/lib/media/stagePhoto'
+import {
+  abandonPhotoUpload,
+  setPhotoFraming as persistStagedFraming,
+} from '@/lib/media/stagePhoto'
 import { formatMeetingTime } from '@/lib/bounty/mapHomeCards'
 import { fetchHomeBountySnapshot } from '@/lib/bounty/fetchHomeBounties'
 import { pointsLabel } from '@/lib/bounty/tierLabels'
@@ -474,7 +477,22 @@ async function handleSubmitResult(result: Awaited<ReturnType<typeof submitDaily>
   submitError.value = result.message ?? result.code ?? copy.daily.submitFailed
 }
 
+function abandonDraftPhoto() {
+  // Exit without submit — clean staged Storage. Keep photo when submit is in
+  // flight, unknown-pending locked, or localStorage still owns this photo_id.
+  if (submitting.value) return
+  if (formLocked.value && submitError.value === 'unknown') return
+  const photoId = staged.value?.photoId
+  if (!photoId) return
+  const pending = readPendingDailySubmit()
+  if (pending?.payload?.photo_id === photoId) return
+  void abandonPhotoUpload(photoId).catch(() => {
+    /* best-effort; bound photos correctly refuse */
+  })
+}
+
 function backHome() {
+  abandonDraftPhoto()
   void router.push(awardsMode.homePathForGame('drinkit'))
 }
 
@@ -496,6 +514,8 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  // Cover route leaves that bypass the Exit button (browser back, nav).
+  abandonDraftPhoto()
   if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
 })
 

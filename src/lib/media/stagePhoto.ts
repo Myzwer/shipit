@@ -39,6 +39,32 @@ function offline(): boolean {
   return typeof navigator !== 'undefined' && navigator.onLine === false
 }
 
+function isAbortError(err: unknown): boolean {
+  if (!err || typeof err !== 'object') return false
+  const e = err as { name?: string; code?: string; message?: string }
+  return (
+    e.name === 'AbortError' ||
+    e.code === 'ABORTED' ||
+    /aborted|AbortError|The user aborted/i.test(e.message ?? '')
+  )
+}
+
+/** Rejects when signal aborts so upload can stop before confirm even if PUT ignores signal. */
+function abortRace(signal?: AbortSignal): Promise<never> {
+  return new Promise((_, reject) => {
+    if (!signal) return
+    if (signal.aborted) {
+      reject(new StagePhotoError('ABORTED', 'Upload cancelled.'))
+      return
+    }
+    signal.addEventListener(
+      'abort',
+      () => reject(new StagePhotoError('ABORTED', 'Upload cancelled.')),
+      { once: true },
+    )
+  })
+}
+
 export interface StagePhotoProgress {
   phase: 'begin' | 'upload' | 'confirm' | 'reconcile'
   message: string
@@ -188,19 +214,57 @@ export async function stageProcessedPhoto(options: {
     throw new StagePhotoError('ABORTED', 'Upload cancelled.')
   }
 
+  // Never PUT an empty/corrupt placeholder (remount restore without local bytes).
+  if (!image.blob || image.blob.size <= 0 || image.byteSize <= 0) {
+    throw new StagePhotoError(
+      'LOCAL_BYTES_MISSING',
+      'Choose the photo again — the original file is no longer available.',
+    )
+  }
+
   onProgress?.({ phase: 'upload', message: 'Uploading photo…' })
 
   const client = requireClient()
-  const { error: uploadError } = await client.storage
-    .from(pending.bucket)
-    .upload(pending.storagePath, image.blob, {
-      contentType: image.mimeType,
-      upsert: true,
-      cacheControl: '3600',
-    })
+  // Pass AbortSignal in FileOptions so callers/tests can cancel. storage-js 2.109
+  // uploadOrUpdate does not yet forward signal to fetch — race below still stops
+  // confirm/bind; PhotoCapture abandon cleans any object that lands after abort.
+  const uploadOptions: {
+    contentType: string
+    upsert: boolean
+    cacheControl: string
+    signal?: AbortSignal
+  } = {
+    contentType: image.mimeType,
+    upsert: true,
+    cacheControl: '3600',
+  }
+  if (signal) uploadOptions.signal = signal
+
+  let uploadError: { message?: string } | null = null
+  try {
+    const uploadResult = await Promise.race([
+      client.storage.from(pending.bucket).upload(pending.storagePath, image.blob, uploadOptions),
+      abortRace(signal),
+    ])
+    if (uploadResult && 'error' in uploadResult) {
+      uploadError = uploadResult.error
+    }
+  } catch (err) {
+    if (isAbortError(err) || signal?.aborted) {
+      throw new StagePhotoError('ABORTED', 'Upload cancelled.')
+    }
+    throw err
+  }
+
+  if (signal?.aborted) {
+    throw new StagePhotoError('ABORTED', 'Upload cancelled.')
+  }
 
   if (uploadError) {
     const msg = uploadError.message || 'Upload failed'
+    if (/aborted|AbortError|The user aborted/i.test(msg) || signal?.aborted) {
+      throw new StagePhotoError('ABORTED', 'Upload cancelled.')
+    }
     // Object may already exist from a prior lost-response attempt — try confirm.
     if (!/already exists|Duplicate|409/i.test(msg)) {
       if (/network|fetch|Failed to fetch/i.test(msg) || offline()) {

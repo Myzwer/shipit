@@ -7,7 +7,10 @@ import WizardModal from '@/features/drinkit/log/WizardModal.vue'
 import WizardProgress from '@/features/drinkit/log/WizardProgress.vue'
 import ScavengerPhotoStep from '@/features/shipit/ScavengerPhotoStep.vue'
 import ScavengerReviewStep from '@/features/shipit/ScavengerReviewStep.vue'
-import { setPhotoFraming as persistStagedFraming } from '@/lib/media/stagePhoto'
+import {
+  abandonPhotoUpload,
+  setPhotoFraming as persistStagedFraming,
+} from '@/lib/media/stagePhoto'
 import { cloneFraming, type PhotoFraming } from '@/lib/media/framing'
 import { fetchShipItChallenges } from '@/lib/shipit/api'
 import { submitScavenger } from '@/lib/shipit/submit'
@@ -376,8 +379,20 @@ function onNavAction() {
   modal.value = 'startOver'
 }
 
+function abandonDraftPhoto() {
+  // Draft discard only — never abandon while an accepted/in-flight submit owns the photo.
+  if (submitting.value || submitSucceeded.value) return
+  if (formLocked.value && submitError.value === 'unknown') return
+  const photoId = staged.value?.photoId
+  if (!photoId) return
+  void abandonPhotoUpload(photoId).catch(() => {
+    /* best-effort; bound photos correctly refuse */
+  })
+}
+
 function confirmStartOver() {
   modal.value = null
+  abandonDraftPhoto()
   clearPendingScavengerSubmit()
   caption.value = ''
   staged.value = null
@@ -538,6 +553,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   if (discardOnLeave) {
     discardOnLeave = false
+    abandonDraftPhoto()
     clearPendingScavengerSubmit()
     caption.value = ''
     staged.value = null
