@@ -9,17 +9,11 @@ QA-1 game-engine batch is complete on disposable `:55321`. Organizer Wrapped on 
 
 Do **not** apply `11100` to organizer until Wrapped display batch plans it.
 
-## Batch QA-2A — Authenticated browser E2E (highest remaining voyage risk)
+## Batch QA-2A — Authenticated browser E2E — **executed**
 
-Prove what players **see** after refresh, reconnect, wrong device clock, and stale bounty cards:
+See [`qa2a-browser-e2e/SUMMARY.md`](./qa2a-browser-e2e/SUMMARY.md) — **63 passed / 3 failed / 10 blocked / 2 not_run** (78 total) on disposable `:55321` + main Vite `:5177`.
 
-- Pre-cruise countdown vs claim block
-- Active Home bounty card vs grace private claim path
-- Tab left open across cocktail/ingredient rotations
-- Post-finale latch + results/Wrapped entry
-- Client TZ ≠ ship TZ
-
-Mutating E2E → disposable only.
+Residual: ingredient/bar claim E2E flake (E2E-011/012), REL media items, physical device list in `BLOCKED_DEVICE_TESTS.md`.
 
 ## Batch QA-2B — Media / Gallery / photo crop
 

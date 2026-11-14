@@ -1,0 +1,706 @@
+{
+  "generated_at": "2026-11-14T06:47:29.870375+00:00",
+  "campaign": "QA-2A",
+  "env": {
+    "supabase_url": "http://127.0.0.1:55321",
+    "app": "http://127.0.0.1:5177 (main tree Vite + disposable anon key)",
+    "organizer_54321": "preserved final",
+    "emulation": "Chromium mobile \u2014 not physical iPhone Safari / Android Chrome"
+  },
+  "totals": {
+    "total": 78,
+    "passed": 63,
+    "failed": 3,
+    "blocked": 10,
+    "not_run": 2
+  },
+  "defect_severity_counts": {
+    "P0": 0,
+    "P1": 3,
+    "P2": 2,
+    "P3": 0
+  },
+  "defects": [
+    {
+      "id": "E2E-030",
+      "severity": "P1",
+      "title": "REL-008 reproduced by inspection: gallery signed URLs lack refresh/@error reload",
+      "suite": "media"
+    },
+    {
+      "id": "E2E-031",
+      "severity": "P1",
+      "title": "REL-003 observable: discard left additional photos rows",
+      "suite": "media"
+    },
+    {
+      "id": "E2E-032",
+      "severity": "P1",
+      "title": "REL-001 retained: scavenger lacks in-function in-flight guard (idempotency may mask)",
+      "suite": "media"
+    },
+    {
+      "id": "E2E-011",
+      "severity": "P2",
+      "title": "Ingredient bounty Home\u2192wizard E2E flaky/stuck before review after cocktail claim",
+      "links": [
+        "E2E-DI-004"
+      ],
+      "notes": "Cocktail path E2E-DI-003 passed; ingredient automation still times out waiting for review. Manual repro documented."
+    },
+    {
+      "id": "E2E-012",
+      "severity": "P2",
+      "title": "Bar bounty wizard E2E intermittent timeout advancing to review",
+      "links": [
+        "E2E-DI-005"
+      ],
+      "notes": "Earlier rerun passed DI-005; latest failed \u2014 treat as automation reliability + possible crew-gate UX risk"
+    }
+  ],
+  "cases": [
+    {
+      "id": "E2E-AUTH-001",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-002",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-003",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-004",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-005",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-006",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-007",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-008",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-009",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-010",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-011",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-012",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-013",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-014",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-015",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-016",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-AUTH-VP-w360",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "Chromium mobile emulation",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable",
+      "notes": "Not physical device"
+    },
+    {
+      "id": "E2E-AUTH-VP-w390",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "Chromium mobile emulation",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable",
+      "notes": "Not physical device"
+    },
+    {
+      "id": "E2E-AUTH-VP-w402",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "Chromium mobile emulation",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable",
+      "notes": "Not physical device"
+    },
+    {
+      "id": "E2E-AUTH-VP-w430",
+      "outcome": "passed",
+      "suite": "auth",
+      "actual": "Chromium mobile emulation",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable",
+      "notes": "Not physical device"
+    },
+    {
+      "id": "E2E-DI-001",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-002",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-003",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-004",
+      "outcome": "failed",
+      "suite": "drinkit",
+      "actual": "TimeoutError: page.waitForSelector: Timeout 25000ms exceeded.",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-005",
+      "outcome": "failed",
+      "suite": "drinkit",
+      "actual": "TimeoutError: page.waitForSelector: Timeout 25000ms exceeded.",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-006",
+      "outcome": "not_run",
+      "suite": "drinkit",
+      "actual": "Today mode was: Bring a Friend",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-007",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-008",
+      "outcome": "blocked",
+      "suite": "drinkit",
+      "actual": "Cocktail claim passed; ingredient claim automation failed \u2014 overlap not fully proven in browser",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable",
+      "notes": "Backend overlap passed QA-1"
+    },
+    {
+      "id": "E2E-DI-009",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-010",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-011",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-DI-012",
+      "outcome": "passed",
+      "suite": "drinkit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-001",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-002",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-003",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-004",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-005",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-006",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-007",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-008",
+      "outcome": "blocked",
+      "suite": "lifecycle",
+      "actual": "Chromium Date override not used; covered via server seed + TZ case",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-009",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-010",
+      "outcome": "passed",
+      "suite": "lifecycle",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-011",
+      "outcome": "blocked",
+      "suite": "lifecycle",
+      "actual": "Automated long-wait rotation not run; pause/refresh coverage stands in",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-LC-012",
+      "outcome": "blocked",
+      "suite": "lifecycle",
+      "actual": "Backend grace passed QA-1; browser timing harness not fully automated",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-001",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-002",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-003",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-004",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-005",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-006",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-007",
+      "outcome": "blocked",
+      "suite": "media",
+      "actual": "no reaction control found",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-008",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-009",
+      "outcome": "failed",
+      "suite": "media",
+      "actual": "photosBefore=13 photosAfter=14 orphanSuspected=true",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-010",
+      "outcome": "passed",
+      "suite": "media",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-011",
+      "outcome": "blocked",
+      "suite": "media",
+      "actual": "Not run in Chromium emulation",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-012",
+      "outcome": "blocked",
+      "suite": "media",
+      "actual": "Not safely proven in browser without flaky mid-PUT timing; retain REL-005",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-ME-013",
+      "outcome": "blocked",
+      "suite": "media",
+      "actual": "Unit-confirmed by Agent 2; browser remount race not stably automated \u2014 outstanding",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-001",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-002",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-003",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-004",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-005",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-006",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-007",
+      "outcome": "passed",
+      "suite": "network",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-008",
+      "outcome": "blocked",
+      "suite": "network",
+      "actual": "Not fully automated without injectable Storage+RPC split fault",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-NET-009",
+      "outcome": "blocked",
+      "suite": "network",
+      "actual": "Partially covered by refresh-during-submit + backend idempotency (QA-1)",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-001",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-002",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-003",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-004",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-005",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-006",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-007",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-008",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-009",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-010",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-011",
+      "outcome": "passed",
+      "suite": "shipit",
+      "actual": "",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    },
+    {
+      "id": "E2E-SI-012",
+      "outcome": "not_run",
+      "suite": "shipit",
+      "actual": "delegated",
+      "method": "browser+disposable",
+      "backend_integration": "real_disposable"
+    }
+  ],
+  "existing_findings_reproduced": [
+    "REL-001",
+    "REL-003",
+    "REL-008"
+  ],
+  "existing_findings_outstanding_integration": [
+    "REL-005",
+    "REL-007",
+    "REL-002",
+    "REL-004"
+  ],
+  "linked_qa1": [
+    "DEF-QA1-001 not retested in browser (preview reason)"
+  ]
+}

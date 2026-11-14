@@ -69,3 +69,8 @@ private/photos/
 
 # Duplicate unpacked handoff source (canonical copy lives in /handoff)
 Star_Princess_Final_Cursor_Handoff_v1.1/
+
+# QA-2A browser evidence (may include fixture UI / names)
+docs/qa/campaign/qa2a-browser-e2e/evidence/
+.local/qa2a-disposable.env
+.local/qa2a-identities.json

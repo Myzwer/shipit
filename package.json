@@ -85,7 +85,9 @@
     "test:e2e:phase8": "node scripts/e2e-phase8-wrapped.mjs",
     "screenshots:phase8": "node scripts/e2e-phase8-wrapped.mjs",
     "screenshots:phase9a": "node scripts/capture-phase9a-screens.mjs",
-    "test:e2e:phase9a": "node scripts/capture-phase9a-screens.mjs"
+    "test:e2e:phase9a": "node scripts/capture-phase9a-screens.mjs",
+    "test:e2e:qa2a": "node scripts/qa2a/run.mjs",
+    "qa2a:setup-synthetics": "node scripts/qa2a/setup-synthetics.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
