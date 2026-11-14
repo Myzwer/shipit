@@ -23,6 +23,10 @@ export async function loadClockFixtures(): Promise<ClockFixtures> {
   const withRoles = await ensureSyntheticRoleIdentities(base)
 
   const service = createLocalClient(withRoles.summary!.supabase_url, withRoles.serviceRoleKey!)
+  // Fail closed before reseeding ship clock — protects organizer Wrapped/final fixture.
+  const { assertDisposableDevEnvironment } = await import('./devEnvironmentGuard')
+  await assertDisposableDevEnvironment(withRoles, service)
+
   const { error: seedError } = await service.rpc('dev_seed_cruise_clock', {
     p_day1_ship_date: DEV_DAY1,
     p_base_offset_minutes: DEV_BASE_OFFSET_MIN,

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "campaign": "star-princess-functional-qa",
+  "assignment": 1,
+  "updated_at": "2026-11-14T05:15:00Z",
+  "environments": {
+    "organizer": {
+      "api": "http://127.0.0.1:54321",
+      "mutating": false,
+      "scenario": "wrapped",
+      "fingerprint": "f9f07ab84d988614"
+    },
+    "disposable": {
+      "api": "http://127.0.0.1:55321",
+      "workdir": "/Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo",
+      "mutating": true,
+      "migrations_include": ["10900", "11000"]
+    }
+  },
+  "cases": [
+    {"id": "QA-LC-001", "feature": "precruise_route_guards", "risk": "critical", "method": "integration", "status": "not_run", "env": "disposable"},
+    {"id": "QA-LC-002", "feature": "day1_shared_open", "risk": "critical", "method": "integration", "status": "passed", "env": "disposable", "evidence": ["tests/integration/clock.precruise_opening.test.ts"], "ran_at": "2026-11-14T05:06:11Z"},
+    {"id": "QA-LC-004", "feature": "friday_6pm_cutoff", "risk": "critical", "method": "integration", "status": "passed", "env": "disposable", "evidence": ["tests/integration/bounty.phase2da.schedule.test.ts"], "note": "Covered via Friday grace override / finale status assertions in phase2da suite on disposable", "ran_at": "2026-11-14T05:06:11Z"},
+    {"id": "QA-GR-001", "feature": "grace_category_scope", "risk": "critical", "method": "unit", "status": "passed", "evidence": ["tests/unit/bountyGraceContract.spec.ts"]},
+    {"id": "QA-GR-002", "feature": "grace_half_open_boundaries", "risk": "critical", "method": "integration", "status": "passed", "evidence": ["tests/unit/bountyGraceContract.spec.ts", "tests/integration/bounty.phase2da.schedule.test.ts"], "ran_at": "2026-11-14T05:06:11Z"},
+    {"id": "QA-GR-003", "feature": "grace_hidden_from_home", "risk": "high", "method": "integration", "status": "passed", "env": "disposable", "evidence": ["tests/integration/bounty.phase2da.schedule.test.ts"], "ran_at": "2026-11-14T05:06:11Z"},
+    {"id": "QA-GR-004", "feature": "friday_overrides_grace", "risk": "critical", "method": "integration", "status": "passed", "env": "disposable", "evidence": ["tests/integration/bounty.phase2da.schedule.test.ts"], "ran_at": "2026-11-14T05:06:11Z"},
+    {"id": "QA-DI-006", "feature": "bar_crew_points_lock", "risk": "critical", "method": "integration", "status": "not_run", "env": "disposable"},
+    {"id": "QA-DI-008", "feature": "daily_attest_participation", "risk": "critical", "method": "integration", "status": "not_run", "env": "disposable", "evidence": ["tests/integration/drinkit.pc1.dailyAttest.test.ts"]},
+    {"id": "QA-SI-003", "feature": "shipit_first_to_reach_score", "risk": "critical", "method": "integration", "status": "not_run", "env": "disposable"},
+    {"id": "QA-MO-001", "feature": "mobile_order_exclusions", "risk": "high", "method": "integration", "status": "blocked", "blocked_reason": "10900 not on organizer; disposable has migration", "env": "disposable"},
+    {"id": "QA-ADAY-001", "feature": "activity_day_5am", "risk": "high", "method": "integration", "status": "blocked", "blocked_reason": "11000 not on organizer; disposable has migration", "env": "disposable"},
+    {"id": "QA-WR-001", "feature": "wrapped_80_metrics", "risk": "critical", "method": "integration", "status": "not_run", "env": "disposable_or_read_only_organizer"},
+    {"id": "QA-SAFE-001", "feature": "qa_scenario_confirm_env", "risk": "critical", "method": "unit", "status": "passed", "evidence": ["tests/unit/qaScenarioSafety.spec.ts"]},
+    {"id": "QA-SAFE-003", "feature": "refuse_final_fixture_mutation", "risk": "critical", "method": "unit", "status": "passed", "evidence": ["tests/helpers/devEnvironmentGuard.ts", "tests/unit/devEnvironmentGuard.spec.ts"]},
+    {"id": "QA-ME-001", "feature": "photo_crop_e2e", "risk": "high", "method": "e2e", "status": "not_run", "classification": "open_director_item"},
+    {"id": "QA-ACH-003", "feature": "good_spirits_price_gate", "risk": "high", "method": "integration", "status": "not_run", "classification": "launch_config"}
+  ]
+}

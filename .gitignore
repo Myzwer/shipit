@@ -36,6 +36,29 @@ supabase/.temp
 # Local Tuesday / midgame QA evidence (screenshots may include fixture photos)
 docs/qa/tuesday-midgame/
 
+# Local visual/functional QA binaries (may include private fixture photos)
+# Already-tracked historical PNGs remain tracked; new media stays local.
+docs/**/*.png
+docs/**/*.jpg
+docs/**/*.jpeg
+docs/**/*.webp
+docs/**/*.webm
+
+# Private Wrapped / scenario dumps and alias matrices (real player payloads)
+docs/qa/**/wrapped-dump-*.json
+docs/qa/wrapped-plan-c-full/player-slide-matrix.json
+
+# Local QA evidence JSON that embeds private login aliases / display names
+docs/qa/**/evidence/
+docs/qa/**/evidence.json
+docs/qa/**/fe*-evidence.json
+docs/qa/pc1-precruise/
+docs/qa/pc1-rules-sync/
+docs/**/qa-report.json
+docs/**/qa-notes.json
+docs/daily-visual-fixes/**/report.json
+docs/admin-cleanup-nav/results.json
+
 # Private organizer inputs (real roster, credentials maps, guest photos)
 private/roster/
 private/photos/
