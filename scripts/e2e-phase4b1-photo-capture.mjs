@@ -11,6 +11,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
@@ -113,6 +114,7 @@ try {
 
   // Upload via file picker (simulates Upload Photo).
   await uploadInput.setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-preview"]', { timeout: 20000 })
   pass('preview-after-selection')
   await shot('photo-preview')
@@ -127,6 +129,7 @@ try {
   pass('photo-remove')
 
   await uploadInput.setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   pass('photo-replace-restage')
 
@@ -140,6 +143,7 @@ try {
   await page.click('[data-testid="photo-remove"]')
   await page.waitForSelector('[data-testid="photo-upload"]')
   await uploadInput.setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-error"]', { timeout: 20000 })
   pass('failed-upload-shows-error')
   await shot('photo-error')
@@ -152,6 +156,7 @@ try {
   } else {
     // Processing may have cleared; reselect
     await uploadInput.setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
     await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
     pass('reselect-after-failure')
   }

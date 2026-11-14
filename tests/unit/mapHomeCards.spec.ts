@@ -116,17 +116,20 @@ describe('mapHomeBountyCards', () => {
     expect(daily.presentation).toBe('active')
     expect(daily.title).toBe('Tequila Shot')
     expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyAllHandsEyebrow)
-    expect(daily.detail).toContain('Location: Lido Bar')
-    expect(daily.detail).toContain('shot of tequila')
-    expect(daily.detail).toContain('Meet @ 3 PM')
+    expect(daily.detail).toBe('Location: Lido Bar')
+    expect(daily.detail).not.toContain('shot of tequila')
+    expect(daily.detail).not.toContain('Meet @ 3 PM')
+    expect(daily.detail).not.toMatch(/All Hands —/i)
     expect(daily.detail).not.toMatch(/pending organizer supply/i)
-    expect(daily.detail).not.toMatch(/Everyone does this at the same time/i)
+    expect(daily.timerLabel).toBe('')
+    expect(daily.timerLabel).not.toMatch(/Available until/i)
     expect(daily.pointsLabel).toBe('50 Points')
     expect(daily.claimEnabled).toBe(true)
+    expect(daily.claimLabel).toBe(copy.bounty.viewDetails)
     expect(daily.claimPrefill?.source).toBe('daily')
   })
 
-  it('maps Bring a Friend Daily cards without empty meetup rows', () => {
+  it('maps Bring a Friend Daily cards without Home subtype label or instructions', () => {
     const { cards } = mapHomeBountyCards({
       fetchStatus: 'ready',
       fetchedAtMs: Date.parse('2026-11-05T17:00:00.000Z'),
@@ -153,8 +156,8 @@ describe('mapHomeBountyCards', () => {
         display_name: 'Orgeat',
         tier: 'less_common',
         points: 50,
-        known_bar_count: 5,
         public_end_utc: '2026-11-07T23:00:00.000Z',
+        known_bar_count: 5,
       },
       bar: { status: 'unavailable' },
       daily: {
@@ -175,12 +178,66 @@ describe('mapHomeBountyCards', () => {
       },
     })
     const daily = cards.find((c) => c.id === 'daily')!
-    expect(daily.tierOrEyebrow).toBe(copy.bounty.dailyBringFriendEyebrow)
-    expect(daily.detail).toContain("O'Malley's Irish Pub")
-    expect(daily.detail).toMatch(/Irish side/i)
-    expect(daily.detail).toMatch(/Bring a Friend/i)
-    expect(daily.detail).not.toMatch(/Meetup:/i)
-    expect(daily.detail).not.toMatch(/pending organizer supply/i)
+    expect(daily.tierOrEyebrow).toBe('')
+    expect(daily.detail).toBe("Location: O'Malley's Irish Pub")
+    expect(daily.detail).not.toMatch(/Irish side/i)
+    expect(daily.detail).not.toMatch(/Bring a Friend/i)
+    expect(daily.timerLabel).toBe('')
+    expect(daily.claimLabel).toBe(copy.bounty.viewDetails)
+  })
+
+  it('keeps structured Daily meetup times on the Home card', () => {
+    const { cards } = mapHomeBountyCards({
+      fetchStatus: 'ready',
+      fetchedAtMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      nowMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      clock: baseClock('2099-01-03T13:00:00'),
+      cocktail: {
+        status: 'active',
+        offer_id: 'c1',
+        slot_key: 'cocktail:day:1:h13',
+        offering_id: 'off-1',
+        drink_name: 'Fixture Spritz',
+        designated_bar_key: 'piazza',
+        designated_bar_name: 'Fixture Piazza',
+        tier: 'familiar',
+        points: 25,
+        listed_ingredients: [],
+        public_end_utc: '2026-11-05T18:00:00.000Z',
+      },
+      ingredient: {
+        status: 'active',
+        offer_id: 'i1',
+        slot_key: 'ingredient:day:1:h12',
+        ingredient_key: 'orgeat',
+        display_name: 'Orgeat',
+        tier: 'less_common',
+        points: 50,
+        known_bar_count: 5,
+        public_end_utc: '2026-11-05T19:00:00.000Z',
+      },
+      daily: {
+        status: 'active',
+        challenge_id: 'd1',
+        cruise_day: 1,
+        title: 'Tequila Shot',
+        instructions: 'Kick off the cruise with a shot of tequila!',
+        location_name: 'Lido Bar',
+        meeting_time_ship_local: '14:30:00',
+        is_all_hands: true,
+        participation_mode: 'all_hands',
+        admin_announcement: 'Bring sunscreen',
+        photo_required: true,
+        points: 50,
+        public_end_utc: '2026-11-05T23:00:00.000Z',
+      },
+    })
+    const daily = cards.find((c) => c.id === 'daily')!
+    expect(daily.timerLabel).toBe('Meet at 2:30 PM')
+    expect(daily.detail).toBe('Location: Lido Bar')
+    expect(daily.detail).not.toContain('Bring sunscreen')
+    expect(daily.detail).not.toContain('shot of tequila')
+    expect(daily.claimLabel).toBe(copy.bounty.viewDetails)
   })
 
   it('maps already-claimed Bar Bounty to claimed presentation with ledger points', () => {

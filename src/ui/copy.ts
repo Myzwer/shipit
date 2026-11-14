@@ -50,6 +50,11 @@ export const copy = {
     seeShipIt: 'See My Ship It! Wrapped',
     yourWeek: 'Your Cruise',
     yourTeamWeek: "Your Team's Adventure",
+    /** Featured carousel intro card (both games). */
+    introHeadline: 'What a Lovely Cruise',
+    introHeadlineLines: ['What a', 'Lovely', 'Cruise'] as const,
+    introBody: 'We did a lot this week. Swipe to see it all.',
+    introAdvanceLabel: 'Next story',
     drinkIntroHeadline: "You've been busy!",
     drinkIntroBody:
       "It's always sad when the cruise comes to an end. Let's see what adventures and drinks you've had over the last week!",

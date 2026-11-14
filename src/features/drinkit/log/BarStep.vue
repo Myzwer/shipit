@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppIcon from '@/components/shared/AppIcon.vue'
 import { copy, formatCopy } from '@/ui/copy'
 import type { BarSortMode, DrinkitBarRow } from '@/types/drinkLog'
 
@@ -16,21 +17,16 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section data-testid="wizard-bar-step" class="px-4 pb-28">
-    <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
+  <section data-testid="wizard-bar-step" class="px-4 pb-32 pt-3">
+    <h2 class="wizard-prompt">
       {{ copy.wizard.barPrompt }}
     </h2>
 
-    <div class="mt-4 flex items-center gap-2 text-sm" style="color: var(--theme-muted)">
+    <div class="wizard-sort">
       <span>{{ copy.wizard.sortBy }}</span>
       <button
         type="button"
-        class="rounded-full px-3 py-1 font-semibold"
-        :style="
-          sort === 'alpha'
-            ? { background: 'var(--theme-primary)', color: '#fff' }
-            : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
-        "
+        :aria-pressed="sort === 'alpha'"
         data-testid="bar-sort-alpha"
         @click="emit('sort', 'alpha')"
       >
@@ -38,12 +34,7 @@ const emit = defineEmits<{
       </button>
       <button
         type="button"
-        class="rounded-full px-3 py-1 font-semibold"
-        :style="
-          sort === 'deck'
-            ? { background: 'var(--theme-primary)', color: '#fff' }
-            : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
-        "
+        :aria-pressed="sort === 'deck'"
         data-testid="bar-sort-deck"
         @click="emit('sort', 'deck')"
       >
@@ -59,8 +50,7 @@ const emit = defineEmits<{
       <p style="color: var(--theme-ink)">{{ copy.wizard.barsEmpty }}</p>
       <button
         type="button"
-        class="mt-3 rounded-full px-4 py-2 text-sm font-semibold text-white"
-        style="background: var(--theme-primary)"
+        class="ui-primary-btn mt-3"
         data-testid="bars-retry"
         @click="emit('retry')"
       >
@@ -68,23 +58,26 @@ const emit = defineEmits<{
       </button>
     </div>
 
-    <ul v-else class="mt-4 space-y-2" data-testid="bar-list">
+    <ul v-else class="mt-3 space-y-2.5" data-testid="bar-list">
       <li v-for="bar in bars" :key="bar.canonical_key">
         <button
           type="button"
-          class="flex w-full items-center justify-between rounded-2xl px-4 py-4 text-left transition"
-          style="background: var(--theme-card); color: var(--theme-ink)"
+          class="wizard-choice"
           :data-testid="`bar-row-${bar.canonical_key}`"
           @click="emit('select', bar)"
         >
-          <span class="font-semibold">{{ bar.name }}</span>
-          <span class="text-sm" style="color: var(--theme-muted)">
-            {{
-              bar.is_virtual
-                ? copy.wizard.mobileOrderMeta
-                : formatCopy(copy.wizard.deckLabel, { deckNumber: bar.deck })
-            }}
+          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+          <span class="wizard-choice-copy">
+            <span class="wizard-choice-title ui-display-name">{{ bar.name }}</span>
+            <span class="wizard-choice-meta">
+              {{
+                bar.is_virtual
+                  ? copy.wizard.mobileOrderMeta
+                  : formatCopy(copy.wizard.deckLabel, { deckNumber: bar.deck })
+              }}
+            </span>
           </span>
+          <AppIcon name="action.next" class="wizard-choice-arrow" />
         </button>
       </li>
     </ul>

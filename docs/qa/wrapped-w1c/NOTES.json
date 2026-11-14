@@ -1,0 +1,236 @@
+[
+  {
+    "width": 360,
+    "overflowX": false,
+    "styleTones": [
+      {
+        "key": "DI-P01",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P02",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P03",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P04",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P05",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P06",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P07",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P08",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P09",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P10",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P11",
+        "layout": "compact",
+        "span": "full",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P12",
+        "layout": "text",
+        "span": "full",
+        "tone": "cream"
+      }
+    ]
+  },
+  {
+    "width": 402,
+    "overflowX": false,
+    "styleTones": [
+      {
+        "key": "DI-P01",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P02",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P03",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P04",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P05",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P06",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P07",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P08",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P09",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P10",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P11",
+        "layout": "compact",
+        "span": "full",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P12",
+        "layout": "text",
+        "span": "full",
+        "tone": "cream"
+      }
+    ]
+  },
+  {
+    "width": 430,
+    "overflowX": false,
+    "styleTones": [
+      {
+        "key": "DI-P01",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P02",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P03",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P04",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P05",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P06",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P07",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P08",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P09",
+        "layout": "compact",
+        "span": "half",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P10",
+        "layout": "compact",
+        "span": "half",
+        "tone": "cream"
+      },
+      {
+        "key": "DI-P11",
+        "layout": "compact",
+        "span": "full",
+        "tone": "aqua"
+      },
+      {
+        "key": "DI-P12",
+        "layout": "text",
+        "span": "full",
+        "tone": "cream"
+      }
+    ]
+  }
+]

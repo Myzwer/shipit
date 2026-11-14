@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppIcon from '@/components/shared/AppIcon.vue'
 import { copy } from '@/ui/copy'
 import type { DrinkitBarDrinkRow } from '@/types/drinkLog'
 
@@ -33,19 +34,18 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section data-testid="wizard-drink-step" class="px-4 pb-28">
+  <section data-testid="wizard-drink-step" class="px-4 pb-32 pt-3">
     <template v-if="!showUnlisted">
-      <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
+      <h2 class="wizard-prompt">
         {{ isMobileOrder ? copy.wizard.mobileOrderDrinkPrompt : copy.wizard.drinkPrompt }}
       </h2>
 
-      <label class="mt-4 block">
+      <label class="wizard-search">
         <span class="sr-only">{{ copy.wizard.searchDrinks }}</span>
+        <AppIcon name="action.search" class="text-sm" />
         <input
           :value="search"
           type="search"
-          class="w-full rounded-2xl border-0 px-4 py-3 text-base outline-none"
-          style="background: var(--theme-card); color: var(--theme-ink)"
           :placeholder="copy.wizard.searchDrinks"
           data-testid="drink-search"
           @input="emit('update:search', ($event.target as HTMLInputElement).value)"
@@ -74,47 +74,51 @@ const emit = defineEmits<{
         {{ copy.wizard.drinksSearchEmpty }}
       </p>
 
-      <ul v-else class="mt-4 space-y-2" data-testid="drink-list">
+      <ul v-else class="mt-3 space-y-2.5" data-testid="drink-list">
         <li v-for="drink in drinks" :key="drink.drink_concept_id || drink.offering_id">
           <button
             type="button"
-            class="w-full rounded-2xl px-4 py-4 text-left font-semibold"
-            style="background: var(--theme-card); color: var(--theme-ink)"
+            class="wizard-choice"
             :data-testid="`drink-row-${drink.canonical_key || drink.offering_id}`"
             @click="emit('selectNamed', drink)"
           >
-            {{ drink.display_name }}
+            <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+            <span class="wizard-choice-title ui-display-name">{{ drink.display_name }}</span>
+            <AppIcon name="action.next" class="wizard-choice-arrow" />
           </button>
         </li>
       </ul>
 
-      <div class="mt-6 space-y-2" data-testid="drink-generics">
+      <div class="mt-2.5 space-y-2.5" data-testid="drink-generics">
         <button
           type="button"
-          class="w-full rounded-2xl px-4 py-4 text-left font-semibold"
-          style="background: var(--theme-card); color: var(--theme-ink)"
+          class="wizard-choice"
           data-testid="drink-generic-beer"
           @click="emit('selectGeneric', 'generic_beer')"
         >
-          {{ copy.wizard.beer }}
+          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+          <span class="wizard-choice-title">{{ copy.wizard.beer }}</span>
+          <AppIcon name="action.next" class="wizard-choice-arrow" />
         </button>
         <button
           type="button"
-          class="w-full rounded-2xl px-4 py-4 text-left font-semibold"
-          style="background: var(--theme-card); color: var(--theme-ink)"
+          class="wizard-choice"
           data-testid="drink-generic-wine"
           @click="emit('selectGeneric', 'generic_wine')"
         >
-          {{ copy.wizard.wine }}
+          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+          <span class="wizard-choice-title">{{ copy.wizard.wine }}</span>
+          <AppIcon name="action.next" class="wizard-choice-arrow" />
         </button>
         <button
           type="button"
-          class="w-full rounded-2xl px-4 py-4 text-left font-semibold"
-          style="background: var(--theme-card); color: var(--theme-ink)"
+          class="wizard-choice"
           data-testid="drink-generic-other"
           @click="emit('selectGeneric', 'generic_other')"
         >
-          {{ copy.wizard.otherAlcoholic }}
+          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+          <span class="wizard-choice-title">{{ copy.wizard.otherAlcoholic }}</span>
+          <AppIcon name="action.next" class="wizard-choice-arrow" />
         </button>
       </div>
 
@@ -130,7 +134,7 @@ const emit = defineEmits<{
     </template>
 
     <template v-else>
-      <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)" data-testid="unlisted-form">
+      <h2 class="wizard-prompt" data-testid="unlisted-form">
         {{ copy.wizard.unlistedHeading }}
       </h2>
       <p class="mt-2 text-sm" style="color: var(--theme-muted)">
@@ -143,8 +147,7 @@ const emit = defineEmits<{
         <input
           :value="unlistedName"
           type="text"
-          class="mt-1 w-full rounded-2xl px-4 py-3 font-normal outline-none"
-          style="background: var(--theme-card)"
+          class="mt-1 w-full rounded-2xl bg-white px-4 py-3 font-normal shadow-sm outline-none"
           :placeholder="copy.wizard.unlistedNamePlaceholder"
           data-testid="unlisted-name"
           @input="emit('update:unlistedName', ($event.target as HTMLInputElement).value)"
@@ -169,7 +172,7 @@ const emit = defineEmits<{
             :style="
               unlistedType === opt.id
                 ? { background: 'var(--theme-primary)', color: '#fff' }
-                : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
+                : { background: '#fff', color: 'var(--theme-ink)' }
             "
             :data-testid="`unlisted-type-${opt.id}`"
             @click="emit('update:unlistedType', opt.id)"
@@ -181,8 +184,7 @@ const emit = defineEmits<{
 
       <div
         v-if="unlistedType === 'cocktail' && activeIngredientName"
-        class="mt-4 rounded-2xl px-4 py-3"
-        style="background: var(--theme-card)"
+        class="mt-4 rounded-2xl bg-white px-4 py-3 shadow-sm"
         data-testid="unlisted-ingredient-confirm"
       >
         <p class="text-sm font-semibold" style="color: var(--theme-ink)">
@@ -225,8 +227,7 @@ const emit = defineEmits<{
 
       <div
         v-if="unlistedType === 'cocktail' && showFeaturedConfirm && featuredDrinkName"
-        class="mt-4 rounded-2xl px-4 py-3"
-        style="background: var(--theme-card)"
+        class="mt-4 rounded-2xl bg-white px-4 py-3 shadow-sm"
         data-testid="unlisted-featured-confirm"
       >
         <p class="text-sm font-semibold" style="color: var(--theme-ink)">
@@ -270,8 +271,8 @@ const emit = defineEmits<{
       <div class="mt-6 flex gap-2">
         <button
           type="button"
-          class="flex-1 rounded-full py-3 text-sm font-semibold"
-          style="background: var(--theme-card); color: var(--theme-ink)"
+          class="flex-1 rounded-full bg-white py-3 text-sm font-semibold shadow-sm"
+          style="color: var(--theme-ink)"
           data-testid="unlisted-cancel"
           @click="emit('cancelUnlisted')"
         >

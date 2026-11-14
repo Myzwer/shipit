@@ -1,0 +1,84 @@
+{
+  "submits": [
+    {
+      "key": "five",
+      "ok": true,
+      "code": "ACCEPTED"
+    },
+    {
+      "key": "ten",
+      "ok": true,
+      "code": "ACCEPTED"
+    },
+    {
+      "key": "nocap",
+      "ok": true,
+      "code": "ACCEPTED"
+    },
+    {
+      "key": "nocomp",
+      "ok": true,
+      "code": "ACCEPTED"
+    },
+    {
+      "key": "neither",
+      "ok": true,
+      "code": "ACCEPTED"
+    },
+    {
+      "key": "longcap",
+      "ok": true,
+      "code": "ACCEPTED"
+    }
+  ],
+  "checks": {
+    "V6t five": {
+      "story": "Josh — V6t five — Lol might be the second drink of the challenge but it's my fifth of the day! 😂",
+      "companions": "With Aaron, Cindy, Dan, David B. & Jonathan",
+      "hasIcon": 0,
+      "styles": {
+        "fontSize": "13px",
+        "fontStyle": "italic",
+        "color": "rgb(91, 103, 112)",
+        "marginTop": "8px"
+      }
+    },
+    "V6t ten": {
+      "story": "Josh — V6t ten companions wrap quietly under the combined author and caption paragraph without dominating the card",
+      "companions": "With Aaron, Cindy, Dan, David B., David F., Jonathan, Jordan, Katie, Lindsey & Mark",
+      "hasIcon": 0,
+      "styles": {
+        "fontSize": "13px",
+        "fontStyle": "italic",
+        "color": "rgb(91, 103, 112)",
+        "marginTop": "8px"
+      }
+    },
+    "V6t caption only": {
+      "story": "Josh — V6t caption only — no companions recorded on this ordinary drink log",
+      "companions": null,
+      "hasIcon": 0,
+      "styles": null
+    },
+    "V6t long caption": {
+      "story": "Josh — V6t long caption wraps across several lines so we can confirm the bold author name and regular caption stay one paragraph: the second drink of the challenge might already feel like the fifth of the day, and the toast keeps going until the sentence finally ends.",
+      "companions": "With Aaron, Cindy, Dan, David B. & Jonathan",
+      "hasIcon": 0,
+      "styles": {
+        "fontSize": "13px",
+        "fontStyle": "italic",
+        "color": "rgb(91, 103, 112)",
+        "marginTop": "8px"
+      }
+    },
+    "no-caption": {
+      "story": "Josh",
+      "companions": "With Aaron, Cindy, Dan, David B. & Jonathan"
+    },
+    "neither": {
+      "story": "Josh",
+      "capCount": 0,
+      "compCount": 0
+    }
+  }
+}

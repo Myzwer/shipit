@@ -22,7 +22,7 @@ const emit = defineEmits<{
   >
     <div
       class="w-full max-w-sm rounded-3xl px-5 py-5 shadow-xl"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
     >
       <h2 class="font-display text-lg font-bold">{{ title }}</h2>
       <p class="mt-2 text-sm" style="color: var(--theme-muted)">{{ body }}</p>

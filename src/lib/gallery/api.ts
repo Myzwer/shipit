@@ -47,6 +47,9 @@ export async function setGalleryReaction(
   eventId: string,
   emoji: GalleryReactionEmoji | null,
 ): Promise<{ my_reaction: GalleryReactionEmoji | null; reactions: GalleryReactionCounts }> {
+  if (!eventId) {
+    throw Object.assign(new Error('EVENT_REQUIRED'), { code: 'EVENT_REQUIRED' })
+  }
   const { data, error } = await rpc('set_gallery_reaction', {
     p_event_id: eventId,
     p_emoji: emoji,
@@ -59,7 +62,11 @@ export async function setGalleryReaction(
     code?: string
     message?: string
   }
-  if (!row?.ok) throw new Error(row?.message ?? row?.code ?? 'Reaction failed')
+  if (!row?.ok) {
+    throw Object.assign(new Error(row?.message ?? row?.code ?? 'Reaction failed'), {
+      code: row?.code ?? 'REACTION_FAILED',
+    })
+  }
   return {
     my_reaction: row.my_reaction ?? null,
     reactions: row.reactions ?? { heart: 0, laugh: 0, hang_loose: 0 },

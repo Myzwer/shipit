@@ -1,0 +1,48 @@
+{
+  "V6s two companions:03-two-companions-402.png": {
+    "byline": "Josh · with Aaron & Cindy",
+    "more": 0,
+    "less": 0,
+    "toggle": null,
+    "clamped": 1
+  },
+  "V6s five companions:04-five-companions-collapsed-402.png": {
+    "byline": "Josh · with Aaron +4",
+    "more": 1,
+    "less": 0,
+    "toggle": null,
+    "clamped": 1
+  },
+  "V6s five companions:05-five-companions-expanded-402.png": {
+    "byline": "Josh · with Aaron, Cindy, Dan, David B. & Jonathan less",
+    "more": 0,
+    "less": 1,
+    "toggle": null,
+    "clamped": 1
+  },
+  "V6s long caption needs Read more:06-ten-long-collapsed-402.png": {
+    "byline": "Josh · with Aaron +9",
+    "more": 1,
+    "less": 0,
+    "toggle": "Read more",
+    "clamped": 1
+  },
+  "V6s long caption needs Read more:07-ten-long-expanded-both-402.png": {
+    "byline": "Josh · with Aaron, Cindy, Dan, David B., David F., Jonathan, Jordan, Katie, Lindsey & Mark less",
+    "more": 0,
+    "less": 1,
+    "toggle": "Show less",
+    "clamped": 0
+  },
+  "V6s short only:08-short-caption-402.png": {
+    "byline": "Josh",
+    "more": 0,
+    "less": 0,
+    "toggle": null,
+    "clamped": 1
+  },
+  "no-caption": {
+    "byline": "Josh · with Aaron +4",
+    "more": 1
+  }
+}

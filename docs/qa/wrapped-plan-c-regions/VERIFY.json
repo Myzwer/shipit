@@ -1,0 +1,97 @@
+{
+  "max402": 481,
+  "max360": 481,
+  "sample": [
+    {
+      "id": "DI-01",
+      "layout": "full",
+      "cardH": 481,
+      "rows": "58.75px 287px 47.2812px",
+      "hasSupport": true,
+      "introTop": 15,
+      "bottomPad": 18,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    },
+    {
+      "id": "DI-02",
+      "layout": "full",
+      "cardH": 481,
+      "rows": "81.5781px 287.812px 23.6406px",
+      "hasSupport": true,
+      "introTop": 15,
+      "bottomPad": 18,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    },
+    {
+      "id": "DI-03",
+      "layout": null,
+      "cardH": 481,
+      "rows": null,
+      "hasSupport": false,
+      "introTop": null,
+      "bottomPad": null,
+      "headToPolaroid": 17,
+      "captionGap": 12,
+      "belowCaption": 55,
+      "frameH": 215
+    },
+    {
+      "id": "DI-04",
+      "layout": "full",
+      "cardH": 481,
+      "rows": "85.0938px 237.016px 70.9219px",
+      "hasSupport": true,
+      "introTop": 15,
+      "bottomPad": 18,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    },
+    {
+      "id": "DI-07",
+      "layout": "double-compact",
+      "cardH": 481,
+      "rows": "52.6875px 340.344px",
+      "hasSupport": false,
+      "introTop": 15,
+      "bottomPad": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    },
+    {
+      "id": "DI-12",
+      "layout": "short",
+      "cardH": 481,
+      "rows": "107.922px 285.109px",
+      "hasSupport": false,
+      "introTop": 15,
+      "bottomPad": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    },
+    {
+      "id": "DI-14",
+      "layout": "double-compact",
+      "cardH": 481,
+      "rows": "52.6875px 340.344px",
+      "hasSupport": false,
+      "introTop": 15,
+      "bottomPad": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null,
+      "frameH": null
+    }
+  ]
+}

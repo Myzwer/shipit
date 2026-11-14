@@ -1,49 +1,44 @@
 <script setup lang="ts">
-import { copy } from '@/ui/copy'
-import type { WizardStep } from '@/types/drinkLog'
+export type WizardProgressStep = {
+  id: string
+  label: string
+}
 
-defineProps<{
-  step: WizardStep
-  completed: Set<WizardStep>
+const props = defineProps<{
+  steps: WizardProgressStep[]
+  step: string
+  completed: Set<string>
   locked?: boolean
+  ariaLabel?: string
 }>()
 
 const emit = defineEmits<{
-  select: [step: WizardStep]
+  select: [step: string]
 }>()
 
-const steps: WizardStep[] = ['bar', 'drink', 'friends', 'photo', 'review']
+function stepIndex(id: string) {
+  return props.steps.findIndex((s) => s.id === id)
+}
 </script>
 
 <template>
   <nav
-    class="flex items-center justify-between gap-1 px-2 py-3"
-    aria-label="Log progress"
+    class="wizard-progress"
+    :style="{ '--wizard-progress-cols': String(steps.length) }"
+    :aria-label="ariaLabel ?? 'Log progress'"
     data-testid="wizard-progress"
   >
     <button
       v-for="s in steps"
-      :key="s"
+      :key="s.id"
       type="button"
-      class="min-w-0 flex-1 rounded-lg px-1 py-2 text-center text-[11px] font-semibold uppercase tracking-wide transition"
-      :class="
-        s === step
-          ? 'text-white'
-          : completed.has(s)
-            ? 'opacity-90'
-            : 'opacity-45'
-      "
-      :style="
-        s === step
-          ? { background: 'var(--theme-primary)', color: '#fff' }
-          : { color: 'var(--theme-ink)' }
-      "
-      :disabled="locked || (s !== step && !completed.has(s))"
-      :data-testid="`wizard-step-${s}`"
-      :data-active="s === step ? 'true' : 'false'"
-      @click="emit('select', s)"
+      :disabled="locked || (s.id !== step && !completed.has(s.id))"
+      :data-testid="`wizard-step-${s.id}`"
+      :data-active="s.id === step ? 'true' : 'false'"
+      :data-done="stepIndex(s.id) < stepIndex(step) ? 'true' : 'false'"
+      @click="emit('select', s.id)"
     >
-      {{ copy.wizard.steps[s] }}
+      {{ s.label }}
     </button>
   </nav>
 </template>

@@ -131,6 +131,18 @@ describe('ChallengeListView', () => {
     expect(router.currentRoute.value.params.challengeId).toBe('2')
   })
 
+  it('binds per-challenge icons and keeps the completed checkmark', async () => {
+    const { wrapper } = await mountList()
+    const completed = wrapper.get('[data-testid="shipit-challenge-the-piazza-grandeur"]')
+    const available = wrapper.get('[data-testid="shipit-challenge-movies-under-the-stars"]')
+    expect(completed.find('.challenge-card__icon').attributes('data-challenge-icon')).toBe(
+      'status.completed',
+    )
+    expect(available.find('.challenge-card__icon').attributes('data-challenge-icon')).toBe(
+      'shipit.film',
+    )
+  })
+
   it('shows unavailable when submission is not ready', async () => {
     fetchShipItChallenges.mockResolvedValue(
       payload({

@@ -91,8 +91,77 @@ describe('Wrapped final inventory', () => {
       }),
     ])
     expect(cards[0]?.value).toBe('0')
+    expect(cards[0]?.layout).toBe('compact')
     expect(cards[1]?.value).toBe('No qualifying data')
     expect(cards[1]?.available).toBe(false)
+    expect(cards[1]?.layout).toBe('text')
+  })
+
+  it('maps Drink It! personal stats to hybrid compact/full layouts', () => {
+    const cards = buildPersonalCards([
+      stubEntry('DI-P01', 'Drinks Logged', { primary: '6', value_numeric: 6 }),
+      stubEntry('DI-P03', 'Final Rank', { kind: 'rank', primary: '2', secondary: 'of 11' }),
+      stubEntry('DI-P04', 'Achievements Unlocked', { primary: '14', value_numeric: 14 }),
+      stubEntry('DI-P11', 'Bars Visited', { primary: '5', value_numeric: 5 }),
+      stubEntry('DI-P12', 'Favorite Drink', {
+        kind: 'named_count',
+        primary: 'Sand Meets the Sea',
+        secondary: '2 drinks',
+      }),
+      stubEntry('DI-P14', 'Favorite Ingredient', {
+        kind: 'named_count',
+        primary: 'agave, lime wheel, lychee liqueur',
+        secondary: '3 drinks',
+        winners: [
+          { id: '1', name: 'agave', value: 3, detail: null },
+          { id: '2', name: 'lime wheel', value: 3, detail: null },
+          { id: '3', name: 'lychee liqueur', value: 3, detail: null },
+        ],
+      }),
+    ])
+    expect(cards.map((c) => [c.key, c.layout, c.span])).toEqual([
+      ['DI-P01', 'compact', 'half'],
+      ['DI-P03', 'compact', 'half'],
+      ['DI-P04', 'compact', 'half'],
+      ['DI-P11', 'compact', 'half'],
+      ['DI-P12', 'text', 'full'],
+      ['DI-P14', 'text', 'full'],
+    ])
+    // Compact half-pairs checkerboard; full-width keeps sequential stream tones.
+    expect(cards.map((c) => c.tone)).toEqual([
+      'aqua',
+      'cream',
+      'cream',
+      'aqua',
+      'aqua',
+      'cream',
+    ])
+  })
+
+  it('spans an orphan compact metric across the full row', () => {
+    const cards = buildPersonalCards([
+      stubEntry('DI-P01', 'Drinks Logged', { primary: '6' }),
+      stubEntry('DI-P11', 'Bars Visited', { primary: '5' }),
+      stubEntry('DI-P12', 'Favorite Drink', {
+        kind: 'named_count',
+        primary: 'Gin Fizz',
+      }),
+    ])
+    // P01+P11 pair as halves when consecutive compact…
+    expect(cards[0]?.span).toBe('half')
+    expect(cards[1]?.span).toBe('half')
+    expect(cards[2]?.span).toBe('full')
+
+    const orphan = buildPersonalCards([
+      stubEntry('DI-P01', 'Drinks Logged', { primary: '6' }),
+      stubEntry('DI-P12', 'Favorite Drink', {
+        kind: 'named_count',
+        primary: 'Gin Fizz',
+      }),
+    ])
+    expect(orphan[0]?.layout).toBe('compact')
+    expect(orphan[0]?.span).toBe('full')
+    expect(orphan[1]?.span).toBe('full')
   })
 
   it('renders tied global awards without inventing a single winner', () => {

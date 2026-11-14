@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import FramedPhoto from '@/components/shared/FramedPhoto.vue'
+import PhotoFramingEditor from '@/components/shared/PhotoFramingEditor.vue'
+import {
+  DEFAULT_PHOTO_FRAMING,
+  cloneFraming,
+  type PhotoFraming,
+} from '@/lib/media/framing'
 import { processImageFile, revokeProcessedPreview, MediaProcessError } from '@/lib/media/processImage'
 import {
   abandonPhotoUpload,
+  setPhotoFraming,
   stageProcessedPhoto,
   StagePhotoError,
   type PendingUploadSlot,
@@ -18,11 +26,23 @@ const props = withDefaults(
     /** When false, only process locally; enclosing form stages later. Default true. */
     autoStage?: boolean
     disabled?: boolean
+    /**
+     * Rehydrate an already-accepted photo when PhotoCapture remounts
+     * (e.g. Review → Edit Caption). Preview URL must still be valid.
+     */
+    restore?: {
+      previewUrl: string
+      width: number
+      height: number
+      framing?: PhotoFraming | null
+      staged?: StagedPhotoRef | null
+    } | null
   }>(),
   {
     required: false,
     autoStage: true,
     disabled: false,
+    restore: null,
   },
 )
 
@@ -30,6 +50,7 @@ const emit = defineEmits<{
   staged: [ref: StagedPhotoRef | null]
   pending: [slot: PendingUploadSlot | null]
   localReady: [image: ProcessedImage | null]
+  framing: [framing: PhotoFraming | null]
   busy: [busy: boolean]
   error: [message: string | null]
 }>()
@@ -40,6 +61,7 @@ const uploadInput = ref<HTMLInputElement | null>(null)
 const processed = ref<ProcessedImage | null>(null)
 const staged = ref<StagedPhotoRef | null>(null)
 const pending = ref<PendingUploadSlot | null>(null)
+const framing = ref<PhotoFraming>(cloneFraming())
 /** Fresh UUID per selection attempt for idempotent begin. */
 const beginRequestId = ref<string | null>(null)
 const status = ref<'empty' | 'processing' | 'ready_local' | 'uploading' | 'staged' | 'error'>('empty')
@@ -47,11 +69,64 @@ const errorMessage = ref<string | null>(null)
 const progressMessage = ref<string | null>(null)
 const uploadInFlight = ref(false)
 
+const editorOpen = ref(false)
+const editorMode = ref<'new' | 'adjust'>('new')
+const editorImage = ref<ProcessedImage | null>(null)
+const editorInitialFraming = ref<PhotoFraming>(cloneFraming())
+
 const busy = computed(
-  () => status.value === 'processing' || status.value === 'uploading' || uploadInFlight.value,
+  () =>
+    status.value === 'processing' ||
+    status.value === 'uploading' ||
+    uploadInFlight.value ||
+    editorOpen.value,
 )
 
 watch(busy, (v) => emit('busy', v))
+
+function applyRestore(snapshot: NonNullable<typeof props.restore>) {
+  if (processed.value) return
+  const image: ProcessedImage = {
+    // Blob is unavailable after remount; Retake/Replace replace it before re-stage.
+    blob: new Blob(),
+    mimeType: snapshot.staged?.mimeType === 'image/png'
+      ? 'image/png'
+      : snapshot.staged?.mimeType === 'image/webp'
+        ? 'image/webp'
+        : 'image/jpeg',
+    width: snapshot.width,
+    height: snapshot.height,
+    byteSize: snapshot.staged?.byteSize ?? 1,
+    previewUrl: snapshot.previewUrl,
+    originalFilename: null,
+  }
+  processed.value = image
+  framing.value = cloneFraming(snapshot.framing ?? DEFAULT_PHOTO_FRAMING)
+  staged.value = snapshot.staged ?? null
+  pending.value = snapshot.staged
+    ? {
+        photoId: snapshot.staged.photoId,
+        bucket: snapshot.staged.bucket,
+        storagePath: snapshot.staged.storagePath,
+        clientRequestId: null,
+      }
+    : null
+  status.value = snapshot.staged ? 'staged' : 'ready_local'
+  emit('localReady', image)
+  emit('framing', cloneFraming(framing.value))
+  emit('staged', staged.value)
+  emit('pending', pending.value)
+}
+
+watch(
+  () => props.restore,
+  (snapshot) => {
+    if (snapshot?.previewUrl && snapshot.width > 0 && snapshot.height > 0) {
+      applyRestore(snapshot)
+    }
+  },
+  { immediate: true },
+)
 
 function clearError() {
   errorMessage.value = null
@@ -86,7 +161,9 @@ async function abandonCurrent() {
 function clearLocal(options?: { abandonRemote?: boolean }) {
   revokeProcessedPreview(processed.value)
   processed.value = null
+  framing.value = cloneFraming()
   emit('localReady', null)
+  emit('framing', null)
   if (options?.abandonRemote !== false) {
     void abandonCurrent()
   } else {
@@ -103,58 +180,38 @@ function clearLocal(options?: { abandonRemote?: boolean }) {
   if (uploadInput.value) uploadInput.value.value = ''
 }
 
+function closeEditor(options?: { revokeDraft?: boolean }) {
+  if (options?.revokeDraft && editorImage.value && editorImage.value !== processed.value) {
+    revokeProcessedPreview(editorImage.value)
+  }
+  editorImage.value = null
+  editorOpen.value = false
+}
+
 async function handleFile(file: File | undefined | null) {
   if (!file || props.disabled || busy.value) return
   clearError()
-
-  // Keep prior valid photo until the replacement processes successfully.
-  const previousProcessed = processed.value
-  const previousStaged = staged.value
-  const previousPending = pending.value
-  const previousBeginId = beginRequestId.value
-  const previousStatus = status.value
 
   status.value = 'processing'
   progressMessage.value = copy.photo.processing
   try {
     const image = await processImageFile(file)
-    // Only now drop the prior reservation.
-    if (previousProcessed && previousProcessed !== image) {
-      revokeProcessedPreview(previousProcessed)
-    }
-    if (previousPending || previousStaged) {
-      await abandonSlot(previousPending ?? previousStaged)
-    }
-
-    beginRequestId.value = crypto.randomUUID()
-    pending.value = null
-    staged.value = null
-    emit('pending', null)
-    emit('staged', null)
-
-    processed.value = image
-    emit('localReady', image)
-    status.value = 'ready_local'
     progressMessage.value = null
-
-    if (props.autoStage) {
-      await runStage()
-    }
+    // Keep any previously accepted photo until Use Photo; editor sets busy.
+    if (!processed.value) status.value = 'empty'
+    else if (staged.value) status.value = 'staged'
+    else status.value = 'ready_local'
+    editorMode.value = 'new'
+    editorImage.value = image
+    editorInitialFraming.value = cloneFraming(DEFAULT_PHOTO_FRAMING)
+    editorOpen.value = true
   } catch (err) {
     progressMessage.value = null
-    // Restore previous photo on failed replace/retake processing.
-    if (previousProcessed) {
-      processed.value = previousProcessed
-      staged.value = previousStaged
-      pending.value = previousPending
-      beginRequestId.value = previousBeginId
-      status.value = previousStatus === 'staged' ? 'staged' : 'ready_local'
-      emit('localReady', previousProcessed)
-      emit('staged', previousStaged)
-      emit('pending', previousPending)
-    } else {
-      status.value = 'error'
-    }
+    status.value = processed.value
+      ? staged.value
+        ? 'staged'
+        : 'ready_local'
+      : 'error'
     if (err instanceof MediaProcessError) {
       setError(err.message)
     } else {
@@ -163,11 +220,91 @@ async function handleFile(file: File | undefined | null) {
   }
 }
 
+async function onEditorAccept(next: PhotoFraming) {
+  const draft = editorImage.value
+  if (!draft) {
+    closeEditor()
+    return
+  }
+
+  if (editorMode.value === 'adjust') {
+    framing.value = cloneFraming(next)
+    emit('framing', cloneFraming(next))
+    if (staged.value?.photoId) {
+      try {
+        const saved = await setPhotoFraming(staged.value.photoId, framing.value)
+        framing.value = saved
+        staged.value = { ...staged.value, framing: cloneFraming(saved) }
+        emit('staged', staged.value)
+        emit('framing', cloneFraming(saved))
+      } catch (err) {
+        if (err instanceof StagePhotoError) setError(err.message)
+        else setError(copy.photo.uploadFailed)
+      }
+    }
+    closeEditor()
+    return
+  }
+
+  // New / replace: commit draft, abandon prior remote, then stage.
+  const previousProcessed = processed.value
+  const previousPending = pending.value
+  const previousStaged = staged.value
+
+  if (previousProcessed && previousProcessed !== draft) {
+    revokeProcessedPreview(previousProcessed)
+  }
+  if (previousPending || previousStaged) {
+    await abandonSlot(previousPending ?? previousStaged)
+  }
+
+  beginRequestId.value = crypto.randomUUID()
+  pending.value = null
+  staged.value = null
+  emit('pending', null)
+  emit('staged', null)
+
+  processed.value = draft
+  framing.value = cloneFraming(next)
+  emit('localReady', draft)
+  emit('framing', cloneFraming(next))
+  status.value = 'ready_local'
+  closeEditor()
+
+  if (props.autoStage) {
+    await runStage()
+  }
+}
+
+function onEditorCancel() {
+  // Discard draft only; keep any previously accepted photo + framing.
+  closeEditor({ revokeDraft: editorMode.value === 'new' })
+  if (!processed.value) {
+    status.value = 'empty'
+  } else if (staged.value) {
+    status.value = 'staged'
+  } else {
+    status.value = 'ready_local'
+  }
+  if (captureInput.value) captureInput.value.value = ''
+  if (uploadInput.value) uploadInput.value.value = ''
+}
+
 async function runStage() {
   if (!processed.value || uploadInFlight.value) return
   if (staged.value?.status === 'staged') {
-    emit('staged', staged.value)
-    status.value = 'staged'
+    try {
+      const saved = await setPhotoFraming(staged.value.photoId, framing.value)
+      framing.value = saved
+      staged.value = { ...staged.value, framing: cloneFraming(saved) }
+      emit('staged', staged.value)
+      emit('framing', cloneFraming(saved))
+      status.value = 'staged'
+    } catch (err) {
+      if (err instanceof StagePhotoError) setError(err.message)
+      else setError(copy.photo.uploadFailed)
+      status.value = 'error'
+    }
     return
   }
   if (offline()) {
@@ -187,6 +324,7 @@ async function runStage() {
       purpose: props.purpose,
       existing: staged.value,
       pending: pending.value,
+      framing: framing.value,
       beginRequestId: beginRequestId.value,
       onPending: (slot) => {
         pending.value = slot
@@ -198,10 +336,14 @@ async function runStage() {
     })
     pending.value = result.pending
     staged.value = result.staged
+    if (result.staged.framing) {
+      framing.value = cloneFraming(result.staged.framing)
+    }
     status.value = 'staged'
     progressMessage.value = null
     emit('pending', result.pending)
     emit('staged', result.staged)
+    emit('framing', cloneFraming(framing.value))
   } catch (err) {
     progressMessage.value = null
     if (err instanceof StagePhotoError) {
@@ -260,15 +402,22 @@ function replacePhoto() {
   openUpload()
 }
 
+function adjustPhoto() {
+  if (props.disabled || busy.value || !processed.value) return
+  editorMode.value = 'adjust'
+  editorImage.value = processed.value
+  editorInitialFraming.value = cloneFraming(framing.value)
+  editorOpen.value = true
+}
+
 function retryUpload() {
   if (!processed.value || busy.value) return
   void runStage()
 }
 
-onBeforeUnmount(() => {
-  // Do not abandon staged remote on unmount — wizard may still hold the id.
-  revokeProcessedPreview(processed.value)
-})
+// Intentionally no unmount revoke: Review (and sibling claim/review screens)
+// keep wizard.photoPreviewUrl after PhotoCapture unmounts. clearLocal /
+// successful replace still revoke; do not abandon staged remote on unmount.
 
 defineExpose({
   retryUpload,
@@ -276,6 +425,7 @@ defineExpose({
   clearLocal,
   getStaged: () => staged.value,
   getProcessed: () => processed.value,
+  getFraming: () => cloneFraming(framing.value),
   status,
 })
 </script>
@@ -316,7 +466,7 @@ defineExpose({
       <button
         type="button"
         class="rounded-2xl py-4 text-sm font-semibold disabled:opacity-60"
-        style="background: var(--theme-card); color: var(--theme-ink)"
+        style="background: var(--theme-gradient-cool); color: var(--theme-ink)"
         data-testid="photo-upload"
         :disabled="disabled || busy"
         @click="openUpload"
@@ -327,41 +477,56 @@ defineExpose({
 
     <div
       v-else
-      class="overflow-hidden rounded-2xl"
-      style="background: var(--theme-card)"
+      class="photo-capture-preview mx-auto w-full max-w-[17.5rem] overflow-hidden rounded-2xl"
       data-testid="photo-preview-wrap"
     >
-      <img
+      <FramedPhoto
         :src="processed.previewUrl"
-        alt=""
-        class="mx-auto max-h-72 w-full object-contain"
-        data-testid="photo-preview"
+        :width="processed.width"
+        :height="processed.height"
+        :framing="framing"
+        frame-class="photo-capture-preview-photo"
+        img-test-id="photo-preview"
       />
-      <div class="flex flex-wrap gap-2 px-3 py-3">
+      <div
+        class="photo-capture-actions px-3 py-2"
+        style="background: var(--theme-gradient-cool)"
+        data-testid="photo-preview-controls"
+      >
+        <div class="photo-capture-action-row" role="group" aria-label="Photo actions">
+          <button
+            type="button"
+            class="photo-capture-action"
+            data-testid="photo-adjust"
+            :disabled="disabled || busy"
+            @click="adjustPhoto"
+          >
+            {{ copy.photo.adjustPhoto }}
+          </button>
+          <span class="photo-capture-action-sep" aria-hidden="true">·</span>
+          <button
+            type="button"
+            class="photo-capture-action"
+            data-testid="photo-retake"
+            :disabled="disabled || busy"
+            @click="retake"
+          >
+            {{ copy.photo.retake }}
+          </button>
+          <span class="photo-capture-action-sep" aria-hidden="true">·</span>
+          <button
+            type="button"
+            class="photo-capture-action"
+            data-testid="photo-replace"
+            :disabled="disabled || busy"
+            @click="replacePhoto"
+          >
+            {{ copy.photo.replace }}
+          </button>
+        </div>
         <button
           type="button"
-          class="rounded-full px-3 py-2 text-xs font-semibold disabled:opacity-60"
-          style="background: var(--theme-header); color: white"
-          data-testid="photo-retake"
-          :disabled="disabled || busy"
-          @click="retake"
-        >
-          {{ copy.photo.retake }}
-        </button>
-        <button
-          type="button"
-          class="rounded-full px-3 py-2 text-xs font-semibold disabled:opacity-60"
-          style="background: var(--theme-header); color: white"
-          data-testid="photo-replace"
-          :disabled="disabled || busy"
-          @click="replacePhoto"
-        >
-          {{ copy.photo.replace }}
-        </button>
-        <button
-          type="button"
-          class="rounded-full px-3 py-2 text-xs font-semibold disabled:opacity-60"
-          style="color: var(--theme-ink)"
+          class="photo-capture-action photo-capture-action--remove"
           data-testid="photo-remove"
           :disabled="disabled || busy"
           @click="removePhoto"
@@ -381,10 +546,10 @@ defineExpose({
       {{ progressMessage }}
     </p>
 
+    <!-- Screen-reader / test hook only — the preview itself signals success. -->
     <p
       v-if="status === 'staged'"
-      class="text-sm font-semibold"
-      style="color: var(--theme-primary)"
+      class="sr-only"
       data-testid="photo-staged-ready"
     >
       {{ copy.photo.stagedReady }}
@@ -393,7 +558,7 @@ defineExpose({
     <div
       v-if="errorMessage"
       class="rounded-2xl px-4 py-3 text-sm"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="photo-error"
       role="alert"
     >
@@ -423,8 +588,17 @@ defineExpose({
       {{ copy.photo.requiredHint }}
     </p>
 
-    <p class="text-xs" style="color: var(--theme-muted)" data-testid="photo-limits-hint">
-      {{ copy.photo.limitsHint }}
-    </p>
+    <Teleport to="body">
+      <PhotoFramingEditor
+        v-if="editorOpen && editorImage"
+        :class="game === 'shipit' ? 'theme-ship' : 'theme-drink'"
+        :src="editorImage.previewUrl"
+        :width="editorImage.width"
+        :height="editorImage.height"
+        :initial-framing="editorInitialFraming"
+        @accept="onEditorAccept"
+        @cancel="onEditorCancel"
+      />
+    </Teleport>
   </div>
 </template>

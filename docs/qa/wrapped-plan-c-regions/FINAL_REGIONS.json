@@ -1,0 +1,138 @@
+{
+  "maxH": {
+    "drink402": 477,
+    "drink360": 477,
+    "ship402": 477,
+    "ship360": 495
+  },
+  "focus": [
+    {
+      "id": "DI-01",
+      "type": "single",
+      "layout": "full",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": 17,
+      "heroVsFlexMid": -13,
+      "revealGap": null,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "DI-02",
+      "type": "single",
+      "layout": "full",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": 17,
+      "heroVsFlexMid": -13,
+      "revealGap": null,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "DI-03",
+      "type": "photo",
+      "layout": null,
+      "cardH": 477,
+      "introTopPad": null,
+      "bottomPad": null,
+      "heroVsFlexMid": null,
+      "revealGap": null,
+      "frameH": 217,
+      "headToPolaroid": 13,
+      "captionGap": 10,
+      "belowCaption": 56
+    },
+    {
+      "id": "DI-04",
+      "type": "single",
+      "layout": "full",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": 17,
+      "heroVsFlexMid": -14,
+      "revealGap": null,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "DI-07",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": null,
+      "heroVsFlexMid": -86,
+      "revealGap": 17,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "DI-14",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": null,
+      "heroVsFlexMid": -86,
+      "revealGap": 17,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    }
+  ],
+  "shipFocus": [
+    {
+      "id": "SI-01",
+      "type": "single",
+      "layout": "full",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": 17,
+      "heroVsFlexMid": -14,
+      "revealGap": null,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "SI-03",
+      "type": "single",
+      "layout": "full",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": 17,
+      "heroVsFlexMid": -13,
+      "revealGap": null,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    },
+    {
+      "id": "SI-04",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 477,
+      "introTopPad": 16,
+      "bottomPad": null,
+      "heroVsFlexMid": -86,
+      "revealGap": 17,
+      "frameH": null,
+      "headToPolaroid": null,
+      "captionGap": null,
+      "belowCaption": null
+    }
+  ]
+}

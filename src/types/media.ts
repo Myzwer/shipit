@@ -1,6 +1,10 @@
+import type { PhotoFraming } from '@/lib/media/framing'
+
 export type PhotoPurpose = 'drink_log' | 'daily' | 'scavenger'
 export type PhotoGame = 'drinkit' | 'shipit'
 export type PhotoRequirement = 'optional' | 'required'
+
+export type { PhotoFraming }
 
 export type StagedPhotoStatus =
   | 'empty'
@@ -29,6 +33,8 @@ export interface StagedPhotoRef {
   width: number
   height: number
   byteSize: number
+  /** Accepted square framing; defaults to centered cover when omitted. */
+  framing?: PhotoFraming
 }
 
 export interface BeginPhotoUploadResult {

@@ -312,7 +312,7 @@ describe('Phase 3A.1 / B2 Bar crew companions', () => {
     const roster = await padCrewRoster(fixtures.service!, core, 'co-stag', crewFillers, 9)
     const ensured = await ensureCrewAssignment(fixtures.service!, at, roster, 'closeout-stagger')
     const crew = ensured.crews.find((c) => c.size === 3)!
-    const [p1, p2, p3] = crew.members.map((m) => m.player_id)
+    const [p1, p2] = crew.members.map((m) => m.player_id)
     const bar = await fixtures.service!.rpc('dev_get_current_bar_bounty_at', { p_at_utc: at })
     const barKey = bar.data.bar_canonical_key as string
     const assignmentId = (

@@ -8,6 +8,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
@@ -88,6 +89,7 @@ try {
   pass('missing-photo-blocks')
 
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   pass('photo-staged')
   await page.fill('[data-testid="scavenger-caption"]', 'E2E caption')
@@ -130,6 +132,7 @@ try {
   await page.waitForSelector('[data-testid="photo-upload-input"]')
   await page.route('**/storage/v1/object/**', (route) => route.abort('failed'))
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-error"]', { timeout: 20000 })
   pass('upload-error')
   await page.unroute('**/storage/v1/object/**')
@@ -139,6 +142,7 @@ try {
     pass('upload-retry')
   } else {
     await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
     await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
     pass('upload-reselect')
   }

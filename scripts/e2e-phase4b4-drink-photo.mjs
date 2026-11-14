@@ -8,6 +8,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
@@ -91,6 +92,7 @@ try {
   // Take/Upload → preview → Review → real Gallery photo.
   await wizardThroughFriends()
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   pass('photo-staged')
   await page.fill('[data-testid="caption-input"]', 'With photo')
@@ -125,6 +127,7 @@ try {
   // Explicit optional-photo removal.
   await wizardThroughFriends()
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   await page.click('[data-testid="photo-remove"]')
   await page.waitForSelector('[data-testid="photo-optional-skip"]')
@@ -142,6 +145,7 @@ try {
     })
   })
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-retry"]', {
     timeout: 30000,
   })
@@ -157,6 +161,7 @@ try {
   // Lost submit response → reload → same-UUID recovery.
   await wizardThroughFriends()
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   await page.click('[data-testid="photo-continue"]')
   await page.waitForSelector('[data-testid="wizard-review-step"]')

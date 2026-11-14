@@ -2,17 +2,53 @@
  * Phase 6A — Admin roster read/membership + Edge Function create/reset.
  * Uses real local Auth, Postgres, and restricted client sessions.
  */
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createHash, randomUUID } from 'node:crypto'
 import { createLocalClient, identity, loadLocalFixtures, signInAs } from '../helpers/localSupabase'
 import type { LocalFixtures } from '../helpers/localSupabase'
+import { disposePlayers } from '../helpers/disposePlayers'
+import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 
 let fixtures: LocalFixtures
 const createdAliases: string[] = []
 
 beforeAll(async () => {
   fixtures = await loadLocalFixtures()
-})
+  if (fixtures.available) {
+    fixtures = await ensureSyntheticRoleIdentities(fixtures)
+  }
+}, 120000)
+
+afterAll(async () => {
+  if (!fixtures.available || !fixtures.summary || !fixtures.serviceRoleKey || !createdAliases.length) {
+    return
+  }
+  const service = createLocalClient(fixtures.summary.supabase_url, fixtures.serviceRoleKey)
+  const ids: string[] = []
+  const authIds: string[] = []
+  for (const alias of createdAliases.splice(0)) {
+    const { data: player } = await service
+      .from('players')
+      .select('id,auth_user_id')
+      .eq('login_alias', alias)
+      .maybeSingle()
+    if (!player) continue
+    ids.push(player.id)
+    if (player.auth_user_id) authIds.push(player.auth_user_id)
+  }
+  if (ids.length) await disposePlayers(service, ids)
+  for (const authId of authIds) {
+    await service.auth.admin.deleteUser(authId).catch(() => {})
+  }
+}, 120000)
+
+async function fingerprintFor(adminClient: Awaited<ReturnType<typeof signInAs>>, playerId: string) {
+  const { data, error } = await adminClient.rpc('admin_roster_player_fingerprint', {
+    p_player_id: playerId,
+  })
+  if (error) throw error
+  return data as string
+}
 
 beforeEach(() => {
   if (!fixtures.available) return
@@ -218,9 +254,8 @@ describe('Phase 6A admin roster', () => {
     const f = requireLocal()
     const admin = await signInAs(f, 'admin')
     const target = identity(f.summary!, 'drink_only')
-    const roster = await admin.rpc('admin_list_roster')
-    const row = roster.data.find((p: { player_id: string }) => p.player_id === target.player_id)
-    expect(row).toBeTruthy()
+    // Demo role accounts are intentionally omitted from the cruise Admin roster list.
+    const fp = await fingerprintFor(admin, target.player_id)
 
     const disableId = randomUUID()
     const disabled = await admin.rpc('admin_set_player_access', {
@@ -230,7 +265,7 @@ describe('Phase 6A admin roster', () => {
       p_drinkit_enabled: false,
       p_shipit_enabled: false,
       p_team_id: null,
-      p_expected_fingerprint: row.state_fingerprint,
+      p_expected_fingerprint: fp,
     })
     expect(disabled.error).toBeNull()
     expect(disabled.data.ok).toBe(true)
@@ -242,8 +277,7 @@ describe('Phase 6A admin roster', () => {
     expect(hasGame.data).toBe(false)
 
     // Re-enable Drink It!
-    const roster2 = await admin.rpc('admin_list_roster')
-    const row2 = roster2.data.find((p: { player_id: string }) => p.player_id === target.player_id)
+    const fp2 = await fingerprintFor(admin, target.player_id)
     const enableId = randomUUID()
     const enabled = await admin.rpc('admin_set_player_access', {
       p_client_request_id: enableId,
@@ -252,7 +286,7 @@ describe('Phase 6A admin roster', () => {
       p_drinkit_enabled: true,
       p_shipit_enabled: false,
       p_team_id: null,
-      p_expected_fingerprint: row2.state_fingerprint,
+      p_expected_fingerprint: fp2,
     })
     expect(enabled.data.ok).toBe(true)
     const profile2 = await player.rpc('get_my_session_profile')
@@ -264,11 +298,7 @@ describe('Phase 6A admin roster', () => {
     const f = requireLocal()
     const admin = await signInAs(f, 'admin')
     const service = createLocalClient(f.summary!.supabase_url, f.serviceRoleKey!)
-    await service.rpc('dev_seed_cruise_clock', {
-      p_day1_ship_date: '2099-01-03',
-      p_base_offset_minutes: -300,
-      p_label: 'development-only',
-    })
+    // Do not re-seed the shared Ship Clock here — that would disturb the local Tuesday demo.
     const both = identity(f.summary!, 'both')
     const teams = await admin.rpc('admin_list_teams')
     const otherTeam = teams.data.find(
@@ -307,10 +337,7 @@ describe('Phase 6A admin roster', () => {
     })
     expect(histInsert.error).toBeNull()
 
-    const roster = await admin.rpc('admin_list_roster')
-    const row = roster.data.find((p: { player_id: string }) => p.player_id === both.player_id)
-    expect(row.has_shipit_history).toBe(true)
-
+    const fp = await fingerprintFor(admin, both.player_id)
     const blocked = await admin.rpc('admin_set_player_access', {
       p_client_request_id: randomUUID(),
       p_player_id: both.player_id,
@@ -318,7 +345,7 @@ describe('Phase 6A admin roster', () => {
       p_drinkit_enabled: true,
       p_shipit_enabled: true,
       p_team_id: otherTeam.team_id,
-      p_expected_fingerprint: row.state_fingerprint,
+      p_expected_fingerprint: fp,
     })
     expect(blocked.data.ok).toBe(false)
     expect(blocked.data.code).toBe('TEAM_HISTORY_LOCKED')
@@ -329,7 +356,7 @@ describe('Phase 6A admin roster', () => {
       p_active: true,
       p_drinkit_enabled: true,
       p_shipit_enabled: true,
-      p_team_id: row.team?.team_id ?? null,
+      p_team_id: teamRow!.team_id,
       p_expected_fingerprint: createHash('md5').update('stale').digest('hex'),
     })
     expect(stale.data.ok).toBe(false)
@@ -340,8 +367,7 @@ describe('Phase 6A admin roster', () => {
     const f = requireLocal()
     const admin = await signInAs(f, 'admin')
     const adminId = identity(f.summary!, 'admin').player_id
-    const roster = await admin.rpc('admin_list_roster')
-    const row = roster.data.find((p: { player_id: string }) => p.player_id === adminId)
+    const adminFp = await fingerprintFor(admin, adminId)
 
     const selfLock = await admin.rpc('admin_set_player_access', {
       p_client_request_id: randomUUID(),
@@ -349,14 +375,14 @@ describe('Phase 6A admin roster', () => {
       p_active: false,
       p_drinkit_enabled: true,
       p_shipit_enabled: true,
-      p_team_id: row.team?.team_id ?? null,
-      p_expected_fingerprint: row.state_fingerprint,
+      p_team_id: null,
+      p_expected_fingerprint: adminFp,
     })
     expect(selfLock.data.ok).toBe(false)
     expect(selfLock.data.code).toBe('ADMIN_SELF_LOCKOUT')
 
     const target = identity(f.summary!, 'no_games')
-    const rowT = roster.data.find((p: { player_id: string }) => p.player_id === target.player_id)
+    const fpT = await fingerprintFor(admin, target.player_id)
     const [a, b] = await Promise.all([
       admin.rpc('admin_set_player_access', {
         p_client_request_id: randomUUID(),
@@ -365,7 +391,7 @@ describe('Phase 6A admin roster', () => {
         p_drinkit_enabled: true,
         p_shipit_enabled: false,
         p_team_id: null,
-        p_expected_fingerprint: rowT.state_fingerprint,
+        p_expected_fingerprint: fpT,
       }),
       admin.rpc('admin_set_player_access', {
         p_client_request_id: randomUUID(),
@@ -374,7 +400,7 @@ describe('Phase 6A admin roster', () => {
         p_drinkit_enabled: false,
         p_shipit_enabled: false,
         p_team_id: null,
-        p_expected_fingerprint: rowT.state_fingerprint,
+        p_expected_fingerprint: fpT,
       }),
     ])
     const outcomes = [a.data, b.data]
@@ -384,10 +410,7 @@ describe('Phase 6A admin roster', () => {
     expect(stales.length).toBe(1)
 
     // Restore no_games baseline
-    const rosterAfter = await admin.rpc('admin_list_roster')
-    const rowAfter = rosterAfter.data.find(
-      (p: { player_id: string }) => p.player_id === target.player_id,
-    )
+    const fpAfter = await fingerprintFor(admin, target.player_id)
     await admin.rpc('admin_set_player_access', {
       p_client_request_id: randomUUID(),
       p_player_id: target.player_id,
@@ -395,7 +418,7 @@ describe('Phase 6A admin roster', () => {
       p_drinkit_enabled: false,
       p_shipit_enabled: false,
       p_team_id: null,
-      p_expected_fingerprint: rowAfter.state_fingerprint,
+      p_expected_fingerprint: fpAfter,
     })
   })
 })

@@ -1,0 +1,761 @@
+{
+  "captured_at": "2026-11-13T20:10:45.910Z",
+  "games": [
+    {
+      "label": "drinkit-david",
+      "game": "drinkit",
+      "width": 360,
+      "total": 15,
+      "counter": "01 / 15 — Your Week",
+      "ids": [
+        {
+          "id": "DI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-02",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-03",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-04",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-05",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-06",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-07",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-09",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-10",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-12",
+          "type": "single",
+          "layout": "short"
+        },
+        {
+          "id": "DI-13",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-14",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-15",
+          "type": "photo",
+          "layout": null
+        }
+      ],
+      "shortIds": [
+        "DI-12"
+      ],
+      "fullIds": [
+        "DI-01",
+        "DI-02",
+        "DI-04",
+        "DI-05",
+        "DI-09",
+        "DI-10"
+      ],
+      "doubleIds": [
+        "DI-07",
+        "DI-14"
+      ],
+      "rowsMine": 18,
+      "rowsOurs": 28,
+      "modeCount": 2,
+      "shotCount": 15
+    },
+    {
+      "label": "drinkit-david",
+      "game": "drinkit",
+      "width": 390,
+      "total": 15,
+      "counter": "01 / 15 — Your Week",
+      "ids": [
+        {
+          "id": "DI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-02",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-03",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-04",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-05",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-06",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-07",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-09",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-10",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-12",
+          "type": "single",
+          "layout": "short"
+        },
+        {
+          "id": "DI-13",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-14",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-15",
+          "type": "photo",
+          "layout": null
+        }
+      ],
+      "shortIds": [
+        "DI-12"
+      ],
+      "fullIds": [
+        "DI-01",
+        "DI-02",
+        "DI-04",
+        "DI-05",
+        "DI-09",
+        "DI-10"
+      ],
+      "doubleIds": [
+        "DI-07",
+        "DI-14"
+      ],
+      "rowsMine": 18,
+      "rowsOurs": 28,
+      "modeCount": 2,
+      "shotCount": 15
+    },
+    {
+      "label": "drinkit-david",
+      "game": "drinkit",
+      "width": 402,
+      "total": 15,
+      "counter": "01 / 15 — Your Week",
+      "ids": [
+        {
+          "id": "DI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-02",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-03",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-04",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-05",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-06",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-07",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-09",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-10",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-12",
+          "type": "single",
+          "layout": "short"
+        },
+        {
+          "id": "DI-13",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-14",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-15",
+          "type": "photo",
+          "layout": null
+        }
+      ],
+      "shortIds": [
+        "DI-12"
+      ],
+      "fullIds": [
+        "DI-01",
+        "DI-02",
+        "DI-04",
+        "DI-05",
+        "DI-09",
+        "DI-10"
+      ],
+      "doubleIds": [
+        "DI-07",
+        "DI-14"
+      ],
+      "rowsMine": 18,
+      "rowsOurs": 28,
+      "modeCount": 2,
+      "shotCount": 15
+    },
+    {
+      "label": "drinkit-david",
+      "game": "drinkit",
+      "width": 430,
+      "total": 15,
+      "counter": "01 / 15 — Your Week",
+      "ids": [
+        {
+          "id": "DI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-02",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-03",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-04",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-05",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-06",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-07",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-09",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-10",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "DI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-12",
+          "type": "single",
+          "layout": "short"
+        },
+        {
+          "id": "DI-13",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "DI-14",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "DI-15",
+          "type": "photo",
+          "layout": null
+        }
+      ],
+      "shortIds": [
+        "DI-12"
+      ],
+      "fullIds": [
+        "DI-01",
+        "DI-02",
+        "DI-04",
+        "DI-05",
+        "DI-09",
+        "DI-10"
+      ],
+      "doubleIds": [
+        "DI-07",
+        "DI-14"
+      ],
+      "rowsMine": 18,
+      "rowsOurs": 28,
+      "modeCount": 2,
+      "shotCount": 15
+    },
+    {
+      "label": "shipit-katie",
+      "game": "shipit",
+      "width": 360,
+      "total": 12,
+      "counter": "01 / 12 — Your Team's Adventure",
+      "ids": [
+        {
+          "id": "SI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-02",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-03",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-04",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-05",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-06",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-07",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-09",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-10",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-12",
+          "type": "single",
+          "layout": "full"
+        }
+      ],
+      "shortIds": [],
+      "fullIds": [
+        "SI-01",
+        "SI-03",
+        "SI-06",
+        "SI-07",
+        "SI-12"
+      ],
+      "doubleIds": [
+        "SI-04",
+        "SI-09",
+        "SI-10"
+      ],
+      "rowsMine": 10,
+      "rowsOurs": 24,
+      "modeCount": 2,
+      "shotCount": 12
+    },
+    {
+      "label": "shipit-katie",
+      "game": "shipit",
+      "width": 390,
+      "total": 12,
+      "counter": "01 / 12 — Your Team's Adventure",
+      "ids": [
+        {
+          "id": "SI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-02",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-03",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-04",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-05",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-06",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-07",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-09",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-10",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-12",
+          "type": "single",
+          "layout": "full"
+        }
+      ],
+      "shortIds": [],
+      "fullIds": [
+        "SI-01",
+        "SI-03",
+        "SI-06",
+        "SI-07",
+        "SI-12"
+      ],
+      "doubleIds": [
+        "SI-04",
+        "SI-09",
+        "SI-10"
+      ],
+      "rowsMine": 10,
+      "rowsOurs": 24,
+      "modeCount": 2,
+      "shotCount": 12
+    },
+    {
+      "label": "shipit-katie",
+      "game": "shipit",
+      "width": 402,
+      "total": 12,
+      "counter": "01 / 12 — Your Team's Adventure",
+      "ids": [
+        {
+          "id": "SI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-02",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-03",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-04",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-05",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-06",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-07",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-09",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-10",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-12",
+          "type": "single",
+          "layout": "full"
+        }
+      ],
+      "shortIds": [],
+      "fullIds": [
+        "SI-01",
+        "SI-03",
+        "SI-06",
+        "SI-07",
+        "SI-12"
+      ],
+      "doubleIds": [
+        "SI-04",
+        "SI-09",
+        "SI-10"
+      ],
+      "rowsMine": 10,
+      "rowsOurs": 24,
+      "modeCount": 2,
+      "shotCount": 12
+    },
+    {
+      "label": "shipit-katie",
+      "game": "shipit",
+      "width": 430,
+      "total": 12,
+      "counter": "01 / 12 — Your Team's Adventure",
+      "ids": [
+        {
+          "id": "SI-01",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-02",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-03",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-04",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-05",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-06",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-07",
+          "type": "single",
+          "layout": "full"
+        },
+        {
+          "id": "SI-08",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-09",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-10",
+          "type": "double",
+          "layout": "double"
+        },
+        {
+          "id": "SI-11",
+          "type": "photo",
+          "layout": null
+        },
+        {
+          "id": "SI-12",
+          "type": "single",
+          "layout": "full"
+        }
+      ],
+      "shortIds": [],
+      "fullIds": [
+        "SI-01",
+        "SI-03",
+        "SI-06",
+        "SI-07",
+        "SI-12"
+      ],
+      "doubleIds": [
+        "SI-04",
+        "SI-09",
+        "SI-10"
+      ],
+      "rowsMine": 10,
+      "rowsOurs": 24,
+      "modeCount": 2,
+      "shotCount": 12
+    }
+  ]
+}

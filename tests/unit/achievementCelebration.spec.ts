@@ -6,6 +6,28 @@ import {
   wasSubmissionCelebrated,
 } from '@/lib/achievements/celebrationMemory'
 import { validateAchievementCondition } from '@/lib/achievements/conditionTypes'
+import { copy, formatCopy } from '@/ui/copy'
+
+describe('achievement unlock popup copy', () => {
+  it('uses See It / See All CTAs with singular and plural titles', () => {
+    expect(copy.achievements.unlockSeeIt).toBe('See It')
+    expect(copy.achievements.unlockSeeAll).toBe('See All')
+    expect(copy.achievements.unlockTitleSingular).toBe('Achievement Unlocked!')
+    expect(formatCopy(copy.achievements.unlockTitlePlural, { count: 6 })).toBe(
+      '6 Achievements Unlocked!',
+    )
+  })
+
+  it('includes Just Unlocked showcase copy', () => {
+    expect(copy.achievements.justUnlockedHeading).toBe('Just Unlocked!')
+    expect(copy.achievements.justUnlockedSupport).toBe(
+      'Check out your latest achievements',
+    )
+    expect(copy.achievements.justUnlockedCountSingular).toBe('1 New')
+    expect(formatCopy(copy.achievements.justUnlockedCount, { count: 3 })).toBe('3 New')
+    expect(copy.achievements.newBadge).toBe('New')
+  })
+})
 
 describe('achievement celebration memory', () => {
   it('records celebrated submission ids without clearing unread state', () => {

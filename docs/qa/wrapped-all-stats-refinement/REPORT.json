@@ -1,0 +1,439 @@
+{
+  "captured_at": "2026-11-14T02:10:21.254Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "footerCoolGradientToken": "var(--theme-gradient-cool) → #b7e6e1 to #e0f5ee",
+  "footers": [
+    {
+      "width": 360,
+      "endingBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+      "accountBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+      "coolOk": true,
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-footer-360.png"
+    },
+    {
+      "width": 402,
+      "endingBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+      "accountBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+      "coolOk": true,
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-footer-402.png"
+    }
+  ],
+  "results": [
+    {
+      "width": 360,
+      "mode": "mine",
+      "rowCount": 18,
+      "sample": [
+        {
+          "specId": "DI-P01",
+          "label": "Drinks Logged",
+          "value": "4 Drinks",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P10",
+          "label": "Different Drinks Tried",
+          "value": "4 Drinks",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P11",
+          "label": "Bars Visited",
+          "value": "4 Bars",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P02",
+          "label": "Total Points",
+          "value": "50 Points",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P03",
+          "label": "Final Rank",
+          "value": "5th Place",
+          "detail": "Out of 11 players.",
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": "14.4px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P04",
+          "label": "Achievements Unlocked",
+          "value": "13 Achievements",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P05",
+          "label": "Bounties Completed",
+          "value": "1 Bounty",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P06",
+          "label": "Cocktail Bounties Completed",
+          "value": "0 Cocktail Bounties",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        }
+      ],
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-mine-360.png"
+    },
+    {
+      "width": 360,
+      "mode": "ours",
+      "rowCount": 28,
+      "sample": [
+        {
+          "specId": "DI-C01",
+          "label": "Total Drinks Logged",
+          "value": "43 Drinks",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C02",
+          "label": "Total Different Drinks Tried",
+          "value": "11 Drinks",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C03",
+          "label": "Total Bounties Completed",
+          "value": "13 Bounties",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C04",
+          "label": "Total Achievements Unlocked",
+          "value": "133 Achievements",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C11",
+          "label": "Total Unique Ingredients Tried",
+          "value": "39 Ingredients",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C12",
+          "label": "Total Points Earned",
+          "value": "515 Points",
+          "detail": null,
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C05",
+          "label": "Most Popular Drink",
+          "value": "Sand Meets the Sea",
+          "detail": "6 Drinks",
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": "14.4px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C06",
+          "label": "Most Popular Liquor",
+          "value": "LIQUEUR",
+          "detail": "32 Drinks",
+          "iconFontSize": "34.4px",
+          "valueFontSize": "22px",
+          "labelFontSize": "12.48px",
+          "detailFontSize": "14.4px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        }
+      ],
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-ours-360.png"
+    },
+    {
+      "width": 402,
+      "mode": "mine",
+      "rowCount": 18,
+      "sample": [
+        {
+          "specId": "DI-P01",
+          "label": "Drinks Logged",
+          "value": "4 Drinks",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P10",
+          "label": "Different Drinks Tried",
+          "value": "4 Drinks",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P11",
+          "label": "Bars Visited",
+          "value": "4 Bars",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P02",
+          "label": "Total Points",
+          "value": "50 Points",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P03",
+          "label": "Final Rank",
+          "value": "5th Place",
+          "detail": "Out of 11 players.",
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": "15px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P04",
+          "label": "Achievements Unlocked",
+          "value": "13 Achievements",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P05",
+          "label": "Bounties Completed",
+          "value": "1 Bounty",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-P06",
+          "label": "Cocktail Bounties Completed",
+          "value": "0 Cocktail Bounties",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        }
+      ],
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-mine-402.png"
+    },
+    {
+      "width": 402,
+      "mode": "ours",
+      "rowCount": 28,
+      "sample": [
+        {
+          "specId": "DI-C01",
+          "label": "Total Drinks Logged",
+          "value": "43 Drinks",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C02",
+          "label": "Total Different Drinks Tried",
+          "value": "11 Drinks",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C03",
+          "label": "Total Bounties Completed",
+          "value": "13 Bounties",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C04",
+          "label": "Total Achievements Unlocked",
+          "value": "133 Achievements",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C11",
+          "label": "Total Unique Ingredients Tried",
+          "value": "39 Ingredients",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C12",
+          "label": "Total Points Earned",
+          "value": "515 Points",
+          "detail": null,
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": null,
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C05",
+          "label": "Most Popular Drink",
+          "value": "Sand Meets the Sea",
+          "detail": "6 Drinks",
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": "15px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        },
+        {
+          "specId": "DI-C06",
+          "label": "Most Popular Liquor",
+          "value": "LIQUEUR",
+          "detail": "32 Drinks",
+          "iconFontSize": "36px",
+          "valueFontSize": "24px",
+          "labelFontSize": "13px",
+          "detailFontSize": "15px",
+          "expandFontSize": null,
+          "iconPanelWidth": "61.5938px"
+        }
+      ],
+      "file": "docs/qa/wrapped-all-stats-refinement/drinkit-ours-402.png"
+    }
+  ]
+}

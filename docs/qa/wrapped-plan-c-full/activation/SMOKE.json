@@ -1,0 +1,71 @@
+{
+  "captured_at": "2026-11-13T19:51:10.405Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "viewport": {
+    "width": 402,
+    "height": 874
+  },
+  "games": [
+    {
+      "label": "David F. Drink It!",
+      "game": "drinkit",
+      "ok": true,
+      "totalSlides": 15,
+      "expectedSlides": 15,
+      "storyCount": 9,
+      "photoCount": 6,
+      "expectedPhotos": 6,
+      "counterText": "01 / 15 — Your Week",
+      "uniquePhotoCount": 6,
+      "brokenPhotos": [],
+      "leaderboard": {
+        "visible": true,
+        "champion": "David F.All Hail.100",
+        "modeCount": 2,
+        "modesClicked": 2,
+        "modesOk": true
+      },
+      "allStats": {
+        "visible": true,
+        "rows": 28
+      },
+      "screenshots": [
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/drinkit-402-carousel-top.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/drinkit-402-carousel-mid.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/drinkit-402-leaderboard.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/drinkit-402-all-stats.png"
+      ]
+    },
+    {
+      "label": "Katie Ship It!",
+      "game": "shipit",
+      "ok": true,
+      "totalSlides": 12,
+      "expectedSlides": 12,
+      "storyCount": 8,
+      "photoCount": 4,
+      "expectedPhotos": 4,
+      "counterText": "01 / 12 — Your Team's Adventure",
+      "uniquePhotoCount": 4,
+      "brokenPhotos": [],
+      "leaderboard": {
+        "visible": true,
+        "champion": "Team 3All Hail.3,300",
+        "modeCount": 2,
+        "modesClicked": 2,
+        "modesOk": true
+      },
+      "allStats": {
+        "visible": true,
+        "rows": 24
+      },
+      "screenshots": [
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/shipit-402-carousel-top.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/shipit-402-carousel-mid.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/shipit-402-leaderboard.png",
+        "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-plan-c-full/activation/shipit-402-all-stats.png"
+      ]
+    }
+  ],
+  "ok": true
+}

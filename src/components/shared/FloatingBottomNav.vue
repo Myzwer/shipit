@@ -32,7 +32,9 @@ onMounted(() => {
 
 const homePath = computed(() => awardsMode.homePathForGame(props.game))
 const onWizard = computed(() => route.name === 'drinkit-log')
-const onShipChallenges = computed(() => route.name === 'shipit-challenges')
+const onShipChallenges = computed(
+  () => route.name === 'shipit-challenges' || route.name === 'shipit-submit',
+)
 const onGallery = computed(
   () => route.name === 'drinkit-gallery' || route.name === 'shipit-gallery',
 )
@@ -166,16 +168,16 @@ function onSelect(item: NavItem) {
 
 <template>
   <nav
-    class="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center px-4"
+    class="floating-bottom-nav pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center px-4"
     style="padding-bottom: max(0.85rem, env(safe-area-inset-bottom))"
     :aria-label="game === 'drinkit' ? 'Drink It! navigation' : 'Ship It! navigation'"
     :data-awards-mode="awardsMode.isAwardsMode ? 'true' : 'false'"
   >
     <div
-      class="pointer-events-auto flex w-full max-w-[22rem] items-center justify-around px-3 py-3.5 text-white"
+      class="floating-bottom-nav__pill pointer-events-auto flex items-center justify-around px-3 text-white"
       :style="{
         background: 'var(--theme-nav)',
-        borderRadius: 'var(--theme-nav-radius, 1.35rem)',
+        borderRadius: 'var(--theme-nav-radius, 1.65rem)',
         boxShadow: 'var(--theme-nav-shadow)',
       }"
     >
@@ -183,10 +185,10 @@ function onSelect(item: NavItem) {
         v-for="item in items"
         :key="item.key"
         type="button"
-        class="relative flex h-12 w-12 items-center justify-center rounded-2xl transition"
+        class="floating-bottom-nav__item relative flex items-center justify-center transition"
         :class="
           item.active
-            ? 'bg-white/18 opacity-100'
+            ? 'floating-bottom-nav__item--active opacity-100'
             : 'opacity-60 hover:opacity-90'
         "
         :aria-label="item.showDot && item.unreadAria ? item.unreadAria : item.label"

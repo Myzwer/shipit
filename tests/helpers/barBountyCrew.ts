@@ -1,9 +1,14 @@
 /**
  * B2 test helpers for locked daily crews. Synthetic ids only.
  * B1 requires ≥7 active Drink It! players to generate crews.
+ * Callers must dispose tracked player ids via disposePlayers() so Auth-less
+ * fixtures cannot accumulate when achievement_awards block a bare delete.
  */
 import { randomUUID } from 'node:crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { disposePlayers } from './disposePlayers'
+
+export { disposePlayers }
 
 export type EnsuredCrews = {
   ok: true

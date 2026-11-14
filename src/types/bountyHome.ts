@@ -178,9 +178,11 @@ export interface HomeBountyCardView {
   footer: string
   timerLabel: string
   timerValue: string
-  /** Cocktail / Ingredient / Bar open the log wizard; Daily opens Claim It flow. */
+  /** Cocktail / Ingredient / Bar open the log wizard; Daily opens the Details flow. */
   claimEnabled: boolean
   claimTitle: string
+  /** Visible CTA label. Defaults to Claim It when omitted. */
+  claimLabel?: string
   /** Compact today's Bar Bounty crew (Bar card only). */
   crew?: HomeBarCrewView
   /** Prefill hints for the logging wizard or Daily challenge route. */

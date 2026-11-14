@@ -87,6 +87,12 @@ export interface AchievementsUnreadState {
   latest_awarded_at_utc: string | null
 }
 
+/** Player's achievements_mine read cursor (same watermark mark_achievements_seen advances). */
+export interface AchievementsReadCursor {
+  last_seen_award_id: string | null
+  last_seen_at_utc: string | null
+}
+
 export interface BarGauntletSideSummary {
   definition_id: string
   stable_key: string

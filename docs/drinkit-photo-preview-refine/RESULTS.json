@@ -1,0 +1,325 @@
+[
+  {
+    "viewport": "360",
+    "fixture": "portrait",
+    "metrics": {
+      "viewport": {
+        "w": 360,
+        "h": 780
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "360",
+    "fixture": "landscape",
+    "metrics": {
+      "viewport": {
+        "w": 360,
+        "h": 780
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "360",
+    "fixture": "square",
+    "metrics": {
+      "viewport": {
+        "w": 360,
+        "h": 780
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "360",
+    "fixture": "edge-people",
+    "metrics": {
+      "viewport": {
+        "w": 360,
+        "h": 780
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "portrait",
+    "metrics": {
+      "viewport": {
+        "w": 402,
+        "h": 874
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "landscape",
+    "metrics": {
+      "viewport": {
+        "w": 402,
+        "h": 874
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "review-landscape",
+    "metrics": {
+      "w": 152,
+      "h": 152,
+      "aspect": 1,
+      "objectFit": "cover",
+      "classes": "gallery-polaroid-photo"
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "gallery-landscape",
+    "metrics": {
+      "w": 349.21875,
+      "h": 349.21875,
+      "aspect": 1,
+      "objectFit": "cover",
+      "objectPosition": "50% 50%",
+      "classes": "gallery-polaroid-photo"
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "square",
+    "metrics": {
+      "viewport": {
+        "w": 402,
+        "h": 874
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "402",
+    "fixture": "edge-people",
+    "metrics": {
+      "viewport": {
+        "w": 402,
+        "h": 874
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "430",
+    "fixture": "portrait",
+    "metrics": {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "430",
+    "fixture": "landscape",
+    "metrics": {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "430",
+    "fixture": "square",
+    "metrics": {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  },
+  {
+    "viewport": "430",
+    "fixture": "edge-people",
+    "metrics": {
+      "viewport": {
+        "w": 430,
+        "h": 932
+      },
+      "wrap": {
+        "w": 280,
+        "h": 336
+      },
+      "img": {
+        "w": 280,
+        "h": 280,
+        "aspect": 1,
+        "objectFit": "cover",
+        "borderRadius": "0px",
+        "classes": "gallery-polaroid-photo photo-capture-preview-photo"
+      },
+      "controls": {
+        "backgroundImage": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))"
+      }
+    }
+  }
+]

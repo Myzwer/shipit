@@ -1,4 +1,10 @@
 import { MEDIA } from '@/lib/media/constants'
+import {
+  DEFAULT_PHOTO_FRAMING,
+  cloneFraming,
+  framingToWire,
+  type PhotoFraming,
+} from '@/lib/media/framing'
 import { supabase } from '@/lib/supabase'
 import type {
   BeginPhotoUploadResult,
@@ -53,12 +59,21 @@ export type PendingSlotListener = (pending: PendingUploadSlot | null) => void
  * Emits `onPending` as soon as begin succeeds so lost upload/confirm responses
  * can Retry the same reservation.
  */
+function withFraming(staged: StagedPhotoRef, framing?: PhotoFraming | null): StagedPhotoRef {
+  return {
+    ...staged,
+    framing: cloneFraming(framing ?? staged.framing ?? DEFAULT_PHOTO_FRAMING),
+  }
+}
+
 export async function stageProcessedPhoto(options: {
   image: ProcessedImage
   game: PhotoGame
   purpose: PhotoPurpose
   existing?: StagedPhotoRef | null
   pending?: PendingUploadSlot | null
+  /** Accepted framing to persist after confirm. */
+  framing?: PhotoFraming | null
   /** Stable UUID for begin idempotency; mint once per selection attempt. */
   beginRequestId?: string | null
   onPending?: PendingSlotListener
@@ -66,6 +81,7 @@ export async function stageProcessedPhoto(options: {
   signal?: AbortSignal
 }): Promise<{ staged: StagedPhotoRef; pending: PendingUploadSlot }> {
   const { image, game, purpose, existing, onProgress, onPending, signal } = options
+  const framing = cloneFraming(options.framing ?? existing?.framing ?? DEFAULT_PHOTO_FRAMING)
   let pending = options.pending ?? null
   const beginRequestId = options.beginRequestId ?? pending?.clientRequestId ?? crypto.randomUUID()
 
@@ -77,7 +93,9 @@ export async function stageProcessedPhoto(options: {
       clientRequestId: pending?.clientRequestId ?? beginRequestId,
     }
     onPending?.(slot)
-    return { staged: existing, pending: slot }
+    // Persist framing on an already-staged photo (e.g. Adjust Photo).
+    await setPhotoFraming(existing.photoId, framing)
+    return { staged: withFraming(existing, framing), pending: slot }
   }
 
   if (offline()) {
@@ -97,7 +115,11 @@ export async function stageProcessedPhoto(options: {
     const reconciled = await reconcilePendingSlot(pending, image)
     if (reconciled) {
       onPending?.(reconciled.pending)
-      return reconciled
+      const saved = await setPhotoFraming(reconciled.staged.photoId, framing)
+      return {
+        pending: reconciled.pending,
+        staged: withFraming(reconciled.staged, saved),
+      }
     }
   }
 
@@ -140,18 +162,22 @@ export async function stageProcessedPhoto(options: {
     onPending?.(pending)
 
     if (begin.status === 'staged') {
+      await setPhotoFraming(pending.photoId, framing)
       return {
         pending,
-        staged: {
-          photoId: pending.photoId,
-          bucket: pending.bucket,
-          storagePath: pending.storagePath,
-          status: 'staged',
-          mimeType: image.mimeType,
-          width: image.width,
-          height: image.height,
-          byteSize: image.byteSize,
-        },
+        staged: withFraming(
+          {
+            photoId: pending.photoId,
+            bucket: pending.bucket,
+            storagePath: pending.storagePath,
+            status: 'staged',
+            mimeType: image.mimeType,
+            width: image.width,
+            height: image.height,
+            byteSize: image.byteSize,
+          },
+          framing,
+        ),
       }
     }
   } else {
@@ -202,18 +228,23 @@ export async function stageProcessedPhoto(options: {
     )
   }
 
+  await setPhotoFraming(pending.photoId, framing)
+
   return {
     pending,
-    staged: {
-      photoId: pending.photoId,
-      bucket: pending.bucket ?? MEDIA.bucket,
-      storagePath: pending.storagePath,
-      status: 'staged',
-      mimeType: image.mimeType,
-      width: image.width,
-      height: image.height,
-      byteSize: image.byteSize,
-    },
+    staged: withFraming(
+      {
+        photoId: pending.photoId,
+        bucket: pending.bucket ?? MEDIA.bucket,
+        storagePath: pending.storagePath,
+        status: 'staged',
+        mimeType: image.mimeType,
+        width: image.width,
+        height: image.height,
+        byteSize: image.byteSize,
+      },
+      framing,
+    ),
   }
 }
 
@@ -232,7 +263,7 @@ async function reconcilePendingSlot(
   if (row.status === 'staged') {
     return {
       pending,
-      staged: {
+      staged: withFraming({
         photoId: pending.photoId,
         bucket: row.bucket ?? pending.bucket,
         storagePath: row.storage_path ?? pending.storagePath,
@@ -241,7 +272,7 @@ async function reconcilePendingSlot(
         width: image.width,
         height: image.height,
         byteSize: image.byteSize,
-      },
+      }),
     }
   }
   if (row.status === 'bound' || row.status === 'abandoned') {
@@ -260,7 +291,7 @@ async function reconcilePendingSlot(
     if (confirm.ok) {
       return {
         pending,
-        staged: {
+        staged: withFraming({
           photoId: pending.photoId,
           bucket: pending.bucket,
           storagePath: pending.storagePath,
@@ -269,11 +300,49 @@ async function reconcilePendingSlot(
           width: image.width,
           height: image.height,
           byteSize: image.byteSize,
-        },
+        }),
       }
     }
   }
   return null
+}
+
+/**
+ * Persist non-destructive framing on a pending_upload or staged photo.
+ * Bound photos refuse (PHOTO_ALREADY_BOUND).
+ */
+export async function setPhotoFraming(
+  photoId: string,
+  framing: PhotoFraming,
+): Promise<PhotoFraming> {
+  const wire = framingToWire(framing)
+  const { data, error } = await rpc('set_photo_framing', {
+    p_photo_id: photoId,
+    p_crop_zoom: wire.zoom,
+    p_crop_center_x: wire.center_x,
+    p_crop_center_y: wire.center_y,
+  })
+  if (error) throw new StagePhotoError('RPC_ERROR', error.message)
+  const body = (data ?? {}) as {
+    ok?: boolean
+    code?: string
+    message?: string
+    framing?: { zoom?: number; center_x?: number; center_y?: number }
+  }
+  if (!body.ok) {
+    throw new StagePhotoError(
+      body.code ?? 'FRAMING_FAILED',
+      body.message ?? 'Could not save photo framing.',
+    )
+  }
+  if (body.framing) {
+    return {
+      zoom: Number(body.framing.zoom) || framing.zoom,
+      centerX: Number(body.framing.center_x) || framing.centerX,
+      centerY: Number(body.framing.center_y) || framing.centerY,
+    }
+  }
+  return cloneFraming(framing)
 }
 
 /**

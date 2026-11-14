@@ -2,8 +2,10 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AccountSection from '@/components/shared/AccountSection.vue'
+import AppIcon from '@/components/shared/AppIcon.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
+import GameRulesPanel from '@/features/shared/GameRulesPanel.vue'
 import { fetchShipItHome } from '@/lib/shipit/api'
 import { copy, formatCopy } from '@/ui/copy'
 import type { MockLeaderboardRow } from '@/types/game'
@@ -77,6 +79,11 @@ const showEmptyHint = computed(() => {
   )
 })
 
+function progressPercent(row: { completed: number; total: number }) {
+  if (!row.total) return 0
+  return Math.round((row.completed / row.total) * 100)
+}
+
 async function load() {
   loading.value = true
   error.value = null
@@ -112,7 +119,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <GameShell game="shipit" :title="copy.nav.home">
+  <GameShell
+    game="shipit"
+    tone="home"
+    :show-ship-time="false"
+    :title="copy.nav.home"
+  >
     <p
       v-if="loading"
       class="px-4 pt-3 text-center text-sm"
@@ -125,7 +137,7 @@ onUnmounted(() => {
     <div
       v-else-if="error"
       class="mx-4 mt-3 rounded-2xl px-4 py-3 text-center text-sm"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="shipit-home-error"
     >
       <p class="font-semibold">{{ copy.home.shipUnavailableTitle }}</p>
@@ -161,15 +173,15 @@ onUnmounted(() => {
       </p>
 
       <section
-        class="px-4 pt-4"
+        class="ship-progress px-4 pt-5"
         :aria-label="formatCopy(copy.home.shipProgress, { teamName })"
         data-testid="shipit-progress"
       >
-        <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
+        <h2 class="ship-progress-title">
           {{ formatCopy(copy.home.shipProgress, { teamName }) }}
         </h2>
 
-        <ul class="mt-5 space-y-5">
+        <ul class="mt-3.5 space-y-3">
           <li v-for="row in progressRows" :key="row.id">
             <button
               type="button"
@@ -177,53 +189,107 @@ onUnmounted(() => {
               :data-testid="`shipit-progress-${row.linkFilter}`"
               @click="openChallenges(row.linkFilter)"
             >
-              <p class="text-[0.95rem] font-medium leading-snug" style="color: var(--theme-ink)">
+              <p class="ship-progress-label">
                 {{ row.label }} — {{ row.completed }}/{{ row.total }}
               </p>
-              <div class="mt-2 h-[3px] overflow-hidden rounded-full bg-black/10">
+              <div class="ship-progress-track mt-1">
                 <div
-                  class="h-full rounded-full"
-                  :style="{
-                    width: `${row.total ? Math.round((row.completed / row.total) * 100) : 0}%`,
-                    background: 'var(--theme-primary)',
-                  }"
+                  class="ship-progress-fill"
+                  :style="{ width: `${progressPercent(row)}%` }"
                 />
               </div>
-              <p class="mt-1.5 text-right text-sm tabular-nums" style="color: var(--theme-ink)">
-                {{ row.points }}
+              <p class="ship-progress-points mt-0.5">
+                <AppIcon name="score.points" style-variant="outline" class="text-[0.72rem]" />
+                <span>{{ row.points }}</span>
               </p>
             </button>
           </li>
         </ul>
       </section>
 
-      <section class="mt-8" style="background: var(--theme-page-alt)" data-testid="shipit-leaderboard">
+      <section class="mt-6" style="background: var(--theme-gradient-cool)" data-testid="shipit-leaderboard">
         <div class="ui-section-band">
           <h2 class="ui-section-band-title">
             {{ copy.home.shipLeaderboard }}
           </h2>
         </div>
-        <div class="px-3 py-4">
-          <LeaderboardList :rows="leaderboardRows" show-members member-separator=" - " />
+        <div class="px-3 pb-4 pt-3">
+          <LeaderboardList
+            v-if="leaderboardRows.length"
+            :rows="leaderboardRows"
+            show-members
+            member-separator=" - "
+          />
+          <p
+            v-else
+            class="px-2 py-3 text-center text-sm leading-relaxed"
+            style="color: var(--theme-ink)"
+          >
+            {{ copy.home.noTeamProgress }}
+          </p>
         </div>
       </section>
 
-      <section class="px-4 py-6">
-        <details class="ui-card px-4 py-3">
-          <summary class="cursor-pointer font-semibold" style="color: var(--theme-ink)">
+      <section class="home-rules" :aria-label="copy.home.howToPlay" data-testid="how-to-play">
+        <div class="ui-section-band">
+          <h2 class="ui-section-band-title">
             {{ copy.home.howToPlay }}
-          </summary>
-          <div class="mt-2 space-y-3 text-sm leading-relaxed" style="color: var(--theme-muted)">
-            <p>{{ copy.shipit.howToPlayBasics }}</p>
-            <p>{{ copy.shipit.howToPlayFind }}</p>
-            <p>{{ copy.shipit.howToPlayPhotos }}</p>
-            <p>{{ copy.shipit.howToPlayPoints }}</p>
-            <p>{{ copy.shipit.howToPlayHours }}</p>
+          </h2>
+        </div>
+        <div class="px-3 pb-6 pt-4">
+          <GameRulesPanel game="shipit" />
+          <div class="mt-6">
+            <AccountSection show-team surface="mint" />
           </div>
-        </details>
-
-        <AccountSection show-team />
+        </div>
       </section>
     </template>
   </GameShell>
 </template>
+
+<style scoped>
+.ship-progress-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 5.5vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--theme-ink);
+}
+
+.ship-progress-label {
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--theme-ink);
+}
+
+.ship-progress-track {
+  height: 0.4rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 1px rgba(31, 41, 51, 0.06);
+}
+
+.ship-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--theme-primary);
+}
+
+.ship-progress-points {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-ink);
+}
+
+.home-rules {
+  background: var(--theme-gradient-warm);
+  color: var(--theme-ink);
+}
+</style>

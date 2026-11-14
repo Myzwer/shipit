@@ -9,6 +9,8 @@ import type { SemanticIconKey } from '@/ui/icons'
 
 const props = defineProps<{
   card: AchievementCard
+  /** Visit-scoped NEW marker for recently unlocked awards. */
+  showNew?: boolean
 }>()
 
 const isEarned = computed(() => props.card.earned)
@@ -43,7 +45,6 @@ const progress = computed(() => {
   if (props.card.earned || isSecretLocked.value) return null
   const p = props.card.progress
   if (!p || p.target <= 0) return null
-  // One-event achievements shouldn't invent a partial bar when current is 0/1 with no increment.
   if (p.target === 1 && p.current === 0) return null
   return p
 })
@@ -90,89 +91,102 @@ const progressPct = computed(() => {
         />
       </div>
 
-      <div class="achievement-card__body relative flex min-w-0 flex-1 flex-col gap-1 px-3 py-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <h3
-            class="min-w-0 flex-1 text-[0.98rem] font-bold leading-snug"
-            style="color: var(--theme-ink)"
-          >
-            {{ card.title }}
-          </h3>
-
-          <div class="shrink-0 pt-0.5">
-            <p
-              v-if="isEarned && earnedBadge"
-              class="inline-flex max-w-[9.5rem] items-start gap-1 text-[0.62rem] font-bold uppercase leading-tight tracking-wide"
-              style="color: var(--theme-primary)"
-              data-testid="achievement-earned-badge"
+      <div class="achievement-card__body relative flex min-w-0 flex-1 flex-col px-3 py-2.5">
+        <!-- Earned: badge row → title → description (badge never shares the title row) -->
+        <template v-if="isEarned">
+          <div class="mb-1 flex items-center justify-between gap-2">
+            <span
+              v-if="showNew"
+              class="achievement-card__new inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-wide text-white"
+              data-testid="achievement-new-badge"
             >
-              <AppIcon name="status.completed" style-variant="solid" class="mt-0.5 text-[0.7rem]" />
-              <span>{{ earnedBadge }}</span>
-            </p>
+              <AppIcon name="status.selected" style-variant="solid" class="text-[0.65rem]" />
+              {{ copy.achievements.newBadge }}
+            </span>
+            <span v-else class="min-w-0" />
             <p
-              v-else-if="isEarned"
-              class="inline-flex items-center gap-1 text-[0.62rem] font-bold uppercase tracking-wide"
+              class="flex items-center justify-end gap-1 text-[0.62rem] font-bold uppercase leading-tight tracking-wide"
               style="color: var(--theme-primary)"
               data-testid="achievement-earned-badge"
             >
               <AppIcon name="status.completed" style-variant="solid" class="text-[0.7rem]" />
-              <span>{{ copy.achievements.earned }}</span>
+              <span>{{ earnedBadge || copy.achievements.earned }}</span>
             </p>
-            <span
-              v-else-if="isExclusiveAvailable"
-              class="achievement-card__pill rounded-full px-2 py-0.5 text-[0.62rem] font-bold uppercase tracking-wide text-white"
-              data-testid="achievement-available-badge"
+          </div>
+          <h3
+            class="ui-display-name text-[0.98rem] font-bold leading-snug"
+            style="color: var(--theme-ink)"
+          >
+            {{ card.title }}
+          </h3>
+          <p class="mt-1 text-sm leading-snug opacity-80" style="color: var(--theme-ink)">
+            {{ card.description }}
+          </p>
+        </template>
+
+        <!-- Locked / exclusive / secret: status affordance may sit beside the title -->
+        <template v-else>
+          <div class="flex items-start justify-between gap-2">
+            <h3
+              class="ui-display-name min-w-0 flex-1 text-[0.98rem] font-bold leading-snug"
+              style="color: var(--theme-ink)"
             >
-              {{ copy.achievements.available }}
-            </span>
-            <span
-              v-else-if="isClaimedOther"
-              class="achievement-card__pill rounded-full px-2 py-0.5 text-[0.58rem] font-bold uppercase tracking-wide text-white"
-              data-testid="achievement-claimed-badge"
-            >
-              {{
-                formatCopy(copy.achievements.claimedBy, {
-                  name: card.exclusive_owner_name || '',
-                })
-              }}
-            </span>
-            <div
-              v-else-if="progress"
-              class="flex min-w-[3.25rem] flex-col items-end gap-0.5"
-              data-testid="achievement-progress"
-            >
+              {{ card.title }}
+            </h3>
+
+            <div class="shrink-0 pt-0.5">
               <span
-                class="text-[0.7rem] font-bold tabular-nums"
-                style="color: var(--theme-ink)"
+                v-if="isExclusiveAvailable"
+                class="achievement-card__pill rounded-full px-2 py-0.5 text-[0.62rem] font-bold uppercase tracking-wide text-white"
+                data-testid="achievement-available-badge"
+              >
+                {{ copy.achievements.available }}
+              </span>
+              <span
+                v-else-if="isClaimedOther"
+                class="achievement-card__pill rounded-full px-2 py-0.5 text-[0.58rem] font-bold uppercase tracking-wide text-white"
+                data-testid="achievement-claimed-badge"
               >
                 {{
-                  formatCopy(copy.achievements.progress, {
-                    current: progress.current,
-                    target: progress.target,
+                  formatCopy(copy.achievements.claimedBy, {
+                    name: card.exclusive_owner_name || '',
                   })
                 }}
               </span>
               <div
-                class="h-1.5 w-12 overflow-hidden rounded-full"
-                style="background: rgba(7, 108, 128, 0.18)"
+                v-else-if="progress"
+                class="flex min-w-[3.25rem] flex-col items-end gap-0.5"
+                data-testid="achievement-progress"
               >
+                <span
+                  class="text-[0.7rem] font-bold tabular-nums"
+                  style="color: var(--theme-ink)"
+                >
+                  {{
+                    formatCopy(copy.achievements.progress, {
+                      current: progress.current,
+                      target: progress.target,
+                    })
+                  }}
+                </span>
                 <div
-                  class="h-full rounded-full"
-                  style="background: var(--theme-primary)"
-                  :style="{ width: `${progressPct}%` }"
-                />
+                  class="h-1.5 w-12 overflow-hidden rounded-full"
+                  style="background: rgba(7, 108, 128, 0.18)"
+                >
+                  <div
+                    class="h-full rounded-full"
+                    style="background: var(--theme-primary)"
+                    :style="{ width: `${progressPct}%` }"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <p class="text-sm leading-snug opacity-80" style="color: var(--theme-ink)">
-          {{
-            isSecretLocked
-              ? copy.achievements.secretLabel
-              : card.description
-          }}
-        </p>
+          <p class="mt-1 text-sm leading-snug opacity-80" style="color: var(--theme-ink)">
+            {{ isSecretLocked ? copy.achievements.secretLabel : card.description }}
+          </p>
+        </template>
       </div>
     </div>
   </article>
@@ -201,5 +215,9 @@ const progressPct = computed(() => {
 
 .achievement-card__pill {
   background: var(--theme-accent);
+}
+
+.achievement-card__new {
+  background: var(--theme-primary);
 }
 </style>

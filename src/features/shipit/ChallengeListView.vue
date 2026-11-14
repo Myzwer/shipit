@@ -3,13 +3,21 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import GameShell from '@/components/shared/GameShell.vue'
+import AchievementCategoryFilter from '@/features/achievements/AchievementCategoryFilter.vue'
 import { fetchShipItChallenges, SHIPIT_CATEGORY_OPTIONS } from '@/lib/shipit/api'
+import { resolveShipItChallengeIcon } from '@/lib/shipit/challengeIcons'
 import { copy, formatCopy } from '@/ui/copy'
+import type { SemanticIconKey } from '@/ui/icons'
 import type {
   ShipItChallengeSection,
   ShipItChallengesPayload,
   ShipItFilter,
 } from '@/types/shipit'
+
+function challengeCardIcon(canonicalKey: string, completed: boolean): SemanticIconKey {
+  if (completed) return 'status.completed'
+  return resolveShipItChallengeIcon(canonicalKey).icon_key
+}
 
 const route = useRoute()
 const router = useRouter()
@@ -24,6 +32,11 @@ const filter = computed<ShipItFilter>(() => {
   const match = SHIPIT_CATEGORY_OPTIONS.find((o) => o.value === raw)
   return (match?.value ?? 'all') as ShipItFilter
 })
+
+const filterOptions = SHIPIT_CATEGORY_OPTIONS.map((opt) => ({
+  key: opt.value,
+  label: opt.label,
+}))
 
 const sections = computed<ShipItChallengeSection[]>(() => payload.value?.sections ?? [])
 const lifecycleStatus = computed(() => payload.value?.lifecycle.status ?? 'unconfigured')
@@ -77,22 +90,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <GameShell game="shipit" :title="copy.shipit.challengesHeading">
-    <div class="px-4 pt-4" data-testid="shipit-challenge-list">
-      <label class="flex flex-col gap-1.5 text-sm" style="color: var(--theme-ink)">
-        <span class="font-medium">{{ copy.shipit.filterBy }}</span>
-        <select
-          class="min-h-11 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm shadow-sm"
-          style="color: var(--theme-ink); background: var(--theme-page-alt)"
-          data-testid="shipit-challenge-filter"
-          :value="filter"
-          @change="onFilterChange(($event.target as HTMLSelectElement).value)"
-        >
-          <option v-for="opt in SHIPIT_CATEGORY_OPTIONS" :key="opt.value" :value="opt.value">
-            {{ opt.label }}
-          </option>
-        </select>
-      </label>
+  <GameShell
+    game="shipit"
+    tone="home"
+    :show-ship-time="false"
+    :title="copy.shipit.challengesHeading"
+  >
+    <div class="challenge-list px-4 pt-4" data-testid="shipit-challenge-list">
+      <AchievementCategoryFilter
+        :model-value="filter"
+        :options="filterOptions"
+        :label="copy.shipit.filterBy"
+        test-id="shipit-challenge-filter"
+        @update:model-value="onFilterChange"
+      />
 
       <p
         v-if="readOnly"
@@ -123,7 +134,7 @@ onMounted(() => {
     <div
       v-else-if="error"
       class="mx-4 mt-4 rounded-2xl px-4 py-3 text-center text-sm"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="shipit-challenges-error"
     >
       <p class="font-semibold">{{ copy.home.shipUnavailableTitle }}</p>
@@ -138,7 +149,7 @@ onMounted(() => {
       </button>
     </div>
 
-    <div v-else class="space-y-8 px-4 py-5 pb-8">
+    <div v-else class="space-y-6 px-4 pb-8 pt-4">
       <p
         v-if="!sections.length"
         class="text-center text-sm"
@@ -153,8 +164,11 @@ onMounted(() => {
         :key="section.category"
         :data-testid="`shipit-section-${section.category}`"
       >
-        <div class="mb-3 flex items-start justify-between gap-3">
-          <h2 class="font-display text-base font-bold leading-snug" style="color: var(--theme-ink)">
+        <div class="challenge-section-heading mb-2 flex items-start justify-between gap-3">
+          <h2
+            class="challenge-section-title min-w-0 flex-1 font-display text-[1.05rem] font-bold leading-snug"
+            style="color: var(--theme-ink)"
+          >
             {{
               formatCopy(copy.shipit.categoryProgress, {
                 categoryName: section.label,
@@ -163,7 +177,7 @@ onMounted(() => {
             }}
           </h2>
           <span
-            class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold text-white"
+            class="challenge-section-points shrink-0 rounded-full px-3 py-1 text-xs font-semibold text-white"
             style="background: var(--theme-header)"
             data-testid="shipit-category-points"
           >
@@ -175,21 +189,16 @@ onMounted(() => {
           </span>
         </div>
 
-        <ul class="space-y-3">
+        <ul class="space-y-2.5">
           <li v-for="challenge in section.challenges" :key="challenge.id">
             <button
               type="button"
-              class="flex w-full items-start gap-3 px-3.5 py-3.5 text-left transition"
-              :class="challenge.completed ? 'cursor-default' : 'hover:brightness-[0.98]'"
-              :style="{
-                background: challenge.completed
-                  ? 'var(--theme-complete)'
-                  : 'var(--theme-page-alt)',
-                color: 'var(--theme-ink)',
-                borderRadius: 'var(--theme-card-radius)',
-                boxShadow: 'var(--theme-card-shadow)',
-                opacity: challenge.completed ? 0.92 : 1,
-              }"
+              class="challenge-card flex w-full items-center gap-3 px-3 py-2.5 text-left transition"
+              :class="
+                challenge.completed
+                  ? 'challenge-card--completed cursor-default'
+                  : 'challenge-card--available hover:brightness-[0.98]'
+              "
               :data-testid="`shipit-challenge-${challenge.canonical_key}`"
               :data-completed="challenge.completed ? 'true' : 'false'"
               :data-actionable="challenge.completed ? 'false' : 'true'"
@@ -199,46 +208,41 @@ onMounted(() => {
               "
             >
               <span
-                class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
-                :style="{
-                  background: challenge.completed
-                    ? 'color-mix(in srgb, var(--theme-header) 28%, transparent)'
-                    : 'color-mix(in srgb, var(--theme-primary) 16%, transparent)',
-                  color: challenge.completed ? 'var(--theme-header)' : 'var(--theme-primary)',
-                }"
+                class="challenge-card__icon flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+                :class="
+                  challenge.completed
+                    ? 'challenge-card__icon--completed'
+                    : 'challenge-card__icon--available'
+                "
+                :data-challenge-icon="
+                  challengeCardIcon(challenge.canonical_key, challenge.completed)
+                "
                 aria-hidden="true"
               >
                 <AppIcon
-                  :name="challenge.completed ? 'status.completed' : 'theme.ship-it'"
+                  :name="challengeCardIcon(challenge.canonical_key, challenge.completed)"
                   style-variant="solid"
-                  class="text-sm"
+                  class="text-[0.85rem]"
                 />
               </span>
-              <span class="min-w-0 flex-1">
+              <span class="challenge-card__body min-w-0 flex-1">
                 <span
-                  class="block font-semibold leading-snug"
-                  :style="challenge.completed ? { color: 'var(--theme-muted)' } : undefined"
+                  class="challenge-card__title block text-[0.98rem] font-bold leading-snug"
+                  :class="challenge.completed ? 'challenge-card__title--completed' : ''"
                 >
                   {{ challenge.title }}
                 </span>
                 <span
-                  class="mt-1 block text-sm leading-snug"
-                  style="color: var(--theme-muted)"
+                  class="challenge-card__desc mt-0.5 block text-[0.82rem] leading-snug"
+                  :class="challenge.completed ? 'challenge-card__desc--completed' : ''"
                 >
                   {{ challenge.instructions }}
-                </span>
-                <span
-                  v-if="challenge.completed"
-                  class="mt-2 inline-block text-xs font-semibold uppercase tracking-wide"
-                  style="color: var(--theme-muted)"
-                >
-                  {{ copy.shipit.completed }}
                 </span>
               </span>
               <AppIcon
                 v-if="!challenge.completed"
                 name="action.open-row"
-                class="mt-1 shrink-0 text-sm opacity-55"
+                class="challenge-card__arrow shrink-0 text-sm opacity-50"
                 aria-hidden="true"
               />
             </button>
@@ -258,7 +262,7 @@ onMounted(() => {
     >
       <div
         class="w-full max-w-sm rounded-2xl px-5 py-5 shadow-xl"
-        style="background: var(--theme-card); color: var(--theme-ink)"
+        style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       >
         <h3 class="font-display text-lg font-bold">{{ copy.shipit.submissionSoonTitle }}</h3>
         <p class="mt-2 text-sm leading-relaxed" style="color: var(--theme-muted)">
@@ -277,3 +281,54 @@ onMounted(() => {
     </div>
   </GameShell>
 </template>
+
+<style scoped>
+.challenge-card {
+  min-height: 2.85rem;
+  border-radius: var(--theme-card-radius, 1.15rem);
+  box-shadow: var(--theme-card-shadow, var(--shadow-card));
+  color: var(--theme-ink);
+}
+
+.challenge-card--available {
+  background: var(--theme-gradient-cool);
+}
+
+.challenge-card--completed {
+  /* Muted/desaturated completed treatment from Challenges mockup */
+  background: #e6e2d8;
+  color: #6b7280;
+}
+
+.challenge-card__icon--available {
+  background: color-mix(in srgb, var(--theme-primary) 16%, transparent);
+  color: var(--theme-primary);
+}
+
+.challenge-card__icon--completed {
+  background: color-mix(in srgb, var(--theme-header) 22%, transparent);
+  color: var(--theme-header);
+}
+
+.challenge-card__title {
+  color: var(--theme-ink);
+}
+
+.challenge-card__title--completed,
+.challenge-card__desc--completed {
+  color: #7a828a;
+}
+
+.challenge-card__desc {
+  color: var(--theme-muted);
+}
+
+.challenge-card:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 2px;
+}
+
+.challenge-card--completed:focus-visible {
+  outline-color: color-mix(in srgb, var(--theme-header) 55%, transparent);
+}
+</style>

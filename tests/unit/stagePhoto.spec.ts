@@ -56,6 +56,15 @@ describe('stageProcessedPhoto Gate B', () => {
       if (fn === 'confirm_photo_upload') {
         return { data: { ok: true, status: 'staged' }, error: null }
       }
+      if (fn === 'set_photo_framing') {
+        return {
+          data: {
+            ok: true,
+            framing: { zoom: 1, center_x: 0.5, center_y: 0.5 },
+          },
+          error: null,
+        }
+      }
       return { data: null, error: null }
     })
 
@@ -78,6 +87,10 @@ describe('stageProcessedPhoto Gate B', () => {
   })
 
   it('reuses staged reservation without re-upload', async () => {
+    rpc.mockResolvedValue({
+      data: { ok: true, framing: { zoom: 1, center_x: 0.5, center_y: 0.5 } },
+      error: null,
+    })
     const result = await stageProcessedPhoto({
       image,
       game: 'shipit',
@@ -94,7 +107,10 @@ describe('stageProcessedPhoto Gate B', () => {
       },
     })
     expect(result.staged.photoId).toBe('p9')
-    expect(rpc).not.toHaveBeenCalled()
+    expect(rpc).toHaveBeenCalledWith(
+      'set_photo_framing',
+      expect.objectContaining({ p_photo_id: 'p9' }),
+    )
     expect(upload).not.toHaveBeenCalled()
   })
 
@@ -115,6 +131,12 @@ describe('stageProcessedPhoto Gate B', () => {
       if (fn === 'confirm_photo_upload') {
         return { data: { ok: true, status: 'staged', idempotent_replay: false }, error: null }
       }
+      if (fn === 'set_photo_framing') {
+        return {
+          data: { ok: true, framing: { zoom: 1, center_x: 0.5, center_y: 0.5 } },
+          error: null,
+        }
+      }
       return { data: null, error: null }
     })
     const result = await stageProcessedPhoto({
@@ -131,6 +153,10 @@ describe('stageProcessedPhoto Gate B', () => {
     expect(result.staged.photoId).toBe('p2')
     expect(upload).not.toHaveBeenCalled()
     expect(rpc).toHaveBeenCalledWith('confirm_photo_upload', { p_photo_id: 'p2' })
+    expect(rpc).toHaveBeenCalledWith(
+      'set_photo_framing',
+      expect.objectContaining({ p_photo_id: 'p2' }),
+    )
   })
 })
 

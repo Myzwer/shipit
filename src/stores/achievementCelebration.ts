@@ -23,6 +23,8 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
   const visibleCards = ref<AchievementCard[]>([])
   const open = ref(false)
   const loading = ref(false)
+  /** Optional award IDs handed off when See It / See All navigates to My Achievements. */
+  const handoffAwardIds = ref<string[] | null>(null)
 
   function queueFromSubmit(opts: {
     game: GameId
@@ -97,15 +99,33 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
     lastError.value = null
   }
 
+  /** Dismiss and remember award IDs so Achievements can reinforce the Just Unlocked set. */
+  function dismissForShowcase() {
+    const ids = visibleCards.value
+      .map((c) => c.award_id)
+      .filter((id): id is string => typeof id === 'string' && id.length > 0)
+    handoffAwardIds.value = ids.length ? [...new Set(ids)] : null
+    dismiss()
+  }
+
+  function takeHandoffAwardIds(): string[] | null {
+    const ids = handoffAwardIds.value
+    handoffAwardIds.value = null
+    return ids
+  }
+
   return {
     pending,
     visibleCards,
     open,
     loading,
     lastError,
+    handoffAwardIds,
     queueFromSubmit,
     presentIfPending,
     retryPresent,
     dismiss,
+    dismissForShowcase,
+    takeHandoffAwardIds,
   }
 })

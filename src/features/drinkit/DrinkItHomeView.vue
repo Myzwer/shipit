@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
 import LeaderboardList from '@/components/shared/LeaderboardList.vue'
 import BountyCarousel from '@/features/drinkit/BountyCarousel.vue'
+import GameRulesPanel from '@/features/shared/GameRulesPanel.vue'
 import { fetchMyBarBountyCrew } from '@/lib/bounty/barBountyApi'
 import { createHomeBountySync } from '@/lib/bounty/homeBountySync'
 import { fetchDrinkItLeaderboard } from '@/lib/wrapped/api'
@@ -45,23 +46,29 @@ async function refreshBarCrew() {
         mateNames: res.members.filter((m) => !m.is_self).map((m) => m.display_name),
       }
     } else if (res.ok && res.status === 'unassigned') {
-      barCrew.value = { status: 'unassigned', message: copy.bounty.barCrewUnassigned }
+      barCrew.value = {
+        status: 'unassigned',
+        message: copy.bounty.barCrewUnassigned,
+      }
     } else if (!res.ok && res.status === 'roster_too_small') {
-      barCrew.value = { status: 'unavailable', message: copy.bounty.barCrewTooSmall }
+      barCrew.value = {
+        status: 'unavailable',
+        message: copy.bounty.barCrewTooSmall,
+      }
     } else {
-      barCrew.value = { status: 'unavailable', message: copy.bounty.barCrewUnavailable }
+      barCrew.value = {
+        status: 'unavailable',
+        message: copy.bounty.barCrewUnavailable,
+      }
     }
   } catch {
-    barCrew.value = { status: 'error', message: copy.bounty.barCrewUnavailable }
+    barCrew.value = {
+      status: 'error',
+      message: copy.bounty.barCrewUnavailable,
+    }
   }
   cards.value = applyCrewToCards(lastCards)
 }
-
-const boardNote = computed(() => {
-  // Never contradict paused / closed / finale with a "live" development notice.
-  if (phase.value === 'active') return copy.home.partialLiveNote
-  return null
-})
 
 const sync = createHomeBountySync({ tickMs: 1000, refreshMs: 60_000 })
 let unsubscribe: (() => void) | null = null
@@ -86,13 +93,22 @@ async function loadLeaderboard() {
 }
 
 onMounted(() => {
+  let crewSyncedForReady = false
   unsubscribe = sync.subscribe((snap) => {
     lastCards = snap.cards
     cards.value = applyCrewToCards(snap.cards)
     phase.value = snap.phase
     status.value = snap.status
     errorMessage.value = snap.errorMessage
-    if (snap.status === 'ready') void refreshBarCrew()
+    // Tick emits while ready; only refresh crew when board becomes ready (or after retry).
+    if (snap.status === 'ready') {
+      if (!crewSyncedForReady) {
+        crewSyncedForReady = true
+        void refreshBarCrew()
+      }
+    } else {
+      crewSyncedForReady = false
+    }
   })
   sync.start()
   void loadLeaderboard()
@@ -124,18 +140,13 @@ function onClaim(card: HomeBountyCardView) {
 </script>
 
 <template>
-  <GameShell game="drinkit" :title="copy.home.drinkDailyBounties">
+  <GameShell
+    game="drinkit"
+    tone="home"
+    :show-ship-time="false"
+    :title="copy.home.drinkDailyBounties"
+  >
     <p
-      v-if="boardNote"
-      class="px-4 pt-3 text-center text-xs font-medium uppercase tracking-wide text-amber-800/80"
-      data-testid="home-board-note"
-      :data-board-phase="phase"
-      :data-board-status="status"
-    >
-      {{ boardNote }}
-    </p>
-    <p
-      v-else
       class="sr-only"
       data-testid="home-board-note"
       :data-board-phase="phase"
@@ -147,7 +158,7 @@ function onClaim(card: HomeBountyCardView) {
     <div
       v-if="status === 'error' || status === 'unavailable'"
       class="mx-4 mt-3 rounded-2xl px-4 py-3 text-center text-sm"
-      style="background: var(--theme-card); color: var(--theme-ink)"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
       data-testid="home-bounty-error"
     >
       <p class="font-semibold">{{ copy.bounty.unavailableTitle }}</p>
@@ -156,7 +167,7 @@ function onClaim(card: HomeBountyCardView) {
       </p>
       <button
         type="button"
-        class="mt-3 inline-flex rounded-full px-4 py-2 text-sm font-semibold text-white"
+        class="mt-3 inline-flex min-h-11 rounded-full px-4 py-2 text-sm font-semibold text-white"
         style="background: var(--theme-primary)"
         data-testid="home-bounty-retry"
         @click="retry"
@@ -165,33 +176,49 @@ function onClaim(card: HomeBountyCardView) {
       </button>
     </div>
 
-    <section class="pt-3" :aria-label="copy.home.drinkDailyBounties">
+    <section :aria-label="copy.home.drinkDailyBounties">
       <BountyCarousel :cards="cards" @claim="onClaim" />
     </section>
 
-    <section class="mt-6" style="background: var(--theme-page-alt)">
+    <section style="background: var(--theme-gradient-cool)">
       <div class="ui-section-band">
         <h2 class="ui-section-band-title">
           {{ copy.home.drinkLeaderboard }}
         </h2>
       </div>
-      <div class="px-3 py-4">
-        <LeaderboardList :rows="leaderboardRows" />
+      <div class="px-3 pb-4 pt-3">
+        <LeaderboardList v-if="leaderboardRows.length" metric-under-name :rows="leaderboardRows" />
+        <p
+          v-else
+          class="px-2 py-3 text-center text-sm leading-relaxed"
+          style="color: var(--theme-ink)"
+          data-testid="leaderboard-empty"
+        >
+          {{ copy.home.noDrinkStandings }}
+        </p>
       </div>
+
     </section>
 
-    <section class="px-4 py-6">
-      <details class="ui-card px-4 py-3">
-        <summary class="cursor-pointer font-semibold" style="color: var(--theme-ink)">
+    <section class="home-rules" :aria-label="copy.home.howToPlay" data-testid="how-to-play">
+      <div class="ui-section-band">
+        <h2 class="ui-section-band-title">
           {{ copy.home.howToPlay }}
-        </summary>
-        <p class="mt-2 text-sm leading-relaxed" style="color: var(--theme-muted)">
-          Earn points by completing bounties throughout the cruise. Full player-facing rules arrive
-          with later phases; this accordion is a Phase 0 shell.
-        </p>
-      </details>
-
-      <AccountSection />
+        </h2>
+      </div>
+      <div class="px-3 pb-6 pt-4">
+        <GameRulesPanel game="drinkit" />
+        <div class="mt-6">
+          <AccountSection surface="mint" />
+        </div>
+      </div>
     </section>
   </GameShell>
 </template>
+
+<style scoped>
+.home-rules {
+  background: var(--theme-gradient-warm);
+  color: var(--theme-ink);
+}
+</style>

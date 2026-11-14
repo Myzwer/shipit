@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import AccountSection from '@/components/shared/AccountSection.vue'
 import GameShell from '@/components/shared/GameShell.vue'
-import LeaderboardList from '@/components/shared/LeaderboardList.vue'
-import AppIcon from '@/components/shared/AppIcon.vue'
-import WrappedStatCard from '@/features/wrapped/WrappedStatCard.vue'
-import WrappedFinalAwardCard from '@/features/wrapped/WrappedFinalAwardCard.vue'
+import PhotoViewer from '@/features/gallery/PhotoViewer.vue'
+import WrappedAllStatsSection from '@/features/wrapped/WrappedAllStatsSection.vue'
+import WrappedFeatureCarousel from '@/features/wrapped/WrappedFeatureCarousel.vue'
+import WrappedLeaderboardSection from '@/features/wrapped/WrappedLeaderboardSection.vue'
 import { fetchMyWrapped, revealMyWrapped, WrappedApiError } from '@/lib/wrapped/api'
 import {
-  buildCollectiveCards,
-  buildGlobalAwardCards,
-  buildPersonalCards,
-} from '@/lib/wrapped/buildFinalCards'
+  buildDrinkItFeatureSlides,
+  buildShipItFeatureSlides,
+} from '@/lib/wrapped/buildFeatureSlides'
+import { buildWrappedIntroSlide } from '@/lib/wrapped/buildIntroSlide'
 import { inventoryIdsForGame } from '@/lib/wrapped/inventory'
+import {
+  buildPhotoHighlights,
+  fetchGalleryEventsWithMeta,
+  type WrappedPhotoHighlight,
+} from '@/lib/wrapped/photoHighlights'
 import { useAwardsModeStore } from '@/stores/awardsMode'
 import { copy } from '@/ui/copy'
-import type { GameId, MockLeaderboardRow } from '@/types/game'
+import type { GameId } from '@/types/game'
 import type { WrappedPayload } from '@/types/wrapped'
+import type { WrappedFeatureSlide } from '@/types/wrappedPlanC'
 
 const props = defineProps<{
   game: GameId
@@ -28,96 +35,68 @@ const awardsMode = useAwardsModeStore()
 const status = ref<'loading' | 'ready' | 'error' | 'not_available'>('loading')
 const errorMessage = ref<string | null>(null)
 const payload = ref<WrappedPayload | null>(null)
-const revealing = ref(false)
 const justRevealed = ref(false)
 const preferReducedMotion = ref(false)
-const resultsTop = ref<HTMLElement | null>(null)
+const photoHighlights = ref<WrappedPhotoHighlight[]>([])
+const photoPoolComplete = ref(true)
+const photosLoading = ref(false)
+const viewer = ref<{ url: string; photoId: string } | null>(null)
 
-const revealed = computed(() => Boolean(payload.value?.revealed))
-
-const personalHeading = computed(() =>
-  props.game === 'drinkit' ? copy.wrapped.yourWeek : copy.wrapped.yourTeamWeek,
-)
-
-const introHeadline = computed(() =>
-  props.game === 'drinkit'
-    ? copy.wrapped.drinkIntroHeadline
-    : copy.wrapped.shipIntroHeadline,
-)
-
-const introBody = computed(() =>
-  props.game === 'drinkit' ? copy.wrapped.drinkIntroBody : copy.wrapped.shipIntroBody,
-)
-
-const everyoneSupport = computed(() =>
-  props.game === 'drinkit'
-    ? copy.wrapped.everyoneElseSupportDrink
-    : copy.wrapped.everyoneElseSupportShip,
-)
-
-const collectiveHeading = computed(() =>
-  props.game === 'drinkit' ? copy.wrapped.collectiveDrink : copy.wrapped.collectiveShip,
-)
-
-const startButton = computed(() =>
-  props.game === 'drinkit' ? copy.wrapped.seeDrinkIt : copy.wrapped.seeShipIt,
-)
-
-const personalCards = computed(() =>
-  buildPersonalCards(payload.value?.sections?.personal ?? []),
-)
-
-const globalCards = computed(() =>
-  buildGlobalAwardCards(payload.value?.sections?.global ?? []),
-)
-
-const collectiveCards = computed(() =>
-  buildCollectiveCards(payload.value?.sections?.collective ?? []),
-)
+const sections = computed(() => payload.value?.sections ?? null)
 
 const inventoryMismatch = computed(() => {
+  if (!sections.value) return false
   const expected = inventoryIdsForGame(props.game)
   const got = [
-    ...(payload.value?.sections?.personal ?? []).map((e) => e.spec_id),
-    ...(payload.value?.sections?.global ?? []).map((e) => e.spec_id),
-    ...(payload.value?.sections?.collective ?? []).map((e) => e.spec_id),
+    ...sections.value.personal.map((e) => e.spec_id),
+    ...sections.value.global.map((e) => e.spec_id),
+    ...sections.value.collective.map((e) => e.spec_id),
   ]
   return expected.length !== got.length || expected.some((id, i) => id !== got[i])
 })
 
-const standingsEntry = computed(() =>
-  (payload.value?.sections?.collective ?? []).find((e) => e.spec_id === 'SI-C12'),
-)
-
-const leaderboardRows = computed<MockLeaderboardRow[]>(() => {
-  if (props.game === 'shipit' && standingsEntry.value?.items?.length) {
-    return (standingsEntry.value.items as Array<Record<string, unknown>>).map((row, idx) => ({
-      id: String(row.id ?? idx),
-      rank: Number(row.rank ?? idx + 1),
-      name: String(row.name ?? ''),
-      members: Array.isArray(row.members) ? (row.members as string[]) : undefined,
-      metricLabel: `${row.points ?? 0} points`,
-      points: Number(row.points ?? 0),
-    }))
-  }
-  return (payload.value?.leaderboard ?? []).map((row) => ({
-    id: row.id,
-    rank: row.rank,
-    name: row.name,
-    members: row.members,
-    metricLabel: row.metric_label,
-    points: row.points,
-  }))
+const featureSlides = computed<WrappedFeatureSlide[]>(() => {
+  if (!sections.value) return []
+  const opts = { photoPoolComplete: photoPoolComplete.value }
+  const stories =
+    props.game === 'drinkit'
+      ? buildDrinkItFeatureSlides(sections.value, photoHighlights.value, opts)
+      : buildShipItFeatureSlides(sections.value, photoHighlights.value, opts)
+  // Intro is always first; story eligibility / tone alternation stay unchanged.
+  return [buildWrappedIntroSlide(), ...stories]
 })
 
-const showMembers = computed(() => props.game === 'shipit')
+const leaderboardSource = computed(() => payload.value?.leaderboard ?? [])
 
-const collectiveWithoutStandings = computed(() =>
-  collectiveCards.value.filter((c) => c.key !== 'SI-C12'),
-)
+async function loadPhotos() {
+  photosLoading.value = true
+  try {
+    const result = await fetchGalleryEventsWithMeta(props.game)
+    photoHighlights.value = buildPhotoHighlights(result.events)
+    photoPoolComplete.value = !result.truncated
+  } catch {
+    photoHighlights.value = []
+    photoPoolComplete.value = false
+  } finally {
+    photosLoading.value = false
+  }
+}
 
-function scrollToTop() {
-  resultsTop.value?.scrollIntoView({ behavior: preferReducedMotion.value ? 'auto' : 'smooth' })
+/** Persist reveal without blocking the carousel (replaces the old start gate). */
+async function ensureRevealed(alreadyRevealed: boolean) {
+  if (alreadyRevealed) return
+  try {
+    const res = await revealMyWrapped(props.game)
+    if (res.ok && payload.value) {
+      payload.value = {
+        ...payload.value,
+        revealed: true,
+        revealed_at_utc: res.revealed_at_utc ?? payload.value.revealed_at_utc,
+      }
+    }
+  } catch {
+    // Results still render; reveal can retry on next visit.
+  }
 }
 
 async function load() {
@@ -148,29 +127,13 @@ async function load() {
     }
     payload.value = res
     status.value = 'ready'
+    if (!res.revealed) justRevealed.value = true
+    void ensureRevealed(Boolean(res.revealed))
+    void loadPhotos()
   } catch (err) {
     status.value = 'error'
     errorMessage.value =
       err instanceof WrappedApiError ? err.message : copy.wrapped.loadFailed
-  }
-}
-
-async function onStart() {
-  if (revealing.value || revealed.value) return
-  revealing.value = true
-  try {
-    const res = await revealMyWrapped(props.game)
-    if (!res.ok) {
-      errorMessage.value = res.message ?? res.code ?? copy.wrapped.revealFailed
-      return
-    }
-    justRevealed.value = true
-    await load()
-  } catch (err) {
-    errorMessage.value =
-      err instanceof WrappedApiError ? err.message : copy.wrapped.revealFailed
-  } finally {
-    revealing.value = false
   }
 }
 
@@ -186,13 +149,21 @@ watch(
   () => props.game,
   () => {
     justRevealed.value = false
+    photoHighlights.value = []
+    photoPoolComplete.value = true
+    viewer.value = null
     void load()
   },
 )
 </script>
 
 <template>
-  <GameShell :game="game" :title="copy.wrapped.heading">
+  <GameShell
+    :game="game"
+    :title="copy.wrapped.heading"
+    :show-ship-time="false"
+    :content-inset="false"
+  >
     <div
       v-if="status === 'loading'"
       class="px-4 py-16 text-center text-sm"
@@ -243,146 +214,39 @@ watch(
       </button>
     </div>
 
-    <!-- One-time Start / intro -->
-    <section
-      v-else-if="!revealed"
-      class="flex min-h-[70dvh] flex-col items-center justify-center px-6 pb-24 pt-8 text-center"
-      style="background: var(--theme-gradient-cool)"
-      data-testid="wrapped-intro"
-      :data-game="game"
-    >
-      <AppIcon name="nav.wrapped" style-variant="outline" class="text-5xl opacity-90" />
-      <h2 class="font-display mt-6 max-w-xs text-2xl font-bold leading-snug">
-        {{ introHeadline }}
-      </h2>
-      <p class="mt-3 max-w-sm text-sm" style="color: var(--theme-muted)">
-        {{ introBody }}
-      </p>
-      <button
-        type="button"
-        class="mt-8 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold text-white"
-        style="background: var(--theme-primary)"
-        data-testid="wrapped-start"
-        :disabled="revealing"
-        @click="onStart"
-      >
-        <span>{{ revealing ? copy.wrapped.revealing : startButton }}</span>
-        <AppIcon v-if="!revealing" name="action.next" class="text-sm" />
-      </button>
-      <p
-        v-if="errorMessage"
-        class="mt-3 text-sm"
-        style="color: var(--theme-accent)"
-        data-testid="wrapped-reveal-error"
-      >
-        {{ errorMessage }}
-      </p>
-    </section>
-
-    <!-- Full results: three scrollable sections -->
     <div
-      v-else
-      ref="resultsTop"
+      v-else-if="sections"
       class="pb-8"
       data-testid="wrapped-results"
+      data-plan="c"
       :data-game="game"
       :data-inventory-ok="inventoryMismatch ? 'false' : 'true'"
+      :data-photos-loading="photosLoading ? 'true' : 'false'"
       :class="
         justRevealed && !preferReducedMotion
           ? 'wrapped-reveal-anim'
           : undefined
       "
     >
-      <section
-        class="relative px-4 py-6 text-white"
-        style="background: var(--theme-primary)"
-        data-testid="wrapped-personal-intro"
-      >
-        <button
-          type="button"
-          class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15"
-          :aria-label="'Back to top'"
-          data-testid="wrapped-back-to-top"
-          @click="scrollToTop"
-        >
-          <AppIcon name="action.next" class="rotate-[-90deg] text-sm" />
-        </button>
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-white/80">
-          {{ copy.wrapped.heading }}
-        </p>
-        <h2 class="font-display mt-2 text-2xl font-bold">{{ introHeadline }}</h2>
-        <p class="mt-2 text-sm text-white/85">{{ introBody }}</p>
-        <h3 class="font-display mt-5 text-lg font-bold">{{ personalHeading }}</h3>
-      </section>
+      <WrappedFeatureCarousel
+        :slides="featureSlides"
+        :game="game"
+        @open-photo="viewer = $event"
+      />
 
-      <section
-        class="grid grid-cols-2 gap-3 px-3 py-4"
-        :aria-label="personalHeading"
-        data-testid="wrapped-stat-grid"
-      >
-        <WrappedStatCard
-          v-for="card in personalCards"
-          :key="card.key"
-          :card="card"
-          :class="card.kind === 'photo' ? 'col-span-2' : undefined"
-        />
-      </section>
+      <WrappedLeaderboardSection
+        :game="game"
+        :rows="leaderboardSource"
+      />
 
-      <section
-        class="px-4 py-6 text-white"
-        style="background: var(--theme-primary)"
-        data-testid="wrapped-group-intro"
-      >
-        <h2 class="font-display text-xl font-bold">{{ copy.wrapped.everyoneElse }}</h2>
-        <p class="mt-2 text-sm text-white/85">{{ everyoneSupport }}</p>
-      </section>
-
-      <section class="space-y-3 px-3 py-4" data-testid="wrapped-awards-list">
-        <WrappedFinalAwardCard
-          v-for="card in globalCards"
-          :key="card.key"
-          :card="card"
-        />
-      </section>
-
-      <section
-        class="px-4 py-6 text-white"
-        style="background: var(--theme-primary)"
-        data-testid="wrapped-collective-intro"
-      >
-        <h2 class="font-display text-xl font-bold">{{ collectiveHeading }}</h2>
-      </section>
-
-      <section class="space-y-3 px-3 py-4" data-testid="wrapped-collective-list">
-        <WrappedFinalAwardCard
-          v-for="card in collectiveWithoutStandings"
-          :key="card.key"
-          :card="card"
-        />
-      </section>
-
-      <section
-        v-if="game === 'shipit'"
-        class="mt-2"
-        style="background: var(--theme-gradient-cool)"
-        data-testid="wrapped-leaderboard"
-      >
-        <div
-          class="px-4 py-3 text-center text-white"
-          style="background: var(--theme-header)"
-        >
-          <h2 class="font-display text-sm font-bold tracking-[0.12em] uppercase">
-            {{ copy.wrapped.finalLeaderboard }}
-          </h2>
-        </div>
-        <div class="px-3 py-4">
-          <LeaderboardList :rows="leaderboardRows" :show-members="showMembers" />
-        </div>
-      </section>
+      <WrappedAllStatsSection
+        :game="game"
+        :sections="sections"
+      />
 
       <section
         class="mx-3 mt-4 rounded-2xl px-4 py-6 text-center"
-        style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
+        style="background: var(--theme-gradient-cool); color: var(--theme-ink)"
         data-testid="wrapped-ending"
       >
         <h2 class="font-display text-2xl font-bold">{{ copy.wrapped.wrapHeading }}</h2>
@@ -390,7 +254,19 @@ watch(
           {{ copy.wrapped.wrapBody }}
         </p>
       </section>
+
+      <!-- Post-finale Home is remapped to Wrapped; restore Log Out (+ Admin) here. -->
+      <div class="mx-3" data-testid="wrapped-account-utility">
+        <AccountSection :show-team="game === 'shipit'" surface="mint" />
+      </div>
     </div>
+
+    <PhotoViewer
+      v-if="viewer"
+      :src="viewer.url"
+      :download-name="`wrapped-${viewer.photoId}.jpg`"
+      @close="viewer = null"
+    />
   </GameShell>
 </template>
 

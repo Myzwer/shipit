@@ -1,3 +1,4 @@
+import type { PhotoFramingWire } from '@/lib/media/framing'
 import type { GameId } from '@/types/game'
 
 export type GalleryFilter = 'everyone' | 'mine' | 'team'
@@ -31,6 +32,17 @@ export interface GalleryFeedEvent {
   achievement_award_id?: string | null
   caption: string | null
   photo_id: string | null
+  /** Bound photo natural width when photo_id is present. */
+  photo_width?: number | null
+  /** Bound photo natural height when photo_id is present. */
+  photo_height?: number | null
+  /** Non-destructive square framing; omit/null → centered cover. */
+  photo_framing?: PhotoFramingWire | null
+  /**
+   * Authorized companion display names for drink_log posts only.
+   * Resolved server-side from recorded drink_log_companions (never client-inferred).
+   */
+  companion_names?: string[]
   display: Record<string, unknown>
   reactions: GalleryReactionCounts
   my_reaction: GalleryReactionEmoji | null

@@ -259,8 +259,13 @@ export function composeMineSections(opts: {
   cards: AchievementCard[]
   filter: AchievementsFilterKey
   categories?: AchievementCategoryMeta[]
+  /** Award IDs temporarily lifted into Just Unlocked (omit from category lists). */
+  excludeAwardIds?: ReadonlySet<string>
 }): AchievementSection[] {
-  const earned = opts.cards.filter((c) => c.earned)
+  const exclude = opts.excludeAwardIds
+  const earned = opts.cards.filter(
+    (c) => c.earned && !(exclude && c.award_id && exclude.has(c.award_id)),
+  )
   const categories = orderedCategoriesForGame(opts.cards, opts.categories)
   const filteredCats =
     opts.filter === 'all'

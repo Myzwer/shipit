@@ -10,15 +10,34 @@ import PhotoStep from '@/features/drinkit/log/PhotoStep.vue'
 import ReviewStep from '@/features/drinkit/log/ReviewStep.vue'
 import WizardModal from '@/features/drinkit/log/WizardModal.vue'
 import WizardProgress from '@/features/drinkit/log/WizardProgress.vue'
+import { setPhotoFraming as persistStagedFraming } from '@/lib/media/stagePhoto'
+import { cloneFraming, type PhotoFraming } from '@/lib/media/framing'
 import { useAwardsModeStore } from '@/stores/awardsMode'
 import { useDrinkLogWizardStore } from '@/stores/drinkLogWizard'
+import { useSessionStore } from '@/stores/session'
 import { copy, formatCopy } from '@/ui/copy'
 import type { WizardEntrySource, WizardPrefill, WizardStep } from '@/types/drinkLog'
 
 const route = useRoute()
 const router = useRouter()
 const wizard = useDrinkLogWizardStore()
+const session = useSessionStore()
 const awardsMode = useAwardsModeStore()
+const focusCaption = ref(false)
+
+const photoRestoreSnapshot = computed(() => {
+  const url = wizard.photoPreviewUrl
+  const width = wizard.photoPreviewWidth
+  const height = wizard.photoPreviewHeight
+  if (!url || !(width && height)) return null
+  return {
+    previewUrl: url,
+    width,
+    height,
+    framing: wizard.photoFraming,
+    staged: wizard.stagedPhoto,
+  }
+})
 
 type ModalKind =
   | null
@@ -38,6 +57,13 @@ const modal = ref<ModalKind>(null)
 const bootstrapped = ref(false)
 const wizardEl = ref<HTMLElement | null>(null)
 const showBack = computed(() => wizard.step !== 'bar')
+
+const wizardProgressSteps = computed(() =>
+  wizard.STEPS.map((id) => ({
+    id,
+    label: copy.wizard.steps[id],
+  })),
+)
 
 /**
  * Route the player already chose when a guard cancelled navigation.
@@ -300,7 +326,8 @@ async function onRetry() {
   await runSubmit()
 }
 
-function onProgressSelect(step: WizardStep) {
+function onProgressSelect(stepId: string) {
+  const step = stepId as WizardStep
   if (wizard.formLockedForUnknown && step !== 'review') {
     modal.value = 'lockedEdit'
     return
@@ -326,6 +353,39 @@ async function confirmStartOver() {
 function openIngredientConfirm() {
   if (!wizard.ingredientConfirmable) return
   modal.value = 'ingredientConfirm'
+}
+
+async function onReviewFraming(next: PhotoFraming) {
+  if (wizard.formLockedForUnknown) return
+  const framing = cloneFraming(next)
+  wizard.setPhotoFraming(framing)
+  const staged = wizard.stagedPhoto
+  if (!staged?.photoId) return
+  try {
+    const saved = await persistStagedFraming(staged.photoId, framing)
+    wizard.setPhotoFraming(saved)
+    wizard.setStagedPhoto({ ...staged, framing: cloneFraming(saved) })
+  } catch {
+    // Keep local framing; submit still uses staged photo_id. Retry via Adjust if needed.
+  }
+}
+
+function onReviewEditCaption() {
+  if (wizard.formLockedForUnknown) {
+    modal.value = 'unknown'
+    return
+  }
+  focusCaption.value = true
+  wizard.goToStep('photo')
+}
+
+function onReviewAddPhoto() {
+  if (wizard.formLockedForUnknown) {
+    modal.value = 'unknown'
+    return
+  }
+  focusCaption.value = false
+  wizard.goToStep('photo')
 }
 
 async function onIngredientConfirmYes() {
@@ -378,6 +438,7 @@ function onIngredientConfirmNo() {
     </header>
 
     <WizardProgress
+      :steps="wizardProgressSteps"
       :step="wizard.step"
       :completed="completed"
       :locked="wizard.formLockedForUnknown"
@@ -436,28 +497,40 @@ function onIngredientConfirmNo() {
         v-else-if="wizard.step === 'photo'"
         :caption="wizard.caption"
         :locked="wizard.formLockedForUnknown"
+        :focus-caption="focusCaption"
+        :restore-photo="photoRestoreSnapshot"
         @update:caption="wizard.caption = $event"
         @continue="wizard.continueFromPhoto()"
         @staged="wizard.setStagedPhoto($event)"
-        @local-ready="wizard.setPhotoPreviewUrl($event?.previewUrl ?? null)"
+        @local-ready="wizard.setPhotoPreviewImage($event)"
+        @framing="wizard.setPhotoFraming($event)"
+        @caption-focused="focusCaption = false"
       />
       <ReviewStep
         v-else-if="wizard.step === 'review'"
         :drink-name="wizard.selectedDrink?.displayName ?? ''"
         :bar-name="wizard.selectedBar?.name ?? ''"
         :companion-names="wizard.companionNames"
+        :player-name="session.displayName"
         :caption="wizard.caption"
         :photo-preview-url="wizard.photoPreviewUrl"
+        :photo-preview-width="wizard.photoPreviewWidth"
+        :photo-preview-height="wizard.photoPreviewHeight"
+        :photo-framing="wizard.photoFraming"
         :photo-staged="!!wizard.stagedPhoto"
         :preview="wizard.preview"
         :preview-status="wizard.previewStatus"
         :selected-claims="wizard.selectedClaims"
         :submitting="wizard.submitStatus === 'submitting'"
         :show-ingredient-mismatch-link="!!wizard.ingredientConfirmable"
+        :locked="wizard.formLockedForUnknown"
         @toggle-claim="wizard.toggleClaim($event)"
         @submit="onSubmitClick"
         @retry-preview="wizard.refreshPreview()"
         @open-ingredient-confirm="openIngredientConfirm"
+        @update-framing="onReviewFraming"
+        @edit-caption="onReviewEditCaption"
+        @add-photo="onReviewAddPhoto"
       />
     </main>
 

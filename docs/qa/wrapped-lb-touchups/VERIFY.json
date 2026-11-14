@@ -1,0 +1,101 @@
+{
+  "checks": [
+    {
+      "id": "expanded-achievements-metrics",
+      "sample": [
+        "16/126 achievements",
+        "13/126 achievements",
+        "13/126 achievements",
+        "13/126 achievements",
+        "11/126 achievements",
+        "11/126 achievements"
+      ],
+      "allHaveSlash": true,
+      "hideButton": {
+        "bg": "rgb(7, 108, 128)",
+        "color": "rgb(255, 255, 255)",
+        "text": "Hide Full Standings"
+      }
+    },
+    {
+      "id": "drinkit-bounties",
+      "champText": "The Grand ChampionDavid F.All Hail.100",
+      "metrics": [
+        "Bounties 2/28",
+        "Bounties 2/28",
+        "Bounties 2/28"
+      ],
+      "moreBg": "rgb(7, 108, 128)",
+      "moreColor": "rgb(255, 255, 255)",
+      "moreText": "Show Full Standings",
+      "champIcons": [
+        "trophy",
+        "circle-dot"
+      ],
+      "rowIcons": [
+        "circle-dot"
+      ],
+      "allChampSvg": "<svg data-v-e178cc63=\"\" class=\"svg-inline--fa fa-circle-dot lb__champ-icon\" data-prefix=\"fal\" data-icon=\"circle-dot\" role=\"img\" viewBox=\"0 0 512 512\" aria-hidden=\"true\"><path class=\"\" fill=\"currentCol"
+    },
+    {
+      "id": "drinkit-achievements",
+      "champText": "The Grand ChampionDavid F.All Hail.24",
+      "metrics": [
+        "16/126 achievements",
+        "13/126 achievements",
+        "13/126 achievements"
+      ],
+      "moreBg": "rgb(7, 108, 128)",
+      "moreColor": "rgb(255, 255, 255)",
+      "moreText": "Show Full Standings",
+      "champIcons": [
+        "trophy",
+        "award"
+      ],
+      "rowIcons": [
+        "award"
+      ],
+      "allChampSvg": "<svg data-v-e178cc63=\"\" class=\"svg-inline--fa fa-award lb__champ-icon\" data-prefix=\"fal\" data-icon=\"award\" role=\"img\" viewBox=\"0 0 448 512\" aria-hidden=\"true\"><path class=\"\" fill=\"currentColor\" d=\"M25"
+    },
+    {
+      "id": "shipit-points",
+      "champText": "The Grand ChampionsTeam 3All Hail.3,300",
+      "metrics": [
+        "Challenges: 9",
+        "Challenges: 8",
+        "Challenges: 6"
+      ],
+      "moreBg": "rgb(29, 79, 145)",
+      "moreColor": "rgb(255, 255, 255)",
+      "moreText": "Show Full Standings",
+      "champIcons": [
+        "trophy",
+        "circle-dot"
+      ],
+      "rowIcons": [
+        "circle-dot"
+      ],
+      "allChampSvg": "<svg data-v-e178cc63=\"\" class=\"svg-inline--fa fa-circle-dot lb__champ-icon\" data-prefix=\"fal\" data-icon=\"circle-dot\" role=\"img\" viewBox=\"0 0 512 512\" aria-hidden=\"true\"><path class=\"\" fill=\"currentCol"
+    },
+    {
+      "id": "shipit-challenges",
+      "champText": "The Grand ChampionsTeam 3All Hail.12",
+      "metrics": [
+        "3000 points",
+        "2200 points",
+        "1700 points"
+      ],
+      "moreBg": "rgb(29, 79, 145)",
+      "moreColor": "rgb(255, 255, 255)",
+      "moreText": "Show Full Standings",
+      "champIcons": [
+        "trophy",
+        "circle-dot"
+      ],
+      "rowIcons": [
+        "circle-dot"
+      ],
+      "allChampSvg": "<svg data-v-e178cc63=\"\" class=\"svg-inline--fa fa-circle-dot lb__champ-icon\" data-prefix=\"fal\" data-icon=\"circle-dot\" role=\"img\" viewBox=\"0 0 512 512\" aria-hidden=\"true\"><path class=\"\" fill=\"currentCol"
+    }
+  ]
+}

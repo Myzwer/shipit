@@ -157,6 +157,74 @@ describe('Stage A4 read models', () => {
     expect(items.every((i) => typeof i.everyone === 'boolean')).toBe(true)
   })
 
+  it('keeps checklist everyone marks aligned with collective live_current', async () => {
+    const personal = await insertCollection('crooners', 'personal')
+    await insertCollection('crooners', 'collective')
+    const open = await collectionStatus(personal, alpha)
+    const keep = (open.items as Array<{ offering_id: string; display_name?: string }>).slice(0, 3)
+    expect(keep.length).toBe(3)
+    await excludeOfferings(
+      (open.items as Array<{ offering_id: string }>).slice(3).map((i) => i.offering_id),
+    )
+    await exposeCurrentSlots(service, noonDay1Utc())
+
+    // Partner (beta) logs drink A — viewer has no personal credit yet.
+    expectOk(await logNamed(beta, 'crooners', keep[0].offering_id, noonDay1Utc()))
+    // Viewer (alpha) logs drink B.
+    expectOk(await logNamed(alpha, 'crooners', keep[1].offering_id, slotUtc(1, '12:10:00')))
+
+    let checklist = await drinkClient.rpc('get_drinkit_collection_checklist', {
+      p_bar_key: 'crooners',
+    })
+    expect(checklist.error).toBeNull()
+    expect(checklist.data.ok).toBe(true)
+    let items = checklist.data.items as Array<{
+      offering_id: string
+      mine: boolean
+      everyone: boolean
+    }>
+    expect(checklist.data.personal.live_target).toBe(3)
+    expect(checklist.data.collective.live_target).toBe(3)
+    expect(checklist.data.personal.live_current).toBe(1)
+    expect(checklist.data.collective.live_current).toBe(2)
+    expect(items.filter((i) => i.mine)).toHaveLength(1)
+    expect(items.filter((i) => i.everyone)).toHaveLength(2)
+    expect(items.every((i) => !i.mine || i.everyone)).toBe(true)
+
+    const drinkA = items.find((i) => i.offering_id === keep[0].offering_id)!
+    const drinkB = items.find((i) => i.offering_id === keep[1].offering_id)!
+    const drinkC = items.find((i) => i.offering_id === keep[2].offering_id)!
+    expect(drinkA).toMatchObject({ mine: false, everyone: true })
+    expect(drinkB).toMatchObject({ mine: true, everyone: true })
+    expect(drinkC).toMatchObject({ mine: false, everyone: false })
+
+    // Duplicate of drink A by another player — unique counts unchanged.
+    expectOk(await logNamed(alpha, 'crooners', keep[0].offering_id, slotUtc(1, '12:20:00')))
+    checklist = await drinkClient.rpc('get_drinkit_collection_checklist', {
+      p_bar_key: 'crooners',
+    })
+    items = checklist.data.items as Array<{
+      offering_id: string
+      mine: boolean
+      everyone: boolean
+    }>
+    expect(checklist.data.personal.live_current).toBe(2) // A + B for viewer
+    expect(checklist.data.collective.live_current).toBe(2) // still A + B unique
+    expect(items.filter((i) => i.everyone)).toHaveLength(2)
+    expect(items.find((i) => i.offering_id === keep[0].offering_id)).toMatchObject({
+      mine: true,
+      everyone: true,
+    })
+
+    const summaries = await drinkClient.rpc('list_drinkit_bar_gauntlet_summaries')
+    const crooners = (summaries.data.bars as Array<Record<string, any>>).find(
+      (b) => b.bar_key === 'crooners',
+    )
+    expect(crooners.personal.live_current).toBe(2)
+    expect(crooners.collective.live_current).toBe(2)
+    expect(crooners.live_target).toBe(3)
+  })
+
   it('keeps badge earned after menu expansion while live target grows', async () => {
     const defId = await insertCollection('wake-view-bar', 'personal')
     const open = await collectionStatus(defId, alpha)

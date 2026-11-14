@@ -235,15 +235,6 @@ function barClaimedCard(offer: ClaimedBarBounty): HomeBountyCardView {
   }
 }
 
-const PENDING_DAILY_INSTRUCTIONS =
-  'Detailed challenge instructions pending organizer supply.'
-
-function isDisplayableDailyInstructions(raw: string | null | undefined): boolean {
-  const text = (raw ?? '').trim()
-  if (!text) return false
-  return text !== PENDING_DAILY_INSTRUCTIONS
-}
-
 function dailyParticipationMode(
   offer: Pick<ActiveDailyChallenge, 'participation_mode' | 'is_all_hands'>,
 ): 'all_hands' | 'bring_a_friend' {
@@ -253,40 +244,35 @@ function dailyParticipationMode(
   return offer.is_all_hands ? 'all_hands' : 'bring_a_friend'
 }
 
+/**
+ * Home Daily card preview only.
+ * Instructions, mode explanations, admin announcements, and generic end-of-day
+ * availability belong on the Details screen. Structured meeting_time_ship_local
+ * stays on Home when present so time-sensitive meetups are not missed.
+ */
 function dailyActiveCard(offer: ActiveDailyChallenge): HomeBountyCardView {
   const mode = dailyParticipationMode(offer)
-  const bits: string[] = []
-  if (isDisplayableDailyInstructions(offer.instructions)) {
-    bits.push(offer.instructions.trim())
-  }
-  if (offer.location_name?.trim()) bits.push(`Location: ${offer.location_name.trim()}`)
-  bits.push(
-    mode === 'all_hands' ? copy.bounty.dailyAllHandsDetail : copy.bounty.dailyBringFriendDetail,
-  )
-  const announcement = offer.admin_announcement?.trim()
-  if (announcement) {
-    bits.push(`${copy.bounty.dailyAnnouncementLabel}: ${announcement}`)
-  } else if (offer.meeting_time_ship_local) {
-    // Legacy structured meeting time only — never invent a blank meetup row.
-    bits.push(`${copy.bounty.dailyMeetAt} ${formatMeetingTime(offer.meeting_time_ship_local)}`)
-  }
+  const location = offer.location_name?.trim() || ''
+  const meetAt = offer.meeting_time_ship_local
+    ? `${copy.bounty.dailyMeetAt} ${formatMeetingTime(offer.meeting_time_ship_local)}`
+    : ''
 
   return {
     id: 'daily',
     heading: copy.bounty.daily,
     presentation: 'active',
-    tierOrEyebrow:
-      mode === 'all_hands' ? copy.bounty.dailyAllHandsEyebrow : copy.bounty.dailyBringFriendEyebrow,
+    // All Hands only — Bring a Friend is explained on Details, not as a Home subtype label.
+    tierOrEyebrow: mode === 'all_hands' ? copy.bounty.dailyAllHandsEyebrow : '',
     title: offer.title,
-    detail: bits.join(' · '),
+    // Prefix keeps carousel location styling; Daily strips "Location:" for display.
+    detail: location ? formatCopy(copy.bounty.location, { barName: location }) : '',
     pointsLabel: pointsLabel(offer.points),
     footer: copy.bounty.daily,
-    timerLabel: formatCopy(copy.bounty.availableUntilTemplate, {
-      time: availableUntilLabel(offer.cruise_day),
-    }),
+    timerLabel: meetAt,
     timerValue: '',
     claimEnabled: true,
     claimTitle: CLAIM_TITLE_DAILY,
+    claimLabel: copy.bounty.viewDetails,
     claimPrefill: {
       source: 'daily',
       challengeId: offer.challenge_id,
@@ -312,7 +298,7 @@ function dailyClaimedCard(offer: ClaimedDailyChallenge): HomeBountyCardView {
 }
 
 /** Format Postgres `time` / `HH:MM:SS` as 12-hour Ship Time label. */
-function formatMeetingTime(raw: string): string {
+export function formatMeetingTime(raw: string): string {
   const m = /^(\d{1,2}):(\d{2})/.exec(raw)
   if (!m) return raw
   let h = Number(m[1])

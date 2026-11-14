@@ -43,7 +43,7 @@
   --color-ink: #1f2933;
 
   --radius-card: 1.25rem;
-  --radius-nav: 1.35rem;
+  --radius-nav: 1.65rem;
   --shadow-card: 0 6px 18px rgba(31, 41, 51, 0.1);
   --shadow-nav: 0 10px 28px rgba(31, 41, 51, 0.28);
 }
@@ -73,11 +73,11 @@ body {
 }
 
 .theme-drink {
-  --theme-header: var(--color-drink-header);
-  --theme-nav: var(--color-drink-nav);
-  --theme-primary: var(--color-drink-primary);
-  --theme-primary-hover: var(--color-drink-primary-hover);
-  --theme-accent: var(--color-drink-accent);
+  --theme-header: #a32660;
+  --theme-nav: #a32660;
+  --theme-primary: #076c80;
+  --theme-primary-hover: #06596a;
+  --theme-accent: #a32660;
   --theme-surface: var(--color-drink-surface);
   --theme-surface-muted: var(--color-drink-surface-muted);
   --theme-page: var(--color-drink-page);
@@ -86,10 +86,18 @@ body {
   --theme-ink: var(--color-drink-ink);
   --theme-muted: var(--color-drink-muted);
   --theme-complete: var(--color-drink-surface-muted);
+  --theme-gradient-warm: linear-gradient(to right, #f8dfab, #fff0ce);
+  --theme-gradient-cool: linear-gradient(to right, #b7e6e1, #e0f5ee);
+  /* Solid fills for Cruise Wrapped featured carousel cards only. */
+  --theme-wrapped-card-cool: #b7e6e1;
+  --theme-wrapped-card-warm: #f8dfab;
+  /* Intro carousel card (Plan C opening slide). */
+  --theme-wrapped-intro: #b7e6e1;
   --theme-card-radius: var(--radius-card);
   --theme-card-shadow: var(--shadow-card);
   --theme-nav-radius: var(--radius-nav);
   --theme-nav-shadow: var(--shadow-nav);
+  --theme-nav-active-bg: rgba(255, 255, 255, 0.22);
 }
 
 .theme-ship {
@@ -106,10 +114,19 @@ body {
   --theme-ink: var(--color-ship-ink);
   --theme-muted: var(--color-ship-muted);
   --theme-complete: var(--color-ship-complete);
+  --theme-gradient-warm: linear-gradient(to right, #ffe2a3, #fff1d4);
+  --theme-gradient-cool: linear-gradient(to right, #bbdff5, #ebf6fd);
+  /* Solid fills for Cruise Wrapped featured carousel cards only. */
+  --theme-wrapped-card-cool: #bbdff5;
+  --theme-wrapped-card-warm: #ffe2a3;
+  /* Intro carousel card (Plan C opening slide). */
+  --theme-wrapped-intro: #b5d7f5;
   --theme-card-radius: var(--radius-card);
   --theme-card-shadow: var(--shadow-card);
   --theme-nav-radius: var(--radius-nav);
   --theme-nav-shadow: var(--shadow-nav);
+  /* Ship It keeps a slightly softer active wash than Drink It. */
+  --theme-nav-active-bg: rgba(255, 255, 255, 0.18);
 }
 
 .font-display {
@@ -129,8 +146,32 @@ body {
 .ui-card {
   border-radius: var(--theme-card-radius, var(--radius-card));
   box-shadow: var(--theme-card-shadow, var(--shadow-card));
-  background: var(--theme-card);
+  background: var(--theme-gradient-warm);
   color: var(--theme-ink);
+}
+
+/*
+  Warm cards sit on the warm page gradient. The shared shadow keeps those
+  cards readable without changing the gradient colors.
+*/
+.theme-drink .rounded-2xl[style*='--theme-gradient-warm'],
+.theme-drink .rounded-3xl[style*='--theme-gradient-warm'],
+.theme-ship .rounded-2xl[style*='--theme-gradient-warm'],
+.theme-ship .rounded-3xl[style*='--theme-gradient-warm'] {
+  box-shadow: var(--theme-card-shadow, var(--shadow-card));
+}
+
+/* Cool palette panel. Falls back to Drink It! mint outside a game theme (Admin). */
+.ui-mint-panel {
+  background: var(
+    --theme-gradient-cool,
+    linear-gradient(to right, #b7e6e1, #e0f5ee)
+  );
+}
+
+/* Catalog names and title-like labels. Not for sentences or instructions. */
+.ui-display-name {
+  text-transform: capitalize;
 }
 
 .ui-primary-btn {
@@ -165,4 +206,939 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+/*
+  Home tone — sampled from the 402×874 Home mockups.
+  Scoped so other game screens keep the shared tokens.
+*/
+.theme-drink.theme-home {
+  --theme-header: #a32660;
+  --theme-nav: #a32660;
+  --theme-primary: #076c80;
+  --theme-primary-hover: #06596a;
+  --theme-accent: #a32660;
+  --theme-surface: #b7e6e0;
+  --theme-page: #fbe8bc;
+  --theme-page-alt: #b7e5e2;
+  --theme-card: #f9dfac;
+  --theme-card-radius: 1.15rem;
+  --theme-card-shadow: 0 5px 12px rgba(36, 72, 78, 0.14);
+  --theme-nav-radius: var(--radius-nav);
+}
+
+.theme-ship.theme-home {
+  --theme-header: var(--color-ship-header);
+  --theme-nav: var(--color-ship-nav);
+  --theme-primary: var(--color-ship-primary);
+  --theme-primary-hover: var(--color-ship-primary-hover);
+  --theme-accent: var(--color-ship-accent);
+  --theme-surface: var(--color-ship-surface);
+  --theme-page: var(--color-ship-page);
+  --theme-page-alt: var(--color-ship-page-alt);
+  --theme-card: var(--color-ship-card);
+  --theme-gradient-warm: linear-gradient(to right, #ffe2a3, #fff1d4);
+  --theme-gradient-cool: linear-gradient(to right, #bbdff5, #ebf6fd);
+  --theme-card-radius: 1.15rem;
+  --theme-card-shadow: 0 5px 12px rgba(31, 52, 78, 0.14);
+  --theme-nav-radius: var(--radius-nav);
+}
+
+.theme-home [data-testid='section-header'] h1,
+.theme-home .ui-section-band-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 6.8vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.theme-home .ui-section-band {
+  padding: 0.95rem 1rem;
+}
+
+/*
+  Shared floating bottom nav geometry (Drink It! approved).
+  Theme classes only supply color tokens; both games share these sizes.
+*/
+.floating-bottom-nav__pill {
+  width: calc(100% - 0.7rem);
+  max-width: none;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.floating-bottom-nav__item {
+  height: 2.75rem;
+  width: 2.75rem;
+  border-radius: 0.85rem;
+}
+
+.floating-bottom-nav__item--active {
+  background: var(--theme-nav-active-bg, rgba(255, 255, 255, 0.22));
+  opacity: 1;
+}
+
+.wizard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-height: 4.25rem;
+  padding: 0.4rem 0.65rem;
+  color: #fff;
+  background: var(--theme-header);
+}
+
+.wizard-header h1 {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 5.6vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.wizard-progress {
+  display: grid;
+  grid-template-columns: repeat(var(--wizard-progress-cols, 5), minmax(0, 1fr));
+  gap: 0.4rem;
+  padding: 0.7rem 1rem 0.15rem;
+}
+
+.wizard-progress button {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.28rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--theme-muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wizard-progress button::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-ink) 14%, transparent);
+}
+
+.wizard-progress button[data-active='true'],
+.wizard-progress button[data-done='true'] {
+  color: var(--theme-ink);
+}
+
+.wizard-progress button[data-active='true']::after,
+.wizard-progress button[data-done='true']::after {
+  height: 4px;
+  background: var(--theme-primary);
+}
+
+.wizard-progress button:disabled {
+  cursor: default;
+}
+
+.wizard-prompt {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--theme-ink);
+}
+
+.wizard-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+  color: var(--theme-muted);
+  font-size: 0.8rem;
+}
+
+.wizard-sort button {
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--theme-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.wizard-sort button[aria-pressed='true'] {
+  background: var(--theme-primary);
+  color: #fff;
+}
+
+.wizard-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(36, 72, 78, 0.1);
+  padding: 0.55rem 0.9rem;
+  color: var(--theme-muted);
+}
+
+.wizard-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--theme-ink);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.wizard-choice {
+  display: flex;
+  width: 100%;
+  min-height: 3.35rem;
+  align-items: center;
+  gap: 0.7rem;
+  border-radius: 1rem;
+  background: var(--theme-gradient-cool);
+  box-shadow: 0 4px 10px rgba(36, 72, 78, 0.12);
+  padding: 0.55rem 0.85rem;
+  color: var(--theme-ink);
+  text-align: left;
+}
+
+.wizard-choice.is-selected {
+  box-shadow:
+    inset 0 0 0 2px var(--theme-primary),
+    0 4px 10px rgba(36, 72, 78, 0.12);
+}
+
+.wizard-choice-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.wizard-choice-title {
+  display: block;
+  flex: 1;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.wizard-choice-meta {
+  display: block;
+  margin-top: 0.08rem;
+  color: var(--theme-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.wizard-choice-icon,
+.wizard-choice-arrow {
+  flex-shrink: 0;
+  color: var(--theme-ink);
+}
+
+.wizard-choice-arrow {
+  color: var(--theme-muted);
+  font-size: 0.9rem;
+}
+
+.wizard-summary {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: var(--theme-ink);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.wizard-summary li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.wizard-bounty {
+  display: flex;
+  width: 100%;
+  min-height: 3.5rem;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--theme-gradient-cool);
+  box-shadow: 0 4px 10px rgba(36, 72, 78, 0.12);
+  color: var(--theme-ink);
+  text-align: left;
+}
+
+.wizard-bounty.is-muted {
+  background: #e7efe4;
+  box-shadow: none;
+  color: #7d877f;
+}
+
+.wizard-bounty-rail {
+  display: flex;
+  width: 4.75rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  background: var(--theme-accent);
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.wizard-bounty-main {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.wizard-points {
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--theme-accent);
+  padding: 0.32rem 0.7rem;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Shared Gallery — compact polaroid + award feed (Drink It! / Ship It! themes). */
+.gallery-filter-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.gallery-skeleton {
+  border-radius: 1.15rem;
+  background: #fffdf8;
+  box-shadow: 0 6px 16px rgba(36, 72, 78, 0.12);
+  padding: 0.65rem;
+}
+
+.gallery-filter {
+  min-width: 7.25rem;
+  border-radius: 999px;
+  padding: 0.4rem 1.05rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--theme-ink);
+  background: var(--theme-gradient-cool);
+  box-shadow: 0 3px 8px rgba(36, 72, 78, 0.12);
+}
+
+.gallery-filter.is-active {
+  background: var(--theme-primary);
+  color: #fff;
+}
+
+.gallery-polaroid {
+  border-radius: 1.15rem;
+  background: #fffdf8;
+  box-shadow: 0 6px 16px rgba(36, 72, 78, 0.12);
+  padding: 0.65rem 0.65rem 0.75rem;
+  color: var(--theme-ink);
+}
+
+.gallery-polaroid-hit {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.gallery-polaroid-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  background: #efe6d4;
+}
+
+/* Non-destructive framed thumbs (capture, Review, Gallery). */
+.framed-photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #efe6d4;
+}
+
+.framed-photo img {
+  display: block;
+}
+
+/* Wizard / capture preview: reuse Gallery 1:1 crop, flush into controls. */
+.photo-capture-preview-photo {
+  border-radius: 0;
+}
+
+.framed-photo.photo-capture-preview-photo {
+  border-radius: 0;
+}
+
+/* Accepted-photo utility actions — text links, 44px targets. */
+.photo-capture-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.photo-capture-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+}
+
+.photo-capture-action {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.55rem 0.45rem;
+  border: 0;
+  background: transparent;
+  color: var(--theme-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.photo-capture-action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.photo-capture-action-sep {
+  color: var(--theme-muted);
+  font-size: 0.875rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.photo-capture-action--remove {
+  color: var(--theme-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.photo-capture-action--remove:not(:disabled):hover,
+.photo-capture-action--remove:not(:disabled):focus-visible {
+  color: var(--theme-ink);
+  text-decoration: underline;
+}
+
+/* Drink It! Review — compact Gallery polaroid preview */
+.review-gallery-preview-card {
+  max-width: 17.5rem;
+  margin-inline: auto;
+}
+
+.review-gallery-photo-wrap {
+  position: relative;
+}
+
+.review-edit-chip {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, #fffdf8 88%, transparent);
+  color: var(--theme-primary);
+  box-shadow: 0 1px 4px rgb(28 20 24 / 0.18);
+  cursor: pointer;
+}
+
+.review-edit-chip:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.review-edit-chip--inline {
+  position: static;
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.review-caption-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
+  margin-top: 0.15rem;
+}
+
+.review-add-caption-link,
+.review-add-photo-link {
+  min-height: 44px;
+  padding: 0.55rem 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--theme-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.review-add-photo-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.review-add-caption-link:disabled,
+.review-add-photo-link:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.gallery-polaroid-pending,
+.gallery-polaroid-error {
+  background: #efe6d4;
+}
+
+.gallery-polaroid-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--theme-muted);
+}
+
+.gallery-polaroid-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.gallery-polaroid-meta p {
+  min-width: 0;
+}
+
+.gallery-polaroid-meta time {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--theme-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.gallery-polaroid-by {
+  margin-top: 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Drink It! drink-log social card: compact author/companions + clamped caption. */
+.gallery-polaroid-social {
+  margin-top: 0.2rem;
+}
+
+.gallery-polaroid-byline {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.gallery-polaroid-byline-author {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--theme-ink);
+}
+
+.gallery-polaroid-byline-sep,
+.gallery-polaroid-byline-with {
+  font-weight: 400;
+  color: var(--theme-muted);
+}
+
+.gallery-polaroid-inline-control {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--theme-primary);
+  font: inherit;
+  font-weight: 600;
+  line-height: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.gallery-polaroid-inline-control:hover,
+.gallery-polaroid-inline-control:focus-visible {
+  text-decoration: underline;
+}
+
+.gallery-polaroid-caption-block {
+  margin-top: 0.28rem;
+}
+
+.gallery-polaroid-caption {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.gallery-polaroid-caption.is-clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  /* pre-wrap fights line-clamp; keep breaks via normal wrap when clamped */
+  white-space: normal;
+}
+
+.gallery-polaroid-caption-toggle {
+  display: inline-block;
+  margin-top: 0.15rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--theme-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.gallery-polaroid-caption-toggle:hover,
+.gallery-polaroid-caption-toggle:focus-visible {
+  text-decoration: underline;
+}
+
+.gallery-react-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  overflow: visible;
+}
+
+/* Keep failure copy out of the three-column pill flex row. */
+.gallery-react-error {
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--theme-muted);
+}
+
+.gallery-react-slot {
+  position: relative;
+  display: inline-flex;
+  overflow: visible;
+}
+
+.gallery-react-slot.is-pill {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.gallery-react-slot.is-pill .gallery-react-pill {
+  width: 100%;
+}
+
+.gallery-react-pill {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 0.9rem;
+  padding: 0.55rem 0.35rem;
+  background: var(--theme-gradient-cool);
+  color: var(--theme-ink);
+  box-shadow: 0 3px 8px rgba(36, 72, 78, 0.12);
+  font-size: 0.95rem;
+}
+
+.gallery-react-glyph-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-react-float {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 18px);
+  z-index: 5;
+  pointer-events: none;
+  animation: gallery-react-float 850ms cubic-bezier(0.22, 0.8, 0.24, 1) forwards;
+}
+
+.gallery-react-float-glyph {
+  display: block;
+  font-size: 32px;
+  line-height: 1;
+  transform-origin: center center;
+  animation: gallery-react-float-scale 850ms cubic-bezier(0.22, 0.8, 0.24, 1) forwards;
+}
+
+@keyframes gallery-react-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -12px);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -30px);
+  }
+  75% {
+    opacity: 0.8;
+    transform: translate(-50%, -55px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -75px);
+  }
+}
+
+@keyframes gallery-react-float-scale {
+  0% {
+    transform: scale(0.8);
+  }
+  15% {
+    transform: scale(1.3);
+  }
+  40% {
+    transform: scale(1.4);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-react-float,
+  .gallery-react-float-glyph {
+    animation: none;
+  }
+}
+
+.gallery-react-pill.is-selected {
+  background: var(--theme-primary);
+  color: #fff;
+}
+
+.gallery-react-pill:disabled {
+  opacity: 0.7;
+}
+
+.gallery-feed-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-feed-rule {
+  height: 0;
+  margin: 1.15rem 0;
+  border: 0;
+  border-top: 1px solid rgba(31, 41, 51, 0.62);
+}
+
+.gallery-achieve-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 0.85rem;
+  color: var(--theme-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.gallery-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.5rem;
+  margin: 0;
+  border-radius: 999px;
+  background: #e7eeea;
+  box-shadow: inset 0 0 0 1px rgba(36, 72, 78, 0.08);
+  appearance: none;
+  cursor: pointer;
+}
+
+.gallery-switch::after {
+  content: '';
+  position: absolute;
+  top: 0.16rem;
+  left: 0.16rem;
+  width: 1.18rem;
+  height: 1.18rem;
+  border-radius: 999px;
+  background: #9aa8a4;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.gallery-switch:checked::after {
+  transform: translateX(1.22rem);
+  background: var(--theme-primary);
+}
+
+.gallery-switch:focus-visible {
+  outline: 2px solid var(--theme-primary);
+  outline-offset: 3px;
+}
+
+/*
+  Brief post-submit flash only. Cleared in JS after ~1.4s and never tied to a
+  sticky ?submission= query, so the teal ring cannot persist across filters.
+*/
+.gallery-post--flash {
+  border-radius: 1.25rem;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-primary) 70%, transparent);
+  animation: gallery-post-flash-fade 1.4s ease-out forwards;
+}
+
+@keyframes gallery-post-flash-fade {
+  0%,
+  45% {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-primary) 70%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 2px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-post--flash {
+    animation: none;
+    box-shadow: none;
+  }
+}
+
+.gallery-award-post {
+  color: var(--theme-ink);
+}
+
+.gallery-award-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
+  margin-bottom: 0.4rem;
+  padding: 0 0.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.gallery-award-meta p {
+  min-width: 0;
+}
+
+.gallery-award-meta time {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--theme-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.gallery-award {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  background: var(--theme-gradient-cool);
+  box-shadow: 0 4px 12px rgba(36, 72, 78, 0.12);
+  padding: 0.8rem 0.9rem;
+  color: var(--theme-ink);
+}
+
+.gallery-award-icon {
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+  font-size: 1.85rem;
+  color: var(--theme-ink);
+}
+
+.gallery-award h2 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.gallery-award-desc {
+  margin-top: 0.15rem;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.3;
 }

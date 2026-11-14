@@ -1,0 +1,557 @@
+{
+  "player": "Josh",
+  "audits": {
+    "all": {
+      "cardCount": 53,
+      "completedCount": 9,
+      "completedUseCheckmark": true,
+      "distinctContentFaIcons": [
+        "stairs",
+        "film",
+        "landmark-dome",
+        "dice",
+        "palette",
+        "person-running",
+        "bell-concierge",
+        "mug-hot",
+        "pizza-slice",
+        "ice-cream",
+        "utensils",
+        "whiskey-glass",
+        "compass",
+        "elevator",
+        "life-ring",
+        "circle-question",
+        "triangle-exclamation",
+        "paw",
+        "microphone",
+        "water",
+        "handshake",
+        "user-tie",
+        "brain",
+        "music",
+        "binoculars",
+        "ticket",
+        "gift",
+        "children",
+        "wind",
+        "cloud-sun",
+        "person-rays",
+        "shirt",
+        "person-falling",
+        "chair",
+        "users",
+        "map",
+        "trophy"
+      ],
+      "rows": [
+        {
+          "key": "list",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter-trigger",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "the-piazza-grandeur",
+          "completed": false,
+          "semantic": "shipit.stairs",
+          "faName": "stairs"
+        },
+        {
+          "key": "movies-under-the-stars",
+          "completed": false,
+          "semantic": "shipit.film",
+          "faName": "film"
+        },
+        {
+          "key": "under-the-dome",
+          "completed": false,
+          "semantic": "shipit.dome",
+          "faName": "landmark-dome"
+        },
+        {
+          "key": "miniature-masterpiece",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "lotus-spa-zen",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "front-row-center",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "casino-neon",
+          "completed": false,
+          "semantic": "shipit.dice",
+          "faName": "dice"
+        },
+        {
+          "key": "art-critic",
+          "completed": false,
+          "semantic": "shipit.palette",
+          "faName": "palette"
+        },
+        {
+          "key": "gym-buffs",
+          "completed": false,
+          "semantic": "shipit.fitness",
+          "faName": "person-running"
+        },
+        {
+          "key": "guest-services",
+          "completed": false,
+          "semantic": "shipit.concierge",
+          "faName": "bell-concierge"
+        },
+        {
+          "key": "international-cafe",
+          "completed": false,
+          "semantic": "score.coffee",
+          "faName": "mug-hot"
+        },
+        {
+          "key": "omalleys-irish-pub",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "poolside-slice",
+          "completed": false,
+          "semantic": "shipit.pizza",
+          "faName": "pizza-slice"
+        },
+        {
+          "key": "soft-serve-swirl",
+          "completed": false,
+          "semantic": "shipit.ice-cream",
+          "faName": "ice-cream"
+        },
+        {
+          "key": "buffet-multi-tasker",
+          "completed": false,
+          "semantic": "score.utensils",
+          "faName": "utensils"
+        },
+        {
+          "key": "tropical-paradise",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "main-dining-elegance",
+          "completed": false,
+          "semantic": "score.utensils",
+          "faName": "utensils"
+        },
+        {
+          "key": "sweet-treat",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "good-spirits-mixology",
+          "completed": false,
+          "semantic": "score.whiskey",
+          "faName": "whiskey-glass"
+        },
+        {
+          "key": "room-service-delivery",
+          "completed": false,
+          "semantic": "shipit.concierge",
+          "faName": "bell-concierge"
+        },
+        {
+          "key": "carpet-compass",
+          "completed": false,
+          "semantic": "score.compass",
+          "faName": "compass"
+        },
+        {
+          "key": "stateroom-door-flair",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "elevator-map",
+          "completed": false,
+          "semantic": "shipit.elevator",
+          "faName": "elevator"
+        },
+        {
+          "key": "nautical-rose",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "safety-first",
+          "completed": false,
+          "semantic": "shipit.life-ring",
+          "faName": "life-ring"
+        },
+        {
+          "key": "deck-13-mystery",
+          "completed": false,
+          "semantic": "shipit.mystery",
+          "faName": "circle-question"
+        },
+        {
+          "key": "high-wind-warning",
+          "completed": false,
+          "semantic": "status.warning",
+          "faName": "triangle-exclamation"
+        },
+        {
+          "key": "towel-zoo",
+          "completed": false,
+          "semantic": "shipit.paw",
+          "faName": "paw"
+        },
+        {
+          "key": "lounge-spotlight",
+          "completed": false,
+          "semantic": "shipit.microphone",
+          "faName": "microphone"
+        },
+        {
+          "key": "ocean-wake",
+          "completed": false,
+          "semantic": "shipit.water",
+          "faName": "water"
+        },
+        {
+          "key": "the-cruise-guide",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "crew-high-five",
+          "completed": false,
+          "semantic": "shipit.handshake",
+          "faName": "handshake"
+        },
+        {
+          "key": "captains-portrait",
+          "completed": false,
+          "semantic": "shipit.captain",
+          "faName": "user-tie"
+        },
+        {
+          "key": "trivia-masters",
+          "completed": false,
+          "semantic": "shipit.brain",
+          "faName": "brain"
+        },
+        {
+          "key": "live-music-backdrop",
+          "completed": false,
+          "semantic": "score.music",
+          "faName": "music"
+        },
+        {
+          "key": "ocean-lookout",
+          "completed": false,
+          "semantic": "shipit.binoculars",
+          "faName": "binoculars"
+        },
+        {
+          "key": "deck-dance-move",
+          "completed": false,
+          "semantic": "shipit.fitness",
+          "faName": "person-running"
+        },
+        {
+          "key": "bingo-champion",
+          "completed": false,
+          "semantic": "shipit.ticket",
+          "faName": "ticket"
+        },
+        {
+          "key": "souvenir-selection",
+          "completed": false,
+          "semantic": "shipit.gift",
+          "faName": "gift"
+        },
+        {
+          "key": "the-youth-club-entry",
+          "completed": false,
+          "semantic": "shipit.children",
+          "faName": "children"
+        },
+        {
+          "key": "wind-tunnel",
+          "completed": false,
+          "semantic": "shipit.wind",
+          "faName": "wind"
+        },
+        {
+          "key": "sunset-silhouette",
+          "completed": false,
+          "semantic": "shipit.sunset",
+          "faName": "cloud-sun"
+        },
+        {
+          "key": "king-of-the-world",
+          "completed": false,
+          "semantic": "shipit.pose",
+          "faName": "person-rays"
+        },
+        {
+          "key": "triple-match",
+          "completed": false,
+          "semantic": "shipit.shirt",
+          "faName": "shirt"
+        },
+        {
+          "key": "mid-air-jump",
+          "completed": false,
+          "semantic": "shipit.jump",
+          "faName": "person-falling"
+        },
+        {
+          "key": "chair-squeeze",
+          "completed": false,
+          "semantic": "shipit.chair",
+          "faName": "chair"
+        },
+        {
+          "key": "shadow-art",
+          "completed": false,
+          "semantic": "score.friends",
+          "faName": "users"
+        },
+        {
+          "key": "comically-lost",
+          "completed": false,
+          "semantic": "shipit.map",
+          "faName": "map"
+        },
+        {
+          "key": "bridge-wing-peek",
+          "completed": false,
+          "semantic": "shipit.binoculars",
+          "faName": "binoculars"
+        },
+        {
+          "key": "victory-dance",
+          "completed": false,
+          "semantic": "score.leaderboard",
+          "faName": "trophy"
+        }
+      ]
+    },
+    "food": {
+      "cardCount": 13,
+      "completedCount": 3,
+      "completedUseCheckmark": true,
+      "distinctContentFaIcons": [
+        "mug-hot",
+        "pizza-slice",
+        "ice-cream",
+        "utensils",
+        "whiskey-glass",
+        "bell-concierge"
+      ],
+      "rows": [
+        {
+          "key": "list",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter-trigger",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "international-cafe",
+          "completed": false,
+          "semantic": "score.coffee",
+          "faName": "mug-hot"
+        },
+        {
+          "key": "omalleys-irish-pub",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "poolside-slice",
+          "completed": false,
+          "semantic": "shipit.pizza",
+          "faName": "pizza-slice"
+        },
+        {
+          "key": "soft-serve-swirl",
+          "completed": false,
+          "semantic": "shipit.ice-cream",
+          "faName": "ice-cream"
+        },
+        {
+          "key": "buffet-multi-tasker",
+          "completed": false,
+          "semantic": "score.utensils",
+          "faName": "utensils"
+        },
+        {
+          "key": "tropical-paradise",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "main-dining-elegance",
+          "completed": false,
+          "semantic": "score.utensils",
+          "faName": "utensils"
+        },
+        {
+          "key": "sweet-treat",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "good-spirits-mixology",
+          "completed": false,
+          "semantic": "score.whiskey",
+          "faName": "whiskey-glass"
+        },
+        {
+          "key": "room-service-delivery",
+          "completed": false,
+          "semantic": "shipit.concierge",
+          "faName": "bell-concierge"
+        }
+      ]
+    },
+    "quirky": {
+      "cardCount": 13,
+      "completedCount": 2,
+      "completedUseCheckmark": true,
+      "distinctContentFaIcons": [
+        "compass",
+        "elevator",
+        "life-ring",
+        "circle-question",
+        "triangle-exclamation",
+        "paw",
+        "microphone",
+        "water"
+      ],
+      "rows": [
+        {
+          "key": "list",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "filter-trigger",
+          "completed": false,
+          "semantic": null,
+          "faName": null
+        },
+        {
+          "key": "carpet-compass",
+          "completed": false,
+          "semantic": "score.compass",
+          "faName": "compass"
+        },
+        {
+          "key": "stateroom-door-flair",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "elevator-map",
+          "completed": false,
+          "semantic": "shipit.elevator",
+          "faName": "elevator"
+        },
+        {
+          "key": "nautical-rose",
+          "completed": true,
+          "semantic": "status.completed",
+          "faName": "circle-check"
+        },
+        {
+          "key": "safety-first",
+          "completed": false,
+          "semantic": "shipit.life-ring",
+          "faName": "life-ring"
+        },
+        {
+          "key": "deck-13-mystery",
+          "completed": false,
+          "semantic": "shipit.mystery",
+          "faName": "circle-question"
+        },
+        {
+          "key": "high-wind-warning",
+          "completed": false,
+          "semantic": "status.warning",
+          "faName": "triangle-exclamation"
+        },
+        {
+          "key": "towel-zoo",
+          "completed": false,
+          "semantic": "shipit.paw",
+          "faName": "paw"
+        },
+        {
+          "key": "lounge-spotlight",
+          "completed": false,
+          "semantic": "shipit.microphone",
+          "faName": "microphone"
+        },
+        {
+          "key": "ocean-wake",
+          "completed": false,
+          "semantic": "shipit.water",
+          "faName": "water"
+        }
+      ]
+    }
+  }
+}

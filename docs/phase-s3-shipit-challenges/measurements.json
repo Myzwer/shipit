@@ -1,0 +1,113 @@
+{
+  "player": "Josh",
+  "viewports": {
+    "360": {
+      "headerSticky": false,
+      "headerTitle": "Challenges",
+      "headerFontSize": "26px",
+      "shipTimePresent": false,
+      "filterWidth": 184,
+      "filterLabel": "Filter by",
+      "filterBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "sectionCount": 5,
+      "longHeading": "Interactive Crew & Activity Challenges — 1/10",
+      "availableCardHeight": 80,
+      "completedCardHeight": 80,
+      "availableBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "completedBackground": "none",
+      "completedHasArrow": false,
+      "visibleCardCount": 7,
+      "distinctRenderedIcons": [
+        "chevron-down",
+        "ship",
+        "circle-check"
+      ],
+      "overflowX": false,
+      "viewportWidth": 360
+    },
+    "390": {
+      "headerSticky": false,
+      "headerTitle": "Challenges",
+      "headerFontSize": "26.52px",
+      "shipTimePresent": false,
+      "filterWidth": 184,
+      "filterLabel": "Filter by",
+      "filterBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "sectionCount": 5,
+      "longHeading": "Interactive Crew & Activity Challenges — 1/10",
+      "availableCardHeight": 80,
+      "completedCardHeight": 80,
+      "availableBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "completedBackground": "none",
+      "completedHasArrow": false,
+      "visibleCardCount": 8,
+      "distinctRenderedIcons": [
+        "chevron-down",
+        "ship",
+        "circle-check"
+      ],
+      "overflowX": false,
+      "viewportWidth": 390
+    },
+    "402": {
+      "headerSticky": false,
+      "headerTitle": "Challenges",
+      "headerFontSize": "27.336px",
+      "shipTimePresent": false,
+      "filterWidth": 184,
+      "filterLabel": "Filter by",
+      "filterBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "sectionCount": 5,
+      "longHeading": "Interactive Crew & Activity Challenges — 1/10",
+      "availableCardHeight": 80,
+      "completedCardHeight": 80,
+      "availableBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "completedBackground": "none",
+      "completedHasArrow": false,
+      "visibleCardCount": 9,
+      "distinctRenderedIcons": [
+        "chevron-down",
+        "ship",
+        "circle-check"
+      ],
+      "overflowX": false,
+      "viewportWidth": 402
+    },
+    "430": {
+      "headerSticky": false,
+      "headerTitle": "Challenges",
+      "headerFontSize": "28px",
+      "shipTimePresent": false,
+      "filterWidth": 184,
+      "filterLabel": "Filter by",
+      "filterBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "sectionCount": 5,
+      "longHeading": "Interactive Crew & Activity Challenges — 1/10",
+      "availableCardHeight": 80,
+      "completedCardHeight": 80,
+      "availableBackground": "linear-gradient(to right, rgb(187, 223, 245), rgb(235, 246, 253))",
+      "completedBackground": "none",
+      "completedHasArrow": false,
+      "visibleCardCount": 10,
+      "distinctRenderedIcons": [
+        "chevron-down",
+        "ship",
+        "circle-check"
+      ],
+      "overflowX": false,
+      "viewportWidth": 430
+    }
+  },
+  "checks": {
+    "noShipTime": true,
+    "headerNotSticky": true,
+    "compactFilter": true,
+    "homeTitleLarge": true,
+    "hasAvailableGradient": true,
+    "completedMuted": true,
+    "noCompletedArrow": true,
+    "denserViewport": true,
+    "noHorizontalOverflow": true,
+    "fiveSections": true
+  }
+}

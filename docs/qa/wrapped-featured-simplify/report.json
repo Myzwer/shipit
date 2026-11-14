@@ -1,0 +1,86 @@
+[
+  {
+    "width": 402,
+    "gamePath": "/drinkit/wrapped",
+    "url": "http://localhost:5173/drinkit/wrapped",
+    "cards": 5,
+    "heroes": [
+      "6",
+      "Sand Meets the Sea",
+      "5",
+      "22",
+      "David F. & Katie"
+    ],
+    "headlines": [
+      "You've been busy 👀",
+      "You've got taste!",
+      "You've been EVERYWHERE!",
+      "You weren't the only one having fun!",
+      "Some people were practically inseparable!"
+    ],
+    "snippet": "CRUISE WRAPPED | 01 / 09 — Your Week | You've been busy 👀 | Good thing the drinks were free! | 6 | drinks enjoyed! | And you branched out! You tried 5 different drinks across the week! | 02 / 09 — You've Got Taste | You've got taste! | You tried plenty of drinks this week, but one kept c"
+  },
+  {
+    "width": 360,
+    "gamePath": "/drinkit/wrapped",
+    "url": "http://localhost:5173/drinkit/wrapped",
+    "cards": 5,
+    "heroes": [
+      "6",
+      "Sand Meets the Sea",
+      "5",
+      "22",
+      "David F. & Katie"
+    ],
+    "headlines": [
+      "You've been busy 👀",
+      "You've got taste!",
+      "You've been EVERYWHERE!",
+      "You weren't the only one having fun!",
+      "Some people were practically inseparable!"
+    ],
+    "snippet": "CRUISE WRAPPED | 01 / 09 — Your Week | You've been busy 👀 | Good thing the drinks were free! | 6 | drinks enjoyed! | And you branched out! You tried 5 different drinks across the week! | 02 / 09 — You've Got Taste | You've got taste! | You tried plenty of drinks this week, but one kept c"
+  },
+  {
+    "width": 402,
+    "gamePath": "/shipit/wrapped",
+    "url": "http://localhost:5173/shipit/wrapped",
+    "cards": 6,
+    "heroes": [
+      "10",
+      "Food & Drink Discoveries",
+      "42",
+      "13"
+    ],
+    "headlines": [
+      "Well, somebody understood the assignment!",
+      "You had a type!",
+      "Some days you found all the things!",
+      "Y'all really went for it!",
+      "Some teams just don't know when to quit!",
+      "You can't win 'em all!"
+    ],
+    "snippet": "CRUISE WRAPPED | 01 / 10 — Your Team's Adventure | Well, somebody understood the assignment! | You and your team certainly kept busy this week! | 10 | challenges completed! | That's 20% of all available challenges! | 02 / 10 — Where It All Began | Remember where it all started? | Little d"
+  },
+  {
+    "width": 360,
+    "gamePath": "/shipit/wrapped",
+    "url": "http://localhost:5173/shipit/wrapped",
+    "cards": 6,
+    "heroes": [
+      "10",
+      "Food & Drink Discoveries",
+      "42",
+      "13"
+    ],
+    "headlines": [
+      "Well, somebody understood the assignment!",
+      "You had a type!",
+      "Some days you found all the things!",
+      "Y'all really went for it!",
+      "Some teams just don't know when to quit!",
+      "You can't win 'em all!"
+    ],
+    "snippet": "CRUISE WRAPPED | 01 / 10 — Your Team's Adventure | Well, somebody understood the assignment! | You and your team certainly kept busy this week! | 10 | challenges completed! | That's 20% of all available challenges! | 02 / 10 — Where It All Began | Remember where it all started? | Little d"
+  }
+]

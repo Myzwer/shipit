@@ -1,0 +1,68 @@
+{
+  "widths": {
+    "360": {
+      "metrics": {
+        "sectionWidth": 360,
+        "champWidth": 328,
+        "champLeftInset": 16,
+        "champRightInset": 16,
+        "rowLeftInset": 16,
+        "headBg": "rgba(0, 0, 0, 0)",
+        "sectionBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+        "champBg": "rgb(163, 38, 96)",
+        "champRadius": "16px",
+        "listBg": "rgba(0, 0, 0, 0)",
+        "statsBg": "linear-gradient(to right, rgb(248, 223, 171), rgb(255, 240, 206))",
+        "champText": "The Grand ChampionDavid F.All Hail.100",
+        "hasGrandChampion": true,
+        "hasAllHail": true
+      },
+      "champAfterAchievements": "The Grand Champion\n\nDavid F.\n\nAll Hail.\n\n24",
+      "carouselPresent": true,
+      "insetConsistent": true,
+      "championInset": true,
+      "notFullWidth": true
+    },
+    "402": {
+      "metrics": {
+        "sectionWidth": 402,
+        "champWidth": 370,
+        "champLeftInset": 16,
+        "champRightInset": 16,
+        "rowLeftInset": 16,
+        "headBg": "rgba(0, 0, 0, 0)",
+        "sectionBg": "linear-gradient(to right, rgb(183, 230, 225), rgb(224, 245, 238))",
+        "champBg": "rgb(163, 38, 96)",
+        "champRadius": "16px",
+        "listBg": "rgba(0, 0, 0, 0)",
+        "statsBg": "linear-gradient(to right, rgb(248, 223, 171), rgb(255, 240, 206))",
+        "champText": "The Grand ChampionDavid F.All Hail.100",
+        "hasGrandChampion": true,
+        "hasAllHail": true
+      },
+      "champAfterAchievements": "The Grand Champion\n\nDavid F.\n\nAll Hail.\n\n24",
+      "carouselPresent": true,
+      "insetConsistent": true,
+      "championInset": true,
+      "notFullWidth": true
+    }
+  },
+  "checks": [
+    {
+      "width": 360,
+      "championInset": true,
+      "notFullWidth": true,
+      "insetConsistent": true,
+      "hasGrandChampion": true,
+      "hasAllHail": true
+    },
+    {
+      "width": 402,
+      "championInset": true,
+      "notFullWidth": true,
+      "insetConsistent": true,
+      "hasGrandChampion": true,
+      "hasAllHail": true
+    }
+  ]
+}

@@ -1,41 +1,46 @@
+import {
+  assignPersonalSpans,
+  assignPersonalTones,
+  resolvePersonalLayout,
+} from '@/lib/wrapped/layout'
 import type {
   WrappedAwardCardModel,
   WrappedEntry,
   WrappedStatCard,
 } from '@/types/wrapped'
 
-const PERSONAL_ICONS: Record<string, string> = {
-  'DI-P01': 'theme.drink-it',
+export const PERSONAL_ICONS: Record<string, string> = {
+  'DI-P01': 'score.cocktail',
   'DI-P02': 'score.leaderboard',
   'DI-P03': 'score.medal',
   'DI-P04': 'score.achievement',
-  'DI-P05': 'score.medal',
-  'DI-P06': 'theme.drink-it',
-  'DI-P07': 'theme.drink-it',
+  'DI-P05': 'score.bullseye',
+  'DI-P06': 'score.cocktail',
+  'DI-P07': 'score.lemon',
   'DI-P08': 'score.bar',
   'DI-P09': 'score.calendar',
-  'DI-P10': 'theme.drink-it',
-  'DI-P11': 'score.bar',
-  'DI-P12': 'theme.drink-it',
-  'DI-P13': 'theme.drink-it',
-  'DI-P14': 'theme.drink-it',
+  'DI-P10': 'score.layer',
+  'DI-P11': 'score.compass',
+  'DI-P12': 'score.cocktail',
+  'DI-P13': 'score.bottle',
+  'DI-P14': 'score.leaf',
   'DI-P15': 'score.bar',
   'DI-P16': 'score.friends',
-  'DI-P17': 'score.calendar',
+  'DI-P17': 'score.bolt',
   'DI-P18': 'score.calendar',
   'SI-P01': 'score.medal',
-  'SI-P02': 'score.leaderboard',
+  'SI-P02': 'score.points',
   'SI-P03': 'score.team',
-  'SI-P04': 'score.team',
+  'SI-P04': 'score.bullseye',
   'SI-P05': 'score.medal',
-  'SI-P06': 'score.calendar',
+  'SI-P06': 'score.bolt',
   'SI-P07': 'score.calendar',
-  'SI-P08': 'score.team',
-  'SI-P09': 'score.team',
-  'SI-P10': 'score.medal',
+  'SI-P08': 'score.camera',
+  'SI-P09': 'score.camera',
+  'SI-P10': 'score.gem',
 }
 
-const AWARD_ICONS: Record<string, string> = {
+export const AWARD_ICONS: Record<string, string> = {
   'DI-G01': 'score.leaderboard',
   'DI-G02': 'theme.drink-it',
   'DI-G03': 'score.medal',
@@ -66,7 +71,8 @@ const AWARD_ICONS: Record<string, string> = {
   'SI-G12': 'score.leaderboard',
 }
 
-function toneForIndex(index: number): 'aqua' | 'cream' {
+/** Alternating tones for full-width award / collective lists. */
+function toneForListIndex(index: number): 'aqua' | 'cream' {
   return index % 2 === 0 ? 'aqua' : 'cream'
 }
 
@@ -99,7 +105,7 @@ function isNamedKind(kind: string): boolean {
 
 /** Personal / team Part 1 cards from final sections.personal. */
 export function buildPersonalCards(entries: WrappedEntry[]): WrappedStatCard[] {
-  return entries.map((entry, index) => {
+  const drafted = entries.map((entry) => {
     const photoKind = entry.kind === 'challenge_memory'
     const named = isNamedKind(entry.kind) || !entry.available
     const names = winnerNames(entry)
@@ -108,21 +114,29 @@ export function buildPersonalCards(entries: WrappedEntry[]): WrappedStatCard[] {
         ? (entry.primary ??
           (names.length ? formatWinnerPrimary(entry) : '0'))
         : (entry.primary ?? 'No qualifying data')
+    const kind: WrappedStatCard['kind'] = photoKind ? 'photo' : named ? 'named' : 'number'
+    const expandableNames = names.length > 2 ? names : undefined
+    const layout = resolvePersonalLayout(entry, kind, {
+      expandableCount: names.length,
+      value: primary,
+    })
 
     return {
-      kind: photoKind ? 'photo' : named ? 'named' : 'number',
+      kind,
+      layout,
       key: entry.spec_id,
       icon: PERSONAL_ICONS[entry.spec_id] ?? 'score.medal',
       value: primary,
       label: entry.label,
       copy: entry.secondary ?? entry.explanation ?? '',
       chip: named ? entry.label : undefined,
-      tone: toneForIndex(index),
       available: entry.available,
       photo: entry.photo ?? null,
-      expandableNames: names.length > 2 ? names : undefined,
+      expandableNames,
     }
   })
+
+  return assignPersonalTones(assignPersonalSpans(drafted))
 }
 
 /** Global Part 2 award cards from sections.global. */
@@ -159,7 +173,7 @@ export function buildGlobalAwardCards(entries: WrappedEntry[]): WrappedAwardCard
       secondary: entry.secondary,
       copy: entry.explanation,
       available: entry.available,
-      tone: toneForIndex(index),
+      tone: toneForListIndex(index),
       icon: AWARD_ICONS[entry.spec_id] ?? 'score.medal',
       expandableNames: names.length > 2 ? names : undefined,
       items: categoryItems,
@@ -205,7 +219,7 @@ export function buildCollectiveCards(entries: WrappedEntry[]): WrappedAwardCardM
       secondary: entry.secondary,
       copy: entry.explanation,
       available: entry.available,
-      tone: toneForIndex(index),
+      tone: toneForListIndex(index),
       icon: 'score.medal',
       expandableNames: names.length > 2 ? names : undefined,
       items: listItems,

@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-11-13T09:09:53.164Z",
+  "results": [
+    {
+      "game": "drinkit",
+      "width": 360,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/drinkit-360-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "shipit",
+      "width": 360,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/shipit-360-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "drinkit",
+      "width": 390,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/drinkit-390-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "shipit",
+      "width": 390,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/shipit-390-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "drinkit",
+      "width": 402,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/drinkit-402-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "drinkit",
+      "width": 402,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/drinkit-402-fullpage.png",
+      "kind": "fullpage"
+    },
+    {
+      "game": "shipit",
+      "width": 402,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/shipit-402-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "shipit",
+      "width": 402,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/shipit-402-fullpage.png",
+      "kind": "fullpage"
+    },
+    {
+      "game": "drinkit",
+      "width": 430,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/drinkit-430-viewport.png",
+      "kind": "viewport"
+    },
+    {
+      "game": "shipit",
+      "width": 430,
+      "path": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/final-wrapped-screenshots/shipit-430-viewport.png",
+      "kind": "viewport"
+    }
+  ]
+}

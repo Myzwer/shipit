@@ -1,0 +1,397 @@
+{
+  "phase": "final",
+  "comparison": {
+    "drink402": {
+      "before": 543,
+      "after": 479,
+      "heights": [
+        "DI-01:479",
+        "DI-02:479",
+        "DI-03:479",
+        "DI-04:479",
+        "DI-05:479",
+        "DI-06:479",
+        "DI-07:479",
+        "DI-08:479",
+        "DI-09:479",
+        "DI-10:479",
+        "DI-11:479",
+        "DI-12:479",
+        "DI-13:479",
+        "DI-14:479",
+        "DI-15:479"
+      ]
+    },
+    "drink360": {
+      "after": 479,
+      "heights": [
+        "DI-01:479",
+        "DI-02:479",
+        "DI-03:479",
+        "DI-04:479",
+        "DI-05:479",
+        "DI-06:479",
+        "DI-07:479",
+        "DI-08:479",
+        "DI-09:479",
+        "DI-10:479",
+        "DI-11:479",
+        "DI-12:479",
+        "DI-13:479",
+        "DI-14:479",
+        "DI-15:479"
+      ]
+    },
+    "ship402": {
+      "before": 543,
+      "after": 479,
+      "heights": [
+        "SI-01:479",
+        "SI-02:479",
+        "SI-03:479",
+        "SI-04:479",
+        "SI-05:479",
+        "SI-06:479",
+        "SI-07:479",
+        "SI-08:479",
+        "SI-09:479",
+        "SI-10:479",
+        "SI-11:479",
+        "SI-12:479"
+      ]
+    },
+    "ship360": {
+      "after": 498
+    },
+    "sample_gaps": [
+      {
+        "id": "DI-01",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-02",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-04",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-05",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-07",
+        "type": "double",
+        "layout": "double-compact",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": null,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-09",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-10",
+        "type": "single",
+        "layout": "full",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": 40,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-12",
+        "type": "single",
+        "layout": "short",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": null,
+        "bodyJustify": "center"
+      },
+      {
+        "id": "DI-14",
+        "type": "double",
+        "layout": "double-compact",
+        "cardH": 479,
+        "gapIntroHero": 14,
+        "gapHeroSupport": null,
+        "bodyJustify": "center"
+      }
+    ]
+  },
+  "drinkit402": [
+    {
+      "id": "DI-01",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-02",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-03",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "DI-04",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-05",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-06",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "DI-07",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-08",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "DI-09",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-10",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-11",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "DI-12",
+      "type": "single",
+      "layout": "short",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-13",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "DI-14",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "DI-15",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    }
+  ],
+  "shipit402": [
+    {
+      "id": "SI-01",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-02",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "SI-03",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-04",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-05",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "SI-06",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-07",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-08",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "SI-09",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-10",
+      "type": "double",
+      "layout": "double-compact",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": null,
+      "bodyJustify": "center"
+    },
+    {
+      "id": "SI-11",
+      "type": "photo",
+      "layout": null,
+      "cardH": 479,
+      "gapIntroHero": null,
+      "gapHeroSupport": null,
+      "bodyJustify": null
+    },
+    {
+      "id": "SI-12",
+      "type": "single",
+      "layout": "full",
+      "cardH": 479,
+      "gapIntroHero": 14,
+      "gapHeroSupport": 40,
+      "bodyJustify": "center"
+    }
+  ]
+}

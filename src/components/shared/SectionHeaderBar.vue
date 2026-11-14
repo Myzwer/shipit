@@ -1,16 +1,35 @@
 <script setup lang="ts">
-defineProps<{
-  title: string
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    /** Drink It! Home uses the mockup's shorter magenta bar. */
+    compact?: boolean
+    /** Other screens keep the bar pinned. Drink It! Home scrolls it with the page. */
+    pinned?: boolean
+  }>(),
+  { pinned: true },
+)
 </script>
 
 <template>
   <header
-    class="sticky top-0 z-20 flex min-h-[3.35rem] items-center justify-center px-4 text-center text-white"
-    style="
-      background: var(--theme-header);
-      padding-top: max(0.85rem, env(safe-area-inset-top));
-      padding-bottom: 0.85rem;
+    class="flex items-center justify-center px-4 text-center text-white"
+    :class="[
+      pinned ? 'sticky top-0 z-20' : 'relative',
+      compact ? 'min-h-[4.25rem]' : 'min-h-[3.35rem]',
+    ]"
+    :style="
+      compact
+        ? {
+            background: 'var(--theme-header)',
+            paddingTop: 'env(safe-area-inset-top, 0px)',
+            minHeight: 'calc(4.25rem + env(safe-area-inset-top, 0px))',
+          }
+        : {
+            background: 'var(--theme-header)',
+            paddingTop: 'max(0.85rem, env(safe-area-inset-top))',
+            paddingBottom: '0.85rem',
+          }
     "
     data-testid="section-header"
   >

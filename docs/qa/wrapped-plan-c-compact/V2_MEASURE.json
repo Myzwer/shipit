@@ -1,0 +1,44 @@
+{
+  "before_max_402": {
+    "drink": 543,
+    "ship": 543
+  },
+  "after_max": {
+    "drink402": 457,
+    "drink360": 457,
+    "ship402": 457,
+    "ship360": 476
+  },
+  "photoIntrinsic402": [
+    {
+      "id": "DI-03",
+      "intrinsicH": 431,
+      "frameH": 219
+    },
+    {
+      "id": "DI-06",
+      "intrinsicH": 435,
+      "frameH": 219
+    },
+    {
+      "id": "DI-08",
+      "intrinsicH": 457,
+      "frameH": 219
+    },
+    {
+      "id": "DI-11",
+      "intrinsicH": 435,
+      "frameH": 219
+    },
+    {
+      "id": "DI-13",
+      "intrinsicH": 457,
+      "frameH": 219
+    },
+    {
+      "id": "DI-15",
+      "intrinsicH": 431,
+      "frameH": 219
+    }
+  ]
+}

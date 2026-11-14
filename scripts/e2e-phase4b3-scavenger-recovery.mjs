@@ -7,6 +7,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
@@ -62,6 +63,7 @@ try {
   await page.waitForSelector('[data-testid="scavenger-submit-page"]')
 
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   await page.locator('[data-testid="scavenger-continue-review"]').click()
   await page.waitForSelector('[data-testid="scavenger-review-step"]')

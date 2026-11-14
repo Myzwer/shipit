@@ -1,0 +1,167 @@
+{
+  "submitResults": [
+    {
+      "caption": "V6 solo — no companions recorded",
+      "ok": true,
+      "code": "ACCEPTED",
+      "message": null,
+      "n": 0
+    },
+    {
+      "caption": "V6 one companion check",
+      "ok": true,
+      "code": "ACCEPTED",
+      "message": null,
+      "n": 1
+    },
+    {
+      "caption": "V6 three — Lol might be the second drink of the challeng",
+      "ok": true,
+      "code": "ACCEPTED",
+      "message": null,
+      "n": 3
+    },
+    {
+      "caption": "V6 long companion list wraps naturally across the polaro",
+      "ok": true,
+      "code": "ACCEPTED",
+      "message": null,
+      "n": 10
+    }
+  ],
+  "checks": {
+    "V6 solo": {
+      "companions": null,
+      "overflow": false,
+      "reactionAttached": 1,
+      "byline": "Josh",
+      "caption": "V6 solo — no companions recorded"
+    },
+    "V6 one companion": {
+      "companions": "With Aaron",
+      "overflow": false,
+      "reactionAttached": 1,
+      "byline": "Josh",
+      "caption": "V6 one companion check"
+    },
+    "V6 three": {
+      "companions": "With Aaron, Cindy, and David F.",
+      "overflow": false,
+      "reactionAttached": 1,
+      "byline": "Josh",
+      "caption": "V6 three — Lol might be the second drink of the challenge but it's my fifth of t"
+    },
+    "V6 long": {
+      "companions": "With Aaron, Cindy, Dan, David B., David F., Jonathan, Jordan, Katie, Lindsey, and Mark",
+      "overflow": false,
+      "reactionAttached": 1,
+      "byline": "Josh",
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizont"
+    }
+  },
+  "shipCompanions": 0,
+  "historical": null,
+  "v6Feed": [
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron",
+        "Cindy",
+        "Dan",
+        "David B.",
+        "David F.",
+        "Jonathan",
+        "Jordan",
+        "Katie",
+        "Lindsey",
+        "Mark"
+      ],
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizontal overflow"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizontal overflow"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizontal overflow"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizontal overflow"
+    },
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron",
+        "Cindy",
+        "Dan",
+        "David B.",
+        "David F.",
+        "Jonathan",
+        "Jordan",
+        "Katie",
+        "Lindsey",
+        "Mark"
+      ],
+      "caption": "V6 long companion list wraps naturally across the polaroid meta without horizontal overflow"
+    },
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron",
+        "Cindy",
+        "David F."
+      ],
+      "caption": "V6 three — Lol might be the second drink of the challenge but it's my fifth of the day! 😂"
+    },
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron",
+        "Cindy",
+        "David F."
+      ],
+      "caption": "V6 three — Lol might be the second drink of the challenge but it's my fifth of the day! 😂"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 three — Lol might be the second drink of the challenge but it's my fifth of the day! 😂"
+    },
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron"
+      ],
+      "caption": "V6 one companion check"
+    },
+    {
+      "owner": "Josh",
+      "companions": [
+        "Aaron"
+      ],
+      "caption": "V6 one companion check"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 solo — no companions recorded"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 solo — no companions recorded"
+    },
+    {
+      "owner": "Josh",
+      "companions": [],
+      "caption": "V6 solo — no companions recorded"
+    }
+  ],
+  "achievementCompanions": 0,
+  "capturedAt": "2026-11-11T16:43:00.115Z"
+}

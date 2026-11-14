@@ -1,0 +1,223 @@
+{
+  "drink402": {
+    "maxH": 481,
+    "heights": [
+      "DI-01:481",
+      "DI-02:481",
+      "DI-03:481",
+      "DI-04:481",
+      "DI-05:481",
+      "DI-06:481",
+      "DI-07:481",
+      "DI-08:481",
+      "DI-09:481",
+      "DI-10:481",
+      "DI-11:481",
+      "DI-12:481",
+      "DI-13:481",
+      "DI-14:481",
+      "DI-15:481"
+    ],
+    "regions": [
+      {
+        "id": "DI-01",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 5
+      },
+      {
+        "id": "DI-02",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 28
+      },
+      {
+        "id": "DI-04",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 7
+      },
+      {
+        "id": "DI-05",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 5
+      },
+      {
+        "id": "DI-07",
+        "layout": "double-compact",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": null,
+        "bottomPad": null,
+        "midCenterOffset": 25
+      },
+      {
+        "id": "DI-09",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 29
+      },
+      {
+        "id": "DI-10",
+        "layout": "full",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": 0,
+        "bottomPad": 17,
+        "midCenterOffset": 16
+      },
+      {
+        "id": "DI-12",
+        "layout": "short",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": null,
+        "bottomPad": null,
+        "midCenterOffset": 53
+      },
+      {
+        "id": "DI-14",
+        "layout": "double-compact",
+        "cardH": 481,
+        "introTopPad": 16,
+        "introToMid": 0,
+        "midToBottom": null,
+        "bottomPad": null,
+        "midCenterOffset": 25
+      }
+    ],
+    "photos": [
+      {
+        "id": "DI-03",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 64,
+        "captionPad": 9,
+        "belowCaption": 56
+      },
+      {
+        "id": "DI-06",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 41,
+        "captionPad": 9,
+        "belowCaption": 53
+      },
+      {
+        "id": "DI-08",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 64,
+        "captionPad": 9,
+        "belowCaption": 30
+      },
+      {
+        "id": "DI-11",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 41,
+        "captionPad": 9,
+        "belowCaption": 53
+      },
+      {
+        "id": "DI-13",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 64,
+        "captionPad": 9,
+        "belowCaption": 30
+      },
+      {
+        "id": "DI-15",
+        "cardH": 481,
+        "frameH": 222,
+        "headToPolaroid": 64,
+        "captionPad": 9,
+        "belowCaption": 56
+      }
+    ]
+  },
+  "drink360_max": 481,
+  "ship402_max": 481,
+  "ship360_max": 499,
+  "ship402_regions": [
+    {
+      "id": "SI-01",
+      "layout": "full",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": 0,
+      "bottomPad": 17
+    },
+    {
+      "id": "SI-03",
+      "layout": "full",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": 0,
+      "bottomPad": 17
+    },
+    {
+      "id": "SI-04",
+      "layout": "double-compact",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": null,
+      "bottomPad": null
+    },
+    {
+      "id": "SI-06",
+      "layout": "full",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": 0,
+      "bottomPad": 17
+    },
+    {
+      "id": "SI-07",
+      "layout": "full",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": 0,
+      "bottomPad": 17
+    },
+    {
+      "id": "SI-09",
+      "layout": "double-compact",
+      "cardH": 481,
+      "introTopPad": 16,
+      "introToMid": 0,
+      "midToBottom": null,
+      "bottomPad": null
+    }
+  ]
+}

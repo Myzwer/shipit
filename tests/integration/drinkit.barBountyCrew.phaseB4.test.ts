@@ -16,6 +16,7 @@ import {
   slotUtc,
 } from '../helpers/bountyFixtures'
 import { createLocalClient, loadLocalFixtures, signInAs } from '../helpers/localSupabase'
+import { disposePlayers } from '../helpers/disposePlayers'
 import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 import type { ClockFixtures } from '../helpers/clockFixtures'
 import { drinkPayload, previewAt, submitAt } from '../helpers/drinkitSubmit'
@@ -81,7 +82,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   if (!createdPlayers.length) return
-  await service.from('players').delete().in('id', createdPlayers.splice(0))
+  await disposePlayers(service, createdPlayers.splice(0))
 }, 120000)
 
 afterAll(() => {

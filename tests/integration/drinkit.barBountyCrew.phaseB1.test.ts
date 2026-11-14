@@ -19,6 +19,7 @@ import {
   loadLocalFixtures,
   signInAs,
 } from '../helpers/localSupabase'
+import { disposePlayers } from '../helpers/disposePlayers'
 import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 import type { ClockFixtures } from '../helpers/clockFixtures'
 import { barBountyCrewPartitionSizes } from '../../src/lib/bounty/crewPartition'
@@ -85,15 +86,14 @@ beforeEach(async () => {
 afterEach(async () => {
   await restoreDrinkitMemberships()
   if (createdPlayers.length === 0) return
-  await service.from('players').delete().in('id', createdPlayers)
-  createdPlayers.length = 0
+  await disposePlayers(service, createdPlayers.splice(0))
 }, 120000)
 
 afterAll(async () => {
   if (!service) return
   const { data } = await service.from('players').select('id').like('login_alias', 'crew-synth-%')
   const ids = (data ?? []).map((r) => r.id as string)
-  if (ids.length) await service.from('players').delete().in('id', ids)
+  if (ids.length) await disposePlayers(service, ids)
 }, 120000)
 
 describe('Phase B1 partition sizes', () => {

@@ -1,0 +1,208 @@
+{
+  "root_cause": "Browser session was authenticated as Josh (4 drinks / 50 pts), not Plan C QA player David F. (9 drinks / 100 pts). Live DB is plan-c-full wrapped fixture (fingerprint f9f07ab84d988614). Coverage verifier and David F. browser both yield 15/15. Josh legitimately skips DI-02 and DI-07 under unchanged eligibility.",
+  "live_scenario": "wrapped plan-c-full",
+  "david": {
+    "slides": 15,
+    "drinks": 9,
+    "points": 100,
+    "skipped": []
+  },
+  "josh_observed_mismatch": {
+    "slides": 13,
+    "drinks": 4,
+    "points": 50,
+    "skipped": [
+      "DI-02",
+      "DI-07"
+    ],
+    "skip_reasons": {
+      "DI-02": "skipped: DI-P12 has 4 one-drink winners (resolveWinners max=2 fails; also value<2)",
+      "DI-07": "skipped: DI-P18 lists 4 day labels at 1 drink each (dayLabels needs 1\u20132; drinks\u22652 required)"
+    }
+  },
+  "shipit_katie_coverage_rpc": {
+    "slides": 12,
+    "included": [
+      "SI-01",
+      "SI-02",
+      "SI-03",
+      "SI-04",
+      "SI-05",
+      "SI-06",
+      "SI-07",
+      "SI-08",
+      "SI-09",
+      "SI-10",
+      "SI-11",
+      "SI-12"
+    ],
+    "skipped": []
+  },
+  "per_slide": [
+    {
+      "slide_id": "DI-01",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "9"
+    },
+    {
+      "slide_id": "DI-02",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": false,
+      "eligibility_david": "included",
+      "eligibility_josh": "skipped",
+      "reason_david": null,
+      "reason_josh": "skipped: DI-P12 has 4 one-drink winners (resolveWinners max=2 fails; also value<2)",
+      "fixture_displayed": "Passion of the Irish"
+    },
+    {
+      "slide_id": "DI-03",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:438309bf"
+    },
+    {
+      "slide_id": "DI-04",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "7"
+    },
+    {
+      "slide_id": "DI-05",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "100"
+    },
+    {
+      "slide_id": "DI-06",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:d050620c"
+    },
+    {
+      "slide_id": "DI-07",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": false,
+      "eligibility_david": "included",
+      "eligibility_josh": "skipped",
+      "reason_david": null,
+      "reason_josh": "skipped: DI-P18 lists 4 day labels at 1 drink each (dayLabels needs 1\u20132; drinks\u22652 required)",
+      "fixture_displayed": "Day 3 | Day 5"
+    },
+    {
+      "slide_id": "DI-08",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:aee829d0"
+    },
+    {
+      "slide_id": "DI-09",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "43"
+    },
+    {
+      "slide_id": "DI-10",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "Sand Meets the Sea"
+    },
+    {
+      "slide_id": "DI-11",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:7b4e3648"
+    },
+    {
+      "slide_id": "DI-12",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "David F. & Katie"
+    },
+    {
+      "slide_id": "DI-13",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:b94132a0"
+    },
+    {
+      "slide_id": "DI-14",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "Jonathan | Cindy"
+    },
+    {
+      "slide_id": "DI-15",
+      "expected_for_david": true,
+      "browser_david_displayed": true,
+      "browser_josh_displayed": true,
+      "eligibility_david": "included",
+      "eligibility_josh": "included",
+      "reason_david": null,
+      "reason_josh": null,
+      "fixture_displayed": "photo:1ac53e7b"
+    }
+  ]
+}

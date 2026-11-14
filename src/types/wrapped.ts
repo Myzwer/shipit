@@ -73,6 +73,7 @@ export interface WrappedLeaderboardRow {
   rank: number
   bounty_claims?: number
   completed?: number
+  achievements?: number
   is_me?: boolean
   is_my_team?: boolean
 }
@@ -152,8 +153,15 @@ export interface RevealWrappedResult {
 /** Card templates for personal/team stats. */
 export type WrappedStatCardKind = 'number' | 'named' | 'photo'
 
+/** Presentation width/density for the hybrid Wrapped layout system. */
+export type WrappedStatLayout = 'compact' | 'text' | 'featured'
+
 export interface WrappedStatCard {
   kind: WrappedStatCardKind
+  /** compact = numeric tile; text/featured = editorial panels */
+  layout: WrappedStatLayout
+  /** Grid span after packing (orphan compact metrics become full-row). */
+  span: 'half' | 'full'
   key: string
   icon: string
   value: string

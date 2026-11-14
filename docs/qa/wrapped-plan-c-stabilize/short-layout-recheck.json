@@ -1,0 +1,117 @@
+{
+  "josh": {
+    "counter": "01 / 13 — Your Week",
+    "hero": "4",
+    "slideCount": 13,
+    "ids": [
+      {
+        "id": "DI-01",
+        "layout": "full",
+        "type": "single"
+      },
+      {
+        "id": "DI-03",
+        "layout": null,
+        "type": "photo"
+      },
+      {
+        "id": "DI-04",
+        "layout": "short",
+        "type": "single"
+      },
+      {
+        "id": "DI-05",
+        "layout": "full",
+        "type": "single"
+      },
+      {
+        "id": "DI-06",
+        "layout": null,
+        "type": "photo"
+      },
+      {
+        "id": "DI-08",
+        "layout": null,
+        "type": "photo"
+      },
+      {
+        "id": "DI-09",
+        "layout": "full",
+        "type": "single"
+      },
+      {
+        "id": "DI-10",
+        "layout": "full",
+        "type": "single"
+      },
+      {
+        "id": "DI-11",
+        "layout": null,
+        "type": "photo"
+      },
+      {
+        "id": "DI-12",
+        "layout": "short",
+        "type": "single"
+      },
+      {
+        "id": "DI-13",
+        "layout": null,
+        "type": "photo"
+      },
+      {
+        "id": "DI-14",
+        "layout": "double-compact",
+        "type": "double"
+      },
+      {
+        "id": "DI-15",
+        "layout": null,
+        "type": "photo"
+      }
+    ],
+    "di04": {
+      "layout": "short",
+      "hasSupport": false,
+      "text": "03 / 13 — Your Hangouts\n\nYou've been EVERYWHERE!\n\nYou managed to visit:\n\n4\n\nbars!"
+    }
+  },
+  "david_layouts": [
+    {
+      "id": "DI-01",
+      "layout": "full"
+    },
+    {
+      "id": "DI-02",
+      "layout": "full"
+    },
+    {
+      "id": "DI-04",
+      "layout": "full"
+    },
+    {
+      "id": "DI-05",
+      "layout": "full"
+    },
+    {
+      "id": "DI-07",
+      "layout": "double-compact"
+    },
+    {
+      "id": "DI-09",
+      "layout": "full"
+    },
+    {
+      "id": "DI-10",
+      "layout": "full"
+    },
+    {
+      "id": "DI-12",
+      "layout": "short"
+    },
+    {
+      "id": "DI-14",
+      "layout": "double-compact"
+    }
+  ]
+}

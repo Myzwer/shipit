@@ -5,12 +5,16 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { createLocalClient, identity, loadLocalFixtures, signInAs } from '../helpers/localSupabase'
 import type { LocalFixtures } from '../helpers/localSupabase'
+import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
 
 let fixtures: LocalFixtures
 
 beforeAll(async () => {
   fixtures = await loadLocalFixtures()
-})
+  if (fixtures.available) {
+    fixtures = await ensureSyntheticRoleIdentities(fixtures)
+  }
+}, 120000)
 
 function requireLocal() {
   if (!fixtures.available || !fixtures.summary || !fixtures.anonKey || !fixtures.serviceRoleKey) {

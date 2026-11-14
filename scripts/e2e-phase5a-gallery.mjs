@@ -8,6 +8,7 @@ import { mkdir, readFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { acceptPhotoFraming } from './lib/acceptPhotoFraming.mjs'
 import { createClient } from '@supabase/supabase-js'
 import { randomUUID } from 'node:crypto'
 
@@ -78,6 +79,7 @@ async function wizardWithPhotoSubmit() {
   await page.click('[data-testid="drink-generic-beer"]')
   await page.click('[data-testid="friends-continue"]')
   await page.locator('[data-testid="photo-upload-input"]').setInputFiles(fixtureJpg)
+  await acceptPhotoFraming(page)
   await page.waitForSelector('[data-testid="photo-staged-ready"]', { timeout: 30000 })
   await page.click('[data-testid="photo-continue"]')
   await page.waitForSelector('[data-testid="submit-drink"]:not([disabled])', { timeout: 30000 })

@@ -1,20 +1,35 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import AppIcon from '@/components/shared/AppIcon.vue'
+import FramedPhoto from '@/components/shared/FramedPhoto.vue'
+import PhotoFramingEditor from '@/components/shared/PhotoFramingEditor.vue'
+import {
+  DEFAULT_PHOTO_FRAMING,
+  cloneFraming,
+  type PhotoFraming,
+} from '@/lib/media/framing'
 import { copy, formatCopy } from '@/ui/copy'
 import type { PreviewPayload, SelectedClaimChoice } from '@/types/drinkLog'
+import noImageUrl from '@/assets/gallery/no_image.jpg'
 
 const props = defineProps<{
   drinkName: string
   barName: string
   companionNames: string[]
+  playerName: string
   caption: string
   photoPreviewUrl?: string | null
+  photoPreviewWidth?: number | null
+  photoPreviewHeight?: number | null
+  photoFraming?: PhotoFraming | null
   photoStaged?: boolean
   preview: PreviewPayload | null
   previewStatus: 'idle' | 'loading' | 'ready' | 'error'
   selectedClaims: SelectedClaimChoice[]
   submitting: boolean
   showIngredientMismatchLink: boolean
+  /** When true, photo framing edits are locked (pending unknown submit). */
+  locked?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -22,14 +37,31 @@ const emit = defineEmits<{
   submit: []
   retryPreview: []
   openIngredientConfirm: []
+  updateFraming: [framing: PhotoFraming]
+  editCaption: []
+  addPhoto: []
 }>()
+
+const framingEditorOpen = ref(false)
 
 const withLabel = computed(() =>
   props.companionNames.length ? props.companionNames.join(', ') : copy.wizard.justMe,
 )
 
-const captionLabel = computed(() =>
-  props.caption.trim() ? props.caption.trim() : copy.wizard.noCaption,
+const hasPhoto = computed(() => !!props.photoPreviewUrl)
+const hasCaption = computed(() => !!props.caption.trim())
+const captionText = computed(() => props.caption.trim())
+
+const resolvedFraming = computed(() =>
+  cloneFraming(props.photoFraming ?? DEFAULT_PHOTO_FRAMING),
+)
+
+const canEditFraming = computed(
+  () =>
+    hasPhoto.value &&
+    !!props.photoPreviewWidth &&
+    !!props.photoPreviewHeight &&
+    !props.locked,
 )
 
 function rowState(category: 'cocktail' | 'ingredient' | 'bar') {
@@ -54,71 +86,178 @@ const categories = [
   { id: 'ingredient' as const, title: copy.bounty.ingredient },
   { id: 'bar' as const, title: copy.bounty.bar },
 ]
+
+function openFramingEditor() {
+  if (!canEditFraming.value) return
+  framingEditorOpen.value = true
+}
+
+function onFramingAccept(next: PhotoFraming) {
+  framingEditorOpen.value = false
+  emit('updateFraming', cloneFraming(next))
+}
+
+function onFramingCancel() {
+  framingEditorOpen.value = false
+}
 </script>
 
 <template>
-  <section data-testid="wizard-review-step" class="px-4 pb-44">
-    <h2 class="font-display text-xl font-bold" style="color: var(--theme-ink)">
+  <section data-testid="wizard-review-step" class="px-4 pb-32 pt-3">
+    <h2 class="wizard-prompt">
       {{ copy.wizard.reviewTitle }}
     </h2>
 
-    <dl class="mt-4 space-y-3 text-sm" style="color: var(--theme-ink)">
-      <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <dt class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.wizard.labelDrink }}
-        </dt>
-        <dd class="mt-1 font-semibold" data-testid="review-drink">{{ drinkName }}</dd>
-      </div>
-      <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <dt class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.wizard.labelBar }}
-        </dt>
-        <dd class="mt-1 font-semibold" data-testid="review-bar">{{ barName }}</dd>
-      </div>
-      <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <dt class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.wizard.labelWith }}
-        </dt>
-        <dd class="mt-1 font-semibold" data-testid="review-companions">{{ withLabel }}</dd>
-      </div>
-      <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <dt class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.wizard.labelPhoto }}
-        </dt>
-        <dd class="mt-2">
-          <div v-if="photoPreviewUrl" class="max-w-[160px]" data-testid="review-photo-preview">
-            <img
-              :src="photoPreviewUrl"
-              alt=""
-              class="aspect-square w-full rounded-xl object-cover"
-            />
-            <p class="mt-1 text-xs" style="color: var(--theme-muted)">
-              {{
-                photoStaged ? copy.wizard.photoStagedReview : copy.wizard.photoLocalOnlyReview
-              }}
+    <ul class="wizard-summary">
+      <li>
+        <AppIcon name="theme.drink-it" class="mt-0.5 shrink-0" />
+        <span class="ui-display-name" data-testid="review-drink">{{ drinkName }}</span>
+      </li>
+      <li>
+        <AppIcon name="score.bar" class="mt-0.5 shrink-0" />
+        <span class="ui-display-name" data-testid="review-bar">{{ barName }}</span>
+      </li>
+      <li>
+        <AppIcon name="score.friends" class="mt-0.5 shrink-0" />
+        <span data-testid="review-companions">{{ withLabel }}</span>
+      </li>
+    </ul>
+
+    <div class="mt-5" data-testid="review-gallery-preview">
+      <p class="mb-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--theme-muted)">
+        {{ copy.wizard.reviewPostPreview }}
+      </p>
+
+      <article class="gallery-drink-post review-gallery-preview-card">
+        <div class="gallery-polaroid">
+          <div class="review-gallery-photo-wrap relative" data-testid="review-photo-preview">
+            <template v-if="hasPhoto">
+              <FramedPhoto
+                v-if="photoPreviewWidth && photoPreviewHeight"
+                :src="photoPreviewUrl!"
+                :width="photoPreviewWidth"
+                :height="photoPreviewHeight"
+                :framing="resolvedFraming"
+                frame-class="gallery-polaroid-photo"
+                img-test-id="review-photo-image"
+              />
+              <img
+                v-else
+                :src="photoPreviewUrl!"
+                alt=""
+                class="gallery-polaroid-photo"
+                data-testid="review-photo-image"
+              />
+              <button
+                v-if="canEditFraming"
+                type="button"
+                class="review-edit-chip"
+                data-testid="review-edit-photo"
+                :aria-label="copy.wizard.editPhotoFraming"
+                :disabled="locked"
+                @click="openFramingEditor"
+              >
+                <AppIcon name="action.edit" class="text-sm" />
+              </button>
+            </template>
+            <template v-else>
+              <img
+                :src="noImageUrl"
+                class="gallery-polaroid-photo"
+                :alt="copy.wizard.noPhoto"
+                data-testid="review-photo-placeholder"
+              />
+              <button
+                type="button"
+                class="review-add-photo-link"
+                data-testid="review-add-photo"
+                :disabled="locked"
+                @click="emit('addPhoto')"
+              >
+                {{ copy.wizard.addPhotoAction }}
+              </button>
+            </template>
+          </div>
+
+          <div class="gallery-polaroid-meta">
+            <p>
+              <span class="ui-display-name" data-testid="review-preview-drink">{{ drinkName }}</span>
+              <template v-if="barName">
+                <span aria-hidden="true"> · </span>
+                <span class="ui-display-name" data-testid="review-preview-bar">{{ barName }}</span>
+              </template>
             </p>
           </div>
-          <div
-            v-else
-            class="flex aspect-square w-full max-w-[160px] items-center justify-center rounded-xl text-center text-xs font-semibold uppercase tracking-wide text-white"
-            style="background: var(--theme-header)"
-            data-testid="review-photo-placeholder"
-          >
-            {{ copy.wizard.noPhoto }}
-          </div>
-        </dd>
-      </div>
-      <div class="rounded-2xl px-4 py-3" style="background: var(--theme-card)">
-        <dt class="text-xs uppercase tracking-wide" style="color: var(--theme-muted)">
-          {{ copy.wizard.labelCaption }}
-        </dt>
-        <dd class="mt-1" data-testid="review-caption">{{ captionLabel }}</dd>
-      </div>
-    </dl>
+          <p v-if="playerName" class="gallery-polaroid-by" data-testid="review-preview-player">
+            {{ playerName }}
+          </p>
 
-    <h3 class="mt-6 font-display text-lg font-bold" style="color: var(--theme-ink)">
+          <div class="review-caption-row" data-testid="review-caption-row">
+            <p
+              v-if="hasCaption"
+              class="gallery-polaroid-caption min-w-0 flex-1"
+              data-testid="review-caption"
+            >
+              {{ captionText }}
+            </p>
+            <p
+              v-else
+              class="min-w-0 flex-1 text-sm"
+              style="color: var(--theme-muted)"
+              data-testid="review-caption"
+            >
+              {{ copy.wizard.noCaption }}
+            </p>
+            <button
+              v-if="hasCaption"
+              type="button"
+              class="review-edit-chip review-edit-chip--inline"
+              data-testid="review-edit-caption"
+              :aria-label="copy.wizard.editCaption"
+              :disabled="locked"
+              @click="emit('editCaption')"
+            >
+              <AppIcon name="action.edit" class="text-sm" />
+            </button>
+            <button
+              v-else
+              type="button"
+              class="review-add-caption-link"
+              data-testid="review-add-caption"
+              :disabled="locked"
+              @click="emit('editCaption')"
+            >
+              {{ copy.wizard.addCaptionAction }}
+            </button>
+          </div>
+
+          <p
+            v-if="hasPhoto && !photoStaged"
+            class="mt-2 text-xs"
+            style="color: var(--theme-muted)"
+            data-testid="review-photo-local-note"
+          >
+            {{ copy.wizard.photoLocalOnlyReview }}
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="font-display mt-6 text-center text-[1.65rem] font-bold" style="color: var(--theme-ink)">
       {{ copy.wizard.yourBounties }}
     </h3>
+
+    <p v-if="showIngredientMismatchLink" class="mt-1 text-center text-sm">
+      <button
+        type="button"
+        class="underline underline-offset-2"
+        style="color: var(--theme-ink)"
+        data-testid="ingredient-mismatch-link"
+        @click="emit('openIngredientConfirm')"
+      >
+        {{ copy.wizard.ingredientMismatchLink }}
+      </button>
+    </p>
 
     <p v-if="previewStatus === 'loading'" class="mt-3 text-sm" style="color: var(--theme-muted)">
       Loading…
@@ -140,131 +279,68 @@ const categories = [
       <li v-for="cat in categories" :key="cat.id">
         <button
           type="button"
-          class="flex min-h-[4.25rem] w-full items-stretch overflow-hidden text-left transition disabled:opacity-55"
-          :style="{
-            background:
-              rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'
-                ? 'color-mix(in srgb, var(--theme-surface) 55%, var(--theme-card))'
-                : 'var(--theme-card)',
-            color: 'var(--theme-ink)',
-            borderRadius: 'var(--theme-card-radius)',
-            boxShadow: 'var(--theme-card-shadow)',
-            opacity:
-              rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'
-                ? 0.72
-                : 1,
-          }"
+          class="wizard-bounty"
+          :class="
+            rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'
+              ? 'is-muted'
+              : ''
+          "
           :disabled="rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'"
           :data-testid="`bounty-row-${cat.id}`"
           :data-state="rowState(cat.id).kind"
           @click="emit('toggleClaim', cat.id)"
         >
-          <span
-            class="flex w-11 shrink-0 items-center justify-center"
-            :style="{
-              background:
-                rowState(cat.id).kind === 'selected' ? 'var(--theme-accent)' : 'transparent',
-              color:
-                rowState(cat.id).kind === 'selected' ? '#fff' : 'var(--theme-muted)',
-            }"
-            aria-hidden="true"
-          >
-            <span
-              class="flex h-6 w-6 items-center justify-center rounded-md border-2 text-xs font-bold"
-              :style="{
-                borderColor:
-                  rowState(cat.id).kind === 'selected'
-                    ? 'rgba(255,255,255,0.85)'
-                    : 'color-mix(in srgb, var(--theme-ink) 35%, transparent)',
-              }"
-            >
-              <span v-if="rowState(cat.id).kind === 'selected'">✓</span>
-            </span>
+          <span v-if="rowState(cat.id).kind === 'selected'" class="wizard-bounty-rail">
+            <AppIcon name="status.selected" style-variant="solid" />
+            <span>{{ rowState(cat.id).label }}</span>
           </span>
-          <div class="flex min-w-0 flex-1 items-center justify-between gap-3 px-3 py-3.5">
-            <div class="min-w-0">
-              <p
-                v-if="rowState(cat.id).kind === 'selected' || rowState(cat.id).kind === 'available'"
-                class="text-[0.65rem] font-semibold uppercase tracking-[0.12em]"
-                style="color: var(--theme-muted)"
-              >
-                {{ rowState(cat.id).label }}
-              </p>
-              <p
-                class="font-semibold leading-snug"
-                :class="
-                  rowState(cat.id).kind === 'selected' || rowState(cat.id).kind === 'available'
-                    ? 'mt-0.5'
-                    : undefined
-                "
-                :style="
-                  rowState(cat.id).kind === 'unavailable' ||
-                  rowState(cat.id).kind === 'already_claimed'
-                    ? { color: 'var(--theme-muted)' }
-                    : undefined
-                "
-              >
-                {{ cat.title }}
-              </p>
-              <p
-                v-if="rowState(cat.id).kind === 'selected'"
-                class="mt-1 text-xs"
-                style="color: var(--theme-muted)"
-              >
-                {{ copy.wizard.tapToDeselect }}
-              </p>
-            </div>
-            <span
-              v-if="rowState(cat.id).points"
-              class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold text-white"
-              style="background: var(--theme-accent)"
-            >
-              {{
-                formatCopy(copy.home.pointsLabel, { points: rowState(cat.id).points })
-              }}
+          <span class="wizard-bounty-main">
+            <span class="flex min-w-0 items-center gap-2">
+              <AppIcon
+                v-if="rowState(cat.id).kind !== 'selected'"
+                :name="rowState(cat.id).kind === 'available' ? 'status.unselected' : 'status.completed'"
+                class="shrink-0 text-lg"
+              />
+              <span class="min-w-0">
+                <span class="block font-semibold leading-snug">{{ cat.title }}</span>
+                <span v-if="rowState(cat.id).kind === 'selected'" class="sr-only">
+                  {{ copy.wizard.tapToDeselect }}
+                </span>
+              </span>
             </span>
-            <span
-              v-else
-              class="shrink-0 text-sm font-medium"
-              style="color: var(--theme-muted)"
-            >
+            <span v-if="rowState(cat.id).points" class="wizard-points">
+              {{ formatCopy(copy.home.pointsLabel, { points: rowState(cat.id).points }) }}
+            </span>
+            <span v-else class="shrink-0 text-sm font-medium">
               {{ rowState(cat.id).label }}
             </span>
-          </div>
+          </span>
         </button>
       </li>
     </ul>
 
-    <p
-      v-if="showIngredientMismatchLink"
-      class="mt-5 text-center text-sm"
-      style="color: var(--theme-muted)"
+    <button
+      type="button"
+      class="ui-primary-btn mt-5 w-full"
+      data-testid="submit-drink"
+      :disabled="submitting || previewStatus !== 'ready'"
+      @click="emit('submit')"
     >
-      <button
-        type="button"
-        class="font-medium underline underline-offset-2"
-        style="color: var(--theme-primary)"
-        data-testid="ingredient-mismatch-link"
-        @click="emit('openIngredientConfirm')"
-      >
-        {{ copy.wizard.ingredientMismatchLink }}
-      </button>
-    </p>
+      {{ submitting ? copy.wizard.submitting : copy.wizard.submitDrink }}
+      <AppIcon v-if="!submitting" name="action.next" />
+    </button>
 
-    <div
-      class="pointer-events-none fixed inset-x-0 z-40 px-4 pt-3"
-      style="bottom: calc(5.5rem + env(safe-area-inset-bottom)); background: linear-gradient(transparent, var(--theme-page) 35%)"
-    >
-      <button
-        type="button"
-        class="pointer-events-auto mx-auto flex w-full max-w-lg items-center justify-center rounded-full py-3 text-sm font-semibold text-white disabled:opacity-60"
-        style="background: var(--theme-primary)"
-        data-testid="submit-drink"
-        :disabled="submitting || previewStatus !== 'ready'"
-        @click="emit('submit')"
-      >
-        {{ submitting ? copy.wizard.submitting : copy.wizard.submitDrink }}
-      </button>
-    </div>
+    <Teleport to="body">
+      <PhotoFramingEditor
+        v-if="framingEditorOpen && photoPreviewUrl && photoPreviewWidth && photoPreviewHeight"
+        class="theme-drink"
+        :src="photoPreviewUrl"
+        :width="photoPreviewWidth"
+        :height="photoPreviewHeight"
+        :initial-framing="resolvedFraming"
+        @accept="onFramingAccept"
+        @cancel="onFramingCancel"
+      />
+    </Teleport>
   </section>
 </template>

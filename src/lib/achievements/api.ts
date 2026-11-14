@@ -3,10 +3,12 @@ import type { GameId } from '@/types/game'
 import type {
   AchievementView,
   AchievementsListResult,
+  AchievementsReadCursor,
   AchievementsUnreadState,
   BarGauntletSummariesResult,
   CollectionChecklistResult,
 } from '@/types/achievements'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { achievementCategoriesOrdered, categoryKeyForGroup } from './categories'
 
 function requireClient() {
@@ -76,6 +78,33 @@ export async function fetchAchievementsUnread(game: GameId): Promise<Achievement
   const { data, error } = await rpc('get_achievements_unread', { p_game: game })
   if (error) throw error
   return data as AchievementsUnreadState
+}
+
+/**
+ * Current achievements_mine cursor for this player/game.
+ * Used to identify unread awards before mark_achievements_seen advances the watermark.
+ * Relies on existing RLS (own rows only) — no second notification system.
+ */
+export async function fetchAchievementsReadCursor(
+  game: GameId,
+): Promise<AchievementsReadCursor | null> {
+  const client = requireClient() as SupabaseClient
+  const { data, error } = await client
+    .from('read_cursors')
+    .select('last_seen_event_id, last_seen_at_utc')
+    .eq('game', game)
+    .eq('scope', 'achievements_mine')
+    .maybeSingle()
+  if (error) throw error
+  if (!data) return null
+  const row = data as {
+    last_seen_event_id: string | null
+    last_seen_at_utc: string | null
+  }
+  return {
+    last_seen_award_id: row.last_seen_event_id,
+    last_seen_at_utc: row.last_seen_at_utc,
+  }
 }
 
 export async function markAchievementsSeen(

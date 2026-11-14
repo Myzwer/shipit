@@ -6,6 +6,8 @@ import { useSessionStore } from '@/stores/session'
 const props = defineProps<{
   /** Show Ship It! team line when the player has a team. */
   showTeam?: boolean
+  /** Drink It! Home uses the mint panel. Other homes keep the tan card. */
+  surface?: 'card' | 'mint'
 }>()
 
 const session = useSessionStore()
@@ -18,7 +20,14 @@ async function logOut() {
 </script>
 
 <template>
-  <div class="mt-4 rounded-2xl px-4 py-3" style="background: var(--theme-card)">
+  <div
+    class="mt-4 rounded-2xl px-4 py-3"
+    :class="props.surface === 'mint' ? 'ui-mint-panel' : ''"
+    :style="{
+      background: props.surface === 'mint' ? undefined : 'var(--theme-gradient-warm)',
+      boxShadow: props.surface === 'mint' ? 'var(--theme-card-shadow, var(--shadow-card))' : undefined,
+    }"
+  >
     <h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--theme-muted)">
       {{ copy.home.account }}
     </h3>

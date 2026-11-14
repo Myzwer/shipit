@@ -1,0 +1,81 @@
+{
+  "player": "Josh",
+  "viewports": {
+    "360": {
+      "headerSticky": false,
+      "headerTitle": "Home",
+      "headerFontSize": "26px",
+      "shipTimePresent": false,
+      "mainMaxWidth": "512px",
+      "mainPaddingLeft": "0px",
+      "leaderboardLeft": 0,
+      "leaderboardWidth": 360,
+      "bandLeft": 0,
+      "bandWidth": 360,
+      "viewportWidth": 360,
+      "progressTitle": "Team 5's Progress",
+      "rulesPresent": true,
+      "accordionCount": 4,
+      "overflowX": false
+    },
+    "390": {
+      "headerSticky": false,
+      "headerTitle": "Home",
+      "headerFontSize": "26.52px",
+      "shipTimePresent": false,
+      "mainMaxWidth": "512px",
+      "mainPaddingLeft": "0px",
+      "leaderboardLeft": 0,
+      "leaderboardWidth": 390,
+      "bandLeft": 0,
+      "bandWidth": 390,
+      "viewportWidth": 390,
+      "progressTitle": "Team 5's Progress",
+      "rulesPresent": true,
+      "accordionCount": 4,
+      "overflowX": false
+    },
+    "402": {
+      "headerSticky": false,
+      "headerTitle": "Home",
+      "headerFontSize": "27.336px",
+      "shipTimePresent": false,
+      "mainMaxWidth": "512px",
+      "mainPaddingLeft": "0px",
+      "leaderboardLeft": 0,
+      "leaderboardWidth": 402,
+      "bandLeft": 0,
+      "bandWidth": 402,
+      "viewportWidth": 402,
+      "progressTitle": "Team 5's Progress",
+      "rulesPresent": true,
+      "accordionCount": 4,
+      "overflowX": false
+    },
+    "430": {
+      "headerSticky": false,
+      "headerTitle": "Home",
+      "headerFontSize": "28px",
+      "shipTimePresent": false,
+      "mainMaxWidth": "512px",
+      "mainPaddingLeft": "0px",
+      "leaderboardLeft": 0,
+      "leaderboardWidth": 430,
+      "bandLeft": 0,
+      "bandWidth": 430,
+      "viewportWidth": 430,
+      "progressTitle": "Team 5's Progress",
+      "rulesPresent": true,
+      "accordionCount": 4,
+      "overflowX": false
+    }
+  },
+  "checks": {
+    "noShipTime": true,
+    "headerNotSticky": true,
+    "fullWidthLeaderboard": true,
+    "homeTitleLarge": true,
+    "accordionCount": 4,
+    "noHorizontalOverflow": true
+  }
+}

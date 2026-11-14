@@ -327,4 +327,55 @@ describe('Phase 5A Gallery feed', () => {
     })
     expect(denied.error || denied.data?.ok === false).toBeTruthy()
   })
+
+  it('returns companion_names for drink logs from recorded companions only', async () => {
+    const at = noonDay1Utc()
+    await exposeCurrentSlots(fixtures.service!, at)
+    const offering = await lookupOffering(fixtures.service!, 'wake-view', 'mai-tai')
+    const author = playerId(fixtures, 'drink_only')
+    const mate = playerId(fixtures, 'both')
+    const mateName =
+      fixtures.summary!.identities.find((i) => i.key === 'both')?.display_name ?? 'Demo Both Games'
+
+    const solo = await submitAt(
+      fixtures.service!,
+      author,
+      drinkPayload({
+        barKey: 'wake-view',
+        offeringId: offering.offering_id,
+        caption: 'solo-no-companions',
+      }),
+      at,
+    )
+    expect(solo.data.ok).toBe(true)
+
+    const withMate = await submitAt(
+      fixtures.service!,
+      author,
+      drinkPayload({
+        barKey: 'wake-view',
+        offeringId: offering.offering_id,
+        caption: 'with-companion',
+        companions: [mate],
+      }),
+      at,
+    )
+    expect(withMate.data.ok).toBe(true)
+
+    const drink = await signInAs(local(), 'drink_only')
+    const feed = await drink.rpc('list_gallery_feed', {
+      p_game: 'drinkit',
+      p_filter: 'mine',
+      p_limit: 10,
+    })
+    expect(feed.data.ok).toBe(true)
+
+    const soloEv = feed.data.events.find((e: { caption: string }) => e.caption === 'solo-no-companions')
+    const mateEv = feed.data.events.find((e: { caption: string }) => e.caption === 'with-companion')
+    expect(soloEv?.companion_names ?? []).toEqual([])
+    expect(mateEv?.companion_names).toEqual([mateName])
+    expect(mateEv?.companion_names).not.toContain(soloEv?.owner_player_name)
+    // Never surface raw companion UUIDs on the names field.
+    expect(JSON.stringify(mateEv?.companion_names)).not.toContain(mate)
+  })
 })

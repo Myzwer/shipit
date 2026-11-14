@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import GameShell from '@/components/shared/GameShell.vue'
 import AchievementUnlockPopup from '@/features/achievements/AchievementUnlockPopup.vue'
 import GalleryPostCard from '@/features/gallery/GalleryPostCard.vue'
 import PhotoViewer from '@/features/gallery/PhotoViewer.vue'
+import { isNotAuthenticatedError } from '@/lib/authFailure'
 import {
   listGalleryFeed,
   markGallerySeen,
 } from '@/lib/gallery/api'
+import {
+  galleryNeedsAnotherPage,
+  readShowAchievements,
+  visibleGalleryEvents,
+  writeShowAchievements,
+} from '@/lib/gallery/achievementVisibility'
 import { countNewerThanTop, mergeGalleryFreshPage } from '@/lib/gallery/feedMerge'
 import { useGalleryUnreadStore } from '@/stores/galleryUnread'
+import { useSessionStore } from '@/stores/session'
 import type { GameId } from '@/types/game'
 import type {
   GalleryCursor,
@@ -26,6 +34,8 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const router = useRouter()
+const session = useSessionStore()
 const unread = useGalleryUnreadStore()
 
 const filter = ref<GalleryFilter>('everyone')
@@ -43,9 +53,19 @@ const viewer = ref<{ url: string; photoId: string } | null>(null)
 const inFlight = ref(false)
 const pollTimer = ref<ReturnType<typeof setInterval> | null>(null)
 const sentinel = ref<HTMLElement | null>(null)
+/** Brief post-submit flash only; never driven by a sticky route query. */
+const flashSubmissionId = ref<string | null>(null)
+let flashTimer: ReturnType<typeof setTimeout> | null = null
 let observer: IntersectionObserver | null = null
 /** Bumped on filter/game change so stale responses cannot overwrite newer selection. */
 let requestGen = 0
+
+const FLASH_MS = 1400
+
+async function forceReLogin() {
+  await session.signOut()
+  await router.replace({ name: 'login', query: { reason: 'expired' } })
+}
 
 const secondaryFilter = computed(() =>
   props.game === 'drinkit' ? ('mine' as const) : ('team' as const),
@@ -67,9 +87,50 @@ const newPostsLabel = computed(() => {
     : formatCopy(copy.gallery.newPostsPlural, { count: pendingNewCount.value })
 })
 
-const highlightSubmission = computed(() =>
-  typeof route.query.submission === 'string' ? route.query.submission : null,
-)
+function clearSubmissionQuery() {
+  if (typeof route.query.submission !== 'string') return
+  const nextQuery = { ...route.query }
+  delete nextQuery.submission
+  void router.replace({ query: nextQuery })
+}
+
+function beginSubmissionFlash(submissionId: string) {
+  if (flashTimer) {
+    clearTimeout(flashTimer)
+    flashTimer = null
+  }
+  flashSubmissionId.value = submissionId
+  flashTimer = setTimeout(() => {
+    flashSubmissionId.value = null
+    flashTimer = null
+  }, FLASH_MS)
+  clearSubmissionQuery()
+}
+
+const showAchievements = ref(readShowAchievements(props.game))
+const visibleEvents = computed(() => visibleGalleryEvents(events.value, showAchievements.value))
+
+function onShowAchievementsChange() {
+  writeShowAchievements(props.game, showAchievements.value)
+  if (!showAchievements.value) void ensureVisiblePage()
+}
+
+async function ensureVisiblePage() {
+  let guard = 0
+  while (
+    galleryNeedsAnotherPage({
+      showAchievements: showAchievements.value,
+      visibleCount: visibleEvents.value.length,
+      hasMore: hasMore.value,
+    }) &&
+    guard < 12
+  ) {
+    guard += 1
+    const before = events.value.length
+    await loadMore()
+    if (events.value.length === before) break
+  }
+}
 
 async function loadInitial(opts?: { quiet?: boolean }) {
   const myGen = ++requestGen
@@ -101,12 +162,19 @@ async function loadInitial(opts?: { quiet?: boolean }) {
       }
     }
     await unread.refresh(props.game)
-  } catch {
+  } catch (err) {
     if (myGen !== requestGen || filter.value !== myFilter) return
+    if (isNotAuthenticatedError(err)) {
+      await forceReLogin()
+      return
+    }
     if (!events.value.length) status.value = 'error'
     else refreshError.value = true
   } finally {
-    if (myGen === requestGen) inFlight.value = false
+    if (myGen === requestGen) {
+      inFlight.value = false
+      void ensureVisiblePage()
+    }
   }
 }
 
@@ -130,8 +198,12 @@ async function loadMore() {
     }
     nextCursor.value = page.next_cursor
     hasMore.value = page.has_more
-  } catch {
+  } catch (err) {
     if (myGen !== requestGen || filter.value !== myFilter) return
+    if (isNotAuthenticatedError(err)) {
+      await forceReLogin()
+      return
+    }
     refreshError.value = true
   } finally {
     if (myGen === requestGen) {
@@ -204,8 +276,12 @@ async function pollFresh() {
       newestEvent.value = page.newest_event
     }
     await unread.refresh(props.game)
-  } catch {
+  } catch (err) {
     if (myGen !== requestGen || filter.value !== myFilter) return
+    if (isNotAuthenticatedError(err)) {
+      await forceReLogin()
+      return
+    }
     refreshError.value = true
   } finally {
     if (myGen === requestGen) refreshing.value = false
@@ -260,6 +336,9 @@ function stopPolling() {
 }
 
 onMounted(async () => {
+  const inboundSubmission =
+    typeof route.query.submission === 'string' ? route.query.submission : null
+  if (inboundSubmission) beginSubmissionFlash(inboundSubmission)
   await loadInitial()
   startPolling()
   document.addEventListener('visibilitychange', onVisibility)
@@ -276,6 +355,10 @@ onUnmounted(() => {
   stopPolling()
   document.removeEventListener('visibilitychange', onVisibility)
   observer?.disconnect()
+  if (flashTimer) {
+    clearTimeout(flashTimer)
+    flashTimer = null
+  }
 })
 
 watch(sentinel, (el, _, onCleanup) => {
@@ -288,7 +371,8 @@ watch(sentinel, (el, _, onCleanup) => {
 
 watch(
   () => props.game,
-  () => {
+  (game) => {
+    showAchievements.value = readShowAchievements(game)
     events.value = []
     filter.value = 'everyone'
     pendingNewCount.value = 0
@@ -296,33 +380,38 @@ watch(
     void loadInitial()
   },
 )
+
+watch(
+  () => route.query.submission,
+  (submission) => {
+    if (typeof submission === 'string' && submission.length > 0) {
+      beginSubmissionFlash(submission)
+    }
+  },
+)
 </script>
 
 <template>
-  <GameShell :game="game" :title="copy.gallery.heading" :show-switch="false">
-    <div class="px-4 pb-28 pt-4" data-testid="gallery-feed" :data-game="game">
-      <h1
-        class="font-display text-center text-2xl font-bold uppercase tracking-wide"
-        style="color: var(--theme-ink)"
-        data-testid="gallery-heading"
-      >
-        {{ copy.gallery.heading }}
-      </h1>
-
+  <GameShell
+    :game="game"
+    :title="copy.gallery.heading"
+    :show-ship-time="false"
+    tone="home"
+  >
+    <div
+      class="px-4 pb-6 pt-3"
+      data-testid="gallery-feed"
+      :data-game="game"
+    >
       <div
-        class="mt-4 flex justify-center gap-2"
+        class="gallery-filter-row"
         role="tablist"
         :aria-label="copy.gallery.heading"
         data-testid="gallery-filters"
       >
         <button
           type="button"
-          class="rounded-full px-4 py-2 text-sm font-semibold"
-          :style="
-            filter === 'everyone'
-              ? { background: 'var(--theme-primary)', color: '#fff' }
-              : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
-          "
+          :class="['gallery-filter', filter === 'everyone' ? 'is-active' : '']"
           role="tab"
           :aria-selected="filter === 'everyone'"
           data-testid="gallery-filter-everyone"
@@ -332,12 +421,7 @@ watch(
         </button>
         <button
           type="button"
-          class="rounded-full px-4 py-2 text-sm font-semibold"
-          :style="
-            filter === secondaryFilter
-              ? { background: 'var(--theme-primary)', color: '#fff' }
-              : { background: 'var(--theme-card)', color: 'var(--theme-ink)' }
-          "
+          :class="['gallery-filter', filter === secondaryFilter ? 'is-active' : '']"
           role="tab"
           :aria-selected="filter === secondaryFilter"
           :data-testid="`gallery-filter-${secondaryFilter}`"
@@ -347,10 +431,22 @@ watch(
         </button>
       </div>
 
+      <label class="gallery-achieve-toggle">
+        <span>{{ copy.gallery.showAchievements }}</span>
+        <input
+          v-model="showAchievements"
+          type="checkbox"
+          role="switch"
+          class="gallery-switch"
+          data-testid="gallery-show-achievements"
+          @change="onShowAchievementsChange"
+        />
+      </label>
+
       <p
         v-if="refreshError"
         class="mt-3 rounded-2xl px-3 py-2 text-sm"
-        style="background: var(--theme-card); color: var(--theme-ink)"
+        style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
         data-testid="gallery-refresh-error"
       >
         {{ copy.gallery.refreshFailedDetail }}
@@ -371,12 +467,9 @@ watch(
         data-testid="gallery-skeletons"
         :aria-label="copy.gallery.loading"
       >
-        <div
-          v-for="n in 3"
-          :key="n"
-          class="h-64 animate-pulse rounded-3xl"
-          style="background: var(--theme-card)"
-        />
+        <div v-for="n in 3" :key="n" class="gallery-skeleton">
+          <div class="gallery-polaroid-photo gallery-polaroid-pending animate-pulse" />
+        </div>
       </div>
 
       <div v-else-if="status === 'error'" class="mt-8 text-center" data-testid="gallery-error">
@@ -394,7 +487,16 @@ watch(
       </div>
 
       <div
-        v-else-if="!events.length"
+        v-else-if="!visibleEvents.length && (hasMore || loadingMore)"
+        class="mt-8 text-center text-sm"
+        style="color: var(--theme-muted)"
+        data-testid="gallery-filtering"
+      >
+        {{ copy.gallery.loadingMore }}
+      </div>
+
+      <div
+        v-else-if="!visibleEvents.length"
         class="mt-10 text-center text-sm"
         style="color: var(--theme-muted)"
         data-testid="gallery-empty"
@@ -402,20 +504,28 @@ watch(
         {{ emptyCopy }}
       </div>
 
-      <div v-else class="mt-6 space-y-4">
-        <GalleryPostCard
-          v-for="ev in events"
-          :key="ev.event_id"
-          :game="game"
-          :event="ev"
-          :class="
-            highlightSubmission && ev.submission_id === highlightSubmission
-              ? 'ring-2 ring-[var(--theme-primary)]'
-              : ''
-          "
-          @open-photo="viewer = $event"
-          @reaction-updated="onReactionUpdated"
-        />
+      <div v-else class="gallery-feed-list mt-4">
+        <template v-for="(ev, index) in visibleEvents" :key="ev.event_id">
+          <GalleryPostCard
+            :game="game"
+            :event="ev"
+            :class="
+              flashSubmissionId && ev.submission_id === flashSubmissionId
+                ? 'gallery-post--flash'
+                : ''
+            "
+            :data-flash="
+              flashSubmissionId && ev.submission_id === flashSubmissionId ? '1' : undefined
+            "
+            @open-photo="viewer = $event"
+            @reaction-updated="onReactionUpdated"
+          />
+          <hr
+            v-if="index < visibleEvents.length - 1"
+            class="gallery-feed-rule"
+            data-testid="gallery-feed-rule"
+          />
+        </template>
         <p
           v-if="loadingMore"
           class="py-3 text-center text-sm"

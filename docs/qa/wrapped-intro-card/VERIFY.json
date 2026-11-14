@@ -1,0 +1,133 @@
+{
+  "ok": true,
+  "games": [
+    {
+      "game": "drinkit",
+      "displayName": "David F.",
+      "expectedTotal": 16,
+      "widths": [
+        {
+          "width": 360,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/drinkit-360-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 281
+          }
+        },
+        {
+          "width": 390,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/drinkit-390-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 304
+          }
+        },
+        {
+          "width": 402,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/drinkit-402-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 314
+          }
+        },
+        {
+          "width": 430,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/drinkit-430-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 335
+          }
+        }
+      ],
+      "checks": {
+        "welcomeGone": true,
+        "introPresent": true,
+        "counter": "1 / 16",
+        "headline": "What a | Lovely | Cruise",
+        "body": "We did a lot this week. Swipe to see it all.",
+        "introBg": "rgb(183, 230, 225)",
+        "storyCount": 9,
+        "photoCount": 6,
+        "total": 16,
+        "totalOk": true,
+        "counterOk": true,
+        "noMagentaBand": true,
+        "arrowAdvance": true,
+        "navBackToIntro": true
+      },
+      "ok": true
+    },
+    {
+      "game": "shipit",
+      "displayName": "Katie",
+      "expectedTotal": 13,
+      "widths": [
+        {
+          "width": 360,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/shipit-360-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 500,
+            "width": 281
+          }
+        },
+        {
+          "width": 390,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/shipit-390-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 304
+          }
+        },
+        {
+          "width": 402,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/shipit-402-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 314
+          }
+        },
+        {
+          "width": 430,
+          "shot": "/Users/josh/Documents/Web Projects/Vue/Ship It/docs/qa/wrapped-intro-card/shipit-430-intro.png",
+          "clip": {
+            "overflowX": false,
+            "overflowY": false,
+            "height": 481,
+            "width": 335
+          }
+        }
+      ],
+      "checks": {
+        "welcomeGone": true,
+        "introPresent": true,
+        "counter": "1 / 13",
+        "headline": "What a | Lovely | Cruise",
+        "body": "We did a lot this week. Swipe to see it all.",
+        "introBg": "rgb(181, 215, 245)",
+        "storyCount": 8,
+        "photoCount": 4,
+        "total": 13,
+        "totalOk": true,
+        "counterOk": true,
+        "noMagentaBand": true,
+        "arrowAdvance": true,
+        "navBackToIntro": true
+      },
+      "ok": true
+    }
+  ]
+}
