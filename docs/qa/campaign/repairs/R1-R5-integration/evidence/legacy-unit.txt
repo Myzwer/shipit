@@ -1,0 +1,56 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+stderr | tests/unit/DailyClaimScroll.spec.ts > Daily Challenge step scroll reset > resets scroll to the top when moving Photo → Review
+[Vue warn]: Unhandled error during execution of beforeUnmount hook 
+  at <DailyClaimView ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | tests/unit/DailyClaimScroll.spec.ts > Daily Challenge step scroll reset > preserves caption and photo when Edit Caption returns to Photo
+[Vue warn]: Unhandled error during execution of beforeUnmount hook 
+  at <DailyClaimView ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+ ❯ tests/unit/DailyClaimScroll.spec.ts (2 tests | 2 failed) 797ms
+     × resets scroll to the top when moving Photo → Review 560ms
+     × preserves caption and photo when Edit Caption returns to Photo 210ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/DailyClaimScroll.spec.ts > Daily Challenge step scroll reset > resets scroll to the top when moving Photo → Review
+ FAIL  tests/unit/DailyClaimScroll.spec.ts > Daily Challenge step scroll reset > preserves caption and photo when Edit Caption returns to Photo
+Error: [vitest] No "abandonPhotoUpload" export is defined on the "@/lib/media/stagePhoto" mock. Did you forget to return it from "vi.mock"?
+If you need to partially mock a module, you can use "importOriginal" helper inside:
+
+vi.mock(import("@/lib/media/stagePhoto"), async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    // your mocked methods
+  }
+})
+
+ ❯ abandonDraftPhoto src/features/drinkit/DailyClaimView.vue:489:8
+    487|   const pending = readPendingDailySubmit()
+    488|   if (pending?.payload?.photo_id === photoId) return
+    489|   void abandonPhotoUpload(photoId).catch(() => {
+       |        ^
+    490|     /* best-effort; bound photos correctly refuse */
+    491|   })
+ ❯ src/features/drinkit/DailyClaimView.vue:518:3
+ ❯ node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:3213:40
+ ❯ callWithErrorHandling node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:200:19
+ ❯ callWithAsyncErrorHandling node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:207:17
+ ❯ hook.__weh.hook.__weh node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:3193:19
+ ❯ Object.invokeArrayFns node_modules/@vue/shared/dist/shared.cjs.js:89:11
+ ❯ unmountComponent node_modules/@vue/runtime-core/dist/runtime-core.cjs.js:6923:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 78 passed (79)
+      Tests  2 failed | 394 passed (396)
+   Start at  14:07:04
+   Duration  57.21s (transform 41.27s, setup 0ms, import 95.08s, tests 27.59s, environment 411.24s)
+

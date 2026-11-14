@@ -1,0 +1,10 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+
+ Test Files  4 passed (4)
+      Tests  27 passed (27)
+   Start at  14:03:10
+   Duration  22.90s (transform 11.61s, setup 0ms, import 15.51s, tests 481ms, environment 58.73s)
+

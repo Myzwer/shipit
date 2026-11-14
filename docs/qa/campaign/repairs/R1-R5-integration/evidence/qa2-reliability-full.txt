@@ -1,0 +1,43 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+ ❯ tests/unit/qa2-reliability/processImage.qa2.spec.ts (16 tests | 1 failed) 976ms
+     × rejects GIF with empty MIME type (mobile mislabel risk) 253ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/qa2-reliability/processImage.qa2.spec.ts > QA2 processImage formats and boundaries > rejects GIF with empty MIME type (mobile mislabel risk)
+AssertionError: promise resolved "{ blob: Blob{ …(1) }, …(6) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "blob": Blob {},
++   "byteSize": 1500,
++   "height": 100,
++   "mimeType": "image/jpeg",
++   "originalFilename": "party.gif",
++   "previewUrl": "blob:nodedata:18467e38-fe2f-4cd5-a5a4-ff7f359fbe7f",
++   "width": 100,
+  }
+
+ ❯ tests/unit/qa2-reliability/processImage.qa2.spec.ts:232:41
+    230|     stubCanvas()
+    231|     const file = new File([new Uint8Array([1, 2, 3])], 'party.gif', { …
+    232|     await expect(processImageFile(file)).rejects.toMatchObject({ code:…
+       |                                         ^
+    233|   })
+    234| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 12 passed (13)
+      Tests  1 failed | 85 passed (86)
+   Start at  14:03:11
+   Duration  26.29s (transform 19.91s, setup 0ms, import 40.77s, tests 3.67s, environment 184.34s)
+

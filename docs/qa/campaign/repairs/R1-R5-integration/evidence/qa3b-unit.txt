@@ -1,0 +1,141 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+ ❯ tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts (3 tests | 1 failed) 31ms
+     × ACH-002: collection coverage must require log bar_id match and exclude virtual bars 21ms
+ ❯ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts (7 tests | 2 failed) 258ms
+     × ACH-001: launch catalog must publish concrete frozen(+tropical) tags so License to Chill is reachable 17ms
+     × ACH-003: productionReleaseMapping must cover all FINAL 174 stable keys 2ms
+ ❯ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts (10 tests | 1 failed) 98ms
+     × WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract) 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-001: launch catalog must publish concrete frozen(+tropical) tags so License to Chill is reachable
+AssertionError: launch-candidate must include frozen drink/offering classification tags: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts:104:7
+    102|       allPublishedDrinkTags.has('frozen'),
+    103|       'launch-candidate must include frozen drink/offering classificat…
+    104|     ).toBe(true)
+       |       ^
+    105|   })
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-003: productionReleaseMapping must cover all FINAL 174 stable keys
+AssertionError: expected 140 to be 174 // Object.is equality
+
+- Expected
++ Received
+
+- 174
++ 140
+
+ ❯ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts:125:35
+    123|     // Expected: production activation map enumerates the locked 174 c…
+    124|     // Observed: mapping still summarizes interim 140 rows and omits g…
+    125|     expect(prodMap.summary.total).toBe(174)
+       |                                   ^
+    126|     expect(missing, `missing keys: ${missing.slice(0, 12).join(', ')}……
+    127|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts > QA3B gauntlet location / Mobile Order contract (ACH-002) > ACH-002: collection coverage must require log bar_id match and exclude virtual bars
+AssertionError: expected 'create or replace function public.ach…' to match /d\.bar_id\s*=\s*bo\.bar_id/
+
+- Expected:
+/d\.bar_id\s*=\s*bo\.bar_id/
+
++ Received:
+"create or replace function public.achievement_log_counts_for_collection(
+  p_offering_id uuid,
+  p_owner uuid,
+  p_as_of_utc timestamptz,
+  p_as_of_id uuid
+) returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.submissions s
+    join public.drink_logs d on d.submission_id = s.id
+    join public.bar_offerings bo on bo.id = d.offering_id
+    join public.catalog_version_offerings cvo
+      on cvo.catalog_version_id = d.catalog_version_id
+     and cvo.offering_id = d.offering_id
+    join public.catalog_version_drink_concepts dc
+      on dc.catalog_version_id = d.catalog_version_id
+     and dc.drink_concept_id = bo.drink_concept_id
+    where s.status = 'accepted'
+      and s.kind = 'drink_log'
+      and d.drink_mode = 'named_catalog'
+      and d.offering_id = p_offering_id
+      and public.achievement_as_of_ok(s.received_at_utc, s.id, p_as_of_utc, p_as_of_id)
+      and (p_owner is null or s.author_player_id = p_owner)
+      and dc.kind not in ('beer', 'wine')
+      and cvo.price_status is distinct from 'verified_over_limit'
+      and not exists (
+        select 1
+        from public.admin_manual_offerings amo
+        where amo.catalog_version_id = d.catalog_version_id
+          and amo.offering_id = d.offering_id
+          and amo.active
+      )
+      and not exists (
+        select 1
+        from public.catalog_version_offering_tags t
+        where t.catalog_version_id = d.catalog_version_id
+          and t.offering_id = d.offering_id
+          and t.tag = 'collection-excluded'
+      )
+  );
+$$;"
+
+ ❯ tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts:34:25
+     32|     // Expected (FINAL §3.4 + Mobile Order exclusion): location-bound …
+     33|     // Observed: offering_id-only match; no bar_id equality; no is_vir…
+     34|     expect(logCountsFn).toMatch(/d\.bar_id\s*=\s*bo\.bar_id/)
+       |                         ^
+     35|     expect(logCountsFn).toMatch(/is_virtual/)
+     36|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped leaderboard contracts > WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract)
+AssertionError: migration 11100 not applied to organizer (:54321) or Agent1 disposable (:55321): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts:210:7
+    208|       false,
+    209|       'migration 11100 not applied to organizer (:54321) or Agent1 dis…
+    210|     ).toBe(true)
+       |       ^
+    211|   })
+    212|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 1 passed (4)
+      Tests  4 failed | 27 passed (31)
+   Start at  14:03:13
+   Duration  19.28s (transform 1.68s, setup 0ms, import 2.89s, tests 587ms, environment 57.39s)
+

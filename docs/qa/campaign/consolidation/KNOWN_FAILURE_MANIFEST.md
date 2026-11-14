@@ -12,6 +12,7 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 |---|---|---|
 | **REP-SUB-001** | **Repaired (R1)** | REL-001/002 contract assertions now pass; E2B-S07 / remint race verified on disposable `:55321`. See `docs/qa/campaign/repairs/R1-submission-integrity/`. |
 | **REP-MEDIA-001** | **Repaired (R2)** | REL-003/004/005/007 (+ RISK-B, E2E-031) green on unit contracts; real Storage abandon proof on `:55321`. See `docs/qa/campaign/repairs/R2-media-recovery/`. |
+| **REP-SIGNED-001** | **Repaired (R3)** | REL-008 / WRP-002 / E2B-L03 class green after cherry-pick of `2a617bc` onto `visual/drinkit-home-v1`; unit lifecycle + real 60s expiry on `:55321`. See `docs/qa/campaign/repairs/R3-signed-urls/` and `R1-R5-integration/`. |
 | **REP-ADM-ERR-001** | **Repaired (R4)** | ADM-001…004 classification green; see `docs/qa/campaign/repairs/R4-admin-catalog/`. |
 | **REP-ADM-LOCK-001** | **Repaired (R4)** | ADM-005 clock catch + ADM-007 admin empty-games route exemption. |
 | **REP-ADM-SESS-001** | **Repaired (R4)** | ADM-006 signOut clears admin pending keys. |
@@ -28,7 +29,7 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 | `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
 | `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
 | `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 | Expected red |
-| `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 | Expected red |
+| `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 | **Repaired (R3)** — must stay green |
 
 Campaign baseline: **9 failed / 60 passed / 69 total** (`agent-2-reliability/vitest-qa2-results.json`).  
 Post-R1: REL-001/002 green; remaining QA-2 reds are non-R1 groups.
@@ -51,25 +52,27 @@ Post-R4: **227 passed / 227 total** (`npx vitest run tests/unit/qa3a-admin-catal
 
 ### QA-3B achievements/Wrapped → repair groups
 
-| Test file | Assertion theme | Defect IDs | REP-* |
-|---|---|---|---|
-| `achievementDefinitionAudit.spec.ts` | Frozen tags on launch catalog | ACH-001 | REP-ACH-FROZEN-001 |
-| `achievementDefinitionAudit.spec.ts` | productionReleaseMapping covers FINAL 174 | ACH-003 | REP-ACH-MAP-001 |
-| `gauntletLocationContract.spec.ts` | Gauntlet requires bar_id / excludes virtual | ACH-002 | REP-ACH-GAUNT-001 (unverified live) |
-| `awardingAndCrossSystem.contract.spec.ts` | WrappedPhotoCard signed URL refresh | WRP-002 | REP-SIGNED-001 |
-| `wrappedMetricsAndCarousel.spec.ts` | Achievements LB fields (11100 contract) | WRP-001 | REP-WRP-RANK-001 (config/migration) |
+| Test file | Assertion theme | Defect IDs | REP-* | Status |
+|---|---|---|---|---|
+| `achievementDefinitionAudit.spec.ts` | Frozen tags on launch catalog | ACH-001 | REP-ACH-FROZEN-001 | Expected red (R7) |
+| `achievementDefinitionAudit.spec.ts` | productionReleaseMapping covers FINAL 174 | ACH-003 | REP-ACH-MAP-001 | Expected red (R7) |
+| `gauntletLocationContract.spec.ts` | Gauntlet requires bar_id / excludes virtual | ACH-002 | REP-ACH-GAUNT-001 | Expected red (R7) |
+| `awardingAndCrossSystem.contract.spec.ts` | WrappedPhotoCard signed URL refresh | WRP-002 | REP-SIGNED-001 | **Repaired (R3)** |
+| `wrappedMetricsAndCarousel.spec.ts` | Achievements LB fields (11100 contract) | WRP-001 | REP-WRP-RANK-001 | Expected red (R6) |
 
-Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wrapped/vitest-qa3b-results.json`).
+Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wrapped/vitest-qa3b-results.json`).  
+Post-R3 integration: WRP-002 green; ACH-001/002/003 + WRP-001 remain expected red.
 
 ## Expected red — browser E2E / stress
 
 | Suite | Key cases | REP-* | Status |
 |---|---|---|---|
-| QA-2A `scripts/qa2a/` | E2E-030 | REP-SIGNED-001 | Expected red (R3) |
+| QA-2A `scripts/qa2a/` | E2E-030 | REP-SIGNED-001 | **Repaired (R3)** — covered by lifecycle + `:55321` 60s expiry; full browser suite optional |
 | QA-2A / focused repro | E2E-031 / E2E-ME-009 orphan | REP-MEDIA-001 | **Repaired (R2)** — status+Storage proof (`repro-r2-media-abandon.mjs`); row-count oracle remains misleading |
 | QA-2A `scripts/qa2a/` | E2E-032 | REP-SUB-001 | **Covered by R1** (REL-001 guard + scavenger latch) |
 | QA-2B `scripts/qa2b/` | E2B-S07 / E2B-001 | REP-SUB-001 | **Repaired (R1)** — focused repro + remint race on `:55321` |
-| QA-2B `scripts/qa2b/` | E2B-L03, E2B-002 | REP-SIGNED-001, REP-CLAIM-001 | Expected red |
+| QA-2B `scripts/qa2b/` | E2B-L03 | REP-SIGNED-001 | **Repaired (R3)** — simulated `@error` + real expiry proofs |
+| QA-2B `scripts/qa2b/` | E2B-002 | REP-CLAIM-001 | Expected red (separate claim-race defect) |
 
 Requires disposable `:55321` + Playwright for full suite re-runs.
 

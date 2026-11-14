@@ -1,0 +1,9 @@
+PASS seed-gallery-photo code=ACCEPTED
+PASS fresh-short-ttl-url expiresIn=60 http=200
+Waiting 65s for real signed URL expiry...
+PASS real-url-expired http=400
+PASS re-sign-after-expiry http=200
+PASS missing-photo-denied code=PHOTO_NOT_FOUND
+PASS cross-game-denied code=GAME_MEMBERSHIP_REQUIRED
+PASS bounded-retry-unit-coverage signedPhotoLifecycle.r3.spec.ts covers coalesce/transient/permanent/online/unmount
+Wrote docs/qa/campaign/repairs/R1-R5-integration/evidence/r3-real-expiry-55321.json failed= 0

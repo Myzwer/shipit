@@ -1,0 +1,5 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+> star-princess@0.1.0 typecheck
+> vue-tsc -b --pretty false
+

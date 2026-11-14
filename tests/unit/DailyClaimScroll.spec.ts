@@ -36,6 +36,7 @@ vi.mock('@/lib/bounty/fetchHomeBounties', () => ({
 
 vi.mock('@/lib/media/stagePhoto', () => ({
   setPhotoFraming: vi.fn(async (_id: string, framing: unknown) => framing),
+  abandonPhotoUpload: vi.fn(async () => undefined),
 }))
 
 vi.mock('vue-router', async () => {

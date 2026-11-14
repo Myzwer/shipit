@@ -1,0 +1,59 @@
+{
+  "at": "2026-11-14T19:07:01.022Z",
+  "backend": "http://127.0.0.1:55321",
+  "notes": [
+    "Real expiry uses p_expires_seconds=60 (RPC floor). NOT a one-hour soak.",
+    "Private signed URLs never written into this report.",
+    "Organizer :54321 and Agent2 :56321 not mutated."
+  ],
+  "steps": [
+    {
+      "id": "seed-gallery-photo",
+      "ok": true,
+      "summary": "code=ACCEPTED",
+      "at": "2026-11-14T19:07:03.263Z"
+    },
+    {
+      "id": "fresh-short-ttl-url",
+      "ok": true,
+      "summary": "expiresIn=60 http=200",
+      "kind": "real-expiry-setup",
+      "at": "2026-11-14T19:07:03.433Z"
+    },
+    {
+      "id": "real-url-expired",
+      "ok": true,
+      "summary": "http=400",
+      "kind": "real-expiry",
+      "at": "2026-11-14T19:08:08.713Z"
+    },
+    {
+      "id": "re-sign-after-expiry",
+      "ok": true,
+      "summary": "http=200",
+      "kind": "real-expiry-recovery",
+      "at": "2026-11-14T19:08:08.883Z"
+    },
+    {
+      "id": "missing-photo-denied",
+      "ok": true,
+      "summary": "code=PHOTO_NOT_FOUND",
+      "kind": "permanent-denial",
+      "at": "2026-11-14T19:08:08.938Z"
+    },
+    {
+      "id": "cross-game-denied",
+      "ok": true,
+      "summary": "code=GAME_MEMBERSHIP_REQUIRED",
+      "kind": "permission-denied",
+      "at": "2026-11-14T19:08:09.201Z"
+    },
+    {
+      "id": "bounded-retry-unit-coverage",
+      "ok": true,
+      "summary": "signedPhotoLifecycle.r3.spec.ts covers coalesce/transient/permanent/online/unmount",
+      "kind": "unit-pointer",
+      "at": "2026-11-14T19:08:09.201Z"
+    }
+  ]
+}
