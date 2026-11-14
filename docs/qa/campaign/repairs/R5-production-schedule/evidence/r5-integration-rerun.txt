@@ -1,0 +1,17 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+stderr | tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable)
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T18:54:45.550Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable)
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T18:54:45.660Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+····
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  13:54:43
+   Duration  5.17s (transform 149ms, setup 0ms, import 225ms, tests 3.09s, environment 1.36s)
+

@@ -1,0 +1,23 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+stderr | tests/integration/submissionIntegrity.r1.test.ts > R1 submission integrity (disposable) > 6) legitimate separate ordinary logs both accept with different keys
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T18:54:37.937Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+·stderr | tests/integration/submissionIntegrity.r1.test.ts > R1 submission integrity (disposable) > 8) accepted claim/drink replay is idempotent (same key → one row)
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T18:54:40.173Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+·stderr | tests/integration/submissionIntegrity.r1.test.ts > R1 submission integrity (disposable) > 5) concurrent same-key submits from two clients yield one accepted row
+GoTrueClient@sb-127-auth-token:3 (2.109.0) 2026-11-14T18:54:40.946Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/submissionIntegrity.r1.test.ts > R1 submission integrity (disposable) > 5) concurrent same-key submits from two clients yield one accepted row
+GoTrueClient@sb-127-auth-token:4 (2.109.0) 2026-11-14T18:54:41.042Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+·
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  13:54:35
+   Duration  6.41s (transform 48ms, setup 0ms, import 113ms, tests 3.94s, environment 2.01s)
+

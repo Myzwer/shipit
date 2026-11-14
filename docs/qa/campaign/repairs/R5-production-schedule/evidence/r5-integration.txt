@@ -1,0 +1,20 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+stderr | tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable)
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T18:51:06.112Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable)
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T18:51:06.278Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ✓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > repro: no production Admin schedule RPC before repair would mean only dev_* exists — after repair Admin RPC works 266ms
+ ✓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > initializes full seven-day schedule via Admin path without dev_generate_bounty_schedule 1062ms
+ ✓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > rejects shortage, missing catalog, finalized, and non-admin callers 1010ms
+ ✓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > paused lifecycle still allows initialization; does not resume/unpause 672ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  13:51:03
+   Duration  5.69s (transform 120ms, setup 0ms, import 196ms, tests 3.53s, environment 1.65s)
+

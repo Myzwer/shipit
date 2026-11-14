@@ -1,0 +1,44 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship It
+
+ ✓ tests/unit/qa3a-admin-catalog/scheduleInit.contract.spec.ts > R5 production bounty schedule init (static) > migration defines Admin init + status + reconcile RPCs 4ms
+ ✓ tests/unit/qa3a-admin-catalog/scheduleInit.contract.spec.ts > R5 production bounty schedule init (static) > Admin lib + pending + section exist and wire Drink It Admin 5ms
+ ✓ tests/unit/qa3a-admin-catalog/scheduleInit.contract.spec.ts > R5 production bounty schedule init (static) > does not bundle service_role credentials into Admin schedule client 1ms
+ ✓ tests/unit/qa3a-admin-catalog/adminInventory.contract.spec.ts > admin inventory (static) > all Admin Vue section files exist under src/features/admin/ 4ms
+ ✓ tests/unit/qa3a-admin-catalog/adminInventory.contract.spec.ts > admin inventory (static) > AdminView imports the five top-level sections 5ms
+ ✓ tests/unit/qa3a-admin-catalog/adminInventory.contract.spec.ts > admin inventory (static) > critical admin RPC string literals exist across admin lib files 28ms
+ ✓ tests/unit/qa3a-admin-catalog/adminInventory.contract.spec.ts > admin inventory (static) > admin-roster Edge Function exists and is invoked by adminRoster.ts 1ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — catalog content (verified in-repo) > launch-candidate catalog exists and is client-ready to stage 29ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — catalog content (verified in-repo) > launch candidate excludes Mobile Order virtual bar from catalog bars 4ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — catalog content (verified in-repo) > organizer-authorized exceptions registry is present for retention gates 0ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — Admin surface gaps (inspected, not filled) > no Admin UI writes cruise_config day1 / base offset (ops must seed out-of-band) 15ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — Admin surface gaps (inspected, not filled) > Roster can assign teams but has no team create/rename RPC in Admin libs 2ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — Admin surface gaps (inspected, not filled) > Daily announcement Admin edits free-text only — no meeting time/location editors 1ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — Admin surface gaps (inspected, not filled) > dev_generate_bounty_schedule remains development-only; production Admin init exists 3ms
+ ✓ tests/unit/qa3a-admin-catalog/launchConfig.contract.spec.ts > Launch configuration — ambiguity register still open > campaign AMBIGUITIES_AND_GAPS still lists production voyage dates as organizer input 1ms
+ ↓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > repro: no production Admin schedule RPC before repair would mean only dev_* exists — after repair Admin RPC works
+ ↓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > initializes full seven-day schedule via Admin path without dev_generate_bounty_schedule
+ ↓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > rejects shortage, missing catalog, finalized, and non-admin callers
+ ↓ tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable) > paused lifecycle still allows initialization; does not resume/unpause
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/bountySchedule.r5.init.test.ts > R5 production schedule initialization (disposable)
+Error: Missing qa2a admin/drink identities
+ ❯ tests/integration/bountySchedule.r5.init.test.ts:96:13
+     94|     )
+     95|     if (!adminRow?.email || !drinkRow?.email) {
+     96|       throw new Error('Missing qa2a admin/drink identities')
+       |             ^
+     97|     }
+     98|     adminEmail = adminRow.email
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  15 passed | 4 skipped (19)
+   Start at  13:50:45
+   Duration  3.20s (transform 527ms, setup 0ms, import 898ms, tests 649ms, environment 8.23s)
+
