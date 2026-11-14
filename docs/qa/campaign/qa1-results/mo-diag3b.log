@@ -1,0 +1,28 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/qa1.mobileOrder.diag.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:42:22.708Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/qa1.mobileOrder.diag.test.ts
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T05:42:24.688Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stdout | tests/integration/qa1.mobileOrder.diag.test.ts > QA-1 Mobile Order submit diagnostics > compares lido offering vs MO-list offering for solo log
+QA1_MO_DIAG {"lidoOffering":"04568368-6b93-4001-9760-7f7811d23e07","moOffering":"b754a5a0-3a4b-4905-acee-7b60339ab31f","lido":{"ok":false,"code":"OFFERING_NOT_AT_BAR","message":"OFFERING_NOT_AT_BAR"},"moList":{"ok":true,"code":"ACCEPTED","photo_id":null,"ship_day":1,"submission_id":"05755fe8-5694-4411-8314-9d57dbc5358e","awarded_points":0,"received_at_utc":"2099-01-03T16:00:00+00:00","gallery_event_id":"09a7debe-aca8-4451-b34d-2b834157e491","idempotent_replay":false,"claimed_categories":[],"new_achievement_ids":[],"ingredient_correction_id":null},"lidoErr":null,"moErr":null}
+
+ ✓ tests/integration/qa1.mobileOrder.diag.test.ts > QA-1 Mobile Order submit diagnostics > compares lido offering vs MO-list offering for solo log 588ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  00:42:18
+   Duration  6.57s (transform 122ms, setup 0ms, import 209ms, tests 5.39s, environment 787ms)
+

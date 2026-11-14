@@ -1,0 +1,86 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 claim lifecycle > Admin Void reverses Bar claim and allows a new same-day claim
+GoTrueClient@sb-127-auth-token:3 (2.109.0) 2026-11-14T05:56:12.106Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 preview contract > preview matches award; non-crew ignored; already-claimed accurate; no mutation
+GoTrueClient@sb-127-auth-token:4 (2.109.0) 2026-11-14T05:56:23.241Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/drinkit.barBountyCrew.phaseB2.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:55:40.207Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/drinkit.barBountyCrew.phaseB2.test.ts
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T05:55:40.274Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/drinkit.barBountyCrew.phaseB2.test.ts (8 tests | 4 failed) 50741ms
+     × featured bar required; ordinary log ok when ineligible; one claim/day; no upgrade 5868ms
+     × idempotent replay and concurrent claims award once; next day independent 6956ms
+     × Admin Void reverses Bar claim and allows a new same-day claim 6051ms
+     × preview matches award; non-crew ignored; already-claimed accurate; no mutation 5823ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 claim lifecycle > featured bar required; ordinary log ok when ineligible; one claim/day; no upgrade
+Unknown Error: update or delete on table "players" violates foreign key constraint "submissions_author_player_id_fkey" on table "submissions"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 claim lifecycle > idempotent replay and concurrent claims award once; next day independent
+Unknown Error: update or delete on table "players" violates foreign key constraint "submissions_author_player_id_fkey" on table "submissions"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 claim lifecycle > Admin Void reverses Bar claim and allows a new same-day claim
+Unknown Error: update or delete on table "players" violates foreign key constraint "submissions_author_player_id_fkey" on table "submissions"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/integration/drinkit.barBountyCrew.phaseB2.test.ts > Phase B2 preview contract > preview matches award; non-crew ignored; already-claimed accurate; no mutation
+Unknown Error: update or delete on table "players" violates foreign key constraint "submissions_author_player_id_fkey" on table "submissions"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 4 passed (8)
+   Start at  00:55:33
+   Duration  53.21s (transform 211ms, setup 0ms, import 356ms, tests 50.74s, environment 1.81s)
+

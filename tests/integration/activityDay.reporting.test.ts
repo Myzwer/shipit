@@ -12,13 +12,13 @@ import { DEV_BASE_OFFSET_MIN, DEV_DAY1, slotUtc } from '../helpers/bountyFixture
 import {
   drinkPayload,
   exposeCurrentSlots,
-  lookupOffering,
   playerId,
   submitAt,
 } from '../helpers/drinkitSubmit'
 import {
   createLocalClient,
   loadLocalFixtures,
+  signInAs,
   type LocalFixtures,
 } from '../helpers/localSupabase'
 import { ensureSyntheticRoleIdentities } from '../helpers/syntheticRoles'
@@ -214,11 +214,13 @@ describe('Activity day helpers (disposable + 11000)', () => {
       .select('id')
       .eq('is_active', true)
       .single()
-    let offeringId: string
-    try {
-      offeringId = (await lookupOffering(service, 'lido-bar', 'tropical-alibi')).offering_id
-    } catch {
-      skipReason = 'no tropical-alibi offering'
+    // Mobile Order submits require an offering from list_drinkit_mobile_order_drinks
+    // (physical-bar offerings reject with OFFERING_NOT_AT_BAR under mobile-order).
+    const drinkClient = await signInAs(fixtures, 'drink_only')
+    const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
+    const offeringId = (listed.data as Array<{ offering_id: string }>)[0]?.offering_id
+    if (!offeringId) {
+      skipReason = 'no mobile-order offering'
       expect(skipReason).toBeTruthy()
       return
     }

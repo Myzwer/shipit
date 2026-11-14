@@ -22,9 +22,10 @@ export const DISPOSABLE_ALT_API_PORT = '55321'
  * Requires a local API URL and an active development-only cruise.
  *
  * Safety (QA campaign):
- * - Always refuse finalized / lifecycle=final fixtures (protects Plan C Wrapped).
- * - Primary stack port 54321 requires explicit QA_ALLOW_ORGANIZER_MUTATION=1.
- *   Prefer the isolated 55321 disposable stack for mutating suites.
+ * - Primary stack :54321 is blocked unless QA_ALLOW_ORGANIZER_MUTATION=1.
+ * - On :54321, also refuse finalized/final lifecycle (protects Plan C Wrapped).
+ * - Alternate disposable :55321 may be reseeding through finale; final lifecycle
+ *   there is NOT treated as the organizer fixture.
  */
 export async function assertDisposableDevEnvironment(
   fixtures: Pick<LocalFixtures, 'available' | 'summary' | 'serviceRoleKey'>,
@@ -40,6 +41,7 @@ export async function assertDisposableDevEnvironment(
   }
 
   const apiPort = apiPortFromUrl(url)
+  const isPrimaryOrganizerPort = apiPort === '54321' || apiPort === ''
 
   let statusUrl = ''
   try {
@@ -67,21 +69,19 @@ export async function assertDisposableDevEnvironment(
   }
 
   const clock = await readLifecycleSnapshot(service)
-  if (clock.finalized || clock.lifecycle === 'final') {
-    throw new Error(
-      'PROTECTED_QA_FIXTURE: refusing mutating tests against finalized/final lifecycle ' +
-        `(lifecycle=${clock.lifecycle}, finalized=${clock.finalized}). ` +
-        'Use the disposable 55321 stack; do not mutate the organizer Wrapped fixture.',
-    )
-  }
-
-  if (apiPort === '54321' || apiPort === '') {
+  if (isPrimaryOrganizerPort) {
     const allowOrganizer = process.env.QA_ALLOW_ORGANIZER_MUTATION === '1'
     if (!allowOrganizer) {
       throw new Error(
         'DISPOSABLE_DEV_REQUIRED: primary stack :54321 blocked for mutating tests. ' +
           `Point fixtures at :${DISPOSABLE_ALT_API_PORT} (Ship-It-disposable-mo) ` +
           'or set QA_ALLOW_ORGANIZER_MUTATION=1 only with an explicit restore plan.',
+      )
+    }
+    if (clock.finalized || clock.lifecycle === 'final') {
+      throw new Error(
+        'PROTECTED_QA_FIXTURE: refusing mutating tests against organizer finalized/final ' +
+          `lifecycle (lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).`,
       )
     }
   }

@@ -1,0 +1,105 @@
+==== BATCH A: CLOCK ====
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+> star-princess@0.1.0 test:clock
+> vitest run --fileParallelism=false tests/integration/clock.phase2a.test.ts tests/integration/clock.phase2a1.security.test.ts tests/integration/clock.phase2b.stability.test.ts tests/integration/clock.phase2b1.atomic.test.ts
+
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/clock.phase2b.stability.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:24:54.445Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/clock.phase2b.stability.test.ts (6 tests | 6 skipped) 6195ms
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/clock.phase2a1.security.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:25:02.277Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/clock.phase2a1.security.test.ts (12 tests | 12 skipped) 6068ms
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/clock.phase2a.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:25:09.479Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/clock.phase2a.test.ts (15 tests | 15 skipped) 5253ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/clock.phase2a.test.ts [ tests/integration/clock.phase2a.test.ts ]
+Error: PROTECTED_QA_FIXTURE: refusing mutating tests against finalized/final lifecycle (lifecycle=final, finalized=true). Use the disposable 55321 stack; do not mutate the organizer Wrapped fixture.
+ ❯ assertDisposableDevEnvironment tests/helpers/devEnvironmentGuard.ts:71:11
+     69|   const clock = await readLifecycleSnapshot(service)
+     70|   if (clock.finalized || clock.lifecycle === 'final') {
+     71|     throw new Error(
+       |           ^
+     72|       'PROTECTED_QA_FIXTURE: refusing mutating tests against finalized…
+     73|         `(lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).…
+ ❯ loadClockFixtures tests/helpers/clockFixtures.ts:28:3
+ ❯ tests/integration/clock.phase2a.test.ts:42:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/clock.phase2a1.security.test.ts [ tests/integration/clock.phase2a1.security.test.ts ]
+Error: PROTECTED_QA_FIXTURE: refusing mutating tests against finalized/final lifecycle (lifecycle=final, finalized=true). Use the disposable 55321 stack; do not mutate the organizer Wrapped fixture.
+ ❯ assertDisposableDevEnvironment tests/helpers/devEnvironmentGuard.ts:71:11
+     69|   const clock = await readLifecycleSnapshot(service)
+     70|   if (clock.finalized || clock.lifecycle === 'final') {
+     71|     throw new Error(
+       |           ^
+     72|       'PROTECTED_QA_FIXTURE: refusing mutating tests against finalized…
+     73|         `(lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).…
+ ❯ loadClockFixtures tests/helpers/clockFixtures.ts:28:3
+ ❯ tests/integration/clock.phase2a1.security.test.ts:32:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/clock.phase2b.stability.test.ts [ tests/integration/clock.phase2b.stability.test.ts ]
+Error: PROTECTED_QA_FIXTURE: refusing mutating tests against finalized/final lifecycle (lifecycle=final, finalized=true). Use the disposable 55321 stack; do not mutate the organizer Wrapped fixture.
+ ❯ assertDisposableDevEnvironment tests/helpers/devEnvironmentGuard.ts:71:11
+     69|   const clock = await readLifecycleSnapshot(service)
+     70|   if (clock.finalized || clock.lifecycle === 'final') {
+     71|     throw new Error(
+       |           ^
+     72|       'PROTECTED_QA_FIXTURE: refusing mutating tests against finalized…
+     73|         `(lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).…
+ ❯ loadClockFixtures tests/helpers/clockFixtures.ts:28:3
+ ❯ tests/integration/clock.phase2b.stability.test.ts:31:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed | 1 passed (4)
+      Tests  13 passed | 33 skipped (46)
+   Start at  00:24:39
+   Duration  32.33s (transform 199ms, setup 0ms, import 739ms, tests 25.35s, environment 5.23s)
+
+CLOCK_EXIT=

@@ -1,0 +1,88 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/scoring.phase3a1.closeout.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:56:43.664Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/scoring.phase3a1.closeout.test.ts
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T05:56:46.239Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/scoring.phase3a1.closeout.test.ts (12 tests | 1 failed) 25605ms
+     × ineligible Bar companions still count for Cocktail presence 1138ms
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/scoring.phase3a1.closeout.test.ts > Phase 3A.1 / B2 Bar crew companions > ineligible Bar companions still count for Cocktail presence
+AssertionError: expected 'not_featured_bar' to match /solo_or_no_crewmate_selected|bar_elig…/
+
+- Expected:
+/solo_or_no_crewmate_selected|bar_eligible_companion_required|crew_unavailable|not_in_todays_roster/
+
++ Received:
+"not_featured_bar"
+
+ ❯ tests/integration/scoring.phase3a1.closeout.test.ts:389:53
+    387|     expect(prev.data.preview.categories.bar.status).toBe('unavailable')
+    388|     // B2: empty bar-eligible companions → no assigned crewmates selec…
+    389|     expect(prev.data.preview.categories.bar.reason).toMatch(
+       |                                                     ^
+    390|       /solo_or_no_crewmate_selected|bar_eligible_companion_required|cr…
+    391|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 36 passed (37)
+   Start at  00:56:37
+   Duration  83.83s (transform 303ms, setup 0ms, import 896ms, tests 74.88s, environment 6.81s)
+

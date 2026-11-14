@@ -1,0 +1,48 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo
+
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+Stopped services: [supabase_imgproxy_star-princess-disposable-mo supabase_analytics_star-princess-disposable-mo supabase_vector_star-princess-disposable-mo supabase_pooler_star-princess-disposable-mo]
+A new version of Supabase CLI is available: v3.1.0 (currently installed v3.0.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+stderr | tests/integration/drinkit.mobileOrder.test.ts
+GoTrueClient@sb-127-auth-token:1 (2.109.0) 2026-11-14T05:41:42.519Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+stderr | tests/integration/drinkit.mobileOrder.test.ts
+GoTrueClient@sb-127-auth-token:2 (2.109.0) 2026-11-14T05:41:44.190Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+
+ ❯ tests/integration/drinkit.mobileOrder.test.ts (6 tests | 1 failed) 5530ms
+     × allows solo ordinary Mobile Order log with Gallery Mobile Order name 44ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/drinkit.mobileOrder.test.ts > Mobile Order (disposable DB + migration applied) > allows solo ordinary Mobile Order log with Gallery Mobile Order name
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/drinkit.mobileOrder.test.ts:109:23
+    107|     expect(error).toBeNull()
+    108|     const result = data as { ok?: boolean; submission_id?: string }
+    109|     expect(result.ok).toBe(true)
+       |                       ^
+    110|     const { data: log } = await service
+    111|       .from('drink_logs')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  00:41:37
+   Duration  7.07s (transform 126ms, setup 0ms, import 225ms, tests 5.53s, environment 1.13s)
+

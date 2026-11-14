@@ -1,57 +1,50 @@
-# Recommended next automated testing batch
+# Recommended next testing batch (post QA-1)
 
-Priority after Assignment 1. All mutating work → **disposable `:55321` worktree** only.
+QA-1 game-engine batch is complete on disposable `:55321`. Organizer Wrapped on `:54321` remains untouched (`lifecycle=final`).
 
-## Batch A — Lifecycle + grace + cutoff (highest risk)
+## Immediate repair candidates (after diagnostic freeze)
 
-**Goal:** Prove the voyage clock and private grace cannot strand players mid-cruise.
+1. **DEF-QA1-001** — decide whether Bar preview should surface companion reason when cocktail bar ≠ featured bar, or update the contract test to accept `not_featured_bar` as earlier short-circuit (P3).
+2. Keep harness fixes already landed (`disposePlayers` submissions delete; MO offering from MO list).
 
-| Suite | Command (from disposable worktree) | Est. coverage |
-|---|---|---|
-| Clock core | `LOCAL_TEST_PASSWORD=… npm run test:clock` | Open, pause, finale, security |
-| Pre-cruise open | `npx vitest run --fileParallelism=false tests/integration/clock.precruise_opening.test.ts` | Shared Day1 unlock |
-| Bounty grace | `npx vitest run --fileParallelism=false tests/integration/bounty.phase2da.schedule.test.ts` | QA-GR-002..004 |
-| Scoring grace claims | slice of `scoring.phase3a.submit.test.ts` grace cases | Claim-time boundaries |
+Do **not** apply `11100` to organizer until Wrapped display batch plans it.
 
-**Preflight:** `npx supabase status` shows `55321`; `get_ship_clock_state` not final; organizer `qa:inspect` still wrapped.
+## Batch QA-2A — Authenticated browser E2E (highest remaining voyage risk)
 
-## Batch B — Drink It! claim matrix
+Prove what players **see** after refresh, reconnect, wrong device clock, and stale bounty cards:
 
-Crew B1–B4, Daily attest (PC1), one-per-category, companion rules, idempotency:
+- Pre-cruise countdown vs claim block
+- Active Home bounty card vs grace private claim path
+- Tab left open across cocktail/ingredient rotations
+- Post-finale latch + results/Wrapped entry
+- Client TZ ≠ ship TZ
 
-```bash
-npm run test:crew
-npm run test:c1
-npx vitest run --fileParallelism=false tests/integration/drinkit.pc1.dailyAttest.test.ts
-npx vitest run --fileParallelism=false tests/integration/scoring.phase3a.submit.test.ts
-```
+Mutating E2E → disposable only.
 
-## Batch C — Ship It! ranking + void
+## Batch QA-2B — Media / Gallery / photo crop
 
-```bash
-npx vitest run --fileParallelism=false tests/integration/shipit.pc1.scoreReachedRanking.test.ts
-npx vitest run --fileParallelism=false tests/integration/admin.phase5b.void.test.ts
-```
+| Focus | Notes |
+|---|---|
+| QA-ME-001 crop pinch/drag | Director open item |
+| Signed gallery URLs, reactions | |
+| Ship It photo gate UX copy | QA-SI-004 |
 
-## Batch D — Mobile Order + activity day (already on disposable)
+## Batch QA-2C — Achievements engine
 
-```bash
-npx vitest run --fileParallelism=false \
-  tests/integration/drinkit.mobileOrder.test.ts \
-  tests/integration/activityDay.reporting.test.ts
-```
+QA-ACH-001..003, Good Spirits price gate, secret reveal — disposable catalog fixtures; do not mutate organizer Wrapped awards.
 
-Do **not** apply 109/110 to organizer until Batch D green + snapshot plan.
+## Batch QA-3 — Wrapped provenance
 
-## Batch E — Wrapped 80-metric provenance (QA-3)
+Read-only organizer Plan C **or** disposable wrapped seed. Include optional `11100` on disposable only for LB achievements metadata.
 
-Prefer read-only probes against organizer full fixture **or** restore disposable to wrapped seed. Do not re-activate organizer scenarios without authority.
-
-## Sync note
-
-Disposable worktree can lag main. Before large batches, copy updated helpers/migrations from main:
+## Preflight (every mutating session)
 
 ```bash
-cp tests/helpers/devEnvironmentGuard.ts tests/helpers/clockFixtures.ts \
-  "/Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo/tests/helpers/"
+# Organizer must stay final
+docker exec supabase_db_star-princess-local psql -U postgres -t -A \
+  -c "select public.get_ship_clock_state()::text;" | rg 'lifecycle.: .final'
+
+# Disposable identity
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:55321/rest/v1/
+# Never: QA_ALLOW_ORGANIZER_MUTATION=1
 ```

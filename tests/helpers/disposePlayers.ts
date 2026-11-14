@@ -1,7 +1,7 @@
 /**
  * Shared teardown for disposable synthetic players inserted by integration tests.
- * Deletes FK blockers (awards, crew members) before players so silent orphan
- * accumulation cannot recur when a plain players.delete() would fail.
+ * Deletes FK blockers (awards, crew members, authored submissions) before players
+ * so silent orphan accumulation cannot recur when a plain players.delete() would fail.
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
 
@@ -15,6 +15,10 @@ export async function disposePlayers(service: SupabaseClient, ids: string[]) {
     if (awards.error) throw awards.error
     const crews = await service.from('bar_bounty_crew_members').delete().in('player_id', batch)
     if (crews.error) throw crews.error
+    // Fillers who author drink/scavenger submissions block players.delete via
+    // submissions_author_player_id_fkey — remove those rows first (cascades cover logs).
+    const authored = await service.from('submissions').delete().in('author_player_id', batch)
+    if (authored.error) throw authored.error
     // Cascades cover game_memberships / team_memberships / read_cursors, but explicit
     // deletes keep teardown resilient if a future FK loses ON DELETE CASCADE.
     const memberships = await service.from('game_memberships').delete().in('player_id', batch)

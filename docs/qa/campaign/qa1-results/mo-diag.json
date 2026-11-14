@@ -1,0 +1,20 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+npm warn exec The following package was not found and will be installed: vite-node@6.0.0
+file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/client.mjs:235
+				const error = new Error(`Cannot find ${isBareImport(id) ? "package" : "module"} '${id}'${importer ? ` imported from '${importer}'` : ""}`, { cause });
+				              ^
+
+Error: Cannot find module '/@fs//Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo/scripts/qa1-mo-diag.mjs'
+    at ViteNodeRunner._fetchModule (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/client.mjs:235:19)
+    at ViteNodeRunner.directRequest (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/client.mjs:255:44)
+    at ViteNodeRunner.cachedRequest (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/client.mjs:181:11)
+    at ViteNodeRunner.executeFile (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/client.mjs:156:10)
+    at CAC.run (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite-node/dist/cli.mjs:92:28) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  [cause]: Error: Failed to load url /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo/scripts/qa1-mo-diag.mjs (resolved id: /Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo/scripts/qa1-mo-diag.mjs). Does the file exist?
+      at loadAndTransform (file:///private/var/folders/kz/7m05wt8x4x1cx_1gxkl3x0gw0000gn/T/cursor-sandbox-cache/4c4c7c67b5d69cec19ab91455e643b15/npm/_npx/f2342a4b64a2bc92/node_modules/vite/dist/node/chunks/node.js:20101:31) {
+    code: 'ERR_LOAD_URL'
+  }
+}
+
+Node.js v20.19.4

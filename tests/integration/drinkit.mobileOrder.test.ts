@@ -10,7 +10,6 @@ import { DEV_BASE_OFFSET_MIN, DEV_DAY1, noonDay1Utc } from '../helpers/bountyFix
 import {
   drinkPayload,
   exposeCurrentSlots,
-  lookupOffering,
   playerId,
   submitAt,
 } from '../helpers/drinkitSubmit'
@@ -87,14 +86,11 @@ describe('Mobile Order (disposable DB + migration applied)', () => {
       expect(skipReason).toBeTruthy()
       return
     }
-    let offeringId: string
-    try {
-      offeringId = (await lookupOffering(service, 'lido-bar', 'tropical-alibi')).offering_id
-    } catch {
-      const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
-      const row = (listed.data as Array<{ offering_id: string }>)[0]
-      offeringId = row.offering_id
-    }
+    // Must use an offering from the Mobile Order menu — a physical-bar offering
+    // under bar_key mobile-order correctly rejects with OFFERING_NOT_AT_BAR.
+    const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
+    const offeringId = (listed.data as Array<{ offering_id: string }>)[0]?.offering_id
+    expect(offeringId).toBeTruthy()
     const at = noonDay1Utc()
     await exposeCurrentSlots(service, at)
     const author = playerId(fixtures, 'drink_only')
@@ -105,7 +101,7 @@ describe('Mobile Order (disposable DB + migration applied)', () => {
     })
     const { data, error } = await submitAt(service, author, payload, at)
     expect(error).toBeNull()
-    const result = data as { ok?: boolean; submission_id?: string }
+    const result = data as { ok?: boolean; submission_id?: string; code?: string }
     expect(result.ok).toBe(true)
     const { data: log } = await service
       .from('drink_logs')
