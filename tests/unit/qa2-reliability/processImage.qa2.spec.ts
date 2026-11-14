@@ -222,7 +222,7 @@ describe('QA2 processImage formats and boundaries', () => {
   })
 
   /**
-   * Suspected risk: empty MIME bypasses acceptedInputMime gate.
+   * REL-006 / REP-MIME-001: empty MIME bypasses acceptedInputMime gate.
    * Expected product behavior: still refuse GIF even when type is blank.
    */
   it('rejects GIF with empty MIME type (mobile mislabel risk)', async () => {
@@ -230,5 +230,35 @@ describe('QA2 processImage formats and boundaries', () => {
     stubCanvas()
     const file = new File([new Uint8Array([1, 2, 3])], 'party.gif', { type: '' })
     await expect(processImageFile(file)).rejects.toMatchObject({ code: 'UNSUPPORTED_FORMAT' })
+  })
+
+  it('rejects GIF with generic application/octet-stream MIME', async () => {
+    stubDecodeOk(100, 100)
+    stubCanvas()
+    const file = new File([new Uint8Array([1, 2, 3])], 'party.gif', {
+      type: 'application/octet-stream',
+    })
+    await expect(processImageFile(file)).rejects.toMatchObject({ code: 'UNSUPPORTED_FORMAT' })
+  })
+
+  it('rejects BMP/PDF with empty MIME via extension denylist', async () => {
+    await expect(
+      processImageFile(new File([new Uint8Array([1])], 'x.bmp', { type: '' })),
+    ).rejects.toMatchObject({ code: 'UNSUPPORTED_FORMAT' })
+    await expect(
+      processImageFile(new File([new Uint8Array([1])], 'x.pdf', { type: '' })),
+    ).rejects.toMatchObject({ code: 'UNSUPPORTED_FORMAT' })
+  })
+
+  it('allows missing MIME when extension is png/webp (same mobile quirk as jpeg)', async () => {
+    stubDecodeOk(80, 80)
+    stubCanvas()
+    for (const name of ['shot.png', 'tile.webp']) {
+      const result = await processImageFile(
+        new File([new Uint8Array([1, 2, 3])], name, { type: '' }),
+      )
+      expect(result.mimeType).toBe('image/jpeg')
+      URL.revokeObjectURL(result.previewUrl)
+    }
   })
 })

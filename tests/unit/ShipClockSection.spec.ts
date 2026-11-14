@@ -222,6 +222,37 @@ describe('ShipClockSection unknown safety', () => {
     expect(readPendingClockCorrection()?.intent.kind).toBe('set_time')
   })
 
+  it('requires an extra finale acknowledgement before applying past-finale time (INT-CLK-001)', async () => {
+    fetchAdminClockDiagnostics.mockResolvedValue({
+      ...baseDiagnostics,
+      state: {
+        ...baseDiagnostics.state,
+        lifecycle: 'active',
+        offset_minutes: -240,
+        ship_local: '2026-11-14T12:00:00',
+        finale_at_utc: '2026-11-14T22:00:00.000Z',
+        finalized: false,
+      },
+    })
+
+    const wrapper = mount(ShipClockSection)
+    await flushPromises()
+    await wrapper.get('[data-testid="set-time-input"]').setValue('2026-11-14T18:00')
+    await wrapper.get('[data-testid="set-ship-time"]').trigger('click')
+    await flushPromises()
+
+    expect(wrapper.get('[data-testid="confirm-finale-warn"]').exists()).toBe(true)
+    expect(wrapper.get('[data-testid="confirm-apply"]').attributes('disabled')).toBeDefined()
+    expect(applyManualCorrection).not.toHaveBeenCalled()
+
+    await wrapper.get('[data-testid="confirm-finale-ack"] input').setValue(true)
+    await flushPromises()
+    expect(wrapper.get('[data-testid="confirm-apply"]').attributes('disabled')).toBeUndefined()
+    expect(wrapper.get('[data-testid="confirm-apply"]').text()).toContain(
+      copy.admin.confirmAdjustFinaleApply,
+    )
+  })
+
   it('Retry Same Change reuses the pending request id', async () => {
     const reqId = '11111111-1111-4111-8111-111111111111'
     previewManualDelta.mockResolvedValue({

@@ -23,6 +23,7 @@ import {
   formatShipTimeOfDay,
   formatUtcOffsetLabel,
   parseShipLocal,
+  proposedTimeAtOrPastFinale,
 } from '@/lib/shipClockFormat'
 import { copy, formatCopy } from '@/ui/copy'
 import type {
@@ -46,11 +47,19 @@ const feedback = ref<{
 } | null>(null)
 
 type ConfirmMode =
-  | { type: 'manual'; intent: ManualCorrectionIntent; currentLocal: string; proposedLocal: string }
+  | {
+      type: 'manual'
+      intent: ManualCorrectionIntent
+      currentLocal: string
+      proposedLocal: string
+      crossesFinale: boolean
+    }
   | { type: 'plan'; days: ShipClockPlanDraftDay[] }
   | null
 
 const confirm = ref<ConfirmMode>(null)
+/** Extra ack required when the proposed time would latch Friday finale (INT-CLK-001). */
+const finaleAck = ref(false)
 /** Pending UNKNOWN attempt — never auto-reapply ±1h; reconcile first. */
 const unknownAttempt = ref<{
   intent: ManualCorrectionIntent
@@ -234,12 +243,23 @@ onMounted(async () => {
   }
 })
 
+function crossesFinaleForProposed(proposedLocal: string, offsetMinutes?: number | null): boolean {
+  const snap = state.value
+  return proposedTimeAtOrPastFinale({
+    proposedShipLocal: proposedLocal,
+    offsetMinutes: offsetMinutes ?? snap?.offset_minutes,
+    finaleAtUtc: snap?.finale_at_utc,
+    alreadyFinalized: snap?.finalized,
+  })
+}
+
 async function startMinusPlus(delta: 60 | -60) {
   if (busy.value || unknownAttempt.value) return
   feedback.value = null
   busy.value = true
   try {
     const preview = await previewManualDelta(delta)
+    finaleAck.value = false
     confirm.value = {
       type: 'manual',
       intent: {
@@ -248,6 +268,10 @@ async function startMinusPlus(delta: 60 | -60) {
       },
       currentLocal: preview.before.ship_local ?? '',
       proposedLocal: preview.after_ship_local,
+      crossesFinale: crossesFinaleForProposed(
+        preview.after_ship_local,
+        preview.after_offset_minutes,
+      ),
     }
   } catch (err) {
     feedback.value = {
@@ -266,11 +290,13 @@ function startSetTime() {
   const raw = setTimeInput.value.length === 16 ? `${setTimeInput.value}:00` : setTimeInput.value
   const normalized = raw.includes('T') ? raw.replace(' ', 'T') : raw
   const current = state.value?.ship_local ?? ''
+  finaleAck.value = false
   confirm.value = {
     type: 'manual',
     intent: { kind: 'set_time', targetShipLocal: normalized },
     currentLocal: current,
     proposedLocal: normalized,
+    crossesFinale: crossesFinaleForProposed(normalized),
   }
 }
 
@@ -282,6 +308,7 @@ function startSavePlan() {
 
 function cancelConfirm() {
   confirm.value = null
+  finaleAck.value = false
 }
 
 async function handleApplyResult(result: ApplyCorrectionResult) {
@@ -342,8 +369,10 @@ async function handleApplyResult(result: ApplyCorrectionResult) {
 async function confirmManual() {
   if (!confirm.value || confirm.value.type !== 'manual' || busy.value) return
   if (unknownAttempt.value) return
+  if (confirm.value.crossesFinale && !finaleAck.value) return
   const intent = confirm.value.intent
   confirm.value = null
+  finaleAck.value = false
   busy.value = true
   feedback.value = null
   const clientRequestId = newClientRequestId()
@@ -679,12 +708,29 @@ async function retrySameUnknownChange() {
             {{ copy.admin.confirmAdjustBody }}
           </p>
           <p
-            v-if="state?.lifecycle === 'active'"
+            v-if="state?.lifecycle === 'active' && !confirm.crossesFinale"
             class="mt-2 text-sm font-medium"
             style="color: #6a4b12"
           >
             {{ copy.admin.confirmAdjustActiveWarn }}
           </p>
+          <p
+            v-if="confirm.crossesFinale"
+            class="mt-2 rounded-xl px-3 py-2 text-sm font-medium"
+            style="background: #f7e8eb; color: #8b2942"
+            data-testid="confirm-finale-warn"
+          >
+            {{ copy.admin.confirmAdjustFinaleWarn }}
+          </p>
+          <label
+            v-if="confirm.crossesFinale"
+            class="mt-3 flex items-start gap-2 text-sm"
+            style="color: #2f3a44"
+            data-testid="confirm-finale-ack"
+          >
+            <input v-model="finaleAck" type="checkbox" class="mt-1" />
+            <span>{{ copy.admin.confirmAdjustFinaleAck }}</span>
+          </label>
           <dl class="mt-4 space-y-2 text-sm">
             <div class="flex justify-between gap-3">
               <dt style="color: #5b6770">{{ copy.admin.previewCurrent }}</dt>
@@ -719,11 +765,15 @@ async function retrySameUnknownChange() {
               type="button"
               class="flex-1 rounded-full px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
               style="background: #0a5c6b"
-              :disabled="busy"
+              :disabled="busy || (confirm.crossesFinale && !finaleAck)"
               data-testid="confirm-apply"
               @click="confirmManual"
             >
-              {{ copy.admin.applyTimeAdjustment }}
+              {{
+                confirm.crossesFinale
+                  ? copy.admin.confirmAdjustFinaleApply
+                  : copy.admin.applyTimeAdjustment
+              }}
             </button>
           </div>
         </template>

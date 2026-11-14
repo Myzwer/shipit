@@ -22,6 +22,13 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 | **REP-ACH-GAUNT-001** | **Repaired (R7)** | `11400` aligns UI `covered_count` with location-bound awarding; ACH-002 unit + prior live probes PASS. |
 | **REP-ACH-EMPTY-001** | **Partial (R7)** | Launch JSON aliases wired; Good Spirits + active-catalog publish still required. |
 | **REP-WRP-RANK-001 / REP-WRP-MO-001** | **Repaired (R6)** | Disposable `:55321` has `11100`+`11300`; re-verified after R7 `11400` integration. |
+| **REP-MIME-001** | **Repaired (R8)** | Empty/generic MIME + denylisted extensions refused; `processImage.qa2.spec.ts` green. See `repairs/R8-final-functional/`. |
+| **REP-CLAIM-001** | **Disproved / harness-only (R8)** | Product awards cocktail correctly; E2B-S14 asserted string `.includes` on object-shaped `claimed_categories` (+ selected-row deselect). |
+| **REP-PREVIEW-001** | **Repaired (R8)** | Contract accepts `not_featured_bar` as correct location short-circuit (DEF-QA1-001). |
+| **REP-CRW-001** | **Repaired (R8)** | Admin crews idle until confirmed Generate; no mount auto-lock. |
+| **REP-CLK-001** | **Repaired (R8)** | Past-finale Set Ship Time requires acknowledgement checkbox. |
+| **REP-CAT-ERR-001** | **Repaired (R8)** | Malformed scalar Postgres errors → failed invalid_payload. |
+| **REP-AUTH-001** | **Deferred (R8)** | JWT residual until expiry is Auth design; `signOut({ scope: 'global' })` + hygiene documented. |
 
 ## Expected red — unit / contract (non-mutating)
 
@@ -33,11 +40,12 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 | `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Discard/reset abandons staged photo | REL-003, REL-004 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
 | `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
 | `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 | **Repaired (R2)** — must stay green |
-| `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 | Expected red |
+| `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 | **Repaired (R8)** — must stay green |
 | `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 | **Repaired (R3)** — must stay green |
 
 Campaign baseline: **9 failed / 60 passed / 69 total** (`agent-2-reliability/vitest-qa2-results.json`).  
-Post-R1: REL-001/002 green; remaining QA-2 reds are non-R1 groups.
+Post-R1: REL-001/002 green; remaining QA-2 reds are non-R1 groups.  
+Post-R8: QA-2 reliability **fully green** for known defect contracts (REL-006 repaired).
 
 ### QA-3A admin/catalog → repair groups
 
@@ -77,7 +85,7 @@ Post-R7 integration: QA-3B **35/35 PASS** on `tests/unit/qa3b-achievements-wrapp
 | QA-2A `scripts/qa2a/` | E2E-032 | REP-SUB-001 | **Covered by R1** (REL-001 guard + scavenger latch) |
 | QA-2B `scripts/qa2b/` | E2B-S07 / E2B-001 | REP-SUB-001 | **Repaired (R1)** — focused repro + remint race on `:55321` |
 | QA-2B `scripts/qa2b/` | E2B-L03 | REP-SIGNED-001 | **Repaired (R3)** — simulated `@error` + real expiry proofs |
-| QA-2B `scripts/qa2b/` | E2B-002 | REP-CLAIM-001 | Expected red (separate claim-race defect) |
+| QA-2B `scripts/qa2b/` | E2B-002 | REP-CLAIM-001 | **Disproved / harness-only (R8)** — assertion + selected-row click fixed; product proven on `:55321` |
 
 Requires disposable `:55321` + Playwright for full suite re-runs.
 
@@ -95,7 +103,7 @@ Requires Agent 2 disposable `:56321` for full probe re-run. Mutating qa2 — def
 
 | Case | Evidence | REP-* |
 |---|---|---|
-| DEF-QA1-001 bar preview reason | `QA1_DEFECTS.md` | REP-PREVIEW-001 |
+| DEF-QA1-001 bar preview reason | `QA1_DEFECTS.md` | REP-PREVIEW-001 | **Repaired (R8)** — contract accepts `not_featured_bar` |
 
 ## Previously passing baseline (must stay green)
 

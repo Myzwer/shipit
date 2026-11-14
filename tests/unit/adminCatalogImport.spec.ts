@@ -117,6 +117,20 @@ describe('stageImport', () => {
     const unknown = await stageImport(doc, REQ)
     expect(unknown.status).toBe('unknown')
   })
+
+  it('maps malformed scalar Postgres errors to failed invalid_payload (INT-CAT-007)', async () => {
+    const doc = buildScheduleReadyCatalog(72, 39)
+    rpc.mockResolvedValueOnce({
+      data: null,
+      error: { message: 'invalid input syntax for type numeric: "abc"' },
+    })
+    const out = await stageImport(doc, REQ)
+    expect(out).toMatchObject({
+      status: 'failed',
+      code: 'invalid_payload',
+      serverCode: 'MALFORMED_SCALAR',
+    })
+  })
 })
 
 describe('preview / publish / rollback / reconcile / list', () => {

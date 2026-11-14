@@ -122,3 +122,40 @@ export function cruiseDayWeekdayName(dayNumber: number): string {
   const names = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
   return names[dayNumber - 1] ?? `Day ${dayNumber}`
 }
+
+/**
+ * Convert a ship-local wall timestamp to UTC ms.
+ * Model: `ship_local_wall = utc_instant + offset_minutes` (see docs/SHIP_CLOCK.md).
+ */
+export function shipLocalToUtcMs(shipLocal: string, offsetMinutes: number): number | null {
+  const p = parseShipLocal(shipLocal)
+  if (!p) return null
+  const asIfUtc = Date.UTC(
+    Number(p.date.slice(0, 4)),
+    Number(p.date.slice(5, 7)) - 1,
+    Number(p.date.slice(8, 10)),
+    p.hours,
+    p.minutes,
+    p.seconds,
+  )
+  return asIfUtc - offsetMinutes * 60_000
+}
+
+/**
+ * True when the proposed ship-local time is at/after the cruise finale latch instant.
+ * Used only for Admin confirmation UX (INT-CLK-001) — backend remains authoritative.
+ */
+export function proposedTimeAtOrPastFinale(options: {
+  proposedShipLocal: string
+  offsetMinutes: number | null | undefined
+  finaleAtUtc: string | null | undefined
+  alreadyFinalized?: boolean | null
+}): boolean {
+  if (options.alreadyFinalized) return false
+  if (options.offsetMinutes == null || !options.finaleAtUtc) return false
+  const proposedMs = shipLocalToUtcMs(options.proposedShipLocal, options.offsetMinutes)
+  if (proposedMs == null) return false
+  const finaleMs = Date.parse(options.finaleAtUtc)
+  if (Number.isNaN(finaleMs)) return false
+  return proposedMs >= finaleMs
+}

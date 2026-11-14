@@ -19,7 +19,7 @@ Disposition classes:
 
 | Original ID | Disposition | Maps to | Notes |
 |---|---|---|---|
-| DEF-QA1-001 | `confirmed_product` | REP-PREVIEW-001 | P3 bar preview reason ordering |
+| DEF-QA1-001 | `resolved_or_invalid` (R8) | REP-PREVIEW-001 | `not_featured_bar` is correct location priority; contract updated |
 | HARNESS-QA1-MO-001 | `harness_only` | — | Wrong offering_id; fixed in tests |
 | HARNESS-QA1-DISPOSE-001 | `harness_only` | — | `disposePlayers` FK; fixed in helpers |
 
@@ -32,7 +32,7 @@ Disposition classes:
 | REL-003 | `confirmed_product` | REP-MEDIA-001 | Scavenger discard orphans Storage |
 | REL-004 | `confirmed_product` | REP-MEDIA-001 | Drink `resetAll` orphan (same root) |
 | REL-005 | `confirmed_product` | REP-MEDIA-001 | AbortSignal not passed to Storage PUT |
-| REL-006 | `confirmed_product` | REP-MIME-001 | Empty MIME + `.gif` bypass |
+| REL-006 | `confirmed_product` → **repaired R8** | REP-MIME-001 | Empty/generic MIME + extension denylist |
 | REL-007 | `confirmed_product` | REP-MEDIA-001 | Remount retry empty Blob |
 | REL-008 | `confirmed_product` | REP-SIGNED-001 | Gallery signed URL no refresh/`@error` |
 | RISK-A | `unverified_risk` | — | `navigator.onLine` on ship Wi-Fi |
@@ -51,7 +51,7 @@ Disposition classes:
 | E2E-011 | `harness_only` | — | Ingredient bar-picker; fixed harness; DI-004 passed |
 | E2E-012 | `harness_only` | — | `/Bar/i` wrong card; fixed harness; DI-005 passed |
 | E2B-001 | `confirmed_product` | REP-SUB-001 | **Nav-away → 2 accepted** (elevated) |
-| E2B-002 | `confirmed_product` | REP-CLAIM-001 | Success path without claimed_categories (triage) |
+| E2B-002 | `harness_only` (R8) | REP-CLAIM-001 | Object-shaped categories + selected-row deselect; product OK |
 | E2B-L03 | `live_confirmation` | REL-008 → REP-SIGNED-001 | Simulated URL error |
 
 ## QA-3A Admin / Catalog
@@ -109,10 +109,10 @@ Disposition classes:
 | INT-CAT-003 | `confirmed_product` | REP-CAT-VAL-001 | Non-enum tier stages |
 | INT-CAT-004 | `confirmed_product` | REP-CAT-MO-001 | MO menu concepts not carried |
 | INT-CAT-006 | `live_confirmation` | REP-CAT-MO-001 | CAT-002 live |
-| INT-CAT-007 | `confirmed_product` | REP-CAT-ERR-001 | Raw Postgres errors |
-| INT-CRW-001 | `confirmed_product` | REP-CRW-001 | Crew list mutates/locks day |
-| INT-CLK-001 | `confirmed_product` | REP-CLK-001 | Set Ship Time past finale no confirm |
-| INT-AUTH-001 | `confirmed_product` | REP-AUTH-001 | JWT valid after client signOut |
+| INT-CAT-007 | `confirmed_product` → **repaired R8** | REP-CAT-ERR-001 | Client maps scalar Postgres errors → failed |
+| INT-CRW-001 | `confirmed_product` → **repaired R8** | REP-CRW-001 | Admin UI confirm before generate/lock |
+| INT-CLK-001 | `confirmed_product` → **repaired R8** | REP-CLK-001 | UI finale acknowledgement gate |
+| INT-AUTH-001 | `confirmed_product` → **deferred R8** | REP-AUTH-001 | JWT residual by design; global signOut + hygiene |
 
 ## Configuration IDs (from audits / ambiguities)
 

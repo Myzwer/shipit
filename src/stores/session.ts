@@ -181,7 +181,10 @@ export const useSessionStore = defineStore('session', () => {
     clearPendingAdminAddDrink()
     clearPendingDailyAnnouncement()
     if (supabase) {
-      await supabase.auth.signOut()
+      // Prefer global scope so refresh tokens are revoked where the Auth API allows.
+      // Access JWTs remain valid until expiry by design (INT-AUTH-001 / REP-AUTH-001);
+      // shared-device handoff still requires waiting out TTL or rotating keys.
+      await supabase.auth.signOut({ scope: 'global' })
     }
     authSession.value = null
     profile.value = null

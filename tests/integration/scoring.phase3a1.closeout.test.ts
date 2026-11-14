@@ -385,9 +385,13 @@ describe('Phase 3A.1 / B2 Bar crew companions', () => {
     )
     expect(prev.data.preview.categories.cocktail.status).toBe('eligible')
     expect(prev.data.preview.categories.bar.status).toBe('unavailable')
-    // B2: empty bar-eligible companions → no assigned crewmates selected
+    // Product priority (REP-PREVIEW-001 / DEF-QA1-001): when the Cocktail designated
+    // bar ≠ today’s featured Bar Bounty bar, `not_featured_bar` is the correct
+    // short-circuit. Companion-empty reasons apply only when the bar location matches.
+    // Surfacing a companion reason here would misleadingly imply picking a crewmate
+    // could unlock Bar at the wrong venue.
     expect(prev.data.preview.categories.bar.reason).toMatch(
-      /solo_or_no_crewmate_selected|bar_eligible_companion_required|crew_unavailable|not_in_todays_roster/,
+      /not_featured_bar|solo_or_no_crewmate_selected|bar_eligible_companion_required|crew_unavailable|not_in_todays_roster/,
     )
   })
 

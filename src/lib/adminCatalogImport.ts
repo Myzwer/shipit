@@ -390,6 +390,22 @@ export async function stageImport(
           clientRequestId,
         }
       }
+      // INT-CAT-007: malformed scalars often surface as raw Postgres exceptions.
+      // Treat syntax/range failures as failed invalid_payload (not ambiguous unknown).
+      if (/invalid input syntax for type|out of range for type/i.test(error.message || '')) {
+        return {
+          status: 'failed',
+          code: 'invalid_payload',
+          serverCode: 'MALFORMED_SCALAR',
+          message: failMessage(
+            'invalid_payload',
+            'MALFORMED_SCALAR',
+            'Catalog staging failed — a field has an invalid number or type.',
+          ),
+          clientRequestId,
+          preview,
+        }
+      }
       return { status: 'unknown', message: error.message || 'Staging outcome unknown.', clientRequestId }
     }
     const result = data as StageResult | null

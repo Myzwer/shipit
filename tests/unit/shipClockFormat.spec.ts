@@ -7,6 +7,8 @@ import {
   formatShipTimeOfDay,
   formatShipWeekdayTime,
   formatUtcOffsetLabel,
+  proposedTimeAtOrPastFinale,
+  shipLocalToUtcMs,
   weekdayForShipDate,
 } from '@/lib/shipClockFormat'
 import { copy } from '@/ui/copy'
@@ -51,5 +53,38 @@ describe('shipClockFormat', () => {
     expect(formatPlanDeltaLabel(0, false)).toBe(copy.admin.planDisabled)
     expect(formatPlanDeltaLabel(60, true)).toBe(copy.admin.planPlus1)
     expect(formatPlanDeltaLabel(-120, true)).toBe(copy.admin.planMinus2)
+  })
+
+  it('converts ship-local wall to UTC using offset_minutes (INT-CLK-001 helper)', () => {
+    // offset -240: ship 18:00 ↔ UTC 22:00
+    expect(shipLocalToUtcMs('2026-11-14T18:00:00', -240)).toBe(
+      Date.parse('2026-11-14T22:00:00.000Z'),
+    )
+  })
+
+  it('detects proposed times at or past finale latch', () => {
+    const finaleAtUtc = '2026-11-14T22:00:00.000Z'
+    expect(
+      proposedTimeAtOrPastFinale({
+        proposedShipLocal: '2026-11-14T18:00:00',
+        offsetMinutes: -240,
+        finaleAtUtc,
+      }),
+    ).toBe(true)
+    expect(
+      proposedTimeAtOrPastFinale({
+        proposedShipLocal: '2026-11-14T17:59:00',
+        offsetMinutes: -240,
+        finaleAtUtc,
+      }),
+    ).toBe(false)
+    expect(
+      proposedTimeAtOrPastFinale({
+        proposedShipLocal: '2026-11-14T19:00:00',
+        offsetMinutes: -240,
+        finaleAtUtc,
+        alreadyFinalized: true,
+      }),
+    ).toBe(false)
   })
 })

@@ -36,7 +36,9 @@ async function submitClaimFromReview(page, bountyRowTestId) {
   let rowState = null
   if (await row.count()) {
     rowState = await row.getAttribute('data-state')
-    if (['available', 'eligible', 'selected'].includes(rowState || '')) {
+    // `selected` is already on the submit payload — clicking it deselects
+    // (E2B-002 false fail). Only click `available` to opt in.
+    if (rowState === 'available') {
       await row.click()
       rowState = (await row.getAttribute('data-state')) || rowState
     }

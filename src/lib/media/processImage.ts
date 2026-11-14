@@ -72,6 +72,15 @@ async function canvasToJpegBlob(
   return blob
 }
 
+function mimeIsUnreliable(mime: string): boolean {
+  return (MEDIA.unreliableInputMime as readonly string[]).includes(mime)
+}
+
+function extensionIsRejected(name: string): boolean {
+  const lower = name.toLowerCase()
+  return MEDIA.rejectedInputExtensions.some((ext) => lower.endsWith(ext))
+}
+
 /**
  * Optimize a user-selected image for cruise Wi-Fi upload.
  * Preserves aspect ratio; redraw strips GPS EXIF by producing a new JPEG.
@@ -88,7 +97,7 @@ export async function processImageFile(file: File): Promise<ProcessedImage> {
     )
   }
 
-  const mime = (file.type || '').toLowerCase()
+  const mime = (file.type || '').toLowerCase().trim()
   const name = file.name || ''
   const looksHeic =
     mime === 'image/heic' ||
@@ -96,11 +105,21 @@ export async function processImageFile(file: File): Promise<ProcessedImage> {
     /\.heic$/i.test(name) ||
     /\.heif$/i.test(name)
 
+  // Authoritative MIME: refuse formats outside the allowlist (GIF/BMP/PDF/…).
   if (
-    mime &&
+    !mimeIsUnreliable(mime) &&
     !MEDIA.acceptedInputMime.includes(mime as (typeof MEDIA.acceptedInputMime)[number]) &&
     !looksHeic
   ) {
+    throw new MediaProcessError(
+      'UNSUPPORTED_FORMAT',
+      'Use a JPEG, PNG, or WebP photo. This format is not supported.',
+    )
+  }
+
+  // Empty/generic MIME (mobile mislabel): still refuse known-unsupported extensions
+  // so a blank-type GIF cannot slip through decode → JPEG (REL-006 / REP-MIME-001).
+  if (mimeIsUnreliable(mime) && extensionIsRejected(name) && !looksHeic) {
     throw new MediaProcessError(
       'UNSUPPORTED_FORMAT',
       'Use a JPEG, PNG, or WebP photo. This format is not supported.',

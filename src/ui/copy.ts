@@ -287,6 +287,10 @@ export const copy = {
     confirmAdjustBody:
       'This changes the shared Ship Clock for everyone. Previous submissions and scores will not change.',
     confirmAdjustActiveWarn: 'Games are active. This adjustment affects everyone immediately.',
+    confirmAdjustFinaleWarn:
+      'This time is at or past Friday 6 PM Ship Time. Applying it ends both games permanently for this cruise. There is no undo in the app.',
+    confirmAdjustFinaleAck: 'I understand this ends the cruise games',
+    confirmAdjustFinaleApply: 'End Games & Apply Time',
     confirmPlanTitle: 'Save Planned Time Changes?',
     confirmPlanBody: 'These changes will apply to the remaining scheduled overnight adjustments.',
     historicalPlanNote:
@@ -497,7 +501,14 @@ export const copy = {
     removeAddedDrinkNotFound: 'That drink is not an admin-added drink.',
     barCrewsSection: 'Bar Bounty Crews',
     barCrewsNote:
-      'Read-only view of today’s assigned Bar Bounty crews. Crews generate once per Ship day and are not editable here.',
+      'Today’s Bar Bounty crews lock the first time they are generated. Opening this section no longer generates them automatically — use Generate only after the Drink It! roster for today is ready.',
+    barCrewsIdle:
+      'Crews are not loaded yet. If today’s crews do not already exist, Generate creates and permanently locks them for this Ship day.',
+    barCrewsGenerate: 'Generate / Load Crews',
+    barCrewsConfirmTitle: 'Generate today’s Bar Bounty crews?',
+    barCrewsConfirmBody:
+      'If crews are not already locked for this Ship day, this creates them from the current Drink It! roster and cannot be edited afterward. Players added later today will not join these crews.',
+    barCrewsConfirmApply: 'Generate & Lock Crews',
     barCrewsDay: 'Ship day {day}',
     barCrewsRoster: '{roster} Drink It! players · {crews} crews',
     barCrewsEmpty: 'No crews for today yet.',

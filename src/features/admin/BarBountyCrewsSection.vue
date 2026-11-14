@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { adminListBarBountyCrews } from '@/lib/bounty/barBountyApi'
 import { copy, formatCopy } from '@/ui/copy'
 import type { AdminBarBountyCrewsResult } from '@/types/barBountyCrew'
 
 const result = ref<AdminBarBountyCrewsResult | null>(null)
-const loadStatus = ref<'loading' | 'ready' | 'error'>('loading')
+const loadStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
 const errorBody = ref('')
+const confirmGenerate = ref(false)
 
 async function load() {
   loadStatus.value = 'loading'
   errorBody.value = ''
+  confirmGenerate.value = false
   try {
     result.value = await adminListBarBountyCrews()
     loadStatus.value = 'ready'
@@ -20,9 +22,19 @@ async function load() {
   }
 }
 
-onMounted(() => {
-  void load()
-})
+function requestGenerate() {
+  if (loadStatus.value === 'loading') return
+  // First intentional load can lock the day — require confirm. Refresh after load is idempotent.
+  if (result.value) {
+    void load()
+    return
+  }
+  confirmGenerate.value = true
+}
+
+function cancelGenerate() {
+  confirmGenerate.value = false
+}
 </script>
 
 <template>
@@ -42,14 +54,23 @@ onMounted(() => {
         style="background: #e8e2d9; color: #2f3a44"
         data-testid="bar-crews-refresh"
         :disabled="loadStatus === 'loading'"
-        @click="load"
+        @click="requestGenerate"
       >
-        {{ copy.admin.barCrewsRefresh }}
+        {{ result ? copy.admin.barCrewsRefresh : copy.admin.barCrewsGenerate }}
       </button>
     </div>
 
     <p
-      v-if="loadStatus === 'loading' && !result"
+      v-if="loadStatus === 'idle'"
+      class="mt-3 rounded-xl px-3 py-2 text-sm"
+      style="background: #f7efe6; color: #2f3a44"
+      data-testid="bar-crews-idle"
+    >
+      {{ copy.admin.barCrewsIdle }}
+    </p>
+
+    <p
+      v-else-if="loadStatus === 'loading' && !result"
       class="mt-3 text-sm"
       style="color: #5c6670"
       data-testid="bar-crews-loading"
@@ -122,5 +143,41 @@ onMounted(() => {
         <p v-else class="mt-3 text-sm" style="color: #5c6670">{{ copy.admin.barCrewsEmpty }}</p>
       </template>
     </template>
+
+    <div
+      v-if="confirmGenerate"
+      class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center"
+      data-testid="bar-crews-confirm"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="w-full max-w-md rounded-2xl bg-white p-5 shadow-lg">
+        <h3 class="font-display text-lg font-bold" style="color: #2f3a44">
+          {{ copy.admin.barCrewsConfirmTitle }}
+        </h3>
+        <p class="mt-2 text-sm leading-relaxed" style="color: #5b6770">
+          {{ copy.admin.barCrewsConfirmBody }}
+        </p>
+        <div class="mt-5 flex gap-2">
+          <button
+            type="button"
+            class="flex-1 rounded-full px-4 py-3 text-sm font-semibold"
+            style="background: #ebe6df; color: #2f3a44"
+            @click="cancelGenerate"
+          >
+            {{ copy.admin.cancel }}
+          </button>
+          <button
+            type="button"
+            class="flex-1 rounded-full px-4 py-3 text-sm font-semibold text-white"
+            style="background: #0a5c6b"
+            data-testid="bar-crews-confirm-apply"
+            @click="load"
+          >
+            {{ copy.admin.barCrewsConfirmApply }}
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 </template>

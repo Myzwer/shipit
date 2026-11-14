@@ -20,5 +20,24 @@ export const MEDIA = {
     'image/heic',
     'image/heif',
   ] as const,
+  /**
+   * MIME values that are treated as unreliable (common mobile picker quirk).
+   * When present, fall back to filename extension gates instead of trusting type.
+   */
+  unreliableInputMime: ['', 'application/octet-stream', 'binary/octet-stream'] as const,
+  /**
+   * Extensions refused when MIME is empty/generic (REL-006).
+   * Kept out of the accepted decode path even if the browser can rasterize them.
+   */
+  rejectedInputExtensions: [
+    '.gif',
+    '.bmp',
+    '.tif',
+    '.tiff',
+    '.pdf',
+    '.svg',
+    '.ico',
+    '.avif',
+  ] as const,
   outputMime: 'image/jpeg' as const,
 } as const

@@ -423,10 +423,15 @@ async function runSubmissionStress({ browser, env, registry }) {
       await page.waitForURL(/from=cocktail/, { timeout: 15000 })
       const adv = await advanceWizardInstrumented(page, { caption: 'E2B cocktail' })
       if (!adv.ok) throw new Error('wizard fail: ' + adv.error)
+      // Review rows: `selected` means already claimed on the payload. Clicking
+      // `selected` toggles OFF (REP-CLAIM-001 / E2B-002 harness false fail).
+      // Only click when `available` to select; leave `selected` alone.
       const row = page.locator('[data-testid="bounty-row-cocktail"]')
-      if (await row.count()) {
-        const st = await row.getAttribute('data-state')
-        if (['available', 'eligible', 'selected'].includes(st || '')) await row.click()
+      if (!(await row.count())) throw new Error('missing cocktail bounty row')
+      const st = await row.getAttribute('data-state')
+      if (st === 'available') await row.click()
+      else if (st !== 'selected') {
+        throw new Error(`cocktail row not claimable on review (data-state=${st})`)
       }
       await page.locator('[data-testid="submit-drink"]').click({ force: true })
       if (await page.locator('[data-testid="modal-unclaimed"]').isVisible().catch(() => false)) {
@@ -435,13 +440,17 @@ async function runSubmissionStress({ browser, env, registry }) {
       await page.waitForURL(/\/drinkit\/gallery/, { timeout: 45000 })
       const subs = await recentDrinkSubmissions(env.service, drinkOnly.player_id, 1)
       const cats = subs.data?.[0]?.result_json?.claimed_categories || []
+      // claimed_categories is [{ category, points, ... }, ...] — not bare strings.
+      const hasCocktail = Array.isArray(cats) && cats.some((c) => c === 'cocktail' || c?.category === 'cocktail')
       registry.record({
         id: 'E2B-S14',
         journey: 'Cocktail bounty claim with DB claimed_categories check',
         expected: 'Gallery + claimed_categories includes cocktail when eligible',
         actual: `cats=${JSON.stringify(cats)} points=${subs.data?.[0]?.result_json?.awarded_points}`,
-        outcome: page.url().includes('/gallery') ? (cats.includes('cocktail') ? 'passed' : 'failed') : 'failed',
-        notes: cats.includes('cocktail') ? '' : 'UI gallery ok but bounty category not claimed — product or eligibility',
+        outcome: page.url().includes('/gallery') ? (hasCocktail ? 'passed' : 'failed') : 'failed',
+        notes: hasCocktail
+          ? ''
+          : 'UI gallery ok but bounty category not claimed — check eligibility or harness deselect',
         evidence: [await shot(page, 'e2b-s14-cocktail')],
       })
     } catch (e) {

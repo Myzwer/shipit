@@ -1,0 +1,57 @@
+{
+  "at": "2026-11-14T16:00:00.000Z",
+  "player": "Demo Drink Only",
+  "player_id": "1a796b25-e0d7-49c5-bd5b-31597a36cd9a",
+  "barKey": "wake-view",
+  "offeringId": "addc3b72-b479-48cb-bc06-293c57bb3b67",
+  "cocktailStatus": "eligible",
+  "cocktailReason": null,
+  "option": {
+    "tier": "unusual",
+    "points": 75,
+    "source": "current",
+    "display": {
+      "tier": "unusual",
+      "points": 75,
+      "drink_key": "fixture-cocktail-067",
+      "drink_name": "Fixture Cocktail 67",
+      "designated_bar_key": "wake-view",
+      "listed_ingredients": [
+        {
+          "display_label": "Lime Juice",
+          "ingredient_key": "lime-juice"
+        }
+      ],
+      "designated_bar_name": "Wake View"
+    },
+    "slot_id": "69677334-9a20-4a72-a9a0-b80d31fd0c30",
+    "category": "cocktail",
+    "offer_id": "6a544129-267f-4ad8-a4fe-3ae4fbeaee59",
+    "slot_key": "cocktail:day:1:h12",
+    "canonical_key": "fixture-cocktail-067"
+  },
+  "with_claim": {
+    "ok": true,
+    "awarded_points": 75,
+    "claimed_categories": [
+      {
+        "points": 75,
+        "category": "cocktail",
+        "offer_id": "6a544129-267f-4ad8-a4fe-3ae4fbeaee59",
+        "assignment_id": null
+      }
+    ],
+    "code": "ACCEPTED",
+    "error": null
+  },
+  "without_claim": {
+    "ok": true,
+    "awarded_points": 0,
+    "claimed_categories": [],
+    "code": "ACCEPTED",
+    "error": null
+  },
+  "classification": "product_ok_harness_assertion_false_fail",
+  "product_defect": false,
+  "harness_note": "E2B-S14 used cats.includes(\"cocktail\") against object-shaped claimed_categories ([{category:\"cocktail\",...}]), which always fails. Secondary risk: clicking data-state=selected deselects before submit."
+}
