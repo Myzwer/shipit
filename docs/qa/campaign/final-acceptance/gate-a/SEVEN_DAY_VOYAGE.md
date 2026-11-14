@@ -35,6 +35,8 @@ No browser, no logged-in player required for clock transitions. Ship dates: Sat 
 
 Days 5–7 Cocktail/Ingredient failure root cause: **FINAL-A-CAT-001** (mid-voyage unsafe catalog fixture replacement). Bar sequence continued to resolve.
 
+**Follow-up:** With the catalog frozen after pre-cruise Admin publish+init, days 1–7 Cocktail/Ingredient resolve without replacement (`fixed-catalog-followup/`).
+
 ## Autonomy conclusion
 
 With an intact schedule and without unsafe catalog mutation, **daily automation does not need a human or open browser**. Catalog replacement mid-cruise is the operational hazard that currently can strand future bounty windows if the unsafe activate path is used.

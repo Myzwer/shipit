@@ -38,7 +38,9 @@
     { "id": "GA-DI-BAR-SEQ", "area": "drinkit", "status": "passed", "method": "integration" },
     { "id": "GA-SI-DEFS-50", "area": "shipit", "status": "passed", "method": "integration" },
     { "id": "GA-SI-SUBMIT-50", "area": "shipit", "status": "blocked", "method": "integration", "evidence": "photo storage binding" },
-    { "id": "GA-CAT-MIDVOYAGE", "area": "catalog", "status": "failed", "defect": "FINAL-A-CAT-001", "method": "integration" },
+    { "id": "GA-CAT-MIDVOYAGE", "area": "catalog", "status": "reclassified", "defect": "FINAL-A-CAT-001", "method": "integration", "note": "Out of approved launch scope; fixed-catalog follow-up PASS; evidence preserved" },
+    { "id": "GA-CAT-FIXED-FOLLOWUP", "area": "catalog", "status": "passed", "method": "integration", "evidence": "fixed-catalog-followup/ 54/54" },
+    { "id": "GA-UL-UNLISTED", "area": "drinkit", "status": "passed", "method": "integration+browser", "evidence": "fixed-catalog-followup unlisted E2E" },
     { "id": "GA-ACH-MAP-174", "area": "achievements", "status": "passed", "method": "unit+content" },
     { "id": "GA-ACH-EARN-174", "area": "achievements", "status": "not_run", "method": "integration" },
     { "id": "GA-WRP-PAYLOAD", "area": "wrapped", "status": "passed", "method": "integration" },
@@ -48,9 +50,13 @@
     { "id": "GA-MIG-FRESH-EMPTY", "area": "migration", "status": "not_run", "method": "ops" }
   ],
   "defects": ["FINAL-A-CAT-001"],
+  "defect_launch_disposition": {
+    "FINAL-A-CAT-001": "does_not_block_launch_under_fixed_catalog_workflow"
+  },
   "seven_days_simulated": true,
   "production_initializer_used": true,
+  "fixed_catalog_followup": "docs/qa/campaign/final-acceptance/gate-a/fixed-catalog-followup/",
   "direct_earned_award_proof_count": 0,
   "direct_wrapped_metric_aggregation_proof_count": 3,
-  "human_admin_needed_during_normal_gameplay": "Only pre-cruise Admin schedule init; mid-cruise catalog changes need Admin publish"
+  "human_admin_needed_during_normal_gameplay": "Only pre-cruise Admin catalog publish + schedule init; do not replace catalog after gameplay begins"
 }

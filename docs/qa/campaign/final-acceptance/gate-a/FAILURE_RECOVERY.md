@@ -10,7 +10,7 @@
 | Paused game hides bounty exposure | PASS |
 | Post-finale submit rejected | PASS |
 | Non-admin forbidden Admin RPC | PASS |
-| Catalog mid-voyage unsafe activate | **FAIL product** FINAL-A-CAT-001 — recovery requires re-init only when allowed (not after finale) or Admin publish rebind |
+| Catalog mid-voyage unsafe activate | **Ops violation of launch rule** (FINAL-A-CAT-001 evidence) — do not replace after gameplay begins; recovery would need Admin publish rebind (unproven for omitted keys) or controlled pre-finale repair |
 
 ## R1 / R2 / R3 residual
 
@@ -29,4 +29,4 @@
 ## Unrecoverable state risk
 
 Players are not left unrecoverable by idempotent replays.  
-**Ops risk:** unsafe mid-cruise catalog activate can leave **future bounty days unplayable** until a correct publish/rebind or (pre-finale) controlled schedule repair — that is FINAL-A-CAT-001.
+**Ops rule (launch):** do not replace the active catalog after gameplay begins. Unsafe mid-cruise activate can leave **future bounty days unplayable** (FINAL-A-CAT-001 evidence preserved; reclassified as non-blocking when the fixed-catalog workflow is followed).

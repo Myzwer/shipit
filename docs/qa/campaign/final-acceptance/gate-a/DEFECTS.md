@@ -1,20 +1,20 @@
 # Gate A — Defects
 
-## Confirmed new product / ops defects
+## Reclassified (does not block launch under fixed-catalog workflow)
 
 ### FINAL-A-CAT-001 — Mid-voyage fixture catalog activate strands future bounty windows
 
 | Field | Value |
 |---|---|
-| Severity | **High** (cruise days become unplayable for Cocktail/Ingredient) |
-| Expected | After a catalog replacement, future `scheduled` windows remain playable via rebind **or** the replacement fails atomically with a clear shortage/invalid code — never silent `unavailable` days |
-| Actual | `dev_activate_catalog_fixture` mid-voyage, after days 1–4 exposures, with the Day-5-noon cocktail key removed from the replacement catalog, leaves Day 5 cocktail status `unavailable` (voyage days 5–7 Cocktail/Ingredient broken) |
+| Severity (original) | **High** when mid-cruise catalog replacement is required |
+| Launch disposition (2026-11-14 follow-up) | **Does not block launch** if the organizer follows the approved **fixed catalog before gameplay** workflow |
+| Expected (original) | After a catalog replacement, future `scheduled` windows remain playable via rebind **or** the replacement fails atomically — never silent `unavailable` days |
+| Actual (preserved) | `dev_activate_catalog_fixture` mid-voyage, after days 1–4 exposures, with the Day-5-noon cocktail key removed from the replacement catalog, leaves Day 5 cocktail status `unavailable` |
 | Reproduction | `scripts/gate-a/run-catalog-rebind-repro.mjs` on `:55321`; also voyage catalog B path |
-| Evidence | `evidence/catalog-rebind-repro.json`, `evidence/voyage-results.json` |
+| Evidence (preserved) | `evidence/catalog-rebind-repro.json`, `evidence/voyage-results.json` |
 | Backend state | Schedule slots remain but public resolve returns `unavailable` for affected future windows |
 | Affected workflow | On-ship menu replacement / catalog republish during an active cruise |
-| Continue tests? | **Yes** — Bar bounty, finale, Wrapped, Admin still testable |
-| Notes | Production path is Admin publish+rebind (R5 contract). Fixture activate is disposable-only and **unsafe** as a stand-in for mid-cruise menu ops. Admin stage with incomplete validation returned `VALIDATION_NOT_READY` in the same repro — full Admin omitted-key publish proof remains a gap for the menu-agent phase |
+| Reclassification notes | Mid-cruise replacement is **outside the approved launch workflow**. Development fixture activation can invalidate future scheduled bounties. Production Admin publish+rebind for omitted keys was **not** fully re-proven and is **not** claimed repaired. Operational rule: **do not replace the active catalog after gameplay begins**. See `fixed-catalog-followup/FINAL_A_CAT_001_RECLASSIFICATION.md` |
 
 ## Triaged non-defects (harness)
 

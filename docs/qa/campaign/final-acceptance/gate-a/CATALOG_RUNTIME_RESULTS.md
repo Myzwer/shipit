@@ -22,14 +22,18 @@
 
 ## Defect dependency for menu-agent phase
 
-**FINAL-A-CAT-001:** Mid-voyage `dev_activate_catalog_fixture` that drops a cocktail key already bound to a future scheduled offer leaves that window `unavailable` (Day 5+ cocktail/ingredient broken in voyage after catalog B).
+**FINAL-A-CAT-001 (reclassified for launch):** Mid-voyage `dev_activate_catalog_fixture` that drops a cocktail key already bound to a future scheduled offer leaves that window `unavailable`. Evidence preserved. **Approved launch does not include mid-cruise replacement** — see `fixed-catalog-followup/`.
 
-**Required before trusting onboard menu replacement:**
+**Required before trusting onboard menu replacement (future / menu-agent):**
 
 1. Always use Admin stage → preview → publish (R4/R5 path), never raw fixture activate on a live schedule.  
 2. Prove publish either rebinds the affected future slots from remaining pool **or** fails atomically with `REMAINING_POOL_SHORTAGE` (no silent stranded days).  
-3. Add Gate A follow-up: IMP-driven publish omitting `fixture-cocktail-046` (or live Day5 key) after exposures on days 1–4.
+3. Explicit omitted-key publish proof after exposures on days 1–4.
+
+## Fixed-catalog follow-up (2026-11-14)
+
+Admin stage → preview → publish of a launch-candidate clone **before** gameplay, then Admin schedule init, then seven days **without** catalog change: **PASS**. Unlisted drink logging: **PASS** E2E. Details: `fixed-catalog-followup/`.
 
 ## Menu-generation agent
 
-Not implemented (out of scope). Existing consumption/scheduling behavior is insufficiently safe under the disposable activate shortcut; production Admin rebind remains the intended contract and needs an explicit omitted-key proof before cruise.
+Not implemented (out of scope for launch). Disposable fixture activate remains unsafe mid-voyage; production Admin rebind remains the intended contract **if** mid-cruise replacement is ever approved later.

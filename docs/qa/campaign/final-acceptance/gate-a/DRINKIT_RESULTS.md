@@ -23,7 +23,8 @@
 | 2h windows active days 1–4 | PASS (triaged; points/tier/`ingredient_key`) |
 | Rarity/tier + known_bar_count fields | PASS (shape proof) |
 | Claim with confirm + offer_id | BLOCKED in Gate A (catalog offering join schema in harness) — engine covered by legacy integration |
-| Days 5–7 after unsafe catalog swap | FAIL via FINAL-A-CAT-001 |
+| Days 5–7 after unsafe catalog swap | FAIL via FINAL-A-CAT-001 (ops out-of-scope for launch; fixed-catalog follow-up days 1–7 PASS without swap) |
+| Unlisted ordinary logging E2E | PASS (`fixed-catalog-followup/`) |
 
 ## Bar Bounties
 

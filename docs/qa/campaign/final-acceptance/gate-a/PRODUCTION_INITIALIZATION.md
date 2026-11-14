@@ -38,3 +38,12 @@ Schedule can exist while lifecycle is still `pre_cruise`. Claims rejected before
 ## Ops implication
 
 Aboard ship, after catalog + cruise config are ready, **one Admin tap** (or authenticated Admin RPC) initializes the voyage. No developer fixture scripts required for normal operation.
+
+## Launch catalog order (follow-up verified)
+
+1. Stage → preview → **publish** the final launch catalog (Admin), **before** boarding.  
+2. Admin initialize bounty schedule (this runbook).  
+3. Do **not** replace the active catalog after gameplay begins.  
+4. Guests log missing menu items via **unlisted drink** ordinary logging (verified E2E in `fixed-catalog-followup/`).
+
+See `fixed-catalog-followup/FIXED_CATALOG_WORKFLOW.md`.

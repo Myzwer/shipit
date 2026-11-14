@@ -12,7 +12,7 @@
 
 The repaired stack can **bootstrap a voyage with the production Admin schedule initializer**, advance **seven cruise days on server clock alone**, enforce **finale latch / no post-finale scoring**, and serve **Cruise Wrapped** after finale.
 
-It is **not yet proven fully cruise-autonomous under mid-voyage menu replacement**: replacing the active catalog via disposable `dev_activate_catalog_fixture` after play has started, when a **future-scheduled cocktail key is absent** from the replacement catalog, leaves later Cocktail/Ingredient windows `unavailable` (**FINAL-A-CAT-001**). Production Admin publish+rebind must be used for mid-cruise menu changes; that path was not fully re-proven here when the replacement omits a scheduled key (`VALIDATION_NOT_READY` on incomplete stage validation). This is the primary dependency for the later menu-generation agent.
+**Follow-up (2026-11-14):** Under the organizer’s approved plan — finalize/activate the catalog **before** gameplay and leave it unchanged for seven days — the production Admin stage→preview→publish→init path **passes**, all **125** schedule refs stay valid across seven days without catalog change, and **unlisted drink logging works E2E**. **FINAL-A-CAT-001** is reclassified as **out-of-scope for launch** (ops rule: do not replace the active catalog after gameplay begins). Original fixture-activate failure evidence is preserved; mid-cruise omitted-key Admin rebind remains unproven and is not a launch requirement. Details: `fixed-catalog-followup/`.
 
 Normal gameplay still requires **one Admin schedule initialization before boarding** (by design, R5). No browser / logged-in player is required for daily rotations once the schedule exists and Ship Time advances.
 
@@ -56,14 +56,14 @@ Aggregated from unit + R5 + voyage + supplemental + catalog rebind + diagnostic 
 | Status | Count (approx) |
 |---|---:|
 | Passed | **1180+** automated assertions across suites; **~85** distinct Gate A voyage/supp checks after harness triage |
-| Failed (product) | **1** confirmed new defect family (`FINAL-A-CAT-001`) |
+| Failed (product) | **0** launch-blocking after fixed-catalog follow-up (`FINAL-A-CAT-001` reclassified — see `fixed-catalog-followup/`) |
 | Failed (harness, triaged) | 4 voyage assertion families (ingredient field names; Wrapped arity; blocked-achievements field name) — corrected in supplemental |
 | Blocked | Ingredient claim path in supplemental (offering join schema); full Admin publish-with-removed-key; full 50 Ship It photo submits; browser E2E device matrix |
 | Not run | Physical-device HEIC; organizer migration apply; Agent 2 mutation; Gate B |
 
 ## Defects
 
-See `DEFECTS.md`. Only **FINAL-A-CAT-001** is filed as a new product/ops defect from this gate.
+See `DEFECTS.md`. **FINAL-A-CAT-001** remains documented with preserved evidence but **does not block launch** under the fixed-catalog workflow (`fixed-catalog-followup/FINAL_A_CAT_001_RECLASSIFICATION.md`).
 
 ## Direct proof counts
 
@@ -79,7 +79,7 @@ See `DEFECTS.md`. Only **FINAL-A-CAT-001** is filed as a new product/ops defect 
 |---|---|
 | Before boarding: Admin initialize bounty schedule | **Yes** (once) |
 | Daily Cocktail/Ingredient/Bar rotation | **No** — server clock |
-| Mid-cruise catalog replacement | **Yes — Admin publish** (not raw fixture activate); menu-agent later |
+| Mid-cruise catalog replacement | **Not part of approved launch** — do not replace after gameplay begins; menu-agent later if ever required |
 | Finale / Wrapped reveal | **No** browser required for latch; players open Wrapped after finale |
 
 ## Deliverables

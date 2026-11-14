@@ -1,0 +1,51 @@
+{
+  "campaign": "GATE-A-FIXED-CATALOG-FOLLOWUP",
+  "checkpoint_parent": "38ecc917980cba932064e0df83c474a50c52ab04",
+  "branch": "visual/drinkit-home-v1",
+  "generated_at": "2026-11-14T21:20:00Z",
+  "environment": {
+    "organizer": "http://127.0.0.1:54321",
+    "disposable": "http://127.0.0.1:55321",
+    "agent2": "http://127.0.0.1:56321",
+    "qa_allow_organizer_mutation": false,
+    "application_source_modified": false
+  },
+  "harness": {
+    "script": "scripts/gate-a/run-fixed-catalog-followup.mjs",
+    "pass": 54,
+    "fail": 0,
+    "info": 5,
+    "blocked": 0,
+    "total": 60
+  },
+  "regressions": {
+    "unit_qa2_catalog": { "passed": 220, "failed": 0 },
+    "r5_schedule_init": { "passed": 4, "failed": 0 },
+    "r1_submission_integrity": { "passed": 3, "failed": 0, "note": "day1 aligned to wall clock" },
+    "drinkit_phase4b4_photo": { "passed": 13, "failed": 0 },
+    "typecheck": "pass",
+    "build": "pass"
+  },
+  "cases": [
+    { "id": "FC-ENV-SAFE", "status": "passed" },
+    { "id": "FC-PRE-INVALID", "status": "passed" },
+    { "id": "FC-PRE-MISSING-REL", "status": "passed" },
+    { "id": "FC-PRE-SHORTAGE", "status": "passed" },
+    { "id": "FC-PRE-PUBLISH-RETRY", "status": "passed" },
+    { "id": "FC-SEQ-STAGE-PREVIEW-PUBLISH", "status": "passed", "note": "launch-candidate clone via Admin path" },
+    { "id": "FC-SEQ-INIT-125", "status": "passed" },
+    { "id": "FC-SEQ-VALID-REFS", "status": "passed" },
+    { "id": "FC-SEVEN-DAY-NO-SWAP", "status": "passed" },
+    { "id": "FC-UL-LISTED", "status": "passed" },
+    { "id": "FC-UL-UNLISTED", "status": "passed" },
+    { "id": "FC-UL-MOBILE-ORDER", "status": "passed" },
+    { "id": "FC-UL-NO-ACCIDENTAL-BOUNTY", "status": "passed" },
+    { "id": "FC-UL-BROWSER", "status": "passed" },
+    { "id": "FC-FINAL-A-CAT-001", "status": "reclassified", "blocks_launch": false }
+  ],
+  "final_a_cat_001": {
+    "blocks_launch_under_fixed_catalog_workflow": false,
+    "evidence_preserved": true,
+    "production_publisher_omitted_key_midcruise": "not_reproven_out_of_scope"
+  }
+}
