@@ -87,7 +87,9 @@
     "screenshots:phase9a": "node scripts/capture-phase9a-screens.mjs",
     "test:e2e:phase9a": "node scripts/capture-phase9a-screens.mjs",
     "test:e2e:qa2a": "node scripts/qa2a/run.mjs",
-    "qa2a:setup-synthetics": "node scripts/qa2a/setup-synthetics.mjs"
+    "qa2a:setup-synthetics": "node scripts/qa2a/setup-synthetics.mjs",
+    "test:e2e:qa2b": "node scripts/qa2b/run-stress.mjs",
+    "qa2b:investigate-flakes": "node scripts/qa2b/investigate-bounty-flakes.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

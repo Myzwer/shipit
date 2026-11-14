@@ -13,15 +13,20 @@ Do **not** apply `11100` to organizer until Wrapped display batch plans it.
 
 See [`qa2a-browser-e2e/SUMMARY.md`](./qa2a-browser-e2e/SUMMARY.md) — **63 passed / 3 failed / 10 blocked / 2 not_run** (78 total) on disposable `:55321` + main Vite `:5177`.
 
-Residual: ingredient/bar claim E2E flake (E2E-011/012), REL media items, physical device list in `BLOCKED_DEVICE_TESTS.md`.
+Residual after QA-2B: REL media items, physical device list in `BLOCKED_DEVICE_TESTS.md`. E2E-011/012 classified as **harness defects** and fixed in test code only.
 
-## Batch QA-2B — Media / Gallery / photo crop
+## Batch QA-2B — Intermittent + stress — **executed**
+
+See [`qa2b-browser-stress/SUMMARY.md`](./qa2b-browser-stress/SUMMARY.md) — harness fix unlocked DI-004/005/008; new **E2B-001** (nav-away duplicate accepts); REL-008 reproduced (`E2B-L03`).
+
+## Batch QA-2C — Media / Gallery / photo crop (was QA-2B label)
 
 | Focus | Notes |
 |---|---|
 | QA-ME-001 crop pinch/drag | Director open item |
-| Signed gallery URLs, reactions | |
+| Signed gallery URLs, reactions | REL-008 repair candidate |
 | Ship It photo gate UX copy | QA-SI-004 |
+| E2B-001 nav-away dup submit | Repair after diagnostic freeze |
 
 ## Batch QA-2C — Achievements engine
 

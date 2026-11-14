@@ -154,29 +154,18 @@ export async function runDrinkItSuite({ browser, env, registry }) {
     }
   })
 
-  // Ingredient bounty — similar path
+  // Ingredient bounty — product lands on bar picker (must select a bar)
   await withPlayer(both.display_name, async (page) => {
     await page.goto(`${baseUrl}/drinkit`, { waitUntil: 'networkidle' })
     try {
-      const claimBtns = page.locator('[data-testid="bounty-claim"]')
-      await page.waitForTimeout(1000)
-      const n = await claimBtns.count()
-      let clicked = false
-      for (let i = 0; i < n; i++) {
-        const btn = claimBtns.nth(i)
-        const text = (
-          (await btn.evaluate((el) => el.closest('.bounty-card')?.innerText || '')) || ''
-        ).toLowerCase()
-        if (!(await btn.isEnabled())) continue
-        if (text.includes('daily') || text.includes('cocktail')) continue
-        if (text.includes('ingredient') || text.includes('elusive')) {
-          await btn.click()
-          clicked = true
-          break
-        }
+      const card = page.locator('[data-testid="bounty-card-ingredient"]')
+      await card.waitFor({ timeout: 20000 })
+      const btn = card.locator('[data-testid="bounty-claim"]')
+      if (!(await btn.count()) || !(await btn.isEnabled())) {
+        throw new Error('ingredient claim button missing/disabled')
       }
-      if (!clicked) throw new Error('no ingredient claim button enabled')
-      await page.waitForURL(/\/drinkit\/log/, { timeout: 15000 })
+      await btn.click()
+      await page.waitForURL(/\/drinkit\/log.*from=ingredient/, { timeout: 15000 })
       await advanceLogWizardToReview(page, 'QA2A ingredient')
       const row = page.locator('[data-testid="bounty-row-ingredient"]')
       if (await row.count()) {
@@ -368,12 +357,14 @@ export async function runDrinkItSuite({ browser, env, registry }) {
     })
   })
 
-  // Bar bounty — attempt if crew eligible (best effort)
+  // Bar bounty — target bounty-card-bar (NOT /Bar/i — that matches "bars" on ingredient)
   await withPlayer(both.display_name, async (page) => {
     await page.goto(`${baseUrl}/drinkit`, { waitUntil: 'networkidle' })
     try {
-      const barClaim = page.locator('.bounty-card').filter({ hasText: /Bar/i }).locator('[data-testid="bounty-claim"]')
-      if (!(await barClaim.count()) || !(await barClaim.first().isEnabled())) {
+      const card = page.locator('[data-testid="bounty-card-bar"]')
+      await card.waitFor({ timeout: 20000 })
+      const barClaim = card.locator('[data-testid="bounty-claim"]')
+      if (!(await barClaim.count()) || !(await barClaim.isEnabled())) {
         registry.record({
           id: 'E2E-DI-005',
           journey: 'Bar Bounty with eligible crew',
@@ -384,12 +375,27 @@ export async function runDrinkItSuite({ browser, env, registry }) {
         })
         return
       }
-      await barClaim.first().click()
-      await page.waitForURL(/\/drinkit\/log/, { timeout: 15000 })
+      await barClaim.click()
+      await page.waitForURL(/\/drinkit\/log.*from=bar/, { timeout: 15000 })
       await page.waitForSelector('[data-testid="log-wizard"]')
+      // Prefer assigned crewmate section when present
+      await page
+        .waitForSelector(
+          '[data-testid="wizard-friends-step"], [data-testid="wizard-drink-step"], [data-testid="wizard-photo-step"]',
+          { timeout: 15000 },
+        )
+        .catch(() => {})
       if (await page.locator('[data-testid="wizard-friends-step"]').isVisible().catch(() => false)) {
-        const friend = page.locator(`[data-testid^="friend-row-"]`).first()
+        const crewFriend = page.locator('[data-testid="bar-crew-friends"] [data-testid^="friend-row-"]').first()
+        const friend =
+          (await crewFriend.count()) > 0
+            ? crewFriend
+            : page.locator(`[data-testid="friend-row-${drinkOnly.player_id}"]`).first()
         if (await friend.count()) await friend.click()
+        else {
+          const any = page.locator('[data-testid^="friend-row-"]').first()
+          if (await any.count()) await any.click()
+        }
       }
       await advanceLogWizardToReview(page, 'QA2A bar bounty')
       const barRow = page.locator('[data-testid="bounty-row-bar"]')

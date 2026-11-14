@@ -37,6 +37,7 @@ Severity scale matches campaign P0–P3. Links to `REL-*` / `DEF-QA1-*` avoid do
 - **Actual:** Playwright timed out waiting for review after prior cocktail claim in-session.  
 - **Repro:** See DRINKIT_E2E.md manual steps with a fresh ingredient-eligible account.  
 - **Blocks?** No for backend confidence; yes for declaring browser ingredient UX fully green.
+- **QA-2B update:** **Confirmed harness defect** — product intentionally lands ingredient claims on bar picker; harness refused to click bars. After harness-only fix, drinkit re-run **passed** DI-004. See `qa2b-browser-stress/FLAKINESS_INVESTIGATION.md`.
 
 ## E2E-012 — P2 — Bar bounty wizard advance intermittent
 
@@ -44,6 +45,7 @@ Severity scale matches campaign P0–P3. Links to `REL-*` / `DEF-QA1-*` avoid do
 - **Expected:** Stable Bar claim with crewmate through review/submit.  
 - **Actual:** Passed in one rerun, failed in a later rerun (timeout to review).  
 - **Notes:** Large friends list + floating nav tap interception likely contributors.
+- **QA-2B update:** **Confirmed harness defect** — `/Bar/i` matched “bars” on Ingredient card. Stable `bounty-card-bar` targeting; drinkit re-run **passed** DI-005.
 
 ---
 

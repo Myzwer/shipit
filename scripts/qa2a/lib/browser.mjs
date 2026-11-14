@@ -139,8 +139,12 @@ export async function pickDrinkOffering(page) {
 }
 
 /**
- * Finish log wizard from whatever step bounty prefill landed on
- * (cocktail/ingredient claims often skip bar+drink → friends).
+ * Finish log wizard from whatever step bounty prefill landed on.
+ *
+ * Product behavior (do not "fix" by waiting forever):
+ * - cocktail: bar+offering query prefills → friends (bar list may flash)
+ * - ingredient: intentionally lands on bar — player must pick a bar
+ * - bar: bar query prefills → drink step
  */
 export async function advanceLogWizardToReview(page, caption = 'QA2A bounty claim') {
   await page.waitForSelector('[data-testid="log-wizard"]', { timeout: 20000 })
@@ -150,28 +154,50 @@ export async function advanceLogWizardToReview(page, caption = 'QA2A bounty clai
   })
 
   const from = new URL(page.url()).searchParams.get('from') || ''
-  const prefilledClaim = ['cocktail', 'ingredient', 'bar'].includes(from)
+  const cocktailPrefill = from === 'cocktail'
+  const ingredientClaim = from === 'ingredient'
+  const barClaim = from === 'bar'
+  const mustPickBar = !cocktailPrefill && !barClaim // ordinary + ingredient
 
-  // Prefill applies asynchronously after mount — wait for the intended step so we
-  // do not click a random bar and derail cocktail/ingredient claim deep links.
-  if (prefilledClaim) {
+  // Cocktail/bar prefill applies asynchronously after mount — wait so we do not
+  // click a random bar and derail cocktail deep links. Ingredient must pick a bar.
+  if (cocktailPrefill || barClaim) {
     await page
       .waitForSelector(
         '[data-testid="wizard-friends-step"], [data-testid="wizard-drink-step"], [data-testid="wizard-photo-step"], [data-testid="wizard-review-step"]',
         { timeout: 20000 },
       )
       .catch(() => {})
+  } else if (ingredientClaim) {
+    await page.waitForSelector('[data-testid="bar-list"]', { timeout: 20000 }).catch(() => {})
   }
 
-  for (let guard = 0; guard < 8; guard++) {
+  for (let guard = 0; guard < 10; guard++) {
     if (await page.locator('[data-testid="wizard-review-step"]').count()) return
 
-    if (!prefilledClaim && (await page.locator('[data-testid="bar-list"]').count())) {
+    if (mustPickBar && (await page.locator('[data-testid="bar-list"]').count())) {
       await page.locator('[data-testid^="bar-row-"]').first().click()
       await page.waitForTimeout(400)
       continue
     }
     if (await page.locator('[data-testid="wizard-drink-step"]').count()) {
+      if (ingredientClaim) {
+        const notListed = page.locator('[data-testid="drink-not-listed"]')
+        if (await notListed.count()) {
+          await notListed.click()
+          await page.waitForSelector('[data-testid="unlisted-form"]', { timeout: 10000 })
+          await page.fill('[data-testid="unlisted-name"]', `QA ingredient ${Date.now() % 100000}`)
+          const cocktailType = page.locator('[data-testid="unlisted-type-cocktail"]')
+          if (await cocktailType.count()) await cocktailType.click()
+          const yes = page.locator('[data-testid="unlisted-ingredient-yes"]')
+          if (await yes.count()) await yes.click()
+          const featuredNo = page.locator('[data-testid="unlisted-featured-no"]')
+          if (await featuredNo.isVisible().catch(() => false)) await featuredNo.click()
+          await page.locator('[data-testid="unlisted-continue"]').click({ force: true })
+          await page.waitForTimeout(400)
+          continue
+        }
+      }
       await pickDrinkOffering(page)
       await page.waitForTimeout(400)
       continue
@@ -194,9 +220,15 @@ export async function advanceLogWizardToReview(page, caption = 'QA2A bounty clai
       await page.waitForTimeout(600)
       continue
     }
-    // Prefill still settling on bar flash — wait rather than clicking.
-    if (prefilledClaim && (await page.locator('[data-testid="bar-list"]').count())) {
+    // Cocktail/bar prefill still settling on bar flash — wait rather than clicking.
+    if ((cocktailPrefill || barClaim) && (await page.locator('[data-testid="bar-list"]').count())) {
       await page.waitForTimeout(500)
+      continue
+    }
+    // Ingredient edge: bar list present but mustPickBar path missed — click once.
+    if (ingredientClaim && (await page.locator('[data-testid="bar-list"]').count())) {
+      await page.locator('[data-testid^="bar-row-"]').first().click()
+      await page.waitForTimeout(400)
       continue
     }
     break
