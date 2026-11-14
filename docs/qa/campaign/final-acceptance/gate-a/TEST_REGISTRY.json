@@ -1,0 +1,56 @@
+{
+  "campaign": "FINAL-QA-GATE-A",
+  "checkpoint": "34240958a1ded3efa64736da6f33581111f91ada",
+  "branch": "visual/drinkit-home-v1",
+  "generated_at": "2026-11-14T21:00:00Z",
+  "environment": {
+    "organizer": "http://127.0.0.1:54321",
+    "disposable": "http://127.0.0.1:55321",
+    "agent2": "http://127.0.0.1:56321",
+    "qa_allow_organizer_mutation": false,
+    "application_source_modified": false
+  },
+  "totals": {
+    "unit_tests": { "discovered": 756, "executed": 756, "passed": 756, "failed": 0 },
+    "diagnostic_contracts": { "discovered": 354, "executed": 354, "passed": 354, "failed": 0 },
+    "r5_init_integration": { "discovered": 4, "executed": 4, "passed": 4, "failed": 0 },
+    "voyage_raw_checks": { "discovered": 95, "executed": 95, "passed": 61, "failed": 14, "info": 17 },
+    "voyage_after_triage": {
+      "product_fail": 1,
+      "harness_false_fail_families": 3,
+      "note": "Days5-7 cocktail/ingredient map to FINAL-A-CAT-001; ingredient1-4/WRP/ACH-BLOCKED are harness"
+    },
+    "supplemental": { "discovered": 16, "executed": 16, "passed": 12, "failed": 0, "blocked": 1, "info": 2 },
+    "catalog_rebind": { "discovered": 8, "executed": 8, "passed": 3, "failed": 2, "info": 2 },
+    "typecheck": "pass",
+    "build": "pass"
+  },
+  "cases": [
+    { "id": "GA-ENV-001", "area": "safety", "status": "passed", "method": "probe" },
+    { "id": "GA-INIT-001", "area": "production_init", "status": "passed", "method": "integration", "evidence": "admin_initialize_bounty_schedule 72/39/7/7" },
+    { "id": "GA-INIT-002", "area": "production_init", "status": "passed", "method": "integration", "evidence": "shortage atomic zero slots" },
+    { "id": "GA-INIT-003", "area": "production_init", "status": "passed", "method": "integration", "evidence": "idempotent + concurrent" },
+    { "id": "GA-LC-001", "area": "lifecycle", "status": "passed", "method": "simulated_lifecycle" },
+    { "id": "GA-LC-007DAY", "area": "lifecycle", "status": "passed", "method": "simulated_lifecycle", "evidence": "Sat-Fri simulated" },
+    { "id": "GA-LC-FINALE", "area": "lifecycle", "status": "passed", "method": "simulated_lifecycle" },
+    { "id": "GA-DI-COCKTAIL-ROT", "area": "drinkit", "status": "partial", "method": "simulated_lifecycle", "evidence": "days1-4 pass; 5-7 FINAL-A-CAT-001" },
+    { "id": "GA-DI-CLAIM", "area": "drinkit", "status": "passed", "method": "integration", "evidence": "supplemental offer_id claim" },
+    { "id": "GA-DI-BAR-SEQ", "area": "drinkit", "status": "passed", "method": "integration" },
+    { "id": "GA-SI-DEFS-50", "area": "shipit", "status": "passed", "method": "integration" },
+    { "id": "GA-SI-SUBMIT-50", "area": "shipit", "status": "blocked", "method": "integration", "evidence": "photo storage binding" },
+    { "id": "GA-CAT-MIDVOYAGE", "area": "catalog", "status": "failed", "defect": "FINAL-A-CAT-001", "method": "integration" },
+    { "id": "GA-ACH-MAP-174", "area": "achievements", "status": "passed", "method": "unit+content" },
+    { "id": "GA-ACH-EARN-174", "area": "achievements", "status": "not_run", "method": "integration" },
+    { "id": "GA-WRP-PAYLOAD", "area": "wrapped", "status": "passed", "method": "integration" },
+    { "id": "GA-WRP-METRICS-80", "area": "wrapped", "status": "partial", "method": "integration", "evidence": "3 RPC smokes; prior 77/80 cited" },
+    { "id": "GA-ADM-CORE", "area": "admin", "status": "passed", "method": "integration" },
+    { "id": "GA-MIG-109-114", "area": "migration", "status": "passed", "method": "probe", "evidence": "agent1 complete; organizer absent by design" },
+    { "id": "GA-MIG-FRESH-EMPTY", "area": "migration", "status": "not_run", "method": "ops" }
+  ],
+  "defects": ["FINAL-A-CAT-001"],
+  "seven_days_simulated": true,
+  "production_initializer_used": true,
+  "direct_earned_award_proof_count": 0,
+  "direct_wrapped_metric_aggregation_proof_count": 3,
+  "human_admin_needed_during_normal_gameplay": "Only pre-cruise Admin schedule init; mid-cruise catalog changes need Admin publish"
+}
