@@ -89,7 +89,14 @@
     "test:e2e:qa2a": "node scripts/qa2a/run.mjs",
     "qa2a:setup-synthetics": "node scripts/qa2a/setup-synthetics.mjs",
     "test:e2e:qa2b": "node scripts/qa2b/run-stress.mjs",
-    "qa2b:investigate-flakes": "node scripts/qa2b/investigate-bounty-flakes.mjs"
+    "qa2b:investigate-flakes": "node scripts/qa2b/investigate-bounty-flakes.mjs",
+    "test:qa2-reliability": "vitest run tests/unit/qa2-reliability",
+    "test:qa3a-admin-catalog": "vitest run tests/unit/qa3a-admin-catalog",
+    "test:qa3b-achievements-wrapped": "vitest run tests/unit/qa3b-achievements-wrapped",
+    "qa4a:probe:admin-catalog": "node scripts/qa2a/probe/admin-catalog.mjs",
+    "qa4a:probe:achievements": "node scripts/qa2a/probe/achievements.mjs",
+    "qa4a:probe:wrapped": "node scripts/qa2a/probe/wrapped-aggregation.mjs",
+    "qa4a:probe:roster-mo": "node scripts/qa2a/probe/roster-and-mo.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

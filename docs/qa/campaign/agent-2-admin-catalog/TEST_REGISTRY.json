@@ -1,0 +1,1920 @@
+{
+  "campaign": "QA-3A",
+  "agent": 2,
+  "worktree": "Ship-It-qa2-reliability",
+  "branch": "test/qa2-reliability",
+  "qa2_checkpoint": "bc43834",
+  "app_source_modified": false,
+  "generated_at": "2026-11-14T06:08:40.927Z",
+  "counts": {
+    "executed": 227,
+    "passed": 209,
+    "failed": 18,
+    "blocked": 14,
+    "meaningful_total": 241
+  },
+  "cases": [
+    {
+      "id": "QA3A-001",
+      "file": "adminAccess.contract.spec.ts",
+      "title": "admin access contract (router.ts source) A) /admin route declares requiresAuth + requiresAdmin",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-002",
+      "file": "adminAccess.contract.spec.ts",
+      "title": "admin access contract (router.ts source) B) admin is not locked out by the empty-enabledGames redirect",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-007"
+    },
+    {
+      "id": "QA3A-003",
+      "file": "adminAccess.contract.spec.ts",
+      "title": "AdminView sections (source contract) C) lists overview, players, drinkit, shipclock, catalog",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-004",
+      "file": "adminBountySkip.errors.spec.ts",
+      "title": "[MOCKED RPC] adminBountySkip.applyBountySkip error classification A) gateway-style error \"Bad Gateway\" must be unknown so pending is not cleared",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-003"
+    },
+    {
+      "id": "QA3A-005",
+      "file": "adminBountySkip.errors.spec.ts",
+      "title": "[MOCKED RPC] adminBountySkip.applyBountySkip error classification A) gateway-style error \"HTTP 502\" must be unknown so pending is not cleared",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-003"
+    },
+    {
+      "id": "QA3A-006",
+      "file": "adminBountySkip.errors.spec.ts",
+      "title": "[MOCKED RPC] adminBountySkip.applyBountySkip error classification B) \"Failed to fetch\" returns unknown",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-007",
+      "file": "adminBountySkip.errors.spec.ts",
+      "title": "[MOCKED RPC] adminBountySkip.applyBountySkip error classification C) result ok:false with NO_RESERVES returns failed / no_reserves",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-008",
+      "file": "adminCatalogPending.contract.spec.ts",
+      "title": "CatalogImportSection pending contract (source) A) previewPublish failure branch (after stage success) clears pending or offers Discard",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-008/CAT-001"
+    },
+    {
+      "id": "QA3A-009",
+      "file": "adminCatalogPending.contract.spec.ts",
+      "title": "CatalogImportSection pending contract (source) B) runPublish refuses to start when a pending write already exists",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-009"
+    },
+    {
+      "id": "QA3A-010",
+      "file": "adminCatalogPending.contract.spec.ts",
+      "title": "CatalogImportSection pending contract (source) C) all catalog RPC names are present across src/lib/adminCatalogImport.ts",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-011",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "adminClock isConfirmedRejection (source contract) A) is not exported and is message-regex based with a fixed allowlist",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-012",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "[MOCKED RPC] adminClock.applyManualCorrection unlisted server error (characterization) unlisted deterministic error \"malformed timestamp\" is NOT treated as confirmed rejection -> unknown via reconcile",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-013",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "ShipClockSection.confirmManual recovery (source contract) B) confirmManual body has a catch clause (UI must recover if applyManualCorrection throws)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-005"
+    },
+    {
+      "id": "QA3A-014",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "adminClock.intentFingerprint C) ±60 delta fingerprints",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-015",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "adminClock.intentFingerprint C) invalid delta returns null",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-016",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "adminClock.intentFingerprint C) set_time fingerprint normalizes space to T",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-017",
+      "file": "adminClock.rejection.spec.ts",
+      "title": "adminClock.intentFingerprint C) set_time without target returns null",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-018",
+      "file": "adminInventory.contract.spec.ts",
+      "title": "admin inventory (static) all Admin Vue section files exist under src/features/admin/",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-019",
+      "file": "adminInventory.contract.spec.ts",
+      "title": "admin inventory (static) AdminView imports the five top-level sections",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-020",
+      "file": "adminInventory.contract.spec.ts",
+      "title": "admin inventory (static) critical admin RPC string literals exist across admin lib files",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-021",
+      "file": "adminInventory.contract.spec.ts",
+      "title": "admin inventory (static) admin-roster Edge Function exists and is invoked by adminRoster.ts",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-022",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) inventory sanity: admin pending keys were discovered",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-023",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) A) signOut clears admin pending via @/lib/pendingClockCorrection (clearPendingClockCorrection)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-006"
+    },
+    {
+      "id": "QA3A-024",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) A) signOut clears admin pending via @/lib/pendingAdminCatalogImport (clearPendingAdminCatalogImport)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-006"
+    },
+    {
+      "id": "QA3A-025",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) A) signOut clears admin pending via @/lib/pendingAdminRoster (clearPendingRosterAccess)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-006"
+    },
+    {
+      "id": "QA3A-026",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) A) signOut clears admin pending via @/lib/pendingAdminRoster (clearPendingRosterAuth)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-006"
+    },
+    {
+      "id": "QA3A-027",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "session.signOut vs admin pending keys (source contract) A) signOut references every admin pending module",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "ADM-006"
+    },
+    {
+      "id": "QA3A-028",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "pending key inventory (report snapshot) B) PENDING_* key constants across src/lib/pending*.ts",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-029",
+      "file": "adminPendingKeys.contract.spec.ts",
+      "title": "pending key inventory (report snapshot) B) pendingDailyAnnouncement uses an un-namespaced private key (not star-princess.admin.*)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-030",
+      "file": "adminRoster.reconcile.spec.ts",
+      "title": "[MOCKED RPC] adminRoster.reconcileAuthRequest A) in_progress ledger row without ok:true stays unknown so Check Status can retry",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-001"
+    },
+    {
+      "id": "QA3A-031",
+      "file": "adminRoster.reconcile.spec.ts",
+      "title": "[MOCKED RPC] adminRoster.reconcileAuthRequest C) ok:true ledger row reconciles to ok",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-032",
+      "file": "adminRoster.reconcile.spec.ts",
+      "title": "[MOCKED RPC] adminRoster.reconcileAuthRequest D) missing ledger row (null data) stays unknown",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-033",
+      "file": "adminRoster.reconcile.spec.ts",
+      "title": "[MOCKED functions.invoke] adminRoster.createPlayer B) HTTP 409 OPERATION_IN_PROGRESS must be unknown (request may still complete), not failed",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-002"
+    },
+    {
+      "id": "QA3A-034",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) BarBountyCrewsSection / API call admin_list_bar_bounty_crews (crew lock risk on open)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-035",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) admin_list_bar_bounty_crews migration ensures crews at clock (mutating read)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-036",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) docs warn crews can lock on first ensure",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-037",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) Overview loads pause + clock diagnostics (finale latch risk on read — blocked for live proof)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-038",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) GameStatusSection pause/resume uses request-id pending pattern",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-039",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) ShipClockSection exposes ±1h, Set Ship Time, and Save Plan controls",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-040",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Admin read side-effects (source contracts) VoidSubmissionSection requires pasted submission UUID (no gallery search UI)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-041",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Mobile Order bounty exclusion (source contracts — not live eligibility) migration 11000 documents virtual_order_source for cocktail path",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-042",
+      "file": "adminSideEffects.contract.spec.ts",
+      "title": "Mobile Order bounty exclusion (source contracts — not live eligibility) client MOBILE_ORDER_BAR_KEY is defined for wizard search",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-043",
+      "file": "adminVoid.errors.spec.ts",
+      "title": "[MOCKED RPC] adminVoid.applyVoidSubmission error classification A) deterministic server rejection \"'FINALE_LOCKED'\" should be failed (confirmed), not unknown",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-004"
+    },
+    {
+      "id": "QA3A-044",
+      "file": "adminVoid.errors.spec.ts",
+      "title": "[MOCKED RPC] adminVoid.applyVoidSubmission error classification A) deterministic server rejection \"'SUBMISSION_NOT_FOUND'\" should be failed (confirmed), not unknown",
+      "status": "failed",
+      "mode": "mocked_rpc_or_source",
+      "defect": "ADM-004"
+    },
+    {
+      "id": "QA3A-045",
+      "file": "adminVoid.errors.spec.ts",
+      "title": "[MOCKED RPC] adminVoid.applyVoidSubmission error classification B) ADMIN_REQUIRED -> failed / forbidden",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-046",
+      "file": "adminVoid.errors.spec.ts",
+      "title": "[MOCKED RPC] adminVoid.applyVoidSubmission error classification C) data ok:true -> ok",
+      "status": "passed",
+      "mode": "mocked_rpc_or_source",
+      "defect": null
+    },
+    {
+      "id": "QA3A-047",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — stage → preview → publish → rollback RPC contract (static) adminCatalogImport.ts calls all four admin catalog RPCs by name",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-048",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — stage → preview → publish → rollback RPC contract (static) CatalogImportSection.vue drives the flow only through the typed client wrappers",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-049",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — stage → preview → publish → rollback RPC contract (static) stages first, then previews, and only then offers publish (call order in source)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-050",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — stage → preview → publish → rollback RPC contract (static) stage is gated on the local isReadyToStage preview",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-051",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — stage → preview → publish → rollback RPC contract (static) runPublish and runRollback pass expected active version / payload hash guards",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-052",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — no redeploy required (static) no runtime src file imports a content/catalogs launch/active catalog snapshot",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-053",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — no redeploy required (static) stores never import content/catalogs or catalog JSON snapshots",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-054",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — no redeploy required (static) no runtime src code uses import.meta.glob / fetch against catalog snapshots",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-055",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — no redeploy required (static) activation is a database pointer flip in the publish migration, not a build artifact",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-056",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "Admin catalog activation — no redeploy required (static) the client exposes catalog versions via RPC list, not a bundled file",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-057",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — pending-state ordering (static) writes a stage pending marker BEFORE calling stageImport",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-058",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — pending-state ordering (static) after a successful stage, rewrites pending as action \"publish\" BEFORE previewPublish",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-059",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — pending-state ordering (static) clears pending when staging fails (control: this branch is handled)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-060",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — pending-state ordering (static) clears pending when the preview succeeds (control)",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-061",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — pending-state ordering (static) locks the stage button, file input and paste box while a pending marker exists",
+      "status": "passed",
+      "mode": "source_contract",
+      "defect": null
+    },
+    {
+      "id": "QA3A-062",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — preview failure recovery (DEFECT CAT/ADM) DEFECT: preview-failure branch calls clearPendingAdminCatalogImport()",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "CAT-001/ADM-008"
+    },
+    {
+      "id": "QA3A-063",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — preview failure recovery (DEFECT CAT/ADM) DEFECT: preview-failure branch resets the in-memory pending ref (pending.value = null)",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "CAT-001/ADM-008"
+    },
+    {
+      "id": "QA3A-064",
+      "file": "catalogActivation.contract.spec.ts",
+      "title": "CatalogImportSection.runStageAndPreview — preview failure recovery (DEFECT CAT/ADM) DEFECT: the section offers some way to discard a stuck pending marker",
+      "status": "failed",
+      "mode": "source_contract",
+      "defect": "CAT-001/ADM-008"
+    },
+    {
+      "id": "QA3A-065",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract identifies as schema 1.1 star-princess-launch-candidate-v1 full_snapshot",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-066",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract previewCatalogImport accepts it structurally with no schema or cross-reference errors",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-067",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract is ready_for_scheduling and ready to stage",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-068",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract has exactly 13 bars",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-069",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract has >= 72 eligible cocktail candidates and >= 39 eligible ingredient candidates",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-070",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract does NOT include the Mobile Order virtual source among the catalog bars",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-071",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract every bar is active and every candidate designates a listed bar",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-072",
+      "file": "catalogLaunchCandidate.contract.spec.ts",
+      "title": "launch-candidate-v1.json contract one cocktail candidate per drink concept (no duplicate concepts padding the pool)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-073",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects null without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-074",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects undefined without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-075",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects array root without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-076",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects array root with a valid catalog inside without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-077",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects string root without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-078",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects JSON string root without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-079",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects number root without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-080",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects boolean root without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-081",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects empty object without throwing",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-082",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots reports every missing required root field for an empty object",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-083",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field schema_version",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-084",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field catalog_id",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-085",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field mode",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-086",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field source_notes",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-087",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field bars",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-088",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field ingredients",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-089",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field drinks",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-090",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field cocktail_candidates",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-091",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — hostile roots rejects a ready catalog missing required root field ingredient_candidates",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-092",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects bars supplied as a string",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-093",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects schema_version supplied as a number (1.0 / 1.1)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-094",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects drinks as object",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-095",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects ingredients as null",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-096",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects cocktail_candidates as string",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-097",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects ingredient_candidates as number",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-098",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects source_notes as array",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-099",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects catalog_id as number",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-100",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects a bar with a wrong-typed active flag and an offering with string price",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-101",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects an unexpected property at the root (extra_field)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-102",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects mode other than full_snapshot",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-103",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties rejects schema_version \"2.0\" and other unsupported strings",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-104",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — wrong field types / unexpected properties accepts both supported schema_version strings on an otherwise ready catalog",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-105",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — empty collections rejects an empty bars array (minItems 1)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-106",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — empty collections rejects a drink with an empty bar_offerings array (minItems 1)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-107",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — empty collections accepts empty drinks / candidates structurally but is never ready",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-108",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate bar key",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-109",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate ingredient key",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-110",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate drink concept key",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-111",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate offering (same drink at the same bar twice)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-112",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate cocktail candidate (same drink@bar) and its repeated concept",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-113",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers rejects a duplicate ingredient candidate",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-114",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — duplicate identifiers does not let a duplicated cocktail candidate pad the eligible count to reach 72",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-115",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects an offering at an unknown bar",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-116",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects an offering with an unknown ingredient",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-117",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects a cocktail candidate designating an unknown bar",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-118",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects a cocktail candidate for an unknown drink",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-119",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects an ingredient candidate for an unknown ingredient",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-120",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — unknown references rejects source_notes bar keys that are not in bars",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-121",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects UPPERCASE bar key",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-122",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects bar key with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-123",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects ingredient key UPPERCASE",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-124",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects ingredient key with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-125",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects drink key UPPERCASE",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-126",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects drink key with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-127",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects drink key with underscore",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-128",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects drink key with leading hyphen",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-129",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects drink key with double hyphen",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-130",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects empty key",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-131",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects offering bar_key with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-132",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects candidate drink_key UPPERCASE",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-133",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects ingredient candidate key with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-134",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects catalog_id UPPERCASE",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-135",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects catalog_id with spaces",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-136",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — key patterns rejects catalog_id empty",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-137",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 0 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-138",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 10 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-139",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 24 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-140",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 26 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-141",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 30 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-142",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 49 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-143",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 51 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-144",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 99 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-145",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 101 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-146",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 125 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-147",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = -25 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-148",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = 25.5 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-149",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = \"25\" (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-150",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects cocktail candidate points = null (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-151",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects ingredient candidate points = 0 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-152",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects ingredient candidate points = 30 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-153",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects ingredient candidate points = 110 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-154",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects ingredient candidate points = 125 (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-155",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects ingredient candidate points = \"50\" (only 25/50/75/100 allowed)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-156",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts points = 25 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-157",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts points = 50 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-158",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts points = 75 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-159",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts points = 100 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-160",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = -0.01 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-161",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = -1 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-162",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = 500.01 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-163",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = 501 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-164",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = 9999 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-165",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects price_usd = 9007199254740991 (schema range 0..500)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-166",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts price_usd = 0 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-167",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts price_usd = 0.01 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-168",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts price_usd = 15 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-169",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds accepts price_usd = 500 at the schema layer",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-170",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds rejects known_bar_count above 30 and negative counts",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-171",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — numeric bounds does not treat a within-limit price above the $15 ceiling as valid",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-172",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — extremely large catalog buildScheduleReadyCatalog(400, 200) validates structurally; no size cap is enforced",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-173",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — readiness boundary (72 cocktails / 39 ingredients) slot targets are 72 and 39",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-174",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — readiness boundary (72 cocktails / 39 ingredients) (71, 39) is not ready: one cocktail short",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-175",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — readiness boundary (72 cocktails / 39 ingredients) (72, 38) is not ready: one ingredient short",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-176",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — readiness boundary (72 cocktails / 39 ingredients) (72, 39) is ready for scheduling and ready to stage",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-177",
+      "file": "catalogValidate.hostile.spec.ts",
+      "title": "catalog validation — readiness boundary (72 cocktails / 39 ingredients) (71, 38) and (0, 0) are not ready",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-178",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — baseline a completely valid replacement is ready_for_scheduling and ready to stage",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-179",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — baseline a replacement with a new catalog_id / base_catalog_id is still ready",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-180",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions adds a new drink concept + offering + candidate and stays valid (counts grow, still >= targets)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-181",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions swaps one candidate for a new concept keeping the pool at exactly 72",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-182",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions a new drink without any candidate does not change eligibility counts",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-183",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions adds a new ingredient corroborated by two active-bar offerings and a matching candidate",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-184",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions rejects a new ingredient candidate with only one corroborating bar (one-bar objectives excluded)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-185",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions rejects a new ingredient candidate with no menu evidence at all",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-186",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — additions rejects declared ingredient counts that overstate corroboration",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-187",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — existing concept at a new bar is valid when the new offering does NOT add a second candidate for the concept",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-188",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — existing concept at a new bar rejects a second candidate for the same concept at the new bar (DUPLICATE_COCKTAIL_CONCEPT)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-189",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves renaming a concept (name changes, key preserved) stays valid with identical counts",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-190",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves renaming an ingredient (name changes, key preserved) stays valid",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-191",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves removing a non-candidate, non-evidence offering keeps the catalog ready",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-192",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves removing the offering at a candidate's designated bar is rejected (COCKTAIL_CANDIDATE_BAR_MISSING)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-193",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves removing an ingredient evidence drink breaks corroboration and blocks staging",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-194",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves deleting a drink that still has a cocktail candidate is rejected",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-195",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — renames, removals, moves deactivating a bar that hosts a designated candidate is rejected (inactive-bar candidate)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-196",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — duplicates rejected rejects duplicate drinks",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-197",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — duplicates rejected rejects duplicate ingredients",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-198",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization rejects the same alias on two ingredients after trim/case/whitespace normalization (ALIAS_CONFLICT)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-199",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization rejects an alias that normalizes to another ingredient key (ALIAS_COLLIDES_WITH_KEY)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-200",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization rejects an ingredient name that duplicates another ingredient alias (INGREDIENT_NAME_CONFLICT)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-201",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization rejects an ingredient alias that equals another ingredient's display name (ALIAS_CONFLICT)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-202",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization allows case/space variants of an alias on the SAME ingredient (no self-conflict)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-203",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — ingredient aliases and normalization rejects byte-identical duplicate aliases within one ingredient at the schema layer (uniqueItems)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-204",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — Mobile Order bar key (catalog-level behavior only) ACCEPTS a mobile-order bar key inserted into a ready catalog (validator is not virtual-aware)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-205",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — Mobile Order bar key (catalog-level behavior only) REJECTS an is_virtual flag on a bar (schema additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-206",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — Mobile Order bar key (catalog-level behavior only) ACCEPTS a cocktail candidate designated at mobile-order (catalog level; DB blocks scoring)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-207",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — eligibility rejects a cocktail candidate on a verified_over_limit offering and drops eligible below 72",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-208",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — eligibility rejects a candidate whose price exceeds $15 but is mislabelled within-limit",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-209",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — eligibility an unverified-price candidate is not eligible, so the catalog is not ready",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-210",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — eligibility a non-cocktail drink kind cannot be a cocktail candidate",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-211",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — eligibility tier/points mismatch is rejected",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-212",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a bar (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-213",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a ingredient (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-214",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a drink (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-215",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a bar offering (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-216",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a cocktail candidate (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-217",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a ingredient candidate (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-218",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a source_notes (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-219",
+      "file": "catalogValidate.replacement.spec.ts",
+      "title": "replacement catalog — unexpected nested properties rejects an unexpected property on a uncertainty flag (additionalProperties:false)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-220",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — catalog content (verified in-repo) launch-candidate catalog exists and is client-ready to stage",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-221",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — catalog content (verified in-repo) launch candidate excludes Mobile Order virtual bar from catalog bars",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-222",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — catalog content (verified in-repo) organizer-authorized exceptions registry is present for retention gates",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-223",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — Admin surface gaps (inspected, not filled) no Admin UI writes cruise_config day1 / base offset (ops must seed out-of-band)",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-224",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — Admin surface gaps (inspected, not filled) Roster can assign teams but has no team create/rename RPC in Admin libs",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-225",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — Admin surface gaps (inspected, not filled) Daily announcement Admin edits free-text only — no meeting time/location editors",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-226",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — Admin surface gaps (inspected, not filled) first bounty schedule generation remains DEV_SCHEDULE / service_role gated in migrations",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    },
+    {
+      "id": "QA3A-227",
+      "file": "launchConfig.contract.spec.ts",
+      "title": "Launch configuration — ambiguity register still open campaign AMBIGUITIES_AND_GAPS still lists production voyage dates as organizer input",
+      "status": "passed",
+      "mode": "real_validator",
+      "defect": null
+    }
+  ],
+  "blocked": [
+    {
+      "id": "QA3A-B001",
+      "title": "Disposable: admin_publish_catalog_import transactional activation + pointer flip",
+      "status": "blocked",
+      "reason": "No isolated Supabase reserved for Agent 2"
+    },
+    {
+      "id": "QA3A-B002",
+      "title": "Disposable: admin_rollback_catalog chain + history preservation",
+      "status": "blocked",
+      "reason": "No isolated Supabase"
+    },
+    {
+      "id": "QA3A-B003",
+      "title": "Disposable: REMAINING_POOL_SHORTAGE mid-apply rollback of ledger",
+      "status": "blocked",
+      "reason": "No isolated Supabase"
+    },
+    {
+      "id": "QA3A-B004",
+      "title": "Disposable: concurrent stage same catalog_id + publish race",
+      "status": "blocked",
+      "reason": "No isolated Supabase"
+    },
+    {
+      "id": "QA3A-B005",
+      "title": "Disposable: Add Drink vs catalog publish overlay race",
+      "status": "blocked",
+      "reason": "No isolated Supabase"
+    },
+    {
+      "id": "QA3A-B006",
+      "title": "Disposable: TS-only rule bypass via crafted p_validation RPC",
+      "status": "blocked",
+      "reason": "No isolated Supabase"
+    },
+    {
+      "id": "QA3A-B007",
+      "title": "Disposable: Mobile Order cocktail/ingredient virtual_order_source live",
+      "status": "blocked",
+      "reason": "Avoid Agent1 :55321 and organizer :54321"
+    },
+    {
+      "id": "QA3A-B008",
+      "title": "Disposable: Bar Bounty crews ensure-on-read locks day roster",
+      "status": "blocked",
+      "reason": "Mutating read; needs disposable"
+    },
+    {
+      "id": "QA3A-B009",
+      "title": "Disposable: roster Auth create/reset lease + Check Status soak",
+      "status": "blocked",
+      "reason": "Edge Function + Auth; mutating"
+    },
+    {
+      "id": "QA3A-B010",
+      "title": "Disposable: void + skip + pause request-id reconcile under transport loss",
+      "status": "blocked",
+      "reason": "Mutating Admin RPCs"
+    },
+    {
+      "id": "QA3A-B011",
+      "title": "Disposable: Set Ship Time finale latch irreversibility",
+      "status": "blocked",
+      "reason": "Mutates clock; Agent1 owns clock authority tests"
+    },
+    {
+      "id": "QA3A-B012",
+      "title": "Disposable: first production schedule generation without dev_*",
+      "status": "blocked",
+      "reason": "No prod RPC; needs ops decision"
+    },
+    {
+      "id": "QA3A-B013",
+      "title": "Disposable: catalog replace achievement progress carryover re-verify",
+      "status": "blocked",
+      "reason": "Integration suite exists but not run here"
+    },
+    {
+      "id": "QA3A-B014",
+      "title": "Organizer: production cruise_config + roster + teams verification",
+      "status": "blocked",
+      "reason": "Must not mutate :54321; missing organizer inputs"
+    }
+  ]
+}

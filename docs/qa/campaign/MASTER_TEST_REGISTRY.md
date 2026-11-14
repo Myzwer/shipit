@@ -100,3 +100,20 @@ QA-1 index: [QA1_EXECUTION_SUMMARY.md](./QA1_EXECUTION_SUMMARY.md) · defects: [
 | QA-SAFE-002 | Refuse non-local hosts | **passed** | same |
 | QA-SAFE-003 | Refuse final fixture mutation | **passed** | `devEnvironmentGuard` |
 | QA-SAFE-004 | Refuse :54321 without override | **passed** | guard; organizer remains final post-QA-1 |
+| QA-SAFE-005 | Allow :55321 + :56321 local stacks | **passed** | merged `devEnvironmentGuard` (post Agent 2 integration) |
+
+## Campaign evidence index (integrated)
+
+| Campaign | Registry / reports | Automated tests |
+|---|---|---|
+| QA-0 / QA-0.5 | This folder baseline docs | Safety + inventory |
+| QA-1 | `QA1_*`, `qa1-results/` | Integration suites on `:55321` |
+| QA-2 | `agent-2-reliability/` | `tests/unit/qa2-reliability/` |
+| QA-2A | `qa2a-browser-e2e/` | `scripts/qa2a/` Playwright |
+| QA-2B | `qa2b-browser-stress/` | `scripts/qa2b/` |
+| QA-3A | `agent-2-admin-catalog/` | `tests/unit/qa3a-admin-catalog/` |
+| QA-3B | `agent-2-achievements-wrapped/` | `tests/unit/qa3b-achievements-wrapped/` |
+| QA-4A | `agent-2-backend-integration/` | `scripts/qa2a/probe/` (`:56321` only) |
+| Consolidation | `consolidation/` | Defect register + known-failure manifest |
+
+Repair mapping: [`consolidation/KNOWN_FAILURE_MANIFEST.md`](./consolidation/KNOWN_FAILURE_MANIFEST.md) · [`consolidation/REPAIR_EXECUTION_MATRIX.md`](./consolidation/REPAIR_EXECUTION_MATRIX.md)

@@ -1,0 +1,1870 @@
+{
+  "generated_at": "2026-11-14T07:11:28.523Z",
+  "backend": "star-princess-qa2-backend :56321",
+  "migration_11100_applied_on_qa2": true,
+  "dataset": {
+    "drinkit_players": 5,
+    "shipit_players": 3,
+    "teams": 2,
+    "drink_logs": 15,
+    "daily_claims": 2,
+    "scavenger_completions": 5,
+    "note": "Other roster rows (demo/synthetic) have zero activity; expectations computed from script ledger + raw tables"
+  },
+  "summary": {
+    "total": 80,
+    "executed_proof": 74,
+    "shared_logic_proof": 6,
+    "contract_only": 0,
+    "blocked": 0,
+    "executed_pass": 77,
+    "executed_fail": 3,
+    "failing_spec_ids": [
+      "DI-P03",
+      "DI-P15",
+      "DI-C08"
+    ]
+  },
+  "wrp_001": {
+    "migration_alone_exposes_counts": true,
+    "app_code_change_required": false,
+    "denominator": 126,
+    "new_defect": "INT-WRP-002 (rank regression introduced by 11100)"
+  },
+  "rows": [
+    {
+      "spec_id": "DI-P01",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 1,
+      "label": "Drinks Logged",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P02",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 2,
+      "label": "Total Points",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P03",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 3,
+      "label": "Final Rank",
+      "classification": "executed_proof",
+      "result": "fail",
+      "basis": "executed and MISMATCHED independent expectation — see failures",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "FAIL"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "FAIL"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "FAIL"
+        }
+      ],
+      "failures": [
+        [
+          "value_numeric expected 1 got 4"
+        ],
+        [
+          "value_numeric expected 3 got 5"
+        ],
+        [
+          "value_numeric expected 3 got 5"
+        ]
+      ]
+    },
+    {
+      "spec_id": "DI-P04",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 4,
+      "label": "Achievements Unlocked",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P05",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 5,
+      "label": "Bounties Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P06",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 6,
+      "label": "Cocktail Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "category counter shares wrapped_di_claim_rows with DI-P09/DI-P05; zero value verified",
+      "positive_path_blocked_reason": "cocktail-category claims cannot be generated: launch-candidate catalog has no schedulable Cocktail slots on qa2 (bounty slot offers = 0); only zero-value + shared-logic proven",
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P07",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 7,
+      "label": "Ingredient Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "category counter shares wrapped_di_claim_rows with DI-P09/DI-P05; zero value verified",
+      "positive_path_blocked_reason": "ingredient-category claims cannot be generated (no bounty slot offers); only zero-value + shared-logic proven",
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P08",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 8,
+      "label": "Bar Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "category counter shares wrapped_di_claim_rows with DI-P09/DI-P05; zero value verified",
+      "positive_path_blocked_reason": "bar-category claims cannot be generated (no bar bounty assignments); only zero-value + shared-logic proven",
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P09",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 9,
+      "label": "Daily Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P10",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 10,
+      "label": "Different Drinks Tried",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P11",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 11,
+      "label": "Bars Visited",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P12",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 12,
+      "label": "Favorite Drink",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P13",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 13,
+      "label": "Favorite Liquor",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P14",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 14,
+      "label": "Favorite Ingredient",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P15",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 15,
+      "label": "Favorite Bar",
+      "classification": "executed_proof",
+      "result": "fail",
+      "basis": "executed and MISMATCHED independent expectation — see failures",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "FAIL"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "FAIL"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": [
+        [
+          "winner names expected [\"Lido Bar\",\"Promenade Bars\",\"Star Bar\"] got [\"Lido Bar\",\"Mobile Order\",\"Promenade Bars\",\"Star Bar\"]"
+        ],
+        [
+          "available expected false got true"
+        ]
+      ]
+    },
+    {
+      "spec_id": "DI-P16",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 16,
+      "label": "Partner in Crime",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P17",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 17,
+      "label": "Biggest Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-P18",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 18,
+      "label": "Most Active Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for A, B, D(mobile-order-only), E(zero-activity)",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "A",
+          "status": "PASS"
+        },
+        {
+          "viewer": "B",
+          "status": "PASS"
+        },
+        {
+          "viewer": "D(mobile-order-only)",
+          "status": "PASS"
+        },
+        {
+          "viewer": "E(zero-activity)",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G01",
+      "game": "drinkit",
+      "section": "global",
+      "order": 1,
+      "label": "Grand Champion",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G02",
+      "game": "drinkit",
+      "section": "global",
+      "order": 2,
+      "label": "Most Drinks Logged",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G03",
+      "game": "drinkit",
+      "section": "global",
+      "order": 3,
+      "label": "Most Bounties Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G04",
+      "game": "drinkit",
+      "section": "global",
+      "order": 4,
+      "label": "Most Cocktail Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "same wrapped_di_metric_winners/max-winners path as DI-G03; zero-data branch executed (unavailable)",
+      "positive_path_blocked_reason": "unavailable branch only; positive winner path needs real cocktail claims",
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G05",
+      "game": "drinkit",
+      "section": "global",
+      "order": 5,
+      "label": "Most Ingredient Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "same wrapped_di_metric_winners/max-winners path as DI-G03; zero-data branch executed (unavailable)",
+      "positive_path_blocked_reason": "unavailable branch only; positive winner path needs real ingredient claims",
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G06",
+      "game": "drinkit",
+      "section": "global",
+      "order": 6,
+      "label": "Most Bar Bounties Completed",
+      "classification": "shared_logic_proof",
+      "result": "pass",
+      "basis": "same wrapped_di_metric_winners/max-winners path as DI-G03; zero-data branch executed (unavailable)",
+      "positive_path_blocked_reason": "unavailable branch only; positive winner path needs real bar claims",
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G07",
+      "game": "drinkit",
+      "section": "global",
+      "order": 7,
+      "label": "Most Daily Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G08",
+      "game": "drinkit",
+      "section": "global",
+      "order": 8,
+      "label": "Most Achievements Unlocked",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G09",
+      "game": "drinkit",
+      "section": "global",
+      "order": 9,
+      "label": "Most Bars Visited",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G10",
+      "game": "drinkit",
+      "section": "global",
+      "order": 10,
+      "label": "Most Different Drinks Tried",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G11",
+      "game": "drinkit",
+      "section": "global",
+      "order": 11,
+      "label": "Most Adventurous Drinker",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G12",
+      "game": "drinkit",
+      "section": "global",
+      "order": 12,
+      "label": "Most Frequent Drinking Pair",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G13",
+      "game": "drinkit",
+      "section": "global",
+      "order": 13,
+      "label": "Earliest Drink Logged",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G14",
+      "game": "drinkit",
+      "section": "global",
+      "order": 14,
+      "label": "Latest Drink Logged",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G15",
+      "game": "drinkit",
+      "section": "global",
+      "order": 15,
+      "label": "Highest Single-Day Score",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-G16",
+      "game": "drinkit",
+      "section": "global",
+      "order": 16,
+      "label": "Most Drinks in One Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C01",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 1,
+      "label": "Total Drinks Logged",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C02",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 2,
+      "label": "Total Different Drinks Tried",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C03",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 3,
+      "label": "Total Bounties Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C04",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 4,
+      "label": "Total Achievements Unlocked",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C05",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 5,
+      "label": "Most Popular Drink",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C06",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 6,
+      "label": "Most Popular Liquor",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C07",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 7,
+      "label": "Most Popular Ingredient",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C08",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 8,
+      "label": "Most Popular Bar",
+      "classification": "executed_proof",
+      "result": "fail",
+      "basis": "executed and MISMATCHED independent expectation — see failures",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "FAIL"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "FAIL"
+        }
+      ],
+      "failures": [
+        [
+          "winner names expected [\"Lido Bar\"] got [\"Mobile Order\"]",
+          "winner value expected 4 got [6]"
+        ],
+        [
+          "winner names expected [\"Lido Bar\"] got [\"Mobile Order\"]",
+          "winner value expected 4 got [6]"
+        ]
+      ]
+    },
+    {
+      "spec_id": "DI-C09",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 9,
+      "label": "Least Visited Bar",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C10",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 10,
+      "label": "Most Popular Drinking Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C11",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 11,
+      "label": "Total Unique Ingredients Tried",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "DI-C12",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 12,
+      "label": "Total Points Earned",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerA, viewerB",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerA",
+          "status": "PASS"
+        },
+        {
+          "viewer": "viewerB",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P01",
+      "game": "shipit",
+      "section": "personal",
+      "order": 1,
+      "label": "Final Rank",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P02",
+      "game": "shipit",
+      "section": "personal",
+      "order": 2,
+      "label": "Total Points",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P03",
+      "game": "shipit",
+      "section": "personal",
+      "order": 3,
+      "label": "Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P04",
+      "game": "shipit",
+      "section": "personal",
+      "order": 4,
+      "label": "Completion Percentage",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P05",
+      "game": "shipit",
+      "section": "personal",
+      "order": 5,
+      "label": "Most Completed Category",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P06",
+      "game": "shipit",
+      "section": "personal",
+      "order": 6,
+      "label": "Biggest Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P07",
+      "game": "shipit",
+      "section": "personal",
+      "order": 7,
+      "label": "Most Active Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P08",
+      "game": "shipit",
+      "section": "personal",
+      "order": 8,
+      "label": "First Challenge Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P09",
+      "game": "shipit",
+      "section": "personal",
+      "order": 9,
+      "label": "Last Challenge Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-P10",
+      "game": "shipit",
+      "section": "personal",
+      "order": 10,
+      "label": "Exclusive Challenges",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for T1, T2",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "T1",
+          "status": "PASS"
+        },
+        {
+          "viewer": "T2",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G01",
+      "game": "shipit",
+      "section": "global",
+      "order": 1,
+      "label": "Grand Champions",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G02",
+      "game": "shipit",
+      "section": "global",
+      "order": 2,
+      "label": "Most Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G03",
+      "game": "shipit",
+      "section": "global",
+      "order": 3,
+      "label": "First Challenge Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G04",
+      "game": "shipit",
+      "section": "global",
+      "order": 4,
+      "label": "Last Challenge Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G05",
+      "game": "shipit",
+      "section": "global",
+      "order": 5,
+      "label": "Highest Single-Day Score",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G06",
+      "game": "shipit",
+      "section": "global",
+      "order": 6,
+      "label": "Most Challenges in One Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G07",
+      "game": "shipit",
+      "section": "global",
+      "order": 7,
+      "label": "Most Exclusive Challenges",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G08",
+      "game": "shipit",
+      "section": "global",
+      "order": 8,
+      "label": "Most Active Days",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G09",
+      "game": "shipit",
+      "section": "global",
+      "order": 9,
+      "label": "Category Leaders",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G10",
+      "game": "shipit",
+      "section": "global",
+      "order": 10,
+      "label": "Highest-Value Challenge Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G11",
+      "game": "shipit",
+      "section": "global",
+      "order": 11,
+      "label": "Closest Teams",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-G12",
+      "game": "shipit",
+      "section": "global",
+      "order": 12,
+      "label": "Largest Lead",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C01",
+      "game": "shipit",
+      "section": "collective",
+      "order": 1,
+      "label": "Total Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C02",
+      "game": "shipit",
+      "section": "collective",
+      "order": 2,
+      "label": "Unique Challenges Completed",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C03",
+      "game": "shipit",
+      "section": "collective",
+      "order": 3,
+      "label": "Overall Completion Percentage",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C04",
+      "game": "shipit",
+      "section": "collective",
+      "order": 4,
+      "label": "Total Points Earned",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C05",
+      "game": "shipit",
+      "section": "collective",
+      "order": 5,
+      "label": "Most Popular Challenge",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C06",
+      "game": "shipit",
+      "section": "collective",
+      "order": 6,
+      "label": "Least Popular Completed Challenge",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C07",
+      "game": "shipit",
+      "section": "collective",
+      "order": 7,
+      "label": "Uncompleted Challenges",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C08",
+      "game": "shipit",
+      "section": "collective",
+      "order": 8,
+      "label": "Uncompleted Challenge List",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C09",
+      "game": "shipit",
+      "section": "collective",
+      "order": 9,
+      "label": "Most Popular Category",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C10",
+      "game": "shipit",
+      "section": "collective",
+      "order": 10,
+      "label": "Least Popular Category",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C11",
+      "game": "shipit",
+      "section": "collective",
+      "order": 11,
+      "label": "Most Active Day",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "spec_id": "SI-C12",
+      "game": "shipit",
+      "section": "collective",
+      "order": 12,
+      "label": "Final Team Standings",
+      "classification": "executed_proof",
+      "result": "pass",
+      "basis": "matched independent JS/raw-table expectation for viewerS1",
+      "positive_path_blocked_reason": null,
+      "checks": [
+        {
+          "viewer": "viewerS1",
+          "status": "PASS"
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

@@ -1,0 +1,414 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+
+ RUN  v4.1.12 /Users/josh/Documents/Web Projects/Vue/Ship-It-qa2-reliability
+
+ × tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts > QA3B gauntlet location / Mobile Order contract (ACH-002) > ACH-002: collection coverage must require log bar_id match and exclude virtual bars 13ms
+   → expected 'create or replace function public.ach…' to match /d\.bar_id\s*=\s*bo\.bar_id/
+ ✓ tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts > QA3B gauntlet location / Mobile Order contract (ACH-002) > mobile-order eval patch excludes virtual bars for distinct/grouped bar subjects but not offering_collection 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts > QA3B gauntlet location / Mobile Order contract (ACH-002) > empty full_menu / threshold universes do not auto-complete (guards phantom unlocks) 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B awarding / void contracts (source) > submit finalize attaches new_achievement_ids in the same accept path 4ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B awarding / void contracts (source) > void recomputes awards and exclusives; post-finale freeze exists 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B awarding / void contracts (source) > idempotent replay short-circuits award evaluation 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B awarding / void contracts (source) > working / FINAL loaders keep test_only=true until explicit production confirm 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B Ship It! score-reached tie rule (WRP consistency) > authoritative shipit_team_score_rows breaks equal points by earliest score_reached_at 2ms
+ × tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B Wrapped photo signed URL path (links REL-008) > WRP-002/REL-008: WrappedPhotoCard must refresh or reload signed URLs on error 16ms
+   → expected '<script setup lang="ts">\nimport { co…' to match /@error|onError|reload|refresh|expires/
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B Wrapped photo signed URL path (links REL-008) > gallery API still signs for 3600s by default (same expiry class as REL-008) 0ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B cross-system consistency fixtures (independent expectations) > ordinary drink log must not inflate bounty-only metrics 0ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B cross-system consistency fixtures (independent expectations) > voided claim must drop from bounty totals and keep drink log if still accepted 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B cross-system consistency fixtures (independent expectations) > tied Drink It! points use competition ranking 1,1,3 independently of achievements 16ms
+ ✓ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B cross-system consistency fixtures (independent expectations) > 5 AM reporting-day boundary must not redefine calendar cruise_day achievements 2ms
+ ✓ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > audits exactly 174 authority rows against 126+48 composed active defs 6ms
+ ✓ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > maps every authority row to a unique stableKey implementation 27ms
+ ✓ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > keeps approved category order and Ship It! First to Find exclusives 3ms
+ × tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-001: launch catalog must publish concrete frozen(+tropical) tags so License to Chill is reachable 10ms
+   → launch-candidate must include frozen drink/offering classification tags: expected false to be true // Object.is equality
+ ✓ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > keeps Good Spirits gauntlets verification-gated with zero launch eligible evidence 1ms
+ × tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-003: productionReleaseMapping must cover all FINAL 174 stable keys 1ms
+   → expected 140 to be 174 // Object.is equality
+ ✓ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > does not grant competitive points via achievement definitions 13ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped metric inventory (80) > matches approved 18/16/12 + 10/12/12 split 8ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped metric inventory (80) > All Stats flattens every inventory id for dense fixtures 30ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Plan C featured carousel > always prefixes intro and skips fabricated empty/zero featured content 3ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Plan C featured carousel > dedupes photos across featured carousel candidates 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Plan C featured carousel > respects Ship It! best-day eligibility thresholds 3ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Plan C featured carousel > never invents photo slides without gallery provenance 1ms
+ × tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped leaderboard contracts > WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract) 9ms
+   → migration 11100 not applied to organizer (:54321) or Agent1 disposable (:55321): expected false to be true // Object.is equality
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped leaderboard contracts > Achievements mode uses 126 Drink It! denominator from composed catalog 1ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped leaderboard contracts > points mode preserves competition ranks 1,1,3 2ms
+ ✓ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped unavailable / sparse All Stats > keeps unavailable entries visible in All Stats rather than inventing winners 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-001: launch catalog must publish concrete frozen(+tropical) tags so License to Chill is reachable
+AssertionError: launch-candidate must include frozen drink/offering classification tags: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts:104:7
+    102|       allPublishedDrinkTags.has('frozen'),
+    103|       'launch-candidate must include frozen drink/offering classificat…
+    104|     ).toBe(true)
+       |       ^
+    105|   })
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts > QA3B achievement definition audit > ACH-003: productionReleaseMapping must cover all FINAL 174 stable keys
+AssertionError: expected 140 to be 174 // Object.is equality
+
+- Expected
++ Received
+
+- 174
++ 140
+
+ ❯ tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts:125:35
+    123|     // Expected: production activation map enumerates the locked 174 c…
+    124|     // Observed: mapping still summarizes interim 140 rows and omits g…
+    125|     expect(prodMap.summary.total).toBe(174)
+       |                                   ^
+    126|     expect(missing, `missing keys: ${missing.slice(0, 12).join(', ')}……
+    127|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts > QA3B Wrapped photo signed URL path (links REL-008) > WRP-002/REL-008: WrappedPhotoCard must refresh or reload signed URLs on error
+AssertionError: expected '<script setup lang="ts">\nimport { co…' to match /@error|onError|reload|refresh|expires/
+
+- Expected:
+/@error|onError|reload|refresh|expires/
+
++ Received:
+"<script setup lang=\"ts\">
+import { computed, onMounted, ref, watch } from 'vue'
+import FramedPhoto from '@/components/shared/FramedPhoto.vue'
+import { fetchGalleryPhotoSignedUrl } from '@/lib/gallery/api'
+import { copy } from '@/ui/copy'
+import type { GameId } from '@/types/game'
+import type { WrappedPhotoSlide } from '@/types/wrappedPlanC'
+
+const props = defineProps<{
+  slide: WrappedPhotoSlide
+  game: GameId
+  sequenceLabel: string
+}>()
+
+const emit = defineEmits<{
+  open: [payload: { url: string; photoId: string }]
+}>()
+
+const photoUrl = ref<string | null>(null)
+const loading = ref(false)
+const errored = ref(false)
+const dragGuard = ref(false)
+let pointerStartX = 0
+
+const gradient = computed(() =>
+  props.slide.tone === 'warm'
+    ? 'var(--theme-gradient-warm)'
+    : 'var(--theme-gradient-cool)',
+)
+
+const framing = computed(() => {
+  const photo = props.slide.photo
+  return {
+    zoom: Number(photo.crop_zoom ?? 1),
+    centerX: Number(photo.crop_center_x ?? 0.5),
+    centerY: Number(photo.crop_center_y ?? 0.5),
+  }
+})
+
+async function loadPhoto() {
+  const photoId = props.slide.photo.photo_id
+  if (!photoId) {
+    photoUrl.value = null
+    return
+  }
+  loading.value = true
+  errored.value = false
+  try {
+    photoUrl.value = await fetchGalleryPhotoSignedUrl(props.game, photoId)
+    if (!photoUrl.value) errored.value = true
+  } catch {
+    photoUrl.value = null
+    errored.value = true
+  } finally {
+    loading.value = false
+  }
+}
+
+function onPointerDown(e: PointerEvent) {
+  pointerStartX = e.clientX
+  dragGuard.value = false
+}
+
+function onPointerMove(e: PointerEvent) {
+  if (Math.abs(e.clientX - pointerStartX) > 10) dragGuard.value = true
+}
+
+function onActivate() {
+  if (dragGuard.value || !photoUrl.value) return
+  emit('open', { url: photoUrl.value, photoId: props.slide.photo.photo_id })
+}
+
+onMounted(() => {
+  void loadPhoto()
+})
+
+watch(
+  () => props.slide.photo.photo_id,
+  () => {
+    void loadPhoto()
+  },
+)
+</script>
+
+<template>
+  <article
+    class=\"photo-card\"
+    :style=\"{ background: gradient }\"
+    data-testid=\"wrapped-photo-card\"
+    :data-slide-id=\"slide.id\"
+  >
+    <p class=\"photo-card__eyebrow\">{{ sequenceLabel }} — {{ slide.eyebrow }}</p>
+    <h3 class=\"photo-card__headline\">{{ slide.headline }}</h3>
+    <p v-if=\"slide.subhead\" class=\"photo-card__subhead\">{{ slide.subhead }}</p>
+
+    <button
+      type=\"button\"
+      class=\"photo-card__polaroid\"
+      :disabled=\"!photoUrl\"
+      data-testid=\"wrapped-photo-polaroid\"
+      :aria-label=\"copy.gallery.viewFullPhoto\"
+      @pointerdown=\"onPointerDown\"
+      @pointermove=\"onPointerMove\"
+      @click=\"onActivate\"
+    >
+      <div class=\"photo-card__frame\">
+        <FramedPhoto
+          v-if=\"photoUrl\"
+          :src=\"photoUrl\"
+          :width=\"slide.photo.width ?? 1080\"
+          :height=\"slide.photo.height ?? 1080\"
+          :framing=\"framing\"
+          class=\"w-full\"
+        />
+        <div
+          v-else-if=\"loading\"
+          class=\"photo-card__fallback\"
+          data-testid=\"wrapped-photo-loading\"
+        >
+          …
+        </div>
+        <div
+          v-else
+          class=\"photo-card__fallback\"
+          data-testid=\"wrapped-photo-fallback\"
+        >
+          {{ copy.wrapped.photoUnavailable }}
+        </div>
+      </div>
+      <p v-if=\"slide.caption\" class=\"photo-card__caption\">{{ slide.caption }}</p>
+    </button>
+  </article>
+</template>
+
+<style scoped>
+.photo-card {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.9rem 1rem 1.15rem;
+  border-radius: 1.65rem;
+  color: var(--theme-ink);
+  box-shadow: 0 14px 26px rgba(80, 50, 20, 0.16);
+  text-align: center;
+}
+
+.photo-card__eyebrow {
+  margin: 0;
+  align-self: flex-start;
+  font-size: 0.92rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--theme-ink);
+}
+
+.photo-card__headline {
+  margin: 0.5rem 0 0;
+  max-width: 17rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.38rem, 4.8cqi, 1.52rem);
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.photo-card__subhead {
+  margin: 0.3rem 0 0;
+  max-width: 17rem;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.photo-card__polaroid {
+  display: flex;
+  /* Substantial square; breathing room from intro without oversized panels. */
+  width: min(100%, 14.75rem);
+  margin-top: 1.05rem;
+  flex: 0 0 auto;
+  flex-direction: column;
+  border: 0;
+  background: #fff;
+  padding: 0.65rem 0.65rem 0.5rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 8px 18px rgba(40, 30, 20, 0.18);
+  color: inherit;
+  text-align: left;
+}
+
+.photo-card__polaroid:disabled {
+  cursor: default;
+}
+
+.photo-card__frame {
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-ink) 8%, #fff);
+  aspect-ratio: 1;
+}
+
+.photo-card__fallback {
+  display: flex;
+  height: 100%;
+  min-height: 12rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: var(--theme-muted);
+}
+
+.photo-card__caption {
+  margin: 0.75rem 0 0.2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 0.88rem;
+  line-height: 1.28;
+  color: var(--theme-ink);
+}
+</style>
+"
+
+ ❯ tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts:73:18
+     71|     expect(card).toContain('fetchGalleryPhotoSignedUrl')
+     72|     // Expected: expiry-aware refresh and/or @error → reload (same cla…
+     73|     expect(card).toMatch(/@error|onError|reload|refresh|expires/)
+       |                  ^
+     74|   })
+     75|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts > QA3B gauntlet location / Mobile Order contract (ACH-002) > ACH-002: collection coverage must require log bar_id match and exclude virtual bars
+AssertionError: expected 'create or replace function public.ach…' to match /d\.bar_id\s*=\s*bo\.bar_id/
+
+- Expected:
+/d\.bar_id\s*=\s*bo\.bar_id/
+
++ Received:
+"create or replace function public.achievement_log_counts_for_collection(
+  p_offering_id uuid,
+  p_owner uuid,
+  p_as_of_utc timestamptz,
+  p_as_of_id uuid
+) returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.submissions s
+    join public.drink_logs d on d.submission_id = s.id
+    join public.bar_offerings bo on bo.id = d.offering_id
+    join public.catalog_version_offerings cvo
+      on cvo.catalog_version_id = d.catalog_version_id
+     and cvo.offering_id = d.offering_id
+    join public.catalog_version_drink_concepts dc
+      on dc.catalog_version_id = d.catalog_version_id
+     and dc.drink_concept_id = bo.drink_concept_id
+    where s.status = 'accepted'
+      and s.kind = 'drink_log'
+      and d.drink_mode = 'named_catalog'
+      and d.offering_id = p_offering_id
+      and public.achievement_as_of_ok(s.received_at_utc, s.id, p_as_of_utc, p_as_of_id)
+      and (p_owner is null or s.author_player_id = p_owner)
+      and dc.kind not in ('beer', 'wine')
+      and cvo.price_status is distinct from 'verified_over_limit'
+      and not exists (
+        select 1
+        from public.admin_manual_offerings amo
+        where amo.catalog_version_id = d.catalog_version_id
+          and amo.offering_id = d.offering_id
+          and amo.active
+      )
+      and not exists (
+        select 1
+        from public.catalog_version_offering_tags t
+        where t.catalog_version_id = d.catalog_version_id
+          and t.offering_id = d.offering_id
+          and t.tag = 'collection-excluded'
+      )
+  );
+$$;"
+
+ ❯ tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts:34:25
+     32|     // Expected (FINAL §3.4 + Mobile Order exclusion): location-bound …
+     33|     // Observed: offering_id-only match; no bar_id equality; no is_vir…
+     34|     expect(logCountsFn).toMatch(/d\.bar_id\s*=\s*bo\.bar_id/)
+       |                         ^
+     35|     expect(logCountsFn).toMatch(/is_virtual/)
+     36|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts > QA3B Wrapped leaderboard contracts > WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract)
+AssertionError: migration 11100 not applied to organizer (:54321) or Agent1 disposable (:55321): expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts:210:7
+    208|       false,
+    209|       'migration 11100 not applied to organizer (:54321) or Agent1 dis…
+    210|     ).toBe(true)
+       |       ^
+    211|   })
+    212|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  5 failed | 26 passed (31)
+   Start at  01:29:49
+   Duration  2.88s (transform 549ms, setup 0ms, import 828ms, tests 189ms, environment 8.33s)
+

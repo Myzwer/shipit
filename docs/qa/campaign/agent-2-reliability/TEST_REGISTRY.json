@@ -1,0 +1,878 @@
+{
+  "agent": "qa-2-reliability",
+  "checkpoint": "5a95c98",
+  "tag": "pre-qa1-checkpoint-2026-11-14",
+  "worktree": "/Users/josh/Documents/Web Projects/Vue/Ship-It-qa2-reliability",
+  "branch": "test/qa2-reliability",
+  "generated_at": "2026-11-14T05:40:18.999Z",
+  "application_source_modified": false,
+  "shared_db_mutated": false,
+  "summary": {
+    "unique_meaningful_cases": 81,
+    "executed": 69,
+    "passed": 60,
+    "failed": 9,
+    "blocked": 12,
+    "confirmed_defects": {
+      "P0": 0,
+      "P1": 6,
+      "P2": 1,
+      "P3": 1
+    }
+  },
+  "executed_cases": [
+    {
+      "id": "QA2-001",
+      "title": "QA2 PhotoCapture restore reliability restores staged snapshot without re-uploading empty blob",
+      "file": "tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts",
+      "method": "component_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-002",
+      "title": "QA2 PhotoCapture restore reliability does not auto-stage an empty blob when restore has preview but no staged ref",
+      "file": "tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts",
+      "method": "component_mock",
+      "status": "failed",
+      "defect_id": "REL-007",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-003",
+      "title": "QA2 PhotoFramingEditor gesture surface exposes square stage with touch-none and pointer handlers",
+      "file": "tests/unit/qa2-reliability/PhotoFramingEditor.gestures.spec.ts",
+      "method": "component_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-004",
+      "title": "QA2 PhotoFramingEditor gesture surface accept emits clamped framing; cancel does not",
+      "file": "tests/unit/qa2-reliability/PhotoFramingEditor.gestures.spec.ts",
+      "method": "component_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-005",
+      "title": "QA2 PhotoFramingEditor gesture surface wheel zoom changes framing within clamps",
+      "file": "tests/unit/qa2-reliability/PhotoFramingEditor.gestures.spec.ts",
+      "method": "component_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-006",
+      "title": "QA2 submitDrink outcome classification returns confirmed only when result.ok === true",
+      "file": "tests/unit/qa2-reliability/drinkSubmit.unknown.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-007",
+      "title": "QA2 submitDrink outcome classification returns rejected for deterministic server denial (not success)",
+      "file": "tests/unit/qa2-reliability/drinkSubmit.unknown.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-008",
+      "title": "QA2 submitDrink outcome classification returns unknown for network-ish Postgrest errors",
+      "file": "tests/unit/qa2-reliability/drinkSubmit.unknown.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-009",
+      "title": "QA2 submitDrink outcome classification returns unknown for thrown errors (lost response / offline)",
+      "file": "tests/unit/qa2-reliability/drinkSubmit.unknown.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-010",
+      "title": "QA2 submitDrink outcome classification does not treat ok:false with HTTP 200 as confirmed success",
+      "file": "tests/unit/qa2-reliability/drinkSubmit.unknown.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-011",
+      "title": "QA2 framing extreme aspects handles ultra-wide panorama at cover zoom",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-012",
+      "title": "QA2 framing extreme aspects handles ultra-tall portrait at cover zoom",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-013",
+      "title": "QA2 framing extreme aspects clamps zoom to [1,4] for extreme requested values",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-014",
+      "title": "QA2 framing extreme aspects at max zoom, crop side is shortEdge/4",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-015",
+      "title": "QA2 framing extreme aspects pan deltas cannot introduce empty letterbox space",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-016",
+      "title": "QA2 framing extreme aspects zoomFramingAt keeps center when zooming square image",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-017",
+      "title": "QA2 framing extreme aspects square image at zoom 1 has no pan freedom",
+      "file": "tests/unit/qa2-reliability/framing.extreme.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-018",
+      "title": "QA2 gallery signed URL lifecycle requests one-hour signed URLs from gallery API",
+      "file": "tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-019",
+      "title": "QA2 gallery signed URL lifecycle GalleryPostCard refreshes signed URL before expiry or on image error",
+      "file": "tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-008",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-020",
+      "title": "QA2 gallery signed URL lifecycle PhotoCapture upload accept list includes HEIC for iPhone library picks",
+      "file": "tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-021",
+      "title": "QA2 gallery signed URL lifecycle client never uploads HEIC bytes to storage (always JPEG output)",
+      "file": "tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-022",
+      "title": "QA2 media limit contracts documents client engineering ceilings from MEDIA constants",
+      "file": "tests/unit/qa2-reliability/mediaLimits.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-023",
+      "title": "QA2 media limit contracts aligns storageMaxBytes with photos table check and bucket file_size_limit (5 MiB)",
+      "file": "tests/unit/qa2-reliability/mediaLimits.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-024",
+      "title": "QA2 media limit contracts bucket allows only jpeg/png/webp (HEIC must be client-converted before upload)",
+      "file": "tests/unit/qa2-reliability/mediaLimits.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-025",
+      "title": "QA2 media limit contracts global supabase storage ceiling is higher than per-bucket game-photos limit",
+      "file": "tests/unit/qa2-reliability/mediaLimits.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-026",
+      "title": "QA2 media limit contracts optimized upload target stays under storage hard limit",
+      "file": "tests/unit/qa2-reliability/mediaLimits.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-027",
+      "title": "QA2 player navigation inventory registers all player-facing route names",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-028",
+      "title": "QA2 player navigation inventory marks login public and gameplay routes as requiresAuth",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-029",
+      "title": "QA2 player navigation inventory scrollBehavior always resets to top (mobile deep-link reload contract)",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-030",
+      "title": "QA2 player navigation inventory blocks pre-cruise gameplay homes, submissions, galleries, wrapped",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-031",
+      "title": "QA2 player navigation inventory allows rules + game-selection during pre-cruise",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-032",
+      "title": "QA2 player navigation inventory remaps active homes and submission routes to Wrapped in awards mode",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-033",
+      "title": "QA2 player navigation inventory preserves redirect query when sending unauthenticated users to login",
+      "file": "tests/unit/qa2-reliability/navigation.inventory.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-034",
+      "title": "QA2 processImage formats and boundaries accepts JPEG and outputs jpeg under long-edge cap (portrait)",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-035",
+      "title": "QA2 processImage formats and boundaries accepts PNG input and still outputs JPEG",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-036",
+      "title": "QA2 processImage formats and boundaries accepts WebP input",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-037",
+      "title": "QA2 processImage formats and boundaries accepts HEIC when browser decode succeeds (Safari path)",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-038",
+      "title": "QA2 processImage formats and boundaries rejects HEIC when decode fails with iPhone-oriented guidance",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-039",
+      "title": "QA2 processImage formats and boundaries treats HEIF extension without mime as HEIC family",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-040",
+      "title": "QA2 processImage formats and boundaries allows missing MIME when extension is jpeg (common mobile quirk)",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-041",
+      "title": "QA2 processImage formats and boundaries rejects GIF when mime is present",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-042",
+      "title": "QA2 processImage formats and boundaries rejects BMP and PDF mimes",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-043",
+      "title": "QA2 processImage formats and boundaries rejects empty files and files over maxInputBytes",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-044",
+      "title": "QA2 processImage formats and boundaries accepts file exactly at maxInputBytes boundary when decode succeeds",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-045",
+      "title": "QA2 processImage formats and boundaries rejects corrupted decode with clear message",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-046",
+      "title": "QA2 processImage formats and boundaries preserves unusual unicode filenames on the processed result",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-047",
+      "title": "QA2 processImage formats and boundaries scales square ultra-large dimensions to maxLongEdgePx",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-048",
+      "title": "QA2 processImage formats and boundaries throws OUTPUT_TOO_LARGE when encoded blob stays above storageMaxBytes",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-049",
+      "title": "QA2 processImage formats and boundaries rejects GIF with empty MIME type (mobile mislabel risk)",
+      "file": "tests/unit/qa2-reliability/processImage.qa2.spec.ts",
+      "method": "unit_mock",
+      "status": "failed",
+      "defect_id": "REL-006",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-050",
+      "title": "QA2 scavenger submit button states disables submit while submitting is true",
+      "file": "tests/unit/qa2-reliability/scavengerSubmitButton.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-051",
+      "title": "QA2 scavenger submit button states emits retry (not submit) when unknown pending",
+      "file": "tests/unit/qa2-reliability/scavengerSubmitButton.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-052",
+      "title": "QA2 scavenger submit button states emits submit when canSubmit and not unknown",
+      "file": "tests/unit/qa2-reliability/scavengerSubmitButton.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-results.json",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-053",
+      "title": "QA2 stagePhoto network resilience refuses to begin when navigator reports offline",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-054",
+      "title": "QA2 stagePhoto network resilience maps fetch/network upload failures to NETWORK with retry guidance",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-055",
+      "title": "QA2 stagePhoto network resilience does not pretend success when confirm_photo_upload returns ok:false",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-056",
+      "title": "QA2 stagePhoto network resilience emits pending reservation before upload so retries can reuse the slot",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-057",
+      "title": "QA2 stagePhoto network resilience treats storage already-exists as recoverable and continues to confirm",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-058",
+      "title": "QA2 stagePhoto network resilience honors AbortSignal before upload begins",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-059",
+      "title": "QA2 stagePhoto network resilience passes AbortSignal through to storage.upload so mid-flight cancel works",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "failed",
+      "defect_id": "REL-005",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-060",
+      "title": "QA2 stagePhoto network resilience surfaces BEGIN_REQUEST_CONSUMED without inventing a new photo id",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-061",
+      "title": "QA2 stagePhoto network resilience reconcile path confirms when pending_upload object already present",
+      "file": "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+      "method": "unit_mock",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-062",
+      "title": "QA2 submit re-entry guards Drink It log wizard rejects submit while already submitting (BUSY)",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-063",
+      "title": "QA2 submit re-entry guards Ship It scavenger performSubmit returns early if already submitting",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-001",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-064",
+      "title": "QA2 submit re-entry guards Drink It Daily performSubmit returns early if already submitting",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-002",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-065",
+      "title": "QA2 staged photo abandon on discard Scavenger start-over / discard abandons staged remote photo",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-003",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-066",
+      "title": "QA2 staged photo abandon on discard Scavenger discard-on-leave cleans remote staged photo",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-003",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-067",
+      "title": "QA2 staged photo abandon on discard PhotoCapture remove path still abandons remote (control)",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-068",
+      "title": "QA2 staged photo abandon on discard Drink log wizard reset abandons staged remote photo",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "failed",
+      "defect_id": "REL-004",
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    },
+    {
+      "id": "QA2-069",
+      "title": "QA2 drink submit unknown classification classifies network/timeout/empty-code RPC errors as unknown (not silent success)",
+      "file": "tests/unit/qa2-reliability/submitGuards.contract.spec.ts",
+      "method": "static_contract",
+      "status": "passed",
+      "defect_id": null,
+      "evidence": "docs/qa/campaign/agent-2-reliability/vitest-qa2-run.txt",
+      "mutates_db": false,
+      "uses_shared_supabase": false
+    }
+  ],
+  "blocked_cases": [
+    {
+      "id": "QA2-B01",
+      "title": "Real HEIC from iPhone Camera Roll on iOS Safari",
+      "method": "physical_device",
+      "status": "blocked",
+      "reason": "Requires physical iPhone; no mutating DB needed for decode-only but camera access unavailable"
+    },
+    {
+      "id": "QA2-B02",
+      "title": "Pinch-zoom / drag crop on real touch hardware",
+      "method": "physical_device",
+      "status": "blocked",
+      "reason": "jsdom pointer events are not cruise-touch proof"
+    },
+    {
+      "id": "QA2-B03",
+      "title": "Storage upload under high latency / low bandwidth",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Needs isolated Supabase; :55321 owned by Agent 1; :54321 protected"
+    },
+    {
+      "id": "QA2-B04",
+      "title": "Upload then kill network mid-PUT against live Storage",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Shared DB mutation risk; AbortSignal gap (REL-005) also blocks clean cancel"
+    },
+    {
+      "id": "QA2-B05",
+      "title": "Auth session expiry during submit",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Requires Auth against disposable stack"
+    },
+    {
+      "id": "QA2-B06",
+      "title": "Signed URL expiry after 3600s on live gallery",
+      "method": "integration_or_long_soak",
+      "status": "blocked",
+      "reason": "Long soak; defect REL-008 already confirmed statically"
+    },
+    {
+      "id": "QA2-B07",
+      "title": "Pre-cruise / awards route gates with live Ship Clock",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Clock mutation forbidden on organizer; Agent 1 owns disposable"
+    },
+    {
+      "id": "QA2-B08",
+      "title": "Browser back/forward during upload on mobile Safari",
+      "method": "physical_device",
+      "status": "blocked",
+      "reason": "Device + live session required"
+    },
+    {
+      "id": "QA2-B09",
+      "title": "Multi-tab concurrent scavenger submit",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Needs isolated DB + two sessions"
+    },
+    {
+      "id": "QA2-B10",
+      "title": "Orphan photo cleanup runner after discard",
+      "method": "integration_isolated_db",
+      "status": "blocked",
+      "reason": "Would mutate photos/storage; confirm REL-003 first in isolation later"
+    },
+    {
+      "id": "QA2-B11",
+      "title": "EXIF orientation on real camera JPEGs",
+      "method": "physical_device",
+      "status": "blocked",
+      "reason": "createImageBitmap path mocked in unit tests"
+    },
+    {
+      "id": "QA2-B12",
+      "title": "Captive portal / intermittent ship Wi-Fi",
+      "method": "field",
+      "status": "blocked",
+      "reason": "Cannot claim browser offline simulation equals cruise Wi-Fi"
+    }
+  ],
+  "baseline_related_suites_also_run": [
+    "tests/unit/processImage.spec.ts",
+    "tests/unit/stagePhoto.spec.ts",
+    "tests/unit/photoFraming.spec.ts",
+    "tests/unit/mediaContracts.spec.ts",
+    "tests/unit/PhotoCapture.spec.ts",
+    "tests/unit/router.spec.ts"
+  ]
+}

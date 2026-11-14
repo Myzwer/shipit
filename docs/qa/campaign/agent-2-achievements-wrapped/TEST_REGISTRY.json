@@ -1,0 +1,607 @@
+{
+  "campaign": "QA-3B",
+  "agent": "agent-2",
+  "worktree": "Ship-It-qa2-reliability",
+  "branch": "test/qa2-reliability",
+  "head_at_start": "410a9f88406069b4031769fd6a5441a67e25ae3a",
+  "generated_at": "2026-11-14T06:32:16.926493+00:00",
+  "commands": {
+    "unit": "npx vitest run tests/unit/qa3b-achievements-wrapped",
+    "matrix_note": "Matrices generated via Python reading FINAL content packs + launch-candidate (see ACHIEVEMENT_DEFINITION_MATRIX.json header)"
+  },
+  "summary": {
+    "achievement_definitions_audited": 174,
+    "wrapped_definitions_audited": 80,
+    "meaningful_cases": 59,
+    "executed": 31,
+    "passed": 26,
+    "failed": 5,
+    "blocked_integration": 28,
+    "matrix_rows_achievement": 174,
+    "matrix_rows_wrapped": 80,
+    "confirmed_defects_p1": [
+      "ACH-001",
+      "ACH-002",
+      "ACH-003",
+      "WRP-001",
+      "WRP-002"
+    ],
+    "production_logic_coverage": "composeWorkingAchievements, inventory, buildFeatureSlides, buildAllStatsRows, buildLeaderboardModes, photoHighlights, activeCatalogCount, SQL source contracts",
+    "mocked_coverage": "none for aggregation; no mocked DB responses treated as aggregation proof"
+  },
+  "cases": {
+    "executed_unit": [
+      {
+        "id": "QA3B-E001",
+        "title": "QA3B achievement definition audit audits exactly 174 authority rows against 126+48 composed active defs",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E002",
+        "title": "QA3B achievement definition audit maps every authority row to a unique stableKey implementation",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E003",
+        "title": "QA3B achievement definition audit keeps approved category order and Ship It! First to Find exclusives",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E004",
+        "title": "QA3B achievement definition audit ACH-001: launch catalog must publish concrete frozen(+tropical) tags so License to Chill is reachable",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "failed",
+        "defect_id": "ACH-001",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E005",
+        "title": "QA3B achievement definition audit keeps Good Spirits gauntlets verification-gated with zero launch eligible evidence",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E006",
+        "title": "QA3B achievement definition audit ACH-003: productionReleaseMapping must cover all FINAL 174 stable keys",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "failed",
+        "defect_id": "ACH-003",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E007",
+        "title": "QA3B achievement definition audit does not grant competitive points via achievement definitions",
+        "file": "tests/unit/qa3b-achievements-wrapped/achievementDefinitionAudit.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E008",
+        "title": "QA3B awarding / void contracts (source) submit finalize attaches new_achievement_ids in the same accept path",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E009",
+        "title": "QA3B awarding / void contracts (source) void recomputes awards and exclusives; post-finale freeze exists",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E010",
+        "title": "QA3B awarding / void contracts (source) idempotent replay short-circuits award evaluation",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E011",
+        "title": "QA3B awarding / void contracts (source) working / FINAL loaders keep test_only=true until explicit production confirm",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E012",
+        "title": "QA3B Ship It! score-reached tie rule (WRP consistency) authoritative shipit_team_score_rows breaks equal points by earliest score_reached_at",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E013",
+        "title": "QA3B Wrapped photo signed URL path (links REL-008) WRP-002/REL-008: WrappedPhotoCard must refresh or reload signed URLs on error",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "failed",
+        "defect_id": "WRP-002",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E014",
+        "title": "QA3B Wrapped photo signed URL path (links REL-008) gallery API still signs for 3600s by default (same expiry class as REL-008)",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": "WRP-002",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E015",
+        "title": "QA3B cross-system consistency fixtures (independent expectations) ordinary drink log must not inflate bounty-only metrics",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E016",
+        "title": "QA3B cross-system consistency fixtures (independent expectations) voided claim must drop from bounty totals and keep drink log if still accepted",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E017",
+        "title": "QA3B cross-system consistency fixtures (independent expectations) tied Drink It! points use competition ranking 1,1,3 independently of achievements",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E018",
+        "title": "QA3B cross-system consistency fixtures (independent expectations) 5 AM reporting-day boundary must not redefine calendar cruise_day achievements",
+        "file": "tests/unit/qa3b-achievements-wrapped/awardingAndCrossSystem.contract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E019",
+        "title": "QA3B gauntlet location / Mobile Order contract (ACH-002) ACH-002: collection coverage must require log bar_id match and exclude virtual bars",
+        "file": "tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts",
+        "method": "unit",
+        "status": "failed",
+        "defect_id": "ACH-002",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E020",
+        "title": "QA3B gauntlet location / Mobile Order contract (ACH-002) mobile-order eval patch excludes virtual bars for distinct/grouped bar subjects but not offering_collection",
+        "file": "tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": "ACH-002",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E021",
+        "title": "QA3B gauntlet location / Mobile Order contract (ACH-002) empty full_menu / threshold universes do not auto-complete (guards phantom unlocks)",
+        "file": "tests/unit/qa3b-achievements-wrapped/gauntletLocationContract.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": "ACH-002",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E022",
+        "title": "QA3B Wrapped metric inventory (80) matches approved 18/16/12 + 10/12/12 split",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E023",
+        "title": "QA3B Wrapped metric inventory (80) All Stats flattens every inventory id for dense fixtures",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E024",
+        "title": "QA3B Plan C featured carousel always prefixes intro and skips fabricated empty/zero featured content",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E025",
+        "title": "QA3B Plan C featured carousel dedupes photos across featured carousel candidates",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E026",
+        "title": "QA3B Plan C featured carousel respects Ship It! best-day eligibility thresholds",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E027",
+        "title": "QA3B Plan C featured carousel never invents photo slides without gallery provenance",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E028",
+        "title": "QA3B Wrapped leaderboard contracts WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract)",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "failed",
+        "defect_id": "WRP-001",
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E029",
+        "title": "QA3B Wrapped leaderboard contracts Achievements mode uses 126 Drink It! denominator from composed catalog",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E030",
+        "title": "QA3B Wrapped leaderboard contracts points mode preserves competition ranks 1,1,3",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      },
+      {
+        "id": "QA3B-E031",
+        "title": "QA3B Wrapped unavailable / sparse All Stats keeps unavailable entries visible in All Stats rather than inventing winners",
+        "file": "tests/unit/qa3b-achievements-wrapped/wrappedMetricsAndCarousel.spec.ts",
+        "method": "unit",
+        "status": "passed",
+        "defect_id": null,
+        "uses_production_logic": true,
+        "mocked_db": false
+      }
+    ],
+    "definition_audit": [
+      {
+        "id": "QA3B-D001",
+        "title": "Authority 174 rows present with expected game split",
+        "status": "passed",
+        "method": "unit",
+        "coverage": "definition"
+      },
+      {
+        "id": "QA3B-D002",
+        "title": "All 174 names map to unique stableKey implementations",
+        "status": "passed",
+        "method": "unit",
+        "coverage": "definition"
+      },
+      {
+        "id": "QA3B-D003",
+        "title": "Category order + Ship It First to Find exclusives",
+        "status": "passed",
+        "method": "unit",
+        "coverage": "definition"
+      },
+      {
+        "id": "QA3B-D004",
+        "title": "Per-definition matrix generated (174 rows)",
+        "status": "passed",
+        "method": "audit",
+        "coverage": "definition",
+        "artifact": "ACHIEVEMENT_DEFINITION_MATRIX.json"
+      },
+      {
+        "id": "QA3B-D005",
+        "title": "No competitive points on achievement defs",
+        "status": "passed",
+        "method": "unit",
+        "coverage": "definition"
+      }
+    ],
+    "wrapped_definition": [
+      {
+        "id": "QA3B-W001",
+        "title": "Wrapped inventory 80 with approved section splits",
+        "status": "passed",
+        "method": "unit",
+        "coverage": "definition"
+      },
+      {
+        "id": "QA3B-W002",
+        "title": "Wrapped metric matrix generated (80 rows)",
+        "status": "passed",
+        "method": "audit",
+        "coverage": "definition",
+        "artifact": "WRAPPED_METRIC_MATRIX.json"
+      },
+      {
+        "id": "QA3B-W003",
+        "title": "SQL aggregation for 80 metrics",
+        "status": "blocked",
+        "method": "integration",
+        "coverage": "aggregation",
+        "reason": "no disposable DB"
+      }
+    ],
+    "blocked_integration": [
+      {
+        "id": "QA3B-B01",
+        "title": "Single qualifying unlock + receipt new_achievement_ids",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B02",
+        "title": "Nonqualifying event does not unlock",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B03",
+        "title": "Threshold boundary \u22121 / = / +1 sample defs",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B04",
+        "title": "Multi-achievement unlock from one event",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B05",
+        "title": "Idempotent replay award list stable",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B06",
+        "title": "Collective gauntlet awards all enrolled players",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B07",
+        "title": "Void revoke + exclusive reassignment",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B08",
+        "title": "Post-finale award freeze",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B09",
+        "title": "Secret mask/reveal Gallery + list_achievements",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B10",
+        "title": "Mobile Order cannot progress physical gauntlet (live)",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B11",
+        "title": "License to Chill after frozen tags published",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B12",
+        "title": "Good Spirits unlock only after price verification",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B13",
+        "title": "Companion alias Davids + named social awards",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B14",
+        "title": "cruise_day vs activity_day 05:00 adversarial",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B15",
+        "title": "Production test_only=false evaluation",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B16",
+        "title": "Wrapped 80 metrics vs independent fixture recomputation",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B17",
+        "title": "Voided records excluded from Wrapped SQL",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B18",
+        "title": "DI-G11 Adventurous tier-only counting",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B19",
+        "title": "Ship It Wrapped standings == score_reached rows after void",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B20",
+        "title": "Apply 11100 Achievements LB live ranks",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B21",
+        "title": "Wrapped signed URL refresh soak",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B22",
+        "title": "Finale-only Wrapped access + membership",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B23",
+        "title": "Plan C carousel sparse vs full seed packs",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B24",
+        "title": "Catalog replace after gauntlet pin semantics",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B25",
+        "title": "Incorrect-game achievement eligibility refused",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B26",
+        "title": "Historical award retained when definition retired",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B27",
+        "title": "Ship It concurrent team submissions First to Find",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      },
+      {
+        "id": "QA3B-B28",
+        "title": "Drink after midnight calendar-day achievement",
+        "method": "integration",
+        "status": "blocked",
+        "reason": "requires disposable Supabase mutation"
+      }
+    ]
+  }
+}

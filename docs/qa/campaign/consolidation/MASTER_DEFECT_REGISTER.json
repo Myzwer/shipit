@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Star Princess QA Consolidation \u2014 Master Defect Register",
+    "title": "Star Princess QA Consolidation — Master Defect Register",
     "generated": "2026-11-14",
     "main_worktree": {
       "path": "Ship It",
@@ -101,8 +101,8 @@
       "expected": "Discard abandons Storage/ledger; AbortSignal reaches upload; no empty-blob retry",
       "observed": "UI-only discard orphans photos; upload omits signal; restore uses new Blob()",
       "evidence": [
-        "agent-2-reliability/DEFECTS.md#REL-003",
-        "qa2a-browser-e2e/DEFECTS.md#E2E-031",
+        "docs/qa/campaign/agent-2-reliability/DEFECTS.md#REL-003",
+        "docs/qa/campaign/qa2a-browser-e2e/DEFECTS.md#E2E-031",
         "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
         "tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts"
       ],
@@ -135,10 +135,10 @@
       "expected": "Refresh before expiry and/or @error re-fetch",
       "observed": "One-shot signed URL; no timer; no @error handler",
       "evidence": [
-        "agent-2-reliability/DEFECTS.md#REL-008",
-        "qa2a-browser-e2e/DEFECTS.md#E2E-030",
-        "qa2b-browser-stress/DEFECTS.md#E2B-L03",
-        "agent-2-achievements-wrapped/DEFECTS.md#WRP-002"
+        "docs/qa/campaign/agent-2-reliability/DEFECTS.md#REL-008",
+        "docs/qa/campaign/qa2a-browser-e2e/DEFECTS.md#E2E-030",
+        "docs/qa/campaign/qa2b-browser-stress/DEFECTS.md#E2B-L03",
+        "docs/qa/campaign/agent-2-achievements-wrapped/DEFECTS.md#WRP-002"
       ],
       "root_cause": "Client never renews signed URLs",
       "impact": "Broken images after ~1h / backgrounded tabs",
@@ -166,8 +166,8 @@
       "expected": "Preview failure clears pending or Discard; Check Status uses real publish ids",
       "observed": "Pending rewritten as publish with stage id; UI stuck; DB recoverable",
       "evidence": [
-        "agent-2-admin-catalog/DEFECTS.md#ADM-008",
-        "agent-2-backend-integration/DEFECTS.md#INT-CAT-001L",
+        "docs/qa/campaign/agent-2-admin-catalog/DEFECTS.md#ADM-008",
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-CAT-001L",
         "tests/unit/qa3a-admin-catalog/catalogActivation.contract.spec.ts"
       ],
       "root_cause": "Frontend pending state machine after preview failure",
@@ -195,15 +195,15 @@
       "expected": "First schedule operable after valid catalog import without dev-only RPC",
       "observed": "Only dev_generate_bounty_schedule; publish never creates first schedule",
       "evidence": [
-        "agent-2-backend-integration/DEFECTS.md#INT-SCHED-001",
-        "agent-2-backend-integration/CATALOG_INTEGRATION.md",
-        "agent-2-admin-catalog/CONFIGURATION_AUDIT.md"
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-SCHED-001",
+        "docs/qa/campaign/agent-2-backend-integration/CATALOG_INTEGRATION.md",
+        "docs/qa/campaign/agent-2-admin-catalog/CONFIGURATION_AUDIT.md"
       ],
       "root_cause": "Missing production admin/ops schedule generator",
       "impact": "Voyage automation cannot start without developer workaround",
       "repair_scope": "Admin-gated generator or approved prod ops path + UI",
       "regression_tests": [
-        "import\u2192generate\u2192Day1 bounty integration"
+        "import→generate→Day1 bounty integration"
       ],
       "confidence": "high",
       "batch": "R5"
@@ -223,8 +223,8 @@
       "expected": "Ranks by points with stable tie-break; achievements counts with 11100",
       "observed": "11100 adds counts but ranks by row position; WRP-001 counts resolved when applied",
       "evidence": [
-        "agent-2-backend-integration/WRAPPED_INTEGRATION.md",
-        "agent-2-backend-integration/DEFECTS.md#INT-WRP-002"
+        "docs/qa/campaign/agent-2-backend-integration/WRAPPED_INTEGRATION.md",
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-WRP-002"
       ],
       "root_cause": "ORDER BY missing after 11100 join",
       "impact": "Wrong standings after enabling achievements metadata",
@@ -255,11 +255,11 @@
         "bounty skip",
         "void"
       ],
-      "expected": "Ambiguous \u2192 unknown; deterministic rejects \u2192 failed",
+      "expected": "Ambiguous → unknown; deterministic rejects → failed",
       "observed": "in_progress/409/502 misclassified; void errors partially narrowed live",
       "evidence": [
-        "agent-2-admin-catalog/DEFECTS.md",
-        "agent-2-backend-integration/ADMIN_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-admin-catalog/DEFECTS.md",
+        "docs/qa/campaign/agent-2-backend-integration/ADMIN_INTEGRATION.md"
       ],
       "root_cause": "Over-aggressive asFailed / incomplete transport detection",
       "impact": "False failures; double-skip risk; stuck Retry",
@@ -287,9 +287,9 @@
       "expected": "Admin reachable with zero games; clock confirm catch + recovery",
       "observed": "Empty games redirect before requiresAdmin; confirmManual no catch",
       "evidence": [
-        "agent-2-admin-catalog/DEFECTS.md#ADM-007",
-        "agent-2-admin-catalog/DEFECTS.md#ADM-005",
-        "agent-2-backend-integration/DEFECTS.md#INT-ADM-007L"
+        "docs/qa/campaign/agent-2-admin-catalog/DEFECTS.md#ADM-007",
+        "docs/qa/campaign/agent-2-admin-catalog/DEFECTS.md#ADM-005",
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-ADM-007L"
       ],
       "root_cause": "Router ordering; missing catch after pending write",
       "impact": "Operator lockout / bricked clock panel",
@@ -315,7 +315,7 @@
       "expected": "Refuse new publish while pending exists",
       "observed": "runPublish ignores pending; UI can lose reconcile handle",
       "evidence": [
-        "agent-2-admin-catalog/DEFECTS.md#ADM-009",
+        "docs/qa/campaign/agent-2-admin-catalog/DEFECTS.md#ADM-009",
         "INT-ADM-009L"
       ],
       "root_cause": "Missing pending guard",
@@ -366,7 +366,7 @@
       "observed": "140 interim rows; 37 missing; 3 obsolete",
       "evidence": [
         "achievementDefinitionAudit.spec.ts",
-        "ACHIEVEMENT_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md"
       ],
       "root_cause": "Stale activation artifact",
       "impact": "Incomplete achievement enablement",
@@ -393,7 +393,7 @@
       "expected": "Frozen tropical set reachable or explicitly gated",
       "observed": "Zero frozen tags on launch catalog; engine OK with tags",
       "evidence": [
-        "ACHIEVEMENT_INTEGRATION.md",
+        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md",
         "ACH-001"
       ],
       "root_cause": "Catalog classification content gap",
@@ -420,7 +420,7 @@
       "observed": "Static contract fails; MO leak NOT reproduced live; wrong-bar physical unverified",
       "evidence": [
         "gauntletLocationContract.spec.ts",
-        "ACHIEVEMENT_INTEGRATION.md#INT-ACH-09"
+        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md#INT-ACH-09"
       ],
       "root_cause": "Static vs live mismatch; needs wrong-bar repro",
       "impact": "Potential incorrect gauntlet progress if wrong-bar path exists",
@@ -445,7 +445,7 @@
       "expected": "Active defs have eligible sets or are gated",
       "observed": "4 empty + 9 missing dependency unreachable",
       "evidence": [
-        "ACHIEVEMENT_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md"
       ],
       "root_cause": "Content/activation mismatch",
       "impact": "Dead achievements",
@@ -472,7 +472,7 @@
       "expected": "Reject mobile-order as normal bar; carry MO menu concepts on publish",
       "observed": "MO cocktail candidates accepted; concepts not carried",
       "evidence": [
-        "CATALOG_INTEGRATION.md",
+        "docs/qa/campaign/agent-2-backend-integration/CATALOG_INTEGRATION.md",
         "CAT-002"
       ],
       "root_cause": "Validation/apply gaps",
@@ -498,7 +498,7 @@
       "expected": "Invalid tier rejected at stage",
       "observed": "Stage accepts; publish raw-fails",
       "evidence": [
-        "CATALOG_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-backend-integration/CATALOG_INTEGRATION.md"
       ],
       "root_cause": "Incomplete stage validation",
       "impact": "Operator friction",
@@ -522,7 +522,7 @@
       "expected": "Structured error codes",
       "observed": "Raw Postgres exceptions",
       "evidence": [
-        "agent-2-backend-integration/DEFECTS.md"
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md"
       ],
       "root_cause": "Missing input coercion",
       "impact": "Poor Admin diagnostics",
@@ -547,7 +547,7 @@
       "expected": "Exclude virtual MO bar from venue popularity",
       "observed": "group by bar_id includes MO",
       "evidence": [
-        "WRAPPED_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-backend-integration/WRAPPED_INTEGRATION.md"
       ],
       "root_cause": "Missing virtual bar filter",
       "impact": "Misleading Wrapped stats",
@@ -573,7 +573,7 @@
       "expected": "List should not permanently lock day crews without intent",
       "observed": "Opening Admin crews ensure-mutates and locks",
       "evidence": [
-        "ADMIN_INTEGRATION.md#B008"
+        "docs/qa/campaign/agent-2-backend-integration/ADMIN_INTEGRATION.md#B008"
       ],
       "root_cause": "Mutating read",
       "impact": "Surprise crew locks",
@@ -598,7 +598,7 @@
       "expected": "Confirmation before irreversible finale latch",
       "observed": "No confirmation gate",
       "evidence": [
-        "ADMIN_INTEGRATION.md#B011"
+        "docs/qa/campaign/agent-2-backend-integration/ADMIN_INTEGRATION.md#B011"
       ],
       "root_cause": "Missing UI/backend confirm",
       "impact": "Accidental end-of-game",
@@ -622,9 +622,9 @@
       "expected": "Accepted claim includes cocktail in claimed_categories when available",
       "observed": "E2B-S14 cats=[] points=0 under stress / possible fixture exhaustion",
       "evidence": [
-        "qa2b-browser-stress/DEFECTS.md#E2B-002"
+        "docs/qa/campaign/qa2b-browser-stress/DEFECTS.md#E2B-002"
       ],
-      "root_cause": "Unknown \u2014 triage with isolated fixtures",
+      "root_cause": "Unknown — triage with isolated fixtures",
       "impact": "Confusing success without bounty points",
       "repair_scope": "Repro then fix if product path confirmed",
       "regression_tests": [
@@ -646,14 +646,14 @@
       "expected": "Companion-empty reason when bar_eligible_companion_ids empty",
       "observed": "not_featured_bar short-circuits",
       "evidence": [
-        "QA1_DEFECTS.md",
-        "scoring.phase3a1.closeout"
+        "docs/qa/campaign/QA1_DEFECTS.md",
+        "tests/integration/scoring.phase3a1.closeout.test.ts"
       ],
       "root_cause": "Reason priority vs stricter contract",
       "impact": "Admin/debug clarity only",
       "repair_scope": "Product decision: server order or relax test",
       "regression_tests": [
-        "scoring.phase3a1.closeout"
+        "tests/integration/scoring.phase3a1.closeout.test.ts"
       ],
       "confidence": "high",
       "batch": "R8"
@@ -695,7 +695,7 @@
       "expected": "Post-signOut unauthorized or documented residual",
       "observed": "JWT valid until expiry after client signOut",
       "evidence": [
-        "agent-2-backend-integration/DEFECTS.md#INT-AUTH-001"
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-AUTH-001"
       ],
       "root_cause": "Client-only signOut",
       "impact": "Shared-device residual access",

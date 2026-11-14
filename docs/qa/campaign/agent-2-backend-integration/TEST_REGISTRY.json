@@ -1,0 +1,182 @@
+{
+  "campaign": "QA-4A Agent 2 backend integration",
+  "worktree": "Ship-It-qa2-reliability",
+  "branch": "test/qa2-reliability",
+  "checkpoint_base": "2572d0b",
+  "backend": {
+    "project_id": "star-princess-qa2-backend",
+    "api_port": 56321,
+    "db_port": 56322,
+    "migrations_include": [
+      "20261105010900",
+      "20261105011000",
+      "20261105011100"
+    ]
+  },
+  "isolation": {
+    "organizer_cruise_preserved": "48fa40c6-e7cd-4f8f-8b81-e3e48d10eb13",
+    "agent1_ports_untouched": true,
+    "shared_env_redirected": false
+  },
+  "totals": {
+    "probe_cases": 155,
+    "probe_pass": 121,
+    "probe_fail_including_defect_repros": 22,
+    "probe_info": 10,
+    "probe_blocked": 2,
+    "vitest_batch1_passed": 35,
+    "vitest_batch1_failed": 6,
+    "vitest_void_skip_passed": 15,
+    "confirmed_int_defects": 20,
+    "achievement_defs_loaded": 174,
+    "achievement_executed_award_proofs": 23,
+    "wrapped_defs_total": 80,
+    "wrapped_executed_proof": 74,
+    "wrapped_shared_logic_proof": 6
+  },
+  "suites": {
+    "probe-admin-catalog": {
+      "pass": 14,
+      "fail": 15,
+      "info": 5,
+      "blocked": 2,
+      "total": 36,
+      "script": "scripts/qa2a/probe/admin-catalog.mjs"
+    },
+    "probe-achievements": {
+      "pass": 21,
+      "fail": 3,
+      "info": 3,
+      "blocked": 0,
+      "total": 27,
+      "script": "scripts/qa2a/probe/achievements.mjs"
+    },
+    "probe-wrapped": {
+      "pass": 86,
+      "fail": 4,
+      "info": 2,
+      "blocked": 0,
+      "total": 92,
+      "script": "scripts/qa2a/probe/wrapped-aggregation.mjs"
+    },
+    "vitest": {
+      "batch1_catalog_roster_mo": {
+        "passed": 35,
+        "failed": 6,
+        "total": 41
+      },
+      "batch2_partial": {
+        "passed": 20,
+        "failed": 3,
+        "skipped": 18,
+        "total": 41
+      },
+      "void_skip": {
+        "passed": 15,
+        "failed": 0,
+        "skipped": 9,
+        "total": 24
+      }
+    }
+  },
+  "matrices": {
+    "ACHIEVEMENT_INTEGRATION_MATRIX.json": {
+      "active_definitions": 174,
+      "by_game": {
+        "drinkit": 126,
+        "shipit": 48
+      },
+      "production_class": {
+        "reachable_via_production_map": 127,
+        "blocked_in_production_map": 10,
+        "missing_from_production_map": 37
+      },
+      "production_map_declared_summary": {
+        "total": 140,
+        "release_enabled": 129,
+        "blocked_organizer": 3,
+        "blocked_metadata": 8
+      },
+      "production_map_rows": 140,
+      "production_map_rows_not_in_174_active": [
+        "working-drinkit-d032",
+        "working-drinkit-d035",
+        "working-drinkit-d083"
+      ],
+      "engine_class": {
+        "reachable_in_active_catalog": 161,
+        "unreachable_empty_collection": 4,
+        "unreachable_missing_catalog_dependency": 9,
+        "not_loaded_in_db": 0
+      },
+      "executed_award_proof_in_this_run": 23,
+      "authority_rows_without_definition": [],
+      "definitions_without_authority_row": [],
+      "reachable_in_production_AND_engine": 118
+    },
+    "WRAPPED_INTEGRATION_MATRIX.json": {
+      "total": 80,
+      "executed_proof": 74,
+      "shared_logic_proof": 6,
+      "contract_only": 0,
+      "blocked": 0,
+      "executed_pass": 77,
+      "executed_fail": 3,
+      "failing_spec_ids": [
+        "DI-P03",
+        "DI-P15",
+        "DI-C08"
+      ]
+    },
+    "ADMIN_CATALOG_INTEGRATION_MATRIX.json": {
+      "pass": 14,
+      "fail": 15,
+      "info": 5,
+      "blocked": 2,
+      "total": 36
+    }
+  },
+  "defects": {
+    "admin": [
+      "INT-CAT-003",
+      "INT-CAT-006",
+      "INT-ADM-001L",
+      "INT-ADM-002L",
+      "INT-CLK-001",
+      "INT-SCHED-001",
+      "INT-CAT-004",
+      "INT-CAT-007",
+      "INT-ADM-004L",
+      "INT-AUTH-001",
+      "INT-ADM-007L",
+      "INT-CAT-001L",
+      "INT-ADM-009L",
+      "INT-CRW-001",
+      "INT-ADM-003L"
+    ],
+    "achievements": [
+      "INT-ACH-001",
+      "INT-ACH-003",
+      "INT-ACH-004"
+    ],
+    "wrapped": [
+      "INT-WRP-003",
+      "INT-WRP-002"
+    ]
+  },
+  "qa3a_b_completed": [
+    "B001",
+    "B002",
+    "B003",
+    "B004",
+    "B005",
+    "B007",
+    "B008",
+    "B009",
+    "B010",
+    "B011",
+    "B012",
+    "B013"
+  ],
+  "integration_note": "Probes relocated to scripts/qa2a/probe/ on visual/drinkit-home-v1 (admin-catalog.mjs, achievements.mjs, wrapped-aggregation.mjs, roster-and-mo.mjs)."
+}

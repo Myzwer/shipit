@@ -1,0 +1,2 @@
+npm warn Unknown env config "devdir". This will stop working in the next major version of npm.
+JSON report written to /Users/josh/Documents/Web Projects/Vue/Ship-It-qa2-reliability/docs/qa/campaign/agent-2-admin-catalog/vitest-qa3a-results.json

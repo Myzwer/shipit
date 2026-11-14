@@ -23,15 +23,25 @@
 | [AMBIGUITIES_AND_GAPS.md](./AMBIGUITIES_AND_GAPS.md) | Organizer decisions + config gaps |
 | [NEXT_BATCH.md](./NEXT_BATCH.md) | Recommended next automated testing batch |
 | `qa1-results/` | Raw Vitest / diag logs |
+| `qa2a-browser-e2e/` | QA-2A Playwright E2E evidence |
+| `qa2b-browser-stress/` | QA-2B browser stress evidence |
+| `agent-2-reliability/` | QA-2 player reliability (Agent 2) |
+| `agent-2-admin-catalog/` | QA-3A Admin/catalog (Agent 2) |
+| `agent-2-achievements-wrapped/` | QA-3B Achievements/Wrapped (Agent 2) |
+| `agent-2-backend-integration/` | QA-4A backend probes (Agent 2) |
+| `consolidation/` | Master defect register, repair batches, known failures |
 
 ## Quick safety rule
 
-| Action | Against organizer `:54321` Wrapped | Against disposable `:55321` |
-|---|---|---|
-| `npm run typecheck` / `build` / `test` (unit) | SAFE | SAFE |
-| `npm run qa:inspect` / `qa:list` | SAFE (read) | N/A (harness hardcodes organizer container) |
-| `npm run test:integration` / `test:clock` / e2e | **BLOCKED** by hardened guard (final lifecycle + primary port) | Allowed from disposable worktree |
-| `qa:activate` / `db:reset` / `demo:seed` | **FORBIDDEN** without explicit authority | OK on disposable only |
+| Action | Against organizer `:54321` Wrapped | Against disposable `:55321` | Against qa2 `:56321` |
+|---|---|---|---|
+| `npm run typecheck` / `build` / `test` (unit) | SAFE | SAFE | SAFE |
+| `npm run qa:inspect` / `qa:list` | SAFE (read) | N/A | N/A |
+| `npm run test:integration` / `test:clock` / e2e | **BLOCKED** by hardened guard | Allowed from disposable worktree | Prefer Agent 2 probes |
+| `qa4a:probe:*` | **REFUSED** (hard `:56321` check) | **REFUSED** | Allowed (mutating) |
+| `qa:activate` / `db:reset` / `demo:seed` | **FORBIDDEN** without explicit authority | OK on disposable only | Only on qa2 stack |
 
-Disposable worktree: `/Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo`  
-(`project_id = star-princess-disposable-mo`, API `55321`, DB `55322`)
+Disposable worktrees:
+
+- Agent 1: `/Users/josh/Documents/Web Projects/Vue/Ship-It-disposable-mo` (`star-princess-disposable-mo`, `:55321`)
+- Agent 2 archive: `/Users/josh/Documents/Web Projects/Vue/Ship-It-qa2-reliability` (`star-princess-qa2-backend`, `:56321`) — evidence archive; do not reset yet

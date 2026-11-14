@@ -1,0 +1,4256 @@
+{
+  "generated_at": "2026-11-14T07:12:15.263Z",
+  "backend": "star-princess-qa2-backend :56321",
+  "catalog": "star-princess-launch-candidate-v1 (active on qa2)",
+  "authority_source_counts": {
+    "drinkit": 126,
+    "shipit": 48,
+    "total": 174
+  },
+  "summary": {
+    "active_definitions": 174,
+    "by_game": {
+      "drinkit": 126,
+      "shipit": 48
+    },
+    "production_class": {
+      "reachable_via_production_map": 127,
+      "blocked_in_production_map": 10,
+      "missing_from_production_map": 37
+    },
+    "production_map_declared_summary": {
+      "total": 140,
+      "release_enabled": 129,
+      "blocked_organizer": 3,
+      "blocked_metadata": 8
+    },
+    "production_map_rows": 140,
+    "production_map_rows_not_in_174_active": [
+      "working-drinkit-d032",
+      "working-drinkit-d035",
+      "working-drinkit-d083"
+    ],
+    "engine_class": {
+      "reachable_in_active_catalog": 161,
+      "unreachable_empty_collection": 4,
+      "unreachable_missing_catalog_dependency": 9,
+      "not_loaded_in_db": 0
+    },
+    "executed_award_proof_in_this_run": 23,
+    "authority_rows_without_definition": [],
+    "definitions_without_authority_row": [],
+    "reachable_in_production_AND_engine": 118
+  },
+  "catalog_dataset_sizes": {
+    "bars": 13,
+    "concepts": 115,
+    "ingredients": 111,
+    "challenges": 50
+  },
+  "rows": [
+    {
+      "stableKey": "working-drinkit-d001",
+      "snapshotRef": "D-001",
+      "game": "drinkit",
+      "title": "Bon Voyage!",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Bon Voyage!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d002",
+      "snapshotRef": "D-002",
+      "game": "drinkit",
+      "title": "Third Time's the Charm",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Third Time's the Charm"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d003",
+      "snapshotRef": "D-003",
+      "game": "drinkit",
+      "title": "Light Work",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Light Work"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d004",
+      "snapshotRef": "D-004",
+      "game": "drinkit",
+      "title": "15 Minutes of Fame",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "15 Minutes of Fame"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d005",
+      "snapshotRef": "D-005",
+      "game": "drinkit",
+      "title": "The AA meeting is Wednesday",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "The AA meeting is Wednesday"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d006",
+      "snapshotRef": "D-006",
+      "game": "drinkit",
+      "title": "Bounty Hunting",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Bounty Hunting"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d007",
+      "snapshotRef": "D-007",
+      "game": "drinkit",
+      "title": "One Particular Cocktail",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "One Particular Cocktail"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d008",
+      "snapshotRef": "D-008",
+      "game": "drinkit",
+      "title": "Elementary, My Dear Watson",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Elementary, My Dear Watson"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d009",
+      "snapshotRef": "D-009",
+      "game": "drinkit",
+      "title": "This Round is on Me",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "This Round is on Me"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d010",
+      "snapshotRef": "D-010",
+      "game": "drinkit",
+      "title": "Your mission should you choose to accept it",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Your mission should you choose to accept it"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d011",
+      "snapshotRef": "D-011",
+      "game": "drinkit",
+      "title": "Double Kill",
+      "groupKey": "bounties_competition",
+      "conditionType": "same_submission_claims",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Double Kill"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d012",
+      "snapshotRef": "D-012",
+      "game": "drinkit",
+      "title": "This shouldn’t be possible!!",
+      "groupKey": "bounties_competition",
+      "conditionType": "same_submission_claims",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "This shouldn’t be possible!!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d013",
+      "snapshotRef": "D-013",
+      "game": "drinkit",
+      "title": "Try Harding",
+      "groupKey": "bounties_competition",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Try Harding"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d014",
+      "snapshotRef": "D-014",
+      "game": "drinkit",
+      "title": "Its a marathon, not a Sprint",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Its a marathon, not a Sprint"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d015",
+      "snapshotRef": "D-015",
+      "game": "drinkit",
+      "title": "Three Sheets to the Wind",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Three Sheets to the Wind"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d016",
+      "snapshotRef": "D-016",
+      "game": "drinkit",
+      "title": "Barometer Soup",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Barometer Soup"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d017",
+      "snapshotRef": "D-017",
+      "game": "drinkit",
+      "title": "The Pascagoula Run",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "The Pascagoula Run"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d018",
+      "snapshotRef": "D-018",
+      "game": "drinkit",
+      "title": "Four of a Kind",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Four of a Kind"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d019",
+      "snapshotRef": "D-019",
+      "game": "drinkit",
+      "title": "Bar None",
+      "groupKey": "bars_exploration",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Bar None"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d020",
+      "snapshotRef": "D-020",
+      "game": "drinkit",
+      "title": "Changes in Latitudes, Changes in Attitudes",
+      "groupKey": "bars_exploration",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Changes in Latitudes, Changes in Attitudes"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d021",
+      "snapshotRef": "D-021",
+      "game": "drinkit",
+      "title": "Life Is a Highway",
+      "groupKey": "bars_exploration",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Life Is a Highway"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d022",
+      "snapshotRef": "D-022",
+      "game": "drinkit",
+      "title": "I've Been Everywhere, Man",
+      "groupKey": "bars_exploration",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "I've Been Everywhere, Man"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d023",
+      "snapshotRef": "D-023",
+      "game": "drinkit",
+      "title": "Its kind of a Triathlon",
+      "groupKey": "bars_exploration",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Its kind of a Triathlon"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d024",
+      "snapshotRef": "D-024",
+      "game": "drinkit",
+      "title": "Repeat Offender",
+      "groupKey": "bars_exploration",
+      "conditionType": "event_interval",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Repeat Offender"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d025",
+      "snapshotRef": "D-025",
+      "game": "drinkit",
+      "title": "I’ll have what I’m having",
+      "groupKey": "bars_exploration",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "I’ll have what I’m having"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d026",
+      "snapshotRef": "D-026",
+      "game": "drinkit",
+      "title": "Three's Company",
+      "groupKey": "bars_exploration",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Three's Company"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d028",
+      "snapshotRef": "D-028",
+      "game": "drinkit",
+      "title": "Gotta Start Somewhere",
+      "groupKey": "firsts_early_wins",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Firsts & Early Wins",
+        "name": "Gotta Start Somewhere"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d029",
+      "snapshotRef": "D-029",
+      "game": "drinkit",
+      "title": "It’s called “Branching out”",
+      "groupKey": "bars_exploration",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "It’s called “Branching out”"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d030",
+      "snapshotRef": "D-030",
+      "game": "drinkit",
+      "title": "They Serve Other Stuff Here",
+      "groupKey": "bars_exploration",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "They Serve Other Stuff Here"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d031",
+      "snapshotRef": "D-031",
+      "game": "drinkit",
+      "title": "So Nice I had it twice",
+      "groupKey": "bounties_competition",
+      "conditionType": "ordered_after",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "So Nice I had it twice"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d033",
+      "snapshotRef": "D-033",
+      "game": "drinkit",
+      "title": "Stuck in Colder Weather",
+      "groupKey": "bars_exploration",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Stuck in Colder Weather"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "tags(drink_concept): need 1 of [frozen], present []"
+      ],
+      "near_matches_in_catalog": {},
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d034",
+      "snapshotRef": "D-034",
+      "game": "drinkit",
+      "title": "Red, Red Wine",
+      "groupKey": "bars_exploration",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Red, Red Wine"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d036",
+      "snapshotRef": "D-036",
+      "game": "drinkit",
+      "title": "One of Each, Please",
+      "groupKey": "bars_exploration",
+      "conditionType": "all",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "One of Each, Please"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d037",
+      "snapshotRef": "D-037",
+      "game": "drinkit",
+      "title": "The Gintleman",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "The Gintleman"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d038",
+      "snapshotRef": "D-038",
+      "game": "drinkit",
+      "title": "Tequila Mockingbird",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Tequila Mockingbird"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d039",
+      "snapshotRef": "D-039",
+      "game": "drinkit",
+      "title": "Rum, Forrest, Rum!",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Rum, Forrest, Rum!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d040",
+      "snapshotRef": "D-040",
+      "game": "drinkit",
+      "title": "Whiskey Business",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Whiskey Business"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d041",
+      "snapshotRef": "D-041",
+      "game": "drinkit",
+      "title": "Crystal Clear",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Crystal Clear"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d042",
+      "snapshotRef": "D-042",
+      "game": "drinkit",
+      "title": "Paint It Black",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Paint It Black"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "tags(ingredient): need 1 of [spirit-dark], present []"
+      ],
+      "near_matches_in_catalog": {},
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d043",
+      "snapshotRef": "D-043",
+      "game": "drinkit",
+      "title": "The Fantastic Four",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "The Fantastic Four"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d044",
+      "snapshotRef": "D-044",
+      "game": "drinkit",
+      "title": "Tastes like a Campfire",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Tastes like a Campfire"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d045",
+      "snapshotRef": "D-045",
+      "game": "drinkit",
+      "title": "Easy Peasy Lemon Squeezy",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Easy Peasy Lemon Squeezy"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:lemon",
+        "ingredient_key:lemon-juice",
+        "ingredient_key:fresh-lemon-juice"
+      ],
+      "near_matches_in_catalog": {
+        "lemon": [
+          "lemon-flavor",
+          "lemon-lime-soda"
+        ],
+        "lemon-juice": [
+          "lemon-flavor",
+          "lemon-lime-soda"
+        ],
+        "fresh-lemon-juice": []
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d046",
+      "snapshotRef": "D-046",
+      "game": "drinkit",
+      "title": "Pineapple Express",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Pineapple Express"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:pineapple"
+      ],
+      "near_matches_in_catalog": {
+        "pineapple": [
+          "pineapple-flavor"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d047",
+      "snapshotRef": "D-047",
+      "game": "drinkit",
+      "title": "Heard it on the Coconut Telegraph",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Heard it on the Coconut Telegraph"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:coconut",
+        "ingredient_key:coconut-milk"
+      ],
+      "near_matches_in_catalog": {
+        "coconut": [
+          "coconut-flavor"
+        ],
+        "coconut-milk": [
+          "coconut-flavor"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d048",
+      "snapshotRef": "D-048",
+      "game": "drinkit",
+      "title": "Orange You Glad?",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Orange You Glad?"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d049",
+      "snapshotRef": "D-049",
+      "game": "drinkit",
+      "title": "How do you milk an almond?",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "How do you milk an almond?"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d050",
+      "snapshotRef": "D-050",
+      "game": "drinkit",
+      "title": "That’s a Spicy Meatball!",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "That’s a Spicy Meatball!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d051",
+      "snapshotRef": "D-051",
+      "game": "drinkit",
+      "title": "Wake Me Up Before You Go-Go",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Wake Me Up Before You Go-Go"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d052",
+      "snapshotRef": "D-052",
+      "game": "drinkit",
+      "title": "Flower Power",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Flower Power"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:elderflower-liqueur",
+        "ingredient_key:st-germain"
+      ],
+      "near_matches_in_catalog": {
+        "elderflower-liqueur": [
+          "elderflower-st-germain"
+        ],
+        "st-germain": [
+          "elderflower-st-germain",
+          "strawberry-flavor",
+          "pastis"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d053",
+      "snapshotRef": "D-053",
+      "game": "drinkit",
+      "title": "Almond Joy",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Almond Joy"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:amaretto"
+      ],
+      "near_matches_in_catalog": {
+        "amaretto": [
+          "amaretto-disaronno"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d054",
+      "snapshotRef": "D-054",
+      "game": "drinkit",
+      "title": "Fa-la-la-la Falernum",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Fa-la-la-la Falernum"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d055",
+      "snapshotRef": "D-055",
+      "game": "drinkit",
+      "title": "Last Lychee in Paris",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Last Lychee in Paris"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:lychee",
+        "ingredient_key:lychee-liqueur"
+      ],
+      "near_matches_in_catalog": {
+        "lychee": [
+          "lychee-flavor"
+        ],
+        "lychee-liqueur": [
+          "lychee-flavor"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d056",
+      "snapshotRef": "D-056",
+      "game": "drinkit",
+      "title": "We aren’t even going to that island!",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "We aren’t even going to that island!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d057",
+      "snapshotRef": "D-057",
+      "game": "drinkit",
+      "title": "Peanut Butter Conspiracy",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Peanut Butter Conspiracy"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d058",
+      "snapshotRef": "D-058",
+      "game": "drinkit",
+      "title": "Beet It",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Beet It"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d059",
+      "snapshotRef": "D-059",
+      "game": "drinkit",
+      "title": "Grease Is the Word",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Grease Is the Word"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "unreachable_missing_catalog_dependency",
+      "engine_live": null,
+      "missing_dependencies": [
+        "ingredient_key:olive-oil-washed-spirit"
+      ],
+      "near_matches_in_catalog": {
+        "olive-oil-washed-spirit": [
+          "olive-brine"
+        ]
+      },
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d060",
+      "snapshotRef": "D-060",
+      "game": "drinkit",
+      "title": "Bitter Sweet Symphony",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Bitter Sweet Symphony"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d061",
+      "snapshotRef": "D-061",
+      "game": "drinkit",
+      "title": "Anyone got the Thyme?",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Anyone got the Thyme?"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d062",
+      "snapshotRef": "D-062",
+      "game": "drinkit",
+      "title": "Kitchen Sink Drink",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "recipe_ingredient_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Kitchen Sink Drink"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d063",
+      "snapshotRef": "D-063",
+      "game": "drinkit",
+      "title": "Double Trouble",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Double Trouble"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d064",
+      "snapshotRef": "D-064",
+      "game": "drinkit",
+      "title": "Little a this, little a that",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Little a this, little a that"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d065",
+      "snapshotRef": "D-065",
+      "game": "drinkit",
+      "title": "The Wine makes it Classy",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "The Wine makes it Classy"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d066",
+      "snapshotRef": "D-066",
+      "game": "drinkit",
+      "title": "Fruitcakes in the kitchen",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "tag_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Fruitcakes in the kitchen"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d067",
+      "snapshotRef": "D-067",
+      "game": "drinkit",
+      "title": "Three's a Crowd",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Three's a Crowd"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d068",
+      "snapshotRef": "D-068",
+      "game": "drinkit",
+      "title": "We Are the People Our Parents Warned Us About",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "We Are the People Our Parents Warned Us About"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d069",
+      "snapshotRef": "D-069",
+      "game": "drinkit",
+      "title": "Drinking on Lunch Break",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Drinking on Lunch Break"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d070",
+      "snapshotRef": "D-070",
+      "game": "drinkit",
+      "title": "With a Little Help from My Friends",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "With a Little Help from My Friends"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d071",
+      "snapshotRef": "D-071",
+      "game": "drinkit",
+      "title": "Road Trip!",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Road Trip!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d072",
+      "snapshotRef": "D-072",
+      "game": "drinkit",
+      "title": "You Can't Drink All Day Unless You Start in the Morning",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "You Can't Drink All Day Unless You Start in the Morning"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d073",
+      "snapshotRef": "D-073",
+      "game": "drinkit",
+      "title": "Working on the Night Moves",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Working on the Night Moves"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d074",
+      "snapshotRef": "D-074",
+      "game": "drinkit",
+      "title": "Slamma Jamma",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "event_interval",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Slamma Jamma"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d075",
+      "snapshotRef": "D-075",
+      "game": "drinkit",
+      "title": "Weather Is Here, Wish You Were Beautiful",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Weather Is Here, Wish You Were Beautiful"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d076",
+      "snapshotRef": "D-076",
+      "game": "drinkit",
+      "title": "Come Sail Away",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "cruise_day",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Come Sail Away"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d077",
+      "snapshotRef": "D-077",
+      "game": "drinkit",
+      "title": "It's Been a Lovely Cruise",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "cruise_day",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "It's Been a Lovely Cruise"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d078",
+      "snapshotRef": "D-078",
+      "game": "drinkit",
+      "title": "The Days Drift By",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "The Days Drift By"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d079",
+      "snapshotRef": "D-079",
+      "game": "drinkit",
+      "title": "Where everyone knows my name",
+      "groupKey": "bars_exploration",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Where everyone knows my name"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d080",
+      "snapshotRef": "D-080",
+      "game": "drinkit",
+      "title": "Not a worry in the world, cold beer in my hand",
+      "groupKey": "bars_exploration",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "Not a worry in the world, cold beer in my hand"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d081",
+      "snapshotRef": "D-081",
+      "game": "drinkit",
+      "title": "Dawn of the Peck",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "cruise_day",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Dawn of the Peck"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d082",
+      "snapshotRef": "D-082",
+      "game": "drinkit",
+      "title": "Wrinkles only go where the smiles have been",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Wrinkles only go where the smiles have been"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_organizer",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_organizer"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d084",
+      "snapshotRef": "D-084",
+      "game": "drinkit",
+      "title": "The menu is more of a “guideline” anyway",
+      "groupKey": "bars_exploration",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bars & Exploration",
+        "name": "The menu is more of a “guideline” anyway"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-d085",
+      "snapshotRef": "D-085",
+      "game": "drinkit",
+      "title": "Take it to the limit",
+      "groupKey": "bounties_competition",
+      "conditionType": "day_bounty_score",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Take it to the limit"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_organizer",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_organizer"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d086",
+      "snapshotRef": "D-086",
+      "game": "drinkit",
+      "title": "One Peppy Lopez, Please.",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "One Peppy Lopez, Please."
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d087",
+      "snapshotRef": "D-087",
+      "game": "drinkit",
+      "title": "Something something alcohol tolerance",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Something something alcohol tolerance"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d088",
+      "snapshotRef": "D-088",
+      "game": "drinkit",
+      "title": "A Pirate Looks at 40",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "A Pirate Looks at 40"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d089",
+      "snapshotRef": "D-089",
+      "game": "drinkit",
+      "title": "At Least it isn't coors lite",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "At Least it isn't coors lite"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d090",
+      "snapshotRef": "D-090",
+      "game": "drinkit",
+      "title": "Feeding the Fishes",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Feeding the Fishes"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d091",
+      "snapshotRef": "D-091",
+      "game": "drinkit",
+      "title": "This is too sweet for me",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "This is too sweet for me"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d092",
+      "snapshotRef": "D-092",
+      "game": "drinkit",
+      "title": "The Wino and I know",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "The Wino and I know"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d093",
+      "snapshotRef": "D-093",
+      "game": "drinkit",
+      "title": "Dear Maria, Count me Gin",
+      "groupKey": "friends_social",
+      "conditionType": "companion_predicate",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Friends & Social",
+        "name": "Dear Maria, Count me Gin"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "blocked_metadata",
+        "enabledInProductionRelease": false,
+        "blockedReason": "blocked_metadata"
+      },
+      "production_class": "blocked_in_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d094",
+      "snapshotRef": "FINAL-D-094",
+      "game": "drinkit",
+      "title": "All Hands on Deck",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "All Hands on Deck"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d095",
+      "snapshotRef": "FINAL-D-095",
+      "game": "drinkit",
+      "title": "Seven Days, Seven Ways",
+      "groupKey": "bounties_competition",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Bounties & Competition",
+        "name": "Seven Days, Seven Ways"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-d096",
+      "snapshotRef": "FINAL-D-096",
+      "game": "drinkit",
+      "title": "Bananaday Dreamin'",
+      "groupKey": "spirits_ingredients",
+      "conditionType": "any",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Spirits & Ingredients",
+        "name": "Bananaday Dreamin'"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-dwd-fireball-shot",
+      "snapshotRef": "A3-DWD-002",
+      "game": "drinkit",
+      "title": "When the Volcano Blows",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "When the Volcano Blows"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-dwd-jimmy-buffett-toast",
+      "snapshotRef": "A3-DWD-005",
+      "game": "drinkit",
+      "title": "Jimmy Buffett Toast",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "Jimmy Buffett Toast"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-dwd-margarita-kickoff",
+      "snapshotRef": "A3-DWD-001",
+      "game": "drinkit",
+      "title": "Wasted Away Again In Margaritaville",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "Wasted Away Again In Margaritaville"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-dwd-sambuca-shot",
+      "snapshotRef": "A3-DWD-003",
+      "game": "drinkit",
+      "title": "Desperation Sambuca",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "Desperation Sambuca"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-dwd-sunset-toast",
+      "snapshotRef": "A3-DWD-004",
+      "game": "drinkit",
+      "title": "The Night I Painted the Sky",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "The Night I Painted the Sky"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-dwd-tampico-trauma",
+      "snapshotRef": "FINAL-DWD-006",
+      "game": "drinkit",
+      "title": "Tampico Trauma",
+      "groupKey": "drinking_with_davids",
+      "conditionType": "same_log",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Drinking with Davids",
+        "name": "Tampico Trauma"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-frozen-concoctions",
+      "snapshotRef": "FINAL-FROZEN-001",
+      "game": "drinkit",
+      "title": "Frozen Concoctions",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Frozen Concoctions"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "unreachable_empty_collection",
+      "engine_live": {
+        "live_target": 0
+      },
+      "missing_dependencies": [
+        "drink_tag:frozen"
+      ],
+      "near_matches_in_catalog": {},
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-bellinis-cocktail-bar",
+      "snapshotRef": "A3-BG-C-bellinis-cocktail-bar",
+      "game": "drinkit",
+      "title": "The Bellini Bunch",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Bellini Bunch"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 20
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-cascade-bar",
+      "snapshotRef": "A3-BG-C-cascade-bar",
+      "game": "drinkit",
+      "title": "The Ripple Effect",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Ripple Effect"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-crooners",
+      "snapshotRef": "A3-BG-C-crooners",
+      "game": "drinkit",
+      "title": "The Rat Pack",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Rat Pack"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-good-spirits-at-sea",
+      "snapshotRef": "FINAL-BG-C-good-spirits-at-sea",
+      "game": "drinkit",
+      "title": "Former Spirit Airlines Flight Crew",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Former Spirit Airlines Flight Crew"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "unreachable_empty_collection",
+      "engine_live": {
+        "live_target": 0
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-lido-bar",
+      "snapshotRef": "A3-BG-C-lido-bar",
+      "game": "drinkit",
+      "title": "Screamin' Boat Drinks",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Screamin' Boat Drinks"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-omalleys-irish-pub",
+      "snapshotRef": "A3-BG-C-omalleys-irish-pub",
+      "game": "drinkit",
+      "title": "The Whole Paddy Wagon",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Whole Paddy Wagon"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 12
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-princess-live",
+      "snapshotRef": "A3-BG-C-princess-live",
+      "game": "drinkit",
+      "title": "Just here for the Karaoke",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Just here for the Karaoke"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-promenade-bars",
+      "snapshotRef": "A3-BG-C-promenade-bars",
+      "game": "drinkit",
+      "title": "Promenade Pirates",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Promenade Pirates"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-sea-view-bar",
+      "snapshotRef": "A3-BG-C-sea-view-bar",
+      "game": "drinkit",
+      "title": "The Coral Reefers",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Coral Reefers"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-star-bar",
+      "snapshotRef": "A3-BG-C-star-bar",
+      "game": "drinkit",
+      "title": "Stars on the Water",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Stars on the Water"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-the-mix",
+      "snapshotRef": "A3-BG-C-the-mix",
+      "game": "drinkit",
+      "title": "MIX Tape Masters",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "MIX Tape Masters"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-wake-view-bar",
+      "snapshotRef": "A3-BG-C-wake-view-bar",
+      "game": "drinkit",
+      "title": "We like a nice Aft",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "We like a nice Aft"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-collective-wheelhouse-bar",
+      "snapshotRef": "A3-BG-C-wheelhouse-bar",
+      "game": "drinkit",
+      "title": "Wheelhouse Rock",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Wheelhouse Rock"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-bellinis-cocktail-bar",
+      "snapshotRef": "A3-BG-P-bellinis-cocktail-bar",
+      "game": "drinkit",
+      "title": "Bellini There, Done That",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Bellini There, Done That"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 20
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-cascade-bar",
+      "snapshotRef": "A3-BG-P-cascade-bar",
+      "game": "drinkit",
+      "title": "Chasing Waterfalls",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Chasing Waterfalls"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-crooners",
+      "snapshotRef": "A3-BG-P-crooners",
+      "game": "drinkit",
+      "title": "I did it My Way",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "I did it My Way"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-good-spirits-at-sea",
+      "snapshotRef": "FINAL-BG-P-good-spirits-at-sea",
+      "game": "drinkit",
+      "title": "Spirited Away",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Spirited Away"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "unreachable_empty_collection",
+      "engine_live": {
+        "live_target": 0
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-lido-bar",
+      "snapshotRef": "A3-BG-P-lido-bar",
+      "game": "drinkit",
+      "title": "Lido Shuffle",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Lido Shuffle"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-omalleys-irish-pub",
+      "snapshotRef": "A3-BG-P-omalleys-irish-pub",
+      "game": "drinkit",
+      "title": "Luck of the Irish",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Luck of the Irish"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 12
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-princess-live",
+      "snapshotRef": "A3-BG-P-princess-live",
+      "game": "drinkit",
+      "title": "Live and Let Drink",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Live and Let Drink"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-promenade-bars",
+      "snapshotRef": "A3-BG-P-promenade-bars",
+      "game": "drinkit",
+      "title": "The Daiquiri is too Fruitiful",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The Daiquiri is too Fruitiful"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-sea-view-bar",
+      "snapshotRef": "A3-BG-P-sea-view-bar",
+      "game": "drinkit",
+      "title": "Son of a Son of a Sailor",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Son of a Son of a Sailor"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-star-bar",
+      "snapshotRef": "A3-BG-P-star-bar",
+      "game": "drinkit",
+      "title": "Super Star!",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Super Star!"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-the-mix",
+      "snapshotRef": "A3-BG-P-the-mix",
+      "game": "drinkit",
+      "title": "The MIX Tape",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "The MIX Tape"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 18
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-wake-view-bar",
+      "snapshotRef": "A3-BG-P-wake-view-bar",
+      "game": "drinkit",
+      "title": "View to Thrill",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "View to Thrill"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 16
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-gauntlet-personal-wheelhouse-bar",
+      "snapshotRef": "A3-BG-P-wheelhouse-bar",
+      "game": "drinkit",
+      "title": "Steady as She Goes",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "Steady as She Goes"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": {
+        "live_target": 13
+      },
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-drinkit-license-to-chill",
+      "snapshotRef": "FINAL-FROZEN-002",
+      "game": "drinkit",
+      "title": "License to Chill",
+      "groupKey": "bar_gauntlets",
+      "conditionType": "offering_collection",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Collections & Bar Gauntlets",
+        "name": "License to Chill"
+      },
+      "production_map": {
+        "present": false
+      },
+      "production_class": "missing_from_production_map",
+      "engine_class": "unreachable_empty_collection",
+      "engine_live": {
+        "live_target": 0
+      },
+      "missing_dependencies": [
+        "drink_tag:frozen"
+      ],
+      "near_matches_in_catalog": {},
+      "executed_award_proof": true
+    },
+    {
+      "stableKey": "working-shipit-s001",
+      "snapshotRef": "S-001",
+      "game": "shipit",
+      "title": "The Start of Something New",
+      "groupKey": "progress_completion",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "The Start of Something New"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s002",
+      "snapshotRef": "S-002",
+      "game": "shipit",
+      "title": "We’re just getting started baby",
+      "groupKey": "progress_completion",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "We’re just getting started baby"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s003",
+      "snapshotRef": "S-003",
+      "game": "shipit",
+      "title": "Double Digits",
+      "groupKey": "progress_completion",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Double Digits"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s004",
+      "snapshotRef": "S-004",
+      "game": "shipit",
+      "title": "Cant Stop Won’t Stop",
+      "groupKey": "progress_completion",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Cant Stop Won’t Stop"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s005",
+      "snapshotRef": "S-005",
+      "game": "shipit",
+      "title": "Whoaaaa We're Halfway There",
+      "groupKey": "progress_completion",
+      "conditionType": "event_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Whoaaaa We're Halfway There"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s006",
+      "snapshotRef": "S-006",
+      "game": "shipit",
+      "title": "Ah The Stories We Could Tell",
+      "groupKey": "progress_completion",
+      "conditionType": "set_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Ah The Stories We Could Tell"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s007",
+      "snapshotRef": "S-007",
+      "game": "shipit",
+      "title": "Gotta Catch 'Em All!",
+      "groupKey": "progress_completion",
+      "conditionType": "category_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Gotta Catch 'Em All!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s008",
+      "snapshotRef": "S-008",
+      "game": "shipit",
+      "title": "Finders Keepers",
+      "groupKey": "progress_completion",
+      "conditionType": "category_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Progress & Completion",
+        "name": "Finders Keepers"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s009",
+      "snapshotRef": "S-009",
+      "game": "shipit",
+      "title": "The Early Bird Special",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "The Early Bird Special"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s010",
+      "snapshotRef": "S-010",
+      "game": "shipit",
+      "title": "Night Moves",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Night Moves"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s011",
+      "snapshotRef": "S-011",
+      "game": "shipit",
+      "title": "You don’t get extra credit",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "grouped_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "You don’t get extra credit"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s012",
+      "snapshotRef": "S-012",
+      "game": "shipit",
+      "title": "The Love Boat",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "cruise_day",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "The Love Boat"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s013",
+      "snapshotRef": "S-013",
+      "game": "shipit",
+      "title": "Under The Wire",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "cruise_day",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Under The Wire"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s014",
+      "snapshotRef": "S-014",
+      "game": "shipit",
+      "title": "Why are you even on the ship?",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "ship_time_window",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Why are you even on the ship?"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s015",
+      "snapshotRef": "S-015",
+      "game": "shipit",
+      "title": "Same Ship, Different Day",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "distinct_count",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "Same Ship, Different Day"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s016",
+      "snapshotRef": "S-016",
+      "game": "shipit",
+      "title": "The Fast & The Curious",
+      "groupKey": "ship_time_milestones",
+      "conditionType": "event_interval",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Ship-Time & Cruise Milestones",
+        "name": "The Fast & The Curious"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s017",
+      "snapshotRef": "S-017",
+      "game": "shipit",
+      "title": "Wax On, Wax Off",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Wax On, Wax Off"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s018",
+      "snapshotRef": "S-018",
+      "game": "shipit",
+      "title": "Cultural Infidel",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Cultural Infidel"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s019",
+      "snapshotRef": "S-019",
+      "game": "shipit",
+      "title": "Eye of the Tiger",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Eye of the Tiger"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s020",
+      "snapshotRef": "S-020",
+      "game": "shipit",
+      "title": "Hot & Ready",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Hot & Ready"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s021",
+      "snapshotRef": "S-021",
+      "game": "shipit",
+      "title": "You Scream I Scream",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "You Scream I Scream"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s022",
+      "snapshotRef": "S-022",
+      "game": "shipit",
+      "title": "Buffet the Vampire Slayer",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Buffet the Vampire Slayer"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s023",
+      "snapshotRef": "S-023",
+      "game": "shipit",
+      "title": "If You Like Piña Coladas",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "If You Like Piña Coladas"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s024",
+      "snapshotRef": "S-024",
+      "game": "shipit",
+      "title": "The Breakfast Club",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "The Breakfast Club"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s025",
+      "snapshotRef": "S-025",
+      "game": "shipit",
+      "title": "The Safety Dance",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "The Safety Dance"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s026",
+      "snapshotRef": "S-026",
+      "game": "shipit",
+      "title": "Animal House",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Animal House"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s027",
+      "snapshotRef": "S-027",
+      "game": "shipit",
+      "title": "Jolly Mon Sing",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Jolly Mon Sing"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s028",
+      "snapshotRef": "S-028",
+      "game": "shipit",
+      "title": "Wake Me Up Before You Go-Go",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Wake Me Up Before You Go-Go"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s029",
+      "snapshotRef": "S-029",
+      "game": "shipit",
+      "title": "Fins Up!",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Fins Up!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s030",
+      "snapshotRef": "S-030",
+      "game": "shipit",
+      "title": "My Whole Life Is Waiting Behind Door Number 3",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "My Whole Life Is Waiting Behind Door Number 3"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s031",
+      "snapshotRef": "S-031",
+      "game": "shipit",
+      "title": "We Build this Ship on Rock and Roll",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "We Build this Ship on Rock and Roll"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s032",
+      "snapshotRef": "S-032",
+      "game": "shipit",
+      "title": "Footloose",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Footloose"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s033",
+      "snapshotRef": "S-033",
+      "game": "shipit",
+      "title": "We Came, We Saw, We Souvenired",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "We Came, We Saw, We Souvenired"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s034",
+      "snapshotRef": "S-034",
+      "game": "shipit",
+      "title": "Don't Let the Sun Go Down on Me",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Don't Let the Sun Go Down on Me"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s035",
+      "snapshotRef": "S-035",
+      "game": "shipit",
+      "title": "I'm Flying, Jack!",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "I'm Flying, Jack!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s036",
+      "snapshotRef": "S-036",
+      "game": "shipit",
+      "title": "The Three Amigos",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "The Three Amigos"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s037",
+      "snapshotRef": "S-037",
+      "game": "shipit",
+      "title": "Full House",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Full House"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s038",
+      "snapshotRef": "S-038",
+      "game": "shipit",
+      "title": "Where in the World Is Carmen Sandiego?",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "Where in the World Is Carmen Sandiego?"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s039",
+      "snapshotRef": "S-039",
+      "game": "shipit",
+      "title": "Honey, I Shrunk the Ship",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Honey, I Shrunk the Ship"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s040",
+      "snapshotRef": "S-040",
+      "game": "shipit",
+      "title": "Irish You Were Here",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Irish You Were Here"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s041",
+      "snapshotRef": "S-041",
+      "game": "shipit",
+      "title": "Spirit in the Sky",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Spirit in the Sky"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s042",
+      "snapshotRef": "S-042",
+      "game": "shipit",
+      "title": "North by Northwest",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "North by Northwest"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s043",
+      "snapshotRef": "S-043",
+      "game": "shipit",
+      "title": "Every Rose Has Its Thorn",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Every Rose Has Its Thorn"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s044",
+      "snapshotRef": "S-044",
+      "game": "shipit",
+      "title": "Friday the 13th",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Friday the 13th"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s045",
+      "snapshotRef": "S-045",
+      "game": "shipit",
+      "title": "Shadow Dancing",
+      "groupKey": "firsts",
+      "conditionType": "exact_match",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Shadow Dancing"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s046",
+      "snapshotRef": "S-046",
+      "game": "shipit",
+      "title": "Hawaii Five-O!",
+      "groupKey": "firsts",
+      "conditionType": "category_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Hawaii Five-O!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s047",
+      "snapshotRef": "S-047",
+      "game": "shipit",
+      "title": "Get The Broom Out Cause That’s a Sweep!",
+      "groupKey": "firsts",
+      "conditionType": "category_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "First to Find",
+        "name": "Get The Broom Out Cause That’s a Sweep!"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    },
+    {
+      "stableKey": "working-shipit-s048",
+      "snapshotRef": "S-048",
+      "game": "shipit",
+      "title": "My own kind of paradise",
+      "groupKey": "challenge_spotlights",
+      "conditionType": "set_completion",
+      "in_db_enabled": true,
+      "final_authority_match": {
+        "category": "Challenge Spotlights",
+        "name": "My own kind of paradise"
+      },
+      "production_map": {
+        "present": true,
+        "readiness": "enabled",
+        "enabledInProductionRelease": true,
+        "blockedReason": null
+      },
+      "production_class": "reachable_via_production_map",
+      "engine_class": "reachable_in_active_catalog",
+      "engine_live": null,
+      "missing_dependencies": [],
+      "executed_award_proof": false
+    }
+  ]
+}

@@ -85,9 +85,9 @@ Two worktrees can run **R3 ∥ R4** or **R6 ∥ R7** after diagnostic tests are 
 
 **Do not parallel R1 with R2** (shared submit/photo Vue). **Do not parallel R4 with R5** (catalog pending + publish/schedule).
 
-## Worktree integration (not executed)
+## Worktree integration (executed)
 
-Cherry-pick or path-scoped merge Agent 2 commits `bc43834…f4c1dce` **tests + reports + probes only** onto main after resolving `scripts/qa2a/*` and `tests/helpers/devEnvironmentGuard.ts` overlaps. See [`WORKTREE_INTEGRATION_PLAN.md`](./WORKTREE_INTEGRATION_PLAN.md).
+Path-scoped import of Agent 2 commits `bc43834…f4c1dce` **tests + reports + probes only** onto `visual/drinkit-home-v1`. Probes relocated to `scripts/qa2a/probe/`; `devEnvironmentGuard` hand-merged (organizer protections preserved + `:56321` allowed). See [`WORKTREE_INTEGRATION_PLAN.md`](./WORKTREE_INTEGRATION_PLAN.md), [`KNOWN_FAILURE_MANIFEST.md`](./KNOWN_FAILURE_MANIFEST.md), [`REPAIR_EXECUTION_MATRIX.md`](./REPAIR_EXECUTION_MATRIX.md).
 
 ## Important unresolved decisions
 
@@ -107,3 +107,5 @@ Cherry-pick or path-scoped merge Agent 2 commits `bc43834…f4c1dce` **tests + r
 6. `REMAINING_TEST_COVERAGE.md`
 7. `WORKTREE_INTEGRATION_PLAN.md`
 8. `LAUNCH_BLOCKERS.md`
+9. `KNOWN_FAILURE_MANIFEST.md`
+10. `REPAIR_EXECUTION_MATRIX.md`

@@ -11,21 +11,35 @@ export type DisposableDevEnvironment = {
   finalized: boolean
 }
 
-/** Local disposable stacks: primary 54321 or isolated alternate 55321. */
-const LOCAL_API_PORTS = new Set(['', '54321', '55321'])
+/**
+ * Local disposable stacks:
+ * - 54321 organizer (mutation blocked unless QA_ALLOW_ORGANIZER_MUTATION=1;
+ *   finalized/final refused even with allow — protects Plan C Wrapped)
+ * - 55321 Agent 1 disposable-mo (may reseed through finale; final lifecycle OK)
+ * - 56321 Agent 2 QA-4A backend-integration disposable (finalized refused)
+ *
+ * Agent 2 live probes under scripts/qa2a/probe/ hard-require :56321 independently
+ * and must not be pointed at :54321 / :55321.
+ */
+const LOCAL_API_PORTS = new Set(['', '54321', '55321', '56321'])
 
 /** Alternate disposable API port used by Ship-It-disposable-mo worktree. */
 export const DISPOSABLE_ALT_API_PORT = '55321'
+
+/** Agent 2 QA-4A independent disposable API port (star-princess-qa2-backend). */
+export const QA2_BACKEND_API_PORT = '56321'
 
 /**
  * Fail closed before any destructive achievement/catalog/clock integration work.
  * Requires a local API URL and an active development-only cruise.
  *
- * Safety (QA campaign):
+ * Safety (QA campaign — merged main + Agent 2):
  * - Primary stack :54321 is blocked unless QA_ALLOW_ORGANIZER_MUTATION=1.
  * - On :54321, also refuse finalized/final lifecycle (protects Plan C Wrapped).
  * - Alternate disposable :55321 may be reseeding through finale; final lifecycle
  *   there is NOT treated as the organizer fixture.
+ * - Agent 2 disposable :56321 is allowed; finalized/final there is refused so
+ *   mutating suites cannot run against a latched qa2 stack by accident.
  */
 export async function assertDisposableDevEnvironment(
   fixtures: Pick<LocalFixtures, 'available' | 'summary' | 'serviceRoleKey'>,
@@ -42,6 +56,7 @@ export async function assertDisposableDevEnvironment(
 
   const apiPort = apiPortFromUrl(url)
   const isPrimaryOrganizerPort = apiPort === '54321' || apiPort === ''
+  const isQa2BackendPort = apiPort === QA2_BACKEND_API_PORT
 
   let statusUrl = ''
   try {
@@ -69,19 +84,24 @@ export async function assertDisposableDevEnvironment(
   }
 
   const clock = await readLifecycleSnapshot(service)
+  if (isPrimaryOrganizerPort || isQa2BackendPort) {
+    if (clock.finalized || clock.lifecycle === 'final') {
+      throw new Error(
+        'PROTECTED_QA_FIXTURE: refusing mutating tests against finalized/final ' +
+          `lifecycle on :${apiPort || '54321'} ` +
+          `(lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).`,
+      )
+    }
+  }
+
   if (isPrimaryOrganizerPort) {
     const allowOrganizer = process.env.QA_ALLOW_ORGANIZER_MUTATION === '1'
     if (!allowOrganizer) {
       throw new Error(
         'DISPOSABLE_DEV_REQUIRED: primary stack :54321 blocked for mutating tests. ' +
-          `Point fixtures at :${DISPOSABLE_ALT_API_PORT} (Ship-It-disposable-mo) ` +
+          `Point fixtures at :${DISPOSABLE_ALT_API_PORT} (Ship-It-disposable-mo) or ` +
+          `:${QA2_BACKEND_API_PORT} (star-princess-qa2-backend), ` +
           'or set QA_ALLOW_ORGANIZER_MUTATION=1 only with an explicit restore plan.',
-      )
-    }
-    if (clock.finalized || clock.lifecycle === 'final') {
-      throw new Error(
-        'PROTECTED_QA_FIXTURE: refusing mutating tests against organizer finalized/final ' +
-          `lifecycle (lifecycle=${clock.lifecycle}, finalized=${clock.finalized}).`,
       )
     }
   }

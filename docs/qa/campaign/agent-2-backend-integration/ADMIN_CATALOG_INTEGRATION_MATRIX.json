@@ -1,0 +1,865 @@
+{
+  "generated_at": "2026-11-14T07:31:02.747Z",
+  "agent": "QA-4A Agent 2",
+  "script": "scripts/qa2a/probe/admin-catalog.mjs",
+  "backend": {
+    "url": "http://127.0.0.1:56321",
+    "project": "star-princess-qa2-backend",
+    "ports": {
+      "api": 56321,
+      "db": 56322
+    }
+  },
+  "organizer_cruise": {
+    "expected": "48fa40c6-e7cd-4f8f-8b81-e3e48d10eb13",
+    "end": "48fa40c6-e7cd-4f8f-8b81-e3e48d10eb13",
+    "unchanged": true
+  },
+  "totals": {
+    "pass": 14,
+    "fail": 15,
+    "info": 5,
+    "blocked": 2,
+    "total": 36
+  },
+  "completed_b_items": [
+    "B001",
+    "B002",
+    "B003",
+    "B004",
+    "B005",
+    "B007",
+    "B008",
+    "B009",
+    "B010",
+    "B011",
+    "B012",
+    "B013"
+  ],
+  "qa3a_b_items": {
+    "QA3A-B001": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B001-publish-pointer-only-on-success",
+          "status": "PASS",
+          "summary": "publish flips active_catalog_pointer only on full success; 4 failure paths leave DB untouched"
+        }
+      ]
+    },
+    "QA3A-B002": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B002-rollback-restores-prior",
+          "status": "PASS",
+          "summary": "admin_rollback_catalog restores prior playable catalog as a new audited revision; history intact"
+        },
+        {
+          "id": "QA3A-B002-rollback-blocked-live-objective",
+          "status": "FAIL",
+          "summary": "rollback refuses when the live objective is absent from the target"
+        }
+      ]
+    },
+    "QA3A-B003": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B003-apply-time-shortage-atomic",
+          "status": "PASS",
+          "summary": "REMAINING_POOL_SHORTAGE raised inside apply → whole transaction rolled back (versions, offers, global rows)"
+        },
+        {
+          "id": "QA3A-B003-evaluate-blocks-shortage",
+          "status": "PASS",
+          "summary": "evaluate pre-flight blocks the same shortage with structured blockers + failed ledger row"
+        }
+      ]
+    },
+    "QA3A-B004": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B004-concurrent-stage-publish",
+          "status": "PASS",
+          "summary": "concurrent stage/publish for the same catalog_id"
+        },
+        {
+          "id": "QA3A-B004-advisory-lock-proof",
+          "status": "PASS",
+          "summary": "publish serializes on pg_advisory_xact_lock(hashtext(catalog_publish)); stage does not"
+        }
+      ]
+    },
+    "QA3A-B005": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B005-add-drink-vs-publish-race",
+          "status": "PASS",
+          "summary": "deterministic interleave: add_drink resolves active version, publish flips pointer, add_drink completes"
+        }
+      ]
+    },
+    "QA3A-B006": {
+      "status": "BLOCKED",
+      "completed": false,
+      "proofs": [
+        {
+          "id": "QA3A-B006-PROBE-ERROR",
+          "status": "BLOCKED",
+          "summary": "Command failed: docker exec supabase_db_star-princess-qa2-backend psql -U postgres -d postgres -tAc select max(points) from cocktail_candidates where catalog_version_id='undefined'\nERROR:  invalid inp"
+        }
+      ]
+    },
+    "QA3A-B007": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B007-mobile-order-virtual-source",
+          "status": "FAIL",
+          "summary": "Mobile Order: cocktail not eligible, ingredient virtual_order_source, Bar Bounty mismatch, no claims; CAT-002 server path"
+        }
+      ]
+    },
+    "QA3A-B008": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B008-crew-day-lock",
+          "status": "PASS",
+          "summary": "bar bounty day crews lock after first ensure: late joins unassigned, deactivated members retained (design; ops consequence)"
+        },
+        {
+          "id": "QA3A-B008-admin-list-crews-mutating-read",
+          "status": "FAIL",
+          "summary": "live admin_list_bar_bounty_crews: before/after DB + late-join lock"
+        }
+      ]
+    },
+    "QA3A-B009": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "ADM-001-live-in-progress-check-status",
+          "status": "FAIL",
+          "summary": "real lib reconcileAuthRequest vs real in_progress ledger row"
+        },
+        {
+          "id": "ADM-002-live-409-operation-in-progress",
+          "status": "FAIL",
+          "summary": "real createPlayer → real Edge function while ledger in_progress"
+        },
+        {
+          "id": "B009-lease-expiry-recovery",
+          "status": "PASS",
+          "summary": "lease expiry recovery for abandoned in_progress reservation"
+        }
+      ]
+    },
+    "QA3A-B011": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B011-finale-latch",
+          "status": "FAIL",
+          "summary": "manual ship time past finale latches games irreversibly (qa2 only)"
+        }
+      ]
+    },
+    "QA3A-B012": {
+      "status": "FAIL",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B012-production-schedule-gap",
+          "status": "FAIL",
+          "summary": "gap confirmed: no admin/prod schedule generator; publish never creates the first schedule"
+        }
+      ]
+    },
+    "QA3A-B013": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B013-achievement-progress-across-replace",
+          "status": "PASS",
+          "summary": "collection progress + earned awards survive full admin publish replacement"
+        }
+      ]
+    },
+    "QA3A-B014": {
+      "status": "BLOCKED",
+      "completed": false,
+      "proofs": [
+        {
+          "id": "QA3A-B014-organizer-sacred",
+          "status": "BLOCKED",
+          "summary": "organizer production cruise_config / roster / teams / active catalog are out of scope for Agent 2 (read-only cruise-id check only)"
+        }
+      ]
+    },
+    "QA3A-B010": {
+      "status": "PASS",
+      "completed": true,
+      "proofs": [
+        {
+          "id": "QA3A-B010-aborted-semantics",
+          "status": "PASS",
+          "summary": "client abort → server outcome is durable & reconcilable (server applied 8/8 aborted calls; retry/reconcile never double-applied)"
+        }
+      ]
+    }
+  },
+  "adm_cat_matrix": {
+    "ADM-001": {
+      "backend_impact": "Backend correct: durable in_progress ledger row (lease 120s), find RPC returns {status:in_progress} without ok; Edge replays/blocks other workers.",
+      "frontend_impact": "reconcileLedger → asFailed(no ok) → failed → pending lock cleared while Auth provisioning may still complete.",
+      "reproduced_live": true,
+      "lib_result": {
+        "status": "failed",
+        "code": "error",
+        "message": "The player wasn't created. Nothing was saved. Please try again."
+      },
+      "backend_ledger": {
+        "action": "create_player",
+        "status": "in_progress",
+        "has_orphan_auth": false,
+        "received_at_utc": "2026-11-14T07:29:46.204932+00:00",
+        "completed_at_utc": "2026-11-14T07:29:46.204932+00:00",
+        "client_request_id": "83718912-d36c-4bc3-bc6a-b34bd40c9c97",
+        "lease_expires_at_utc": "2026-11-14T07:31:46.204934+00:00"
+      },
+      "db_before": {
+        "ledger": {
+          "status": "in_progress",
+          "result_json": {
+            "status": "in_progress"
+          },
+          "has_lease": true
+        },
+        "players": 10
+      },
+      "db_after": {
+        "ledger": {
+          "status": "in_progress",
+          "result_json": {
+            "status": "in_progress"
+          },
+          "has_lease": true
+        },
+        "players": 10
+      }
+    },
+    "ADM-002": {
+      "backend_impact": "Backend correct: only the reserved worker may call Auth; other callers wait ~1.2s then get 409 OPERATION_IN_PROGRESS; no duplicate Auth user/player.",
+      "frontend_impact": "invokeRoster maps any 4xx JSON body → asFailed → failed; pending cleared although request is still in progress.",
+      "reproduced_live": true,
+      "lib_result": {
+        "status": "failed",
+        "code": "error",
+        "message": "The player wasn't created. Nothing was saved. Please try again."
+      },
+      "edge_http": {
+        "status": 409,
+        "body": {
+          "ok": false,
+          "code": "OPERATION_IN_PROGRESS",
+          "message": "This create request is still in progress. Wait, then check status — do not assume success.",
+          "client_request_id": "83718912-d36c-4bc3-bc6a-b34bd40c9c97"
+        }
+      },
+      "db_before": {
+        "ledger": {
+          "status": "in_progress",
+          "result_json": {
+            "status": "in_progress"
+          },
+          "has_lease": true
+        },
+        "players": 10
+      },
+      "db_after": {
+        "ledger": {
+          "status": "in_progress",
+          "result_json": {
+            "status": "in_progress"
+          },
+          "has_lease": true
+        },
+        "players": 10,
+        "alias_player": "0"
+      }
+    },
+    "ADM-004": {
+      "backend_impact": "Backend returns ok:false {code:SUBMISSION_NOT_FOUND|FINALE_LOCKED} PAYLOADS for the documented deterministic cases (classified correctly by the client). Only RPC *errors* (e.g. malformed UUID pasted into the void box — RISK-ADM-D) hit the faulty unknown mapping.",
+      "frontend_impact": "applyVoidSubmission returns unknown for every RPC error except ADMIN_REQUIRED → pending lock + Retry loop for a request that can never succeed.",
+      "reproduced_live": true,
+      "lib_results": {
+        "malformed": {
+          "status": "unknown",
+          "message": "invalid input syntax for type uuid: \"not-a-uuid\""
+        },
+        "not_found": {
+          "status": "failed",
+          "code": "not_found"
+        },
+        "finale": {
+          "status": "failed",
+          "code": "not_found"
+        }
+      },
+      "db_before": {
+        "submissions": 0,
+        "void_reqs": 12
+      },
+      "db_after": {
+        "submissions": 0,
+        "void_reqs": 14
+      },
+      "narrower_than_filed": true
+    },
+    "ADM-005": {
+      "backend_impact": "None — clock correction is ledgered by client_request_id; replay returns the same event; find-by-id supports reconcile.",
+      "frontend_impact": "ShipClockSection.confirmManual try/finally without catch (Vue SFC). Not headlessly executable; source contract failure from QA-3A stands.",
+      "reproduced_live": false,
+      "classification": "frontend_only",
+      "db_before": {
+        "clock_events": 0
+      },
+      "db_after": {
+        "clock_events": 1
+      }
+    },
+    "ADM-006": {
+      "backend_impact": "Minor: signOut does not revoke the access JWT server-side (valid until exp, default 1h); no admin pending state lives server-side.",
+      "frontend_impact": "session.signOut clears player pendings only; seven star-princess.admin.* localStorage keys persist for the next admin on the same browser (source contract).",
+      "reproduced_live": false,
+      "classification": "frontend_only",
+      "access_token_valid_after_signout": true
+    },
+    "ADM-007": {
+      "backend_impact": "Backend ALLOWS an admin to remove their own Drink It!/Ship It! access (ADMIN_SELF_LOCKOUT only guards active=false / admin flag), producing a zero-game admin that backend still authorizes.",
+      "frontend_impact": "Router redirects enabledGames.length===0 to /unavailable before requiresAdmin → /admin unreachable (source contract).",
+      "reproduced_live": false,
+      "classification": "backend_allows_frontend_locks",
+      "db_after": {
+        "memberships_enabled": 0
+      },
+      "set_access_result": {
+        "ok": true,
+        "active": true,
+        "team_id": null,
+        "player_id": "048783ac-cfbc-4c26-ac32-66e7c8142e6d",
+        "shipit_enabled": false,
+        "drinkit_enabled": false,
+        "client_request_id": "fc7d3511-3a82-4436-9a12-a0508244a0dc",
+        "state_fingerprint": "981e7f142ef9c12690a55371dded5e2a"
+      }
+    },
+    "CAT-001": {
+      "backend_impact": "None. Candidate remains staged and publishable; pointer/versions untouched; no server lock or orphan ledger row.",
+      "frontend_impact": "Pending record (action=publish, id=stage request id) is never cleared on preview failure; Check Status queries a non-existent ledger id → unknown forever; Stage/inputs disabled until localStorage key is deleted.",
+      "reproduced_live": true,
+      "lib_calls": "real stageImport / previewPublish / findPublishRequest + pending libs; component glue replicated line-for-line",
+      "pending_record": {
+        "version": 1,
+        "action": "publish",
+        "clientRequestId": "19d44062-4c0e-40e5-b756-68a210e83ee0",
+        "catalogId": "phase6b2-variant-abac3928",
+        "candidateId": "0cfedfd5-b7e1-4dc6-bc1c-d7476e6f314e",
+        "targetCatalogVersionId": null,
+        "expectedActiveCatalogVersionId": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "expectedPayloadHash": "751b5966ce9af9f0531458a5f4799a088cc99f29ce3fc3f4fa0a99095e2fb194",
+        "createdAt": "2026-11-14T07:30:37.977Z"
+      },
+      "db_before": {
+        "pointer": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "pointer_catalog_id": "dev-fixture-schedule-ready-v1",
+        "versions": 17,
+        "versions_active": 1,
+        "candidates": {},
+        "publish_requests": 0,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 111,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 0,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_mid": {
+        "pointer": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "pointer_catalog_id": "dev-fixture-schedule-ready-v1",
+        "versions": 17,
+        "versions_active": 1,
+        "candidates": {
+          "staged": 1
+        },
+        "publish_requests": 0,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 111,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 1,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_after_recovery": {
+        "pointer": "30fd9a9b-d873-45f8-a17a-174a3bfa4162",
+        "pointer_catalog_id": "phase6b2-variant-abac3928",
+        "versions": 18,
+        "versions_active": 1,
+        "candidates": {
+          "published": 1
+        },
+        "publish_requests": 1,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 222,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 2,
+        "bounty_claims": 0,
+        "players": 11
+      }
+    },
+    "ADM-008": {
+      "backend_impact": "None. Candidate remains staged and publishable; pointer/versions untouched; no server lock or orphan ledger row.",
+      "frontend_impact": "Pending record (action=publish, id=stage request id) is never cleared on preview failure; Check Status queries a non-existent ledger id → unknown forever; Stage/inputs disabled until localStorage key is deleted.",
+      "reproduced_live": true,
+      "lib_calls": "real stageImport / previewPublish / findPublishRequest + pending libs; component glue replicated line-for-line",
+      "pending_record": {
+        "version": 1,
+        "action": "publish",
+        "clientRequestId": "19d44062-4c0e-40e5-b756-68a210e83ee0",
+        "catalogId": "phase6b2-variant-abac3928",
+        "candidateId": "0cfedfd5-b7e1-4dc6-bc1c-d7476e6f314e",
+        "targetCatalogVersionId": null,
+        "expectedActiveCatalogVersionId": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "expectedPayloadHash": "751b5966ce9af9f0531458a5f4799a088cc99f29ce3fc3f4fa0a99095e2fb194",
+        "createdAt": "2026-11-14T07:30:37.977Z"
+      },
+      "db_before": {
+        "pointer": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "pointer_catalog_id": "dev-fixture-schedule-ready-v1",
+        "versions": 17,
+        "versions_active": 1,
+        "candidates": {},
+        "publish_requests": 0,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 111,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 0,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_mid": {
+        "pointer": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "pointer_catalog_id": "dev-fixture-schedule-ready-v1",
+        "versions": 17,
+        "versions_active": 1,
+        "candidates": {
+          "staged": 1
+        },
+        "publish_requests": 0,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 111,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 1,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_after_recovery": {
+        "pointer": "30fd9a9b-d873-45f8-a17a-174a3bfa4162",
+        "pointer_catalog_id": "phase6b2-variant-abac3928",
+        "versions": 18,
+        "versions_active": 1,
+        "candidates": {
+          "published": 1
+        },
+        "publish_requests": 1,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 222,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 2,
+        "bounty_claims": 0,
+        "players": 11
+      }
+    },
+    "ADM-009": {
+      "backend_impact": "None — backend rejects the second request (CANDIDATE_ALREADY_PUBLISHED / STALE_ACTIVE_VERSION); exactly one version added.",
+      "frontend_impact": "runPublish ignores existing pending: overwrites R1 with R2, reports failure and clears pending although R1 completed; reconcile for R1 is lost.",
+      "reproduced_live": true,
+      "second_publish": {
+        "status": "failed",
+        "code": "candidate_not_staged",
+        "server_code": "CANDIDATE_ALREADY_PUBLISHED"
+      },
+      "r1_ledger_status": "completed",
+      "db_before": {
+        "pointer": "68cb7e10-07d8-4888-9f08-e687e3a763d8",
+        "pointer_catalog_id": "dev-fixture-schedule-ready-v1",
+        "versions": 17,
+        "versions_active": 1,
+        "candidates": {},
+        "publish_requests": 0,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 111,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 0,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_after_first": {
+        "pointer": "edf9b206-b198-4bad-9403-964f6c30a478",
+        "pointer_catalog_id": "phase6b2-variant-76c96454",
+        "versions": 18,
+        "versions_active": 1,
+        "candidates": {
+          "published": 1
+        },
+        "publish_requests": 1,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 222,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 2,
+        "bounty_claims": 0,
+        "players": 11
+      },
+      "db_after_second": {
+        "pointer": "edf9b206-b198-4bad-9403-964f6c30a478",
+        "pointer_catalog_id": "phase6b2-variant-76c96454",
+        "versions": 18,
+        "versions_active": 1,
+        "candidates": {
+          "published": 1
+        },
+        "publish_requests": 2,
+        "slots": {
+          "ingredient:scheduled": 39,
+          "cocktail:scheduled": 72
+        },
+        "slots_on_pointer": 111,
+        "slots_total": 111,
+        "active_offers": 111,
+        "offers_total": 222,
+        "exposures": 0,
+        "bars": 28,
+        "drink_concepts": 601,
+        "ingredients": 159,
+        "bar_offerings": 729,
+        "audit_catalog": 2,
+        "bounty_claims": 0,
+        "players": 11
+      }
+    },
+    "ADM-003": {
+      "backend_impact": "None — skip is idempotent by request id and rejects stale expected_offer_id (no double skip).",
+      "frontend_impact": "applyBountySkip classifies gateway 502/Bad Gateway as failed (isTransportOrUnknown regex) → UI clears pending though skip applied; reconcile path is bypassed.",
+      "reproduced_live": true,
+      "lib_result": {
+        "status": "failed",
+        "message": "Bad Gateway",
+        "code": "error"
+      },
+      "db_before": {
+        "skip_requests": 0,
+        "current_offer": "4f5f0090-e79d-460a-ae8a-c494ed8662d8"
+      },
+      "db_after": {
+        "skip_requests": 1,
+        "current_offer": "ea5765c8-7d32-4c55-a7ce-4fee86de2fcb"
+      },
+      "ledger": {
+        "ok": true,
+        "code": "REPLACED",
+        "display": {
+          "tier": "interesting",
+          "points": 50,
+          "drink_key": "fixture-cocktail-050",
+          "drink_name": "Fixture Cocktail 50",
+          "designated_bar_key": "fixture-bar-02",
+          "listed_ingredients": [
+            {
+              "display_label": "Lime Juice",
+              "ingredient_key": "lime-juice"
+            }
+          ],
+          "designated_bar_name": "Fixture Bar 2"
+        },
+        "message": "Bounty replaced.",
+        "slot_id": "26e14ef0-8bc0-4610-b50b-bd7b920c21d8",
+        "category": "cocktail",
+        "slot_key": "cocktail:day:1:h13",
+        "fingerprint": "bounty_skip:cocktail:4f5f0090-e79d-460a-ae8a-c494ed8662d8",
+        "public_end_utc": "2026-11-14T08:25:00+00:00",
+        "received_at_utc": "2026-11-14T07:30:45.230211+00:00",
+        "completed_at_utc": "2026-11-14T07:30:45.257948+00:00",
+        "retired_offer_id": "4f5f0090-e79d-460a-ae8a-c494ed8662d8",
+        "client_request_id": "3e06c8a6-954e-440e-a507-4618e5b90d7c",
+        "expected_offer_id": "4f5f0090-e79d-460a-ae8a-c494ed8662d8",
+        "idempotent_replay": true,
+        "replacement_offer_id": "ea5765c8-7d32-4c55-a7ce-4fee86de2fcb",
+        "replacements_remaining": 7
+      }
+    }
+  },
+  "defects": [
+    {
+      "id": "INT-CAT-003",
+      "severity": "P2",
+      "title": "Server accepts non-enum tier at stage; publish then fails with a raw RPC error and no ledger row",
+      "qa3a_ref": "QA3A-B006",
+      "observed": "stage ok=true; publish error=\"invalid input value for enum cocktail_bounty_tier: \"bogus_tier\"\"; admin_find_catalog_publish_request_by_id(request) → null (no ledger row)",
+      "impact": "Frontend publishImport maps any RPC error to status \"unknown\" and Check Status finds no ledger → operator is stuck on an unknown that can never resolve (same lock family as ADM-008). Only reachable by bypassing the TS validator, but TS/SQL validators diverge.",
+      "evidence": {
+        "stage_ok": true,
+        "publish": {
+          "error": "invalid input value for enum cocktail_bounty_tier: \"bogus_tier\"",
+          "ledger_row": null
+        },
+        "ledger_missing": true
+      }
+    },
+    {
+      "id": "INT-CAT-006",
+      "severity": "P2",
+      "title": "Catalog stage/publish accepts Cocktail candidates designated at the virtual mobile-order bar (CAT-002 reaches live slots)",
+      "qa3a_ref": "QA3A-B007",
+      "cat_ref": "CAT-002",
+      "observed": "4 active bounty offers now designate mobile-order; client TS preview ready=true; server stage ok=true",
+      "impact": "A bounty whose designated bar is the virtual Mobile Order source cannot be completed at a physical bar and MO logs are excluded → unfulfillable/ confusing live bounty. DB exclusion only protects eligibility, not scheduling.",
+      "evidence": {
+        "client_ready": true,
+        "stage_ok": true,
+        "pool": {
+          "cocktail_eligible": 80,
+          "ingredient_eligible": 45
+        },
+        "publish_ok": true,
+        "slots_designated_at_mobile_order": 4,
+        "mobile_order_bar_still_virtual": "t"
+      }
+    },
+    {
+      "id": "INT-ADM-001L",
+      "severity": "P1",
+      "title": "ADM-001 live: real reconcileAuthRequest reports failed for a durable in_progress roster ledger row",
+      "adm_ref": "ADM-001",
+      "observed": "admin_find_roster_auth_request_by_id → {\"action\":\"create_player\",\"status\":\"in_progress\",\"has_orphan_auth\":false,\"received_at_utc\":\"2026-11-14T07:29:46.204932+00:00\",\"completed_at_utc\":\"2026-11-14T07:29:46.204932+00:00\",\"client_request_id\":\"83718912-d36c-4bc3-bc6a-b34bd40c9c97\",\"lease_expires_at_utc\":\"2026-11-14T07:31:46.204934+00:00\"}; lib status=failed",
+      "impact": "Admin clears pending + re-submits while the first request may still create the Auth user (duplicate/orphan risk mitigated only by Edge alias/lease checks)."
+    },
+    {
+      "id": "INT-ADM-002L",
+      "severity": "P1",
+      "title": "ADM-002 live: real createPlayer maps Edge 409 OPERATION_IN_PROGRESS to failed",
+      "adm_ref": "ADM-002",
+      "observed": "Edge 409 {\"ok\":false,\"code\":\"OPERATION_IN_PROGRESS\",\"message\":\"This create request is still in progress. Wait, then check status — do not assume success.\",\"client_request_id\":\"83718912-d36c-4bc3-bc6a-b34bd40c9…(+5); lib status=failed",
+      "impact": "Same as ADM-001: pending cleared during legitimately in-flight create."
+    },
+    {
+      "id": "INT-CLK-001",
+      "severity": "P2",
+      "title": "Set Ship Time past the finale irreversibly latches games; backend gives no refusal/confirmation (UI guard only)",
+      "qa3a_ref": "QA3A-B011",
+      "risk_ref": "RISK-ADM-A",
+      "observed": "latch before=null after=2026-11-14 07:29:52.56872+00; set-time RPC returned ok; preview keys=before,actor_id,delta_minutes,after_ship_local,after_offset_minutes",
+      "impact": "A mistyped ship time permanently ends the cruise for both games; only dev_seed or SQL can clear. Any guard lives in the Vue confirm dialog only.",
+      "note": "Per assignment: UI guard only — Agent 1 owns the clock authority suite; this is a qa2-only observation."
+    },
+    {
+      "id": "INT-SCHED-001",
+      "severity": "P1",
+      "title": "No production path to create the first bounty schedule (only dev_generate_bounty_schedule, service_role)",
+      "qa3a_ref": "QA3A-B012",
+      "risk_ref": "RISK-CAT-D",
+      "observed": "non-dev schedule RPCs: []; slots after activate+publish=0; current cocktail bounty={\"reason\":\"no_public_slot\",\"status\":\"unavailable\"}",
+      "impact": "Organizer cannot self-serve a launch: cruise_config → activate catalog → schedule needs service_role/dev tooling."
+    },
+    {
+      "id": "INT-CAT-004",
+      "severity": "P2",
+      "title": "catalog_publish_apply does not carry mobile_order_menu_concepts forward: a verified Mobile Order menu silently reverts to unrestricted search",
+      "qa3a_ref": "QA3A-B007",
+      "observed": "restricted(v2)=t list=1; restricted(v3 after publish)=f list=400",
+      "impact": "After any publish/rollback the guest Mobile Order picker widens from the verified OceanNow set to all concepts at physical bars."
+    },
+    {
+      "id": "INT-CAT-007",
+      "severity": "P3",
+      "title": "Stage returns raw Postgres/RPC exceptions (not structured codes) for malformed scalar types",
+      "qa3a_ref": "QA3A-CATX",
+      "observed": [
+        "price string abc: invalid input syntax for type numeric: \"abc\"",
+        "points string abc: invalid input syntax for type integer: \"abc\"",
+        "points overflow 2^40: value \"1099511627776\" is out of range for type integer"
+      ],
+      "impact": "stageImport maps RPC errors to \"unknown\" (not failed); only reachable by bypassing the TS validator."
+    },
+    {
+      "id": "INT-ADM-004L",
+      "severity": "P2",
+      "title": "ADM-004 live (narrowed): malformed submission UUID yields unknown + Retry lock; documented FINALE_LOCKED/NOT_FOUND cases are payload-classified correctly",
+      "adm_ref": "ADM-004",
+      "observed": "malformed id → unknown \"invalid input syntax for type uuid: \"not-a-uuid\"\"; unknown UUID → failed/not_found; finale → failed/not_found",
+      "impact": "Reachable via pasted-UUID typo; the original FINALE_LOCKED/SUBMISSION_NOT_FOUND repro is NOT reachable with this backend."
+    },
+    {
+      "id": "INT-AUTH-001",
+      "severity": "P3",
+      "title": "Access JWT remains valid after supabase signOut until expiry (no server-side revocation of the access token)",
+      "adm_ref": "ADM-006",
+      "observed": "admin_list_catalog_versions with pre-signOut token → HTTP 200",
+      "impact": "Shared-device handoff: a captured token works until exp; combine with ADM-006 (admin pending locks survive sign-out)."
+    },
+    {
+      "id": "INT-ADM-007L",
+      "severity": "P1",
+      "title": "ADM-007 live: admin_set_player_access lets an admin disable their own game access; backend then authorizes a zero-game admin the router locks out",
+      "adm_ref": "ADM-007",
+      "observed": "self.ok=true; enabled memberships after=0; admin RPCs still succeed (overview=ok)",
+      "impact": "Self-lockout from /admin with no in-app recovery (SQL required)."
+    },
+    {
+      "id": "INT-CAT-001L",
+      "severity": "P1",
+      "title": "CAT-001/ADM-008 live: preview failure after a successful stage leaves a non-clearable pending publish record keyed to the stage request id",
+      "adm_ref": "ADM-008",
+      "cat_ref": "CAT-001",
+      "observed": "pending={\"version\":1,\"action\":\"publish\",\"clientRequestId\":\"19d44062-4c0e-40e5-b756-68a210e83ee0\",\"catalogId\":\"phase6b2-variant-abac3928\",\"candidateId\":\"0cfedfd5-b7e1-4dc6-bc1c-d7476e6f314e\",\"targetCatalogVersionId\":null,\"expectedActiveCatalogVersionId\":\"68cb7e10-07d8-4888-9f08-e687e3a763d8\",\"expectedPayload…(+112); ledger(find)=null; Check Status ×2 → unknown/unknown; backend candidate=staged",
+      "impact": "Admin cannot stage another catalog without clearing browser storage; backend is healthy."
+    },
+    {
+      "id": "INT-ADM-009L",
+      "severity": "P2",
+      "title": "ADM-009 live: double-tap publish after a lost response shows failure and drops the reconcile handle for the publish that succeeded",
+      "adm_ref": "ADM-009",
+      "observed": "R1 ledger=completed; R2 → candidate_not_staged; pending cleared",
+      "impact": "Operator sees \"failed\" while the live catalog already changed; mitigated by backend idempotency/stale checks (no double publish)."
+    },
+    {
+      "id": "INT-CRW-001",
+      "severity": "P2",
+      "title": "admin_list_bar_bounty_crews (opening Admin Drink It!) generates and permanently locks the day's crews",
+      "qa3a_ref": "QA3A-B008",
+      "risk_ref": "RISK-ADM-B",
+      "observed": "crew_days 0→1, crews 0→2 after a read-named RPC; players added afterwards (late) are not assigned",
+      "impact": "An admin merely opening the tab before roster edits freezes the roster-of-the-day; any later add/deactivate is ignored until next day.",
+      "evidence": {
+        "before": {
+          "crew_days": 0,
+          "crews": 0
+        },
+        "mid": {
+          "crew_days": 1,
+          "crews": 2
+        },
+        "after": {
+          "crew_days": 1,
+          "crews": 2
+        }
+      }
+    },
+    {
+      "id": "INT-ADM-003L",
+      "severity": "P1",
+      "title": "ADM-003 live: gateway 502 after a successfully applied skip is reported as failed by the real client",
+      "adm_ref": "ADM-003",
+      "observed": "lib status=failed message=\"Bad Gateway\"; DB shows skip applied (offer 4f5f0090-e79d-460a-ae8a-c494ed8662d8 → ea5765c8-7d32-4c55-a7ce-4fee86de2fcb) and ledger row present",
+      "impact": "Admin sees a hard failure and the pending lock is cleared although the bounty was skipped; reconcile-by-request-id is not offered."
+    }
+  ],
+  "final_qa2_state": {
+    "restored": "launch-candidate-v1",
+    "pointer_catalog_id": "star-princess-launch-candidate-v1"
+  },
+  "evidence": "docs/qa/campaign/agent-2-backend-integration/evidence/probe-admin-catalog-integration-results.json"
+}

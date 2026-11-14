@@ -1,6 +1,6 @@
 # Worktree Integration Plan
 
-**Status:** Plan only — **do not merge, cherry-pick, or reset yet.**
+**Status:** Executed on `visual/drinkit-home-v1` (path-scoped diagnostics import). Agent 2 archive worktree left at `f4c1dce` undisturbed.
 
 ## Verified topology
 

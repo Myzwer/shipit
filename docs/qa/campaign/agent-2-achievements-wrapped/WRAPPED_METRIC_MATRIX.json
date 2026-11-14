@@ -1,0 +1,1387 @@
+{
+  "generated_at": "2026-11-14T06:26:51.166862+00:00",
+  "expected": {
+    "drinkit": 46,
+    "shipit": 34,
+    "total": 80
+  },
+  "observed": {
+    "drinkit": 46,
+    "shipit": 34,
+    "total": 80,
+    "drinkit_personal": 18,
+    "drinkit_global": 16,
+    "drinkit_collective": 12,
+    "shipit_personal": 10,
+    "shipit_global": 12,
+    "shipit_collective": 12
+  },
+  "migration_11100": {
+    "file": "supabase/migrations/20261105011100_plan_c_wrapped_leaderboard_achievements.sql",
+    "purpose": "Add achievements count to wrapped_drinkit_leaderboard rows",
+    "applied_to_organizer": false,
+    "applied_to_agent1_disposable": false
+  },
+  "rows": [
+    {
+      "spec_id": "DI-P01",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 1,
+      "label": "Drinks Logged",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P02",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 2,
+      "label": "Total Points",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P03",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 3,
+      "label": "Final Rank",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P04",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 4,
+      "label": "Achievements Unlocked",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P05",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 5,
+      "label": "Bounties Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P06",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 6,
+      "label": "Cocktail Bounties Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P07",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 7,
+      "label": "Ingredient Bounties Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P08",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 8,
+      "label": "Bar Bounties Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P09",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 9,
+      "label": "Daily Challenges Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P10",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 10,
+      "label": "Different Drinks Tried",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P11",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 11,
+      "label": "Bars Visited",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P12",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 12,
+      "label": "Favorite Drink",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P13",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 13,
+      "label": "Favorite Liquor",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P14",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 14,
+      "label": "Favorite Ingredient",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P15",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 15,
+      "label": "Favorite Bar",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P16",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 16,
+      "label": "Partner in Crime",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P17",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 17,
+      "label": "Biggest Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-P18",
+      "game": "drinkit",
+      "section": "personal",
+      "order": 18,
+      "label": "Most Active Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G01",
+      "game": "drinkit",
+      "section": "global",
+      "order": 1,
+      "label": "Grand Champion",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G02",
+      "game": "drinkit",
+      "section": "global",
+      "order": 2,
+      "label": "Most Drinks Logged",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G03",
+      "game": "drinkit",
+      "section": "global",
+      "order": 3,
+      "label": "Most Bounties Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G04",
+      "game": "drinkit",
+      "section": "global",
+      "order": 4,
+      "label": "Most Cocktail Bounties Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G05",
+      "game": "drinkit",
+      "section": "global",
+      "order": 5,
+      "label": "Most Ingredient Bounties Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G06",
+      "game": "drinkit",
+      "section": "global",
+      "order": 6,
+      "label": "Most Bar Bounties Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G07",
+      "game": "drinkit",
+      "section": "global",
+      "order": 7,
+      "label": "Most Daily Challenges Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G08",
+      "game": "drinkit",
+      "section": "global",
+      "order": 8,
+      "label": "Most Achievements Unlocked",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G09",
+      "game": "drinkit",
+      "section": "global",
+      "order": 9,
+      "label": "Most Bars Visited",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G10",
+      "game": "drinkit",
+      "section": "global",
+      "order": 10,
+      "label": "Most Different Drinks Tried",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G11",
+      "game": "drinkit",
+      "section": "global",
+      "order": 11,
+      "label": "Most Adventurous Drinker",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G12",
+      "game": "drinkit",
+      "section": "global",
+      "order": 12,
+      "label": "Most Frequent Drinking Pair",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G13",
+      "game": "drinkit",
+      "section": "global",
+      "order": 13,
+      "label": "Earliest Drink Logged",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G14",
+      "game": "drinkit",
+      "section": "global",
+      "order": 14,
+      "label": "Latest Drink Logged",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G15",
+      "game": "drinkit",
+      "section": "global",
+      "order": 15,
+      "label": "Highest Single-Day Score",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-G16",
+      "game": "drinkit",
+      "section": "global",
+      "order": 16,
+      "label": "Most Drinks in One Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C01",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 1,
+      "label": "Total Drinks Logged",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C02",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 2,
+      "label": "Total Different Drinks Tried",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C03",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 3,
+      "label": "Total Bounties Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C04",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 4,
+      "label": "Total Achievements Unlocked",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C05",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 5,
+      "label": "Most Popular Drink",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C06",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 6,
+      "label": "Most Popular Liquor",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C07",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 7,
+      "label": "Most Popular Ingredient",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C08",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 8,
+      "label": "Most Popular Bar",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C09",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 9,
+      "label": "Least Visited Bar",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C10",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 10,
+      "label": "Most Popular Drinking Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C11",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 11,
+      "label": "Total Unique Ingredients Tried",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "DI-C12",
+      "game": "drinkit",
+      "section": "collective",
+      "order": 12,
+      "label": "Total Points Earned",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P01",
+      "game": "shipit",
+      "section": "personal",
+      "order": 1,
+      "label": "Final Rank",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P02",
+      "game": "shipit",
+      "section": "personal",
+      "order": 2,
+      "label": "Total Points",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P03",
+      "game": "shipit",
+      "section": "personal",
+      "order": 3,
+      "label": "Challenges Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P04",
+      "game": "shipit",
+      "section": "personal",
+      "order": 4,
+      "label": "Completion Percentage",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P05",
+      "game": "shipit",
+      "section": "personal",
+      "order": 5,
+      "label": "Most Completed Category",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P06",
+      "game": "shipit",
+      "section": "personal",
+      "order": 6,
+      "label": "Biggest Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P07",
+      "game": "shipit",
+      "section": "personal",
+      "order": 7,
+      "label": "Most Active Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P08",
+      "game": "shipit",
+      "section": "personal",
+      "order": 8,
+      "label": "First Challenge Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P09",
+      "game": "shipit",
+      "section": "personal",
+      "order": 9,
+      "label": "Last Challenge Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-P10",
+      "game": "shipit",
+      "section": "personal",
+      "order": 10,
+      "label": "Exclusive Challenges",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G01",
+      "game": "shipit",
+      "section": "global",
+      "order": 1,
+      "label": "Grand Champions",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G02",
+      "game": "shipit",
+      "section": "global",
+      "order": 2,
+      "label": "Most Challenges Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G03",
+      "game": "shipit",
+      "section": "global",
+      "order": 3,
+      "label": "First Challenge Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G04",
+      "game": "shipit",
+      "section": "global",
+      "order": 4,
+      "label": "Last Challenge Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G05",
+      "game": "shipit",
+      "section": "global",
+      "order": 5,
+      "label": "Highest Single-Day Score",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G06",
+      "game": "shipit",
+      "section": "global",
+      "order": 6,
+      "label": "Most Challenges in One Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G07",
+      "game": "shipit",
+      "section": "global",
+      "order": 7,
+      "label": "Most Exclusive Challenges",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G08",
+      "game": "shipit",
+      "section": "global",
+      "order": 8,
+      "label": "Most Active Days",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G09",
+      "game": "shipit",
+      "section": "global",
+      "order": 9,
+      "label": "Category Leaders",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G10",
+      "game": "shipit",
+      "section": "global",
+      "order": 10,
+      "label": "Highest-Value Challenge Completed",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G11",
+      "game": "shipit",
+      "section": "global",
+      "order": 11,
+      "label": "Closest Teams",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-G12",
+      "game": "shipit",
+      "section": "global",
+      "order": 12,
+      "label": "Largest Lead",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C01",
+      "game": "shipit",
+      "section": "collective",
+      "order": 1,
+      "label": "Total Challenges Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C02",
+      "game": "shipit",
+      "section": "collective",
+      "order": 2,
+      "label": "Unique Challenges Completed",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C03",
+      "game": "shipit",
+      "section": "collective",
+      "order": 3,
+      "label": "Overall Completion Percentage",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C04",
+      "game": "shipit",
+      "section": "collective",
+      "order": 4,
+      "label": "Total Points Earned",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C05",
+      "game": "shipit",
+      "section": "collective",
+      "order": 5,
+      "label": "Most Popular Challenge",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C06",
+      "game": "shipit",
+      "section": "collective",
+      "order": 6,
+      "label": "Least Popular Completed Challenge",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C07",
+      "game": "shipit",
+      "section": "collective",
+      "order": 7,
+      "label": "Uncompleted Challenges",
+      "zero_is_valid": true,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C08",
+      "game": "shipit",
+      "section": "collective",
+      "order": 8,
+      "label": "Uncompleted Challenge List",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C09",
+      "game": "shipit",
+      "section": "collective",
+      "order": 9,
+      "label": "Most Popular Category",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C10",
+      "game": "shipit",
+      "section": "collective",
+      "order": 10,
+      "label": "Least Popular Category",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C11",
+      "game": "shipit",
+      "section": "collective",
+      "order": 11,
+      "label": "Most Active Day",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    },
+    {
+      "spec_id": "SI-C12",
+      "game": "shipit",
+      "section": "collective",
+      "order": 12,
+      "label": "Final Team Standings",
+      "zero_is_valid": false,
+      "inventory_source": "src/lib/wrapped/inventory.ts",
+      "sql_aggregation_source": "supabase/migrations/20261105010000_phase_final_wrapped.sql",
+      "presentation_builders": [
+        "buildAllStatsRows",
+        "buildFeatureSlides",
+        "buildLeaderboardModes"
+      ],
+      "independent_expected_value_strategy": "Deterministic fixture recomputation; live SQL proofs blocked without disposable DB.",
+      "execution_status": "definition_audited_unit; aggregation_blocked_without_isolated_supabase"
+    }
+  ]
+}
