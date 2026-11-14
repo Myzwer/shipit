@@ -61,6 +61,13 @@ function newIdempotencyKey() {
   return crypto.randomUUID()
 }
 
+/**
+ * Module-level in-flight latch — survives store resetAll / remount within the same
+ * JS context so navigate-away + re-entry cannot mint a second idempotency key while
+ * the original submit_drink RPC is still running (E2B-001 / REP-SUB-001).
+ */
+let drinkSubmitInFlight: Promise<SubmitCallOutcome> | null = null
+
 export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const active = ref(false)
   const step = ref<WizardStep>('bar')
@@ -225,6 +232,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   }
 
   function resetAll() {
+    const preserveInFlight = drinkSubmitInFlight != null || submitStatus.value === 'submitting'
     active.value = false
     step.value = 'bar'
     entrySource.value = 'plus'
@@ -257,12 +265,16 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     previewStatus.value = 'idle'
     selectedClaims.value = []
     manuallyDeselected.value = new Set()
-    idempotencyKey.value = null
-    submitStatus.value = 'idle'
-    submitResult.value = null
-    submitErrorMessage.value = null
-    formLockedForUnknown.value = false
-    pendingPayload.value = null
+    // Never drop the in-flight idempotency key / pending payload — a remint after
+    // leave/discard is what produced two accepted rows (E2B-001).
+    if (!preserveInFlight) {
+      idempotencyKey.value = null
+      submitStatus.value = 'idle'
+      submitResult.value = null
+      submitErrorMessage.value = null
+      formLockedForUnknown.value = false
+      pendingPayload.value = null
+    }
   }
 
   function invalidateFrom(changed: WizardStep) {
@@ -786,10 +798,17 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   }
 
   async function performSubmit(): Promise<SubmitCallOutcome> {
+    // Coalesce re-entry onto the same in-flight RPC (double-tap, remount, nav-away return).
+    if (drinkSubmitInFlight) {
+      return drinkSubmitInFlight
+    }
     if (formLockedForUnknown.value && submitStatus.value === 'unknown') {
       // Retry path — prefer exact pending payload
     } else if (submitStatus.value === 'submitting') {
       return { kind: 'rejected', result: { ok: false, code: 'BUSY' } }
+    } else if (submitStatus.value === 'success' && submitResult.value) {
+      // Terminal success until resetAll after navigation — blocks post-success remint.
+      return { kind: 'confirmed', result: submitResult.value }
     }
 
     const session = useSessionStore()
@@ -798,10 +817,23 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       return { kind: 'rejected', result: { ok: false, code: 'NOT_AUTHENTICATED' } }
     }
 
+    clearPendingDrinkSubmitIfOtherPlayer(playerId)
+    const durablePending = readPendingDrinkSubmit()
+
     let payload: Record<string, unknown> | null
     if (formLockedForUnknown.value && pendingPayload.value) {
       payload = pendingPayload.value
       idempotencyKey.value = String(payload.idempotency_key ?? idempotencyKey.value)
+    } else if (
+      durablePending &&
+      durablePending.playerId === playerId &&
+      durablePending.payload &&
+      typeof durablePending.payload === 'object'
+    ) {
+      // Same logical request: reuse durable idempotency key even if memory was reset.
+      idempotencyKey.value = durablePending.clientRequestId
+      payload = durablePending.payload as Record<string, unknown>
+      pendingPayload.value = payload
     } else {
       ensureIdempotencyKey()
       payload = currentPayload()
@@ -817,7 +849,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       cruiseConfigId:
         typeof preview.value?.cruise_config_id === 'string'
           ? preview.value.cruise_config_id
-          : null,
+          : durablePending?.cruiseConfigId ?? null,
       payload,
       summary: {
         barName: selectedBar.value?.name ?? String(payload.bar_canonical_key ?? ''),
@@ -828,41 +860,50 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
 
     submitStatus.value = 'submitting'
     submitErrorMessage.value = null
-    const outcome = await submitDrink(payload)
 
-    if (outcome.kind === 'confirmed') {
-      submitStatus.value = 'success'
-      submitResult.value = outcome.result
-      formLockedForUnknown.value = false
-      pendingPayload.value = null
+    drinkSubmitInFlight = (async (): Promise<SubmitCallOutcome> => {
+      const outcome = await submitDrink(payload)
+
+      if (outcome.kind === 'confirmed') {
+        submitStatus.value = 'success'
+        submitResult.value = outcome.result
+        formLockedForUnknown.value = false
+        pendingPayload.value = null
+        clearPendingDrinkSubmit()
+        return outcome
+      }
+      if (outcome.kind === 'unknown') {
+        submitStatus.value = 'unknown'
+        formLockedForUnknown.value = true
+        submitErrorMessage.value = 'Submission not confirmed'
+        return outcome
+      }
+
+      // Confirmed rejection — request did not save; allow editing with a new intent later.
       clearPendingDrinkSubmit()
-      return outcome
-    }
-    if (outcome.kind === 'unknown') {
-      submitStatus.value = 'unknown'
-      formLockedForUnknown.value = true
-      submitErrorMessage.value = 'Submission not confirmed'
-      return outcome
-    }
+      pendingPayload.value = null
+      formLockedForUnknown.value = false
+      idempotencyKey.value = null
 
-    // Confirmed rejection — request did not save; allow editing with a new intent later.
-    clearPendingDrinkSubmit()
-    pendingPayload.value = null
-    formLockedForUnknown.value = false
-    idempotencyKey.value = null
+      const code = outcome.result.code ?? ''
+      if (code === 'ELIGIBILITY_CHANGED') submitStatus.value = 'eligibility_changed'
+      else if (code === 'ALREADY_CLAIMED') submitStatus.value = 'already_claimed'
+      else if (code === 'GAME_PAUSED') submitStatus.value = 'game_paused'
+      else if (code === 'GAME_ENDED') submitStatus.value = 'game_ended'
+      else submitStatus.value = 'failed'
+      submitResult.value = outcome.result
+      submitErrorMessage.value = outcome.result.message ?? code
+      if (outcome.result.preview) {
+        preview.value = outcome.result.preview as PreviewPayload
+      }
+      return outcome
+    })()
 
-    const code = outcome.result.code ?? ''
-    if (code === 'ELIGIBILITY_CHANGED') submitStatus.value = 'eligibility_changed'
-    else if (code === 'ALREADY_CLAIMED') submitStatus.value = 'already_claimed'
-    else if (code === 'GAME_PAUSED') submitStatus.value = 'game_paused'
-    else if (code === 'GAME_ENDED') submitStatus.value = 'game_ended'
-    else submitStatus.value = 'failed'
-    submitResult.value = outcome.result
-    submitErrorMessage.value = outcome.result.message ?? code
-    if (outcome.result.preview) {
-      preview.value = outcome.result.preview as PreviewPayload
+    try {
+      return await drinkSubmitInFlight
+    } finally {
+      drinkSubmitInFlight = null
     }
-    return outcome
   }
 
   async function retrySubmit() {

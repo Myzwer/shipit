@@ -200,7 +200,12 @@ onBeforeRouteLeave((to) => {
   if (confirmLeave) return true
   if (!wizard.active) return true
   if (wizard.submitStatus === 'success') {
-    wizard.resetAll()
+    // Leave for gallery/home after accept — reset after the route settles.
+    return true
+  }
+  // In-flight submit: allow leave (ship Wi-Fi / tab switch) but do not wipe the
+  // idempotency key; pending LS + server idempotency own recovery.
+  if (wizard.submitStatus === 'submitting') {
     return true
   }
   // Awards Mode / View Wrapped — leave without Keep Editing prompt.
@@ -305,8 +310,9 @@ async function runSubmit() {
       awardIds: outcome.result.new_achievement_ids,
       idempotentReplay: outcome.result.idempotent_replay === true,
     })
-    wizard.resetAll()
+    // Navigate first while status stays 'success' so a late second tap cannot remint.
     await router.replace({ name: 'drinkit-gallery', query: { submission: id } })
+    wizard.resetAll()
     return
   }
   if (outcome.kind === 'unknown') {

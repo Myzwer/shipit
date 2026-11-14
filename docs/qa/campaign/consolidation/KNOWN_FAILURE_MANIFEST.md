@@ -6,20 +6,27 @@
 
 Generated during worktree integration on `visual/drinkit-home-v1`.
 
+### Repair progress
+
+| REP-* | Status | Notes |
+|---|---|---|
+| **REP-SUB-001** | **Repaired (R1)** | REL-001/002 contract assertions now pass; E2B-S07 / remint race verified on disposable `:55321`. See `docs/qa/campaign/repairs/R1-submission-integrity/`. Media assertions in the same `submitGuards` file remain expected-red for R2. |
+
 ## Expected red — unit / contract (non-mutating)
 
 ### QA-2 reliability → repair groups
 
-| Test file | Assertion theme | Defect IDs | REP-* |
-|---|---|---|---|
-| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Scavenger/Daily in-flight early return | REL-001, REL-002 | REP-SUB-001 |
-| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Discard/reset abandons staged photo | REL-003, REL-004 | REP-MEDIA-001 |
-| `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 |
-| `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 |
-| `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 |
-| `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 |
+| Test file | Assertion theme | Defect IDs | REP-* | Status |
+|---|---|---|---|---|
+| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Scavenger/Daily in-flight early return | REL-001, REL-002 | REP-SUB-001 | **Repaired (R1)** — must stay green |
+| `tests/unit/qa2-reliability/submitGuards.contract.spec.ts` | Discard/reset abandons staged photo | REL-003, REL-004 | REP-MEDIA-001 | Expected red |
+| `tests/unit/qa2-reliability/stagePhoto.network.spec.ts` | AbortSignal reaches storage.upload | REL-005 | REP-MEDIA-001 | Expected red |
+| `tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts` | No empty-blob auto-stage on restore | REL-007 | REP-MEDIA-001 | Expected red |
+| `tests/unit/qa2-reliability/processImage.qa2.spec.ts` | Empty MIME + `.gif` rejected | REL-006 | REP-MIME-001 | Expected red |
+| `tests/unit/qa2-reliability/gallerySignedUrl.contract.spec.ts` | GalleryPostCard refresh / `@error` | REL-008 | REP-SIGNED-001 | Expected red |
 
-Campaign baseline: **9 failed / 60 passed / 69 total** (`agent-2-reliability/vitest-qa2-results.json`).
+Campaign baseline: **9 failed / 60 passed / 69 total** (`agent-2-reliability/vitest-qa2-results.json`).  
+Post-R1: REL-001/002 green; remaining QA-2 reds are non-R1 groups.
 
 ### QA-3A admin/catalog → repair groups
 
@@ -48,14 +55,16 @@ Campaign baseline: **18 failed / 209 passed / 227 total** (`agent-2-admin-catalo
 
 Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wrapped/vitest-qa3b-results.json`).
 
-## Expected red — browser E2E / stress (not run in this assignment)
+## Expected red — browser E2E / stress
 
-| Suite | Key cases | REP-* |
-|---|---|---|
-| QA-2A `scripts/qa2a/` | E2E-030, E2E-031, E2E-032 | REP-SIGNED-001, REP-MEDIA-001, REP-SUB-001 |
-| QA-2B `scripts/qa2b/` | E2B-S07 / E2B-001, E2B-L03, E2B-002 | REP-SUB-001, REP-SIGNED-001, REP-CLAIM-001 |
+| Suite | Key cases | REP-* | Status |
+|---|---|---|---|
+| QA-2A `scripts/qa2a/` | E2E-030, E2E-031 | REP-SIGNED-001, REP-MEDIA-001 | Expected red |
+| QA-2A `scripts/qa2a/` | E2E-032 | REP-SUB-001 | **Covered by R1** (REL-001 guard + scavenger latch) |
+| QA-2B `scripts/qa2b/` | E2B-S07 / E2B-001 | REP-SUB-001 | **Repaired (R1)** — focused repro + remint race on `:55321` |
+| QA-2B `scripts/qa2b/` | E2B-L03, E2B-002 | REP-SIGNED-001, REP-CLAIM-001 | Expected red |
 
-Requires disposable `:55321` + Playwright. Mutating — deferred.
+Requires disposable `:55321` + Playwright for full suite re-runs.
 
 ## Expected red — QA-4A live probes (not run in this assignment)
 

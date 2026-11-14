@@ -427,40 +427,47 @@ async function onReviewFraming(next: PhotoFraming) {
 
 async function performSubmit() {
   if (!challenge.value || !staged.value?.photoId || !session.profile?.player_id) return
-  await reconcileForeignPending()
-  const blocking = readPendingScavengerSubmit()
-  if (
-    blocking &&
-    blocking.playerId === session.profile.player_id &&
-    blocking.payload.challenge_id !== challenge.value.id
-  ) {
-    submitError.value = 'unknown'
-    formLocked.value = true
-    modal.value = 'unknown'
-    return
-  }
-  if (!idempotencyKey.value) idempotencyKey.value = crypto.randomUUID()
-  const payload = {
-    idempotency_key: idempotencyKey.value,
-    challenge_id: challenge.value.id,
-    photo_id: staged.value.photoId,
-    caption: caption.value.trim() || null,
-  }
-  writePendingScavengerSubmit({
-    clientRequestId: idempotencyKey.value,
-    playerId: session.profile.player_id,
-    cruiseConfigId: null,
-    payload,
-    summary: {
-      title: challenge.value.title,
-      teamName: teamName.value,
-      points: challenge.value.points,
-    },
-  })
-  formLocked.value = true
+  // In-flight re-entry guard (REL-001) — latch before any await (button :disabled is not enough).
+  if (submitting.value) return
   submitting.value = true
+  formLocked.value = true
   submitError.value = null
   try {
+    await reconcileForeignPending()
+    const blocking = readPendingScavengerSubmit()
+    if (
+      blocking &&
+      blocking.playerId === session.profile.player_id &&
+      blocking.payload.challenge_id !== challenge.value.id
+    ) {
+      submitError.value = 'unknown'
+      modal.value = 'unknown'
+      return
+    }
+    if (!idempotencyKey.value) {
+      const durable = readPendingScavengerSubmit()
+      idempotencyKey.value =
+        durable?.playerId === session.profile.player_id
+          ? durable.clientRequestId
+          : crypto.randomUUID()
+    }
+    const payload = {
+      idempotency_key: idempotencyKey.value,
+      challenge_id: challenge.value.id,
+      photo_id: staged.value.photoId,
+      caption: caption.value.trim() || null,
+    }
+    writePendingScavengerSubmit({
+      clientRequestId: idempotencyKey.value,
+      playerId: session.profile.player_id,
+      cruiseConfigId: null,
+      payload,
+      summary: {
+        title: challenge.value.title,
+        teamName: teamName.value,
+        points: challenge.value.points,
+      },
+    })
     const result = await submitScavenger(payload)
     if (result.ok && result.submission_id) {
       clearPendingScavengerSubmit()

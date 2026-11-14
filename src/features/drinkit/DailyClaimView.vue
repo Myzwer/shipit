@@ -351,66 +351,66 @@ watch(
 
 async function performSubmit() {
   if (!session.profile?.player_id) return
+  // In-flight re-entry guard (REL-002) — latch before any await (button :disabled is not enough).
+  if (submitting.value) return
+  submitting.value = true
   const existingPending = readPendingDailySubmit()
 
-  // Locked unknown recovery: retry same UUID; ensure attest is present on this Submit action.
-  if (submitError.value === 'unknown' && existingPending) {
+  try {
+    // Locked unknown recovery: retry same UUID; ensure attest is present on this Submit action.
+    if (submitError.value === 'unknown' && existingPending) {
+      const payload = {
+        ...existingPending.payload,
+        attest_participation: true as const,
+      }
+      writePendingDailySubmit({
+        clientRequestId: existingPending.clientRequestId,
+        playerId: existingPending.playerId,
+        cruiseConfigId: existingPending.cruiseConfigId,
+        payload,
+        summary: existingPending.summary,
+        createdAt: existingPending.createdAt,
+      })
+      formLocked.value = true
+      const result = await submitDaily(payload)
+      await handleSubmitResult(result)
+      return
+    }
+
+    // Never silently replace a pending request for a different challenge.
+    if (
+      existingPending &&
+      challenge.value &&
+      existingPending.payload.challenge_id !== challenge.value.challenge_id
+    ) {
+      restorePending()
+      return
+    }
+
+    if (!challenge.value || !staged.value?.photoId) return
+    if (!idempotencyKey.value) {
+      idempotencyKey.value =
+        existingPending?.playerId === session.profile.player_id
+          ? existingPending.clientRequestId
+          : crypto.randomUUID()
+    }
+    // Attestation is set only on this final Submit action (not earlier wizard steps).
     const payload = {
-      ...existingPending.payload,
+      idempotency_key: idempotencyKey.value,
+      challenge_id: challenge.value.challenge_id,
+      photo_id: staged.value.photoId,
+      caption: caption.value.trim() || null,
       attest_participation: true as const,
     }
     writePendingDailySubmit({
-      clientRequestId: existingPending.clientRequestId,
-      playerId: existingPending.playerId,
-      cruiseConfigId: existingPending.cruiseConfigId,
+      clientRequestId: idempotencyKey.value,
+      playerId: session.profile.player_id,
+      cruiseConfigId: null,
       payload,
-      summary: existingPending.summary,
-      createdAt: existingPending.createdAt,
+      summary: { title: challenge.value.title, points: challenge.value.points || 50 },
     })
     formLocked.value = true
-    submitting.value = true
-    try {
-      const result = await submitDaily(payload)
-      await handleSubmitResult(result)
-    } catch {
-      submitError.value = 'unknown'
-    } finally {
-      submitting.value = false
-    }
-    return
-  }
-
-  // Never silently replace a pending request for a different challenge.
-  if (
-    existingPending &&
-    challenge.value &&
-    existingPending.payload.challenge_id !== challenge.value.challenge_id
-  ) {
-    restorePending()
-    return
-  }
-
-  if (!challenge.value || !staged.value?.photoId) return
-  if (!idempotencyKey.value) idempotencyKey.value = crypto.randomUUID()
-  // Attestation is set only on this final Submit action (not earlier wizard steps).
-  const payload = {
-    idempotency_key: idempotencyKey.value,
-    challenge_id: challenge.value.challenge_id,
-    photo_id: staged.value.photoId,
-    caption: caption.value.trim() || null,
-    attest_participation: true as const,
-  }
-  writePendingDailySubmit({
-    clientRequestId: idempotencyKey.value,
-    playerId: session.profile.player_id,
-    cruiseConfigId: null,
-    payload,
-    summary: { title: challenge.value.title, points: challenge.value.points || 50 },
-  })
-  formLocked.value = true
-  submitting.value = true
-  submitError.value = null
-  try {
+    submitError.value = null
     const result = await submitDaily(payload)
     await handleSubmitResult(result)
   } catch {
