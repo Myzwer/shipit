@@ -224,17 +224,21 @@
       "observed": "11100 adds counts but ranks by row position; WRP-001 counts resolved when applied",
       "evidence": [
         "docs/qa/campaign/agent-2-backend-integration/WRAPPED_INTEGRATION.md",
-        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-WRP-002"
+        "docs/qa/campaign/agent-2-backend-integration/DEFECTS.md#INT-WRP-002",
+        "docs/qa/campaign/repairs/R6-wrapped-ranking/SUMMARY.md"
       ],
       "root_cause": "ORDER BY missing after 11100 join",
       "impact": "Wrong standings after enabling achievements metadata",
       "repair_scope": "Patch ranking SQL; then apply 11100 to organizer",
       "regression_tests": [
         "wrapped probe DI-P03",
-        "Achievements LB /126"
+        "Achievements LB /126",
+        "scripts/qa2b/repro-r6-wrapped-ranking.mjs"
       ],
       "confidence": "high",
-      "batch": "R6"
+      "batch": "R6",
+      "status": "repaired_r6_disposable",
+      "notes": "Fixed by migration 11300 on Agent1 :55321; organizer still needs 11100+11300 apply"
     },
     {
       "id": "REP-ADM-ERR-001",
@@ -547,17 +551,21 @@
       "expected": "Exclude virtual MO bar from venue popularity",
       "observed": "group by bar_id includes MO",
       "evidence": [
-        "docs/qa/campaign/agent-2-backend-integration/WRAPPED_INTEGRATION.md"
+        "docs/qa/campaign/agent-2-backend-integration/WRAPPED_INTEGRATION.md",
+        "docs/qa/campaign/repairs/R6-wrapped-ranking/SUMMARY.md"
       ],
       "root_cause": "Missing virtual bar filter",
       "impact": "Misleading Wrapped stats",
       "repair_scope": "Exclude virtual bars in metrics",
       "regression_tests": [
         "DI-P15",
-        "DI-C08"
+        "DI-C08",
+        "scripts/qa2b/repro-r6-wrapped-ranking.mjs"
       ],
       "confidence": "high",
-      "batch": "R6"
+      "batch": "R6",
+      "status": "repaired_r6_disposable",
+      "notes": "DI-P15/DI-C08 now require bar_id IS NOT NULL; drink variety still counts MO logs"
     },
     {
       "id": "REP-CRW-001",

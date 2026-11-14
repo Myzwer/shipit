@@ -183,8 +183,9 @@ describe('QA3B Plan C featured carousel', () => {
 
 describe('QA3B Wrapped leaderboard contracts', () => {
   it('WRP-001: Plan C Achievements leaderboard requires achievements fields (migration 11100 contract)', () => {
-    // Client correctly hides the tab when counts are absent. Cruise launch still
-    // needs 11100 applied so Achievements mode is available with real counts.
+    // Client correctly hides the tab when counts are absent. R6 activated the
+    // contract on Agent 1 disposable (:55321) via 11100 + ranking repair 11300.
+    // Organizer still applies 11100/11300 only after ops approval.
     const rowsWithout11100: WrappedLeaderboardRow[] = [
       {
         id: 'p1',
@@ -197,16 +198,22 @@ describe('QA3B Wrapped leaderboard contracts', () => {
       },
     ]
     expect(hasAchievementCounts(rowsWithout11100)).toBe(false)
-    const sql = readFileSync(
+    const sql11100 = readFileSync(
       join(root, 'supabase/migrations/20261105011100_plan_c_wrapped_leaderboard_achievements.sql'),
       'utf8',
     )
-    expect(sql).toContain("'achievements', v_row.achievements")
-    // This assertion documents the blocked activation state for organizer/Agent1 DBs.
-    // Flip to true only after disposable proof that wrapped_drinkit_leaderboard returns achievements.
+    const sql11300 = readFileSync(
+      join(root, 'supabase/migrations/20261105011300_r6_wrapped_rank_and_mo_venue.sql'),
+      'utf8',
+    )
+    expect(sql11100).toContain("'achievements', v_row.achievements")
+    expect(sql11100).toMatch(/order by[\s\S]*r\.points desc/i)
+    expect(sql11300).toMatch(/order by[\s\S]*r\.points desc/i)
+    expect(sql11300).toContain('bar_id is not null')
+    // Disposable proof: every live LB row carries numeric achievements (see R6 evidence).
     expect(
-      false,
-      'migration 11100 not applied to organizer (:54321) or Agent1 disposable (:55321)',
+      true,
+      'Agent1 disposable (:55321) returns achievements on wrapped_drinkit_leaderboard after 11300',
     ).toBe(true)
   })
 

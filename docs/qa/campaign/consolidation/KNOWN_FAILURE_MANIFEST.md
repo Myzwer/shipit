@@ -58,10 +58,10 @@ Post-R4: **227 passed / 227 total** (`npx vitest run tests/unit/qa3a-admin-catal
 | `achievementDefinitionAudit.spec.ts` | productionReleaseMapping covers FINAL 174 | ACH-003 | REP-ACH-MAP-001 | Expected red (R7) |
 | `gauntletLocationContract.spec.ts` | Gauntlet requires bar_id / excludes virtual | ACH-002 | REP-ACH-GAUNT-001 | Expected red (R7) |
 | `awardingAndCrossSystem.contract.spec.ts` | WrappedPhotoCard signed URL refresh | WRP-002 | REP-SIGNED-001 | **Repaired (R3)** |
-| `wrappedMetricsAndCarousel.spec.ts` | Achievements LB fields (11100 contract) | WRP-001 | REP-WRP-RANK-001 | Expected red (R6) |
+| `wrappedMetricsAndCarousel.spec.ts` | Achievements LB fields (11100 contract) | WRP-001 | REP-WRP-RANK-001 | **Repaired (R6)** — disposable `:55321` has `11100`+`11300`; ranks + counts proven |
 
 Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wrapped/vitest-qa3b-results.json`).  
-Post-R3 integration: WRP-002 green; ACH-001/002/003 + WRP-001 remain expected red.
+Post-R6: WRP-001/WRP-002 green on contracts; ACH-001/002/003 remain expected red (R7).
 
 ## Expected red — browser E2E / stress
 
@@ -82,9 +82,9 @@ Requires disposable `:55321` + Playwright for full suite re-runs.
 |---|---|---|
 | `scripts/qa2a/probe/admin-catalog.mjs` | INT-CAT-001L, INT-ADM-*, INT-SCHED-001 | REP-CAT-LOCK-001, REP-ADM-ERR-001, REP-SCHED-001 |
 | `scripts/qa2a/probe/achievements.mjs` | INT-ACH-001, INT-ACH-003 | REP-ACH-FROZEN-001, REP-ACH-MAP-001 |
-| `scripts/qa2a/probe/wrapped-aggregation.mjs` | INT-WRP-002 (+ MO venue) | REP-WRP-RANK-001, REP-WRP-MO-001 |
+| `scripts/qa2a/probe/wrapped-aggregation.mjs` | INT-WRP-002 (+ MO venue) | REP-WRP-RANK-001, REP-WRP-MO-001 | **Repaired (R6)** on Agent1 `:55321` via `repro-r6-wrapped-ranking.mjs`; qa2 `:56321` still needs `11300` apply |
 
-Requires Agent 2 disposable `:56321`. Mutating — deferred.
+Requires Agent 2 disposable `:56321` for full probe re-run. Mutating qa2 — deferred (Agent 2 / ops).
 
 ## Expected red — QA-1 product (pre-existing)
 

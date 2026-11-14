@@ -1,6 +1,7 @@
 -- Plan C: include per-player achievement counts on the Drink It! Wrapped
 -- leaderboard so the Achievements toggle can rank without a second query.
--- Points ranking / ordering is unchanged. Achievements is display metadata.
+-- Points ranking / ordering must match drinkit_player_score_rows (the join
+-- alone does not preserve ORDER BY). Achievements is display metadata.
 
 create or replace function public.wrapped_drinkit_leaderboard(p_cruise_config_id uuid, p_viewer uuid)
 returns jsonb
@@ -19,10 +20,16 @@ begin
       r.display_name,
       r.points,
       r.bounty_claims,
+      r.first_claim_at,
       coalesce(m.achievements, 0) as achievements
     from public.drinkit_player_score_rows(p_cruise_config_id) r
     left join public.wrapped_di_player_metrics(p_cruise_config_id) m
       on m.player_id = r.player_id
+    order by
+      r.points desc,
+      coalesce(r.first_claim_at, 'infinity'::timestamptz) asc,
+      lower(r.display_name) asc,
+      r.player_id asc
   loop
     v_rows := v_rows || jsonb_build_array(jsonb_build_object(
       'id', v_row.player_id,

@@ -6,7 +6,7 @@ Rule: do **not** skip, delete, or weaken these to green the suite. They are assi
 
 | ID | Suite / assertion | Batch | Notes |
 |---|---|---|---|
-| WRP-001 | `wrappedMetricsAndCarousel.spec.ts` — achievements LB fields / `11100` contract | **R6** | Ranking regression still open; migration inspected only |
+| WRP-001 | `wrappedMetricsAndCarousel.spec.ts` — achievements LB fields / `11100` contract | **R6** | **Repaired (R6)** — see `docs/qa/campaign/repairs/R6-wrapped-ranking/` |
 | ACH-001 | Launch catalog frozen(+tropical) tags | **R7** | Catalog content |
 | ACH-002 | Gauntlet `bar_id` + exclude virtual | **R7** | Collection SQL contract |
 | ACH-003 | `productionReleaseMapping` 174 keys | **R7** | Mapping still summarizes 140 |
