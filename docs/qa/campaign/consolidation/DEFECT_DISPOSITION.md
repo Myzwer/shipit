@@ -127,10 +127,12 @@ Disposition classes:
 | CFG-MIG-109-111 | `configuration_required` | Organizer migrations after snapshot |
 | CFG-GOOD-SPIRITS | `configuration_required` | Price evidence gate |
 | CFG-COMPANION-ALIAS | `configuration_required` | Private alias map for Davids pack |
+| CFG-MIG-102 | `configuration_required` | Migration `10200` disposition — likely obsolete vs `10500` (AMBIGUITIES #10) |
 
 ## Completeness check
 
-- **54** filed defect IDs from DEFECTS.md files appear above.
+- **54** filed defect IDs from DEFECTS.md files appear above (QA-1 through QA-4A).
 - Live `*L` suffixes are confirmations, not extra root causes.
 - No original ID silently omitted.
 - Harness IDs retained for audit trail but excluded from repair-group severity rollups.
+- Re-verified 2026-11-14 against main `fcb699f` evidence + Agent 2 `f4c1dce` DEFECTS.md (read-only secondary worktree).

@@ -6,15 +6,17 @@
 
 ## Verified worktree state
 
-| Worktree | Path | Branch | HEAD | Checkpoint |
+Verified with `git worktree list` and read-only inspection of both trees (not assumed from chat history).
+
+| Worktree | Path | Branch | Tip | Role |
 |---|---|---|---|---|
-| Main | `Ship It` | `visual/drinkit-home-v1` | `fcb699f` | QA-2B stress/flake reports |
-| Agent 2 | `Ship-It-qa2-reliability` | `test/qa2-reliability` | `f4c1dce` | QA-4A backend integration |
+| Main | `Ship It` | `visual/drinkit-home-v1` | consolidation docs atop `fcb699f` | Repair home; QA-2B evidence tip = `fcb699f` |
+| Agent 2 | `Ship-It-qa2-reliability` | `test/qa2-reliability` | `f4c1dce` | QA-2 / QA-3A / QA-3B / QA-4A evidence archive |
 | Disposable (Agent 1) | `Ship-It-disposable-mo` | `test/disposable-mo-activity` | `544b703` | Not mutated this assignment |
 
-Merge-base of main ↔ Agent 2: `5a95c98` (QA-0 foundation). Agent 2 has **no `src/` application changes** — only diagnostic tests, probes, reports, and a small guard/config delta.
+Merge-base of main ↔ Agent 2: `5a95c98` (QA-0 foundation). Agent 2 tip has **no `src/` application diffs** vs merge-base — only diagnostic tests, probes, reports, and a small guard/config delta.
 
-**Safety held:** No merges, cherry-picks, app edits, pushes, deploys, or Supabase mutations (`:54321` / `:55321` / `:56321`).
+**Safety held:** No merges, cherry-picks, app edits, pushes, deploys, or Supabase mutations (`:54321` / `:55321` / `:56321`). Failing tests, reports, screenshots, and local fixtures preserved.
 
 ## Campaigns reviewed (evidence-based)
 
@@ -44,7 +46,7 @@ Merge-base of main ↔ Agent 2: `5a95c98` (QA-0 foundation). Agent 2 has **no `s
 | P3 groups | **4** |
 | Duplicate / live-confirmation aliases (disposition only) | **18** |
 | Harness-only findings | **4** |
-| Configuration / migration requirements | **9** |
+| Configuration / migration requirements | **10** |
 | Unverified risks retained | **3** |
 | Open verification gaps (blocked/not-run families) | **47+** |
 

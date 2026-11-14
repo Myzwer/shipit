@@ -5,8 +5,9 @@
     "main_worktree": {
       "path": "Ship It",
       "branch": "visual/drinkit-home-v1",
-      "head": "fcb699f",
-      "checkpoint": "QA-2B"
+      "qa_evidence_tip": "fcb699f",
+      "checkpoint": "QA-2B",
+      "note": "Consolidation documentation commits may sit atop qa_evidence_tip; do not treat docs commits as new QA campaign evidence."
     },
     "agent2_worktree": {
       "path": "Ship-It-qa2-reliability",
@@ -16,6 +17,7 @@
     },
     "merge_base": "5a95c98",
     "application_repairs": false,
+    "verified_read_only": true,
     "counts": {
       "original_defect_ids_reviewed": 54,
       "unique_confirmed_repair_groups": 24,
@@ -28,7 +30,7 @@
       "optional_or_decide": 4,
       "duplicates_or_live_confirmations": 18,
       "harness_only": 4,
-      "configuration_requirements": 9,
+      "configuration_requirements": 10,
       "unverified_risks": 3,
       "open_verification_gap_families": 47
     },

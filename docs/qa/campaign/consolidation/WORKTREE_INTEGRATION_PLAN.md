@@ -6,15 +6,17 @@
 
 | Role | Path | Branch | Tip |
 |---|---|---|---|
-| Repair home | `…/Ship It` | `visual/drinkit-home-v1` | `fcb699f` |
-| Diagnostic source | `…/Ship-It-qa2-reliability` | `test/qa2-reliability` | `f4c1dce` |
+| Repair home | `…/Ship It` | `visual/drinkit-home-v1` | consolidation docs on top of QA-2B `fcb699f` |
+| Diagnostic source | `…/Ship-It-qa2-reliability` | `test/qa2-reliability` | `f4c1dce` (QA-4A) |
 | Agent 1 disposable | `…/Ship-It-disposable-mo` | `test/disposable-mo-activity` | `544b703` |
 
 ```
 5a95c98  QA-0 foundation (merge-base)
-   ├─ main: 94fa2e5 QA-1 → 5027089 QA-2A → fcb699f QA-2B
+   ├─ main: 94fa2e5 QA-1 → 5027089 QA-2A → fcb699f QA-2B → (consolidation docs only)
    └─ agent2: bc43834 QA-2 REL → 410a9f8 QA-3A → 2572d0b QA-3B → f4c1dce QA-4A
 ```
+
+Integrate diagnostics from `f4c1dce` onto a branch cut from the **QA-2B evidence tip** `fcb699f` (or current main after consolidation docs), not by merging the full Agent 2 branch blindly.
 
 Agent 2 tip contains **no `src/` application diffs** vs merge-base. Safe to treat as **tests + docs + probes (+ minor guard/config)**.
 
