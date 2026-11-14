@@ -17,6 +17,11 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 | **REP-ADM-LOCK-001** | **Repaired (R4)** | ADM-005 clock catch + ADM-007 admin empty-games route exemption. |
 | **REP-ADM-SESS-001** | **Repaired (R4)** | ADM-006 signOut clears admin pending keys. |
 | **REP-CAT-LOCK-001** | **Repaired (R4)** | ADM-008 / CAT-001 / INT-CAT-001L pending lock recovered; Discard + publish pending guard. |
+| **REP-ACH-MAP-001** | **Repaired (R7)** | Production release map covers all 174 FINAL keys (164 enabled / 10 intentional blocks). See `repairs/R7-achievements/` + `R1-R7-integration/`. |
+| **REP-ACH-FROZEN-001** | **Partial (R7)** | `frozen` tag on Frozen Aperol Spritz; tropical collections remain verification-gated pending organizer list. |
+| **REP-ACH-GAUNT-001** | **Repaired (R7)** | `11400` aligns UI `covered_count` with location-bound awarding; ACH-002 unit + prior live probes PASS. |
+| **REP-ACH-EMPTY-001** | **Partial (R7)** | Launch JSON aliases wired; Good Spirits + active-catalog publish still required. |
+| **REP-WRP-RANK-001 / REP-WRP-MO-001** | **Repaired (R6)** | Disposable `:55321` has `11100`+`11300`; re-verified after R7 `11400` integration. |
 
 ## Expected red — unit / contract (non-mutating)
 
@@ -54,14 +59,14 @@ Post-R4: **227 passed / 227 total** (`npx vitest run tests/unit/qa3a-admin-catal
 
 | Test file | Assertion theme | Defect IDs | REP-* | Status |
 |---|---|---|---|---|
-| `achievementDefinitionAudit.spec.ts` | Frozen tags on launch catalog | ACH-001 | REP-ACH-FROZEN-001 | Expected red (R7) |
-| `achievementDefinitionAudit.spec.ts` | productionReleaseMapping covers FINAL 174 | ACH-003 | REP-ACH-MAP-001 | Expected red (R7) |
-| `gauntletLocationContract.spec.ts` | Gauntlet requires bar_id / excludes virtual | ACH-002 | REP-ACH-GAUNT-001 | Expected red (R7) |
+| `achievementDefinitionAudit.spec.ts` | Frozen tags on launch catalog | ACH-001 | REP-ACH-FROZEN-001 | **Repaired (partial R7)** — unit PASS (`frozen` present); tropical collections still gated (content/ops) |
+| `achievementDefinitionAudit.spec.ts` | productionReleaseMapping covers FINAL 174 | ACH-003 | REP-ACH-MAP-001 | **Repaired (R7)** — must stay green |
+| `gauntletLocationContract.spec.ts` | Gauntlet requires bar_id / excludes virtual | ACH-002 | REP-ACH-GAUNT-001 | **Repaired (R7)** — must stay green (`11400` + unit) |
 | `awardingAndCrossSystem.contract.spec.ts` | WrappedPhotoCard signed URL refresh | WRP-002 | REP-SIGNED-001 | **Repaired (R3)** |
 | `wrappedMetricsAndCarousel.spec.ts` | Achievements LB fields (11100 contract) | WRP-001 | REP-WRP-RANK-001 | **Repaired (R6)** — disposable `:55321` has `11100`+`11300`; ranks + counts proven |
 
 Campaign baseline: **5 failed / 26 passed / 31 total** (`agent-2-achievements-wrapped/vitest-qa3b-results.json`).  
-Post-R6: WRP-001/WRP-002 green on contracts; ACH-001/002/003 remain expected red (R7).
+Post-R7 integration: QA-3B **35/35 PASS** on `tests/unit/qa3b-achievements-wrapped/` (ACH-001/002/003 + WRP green). Tropical earnability remains an organizer/content gate, not a failing unit contract.
 
 ## Expected red — browser E2E / stress
 
@@ -81,7 +86,7 @@ Requires disposable `:55321` + Playwright for full suite re-runs.
 | Probe | Key defect repros | REP-* |
 |---|---|---|
 | `scripts/qa2a/probe/admin-catalog.mjs` | INT-CAT-001L, INT-ADM-*, INT-SCHED-001 | REP-CAT-LOCK-001, REP-ADM-ERR-001, REP-SCHED-001 |
-| `scripts/qa2a/probe/achievements.mjs` | INT-ACH-001, INT-ACH-003 | REP-ACH-FROZEN-001, REP-ACH-MAP-001 |
+| `scripts/qa2a/probe/achievements.mjs` | INT-ACH-001, INT-ACH-003 | REP-ACH-FROZEN-001 (partial — active catalog publish), REP-ACH-MAP-001 **repaired** (map PASS on R7 evidence) |
 | `scripts/qa2a/probe/wrapped-aggregation.mjs` | INT-WRP-002 (+ MO venue) | REP-WRP-RANK-001, REP-WRP-MO-001 | **Repaired (R6)** on Agent1 `:55321` via `repro-r6-wrapped-ranking.mjs`; qa2 `:56321` still needs `11300` apply |
 
 Requires Agent 2 disposable `:56321` for full probe re-run. Mutating qa2 — deferred (Agent 2 / ops).

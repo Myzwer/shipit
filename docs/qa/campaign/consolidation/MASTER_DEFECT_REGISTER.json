@@ -367,10 +367,11 @@
         "productionReleaseMapping"
       ],
       "expected": "Map covers 174 FINAL keys or explicit gates",
-      "observed": "140 interim rows; 37 missing; 3 obsolete",
+      "observed": "REPAIRED (R7): map 174 rows; 164 release-enabled; 10 intentional blocks; 0 missing",
       "evidence": [
         "achievementDefinitionAudit.spec.ts",
-        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md"
+        "docs/qa/campaign/repairs/R7-achievements/RELEASE_MAP_AUDIT.md",
+        "docs/qa/campaign/repairs/R1-R7-integration/ACHIEVEMENT_ELIGIBILITY_AUDIT.md"
       ],
       "root_cause": "Stale activation artifact",
       "impact": "Incomplete achievement enablement",
@@ -380,7 +381,8 @@
         "INT-ACH-003"
       ],
       "confidence": "high",
-      "batch": "R7"
+      "batch": "R7",
+      "repair_status": "repaired"
     },
     {
       "id": "REP-ACH-FROZEN-001",
@@ -395,9 +397,10 @@
         "Frozen Concoctions"
       ],
       "expected": "Frozen tropical set reachable or explicitly gated",
-      "observed": "Zero frozen tags on launch catalog; engine OK with tags",
+      "observed": "PARTIAL (R7): frozen tag on Frozen Aperol Spritz; tropical collections verification_required; organizer list still needed",
       "evidence": [
-        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md",
+        "docs/qa/campaign/repairs/R7-achievements/FROZEN_ACHIEVEMENT_VERIFICATION.md",
+        "docs/qa/campaign/repairs/R1-R7-integration/ACHIEVEMENT_ELIGIBILITY_AUDIT.md",
         "ACH-001"
       ],
       "root_cause": "Catalog classification content gap",
@@ -408,7 +411,8 @@
         "definition matrix"
       ],
       "confidence": "high",
-      "batch": "R7"
+      "batch": "R7",
+      "repair_status": "partial"
     },
     {
       "id": "REP-ACH-GAUNT-001",
@@ -421,20 +425,23 @@
         "Bar Gauntlet offering_collection"
       ],
       "expected": "Progress requires physical bar_id match; exclude virtual",
-      "observed": "Static contract fails; MO leak NOT reproduced live; wrong-bar physical unverified",
+      "observed": "REPAIRED (R7): awarding via log_counts location-bound; covered_count aligned in 11400; live MO/wrong-bar probes PASS",
       "evidence": [
         "gauntletLocationContract.spec.ts",
-        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md#INT-ACH-09"
+        "supabase/migrations/20261105011400_r7_gauntlet_covered_count_location.sql",
+        "docs/qa/campaign/repairs/R7-achievements/GAUNTLET_VERIFICATION.md"
       ],
-      "root_cause": "Static vs live mismatch; needs wrong-bar repro",
-      "impact": "Potential incorrect gauntlet progress if wrong-bar path exists",
-      "repair_scope": "Disposable wrong-bar proof before SQL change",
+      "root_cause": "UI covered_count lacked location guards (awarding already correct)",
+      "impact": "Inflated UI progress for Mobile Order / wrong-bar logs",
+      "repair_scope": "Align covered_count with location-bound log_counts",
       "regression_tests": [
+        "gauntletLocationContract.spec.ts",
         "INT-ACH-09",
-        "new wrong-bar case"
+        "ACH-002-*"
       ],
-      "confidence": "medium",
-      "batch": "R7"
+      "confidence": "high",
+      "batch": "R7",
+      "repair_status": "repaired"
     },
     {
       "id": "REP-ACH-EMPTY-001",
@@ -447,9 +454,10 @@
         "Achievement reachability"
       ],
       "expected": "Active defs have eligible sets or are gated",
-      "observed": "4 empty + 9 missing dependency unreachable",
+      "observed": "PARTIAL (R7): launch JSON aliases/tags wired; Good Spirits gated; active DB catalog publish still required for live reachability",
       "evidence": [
-        "docs/qa/campaign/agent-2-backend-integration/ACHIEVEMENT_INTEGRATION.md"
+        "docs/qa/campaign/repairs/R7-achievements/SUMMARY.md",
+        "docs/qa/campaign/repairs/R1-R7-integration/ACHIEVEMENT_ELIGIBILITY_AUDIT.md"
       ],
       "root_cause": "Content/activation mismatch",
       "impact": "Dead achievements",
@@ -458,7 +466,8 @@
         "reachability matrix"
       ],
       "confidence": "high",
-      "batch": "R7"
+      "batch": "R7",
+      "repair_status": "partial"
     },
     {
       "id": "REP-CAT-MO-001",

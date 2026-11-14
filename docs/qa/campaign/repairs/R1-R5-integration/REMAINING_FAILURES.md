@@ -2,22 +2,24 @@
 
 Rule: do **not** skip, delete, or weaken these to green the suite. They are assigned to later repair batches.
 
-## Expected red (product) — preserve for R6 / R7 / R8
+## Expected red (product) — preserve for R8 (R6/R7 integrated)
 
 | ID | Suite / assertion | Batch | Notes |
 |---|---|---|---|
 | WRP-001 | `wrappedMetricsAndCarousel.spec.ts` — achievements LB fields / `11100` contract | **R6** | **Repaired (R6)** — see `docs/qa/campaign/repairs/R6-wrapped-ranking/` |
-| ACH-001 | Launch catalog frozen(+tropical) tags | **R7** | Catalog content |
-| ACH-002 | Gauntlet `bar_id` + exclude virtual | **R7** | Collection SQL contract |
-| ACH-003 | `productionReleaseMapping` 174 keys | **R7** | Mapping still summarizes 140 |
+| ACH-001 | Launch catalog frozen(+tropical) tags | **R7** | **Partial** — unit PASS; tropical gated; see `R1-R7-integration/ACHIEVEMENT_ELIGIBILITY_AUDIT.md` |
+| ACH-002 | Gauntlet `bar_id` + exclude virtual | **R7** | **Repaired** — `11400` + unit PASS |
+| ACH-003 | `productionReleaseMapping` 174 keys | **R7** | **Repaired** — map 174 / 164 enabled / 10 blocked |
 | REL-006 | `processImage.qa2.spec.ts` empty MIME + `.gif` | **R8** | Still accepts → JPEG; expected red |
 | DEF-QA1-001 | Bar preview reason | pre-existing | Not in R1–R5 scope |
 | E2B-002 | Claim-race stress | REP-CLAIM-001 | Separate from signed URLs |
 | CAT-002 polish / QA-4A live probes | Admin probes on `:56321` | deferred | `:56321` protected this assignment |
 
-Post-R3 QA-3B scoreboard: **4 failed / 27 passed / 31 total** (WRP-002 now green).
+Post-R7 integration QA-3B: **35/35 PASS** (`tests/unit/qa3b-achievements-wrapped/`).
 
-Post-R3 QA-2 reliability: **1 failed / 85 passed / 86 total** (REL-006 only).
+Post-R7 integration QA-2 reliability: **1 failed / 85 passed / 86 total** (REL-006 only — R8).
+
+See `docs/qa/campaign/repairs/R1-R7-integration/` for full checkpoint.
 
 ## Harness / environment (not product regressions)
 

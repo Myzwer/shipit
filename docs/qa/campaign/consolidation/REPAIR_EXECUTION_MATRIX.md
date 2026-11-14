@@ -80,15 +80,16 @@ Post-integration baseline on `visual/drinkit-home-v1`. Application repairs have 
 | **Dependencies** | None for coding; organizer `11100` **after** rank fix |
 | **Shared Supabase** | Migration-owned — **do not parallel another migration author**; Vue batches OK |
 
-### R7 — Achievements content (P1)
+### R7 — Achievements content (P1) — **integrated on main**
 
 | Field | Value |
 |---|---|
-| **Original IDs** | ACH-001, ACH-003, empty sets; ACH-002 investigate |
-| **Likely sources** | `productionReleaseMapping.json`, launch catalog tags |
-| **Failing tests** | `achievementDefinitionAudit.spec.ts`; INT-ACH-001/003 probes |
-| **Dependencies** | None for map/tags |
-| **Parallel** | OK vs R6 if R7 stays out of Wrapped SQL |
+| **Original IDs** | ACH-001, ACH-003, empty sets; ACH-002 |
+| **Status** | Cherry-picked `56fd067` → `cef3aba`; combined with R6 verified in `repairs/R1-R7-integration/` |
+| **Likely sources** | `productionReleaseMapping.json`, launch catalog tags, migration `11400` |
+| **Unit contracts** | ACH-001/002/003 **PASS** on integrated tree; tropical earnability still organizer-gated |
+| **Dependencies** | Combined migration test with R6 `11300` completed on disposable `:55321` |
+| **Parallel** | Was OK vs R6 (disjoint files); now co-located on `visual/drinkit-home-v1` |
 
 ### R8 — Polish (P2/P3)
 
