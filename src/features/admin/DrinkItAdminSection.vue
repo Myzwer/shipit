@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BarBountyCrewsSection from '@/features/admin/BarBountyCrewsSection.vue'
+import BountyScheduleInitSection from '@/features/admin/BountyScheduleInitSection.vue'
 import BountySkipSection from '@/features/admin/BountySkipSection.vue'
 import DailyAnnouncementsSection from '@/features/admin/DailyAnnouncementsSection.vue'
 import GameStatusSection from '@/features/admin/GameStatusSection.vue'
@@ -9,6 +10,7 @@ import VoidSubmissionSection from '@/features/admin/VoidSubmissionSection.vue'
 <template>
   <div data-testid="admin-drinkit-section">
     <GameStatusSection />
+    <BountyScheduleInitSection />
     <BarBountyCrewsSection />
     <DailyAnnouncementsSection />
     <BountySkipSection />

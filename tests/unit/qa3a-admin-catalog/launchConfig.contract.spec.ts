@@ -66,7 +66,7 @@ describe('Launch configuration — Admin surface gaps (inspected, not filled)', 
     expect(section).toMatch(/daily-announce-input|textarea/)
   })
 
-  it('first bounty schedule generation remains DEV_SCHEDULE / service_role gated in migrations', () => {
+  it('dev_generate_bounty_schedule remains development-only; production Admin init exists', () => {
     const mig = readdirSync(join(ROOT, 'supabase/migrations')).find((f) =>
       f.includes('generate_and_resolve'),
     )
@@ -74,6 +74,16 @@ describe('Launch configuration — Admin surface gaps (inspected, not filled)', 
     const sql = read(`supabase/migrations/${mig}`)
     expect(sql).toMatch(/dev_generate_bounty_schedule/)
     expect(sql).toMatch(/DEV_SCHEDULE_FORBIDDEN|development-only|service_role/)
+
+    const prod = readdirSync(join(ROOT, 'supabase/migrations')).find((f) =>
+      f.includes('admin_initialize_bounty_schedule'),
+    )
+    expect(prod).toBeTruthy()
+    const prodSql = read(`supabase/migrations/${prod}`)
+    expect(prodSql).toMatch(/admin_initialize_bounty_schedule/)
+    expect(prodSql).toMatch(/is_admin\(\)/)
+    expect(prodSql).not.toMatch(/DEV_SCHEDULE_FORBIDDEN/)
+    expect(prodSql).toMatch(/gameplay_started/)
   })
 })
 

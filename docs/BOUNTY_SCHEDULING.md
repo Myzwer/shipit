@@ -26,12 +26,15 @@ Preallocation ≠ shown. Nonrepetition uses **canonical drink concept** / **ingr
 
 ## Random assignment
 
-`dev_generate_bounty_schedule` (service_role, `development-only` cruise label):
+**Production (R5):** `admin_initialize_bounty_schedule(p_client_request_id, p_seed)` — Admin-authenticated, works on any cruise label, creates Cocktail + Ingredient slots **and** Bar/Daily assignments in one atomic transaction. Does **not** start gameplay or mutate Ship Clock. Idempotent by `client_request_id`; already-complete schedules return `SCHEDULE_ALREADY_INITIALIZED` without reshuffle. Status: `admin_get_bounty_schedule_status`; reconcile: `admin_find_bounty_schedule_init_request_by_id`.
+
+**Development fixtures:** `dev_generate_bounty_schedule` (service_role, `development-only` cruise label) + `dev_seed_daily_assignments`:
 
 - Draws from eligible active-catalog candidates (uniform hash order with optional seed)
 - No tier quotas / jackpots
 - Fails atomically on shortage (`COCKTAIL_POOL_SHORTAGE` / `INGREDIENT_POOL_SHORTAGE`)
 - Second call returns existing schedule (`idempotent: true`) — never reshuffles
+- Production voyages must use the Admin path, not `dev_*`
 
 ## Player-safe reads
 
@@ -128,9 +131,8 @@ A preallocated offer whose public window has begun but was **never shown** (`exp
 
 ## Remaining later
 
-- Production Publish/Rollback (not `dev_*`)
-- Final production Bar/Daily content
-- Admin Add Drink UI
+- Onboard menu-agent catalog deltas + explicit future-slot regeneration UX (see `docs/qa/campaign/repairs/R5-production-schedule/CATALOG_UPDATE_CONTRACT.md`)
+- Admin Add Drink UI polish
 - Daily Challenge Claim It (Phase 4)
 
 Home UI: [`docs/HOME_BOUNTIES.md`](./HOME_BOUNTIES.md).
