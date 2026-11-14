@@ -1,0 +1,790 @@
+{
+  "meta": {
+    "title": "Star Princess QA Consolidation \u2014 Master Defect Register",
+    "generated": "2026-11-14",
+    "main_worktree": {
+      "path": "Ship It",
+      "branch": "visual/drinkit-home-v1",
+      "head": "fcb699f",
+      "checkpoint": "QA-2B"
+    },
+    "agent2_worktree": {
+      "path": "Ship-It-qa2-reliability",
+      "branch": "test/qa2-reliability",
+      "head": "f4c1dce",
+      "checkpoint": "QA-4A"
+    },
+    "merge_base": "5a95c98",
+    "application_repairs": false,
+    "counts": {
+      "original_defect_ids_reviewed": 54,
+      "unique_confirmed_repair_groups": 24,
+      "p0_groups": 3,
+      "p1_groups": 7,
+      "p2_groups": 10,
+      "p3_groups": 4,
+      "must_before_cruise": 10,
+      "should_if_practical": 10,
+      "optional_or_decide": 4,
+      "duplicates_or_live_confirmations": 18,
+      "harness_only": 4,
+      "configuration_requirements": 9,
+      "unverified_risks": 3,
+      "open_verification_gap_families": 47
+    },
+    "campaigns_reviewed": [
+      "QA-0",
+      "QA-0.5",
+      "QA-1",
+      "QA-2",
+      "QA-2A",
+      "QA-2B",
+      "QA-3A",
+      "QA-3B",
+      "QA-4A"
+    ]
+  },
+  "repair_groups": [
+    {
+      "id": "REP-SUB-001",
+      "associated_ids": [
+        "E2B-001",
+        "REL-001",
+        "REL-002",
+        "E2E-032"
+      ],
+      "severity": "P0",
+      "cruise_class": "must",
+      "features": [
+        "Drink It log submit",
+        "Daily claim",
+        "Ship It scavenger submit"
+      ],
+      "expected": "At most one accepted submission per intentional action; in-flight early return; nav-away cancels or coalesces",
+      "observed": "E2B-S07 produced two accepted drink logs after submit+nav; scavenger/daily lack in-function guards",
+      "evidence": [
+        "docs/qa/campaign/qa2b-browser-stress/DEFECTS.md#E2B-001",
+        "docs/qa/campaign/qa2b-browser-stress/TEST_REGISTRY.json#E2B-S07",
+        "Ship-It-qa2-reliability/docs/qa/campaign/agent-2-reliability/DEFECTS.md#REL-001",
+        "tests/unit/qa2-reliability/submitGuards.contract.spec.ts"
+      ],
+      "root_cause": "Missing client in-flight locks; drink submit path allows second accept on navigate-away",
+      "impact": "Silent score inflation on flaky ship Wi-Fi",
+      "repair_scope": "In-flight guards + submit idempotency/cancel on unmount",
+      "regression_tests": [
+        "submitGuards.contract.spec.ts",
+        "E2B-S03",
+        "E2B-S07"
+      ],
+      "confidence": "high",
+      "batch": "R1"
+    },
+    {
+      "id": "REP-MEDIA-001",
+      "associated_ids": [
+        "REL-003",
+        "REL-004",
+        "REL-005",
+        "REL-007",
+        "E2E-031",
+        "RISK-B"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "PhotoCapture",
+        "Storage staging",
+        "wizard discard"
+      ],
+      "expected": "Discard abandons Storage/ledger; AbortSignal reaches upload; no empty-blob retry",
+      "observed": "UI-only discard orphans photos; upload omits signal; restore uses new Blob()",
+      "evidence": [
+        "agent-2-reliability/DEFECTS.md#REL-003",
+        "qa2a-browser-e2e/DEFECTS.md#E2E-031",
+        "tests/unit/qa2-reliability/stagePhoto.network.spec.ts",
+        "tests/unit/qa2-reliability/PhotoCapture.restore.spec.ts"
+      ],
+      "root_cause": "Discard bypasses abandon; incomplete abort wiring; restore placeholder without bytes guard",
+      "impact": "Failed retries, storage clutter, corrupt stages",
+      "repair_scope": "Wire abandon; pass signal; refuse empty retry",
+      "regression_tests": [
+        "stagePhoto.network.spec.ts",
+        "PhotoCapture.restore.spec.ts",
+        "E2E-ME-009",
+        "E2B-M10"
+      ],
+      "confidence": "high",
+      "batch": "R2"
+    },
+    {
+      "id": "REP-SIGNED-001",
+      "associated_ids": [
+        "REL-008",
+        "E2E-030",
+        "E2B-L03",
+        "WRP-002"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "Gallery",
+        "Wrapped photo cards"
+      ],
+      "expected": "Refresh before expiry and/or @error re-fetch",
+      "observed": "One-shot signed URL; no timer; no @error handler",
+      "evidence": [
+        "agent-2-reliability/DEFECTS.md#REL-008",
+        "qa2a-browser-e2e/DEFECTS.md#E2E-030",
+        "qa2b-browser-stress/DEFECTS.md#E2B-L03",
+        "agent-2-achievements-wrapped/DEFECTS.md#WRP-002"
+      ],
+      "root_cause": "Client never renews signed URLs",
+      "impact": "Broken images after ~1h / backgrounded tabs",
+      "repair_scope": "Shared signed-URL composable for Gallery + Wrapped",
+      "regression_tests": [
+        "gallerySignedUrl.contract.spec.ts",
+        "E2B-L03",
+        "WRP-002 contract"
+      ],
+      "confidence": "high",
+      "batch": "R3"
+    },
+    {
+      "id": "REP-CAT-LOCK-001",
+      "associated_ids": [
+        "ADM-008",
+        "CAT-001",
+        "INT-CAT-001L"
+      ],
+      "severity": "P0",
+      "cruise_class": "must",
+      "features": [
+        "Admin catalog import"
+      ],
+      "expected": "Preview failure clears pending or Discard; Check Status uses real publish ids",
+      "observed": "Pending rewritten as publish with stage id; UI stuck; DB recoverable",
+      "evidence": [
+        "agent-2-admin-catalog/DEFECTS.md#ADM-008",
+        "agent-2-backend-integration/DEFECTS.md#INT-CAT-001L",
+        "tests/unit/qa3a-admin-catalog/catalogActivation.contract.spec.ts"
+      ],
+      "root_cause": "Frontend pending state machine after preview failure",
+      "impact": "Blocks menu activation without clearing site storage",
+      "repair_scope": "Pending clear/Discard + Check Status fix",
+      "regression_tests": [
+        "adminCatalogPending.contract.spec.ts",
+        "INT-CAT-001L probe"
+      ],
+      "confidence": "high",
+      "batch": "R4"
+    },
+    {
+      "id": "REP-SCHED-001",
+      "associated_ids": [
+        "INT-SCHED-001",
+        "RISK-CAT-D",
+        "QA3A-B012"
+      ],
+      "severity": "P0",
+      "cruise_class": "must",
+      "features": [
+        "Bounty schedule bootstrap"
+      ],
+      "expected": "First schedule operable after valid catalog import without dev-only RPC",
+      "observed": "Only dev_generate_bounty_schedule; publish never creates first schedule",
+      "evidence": [
+        "agent-2-backend-integration/DEFECTS.md#INT-SCHED-001",
+        "agent-2-backend-integration/CATALOG_INTEGRATION.md",
+        "agent-2-admin-catalog/CONFIGURATION_AUDIT.md"
+      ],
+      "root_cause": "Missing production admin/ops schedule generator",
+      "impact": "Voyage automation cannot start without developer workaround",
+      "repair_scope": "Admin-gated generator or approved prod ops path + UI",
+      "regression_tests": [
+        "import\u2192generate\u2192Day1 bounty integration"
+      ],
+      "confidence": "high",
+      "batch": "R5"
+    },
+    {
+      "id": "REP-WRP-RANK-001",
+      "associated_ids": [
+        "INT-WRP-002",
+        "WRP-001"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "Wrapped/Home leaderboard ranks",
+        "Achievements LB mode"
+      ],
+      "expected": "Ranks by points with stable tie-break; achievements counts with 11100",
+      "observed": "11100 adds counts but ranks by row position; WRP-001 counts resolved when applied",
+      "evidence": [
+        "agent-2-backend-integration/WRAPPED_INTEGRATION.md",
+        "agent-2-backend-integration/DEFECTS.md#INT-WRP-002"
+      ],
+      "root_cause": "ORDER BY missing after 11100 join",
+      "impact": "Wrong standings after enabling achievements metadata",
+      "repair_scope": "Patch ranking SQL; then apply 11100 to organizer",
+      "regression_tests": [
+        "wrapped probe DI-P03",
+        "Achievements LB /126"
+      ],
+      "confidence": "high",
+      "batch": "R6"
+    },
+    {
+      "id": "REP-ADM-ERR-001",
+      "associated_ids": [
+        "ADM-001",
+        "ADM-002",
+        "ADM-003",
+        "ADM-004",
+        "INT-ADM-001L",
+        "INT-ADM-002L",
+        "INT-ADM-003L",
+        "INT-ADM-004L"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "Roster reconcile",
+        "bounty skip",
+        "void"
+      ],
+      "expected": "Ambiguous \u2192 unknown; deterministic rejects \u2192 failed",
+      "observed": "in_progress/409/502 misclassified; void errors partially narrowed live",
+      "evidence": [
+        "agent-2-admin-catalog/DEFECTS.md",
+        "agent-2-backend-integration/ADMIN_INTEGRATION.md"
+      ],
+      "root_cause": "Over-aggressive asFailed / incomplete transport detection",
+      "impact": "False failures; double-skip risk; stuck Retry",
+      "repair_scope": "Unified admin result classification",
+      "regression_tests": [
+        "qa3a admin* specs",
+        "INT-ADM-* probes"
+      ],
+      "confidence": "high",
+      "batch": "R4"
+    },
+    {
+      "id": "REP-ADM-LOCK-001",
+      "associated_ids": [
+        "ADM-007",
+        "ADM-005",
+        "INT-ADM-007L"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "/admin routing",
+        "Ship Clock"
+      ],
+      "expected": "Admin reachable with zero games; clock confirm catch + recovery",
+      "observed": "Empty games redirect before requiresAdmin; confirmManual no catch",
+      "evidence": [
+        "agent-2-admin-catalog/DEFECTS.md#ADM-007",
+        "agent-2-admin-catalog/DEFECTS.md#ADM-005",
+        "agent-2-backend-integration/DEFECTS.md#INT-ADM-007L"
+      ],
+      "root_cause": "Router ordering; missing catch after pending write",
+      "impact": "Operator lockout / bricked clock panel",
+      "repair_scope": "Router exemption + catch/recovery UI",
+      "regression_tests": [
+        "adminAccess.contract.spec.ts",
+        "adminClock.rejection.spec.ts"
+      ],
+      "confidence": "high",
+      "batch": "R4"
+    },
+    {
+      "id": "REP-CAT-PUB-001",
+      "associated_ids": [
+        "ADM-009",
+        "INT-ADM-009L"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Catalog publish"
+      ],
+      "expected": "Refuse new publish while pending exists",
+      "observed": "runPublish ignores pending; UI can lose reconcile handle",
+      "evidence": [
+        "agent-2-admin-catalog/DEFECTS.md#ADM-009",
+        "INT-ADM-009L"
+      ],
+      "root_cause": "Missing pending guard",
+      "impact": "Lost reconcile; STALE_ACTIVE_VERSION risk",
+      "repair_scope": "Guard + reconcile UX",
+      "regression_tests": [
+        "adminCatalogPending.contract.spec.ts B"
+      ],
+      "confidence": "high",
+      "batch": "R5"
+    },
+    {
+      "id": "REP-ADM-SESS-001",
+      "associated_ids": [
+        "ADM-006"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Admin sign-out"
+      ],
+      "expected": "Sign-out clears admin pending keys",
+      "observed": "Admin localStorage keys survive",
+      "evidence": [
+        "adminPendingKeys.contract.spec.ts"
+      ],
+      "root_cause": "Incomplete signOut cleanup",
+      "impact": "Shared-device lock inheritance",
+      "repair_scope": "Clear admin keys on signOut",
+      "regression_tests": [
+        "adminPendingKeys.contract.spec.ts"
+      ],
+      "confidence": "high",
+      "batch": "R4"
+    },
+    {
+      "id": "REP-ACH-MAP-001",
+      "associated_ids": [
+        "ACH-003",
+        "INT-ACH-003"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "productionReleaseMapping"
+      ],
+      "expected": "Map covers 174 FINAL keys or explicit gates",
+      "observed": "140 interim rows; 37 missing; 3 obsolete",
+      "evidence": [
+        "achievementDefinitionAudit.spec.ts",
+        "ACHIEVEMENT_INTEGRATION.md"
+      ],
+      "root_cause": "Stale activation artifact",
+      "impact": "Incomplete achievement enablement",
+      "repair_scope": "Regenerate release map",
+      "regression_tests": [
+        "achievementDefinitionAudit.spec.ts",
+        "INT-ACH-003"
+      ],
+      "confidence": "high",
+      "batch": "R7"
+    },
+    {
+      "id": "REP-ACH-FROZEN-001",
+      "associated_ids": [
+        "ACH-001",
+        "INT-ACH-001"
+      ],
+      "severity": "P1",
+      "cruise_class": "must",
+      "features": [
+        "License to Chill",
+        "Frozen Concoctions"
+      ],
+      "expected": "Frozen tropical set reachable or explicitly gated",
+      "observed": "Zero frozen tags on launch catalog; engine OK with tags",
+      "evidence": [
+        "ACHIEVEMENT_INTEGRATION.md",
+        "ACH-001"
+      ],
+      "root_cause": "Catalog classification content gap",
+      "impact": "Unearnable achievements",
+      "repair_scope": "Tag content or gate/hide",
+      "regression_tests": [
+        "INT-ACH-10",
+        "definition matrix"
+      ],
+      "confidence": "high",
+      "batch": "R7"
+    },
+    {
+      "id": "REP-ACH-GAUNT-001",
+      "associated_ids": [
+        "ACH-002"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Bar Gauntlet offering_collection"
+      ],
+      "expected": "Progress requires physical bar_id match; exclude virtual",
+      "observed": "Static contract fails; MO leak NOT reproduced live; wrong-bar physical unverified",
+      "evidence": [
+        "gauntletLocationContract.spec.ts",
+        "ACHIEVEMENT_INTEGRATION.md#INT-ACH-09"
+      ],
+      "root_cause": "Static vs live mismatch; needs wrong-bar repro",
+      "impact": "Potential incorrect gauntlet progress if wrong-bar path exists",
+      "repair_scope": "Disposable wrong-bar proof before SQL change",
+      "regression_tests": [
+        "INT-ACH-09",
+        "new wrong-bar case"
+      ],
+      "confidence": "medium",
+      "batch": "R7"
+    },
+    {
+      "id": "REP-ACH-EMPTY-001",
+      "associated_ids": [
+        "INT-ACH-004"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Achievement reachability"
+      ],
+      "expected": "Active defs have eligible sets or are gated",
+      "observed": "4 empty + 9 missing dependency unreachable",
+      "evidence": [
+        "ACHIEVEMENT_INTEGRATION.md"
+      ],
+      "root_cause": "Content/activation mismatch",
+      "impact": "Dead achievements",
+      "repair_scope": "Gate or fix content",
+      "regression_tests": [
+        "reachability matrix"
+      ],
+      "confidence": "high",
+      "batch": "R7"
+    },
+    {
+      "id": "REP-CAT-MO-001",
+      "associated_ids": [
+        "CAT-002",
+        "INT-CAT-006",
+        "INT-CAT-004"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Catalog import",
+        "Mobile Order menu"
+      ],
+      "expected": "Reject mobile-order as normal bar; carry MO menu concepts on publish",
+      "observed": "MO cocktail candidates accepted; concepts not carried",
+      "evidence": [
+        "CATALOG_INTEGRATION.md",
+        "CAT-002"
+      ],
+      "root_cause": "Validation/apply gaps",
+      "impact": "Operator confusion; MO search may widen after replace",
+      "repair_scope": "Validator + publish apply",
+      "regression_tests": [
+        "INT-CAT-006",
+        "INT-CAT-004"
+      ],
+      "confidence": "high",
+      "batch": "R5"
+    },
+    {
+      "id": "REP-CAT-VAL-001",
+      "associated_ids": [
+        "INT-CAT-003"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Catalog stage validation"
+      ],
+      "expected": "Invalid tier rejected at stage",
+      "observed": "Stage accepts; publish raw-fails",
+      "evidence": [
+        "CATALOG_INTEGRATION.md"
+      ],
+      "root_cause": "Incomplete stage validation",
+      "impact": "Operator friction",
+      "repair_scope": "Enum validation at stage",
+      "regression_tests": [
+        "hostile stage cases"
+      ],
+      "confidence": "high",
+      "batch": "R5"
+    },
+    {
+      "id": "REP-CAT-ERR-001",
+      "associated_ids": [
+        "INT-CAT-007"
+      ],
+      "severity": "P3",
+      "cruise_class": "optional",
+      "features": [
+        "Catalog stage errors"
+      ],
+      "expected": "Structured error codes",
+      "observed": "Raw Postgres exceptions",
+      "evidence": [
+        "agent-2-backend-integration/DEFECTS.md"
+      ],
+      "root_cause": "Missing input coercion",
+      "impact": "Poor Admin diagnostics",
+      "repair_scope": "Structured catches",
+      "regression_tests": [
+        "malformed scalar cases"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-WRP-MO-001",
+      "associated_ids": [
+        "INT-WRP-003"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Wrapped DI-P15",
+        "DI-C08"
+      ],
+      "expected": "Exclude virtual MO bar from venue popularity",
+      "observed": "group by bar_id includes MO",
+      "evidence": [
+        "WRAPPED_INTEGRATION.md"
+      ],
+      "root_cause": "Missing virtual bar filter",
+      "impact": "Misleading Wrapped stats",
+      "repair_scope": "Exclude virtual bars in metrics",
+      "regression_tests": [
+        "DI-P15",
+        "DI-C08"
+      ],
+      "confidence": "high",
+      "batch": "R6"
+    },
+    {
+      "id": "REP-CRW-001",
+      "associated_ids": [
+        "INT-CRW-001",
+        "RISK-ADM-B"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "admin_list_bar_bounty_crews"
+      ],
+      "expected": "List should not permanently lock day crews without intent",
+      "observed": "Opening Admin crews ensure-mutates and locks",
+      "evidence": [
+        "ADMIN_INTEGRATION.md#B008"
+      ],
+      "root_cause": "Mutating read",
+      "impact": "Surprise crew locks",
+      "repair_scope": "Separate ensure from list or warn",
+      "regression_tests": [
+        "B008 probe"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-CLK-001",
+      "associated_ids": [
+        "INT-CLK-001",
+        "RISK-ADM-A"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Admin Ship Clock"
+      ],
+      "expected": "Confirmation before irreversible finale latch",
+      "observed": "No confirmation gate",
+      "evidence": [
+        "ADMIN_INTEGRATION.md#B011"
+      ],
+      "root_cause": "Missing UI/backend confirm",
+      "impact": "Accidental end-of-game",
+      "repair_scope": "UI confirm (+ optional server guard)",
+      "regression_tests": [
+        "clock admin probe"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-CLAIM-001",
+      "associated_ids": [
+        "E2B-002"
+      ],
+      "severity": "P2",
+      "cruise_class": "should",
+      "features": [
+        "Cocktail bounty claim"
+      ],
+      "expected": "Accepted claim includes cocktail in claimed_categories when available",
+      "observed": "E2B-S14 cats=[] points=0 under stress / possible fixture exhaustion",
+      "evidence": [
+        "qa2b-browser-stress/DEFECTS.md#E2B-002"
+      ],
+      "root_cause": "Unknown \u2014 triage with isolated fixtures",
+      "impact": "Confusing success without bounty points",
+      "repair_scope": "Repro then fix if product path confirmed",
+      "regression_tests": [
+        "isolated E2B-S14"
+      ],
+      "confidence": "medium",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-PREVIEW-001",
+      "associated_ids": [
+        "DEF-QA1-001"
+      ],
+      "severity": "P3",
+      "cruise_class": "optional",
+      "features": [
+        "Drink It preview categories"
+      ],
+      "expected": "Companion-empty reason when bar_eligible_companion_ids empty",
+      "observed": "not_featured_bar short-circuits",
+      "evidence": [
+        "QA1_DEFECTS.md",
+        "scoring.phase3a1.closeout"
+      ],
+      "root_cause": "Reason priority vs stricter contract",
+      "impact": "Admin/debug clarity only",
+      "repair_scope": "Product decision: server order or relax test",
+      "regression_tests": [
+        "scoring.phase3a1.closeout"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-MIME-001",
+      "associated_ids": [
+        "REL-006"
+      ],
+      "severity": "P3",
+      "cruise_class": "optional",
+      "features": [
+        "processImageFile"
+      ],
+      "expected": "Reject unsupported formats when MIME blank",
+      "observed": "Empty MIME skips gate; GIF may upload as JPEG",
+      "evidence": [
+        "processImage.qa2.spec.ts"
+      ],
+      "root_cause": "MIME-empty path",
+      "impact": "Low",
+      "repair_scope": "Extension denylist",
+      "regression_tests": [
+        "processImage.qa2.spec.ts"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    },
+    {
+      "id": "REP-AUTH-001",
+      "associated_ids": [
+        "INT-AUTH-001"
+      ],
+      "severity": "P3",
+      "cruise_class": "optional",
+      "features": [
+        "Auth session"
+      ],
+      "expected": "Post-signOut unauthorized or documented residual",
+      "observed": "JWT valid until expiry after client signOut",
+      "evidence": [
+        "agent-2-backend-integration/DEFECTS.md#INT-AUTH-001"
+      ],
+      "root_cause": "Client-only signOut",
+      "impact": "Shared-device residual access",
+      "repair_scope": "Document + optional revoke",
+      "regression_tests": [
+        "signOut probe"
+      ],
+      "confidence": "high",
+      "batch": "R8"
+    }
+  ],
+  "batches": [
+    {
+      "id": "R1",
+      "name": "Submission integrity",
+      "groups": [
+        "REP-SUB-001"
+      ],
+      "priority": 1
+    },
+    {
+      "id": "R2",
+      "name": "Media pipeline",
+      "groups": [
+        "REP-MEDIA-001"
+      ],
+      "priority": 2
+    },
+    {
+      "id": "R3",
+      "name": "Signed URL refresh",
+      "groups": [
+        "REP-SIGNED-001"
+      ],
+      "priority": 3
+    },
+    {
+      "id": "R4",
+      "name": "Admin classification/lockout/catalog pending",
+      "groups": [
+        "REP-ADM-ERR-001",
+        "REP-ADM-LOCK-001",
+        "REP-ADM-SESS-001",
+        "REP-CAT-LOCK-001"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "R5",
+      "name": "Schedule + catalog publish hardening",
+      "groups": [
+        "REP-SCHED-001",
+        "REP-CAT-PUB-001",
+        "REP-CAT-MO-001",
+        "REP-CAT-VAL-001"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "R6",
+      "name": "Wrapped SQL ranks + MO venue",
+      "groups": [
+        "REP-WRP-RANK-001",
+        "REP-WRP-MO-001"
+      ],
+      "priority": 6
+    },
+    {
+      "id": "R7",
+      "name": "Achievements content/map",
+      "groups": [
+        "REP-ACH-MAP-001",
+        "REP-ACH-FROZEN-001",
+        "REP-ACH-EMPTY-001",
+        "REP-ACH-GAUNT-001"
+      ],
+      "priority": 7
+    },
+    {
+      "id": "R8",
+      "name": "Polish and triage",
+      "groups": [
+        "REP-CLAIM-001",
+        "REP-CRW-001",
+        "REP-CLK-001",
+        "REP-PREVIEW-001",
+        "REP-MIME-001",
+        "REP-CAT-ERR-001",
+        "REP-AUTH-001"
+      ],
+      "priority": 8
+    }
+  ]
+}
