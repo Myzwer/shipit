@@ -550,6 +550,11 @@ export const copy = {
     catalogPublishSuccess: 'Catalog published.',
     catalogPublishFailureTitle: 'Publish Failed',
     catalogUnknownTitle: 'Confirm Catalog Status',
+    catalogDiscardPendingAction: 'Discard Pending',
+    catalogDiscardPendingBody:
+      'Clears the local pending lock so you can stage or publish again. Does not change the active catalog. A staged candidate on the server can still be replaced by staging a new import.',
+    catalogStagePendingBody:
+      'A stage request is still unresolved. Check status is for publish/rollback only — discard the local lock if you need to stage again, or retry the same stage after confirming the server outcome.',
     catalogRollbackTitle: 'Rollback',
     catalogRollbackNote:
       'Rollback creates a new audited revision from a prior catalog and applies the same safety checks as publish.',

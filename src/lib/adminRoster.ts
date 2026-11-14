@@ -326,6 +326,21 @@ async function reconcileLedger(
     if (data && typeof data === 'object') {
       const result = data as AdminRosterResult
       if (result.ok) return { status: 'ok', result, clientRequestId }
+      // In-flight ledger rows are not confirmed failures — keep pending for Check Status.
+      const raw = result as AdminRosterResult & { request_status?: unknown }
+      const ledgerStatus =
+        typeof raw.status === 'string'
+          ? raw.status
+          : typeof raw.request_status === 'string'
+            ? raw.request_status
+            : null
+      if (ledgerStatus === 'in_progress' || result.code === 'OPERATION_IN_PROGRESS') {
+        return {
+          status: 'unknown',
+          message: messages.unknownFallback,
+          clientRequestId,
+        }
+      }
       return asFailed(result, clientRequestId, messages.failureFallback)
     }
     return { status: 'unknown', message: copy.admin.notRecordedBody, clientRequestId }
@@ -399,9 +414,6 @@ async function invokeRoster(
     const { data, error } = await client().functions.invoke('admin-roster', { body })
     if (error) {
       const http = await readHttpError(error as FunctionHttpErrorLike)
-      if (http && http.status >= 400 && http.status < 500 && http.body) {
-        return asFailed(http.body, clientRequestId, messages.failureFallback)
-      }
       if (http && (http.status === 401 || http.status === 403)) {
         return {
           status: 'failed',
@@ -409,6 +421,18 @@ async function invokeRoster(
           code: 'forbidden',
           clientRequestId,
         }
+      }
+      // 409 / OPERATION_IN_PROGRESS: request may still complete — keep pending.
+      if (
+        http &&
+        (http.status === 409 ||
+          http.body?.code === 'OPERATION_IN_PROGRESS' ||
+          http.body?.status === 'in_progress')
+      ) {
+        return { status: 'unknown', message: messages.unknownFallback, clientRequestId }
+      }
+      if (http && http.status >= 400 && http.status < 500 && http.body) {
+        return asFailed(http.body, clientRequestId, messages.failureFallback)
       }
       // 5xx or transport loss: outcome not confirmed. Reconcile by request id.
       return { status: 'unknown', message: messages.unknownFallback, clientRequestId }

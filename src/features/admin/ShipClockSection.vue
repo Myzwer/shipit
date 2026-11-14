@@ -356,6 +356,13 @@ async function confirmManual() {
   try {
     const result = await applyManualCorrection(intent, { clientRequestId })
     await handleApplyResult(result)
+  } catch (err) {
+    // Pending already written — surface unknown so Refresh/Retry recover the panel.
+    feedback.value = {
+      kind: 'unknown',
+      title: copy.admin.unknownTitle,
+      body: err instanceof Error && err.message ? err.message : copy.admin.unknownBody,
+    }
   } finally {
     busy.value = false
   }

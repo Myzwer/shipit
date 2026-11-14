@@ -12,6 +12,10 @@ Generated during worktree integration on `visual/drinkit-home-v1`.
 |---|---|---|
 | **REP-SUB-001** | **Repaired (R1)** | REL-001/002 contract assertions now pass; E2B-S07 / remint race verified on disposable `:55321`. See `docs/qa/campaign/repairs/R1-submission-integrity/`. |
 | **REP-MEDIA-001** | **Repaired (R2)** | REL-003/004/005/007 (+ RISK-B, E2E-031) green on unit contracts; real Storage abandon proof on `:55321`. See `docs/qa/campaign/repairs/R2-media-recovery/`. |
+| **REP-ADM-ERR-001** | **Repaired (R4)** | ADM-001…004 classification green; see `docs/qa/campaign/repairs/R4-admin-catalog/`. |
+| **REP-ADM-LOCK-001** | **Repaired (R4)** | ADM-005 clock catch + ADM-007 admin empty-games route exemption. |
+| **REP-ADM-SESS-001** | **Repaired (R4)** | ADM-006 signOut clears admin pending keys. |
+| **REP-CAT-LOCK-001** | **Repaired (R4)** | ADM-008 / CAT-001 / INT-CAT-001L pending lock recovered; Discard + publish pending guard. |
 
 ## Expected red — unit / contract (non-mutating)
 
@@ -31,18 +35,19 @@ Post-R1: REL-001/002 green; remaining QA-2 reds are non-R1 groups.
 
 ### QA-3A admin/catalog → repair groups
 
-| Test file | Assertion theme | Defect IDs | REP-* |
-|---|---|---|---|
-| `adminAccess.contract.spec.ts` | Empty enabledGames must not lock `/admin` | ADM-007 | REP-ADM-LOCK-001 |
-| `adminClock.rejection.spec.ts` | `confirmManual` has catch | ADM-005 | REP-ADM-LOCK-001 |
-| `adminRoster.reconcile.spec.ts` | `in_progress` / 409 → unknown | ADM-001, ADM-002 | REP-ADM-ERR-001 |
-| `adminBountySkip.errors.spec.ts` | Gateway → unknown | ADM-003 | REP-ADM-ERR-001 |
-| `adminVoid.errors.spec.ts` | Deterministic codes → failed | ADM-004 | REP-ADM-ERR-001 |
-| `adminCatalogPending.contract.spec.ts` | Preview failure clear/Discard; publish refuses pending | ADM-008, ADM-009 | REP-CAT-LOCK-001, REP-CAT-PUB-001 |
-| `catalogActivation.contract.spec.ts` | Preview-failure clears pending / discard UX | ADM-008 / CAT-001 | REP-CAT-LOCK-001 |
-| `adminPendingKeys.contract.spec.ts` | signOut clears admin pending modules | ADM-006 | REP-ADM-SESS-001 |
+| Test file | Assertion theme | Defect IDs | REP-* | Status |
+|---|---|---|---|---|
+| `adminAccess.contract.spec.ts` | Empty enabledGames must not lock `/admin` | ADM-007 | REP-ADM-LOCK-001 | **Repaired (R4)** |
+| `adminClock.rejection.spec.ts` | `confirmManual` has catch | ADM-005 | REP-ADM-LOCK-001 | **Repaired (R4)** |
+| `adminRoster.reconcile.spec.ts` | `in_progress` / 409 → unknown | ADM-001, ADM-002 | REP-ADM-ERR-001 | **Repaired (R4)** |
+| `adminBountySkip.errors.spec.ts` | Gateway → unknown | ADM-003 | REP-ADM-ERR-001 | **Repaired (R4)** |
+| `adminVoid.errors.spec.ts` | Deterministic codes → failed | ADM-004 | REP-ADM-ERR-001 | **Repaired (R4)** |
+| `adminCatalogPending.contract.spec.ts` | Preview failure clear/Discard; publish refuses pending | ADM-008, ADM-009 | REP-CAT-LOCK-001, REP-CAT-PUB-001 | **Repaired (R4)** (ADM-009 guard included with CAT-LOCK) |
+| `catalogActivation.contract.spec.ts` | Preview-failure clears pending / discard UX | ADM-008 / CAT-001 | REP-CAT-LOCK-001 | **Repaired (R4)** |
+| `adminPendingKeys.contract.spec.ts` | signOut clears admin pending modules | ADM-006 | REP-ADM-SESS-001 | **Repaired (R4)** |
 
-Campaign baseline: **18 failed / 209 passed / 227 total** (`agent-2-admin-catalog/vitest-qa3a-results.json`).
+Campaign baseline: **18 failed / 209 passed / 227 total** (`agent-2-admin-catalog/vitest-qa3a-results.json`).  
+Post-R4: **227 passed / 227 total** (`npx vitest run tests/unit/qa3a-admin-catalog`).
 
 ### QA-3B achievements/Wrapped → repair groups
 

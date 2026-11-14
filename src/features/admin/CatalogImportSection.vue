@@ -141,18 +141,16 @@ async function runStageAndPreview() {
 
     candidateId.value = staged.candidateId
     payloadHash.value = staged.payloadHash
-    writePendingAdminCatalogImport({
-      action: 'publish',
-      clientRequestId: requestId,
-      catalogId: staged.result.catalog_id ?? null,
-      candidateId: staged.candidateId,
-      expectedActiveCatalogVersionId: activeVersion.value?.id ?? null,
-      expectedPayloadHash: staged.payloadHash,
-    })
-    pending.value = readPendingAdminCatalogImport()
+    // Stage completed successfully — clear the stage lock before read-only preview.
+    // Never rewrite pending as publish with the stage request id (that id is not on the
+    // publish ledger; Check Status would soft-lock the UI).
+    clearPendingAdminCatalogImport()
+    pending.value = null
 
     const preview = await previewPublish(staged.candidateId)
     if (preview.status !== 'ok') {
+      clearPendingAdminCatalogImport()
+      pending.value = null
       feedback.value = {
         kind: 'error',
         title: copy.admin.catalogPreviewFailureTitle,
@@ -176,7 +174,7 @@ async function runStageAndPreview() {
 }
 
 async function runPublish() {
-  if (!candidateId.value || !payloadHash.value || busy.value) return
+  if (!candidateId.value || !payloadHash.value || busy.value || pending.value) return
   busy.value = true
   feedback.value = null
   const requestId = newCatalogImportRequestId()
@@ -232,6 +230,15 @@ async function runPublish() {
 
 async function checkPendingStatus() {
   if (!pending.value || busy.value) return
+  // Publish ledger lookups are only valid for publish/rollback request ids.
+  if (pending.value.action === 'stage') {
+    feedback.value = {
+      kind: 'unknown',
+      title: copy.admin.catalogUnknownTitle,
+      body: copy.admin.catalogStagePendingBody,
+    }
+    return
+  }
   busy.value = true
   try {
     const result = await findPublishRequest(pending.value.clientRequestId)
@@ -263,6 +270,18 @@ async function checkPendingStatus() {
     }
   } finally {
     busy.value = false
+  }
+}
+
+/** Clear a local pending lock so Admin can recover without wiping site storage. */
+function discardPending() {
+  if (busy.value) return
+  clearPendingAdminCatalogImport()
+  pending.value = null
+  feedback.value = {
+    kind: 'success',
+    title: copy.admin.catalogDiscardPendingAction,
+    body: copy.admin.catalogDiscardPendingBody,
   }
 }
 
@@ -367,6 +386,16 @@ function diffLine(label: string, added: number, removed: number) {
           @click="checkPendingStatus"
         >
           {{ copy.admin.checkStatus }}
+        </button>
+        <button
+          type="button"
+          class="min-h-12 rounded-full px-4 text-sm font-semibold"
+          style="background: #f3f1ec; color: #2f3a44"
+          data-testid="catalog-import-discard-pending"
+          :disabled="busy"
+          @click="discardPending"
+        >
+          {{ copy.admin.catalogDiscardPendingAction }}
         </button>
       </div>
     </div>

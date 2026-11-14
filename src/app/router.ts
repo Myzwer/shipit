@@ -227,7 +227,9 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     await session.refreshProfile()
   }
 
-  if (session.enabledGames.length === 0) {
+  // Admins with zero game enrollments must still reach requiresAdmin routes.
+  // Ordinary players with no games stay on /unavailable.
+  if (session.enabledGames.length === 0 && !to.meta.requiresAdmin) {
     if (to.name !== 'unavailable') return { name: 'unavailable' }
     return true
   }

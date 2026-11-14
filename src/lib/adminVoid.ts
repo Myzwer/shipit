@@ -102,6 +102,28 @@ function mapFailCode(code?: string): AdminVoidError['code'] {
   return 'error'
 }
 
+/** Deterministic PostgREST / RPC rejection messages → confirmed failure (clear pending). */
+function isConfirmedVoidRejection(message: string): boolean {
+  return /FINALE_LOCKED|SUBMISSION_NOT_FOUND|STALE_EXPECTED_STATE|ALREADY_VOIDED|REQUEST_ID_OPERATION_MISMATCH|ADMIN_REQUIRED|NOT_AUTHENTICATED|VOID_NOT_PERMITTED|INVALID_/i.test(
+    message,
+  )
+}
+
+function isTransportOrUnknown(message: string): boolean {
+  return /failed to fetch|network|timeout|abort|load failed|fetch|bad gateway|gateway|http\s*5\d\d|\b502\b|\b503\b|\b504\b|cloudflare|upstream/i.test(
+    message,
+  )
+}
+
+function confirmedCodeFromMessage(message: string): AdminVoidError['code'] {
+  if (/FINALE_LOCKED/i.test(message)) return 'finale'
+  if (/SUBMISSION_NOT_FOUND/i.test(message)) return 'not_found'
+  if (/STALE_EXPECTED_STATE|ALREADY_VOIDED/i.test(message)) return 'stale'
+  if (/REQUEST_ID_OPERATION_MISMATCH/i.test(message)) return 'mismatch'
+  if (/ADMIN_REQUIRED|NOT_AUTHENTICATED/i.test(message)) return 'forbidden'
+  return 'error'
+}
+
 export async function previewVoidSubmission(submissionId: string): Promise<AdminVoidPreview> {
   const { data, error } = await rpc('admin_preview_void_submission', {
     p_submission_id: submissionId,
@@ -129,17 +151,19 @@ export async function applyVoidSubmission(input: {
       p_reason: input.reason ?? null,
     })
     if (error) {
-      if (/ADMIN_REQUIRED/i.test(error.message)) {
+      const message = error.message || 'Could not confirm void.'
+      if (isConfirmedVoidRejection(message)) {
         return {
           status: 'failed',
-          message: 'Admin access required.',
-          code: 'forbidden',
+          message,
+          code: confirmedCodeFromMessage(message),
           clientRequestId: input.clientRequestId,
         }
       }
+      // Ambiguous transport / gateway — retain pending for reconcile.
       return {
         status: 'unknown',
-        message: error.message || 'Could not confirm void.',
+        message,
         clientRequestId: input.clientRequestId,
       }
     }
@@ -155,9 +179,18 @@ export async function applyVoidSubmission(input: {
       result,
     }
   } catch (err) {
+    const message = err instanceof Error ? err.message : 'Could not confirm void.'
+    if (isConfirmedVoidRejection(message) && !isTransportOrUnknown(message)) {
+      return {
+        status: 'failed',
+        message,
+        code: confirmedCodeFromMessage(message),
+        clientRequestId: input.clientRequestId,
+      }
+    }
     return {
       status: 'unknown',
-      message: err instanceof Error ? err.message : 'Could not confirm void.',
+      message,
       clientRequestId: input.clientRequestId,
     }
   }

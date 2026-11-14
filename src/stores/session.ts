@@ -156,9 +156,28 @@ export const useSessionStore = defineStore('session', () => {
     const { clearPendingDrinkSubmit } = await import('@/lib/pendingDrinkSubmit')
     const { clearPendingDailySubmit } = await import('@/lib/pendingDailySubmit')
     const { clearPendingScavengerSubmit } = await import('@/lib/pendingScavengerSubmit')
+    const { clearPendingClockCorrection } = await import('@/lib/pendingClockCorrection')
+    const { clearPendingAdminCatalogImport } = await import('@/lib/pendingAdminCatalogImport')
+    const { clearPendingRosterAccess, clearPendingRosterAuth } = await import(
+      '@/lib/pendingAdminRoster'
+    )
+    const { clearPendingAdminVoid } = await import('@/lib/pendingAdminVoid')
+    const { clearPendingBountySkip } = await import('@/lib/pendingBountySkip')
+    const { clearPendingDrinkItPause } = await import('@/lib/pendingDrinkItPause')
+    const { clearPendingAdminAddDrink } = await import('@/lib/pendingAdminAddDrink')
+    const { clearPendingDailyAnnouncement } = await import('@/lib/pendingDailyAnnouncement')
     clearPendingDrinkSubmit()
     clearPendingDailySubmit()
     clearPendingScavengerSubmit()
+    clearPendingClockCorrection()
+    clearPendingAdminCatalogImport()
+    clearPendingRosterAccess()
+    clearPendingRosterAuth()
+    clearPendingAdminVoid()
+    clearPendingBountySkip()
+    clearPendingDrinkItPause()
+    clearPendingAdminAddDrink()
+    clearPendingDailyAnnouncement()
     if (supabase) {
       await supabase.auth.signOut()
     }

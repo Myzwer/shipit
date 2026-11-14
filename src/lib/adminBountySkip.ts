@@ -114,7 +114,10 @@ function mapCode(code: string | undefined, message: string): AdminBountySkipErro
 }
 
 function isTransportOrUnknown(message: string): boolean {
-  return /failed to fetch|network|timeout|abort|load failed|fetch/i.test(message)
+  // Gateway / proxy / connectivity losses are ambiguous — retain pending for reconcile.
+  return /failed to fetch|network|timeout|abort|load failed|fetch|bad gateway|gateway|http\s*5\d\d|\b502\b|\b503\b|\b504\b|cloudflare|upstream/i.test(
+    message,
+  )
 }
 
 async function rpc(fn: string, args?: Record<string, unknown>) {

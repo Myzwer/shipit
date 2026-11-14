@@ -150,17 +150,18 @@ describe('CatalogImportSection.runStageAndPreview — pending-state ordering (st
     expect(stageCall).toBeGreaterThan(writeStage)
   })
 
-  it('after a successful stage, rewrites pending as action "publish" BEFORE previewPublish', () => {
+  it('after a successful stage, clears the stage pending lock BEFORE previewPublish (no publish rewrite)', () => {
     const body = runStageAndPreviewBody()
     const stageCall = body.indexOf('await stageImport(')
-    const writePublish = body.search(/writePendingAdminCatalogImport\(\{\s*action: 'publish'/)
-    const previewCall = body.indexOf('await previewPublish(')
-    expect(writePublish).toBeGreaterThan(stageCall)
-    expect(previewCall).toBeGreaterThan(writePublish)
-    // Publish marker carries the staged candidate and payload hash.
-    const marker = body.slice(writePublish, previewCall)
-    expect(marker).toContain('candidateId: staged.candidateId')
-    expect(marker).toContain('expectedPayloadHash: staged.payloadHash')
+    const stageOk = body.indexOf("if (staged.status !== 'ok')", stageCall)
+    const afterStageOk = body.slice(body.indexOf('candidateId.value = staged.candidateId', stageOk))
+    const previewCall = afterStageOk.indexOf('await previewPublish(')
+    const beforePreview = afterStageOk.slice(0, previewCall)
+    // Stage succeeded — clear local lock. Do not mint a publish pending with the stage request id.
+    expect(beforePreview).toContain('clearPendingAdminCatalogImport()')
+    expect(beforePreview).toContain('pending.value = null')
+    expect(beforePreview).not.toMatch(/writePendingAdminCatalogImport\(\{\s*action: 'publish'/)
+    expect(previewCall).toBeGreaterThan(-1)
   })
 
   it('clears pending when staging fails (control: this branch is handled)', () => {
