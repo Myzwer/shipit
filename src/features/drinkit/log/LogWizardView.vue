@@ -5,6 +5,7 @@ import AppIcon from '@/components/shared/AppIcon.vue'
 import FloatingBottomNav from '@/components/shared/FloatingBottomNav.vue'
 import BarStep from '@/features/drinkit/log/BarStep.vue'
 import DrinkStep from '@/features/drinkit/log/DrinkStep.vue'
+import OtherDrinksStep from '@/features/drinkit/log/OtherDrinksStep.vue'
 import FriendsStep from '@/features/drinkit/log/FriendsStep.vue'
 import PhotoStep from '@/features/drinkit/log/PhotoStep.vue'
 import ReviewStep from '@/features/drinkit/log/ReviewStep.vue'
@@ -177,6 +178,16 @@ function scheduleWizardScrollReset() {
 watch(
   () => wizard.step,
   async () => {
+    await nextTick()
+    if (!wizardEl.value?.isConnected) return
+    scheduleWizardScrollReset()
+  },
+)
+
+watch(
+  () => wizard.showOtherDrinks,
+  async (open) => {
+    if (!open) return
     await nextTick()
     if (!wizardEl.value?.isConnected) return
     scheduleWizardScrollReset()
@@ -461,6 +472,11 @@ function onIngredientConfirmNo() {
         @select="wizard.selectBar($event)"
         @retry="wizard.loadBars()"
       />
+      <OtherDrinksStep
+        v-else-if="wizard.step === 'drink' && wizard.showOtherDrinks"
+        @select="wizard.selectOtherDrink($event)"
+        @back="wizard.closeOtherDrinks()"
+      />
       <DrinkStep
         v-else-if="wizard.step === 'drink'"
         :drinks="wizard.filteredDrinks"
@@ -483,6 +499,7 @@ function onIngredientConfirmNo() {
         @select-named="wizard.selectNamedDrink($event)"
         @select-generic="wizard.selectGeneric($event)"
         @open-unlisted="wizard.openUnlistedForm()"
+        @open-other-drinks="wizard.openOtherDrinks()"
         @confirm-unlisted="wizard.confirmUnlisted()"
         @cancel-unlisted="wizard.showUnlistedForm = false"
       />

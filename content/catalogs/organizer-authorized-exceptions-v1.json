@@ -1,5 +1,5 @@
 {
-  "schema_comment": "Organizer-authorized loggable drink exceptions. Not menu-sourced Category A/B offerings. Merge into every full_snapshot (including future onboard menu reconstructions). Never invent prices, fingerprints, or cocktail_candidates for these rows.",
+  "schema_comment": "Historical organizer-authorized loggable drink exceptions. Player-facing permanent options now live in application Other Drinks (catalog-independent). New photographed catalogs need NOT embed these rows. When legacy rows remain (e.g. February fallback), keep collection-excluded + organizer-authorized-exception, unverified null price, and never invent fingerprints or cocktail_candidates.",
   "version": "1.1",
   "registry": [
     {

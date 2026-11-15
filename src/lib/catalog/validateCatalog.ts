@@ -25,10 +25,7 @@ import {
   type IngredientEvidenceSummary,
   type IngredientTier,
 } from './types'
-import {
-  catalogRequiresOrganizerExceptions,
-  findMissingOrganizerAuthorizedExceptions,
-} from './organizerAuthorizedExceptions'
+import { findMissingOrganizerAuthorizedExceptions } from './organizerAuthorizedExceptions'
 import {
   getPriceEvidenceApproval,
   isAuthorizedFilteredBar,
@@ -728,10 +725,10 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
     }
   }
 
-  // Fail closed when a snapshot opts into the organizer-exception contract
-  // (explicit source_notes list, launch/reconstructed catalog ids, or evidence marker).
-  // Development fixtures without that contract are unchanged.
-  if (doc.mode === 'full_snapshot' && catalogRequiresOrganizerExceptions(doc)) {
+  // Other Drinks are application-owned; new catalogs need not embed registry rows.
+  // When legacy organizer-exception offerings ARE present (February / older snapshots),
+  // validate integrity (tags, price, non-candidacy) without requiring retention.
+  if (doc.mode === 'full_snapshot') {
     for (const missing of findMissingOrganizerAuthorizedExceptions(doc)) {
       errors.push(
         issue(

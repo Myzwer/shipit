@@ -691,6 +691,9 @@ export const copy = {
     wine: 'Wine',
     otherAlcoholic: 'Other Alcoholic Beverage',
     drinkNotListed: "My drink isn't listed",
+    otherDrinks: 'Other Drinks',
+    otherDrinksPrompt: 'Other Drinks',
+    otherDrinksIntro: "Don't see your drink on the menu? Choose one of these options.",
     drinksSearchEmpty: "No drinks found. Try another name or use “My drink isn't listed.”",
     drinksBarEmpty: 'No drinks are listed for this bar yet. You can still log an alcoholic drink.',
     drinksMobileOrderEmpty:

@@ -28,6 +28,7 @@ const emit = defineEmits<{
   selectNamed: [drink: DrinkitBarDrinkRow]
   selectGeneric: [mode: 'generic_beer' | 'generic_wine' | 'generic_other']
   openUnlisted: []
+  openOtherDrinks: []
   confirmUnlisted: []
   cancelUnlisted: []
 }>()
@@ -89,47 +90,63 @@ const emit = defineEmits<{
         </li>
       </ul>
 
-      <div class="mt-2.5 space-y-2.5" data-testid="drink-generics">
-        <button
-          type="button"
-          class="wizard-choice"
-          data-testid="drink-generic-beer"
-          @click="emit('selectGeneric', 'generic_beer')"
-        >
-          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
-          <span class="wizard-choice-title">{{ copy.wizard.beer }}</span>
-          <AppIcon name="action.next" class="wizard-choice-arrow" />
-        </button>
-        <button
-          type="button"
-          class="wizard-choice"
-          data-testid="drink-generic-wine"
-          @click="emit('selectGeneric', 'generic_wine')"
-        >
-          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
-          <span class="wizard-choice-title">{{ copy.wizard.wine }}</span>
-          <AppIcon name="action.next" class="wizard-choice-arrow" />
-        </button>
-        <button
-          type="button"
-          class="wizard-choice"
-          data-testid="drink-generic-other"
-          @click="emit('selectGeneric', 'generic_other')"
-        >
-          <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
-          <span class="wizard-choice-title">{{ copy.wizard.otherAlcoholic }}</span>
-          <AppIcon name="action.next" class="wizard-choice-arrow" />
-        </button>
-      </div>
+      <!-- Mobile Order: keep generic rows + unlisted honor path. -->
+      <template v-if="isMobileOrder">
+        <div class="mt-2.5 space-y-2.5" data-testid="drink-generics">
+          <button
+            type="button"
+            class="wizard-choice"
+            data-testid="drink-generic-beer"
+            @click="emit('selectGeneric', 'generic_beer')"
+          >
+            <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+            <span class="wizard-choice-title">{{ copy.wizard.beer }}</span>
+            <AppIcon name="action.next" class="wizard-choice-arrow" />
+          </button>
+          <button
+            type="button"
+            class="wizard-choice"
+            data-testid="drink-generic-wine"
+            @click="emit('selectGeneric', 'generic_wine')"
+          >
+            <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+            <span class="wizard-choice-title">{{ copy.wizard.wine }}</span>
+            <AppIcon name="action.next" class="wizard-choice-arrow" />
+          </button>
+          <button
+            type="button"
+            class="wizard-choice"
+            data-testid="drink-generic-other"
+            @click="emit('selectGeneric', 'generic_other')"
+          >
+            <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+            <span class="wizard-choice-title">{{ copy.wizard.otherAlcoholic }}</span>
+            <AppIcon name="action.next" class="wizard-choice-arrow" />
+          </button>
+        </div>
 
+        <button
+          type="button"
+          class="mt-4 w-full py-3 text-center text-sm font-semibold underline"
+          style="color: var(--theme-primary)"
+          data-testid="drink-not-listed"
+          @click="emit('openUnlisted')"
+        >
+          {{ copy.wizard.drinkNotListed }}
+        </button>
+      </template>
+
+      <!-- Physical bars: permanent Other Drinks route (catalog-independent). -->
       <button
+        v-else
         type="button"
-        class="mt-4 w-full py-3 text-center text-sm font-semibold underline"
-        style="color: var(--theme-primary)"
-        data-testid="drink-not-listed"
-        @click="emit('openUnlisted')"
+        class="wizard-choice wizard-choice--primary mt-2.5"
+        data-testid="other-drinks-entry"
+        @click="emit('openOtherDrinks')"
       >
-        {{ copy.wizard.drinkNotListed }}
+        <AppIcon name="theme.drink-it" class="wizard-choice-icon text-[1.05rem]" />
+        <span class="wizard-choice-title">{{ copy.wizard.otherDrinks }}</span>
+        <AppIcon name="action.next" class="wizard-choice-arrow" />
       </button>
     </template>
 

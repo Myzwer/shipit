@@ -51,6 +51,13 @@ export interface WizardDrinkSelection {
   unlistedContainsIngredientKey?: string | null
   /** Unlisted at designated bar is the featured Cocktail. */
   confirmFeaturedCocktail?: boolean
+  /**
+   * Permanent Other Drinks option id / concept key for ordinary logs.
+   * Catalog-independent; never invents offering eligibility.
+   */
+  otherDrinksKey?: string
+  /** drink_concepts.canonical_key when an Other Drinks choice maps to a known identity. */
+  otherDrinksConceptKey?: string
 }
 
 export interface IngredientConfirmable {

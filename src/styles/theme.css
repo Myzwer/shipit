@@ -426,6 +426,18 @@ body {
     0 4px 10px rgba(36, 72, 78, 0.12);
 }
 
+.wizard-choice--primary {
+  background: var(--theme-primary);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(36, 72, 78, 0.18);
+}
+
+.wizard-choice--primary .wizard-choice-icon,
+.wizard-choice--primary .wizard-choice-arrow,
+.wizard-choice--primary .wizard-choice-title {
+  color: #fff;
+}
+
 .wizard-choice-copy {
   display: flex;
   min-width: 0;

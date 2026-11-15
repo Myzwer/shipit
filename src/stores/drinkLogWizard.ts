@@ -27,6 +27,10 @@ import {
   reconcileSelections,
   selectedClaimsForSubmit,
 } from '@/lib/drinkLog/claims'
+import {
+  OTHER_DRINKS_MENU_HIDE_CONCEPT_KEYS,
+  type OtherDrinksOption,
+} from '@/lib/drinkLog/otherDrinks'
 import { sortDrinkitBars } from '@/lib/drinkLog/sortBars'
 import {
   clearPendingDrinkSubmit,
@@ -83,6 +87,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const drinkSearch = ref('')
   const selectedDrink = ref<WizardDrinkSelection | null>(null)
   const showUnlistedForm = ref(false)
+  const showOtherDrinks = ref(false)
   const unlistedName = ref('')
   const unlistedType = ref<'cocktail' | 'beer' | 'wine' | 'other'>('cocktail')
   const unlistedContainsIngredient = ref<boolean | null>(null)
@@ -220,9 +225,17 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const sortedBars = computed(() => sortDrinkitBars(bars.value, barSort.value))
 
   const filteredDrinks = computed(() => {
+    // Hide legacy organizer-exception rows from the photographed menu list —
+    // they are reachable via the permanent Other Drinks screen instead.
+    const isMobileOrder = selectedBar.value?.is_virtual === true
+    const base = isMobileOrder
+      ? drinks.value
+      : drinks.value.filter(
+          (d) => !OTHER_DRINKS_MENU_HIDE_CONCEPT_KEYS.has(d.canonical_key),
+        )
     const q = drinkSearch.value.trim().toLowerCase()
-    if (!q) return drinks.value
-    return drinks.value.filter((d) => d.display_name.toLowerCase().includes(q))
+    if (!q) return base
+    return base.filter((d) => d.display_name.toLowerCase().includes(q))
   })
 
   const canLeaveWizard = computed(() => !formLockedForUnknown.value)
@@ -250,6 +263,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     drinkSearch.value = ''
     selectedDrink.value = null
     showUnlistedForm.value = false
+    showOtherDrinks.value = false
     unlistedName.value = ''
     unlistedType.value = 'cocktail'
     unlistedContainsIngredient.value = null
@@ -293,6 +307,7 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       drinks.value = []
       drinkSearch.value = ''
       showUnlistedForm.value = false
+      showOtherDrinks.value = false
       unlistedContainsIngredient.value = null
       unlistedConfirmFeatured.value = false
     }
@@ -583,6 +598,49 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   function openUnlistedForm() {
     if (formLockedForUnknown.value) return
     showUnlistedForm.value = true
+    showOtherDrinks.value = false
+  }
+
+  function openOtherDrinks() {
+    if (formLockedForUnknown.value) return
+    if (selectedBar.value?.is_virtual) return
+    showOtherDrinks.value = true
+    showUnlistedForm.value = false
+  }
+
+  function closeOtherDrinks() {
+    showOtherDrinks.value = false
+  }
+
+  /**
+   * Permanent Other Drinks selection → companions immediately.
+   * Beer/Wine reuse generic modes. All other options are ordinary unlisted logs
+   * with optional concept-key compatibility (never invents offerings / bounty evidence).
+   */
+  async function selectOtherDrink(option: OtherDrinksOption) {
+    if (formLockedForUnknown.value) return
+    if (selectedBar.value?.is_virtual) return
+
+    if (option.logMode === 'generic_beer' || option.logMode === 'generic_wine') {
+      showOtherDrinks.value = false
+      await selectGeneric(option.logMode)
+      return
+    }
+
+    selectedDrink.value = {
+      mode: 'unlisted_named',
+      displayName: option.label,
+      customName: option.label,
+      unlistedDrinkKind: option.unlistedDrinkKind ?? 'other_alcoholic',
+      otherDrinksKey: option.id,
+      otherDrinksConceptKey: option.drinkConceptKey,
+    }
+
+    showOtherDrinks.value = false
+    showUnlistedForm.value = false
+    invalidateFrom('drink')
+    step.value = 'friends'
+    await Promise.all([refreshBarReminder(), loadBarCrew(), refreshBarPointsPreview()])
   }
 
   async function confirmUnlisted() {
@@ -670,6 +728,10 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     if (formLockedForUnknown.value) return
     if (showUnlistedForm.value) {
       showUnlistedForm.value = false
+      return
+    }
+    if (showOtherDrinks.value) {
+      showOtherDrinks.value = false
       return
     }
     const idx = stepIndex(step.value)
@@ -997,6 +1059,10 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     selectNamedDrink,
     selectGeneric,
     openUnlistedForm,
+    showOtherDrinks,
+    openOtherDrinks,
+    closeOtherDrinks,
+    selectOtherDrink,
     confirmUnlisted,
     confirmIngredientYes,
     confirmIngredientNo,

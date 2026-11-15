@@ -93,6 +93,10 @@ export function buildDrinkPayloadDrink(drink: WizardDrinkSelection) {
         ? { unlisted_contains_ingredient_key: drink.unlistedContainsIngredientKey }
         : {}),
       ...(drink.confirmFeaturedCocktail ? { confirm_featured_cocktail: true } : {}),
+      ...(drink.otherDrinksKey ? { other_drinks_key: drink.otherDrinksKey } : {}),
+      ...(drink.otherDrinksConceptKey
+        ? { other_drinks_concept_key: drink.otherDrinksConceptKey }
+        : {}),
     }
   }
   return { mode: drink.mode }

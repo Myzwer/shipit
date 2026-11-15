@@ -1,7 +1,11 @@
 /**
- * Stage A2/A3 — organizer-authorized loggable exceptions registry contract.
+ * Organizer-authorized loggable exceptions registry contract.
  * Source of truth: content/catalogs/organizer-authorized-exceptions-v1.json
- * Full-snapshot preparation must retain every registry drink@bar row.
+ *
+ * Other Drinks (permanent ordinary-log options) are application-owned and
+ * catalog-independent. New photographed catalogs are NOT required to embed
+ * these rows. When a catalog still carries legacy exception offerings
+ * (e.g. February fallback), validate their integrity in place.
  */
 import registryDoc from '../../../content/catalogs/organizer-authorized-exceptions-v1.json'
 import type { CatalogImportDocument } from './types'
@@ -45,7 +49,10 @@ export interface OrganizerExceptionRetentionIssue {
   bar_key?: string
 }
 
-/** True when a full_snapshot participates in the organizer-exception retention contract. */
+/**
+ * @deprecated Other Drinks are catalog-independent. Kept for callers that still
+ * distinguish launch/reconstructed snapshots; no longer gates missing rows.
+ */
 export function catalogRequiresOrganizerExceptions(doc: CatalogImportDocument): boolean {
   if (Array.isArray(doc.source_notes?.organizer_authorized_exceptions)) return true
   const summary = doc.source_notes?.evidence_summary || ''
@@ -55,33 +62,27 @@ export function catalogRequiresOrganizerExceptions(doc: CatalogImportDocument): 
   return false
 }
 
-/** Fail-closed retention check for reconstructed / staged full_snapshot catalogs. */
+/**
+ * Validate organizer-exception integrity for rows that ARE present.
+ * Does not require permanent Other Drinks / registry rows to appear in new catalogs.
+ */
 export function findMissingOrganizerAuthorizedExceptions(
   doc: CatalogImportDocument,
   exceptions: OrganizerAuthorizedExceptionsDoc = ORGANIZER_AUTHORIZED_EXCEPTIONS,
 ): OrganizerExceptionRetentionIssue[] {
   const issues: OrganizerExceptionRetentionIssue[] = []
   const drinksByKey = new Map(doc.drinks.map((d) => [d.key, d]))
+  const registryKeys = new Set(exceptions.registry.map((e) => e.drink_key))
 
   for (const expected of expectedOrganizerExceptionOfferings(exceptions)) {
     const drink = drinksByKey.get(expected.drink_key)
     if (!drink) {
-      issues.push({
-        code: 'ORGANIZER_EXCEPTION_MISSING_DRINK',
-        message: `Required organizer-authorized exception drink "${expected.drink_key}" is missing from the full_snapshot.`,
-        drink_key: expected.drink_key,
-        bar_key: expected.bar_key,
-      })
+      // Catalog-independent: absence is allowed (served via Other Drinks).
       continue
     }
     const offering = drink.bar_offerings.find((o) => o.bar_key === expected.bar_key)
     if (!offering) {
-      issues.push({
-        code: 'ORGANIZER_EXCEPTION_MISSING_OFFERING',
-        message: `Required organizer-authorized exception ${expected.drink_key}@${expected.bar_key} is missing.`,
-        drink_key: expected.drink_key,
-        bar_key: expected.bar_key,
-      })
+      // Drink present without this bar offering — still allowed; Other Drinks covers all bars.
       continue
     }
     const tags = offering.classification_tags ?? []
@@ -112,6 +113,14 @@ export function findMissingOrganizerAuthorizedExceptions(
         bar_key: expected.bar_key,
       })
     }
+    if ((offering.ingredient_keys?.length ?? 0) > 0) {
+      issues.push({
+        code: 'ORGANIZER_EXCEPTION_INVENTS_INGREDIENTS',
+        message: `${expected.drink_key}@${offering.bar_key} must not invent ingredient_keys from provisional notes.`,
+        drink_key: expected.drink_key,
+        bar_key: offering.bar_key,
+      })
+    }
   }
 
   for (const entry of exceptions.registry) {
@@ -122,17 +131,19 @@ export function findMissingOrganizerAuthorizedExceptions(
         drink_key: entry.drink_key,
       })
     }
-    if (doc.ingredient_candidates?.some(() => false)) {
-      /* ingredient candidates are ingredient-keyed; never invent from provisional notes */
-    }
-    const drink = drinksByKey.get(entry.drink_key)
-    if (!drink) continue
+  }
+
+  // Any drink tagged as organizer-authorized-exception (even outside registry) must stay non-bounty.
+  for (const drink of doc.drinks) {
+    if (!registryKeys.has(drink.key)) continue
     for (const offering of drink.bar_offerings) {
-      if ((offering.ingredient_keys?.length ?? 0) > 0) {
+      const tags = offering.classification_tags ?? []
+      if (!tags.includes('organizer-authorized-exception')) continue
+      if (offering.price_status === 'approved_unpriced_menu_within_limit') {
         issues.push({
-          code: 'ORGANIZER_EXCEPTION_INVENTS_INGREDIENTS',
-          message: `${entry.drink_key}@${offering.bar_key} must not invent ingredient_keys from provisional notes.`,
-          drink_key: entry.drink_key,
+          code: 'ORGANIZER_EXCEPTION_FORGED_CATEGORY_U',
+          message: `${drink.key}@${offering.bar_key} log-only exception must not use Category U.`,
+          drink_key: drink.key,
           bar_key: offering.bar_key,
         })
       }
