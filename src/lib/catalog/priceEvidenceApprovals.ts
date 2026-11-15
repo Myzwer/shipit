@@ -1,9 +1,15 @@
 /**
- * Narrow, source-controlled allowlist for Category B price evidence.
+ * Narrow, source-controlled allowlist for Category B price evidence,
+ * plus Category U (organizer-authorized complete unpriced physical-bar menus).
  *
  * Category B = organizer-approved filtered-source evidence supporting
  * within-limit ($15 ceiling) bounty eligibility when exact printed dollars
  * were not retained. Distinct from Category A (exact verified price).
+ *
+ * Category U = organizer-authorized assumption that a complete physical bar
+ * menu prints no drink prices, so listed cocktails are treated as within the
+ * Princess Plus $15 limit for bounty consideration. Never invents price_usd: 15.
+ * Per-bar only; cropped/incomplete evidence and isolated missing prices do not qualify.
  *
  * Phase 10C: Category B also requires the offering identity (drink@bar) and
  * recipe fingerprint to match the approved filtered-source offering set.
@@ -11,6 +17,7 @@
  */
 
 import { isApprovedFilteredOfferingIdentity } from './filteredSourceOfferings'
+import type { CatalogImportDocument, UnpricedMenuAuthorization } from './types'
 
 export const PRINCESS_PLUS_PRICE_LIMIT_USD = 15
 
@@ -18,21 +25,40 @@ export const PRINCESS_PLUS_PRICE_LIMIT_USD = 15
 export const PRICE_EVIDENCE_EXACT_VERIFIED = 'exact_verified_within_limit' as const
 /** Category B — organizer-approved filtered source; exact $ absent. */
 export const PRICE_EVIDENCE_APPROVED_FILTERED = 'approved_filtered_within_limit' as const
+/** Category U — organizer-authorized complete price-free physical bar menu. */
+export const PRICE_EVIDENCE_APPROVED_UNPRICED_MENU = 'approved_unpriced_menu_within_limit' as const
 /** Category C — unknown / unresolved. */
 export const PRICE_EVIDENCE_UNKNOWN = 'unknown_unresolved' as const
 /** Category D — explicitly over $15. */
 export const PRICE_EVIDENCE_OVER_LIMIT = 'verified_over_limit' as const
 
+export const UNPRICED_MENU_COMPLETENESS = 'complete_menu_no_printed_prices' as const
+
+/**
+ * Uncertainty codes that mean the price area is not a complete price-free menu.
+ * Presence of these flags for a bar blocks Category U authorization for that bar.
+ */
+export const UNPRICED_MENU_BLOCKING_UNCERTAINTY_CODES = [
+  'PRICE_AREA_CROPPED',
+  'PRICE_AREA_INCOMPLETE',
+  'PRICE_AREA_OBSCURED',
+  'MENU_PRICE_EVIDENCE_INCOMPLETE',
+  'PARTIAL_MENU_PHOTO',
+  'ISOLATED_MISSING_PRICE',
+] as const
+
 export type PriceEvidenceCategory =
   | typeof PRICE_EVIDENCE_EXACT_VERIFIED
   | typeof PRICE_EVIDENCE_APPROVED_FILTERED
+  | typeof PRICE_EVIDENCE_APPROVED_UNPRICED_MENU
   | typeof PRICE_EVIDENCE_UNKNOWN
   | typeof PRICE_EVIDENCE_OVER_LIMIT
 
 /**
  * Sole Phase 10B/10C approval authorizing Category B for Star Princess
  * research menus whose venue PDFs were filtered to exclude known >$15 drinks.
- * Good Spirits is intentionally excluded (prices unknown).
+ * Good Spirits is intentionally excluded (prices unknown) from Category B;
+ * Good Spirits may use Category U when a complete price-free menu is authorized.
  */
 export const FILTERED_SOURCE_APPROVAL_ID = 'star-princess-filtered-source-2026-11-07' as const
 
@@ -84,6 +110,27 @@ export function isAuthorizedFilteredBar(approvalId: string, barKey: string): boo
   return (approval.authorized_bar_keys as readonly string[]).includes(barKey)
 }
 
+export function isValidUnpricedMenuAuthorization(
+  auth: UnpricedMenuAuthorization | null | undefined,
+): auth is UnpricedMenuAuthorization {
+  if (!auth) return false
+  if (!auth.bar_key || typeof auth.bar_key !== 'string') return false
+  if (auth.completeness !== UNPRICED_MENU_COMPLETENESS) return false
+  if (!auth.evidence_reference || !String(auth.evidence_reference).trim()) return false
+  return true
+}
+
+/** Bar keys with a valid Category U authorization in this catalog snapshot. */
+export function unpricedMenuAuthorizedBarKeys(
+  doc: Pick<CatalogImportDocument, 'source_notes'> | null | undefined,
+): Set<string> {
+  const out = new Set<string>()
+  for (const auth of doc?.source_notes?.unpriced_menu_authorizations ?? []) {
+    if (isValidUnpricedMenuAuthorization(auth)) out.add(auth.bar_key)
+  }
+  return out
+}
+
 /** Offering fields used for Princess Plus bounty attainability (not ordinary logging). */
 export interface PriceEvidenceOfferingSlice {
   bar_key: string
@@ -96,6 +143,15 @@ export interface PriceEvidenceOfferingSlice {
 
 export interface BountyEligibilityContext {
   drink_key: string
+  /** Required for Category U — bars with complete price-free menu authorization in this snapshot. */
+  unpricedMenuAuthorizedBarKeys?: ReadonlySet<string> | readonly string[]
+}
+
+function barSet(
+  keys: ReadonlySet<string> | readonly string[] | undefined,
+): Set<string> | null {
+  if (!keys) return null
+  return keys instanceof Set ? keys : new Set(keys)
 }
 
 /**
@@ -125,6 +181,16 @@ export function offeringSupportsBountyEligibility(
       offering.price_evidence_recipe_fingerprint,
     )
   }
+  if (offering.price_status === 'approved_unpriced_menu_within_limit') {
+    // Assumed qualifying — never an exact verified dollar price.
+    if (offering.price_usd != null) return false
+    // Must not masquerade as Category B.
+    if (offering.price_evidence_approval_id) return false
+    if (offering.price_evidence_recipe_fingerprint) return false
+    const authorized = barSet(ctx?.unpricedMenuAuthorizedBarKeys)
+    if (!authorized) return false
+    return authorized.has(offering.bar_key)
+  }
   return false
 }
 
@@ -135,6 +201,9 @@ export function classifyOfferingPriceEvidence(
   if (offering.price_status === 'verified_within_limit') return PRICE_EVIDENCE_EXACT_VERIFIED
   if (offering.price_status === 'approved_filtered_within_limit') {
     return PRICE_EVIDENCE_APPROVED_FILTERED
+  }
+  if (offering.price_status === 'approved_unpriced_menu_within_limit') {
+    return PRICE_EVIDENCE_APPROVED_UNPRICED_MENU
   }
   return PRICE_EVIDENCE_UNKNOWN
 }

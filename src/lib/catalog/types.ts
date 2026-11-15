@@ -54,6 +54,8 @@ export type DrinkKind =
  * Offering price_status:
  * - verified_within_limit (A): exact printed $ ≤ 15
  * - approved_filtered_within_limit (B): organizer-approved filtered source; price_usd must be null
+ * - approved_unpriced_menu_within_limit (U): organizer-authorized complete price-free physical bar menu;
+ *   price_usd must be null — never invent $15. Requires matching source_notes.unpriced_menu_authorizations.
  * - verified_over_limit (D): explicit >$15 — loggable, never bounty-required
  * - unverified (C): unknown / unresolved
  * - not_applicable: non-priced kinds
@@ -61,9 +63,22 @@ export type DrinkKind =
 export type PriceStatus =
   | 'verified_within_limit'
   | 'approved_filtered_within_limit'
+  | 'approved_unpriced_menu_within_limit'
   | 'verified_over_limit'
   | 'unverified'
   | 'not_applicable'
+
+/** Completeness attestation required for Category U bar-level authorization. */
+export type UnpricedMenuCompleteness = 'complete_menu_no_printed_prices'
+
+export interface UnpricedMenuAuthorization {
+  bar_key: string
+  /** Organizer attestation that the photographed menu is complete and prints no drink prices. */
+  completeness: UnpricedMenuCompleteness
+  /** Audit pointer to the complete price-free menu evidence (photo / packet id). */
+  evidence_reference: string
+  notes?: string
+}
 
 export interface CatalogBar {
   key: string
@@ -90,18 +105,21 @@ export interface CatalogBarOffering {
   display_ingredients: string[]
   /**
    * Exact printed menu price when known. Must be null for Category B
-   * (`approved_filtered_within_limit`) — never invent $15 as a ceiling price.
+   * (`approved_filtered_within_limit`) and Category U
+   * (`approved_unpriced_menu_within_limit`) — never invent $15 as a ceiling price.
    */
   price_usd?: number | null
   price_status: PriceStatus
   /**
    * Required when price_status is approved_filtered_within_limit.
    * Must match a server allowlisted approval_id — free-text evidence is not enough.
+   * Must NOT be set for Category U (unpriced-menu) offerings.
    */
   price_evidence_approval_id?: string | null
   /**
    * Required for Category B. sha256(drink_key|bar_key|normalized printed recipe).
    * Must match the approved filtered-source offering set for this drink@bar.
+   * Must NOT be set for Category U.
    */
   price_evidence_recipe_fingerprint?: string | null
   evidence_reference?: string | null
@@ -159,8 +177,14 @@ export interface CatalogSourceNotes {
     offering_set_sha256?: string
   }>
   /**
+   * Per physical-bar authorizations for complete price-free menus (Category U).
+   * Admin publish of a well-evidenced catalog is the organizer authorization path.
+   * Authorization for one bar never enables another bar.
+   */
+  unpriced_menu_authorizations?: UnpricedMenuAuthorization[]
+  /**
    * Stage A2 permanent organizer loggable exceptions (drink@bar).
-   * Not Category A/B menu evidence; future full_snapshot imports must retain these rows.
+   * Not Category A/B/U menu evidence; future full_snapshot imports must retain these rows.
    */
   organizer_authorized_exceptions?: Array<{
     drink_key: string

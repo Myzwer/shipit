@@ -108,6 +108,33 @@
             }
           },
           "uniqueItems": true
+        },
+        "unpriced_menu_authorizations": {
+          "type": "array",
+          "description": "Per physical-bar organizer authorizations for complete price-free menus (Category U). Authorization for one bar never enables another. Cropped/incomplete price areas and isolated missing prices on priced menus do not qualify. Never invents price_usd.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["bar_key", "completeness", "evidence_reference"],
+            "properties": {
+              "bar_key": { "$ref": "#/$defs/canonicalKey" },
+              "completeness": {
+                "type": "string",
+                "const": "complete_menu_no_printed_prices",
+                "description": "Only complete menus that print no drink prices may authorize Category U."
+              },
+              "evidence_reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Audit pointer to the complete price-free menu photograph/packet."
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 500
+              }
+            }
+          }
         }
       }
     },
@@ -241,11 +268,12 @@
       "enum": [
         "verified_within_limit",
         "approved_filtered_within_limit",
+        "approved_unpriced_menu_within_limit",
         "verified_over_limit",
         "unverified",
         "not_applicable"
       ],
-      "description": "A=verified_within_limit (exact $). B=approved_filtered_within_limit (organizer-approved filtered source; price_usd null). C=unverified. D=verified_over_limit."
+      "description": "A=verified_within_limit (exact $). B=approved_filtered_within_limit (organizer-approved filtered source; price_usd null). U=approved_unpriced_menu_within_limit (organizer-authorized complete price-free physical bar menu; price_usd null; requires source_notes.unpriced_menu_authorizations). C=unverified. D=verified_over_limit."
     },
     "barOffering": {
       "type": "object",
@@ -273,7 +301,7 @@
           "type": ["number", "null"],
           "minimum": 0,
           "maximum": 500,
-          "description": "Exact printed menu price when known. Must be null for approved_filtered_within_limit — never invent the $15 ceiling as a price."
+          "description": "Exact printed menu price when known. Must be null for approved_filtered_within_limit and approved_unpriced_menu_within_limit — never invent the $15 ceiling as a price."
         },
         "price_status": { "$ref": "#/$defs/priceStatus" },
         "price_evidence_approval_id": {
@@ -281,14 +309,14 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$",
-          "description": "Required for approved_filtered_within_limit. Must match the server allowlist; evidence_reference alone cannot authorize Category B."
+          "description": "Required for approved_filtered_within_limit. Must match the server allowlist; evidence_reference alone cannot authorize Category B. Must be absent for Category U."
         },
         "price_evidence_recipe_fingerprint": {
           "type": ["string", "null"],
           "minLength": 64,
           "maxLength": 64,
           "pattern": "^[a-f0-9]{64}$",
-          "description": "Required for Category B. sha256 of drink_key, bar_key, and normalized printed recipe. Must match the approved filtered-source offering set."
+          "description": "Required for Category B. sha256 of drink_key, bar_key, and normalized printed recipe. Must match the approved filtered-source offering set. Must be absent for Category U."
         },
         "evidence_reference": {
           "type": ["string", "null"],

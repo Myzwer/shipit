@@ -33,6 +33,9 @@ import {
   getPriceEvidenceApproval,
   isAuthorizedFilteredBar,
   offeringSupportsBountyEligibility,
+  UNPRICED_MENU_BLOCKING_UNCERTAINTY_CODES,
+  UNPRICED_MENU_COMPLETENESS,
+  unpricedMenuAuthorizedBarKeys,
 } from './priceEvidenceApprovals'
 import { isApprovedFilteredOfferingIdentity } from './filteredSourceOfferings'
 
@@ -144,8 +147,9 @@ function normalizeAlias(value: string): string {
 
 /**
  * Qualifying Ingredient evidence: named cocktails at *active* bars that list the
- * ingredient AND are Princess Plus attainable via Category A (exact verified ≤$15)
- * or Category B (organizer-approved filtered source with allowlisted approval_id).
+ * ingredient AND are Princess Plus attainable via Category A (exact verified ≤$15),
+ * Category B (organizer-approved filtered source with allowlisted approval_id),
+ * or Category U (organizer-authorized complete price-free physical bar menu).
  * Over-limit and unknown/unverified offerings do not corroborate attainability.
  */
 export function corroborateIngredientEvidence(
@@ -153,6 +157,7 @@ export function corroborateIngredientEvidence(
   ingredientKey: string,
 ): IngredientEvidenceSummary {
   const activeBars = new Set(doc.bars.filter((b) => b.active).map((b) => b.key))
+  const unpricedBars = unpricedMenuAuthorizedBarKeys(doc)
   const barKeys = new Set<string>()
   const drinkKeys = new Set<string>()
   for (const drink of doc.drinks) {
@@ -160,7 +165,14 @@ export function corroborateIngredientEvidence(
     for (const offering of drink.bar_offerings) {
       if (!activeBars.has(offering.bar_key)) continue
       if (!offering.ingredient_keys.includes(ingredientKey)) continue
-      if (!offeringSupportsBountyEligibility(offering, { drink_key: drink.key })) continue
+      if (
+        !offeringSupportsBountyEligibility(offering, {
+          drink_key: drink.key,
+          unpricedMenuAuthorizedBarKeys: unpricedBars,
+        })
+      ) {
+        continue
+      }
       barKeys.add(offering.bar_key)
       drinkKeys.add(drink.key)
     }
@@ -251,8 +263,13 @@ function isCocktailEligible(
       ),
     )
   }
-  if (!offeringSupportsBountyEligibility(offering, { drink_key: drink.key })) {
-    // Unknown / unresolved / forged Category B — not schedule-eligible.
+  if (
+    !offeringSupportsBountyEligibility(offering, {
+      drink_key: drink.key,
+      unpricedMenuAuthorizedBarKeys: unpricedMenuAuthorizedBarKeys(doc),
+    })
+  ) {
+    // Unknown / unresolved / forged Category B/U — not schedule-eligible.
     if (candidate.eligible !== false && offering.price_status === 'unverified') {
       reasons.push(
         issue(
@@ -426,6 +443,7 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
 
   const drinkKeys = new Set<string>()
   const offeringKeys = new Set<string>()
+  const unpricedAuthorizedBars = unpricedMenuAuthorizedBarKeys(doc)
   let offerings = 0
   for (const drink of doc.drinks) {
     if (drinkKeys.has(drink.key)) {
@@ -581,6 +599,41 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           }
         }
       }
+
+      // Category U: organizer-authorized complete price-free physical bar menu.
+      if (offering.price_status === 'approved_unpriced_menu_within_limit') {
+        if (offering.price_usd != null) {
+          errors.push(
+            issue(
+              'APPROVED_UNPRICED_INVENTS_PRICE',
+              'error',
+              `Offering ${offeringId} uses approved_unpriced_menu_within_limit but sets price_usd=${offering.price_usd}. Category U must keep price_usd null (never invent the $15 ceiling).`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (offering.price_evidence_approval_id || offering.price_evidence_recipe_fingerprint) {
+          errors.push(
+            issue(
+              'APPROVED_UNPRICED_CATEGORY_B_FIELDS',
+              'error',
+              `Offering ${offeringId} must not carry Category B approval_id/fingerprint under Category U.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (!unpricedAuthorizedBars.has(offering.bar_key)) {
+          errors.push(
+            issue(
+              'APPROVED_UNPRICED_BAR_NOT_AUTHORIZED',
+              'error',
+              `Offering ${offeringId} claims approved_unpriced_menu_within_limit without a valid source_notes.unpriced_menu_authorizations entry for bar "${offering.bar_key}".`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+      }
+
       // Free-text evidence / forged readiness cannot authorize Category B alone.
       if (
         offering.price_status !== 'approved_filtered_within_limit' &&
@@ -596,7 +649,7 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
         )
       }
 
-      // Stage A2: permanent organizer loggable exceptions are not Category A/B bounty evidence.
+      // Stage A2: permanent organizer loggable exceptions are not Category A/B/U bounty evidence.
       const offeringTags = offering.classification_tags ?? []
       if (offeringTags.includes('organizer-authorized-exception')) {
         if (!offeringTags.includes('collection-excluded')) {
@@ -615,6 +668,16 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
               'ORGANIZER_EXCEPTION_FORGED_CATEGORY_B',
               'error',
               `Offering ${offeringId} is an organizer-authorized exception and must not use Category B price evidence.`,
+              `drinks/${drink.key}/bar_offerings`,
+            ),
+          )
+        }
+        if (offering.price_status === 'approved_unpriced_menu_within_limit') {
+          errors.push(
+            issue(
+              'ORGANIZER_EXCEPTION_FORGED_CATEGORY_U',
+              'error',
+              `Offering ${offeringId} is an organizer-authorized exception and must not use Category U unpriced-menu eligibility.`,
               `drinks/${drink.key}/bar_offerings`,
             ),
           )
@@ -691,6 +754,85 @@ export function validateCatalogCrossReferences(doc: CatalogImportDocument): Cata
           'error',
           `source_notes.price_evidence_approvals references unknown approval_id "${declared.approval_id}".`,
           'source_notes/price_evidence_approvals',
+        ),
+      )
+    }
+  }
+
+  // Category U bar-level authorizations (complete price-free menus only).
+  const printedPriceBars = new Set<string>()
+  for (const drink of doc.drinks) {
+    for (const offering of drink.bar_offerings) {
+      if (
+        offering.price_status === 'verified_within_limit' ||
+        offering.price_status === 'verified_over_limit'
+      ) {
+        printedPriceBars.add(offering.bar_key)
+      }
+    }
+  }
+  const blockingUncertainty = new Set<string>(UNPRICED_MENU_BLOCKING_UNCERTAINTY_CODES)
+  const seenUnpricedBars = new Set<string>()
+  for (const auth of doc.source_notes.unpriced_menu_authorizations ?? []) {
+    if (!barKeys.has(auth.bar_key)) {
+      errors.push(
+        issue(
+          'UNPRICED_MENU_UNKNOWN_BAR',
+          'error',
+          `source_notes.unpriced_menu_authorizations references unknown bar "${auth.bar_key}".`,
+          'source_notes/unpriced_menu_authorizations',
+        ),
+      )
+      continue
+    }
+    if (seenUnpricedBars.has(auth.bar_key)) {
+      errors.push(
+        issue(
+          'UNPRICED_MENU_DUPLICATE_BAR',
+          'error',
+          `source_notes.unpriced_menu_authorizations declares bar "${auth.bar_key}" more than once.`,
+          'source_notes/unpriced_menu_authorizations',
+        ),
+      )
+    }
+    const authBarKey = auth.bar_key
+    seenUnpricedBars.add(authBarKey)
+    if (
+      auth.completeness !== UNPRICED_MENU_COMPLETENESS ||
+      !auth.evidence_reference ||
+      !String(auth.evidence_reference).trim()
+    ) {
+      errors.push(
+        issue(
+          'UNPRICED_MENU_AUTH_INVALID',
+          'error',
+          `Unpriced-menu authorization for "${authBarKey}" must set completeness="${UNPRICED_MENU_COMPLETENESS}" and a non-empty evidence_reference.`,
+          'source_notes/unpriced_menu_authorizations',
+        ),
+      )
+    }
+    if (printedPriceBars.has(authBarKey)) {
+      errors.push(
+        issue(
+          'UNPRICED_MENU_BAR_HAS_PRINTED_PRICES',
+          'error',
+          `Bar "${authBarKey}" has visibly priced offerings; a complete price-free menu authorization is not allowed (isolated missing prices stay unverified).`,
+          'source_notes/unpriced_menu_authorizations',
+        ),
+      )
+    }
+    const blocked = (doc.source_notes.uncertainty_flags ?? []).some(
+      (f) =>
+        f.bar_key === authBarKey &&
+        blockingUncertainty.has(f.code),
+    )
+    if (blocked) {
+      errors.push(
+        issue(
+          'UNPRICED_MENU_EVIDENCE_INCOMPLETE',
+          'error',
+          `Bar "${authBarKey}" has cropped/incomplete/obscured price-area uncertainty; Category U authorization is rejected.`,
+          'source_notes/unpriced_menu_authorizations',
         ),
       )
     }
