@@ -46,10 +46,10 @@ describe('QA-1 Mobile Order submit diagnostics', () => {
     const author = playerId(fixtures, 'drink_only')
     const listed = await drinkClient.rpc('list_drinkit_mobile_order_drinks')
     const moOffering = (listed.data as Array<{ offering_id: string }>)[0]?.offering_id
-    let lidoOffering: string | null = null
+    let lidoOffering: string | null
     try {
       lidoOffering = (await lookupOffering(service, 'lido-bar', 'tropical-alibi')).offering_id
-    } catch (e) {
+    } catch {
       lidoOffering = null
     }
 
@@ -79,7 +79,6 @@ describe('QA-1 Mobile Order submit diagnostics', () => {
       at,
     )
 
-    // eslint-disable-next-line no-console
     console.log(
       'QA1_MO_DIAG',
       JSON.stringify({

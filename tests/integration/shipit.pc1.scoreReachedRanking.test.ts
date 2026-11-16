@@ -2,7 +2,6 @@
  * PC1 — Ship It! final ranking: equal totals break by first server-accepted
  * score_reached_at (max active completed_at_utc). Live home + Wrapped agree.
  */
-import { randomUUID } from 'node:crypto'
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import {
   DEV_BASE_OFFSET_MIN,
@@ -227,7 +226,6 @@ describe('PC1 Ship It! score-reached ranking', () => {
   })
 
   it('idempotent fixture replay does not move score_reached_at', async () => {
-    const at = noonDay1Utc()
     const alpha = await teamIdFor('both')
     const firstAt = slotUtc(1, '12:00:00')
 

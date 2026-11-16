@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest'
 import {
   findMissingOrganizerAuthorizedExceptions,
   previewCatalogImport,
-  isReadyToStage,
 } from '@/lib/catalog'
 import { cloneCatalog } from '../fixtures/catalog/builders'
 import { mergeOrganizerAuthorizedExceptions } from '../../scripts/lib/mergeOrganizerAuthorizedExceptions.mjs'

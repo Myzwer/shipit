@@ -49,7 +49,6 @@ describe.skipIf(!canRun)('R1 submission integrity (disposable)', () => {
     // Prefer existing synthetic drink_only identity from qa2a summary when present.
     const { readFile } = await import('node:fs/promises')
     const { join } = await import('node:path')
-    let displayName = 'Demo Drink Only'
     try {
       const summary = JSON.parse(
         await readFile(join(process.cwd(), '.local/qa2a-identities.json'), 'utf8'),
@@ -58,7 +57,6 @@ describe.skipIf(!canRun)('R1 submission integrity (disposable)', () => {
         (p: { role?: string; display_name?: string }) =>
           p.role === 'drink_only' || p.display_name === 'Demo Drink Only',
       )
-      if (row?.display_name) displayName = row.display_name
       if (row?.player_id) playerId = row.player_id
       if (row?.email) email = row.email
     } catch {

@@ -5,7 +5,7 @@ import PeekCarousel from '@/components/shared/PeekCarousel.vue'
 import { copy, formatCopy } from '@/ui/copy'
 import type { HomeBountyCardView } from '@/types/bountyHome'
 
-const props = defineProps<{
+defineProps<{
   cards: HomeBountyCardView[]
 }>()
 

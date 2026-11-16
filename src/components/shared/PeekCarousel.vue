@@ -135,7 +135,7 @@ function updateActiveFromScroll() {
     }
     return
   }
-  let next = activeIndex.value
+  let next: number
   if (loopIndex <= 0) next = count - 1
   else if (loopIndex >= count + 1) next = 0
   else next = loopIndex - 1

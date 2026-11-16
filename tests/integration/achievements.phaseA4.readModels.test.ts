@@ -17,7 +17,6 @@ import { noonDay1Utc, slotUtc } from '../helpers/bountyFixtures'
 import {
   drinkPayload,
   exposeCurrentSlots,
-  lookupOffering,
   playerId,
   submitAt,
 } from '../helpers/drinkitSubmit'

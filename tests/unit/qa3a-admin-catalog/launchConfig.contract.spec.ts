@@ -62,7 +62,7 @@ describe('Launch configuration — Admin surface gaps (inspected, not filled)', 
     expect(lib).toContain('admin_set_daily_challenge_announcement')
     const section = read('src/features/admin/DailyAnnouncementsSection.vue')
     // location_name may render read-only; there must be no editable meeting_time control
-    expect(section).not.toMatch(/meeting_time_ship_local|v-model=\"[^\"]*meeting/)
+    expect(section).not.toMatch(/meeting_time_ship_local|v-model="[^"]*meeting/)
     expect(section).toMatch(/daily-announce-input|textarea/)
   })
 

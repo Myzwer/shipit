@@ -58,7 +58,7 @@ export async function assertDisposableDevEnvironment(
   const isPrimaryOrganizerPort = apiPort === '54321' || apiPort === ''
   const isQa2BackendPort = apiPort === QA2_BACKEND_API_PORT
 
-  let statusUrl = ''
+  let statusUrl: string
   try {
     const envText = execSync('npx supabase status -o env', { encoding: 'utf8' })
     statusUrl = envText.match(/^API_URL=(.+)$/m)?.[1]?.replace(/^"|"$/g, '') ?? ''

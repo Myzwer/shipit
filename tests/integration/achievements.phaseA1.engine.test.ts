@@ -12,7 +12,6 @@ import {
 } from '../helpers/achievementFixtures'
 import { assertDisposableDevEnvironment } from '../helpers/devEnvironmentGuard'
 import {
-  DEV_BASE_OFFSET_MIN,
   noonDay1Utc,
   slotUtc,
 } from '../helpers/bountyFixtures'
