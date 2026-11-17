@@ -912,6 +912,24 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       return { kind: 'rejected', result: { ok: false, code: 'INCOMPLETE' } }
     }
 
+    // Client mirror of server PHOTO_REQUIRED — bounty claims need a staged photo_id.
+    const claimCount = Array.isArray(payload.selected_claims)
+      ? (payload.selected_claims as unknown[]).length
+      : 0
+    if (claimCount > 0 && !payload.photo_id) {
+      submitStatus.value = 'failed'
+      submitResult.value = {
+        ok: false,
+        code: 'PHOTO_REQUIRED',
+        message: copy.wizard.photoRequiredBody,
+      }
+      submitErrorMessage.value = copy.wizard.photoRequiredBody
+      return {
+        kind: 'rejected',
+        result: submitResult.value,
+      }
+    }
+
     // Persist before transmit so a lost response can recover after reload.
     writePendingDrinkSubmit({
       clientRequestId: String(payload.idempotency_key),

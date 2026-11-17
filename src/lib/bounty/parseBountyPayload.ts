@@ -4,7 +4,9 @@ import type {
   ActiveDailyChallenge,
   ActiveIngredientBounty,
   BarBountyPayload,
+  ClaimedCocktailBounty,
   ClaimedDailyChallenge,
+  ClaimedIngredientBounty,
   CocktailBountyPayload,
   DailyChallengePayload,
   IngredientBountyPayload,
@@ -50,6 +52,30 @@ export function parseCocktailBountyPayload(raw: unknown): CocktailBountyPayload 
     return { status: 'unavailable', reason: 'empty_payload' }
   }
   const row = raw as Record<string, unknown>
+  if (row.status === 'already_claimed') {
+    const cruiseDay =
+      typeof row.cruise_day === 'number' ? row.cruise_day : Number(row.cruise_day)
+    const points = typeof row.points === 'number' ? row.points : Number(row.points)
+    const claimed: ClaimedCocktailBounty = {
+      status: 'already_claimed',
+      reason: typeof row.reason === 'string' ? row.reason : 'category_used_today',
+      cruise_day: Number.isFinite(cruiseDay) ? cruiseDay : null,
+      offer_id: typeof row.offer_id === 'string' ? row.offer_id : undefined,
+      slot_key: typeof row.slot_key === 'string' ? row.slot_key : undefined,
+      offering_id: typeof row.offering_id === 'string' ? row.offering_id : null,
+      drink_name: typeof row.drink_name === 'string' ? row.drink_name : undefined,
+      designated_bar_key:
+        typeof row.designated_bar_key === 'string' ? row.designated_bar_key : undefined,
+      designated_bar_name:
+        typeof row.designated_bar_name === 'string' ? row.designated_bar_name : undefined,
+      tier: typeof row.tier === 'string' ? row.tier : undefined,
+      points: Number.isFinite(points) ? points : undefined,
+      listed_ingredients: asListedIngredients(row.listed_ingredients),
+      public_end_utc:
+        typeof row.public_end_utc === 'string' ? row.public_end_utc : undefined,
+    }
+    return claimed
+  }
   if (row.status !== 'active') return asNonActive(row)
 
   const drink_name = typeof row.drink_name === 'string' ? row.drink_name : ''
@@ -86,6 +112,31 @@ export function parseIngredientBountyPayload(raw: unknown): IngredientBountyPayl
     return { status: 'unavailable', reason: 'empty_payload' }
   }
   const row = raw as Record<string, unknown>
+  if (row.status === 'already_claimed') {
+    const cruiseDay =
+      typeof row.cruise_day === 'number' ? row.cruise_day : Number(row.cruise_day)
+    const points = typeof row.points === 'number' ? row.points : Number(row.points)
+    const knownBarCount =
+      typeof row.known_bar_count === 'number'
+        ? row.known_bar_count
+        : Number(row.known_bar_count)
+    const claimed: ClaimedIngredientBounty = {
+      status: 'already_claimed',
+      reason: typeof row.reason === 'string' ? row.reason : 'category_used_today',
+      cruise_day: Number.isFinite(cruiseDay) ? cruiseDay : null,
+      offer_id: typeof row.offer_id === 'string' ? row.offer_id : undefined,
+      slot_key: typeof row.slot_key === 'string' ? row.slot_key : undefined,
+      ingredient_key:
+        typeof row.ingredient_key === 'string' ? row.ingredient_key : undefined,
+      display_name: typeof row.display_name === 'string' ? row.display_name : undefined,
+      tier: typeof row.tier === 'string' ? row.tier : undefined,
+      points: Number.isFinite(points) ? points : undefined,
+      known_bar_count: Number.isFinite(knownBarCount) ? knownBarCount : undefined,
+      public_end_utc:
+        typeof row.public_end_utc === 'string' ? row.public_end_utc : undefined,
+    }
+    return claimed
+  }
   if (row.status !== 'active') return asNonActive(row)
 
   const display_name = typeof row.display_name === 'string' ? row.display_name : ''

@@ -1,7 +1,10 @@
 import type { PhotoSubmitContract, StagedPhotoRef } from '@/types/media'
 import { buildPhotoSubmitContract } from '@/lib/media/stagePhoto'
 
-/** Drink It! ordinary log — photo optional; submit_drink binds photo_id atomically. */
+/**
+ * Drink It! ordinary log — photo optional at the capture contract layer.
+ * submit_drink enforces PHOTO_REQUIRED when selected_claims is non-empty (2C.5).
+ */
 export function drinkLogPhotoContract(
   staged: StagedPhotoRef | null,
   previewUrl: string | null,

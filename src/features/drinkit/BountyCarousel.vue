@@ -90,7 +90,7 @@ function onActiveChange() {
     slide-class="bounty-card"
     stage-background="var(--theme-gradient-warm)"
     stage-padding="1.7rem 0 3.6rem"
-    min-height="20.6rem"
+    min-height="22rem"
     @active-change="onActiveChange"
   >
     <template #slide="{ item: card, index }">
@@ -292,7 +292,7 @@ function onActiveChange() {
 
 .bounty-tier {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--theme-muted);
@@ -308,7 +308,7 @@ function onActiveChange() {
   background: var(--theme-accent);
   padding: 0.22rem 0.95rem;
   color: #fff;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -316,7 +316,7 @@ function onActiveChange() {
 .bounty-lead {
   margin: 0.85rem 0 0;
   max-width: 16rem;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 400;
   font-style: italic;
   line-height: 1.4;
@@ -335,41 +335,42 @@ function onActiveChange() {
 .bounty-detail {
   margin: 0.7rem 0 0;
   max-width: 15.5rem;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 400;
   font-style: italic;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--theme-muted);
+  overflow-wrap: anywhere;
 }
 
 .bounty-crew-line {
   margin: 0.45rem 0 0;
   max-width: 15.5rem;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.4;
   color: var(--theme-ink);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
 }
 
 .bounty-note {
   margin: 0.45rem 0 0;
   max-width: 16rem;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.4;
   color: var(--theme-muted);
 }
 
 .bounty-location {
   margin: 0.55rem 0 0;
   max-width: 15.5rem;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .bounty-timer {

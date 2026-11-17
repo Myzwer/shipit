@@ -39,6 +39,24 @@ export interface ActiveCocktailBounty {
   cruise_day?: number | null
 }
 
+/** Player already claimed Cocktail today — Home uses existing Claimed overlay. */
+export interface ClaimedCocktailBounty {
+  status: 'already_claimed'
+  reason?: string
+  cruise_day?: number | null
+  offer_id?: string
+  slot_key?: string
+  offering_id?: string | null
+  drink_name?: string
+  designated_bar_key?: string
+  designated_bar_name?: string
+  tier?: string
+  /** Accepted ledger points for today (not recalculated). */
+  points?: number
+  listed_ingredients?: ListedIngredient[]
+  public_end_utc?: string
+}
+
 export interface ActiveIngredientBounty {
   status: 'active'
   offer_id: string
@@ -50,6 +68,22 @@ export interface ActiveIngredientBounty {
   known_bar_count: number
   public_end_utc: string
   cruise_day?: number | null
+}
+
+/** Player already claimed Ingredient today — Home uses existing Claimed overlay. */
+export interface ClaimedIngredientBounty {
+  status: 'already_claimed'
+  reason?: string
+  cruise_day?: number | null
+  offer_id?: string
+  slot_key?: string
+  ingredient_key?: string
+  display_name?: string
+  tier?: string
+  /** Accepted ledger points for today (not recalculated). */
+  points?: number
+  known_bar_count?: number
+  public_end_utc?: string
 }
 
 export interface ActiveBarBounty {
@@ -126,8 +160,14 @@ export interface ClaimedDailyChallenge {
   public_end_utc?: string
 }
 
-export type CocktailBountyPayload = ActiveCocktailBounty | NonActiveBounty
-export type IngredientBountyPayload = ActiveIngredientBounty | NonActiveBounty
+export type CocktailBountyPayload =
+  | ActiveCocktailBounty
+  | ClaimedCocktailBounty
+  | NonActiveBounty
+export type IngredientBountyPayload =
+  | ActiveIngredientBounty
+  | ClaimedIngredientBounty
+  | NonActiveBounty
 export type BarBountyPayload = ActiveBarBounty | ClaimedBarBounty | NonActiveBounty
 export type DailyChallengePayload =
   | ActiveDailyChallenge

@@ -240,6 +240,57 @@ describe('mapHomeBountyCards', () => {
     expect(daily.claimLabel).toBe(copy.bounty.viewDetails)
   })
 
+  it('maps already-claimed Cocktail and Ingredient to existing Claimed presentation', () => {
+    const { phase, cards } = mapHomeBountyCards({
+      fetchStatus: 'ready',
+      fetchedAtMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      nowMs: Date.parse('2026-11-05T17:00:00.000Z'),
+      clock: baseClock('2099-01-03T13:00:00'),
+      cocktail: {
+        status: 'already_claimed',
+        reason: 'category_used_today',
+        cruise_day: 1,
+        drink_name: 'Fixture Spritz',
+        points: 25,
+      },
+      ingredient: {
+        status: 'already_claimed',
+        reason: 'category_used_today',
+        cruise_day: 1,
+        display_name: 'Orgeat',
+        points: 50,
+      },
+      bar: {
+        status: 'active',
+        assignment_id: 'b1',
+        cruise_day: 1,
+        bar_id: 'uuid-bar',
+        bar_canonical_key: 'wake-view',
+        bar_display_name: 'Wake View',
+        points_base: 20,
+        points_per_companion: 0,
+        points_cap: 40,
+        points_min: 20,
+        points_max: 40,
+        public_end_utc: '2026-11-05T23:00:00.000Z',
+      },
+    })
+    expect(phase).toBe('active')
+    const cocktail = cards.find((c) => c.id === 'cocktail')!
+    expect(cocktail.presentation).toBe('claimed')
+    expect(cocktail.title).toBe('Fixture Spritz')
+    expect(cocktail.pointsLabel).toBe('25 Points')
+    expect(cocktail.claimEnabled).toBe(false)
+    expect(cocktail.detail).toBe(copy.bounty.cocktailClaimedDetail)
+
+    const ingredient = cards.find((c) => c.id === 'ingredient')!
+    expect(ingredient.presentation).toBe('claimed')
+    expect(ingredient.title).toBe('Orgeat')
+    expect(ingredient.pointsLabel).toBe('50 Points')
+    expect(ingredient.claimEnabled).toBe(false)
+    expect(ingredient.detail).toBe(copy.bounty.ingredientClaimedDetail)
+  })
+
   it('maps already-claimed Bar Bounty to claimed presentation with ledger points', () => {
     const { cards } = mapHomeBountyCards({
       fetchStatus: 'ready',

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import FramedPhoto from '@/components/shared/FramedPhoto.vue'
 import PhotoFramingEditor from '@/components/shared/PhotoFramingEditor.vue'
+import { eligibilityReasonLabel } from '@/lib/drinkLog/eligibilityCopy'
 import {
   DEFAULT_PHOTO_FRAMING,
   cloneFraming,
@@ -66,20 +67,45 @@ const canEditFraming = computed(
 
 function rowState(category: 'cocktail' | 'ingredient' | 'bar') {
   const state = props.preview?.categories?.[category]
-  if (!state) return { kind: 'unavailable' as const, points: 0, label: copy.wizard.unavailable }
+  if (!state) {
+    return {
+      kind: 'unavailable' as const,
+      points: 0,
+      label: copy.wizard.unavailable,
+      reason: copy.wizard.reasonGenericUnavailable,
+    }
+  }
   if (state.status === 'already_claimed') {
-    return { kind: 'already_claimed' as const, points: 0, label: copy.wizard.alreadyClaimed }
+    return {
+      kind: 'already_claimed' as const,
+      points: 0,
+      label: copy.wizard.alreadyClaimed,
+      reason: eligibilityReasonLabel(state.reason ?? 'category_used_today'),
+    }
   }
   if (state.status !== 'eligible') {
-    return { kind: 'unavailable' as const, points: 0, label: copy.wizard.unavailable }
+    return {
+      kind: 'unavailable' as const,
+      points: 0,
+      label: copy.wizard.unavailable,
+      reason: eligibilityReasonLabel(state.reason),
+    }
   }
   const selected = props.selectedClaims.find((c) => c.category === category)
   const points = selected?.points ?? (Number(state.options?.[0]?.points) || 0)
   if (selected) {
-    return { kind: 'selected' as const, points, label: copy.wizard.selected }
+    return { kind: 'selected' as const, points, label: copy.wizard.selected, reason: null }
   }
-  return { kind: 'available' as const, points, label: copy.wizard.available }
+  return { kind: 'available' as const, points, label: copy.wizard.available, reason: null }
 }
+
+const claimsNeedPhoto = computed(
+  () => props.selectedClaims.length > 0 && !props.photoStaged,
+)
+
+const canSubmit = computed(
+  () => !props.submitting && props.previewStatus === 'ready' && !claimsNeedPhoto.value,
+)
 
 const categories = [
   { id: 'cocktail' as const, title: copy.bounty.cocktail },
@@ -288,6 +314,7 @@ function onFramingCancel() {
           :disabled="rowState(cat.id).kind === 'unavailable' || rowState(cat.id).kind === 'already_claimed'"
           :data-testid="`bounty-row-${cat.id}`"
           :data-state="rowState(cat.id).kind"
+          :aria-description="rowState(cat.id).reason || undefined"
           @click="emit('toggleClaim', cat.id)"
         >
           <span v-if="rowState(cat.id).kind === 'selected'" class="wizard-bounty-rail">
@@ -303,6 +330,14 @@ function onFramingCancel() {
               />
               <span class="min-w-0">
                 <span class="block font-semibold leading-snug">{{ cat.title }}</span>
+                <span
+                  v-if="rowState(cat.id).reason"
+                  class="mt-0.5 block text-sm font-medium leading-snug"
+                  style="color: var(--theme-muted)"
+                  data-testid="bounty-row-reason"
+                >
+                  {{ rowState(cat.id).reason }}
+                </span>
                 <span v-if="rowState(cat.id).kind === 'selected'" class="sr-only">
                   {{ copy.wizard.tapToDeselect }}
                 </span>
@@ -319,11 +354,30 @@ function onFramingCancel() {
       </li>
     </ul>
 
+    <p
+      v-if="claimsNeedPhoto"
+      class="mt-4 rounded-2xl px-4 py-3 text-sm font-medium leading-snug"
+      style="background: var(--theme-gradient-warm); color: var(--theme-ink)"
+      role="status"
+      data-testid="review-photo-required"
+    >
+      {{ copy.wizard.photoRequiredForClaim }}
+      <button
+        type="button"
+        class="mt-2 block font-semibold underline underline-offset-2"
+        style="color: var(--theme-primary)"
+        data-testid="review-add-photo"
+        @click="emit('addPhoto')"
+      >
+        {{ copy.wizard.addPhotoAction }}
+      </button>
+    </p>
+
     <button
       type="button"
       class="ui-primary-btn mt-5 w-full"
       data-testid="submit-drink"
-      :disabled="submitting || previewStatus !== 'ready'"
+      :disabled="!canSubmit"
       @click="emit('submit')"
     >
       {{ submitting ? copy.wizard.submitting : copy.wizard.submitDrink }}

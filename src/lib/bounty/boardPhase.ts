@@ -32,7 +32,13 @@ export function deriveHomeBoardPhase(input: {
     return 'paused'
   }
 
-  if (cocktail.status === 'active' || ingredient.status === 'active') {
+  // Claimed rotating cards still count as mid-day content (do not collapse to overnight).
+  if (
+    cocktail.status === 'active' ||
+    ingredient.status === 'active' ||
+    cocktail.status === 'already_claimed' ||
+    ingredient.status === 'already_claimed'
+  ) {
     return 'active'
   }
 

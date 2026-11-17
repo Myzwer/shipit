@@ -116,7 +116,7 @@ export const copy = {
     howToPlayBasicsMulti:
       "**One drink can count for more than one bounty.** If it qualifies for multiple categories you haven't used today, you can earn all of those points with the same drink.",
     howToPlayBasicsLogs:
-      "**Regular logs are fine, too.** You can log drinks without claiming a bounty, including when you're on your own. Regular drink photos are optional.",
+      "**Regular logs are fine, too.** You can log drinks without claiming a bounty, including when you're on your own. Ordinary drink photos are optional; bounty claims require a photo.",
     howToPlayCocktailTitle: 'Cocktail & Ingredient Bounties',
     howToPlayCocktail:
       '**Cocktail Bounty:** Order the exact featured cocktail at the bar shown on the card. The featured cocktail changes every hour while bounties are open. More unusual drinks are worth more points (25–100).',
@@ -625,6 +625,8 @@ export const copy = {
     barCrewEyebrow: "Today's assigned crew",
     barDetail: 'Order an alcoholic drink with at least one assigned crewmate.',
     barClaimedDetail: "You've already claimed today's Bar Bounty.",
+    cocktailClaimedDetail: "You've already claimed today's Cocktail Bounty.",
+    ingredientClaimedDetail: "You've already claimed today's Ingredient Bounty.",
     barCrewLine: "Today's crew: {names}",
     barCrewEmpty: "Today's crew isn't assigned yet.",
     barCrewUnassigned: "You're not on today's Bar Bounty crews.",
@@ -725,8 +727,20 @@ export const copy = {
     barReminder:
       "Bar Bounty: select the assigned crewmates who are with you. Other friends can still be logged; they don't add Bar points.",
     photoHeading: 'Add a Photo',
-    photoOptional: 'Optional — you can log your drink without a photo.',
+    photoOptional: 'Optional for an ordinary drink log. Bounty claims require a photo.',
     photoStagedNote: 'Photo uploaded and ready to attach to this drink log.',
+    photoRequiredForClaim:
+      'Add and upload a photo before claiming a bounty. You can still submit an ordinary drink log without one.',
+    photoRequiredTitle: 'Photo Required',
+    photoRequiredBody:
+      'Bounty claims need a successfully uploaded photo. Add a photo, or deselect bounties to submit an ordinary drink log.',
+    reasonCompanion: 'Needs a Drink It! companion with you',
+    reasonCrewmate: 'Needs an assigned Bar Bounty crewmate',
+    reasonWrongDrinkOrBar: 'Wrong drink or bar for this bounty',
+    reasonNotOpen: 'This bounty is not open right now',
+    reasonNamedCatalog: 'Needs a named menu cocktail',
+    reasonPhotoRequired: 'Photo required to claim',
+    reasonGenericUnavailable: 'Not available for this log',
     captionLabel: 'Add a Caption',
     captionOptional: 'Optional',
     captionPlaceholder: "What's the story behind this one?",

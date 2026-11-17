@@ -49,6 +49,7 @@ type ModalKind =
   | 'failed'
   | 'eligibility'
   | 'already_claimed'
+  | 'photo_required'
   | 'paused'
   | 'ended'
   | 'lockedEdit'
@@ -333,6 +334,7 @@ async function runSubmit() {
   const code = outcome.result.code
   if (code === 'ELIGIBILITY_CHANGED') modal.value = 'eligibility'
   else if (code === 'ALREADY_CLAIMED') modal.value = 'already_claimed'
+  else if (code === 'PHOTO_REQUIRED') modal.value = 'photo_required'
   else if (code === 'GAME_PAUSED') modal.value = 'paused'
   else if (code === 'GAME_ENDED') modal.value = 'ended'
   else modal.value = 'failed'
@@ -403,6 +405,11 @@ function onReviewAddPhoto() {
   }
   focusCaption.value = false
   wizard.goToStep('photo')
+}
+
+function onPhotoRequiredAdd() {
+  modal.value = null
+  onReviewAddPhoto()
 }
 
 async function onIngredientConfirmYes() {
@@ -622,6 +629,16 @@ function onIngredientConfirmNo() {
       :primary-label="copy.wizard.backToReview"
       test-id="modal-already-claimed"
       @primary="cancelModal"
+    />
+    <WizardModal
+      v-else-if="modal === 'photo_required'"
+      :title="copy.wizard.photoRequiredTitle"
+      :body="copy.wizard.photoRequiredBody"
+      :primary-label="copy.wizard.addPhotoAction"
+      :secondary-label="copy.wizard.backToReview"
+      test-id="modal-photo-required"
+      @primary="onPhotoRequiredAdd"
+      @secondary="cancelModal"
     />
     <WizardModal
       v-else-if="modal === 'paused'"

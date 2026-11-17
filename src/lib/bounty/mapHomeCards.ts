@@ -14,7 +14,9 @@ import type {
   ActiveIngredientBounty,
   BarBountyPayload,
   ClaimedBarBounty,
+  ClaimedCocktailBounty,
   ClaimedDailyChallenge,
+  ClaimedIngredientBounty,
   CocktailBountyPayload,
   DailyChallengePayload,
   HomeBoardPhase,
@@ -164,6 +166,23 @@ function cocktailActiveCard(
   }
 }
 
+function cocktailClaimedCard(offer: ClaimedCocktailBounty): HomeBountyCardView {
+  return {
+    id: 'cocktail',
+    heading: copy.bounty.cocktail,
+    presentation: 'claimed',
+    tierOrEyebrow: copy.bounty.claimed,
+    title: offer.drink_name?.trim() || copy.bounty.cocktail,
+    detail: copy.bounty.cocktailClaimedDetail,
+    pointsLabel: pointsLabel(offer.points ?? 0),
+    footer: copy.bounty.cocktail,
+    timerLabel: '',
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: copy.bounty.claimed,
+  }
+}
+
 function ingredientActiveCard(
   offer: ActiveIngredientBounty,
   timerValue: string,
@@ -186,6 +205,23 @@ function ingredientActiveCard(
     claimEnabled: true,
     claimTitle: CLAIM_TITLE_WIZARD,
     claimPrefill: { source: 'ingredient' },
+  }
+}
+
+function ingredientClaimedCard(offer: ClaimedIngredientBounty): HomeBountyCardView {
+  return {
+    id: 'ingredient',
+    heading: copy.bounty.ingredient,
+    presentation: 'claimed',
+    tierOrEyebrow: copy.bounty.claimed,
+    title: offer.display_name?.trim() || copy.bounty.ingredient,
+    detail: copy.bounty.ingredientClaimedDetail,
+    pointsLabel: pointsLabel(offer.points ?? 0),
+    footer: copy.bounty.ingredient,
+    timerLabel: '',
+    timerValue: '',
+    claimEnabled: false,
+    claimTitle: copy.bounty.claimed,
   }
 }
 
@@ -421,12 +457,14 @@ export function mapHomeBountyCards(input: {
             nowMs,
           ),
         )
-      : unavailableCard(
-          'cocktail',
-          headings.cocktail,
-          copy.bounty.unavailableTitle,
-          copy.bounty.unavailableDetail,
-        )
+      : input.cocktail?.status === 'already_claimed'
+        ? cocktailClaimedCard(input.cocktail)
+        : unavailableCard(
+            'cocktail',
+            headings.cocktail,
+            copy.bounty.unavailableTitle,
+            copy.bounty.unavailableDetail,
+          )
 
   const ingredient =
     input.ingredient?.status === 'active'
@@ -439,12 +477,14 @@ export function mapHomeBountyCards(input: {
             nowMs,
           ),
         )
-      : unavailableCard(
-          'ingredient',
-          headings.ingredient,
-          copy.bounty.unavailableTitle,
-          copy.bounty.unavailableDetail,
-        )
+      : input.ingredient?.status === 'already_claimed'
+        ? ingredientClaimedCard(input.ingredient)
+        : unavailableCard(
+            'ingredient',
+            headings.ingredient,
+            copy.bounty.unavailableTitle,
+            copy.bounty.unavailableDetail,
+          )
 
   const bar =
     input.bar?.status === 'active'
