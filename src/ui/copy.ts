@@ -121,7 +121,7 @@ export const copy = {
     howToPlayCocktail:
       '**Cocktail Bounty:** Order the exact featured cocktail at the bar shown on the card. The featured cocktail changes every hour while bounties are open. More unusual drinks are worth more points (25–100).',
     howToPlayIngredient:
-      "**Ingredient Bounty:** Find a named cocktail on a bar's menu that contains the featured ingredient. Ingredients change every two hours. The app shows how many bars may carry the ingredient, but finding one is up to you. Rarer ingredients earn more points (25–100).",
+      "**Ingredient Bounty:** Find a named cocktail on a bar's menu that contains the featured ingredient. Ingredients change every two hours. The app shows how many bars carry the ingredient and which bars to try — finding the right drink is still up to you. Rarer ingredients earn more points (25–100).",
     howToPlayMenu:
       "**Menu mismatches:** If an actual named menu cocktail is missing from the app, use **My drink isn't listed**. If its ingredient is missing in the app, use the confirmation link on Review. Don't add ingredients to a drink just to qualify.",
     howToPlayBarTitle: 'Bar Bounty & Daily Challenge',
@@ -621,6 +621,7 @@ export const copy = {
     availableUntilTemplate: 'Available until {time}',
     location: 'Location: {barName}',
     availableAt: 'Available at {barCount} {barOrBars}',
+    ingredientAvailabilityUnknown: "Bar availability isn't confirmed right now.",
     barBonusEyebrow: '+{points} Per Additional Eligible Player',
     barCrewEyebrow: "Today's assigned crew",
     barDetail: 'Order an alcoholic drink with at least one assigned crewmate.',
@@ -679,6 +680,11 @@ export const copy = {
     submitting: 'Submitting…',
     submitDrink: 'Submit Drink',
     barPrompt: 'Where are you?',
+    ingredientBarGuide:
+      "Choose a bar carrying today's ingredient. You'll still need to find the right drink.",
+    ingredientBarNotListed: 'Not listed here',
+    ingredientBarAvailabilityUnavailable:
+      "We couldn't confirm which bars carry today's ingredient right now.",
     sortBy: 'Sort by',
     sortAlpha: 'Alphabetical',
     sortDeck: 'Deck',
@@ -712,7 +718,11 @@ export const copy = {
     unlistedPhase3cNote:
       'Only genuine named menu cocktails can qualify for Cocktail or Ingredient via honor confirmation. Invented off-menu drinks log as ordinary entries.',
     friendsPrompt: 'Who are you with?',
-    friendsHelper: "Select anyone from Drink It! who's with you. Only assigned crewmates count for Bar Bounty.",
+    /** Standard Friends helper (non–Bar Bounty context). */
+    friendsHelper: 'Select anyone from Drink It! who is with you.',
+    /** Bar Bounty crew-selection helper when logging at today's featured bar (unclaimed). */
+    friendsHelperBarBounty:
+      "Select anyone from Drink It! who's with you. Only assigned crewmates count for Bar Bounty.",
     friendsSoloNote: 'Must be with someone else to log a bounty.',
     friendsEmpty: 'No other Drink It! players are available to select.',
     friendsCrewBadge: 'Crew',
@@ -914,7 +924,21 @@ export const copy = {
     reactionHeart: 'Heart',
     reactionLaugh: 'Laugh',
     reactionHangLoose: 'Hang Loose',
+    /** Aria: short tap reacts; long-press opens author details. */
+    reactionAriaWithHold: '{label}. Press and hold to see who reacted.',
     reactionFailed: "Couldn't save that reaction. Try again.",
+    reactionAuthorsTitle: 'Reactions',
+    reactionAuthorsClose: 'Close',
+    reactionAuthorsLoading: 'Loading reactions…',
+    reactionAuthorsEmpty: 'No reactions yet.',
+    reactionAuthorsNone: 'None',
+    reactionAuthorsFailed: "Couldn't load who reacted. Try again.",
+    reactionAuthorsOpen: 'See who reacted',
+    reactionAuthorsOpenAria: 'See who reacted. Reaction buttons also open this list on press and hold.',
+    /** Modal group labels (Live / Laugh / Love). Stored keys remain heart / laugh / hang_loose. */
+    reactionGroupLove: 'Love',
+    reactionGroupLaugh: 'Laugh',
+    reactionGroupLive: 'Live',
     refreshFailedTitle: "Couldn't Refresh Gallery",
     refreshFailedDetail:
       "We couldn't load the latest posts. Anything already on screen is still available.",

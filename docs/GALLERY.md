@@ -38,6 +38,13 @@ No cross-game feed. No bounty-claim spoiler announcements. Achievement cards are
 - One per player per event; tap toggles / replaces
 - Inactive / voided events reject mutation; counts are not public once suppressed
 
+`get_gallery_reaction_authors(p_event_id)` (Phase 2C.13B)
+
+- Authenticated same-game membership + active cruise
+- Returns display names only, grouped `heart` / `laugh` / `hang_loose` (UI labels Love / Laugh / Live)
+- Fetched when the reaction-details modal opens (long-press or “See who reacted”)
+- Does not expose login aliases, Auth IDs, or emails
+
 ## Photos after void
 
 - Bound photos remain on disk for audit

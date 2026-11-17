@@ -187,17 +187,21 @@ function ingredientActiveCard(
   offer: ActiveIngredientBounty,
   timerValue: string,
 ): HomeBountyCardView {
-  const barOrBars = offer.known_bar_count === 1 ? 'bar' : 'bars'
+  const count = Number.isFinite(offer.known_bar_count) ? offer.known_bar_count : null
+  const barOrBars = count === 1 ? 'bar' : 'bars'
   return {
     id: 'ingredient',
     heading: copy.bounty.ingredient,
     presentation: 'active',
     tierOrEyebrow: ingredientTierLabel(offer.tier),
     title: offer.display_name,
-    detail: formatCopy(copy.bounty.availableAt, {
-      barCount: offer.known_bar_count,
-      barOrBars,
-    }),
+    detail:
+      count == null
+        ? copy.bounty.ingredientAvailabilityUnknown
+        : formatCopy(copy.bounty.availableAt, {
+            barCount: count,
+            barOrBars,
+          }),
     pointsLabel: pointsLabel(offer.points),
     footer: copy.bounty.ingredient,
     timerLabel: copy.bounty.timeRemaining,

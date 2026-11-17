@@ -10,6 +10,7 @@ import { createBarBountyPreviewClient } from '@/lib/bounty/barBountyPreviewClien
 import {
   buildSubmitPayload,
   fetchBarBountyReminder,
+  fetchIngredientBountyBarAvailability,
   listDrinkitBarDrinks,
   listDrinkitBars,
   listDrinkitCompanions,
@@ -31,6 +32,13 @@ import {
   OTHER_DRINKS_MENU_HIDE_CONCEPT_KEYS,
   type OtherDrinksOption,
 } from '@/lib/drinkLog/otherDrinks'
+import { computeShowBarBountyFriendsUi } from '@/lib/drinkLog/friendsBarBountyUi'
+import {
+  isBarSelectableForIngredientClaim,
+  isIngredientClaimBarGuideActive,
+  parseIngredientBarAvailability,
+  type IngredientBarAvailabilityStatus,
+} from '@/lib/drinkLog/ingredientBarAvailability'
 import { sortDrinkitBars } from '@/lib/drinkLog/sortBars'
 import {
   clearPendingDrinkSubmit,
@@ -82,6 +90,11 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
   const barSort = ref<BarSortMode>('alpha')
   const selectedBar = ref<DrinkitBarRow | null>(null)
 
+  /** 2C.13A: Ingredient Claim-only bar guidance (cleared on leave / ordinary entry). */
+  const ingredientBarAvailabilityStatus = ref<IngredientBarAvailabilityStatus>('idle')
+  const ingredientEligibleBarKeys = ref<Set<string> | null>(null)
+  const ingredientEligibleBarCount = ref<number | null>(null)
+
   const drinks = ref<DrinkitBarDrinkRow[]>([])
   const drinksStatus = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const drinkSearch = ref('')
@@ -123,10 +136,30 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     return pointsFromSelectedMates(barCrew.value.crew_size, selectedCrewMateCount.value)
   })
 
+  /**
+   * Friends-step Bar Bounty chrome (crew groups, reminder, points banner) ONLY when:
+   * 1) selected bar is today's featured Bar Bounty bar (authoritative canonical key), and
+   * 2) this player has not already claimed today's Bar Bounty.
+   * Presentation-only — Review/submit eligibility is unchanged.
+   */
+  const showBarBountyFriendsUi = computed(() =>
+    computeShowBarBountyFriendsUi({
+      showBarReminder: showBarReminder.value,
+      selectedBarCanonicalKey: selectedBar.value?.canonical_key,
+      preview: barPointsPreview.value,
+    }),
+  )
+
+  const friendsCrewMateIds = computed(() =>
+    showBarBountyFriendsUi.value ? crewMateIds.value : [],
+  )
+
   const barPreviewKind = computed(() => {
+    if (!showBarBountyFriendsUi.value) return 'hidden' as const
     if (!selectedBar.value) return 'hidden' as const
     const server = barPointsPreview.value
-    if (server?.already_claimed || server?.status === 'already_claimed') return 'claimed' as const
+    // Claimed path is hidden on Friends (gated above); keep for completeness.
+    if (server?.already_claimed || server?.status === 'already_claimed') return 'hidden' as const
     if (barPointsPreviewStatus.value === 'loading' && !server) return 'checking' as const
     if (server?.claimable && (server.points ?? 0) > 0) return 'eligible' as const
     if (barCrewStatus.value === 'ready' && crewMateIds.value.length) {
@@ -142,7 +175,6 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     const kind = barPreviewKind.value
     if (kind === 'hidden') return null
     if (kind === 'checking') return copy.wizard.barPreviewChecking
-    if (kind === 'claimed') return copy.wizard.barPreviewClaimed
     if (kind === 'need_crewmate') return copy.wizard.barPreviewNeedCrewmate
     if (kind === 'eligible') {
       const points =
@@ -224,6 +256,26 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
 
   const sortedBars = computed(() => sortDrinkitBars(bars.value, barSort.value))
 
+  const ingredientClaimBarGuideActive = computed(() =>
+    isIngredientClaimBarGuideActive(entrySource.value),
+  )
+
+  const ingredientBarAvailabilityReady = computed(
+    () =>
+      ingredientClaimBarGuideActive.value &&
+      ingredientBarAvailabilityStatus.value === 'ready' &&
+      ingredientEligibleBarKeys.value != null,
+  )
+
+  const showIngredientBarGuide = computed(() => ingredientClaimBarGuideActive.value)
+
+  const showIngredientBarAvailabilityNotice = computed(
+    () =>
+      ingredientClaimBarGuideActive.value &&
+      (ingredientBarAvailabilityStatus.value === 'error' ||
+        ingredientBarAvailabilityStatus.value === 'unavailable'),
+  )
+
   const filteredDrinks = computed(() => {
     // Hide legacy organizer-exception rows from the photographed menu list —
     // they are reachable via the permanent Other Drinks screen instead.
@@ -258,6 +310,9 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     step.value = 'bar'
     entrySource.value = 'plus'
     selectedBar.value = null
+    ingredientBarAvailabilityStatus.value = 'idle'
+    ingredientEligibleBarKeys.value = null
+    ingredientEligibleBarCount.value = null
     drinks.value = []
     drinksStatus.value = 'idle'
     drinkSearch.value = ''
@@ -310,6 +365,8 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
       showOtherDrinks.value = false
       unlistedContainsIngredient.value = null
       unlistedConfirmFeatured.value = false
+      // Drop prior bar's Bar Bounty Friends chrome before the next Friends refresh.
+      showBarReminder.value = false
     }
     if (idx <= stepIndex('drink')) {
       // companions kept
@@ -437,6 +494,9 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     await loadBars()
     await loadCompanions()
     await loadBountyHints()
+    if (entrySource.value === 'ingredient') {
+      await loadIngredientBarAvailability()
+    }
 
     if (prefill?.barCanonicalKey) {
       const match =
@@ -444,7 +504,15 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
         (prefill.barDisplayName
           ? bars.value.find((b) => b.name === prefill.barDisplayName)
           : undefined)
-      if (match) {
+      if (
+        match &&
+        isBarSelectableForIngredientClaim({
+          guideActive: ingredientClaimBarGuideActive.value,
+          availabilityReady: ingredientBarAvailabilityReady.value,
+          eligibleKeys: ingredientEligibleBarKeys.value,
+          barCanonicalKey: match.canonical_key,
+        })
+      ) {
         selectedBar.value = match
         await loadDrinksForBar(match.canonical_key, { isVirtual: match.is_virtual === true })
       }
@@ -475,6 +543,32 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     }
 
     step.value = selectedBar.value ? 'drink' : 'bar'
+  }
+
+  async function loadIngredientBarAvailability() {
+    if (!isIngredientClaimBarGuideActive(entrySource.value)) {
+      ingredientBarAvailabilityStatus.value = 'idle'
+      ingredientEligibleBarKeys.value = null
+      ingredientEligibleBarCount.value = null
+      return
+    }
+    ingredientBarAvailabilityStatus.value = 'loading'
+    ingredientEligibleBarKeys.value = null
+    ingredientEligibleBarCount.value = null
+    try {
+      const parsed = parseIngredientBarAvailability(await fetchIngredientBountyBarAvailability())
+      if (!parsed || parsed.status !== 'active') {
+        ingredientBarAvailabilityStatus.value = 'unavailable'
+        return
+      }
+      ingredientEligibleBarKeys.value = new Set(parsed.bar_canonical_keys)
+      ingredientEligibleBarCount.value = parsed.bar_count
+      ingredientBarAvailabilityStatus.value = 'ready'
+    } catch {
+      ingredientBarAvailabilityStatus.value = 'error'
+      ingredientEligibleBarKeys.value = null
+      ingredientEligibleBarCount.value = null
+    }
   }
 
   async function loadBars() {
@@ -561,11 +655,30 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
 
   async function selectBar(bar: DrinkitBarRow) {
     if (formLockedForUnknown.value) return
+    if (
+      !isBarSelectableForIngredientClaim({
+        guideActive: ingredientClaimBarGuideActive.value,
+        availabilityReady: ingredientBarAvailabilityReady.value,
+        eligibleKeys: ingredientEligibleBarKeys.value,
+        barCanonicalKey: bar.canonical_key,
+      })
+    ) {
+      return
+    }
     const changed = selectedBar.value?.canonical_key !== bar.canonical_key
     selectedBar.value = bar
     if (changed) invalidateFrom('bar')
     await loadDrinksForBar(bar.canonical_key, { isVirtual: bar.is_virtual === true })
     step.value = 'drink'
+  }
+
+  function isIngredientEligibleBar(barCanonicalKey: string): boolean {
+    return isBarSelectableForIngredientClaim({
+      guideActive: ingredientClaimBarGuideActive.value,
+      availabilityReady: ingredientBarAvailabilityReady.value,
+      eligibleKeys: ingredientEligibleBarKeys.value,
+      barCanonicalKey,
+    })
   }
 
   async function selectNamedDrink(drink: DrinkitBarDrinkRow) {
@@ -1023,6 +1136,15 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     barSort,
     selectedBar,
     sortedBars,
+    ingredientClaimBarGuideActive,
+    ingredientBarAvailabilityStatus,
+    ingredientEligibleBarKeys,
+    ingredientEligibleBarCount,
+    ingredientBarAvailabilityReady,
+    showIngredientBarGuide,
+    showIngredientBarAvailabilityNotice,
+    isIngredientEligibleBar,
+    loadIngredientBarAvailability,
     drinks,
     drinksStatus,
     drinkSearch,
@@ -1043,7 +1165,9 @@ export const useDrinkLogWizardStore = defineStore('drinkLogWizard', () => {
     selectedCompanionIds,
     companionNames,
     showBarReminder,
+    showBarBountyFriendsUi,
     crewMateIds,
+    friendsCrewMateIds,
     barCrewStatus,
     barPreviewKind,
     barPreviewLabel,

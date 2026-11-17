@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useLongPress } from '@/composables/useLongPress'
+import ReactionAuthorsModal from '@/features/gallery/ReactionAuthorsModal.vue'
 import { isNotAuthenticatedError } from '@/lib/authFailure'
-import { setGalleryReaction } from '@/lib/gallery/api'
+import { fetchGalleryReactionAuthors, setGalleryReaction } from '@/lib/gallery/api'
+import type { GalleryReactionAuthorGroup } from '@/lib/gallery/reactionAuthors'
 import { useSessionStore } from '@/stores/session'
 import type { GalleryReactionCounts, GalleryReactionEmoji } from '@/types/gallery'
-import { copy } from '@/ui/copy'
+import { copy, formatCopy } from '@/ui/copy'
 
 const props = withDefaults(
   defineProps<{
@@ -29,6 +32,11 @@ const error = ref<string | null>(null)
 const burst = ref<{ id: GalleryReactionEmoji; token: number } | null>(null)
 let burstToken = 0
 let burstTimer = 0
+
+const authorsOpen = ref(false)
+const authorsLoading = ref(false)
+const authorsError = ref<string | null>(null)
+const authorGroups = ref<GalleryReactionAuthorGroup[]>([])
 
 const options: Array<{ id: GalleryReactionEmoji; glyph: string; label: string }> = [
   { id: 'heart', glyph: '❤️', label: copy.gallery.reactionHeart },
@@ -92,6 +100,47 @@ async function toggle(emoji: GalleryReactionEmoji) {
     busy.value = false
   }
 }
+
+function reactionAria(label: string): string {
+  return formatCopy(copy.gallery.reactionAriaWithHold, { label })
+}
+
+async function openAuthorsModal() {
+  if (authorsOpen.value) return
+  authorsOpen.value = true
+  authorsLoading.value = true
+  authorsError.value = null
+  authorGroups.value = []
+  try {
+    const result = await fetchGalleryReactionAuthors(props.eventId)
+    authorGroups.value = result.groups
+  } catch (err) {
+    if (isNotAuthenticatedError(err)) {
+      authorsOpen.value = false
+      await forceReLogin()
+      return
+    }
+    authorsError.value = copy.gallery.reactionAuthorsFailed
+  } finally {
+    authorsLoading.value = false
+  }
+}
+
+function closeAuthorsModal() {
+  authorsOpen.value = false
+  authorsLoading.value = false
+  authorsError.value = null
+}
+
+const longPress = useLongPress(() => {
+  void openAuthorsModal()
+})
+
+function onReactionClick(emoji: GalleryReactionEmoji, event: Event) {
+  // Long-press path suppresses click via capture; this is the short-tap path.
+  if (event.defaultPrevented) return
+  void toggle(emoji)
+}
 </script>
 
 <template>
@@ -105,6 +154,7 @@ async function toggle(emoji: GalleryReactionEmoji) {
       >
         <button
           type="button"
+          class="gallery-react-btn"
           :class="
             tone === 'pill'
               ? ['gallery-react-pill', myReaction === opt.id ? 'is-selected' : '']
@@ -114,11 +164,18 @@ async function toggle(emoji: GalleryReactionEmoji) {
                 ]
           "
           :style="tone === 'pill' ? undefined : { background: 'var(--theme-gradient-warm)' }"
-          :aria-label="opt.label"
+          :aria-label="reactionAria(opt.label)"
           :aria-pressed="myReaction === opt.id"
           :data-testid="`gallery-react-${opt.id}`"
           :disabled="busy"
-          @click="toggle(opt.id)"
+          @pointerdown="longPress.onPointerDown"
+          @pointermove="longPress.onPointerMove"
+          @pointerup="longPress.onPointerUp"
+          @pointercancel="longPress.onPointerCancel"
+          @pointerleave="longPress.onPointerUp"
+          @click.capture="longPress.onClickCapture"
+          @click="onReactionClick(opt.id, $event)"
+          @contextmenu="longPress.onContextMenu"
         >
           <span class="gallery-react-glyph-wrap">
             <span class="gallery-react-glyph" aria-hidden="true">{{ opt.glyph }}</span>
@@ -141,6 +198,15 @@ async function toggle(emoji: GalleryReactionEmoji) {
         </span>
       </div>
     </div>
+    <button
+      type="button"
+      class="gallery-react-who"
+      data-testid="gallery-reaction-authors-open"
+      :aria-label="copy.gallery.reactionAuthorsOpenAria"
+      @click="openAuthorsModal"
+    >
+      {{ copy.gallery.reactionAuthorsOpen }}
+    </button>
     <p
       v-if="error"
       class="gallery-react-error"
@@ -148,5 +214,13 @@ async function toggle(emoji: GalleryReactionEmoji) {
     >
       {{ error }}
     </p>
+
+    <ReactionAuthorsModal
+      :open="authorsOpen"
+      :groups="authorGroups"
+      :loading="authorsLoading"
+      :error="authorsError"
+      @close="closeAuthorsModal"
+    />
   </div>
 </template>

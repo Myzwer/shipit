@@ -47,6 +47,13 @@ export async function listDrinkitBars(): Promise<DrinkitBarRow[]> {
     .filter((b) => b.canonical_key && b.name)
 }
 
+/** 2C.13A: eligible Ingredient Bounty bar keys + count (no drink names). */
+export async function fetchIngredientBountyBarAvailability(): Promise<unknown> {
+  const { data, error } = await rpc('get_my_ingredient_bounty_bar_availability')
+  if (error) throw error
+  return data
+}
+
 export async function listDrinkitBarDrinks(barKey: string): Promise<DrinkitBarDrinkRow[]> {
   const { data, error } = await rpc('list_drinkit_bar_drinks', {
     p_bar_canonical_key: barKey,

@@ -1,4 +1,8 @@
 import { supabase } from '@/lib/supabase'
+import {
+  normalizeReactionAuthorGroups,
+  type GalleryReactionAuthorsResult,
+} from '@/lib/gallery/reactionAuthors'
 import type { GameId } from '@/types/game'
 import type {
   GalleryCursor,
@@ -70,6 +74,41 @@ export async function setGalleryReaction(
   return {
     my_reaction: row.my_reaction ?? null,
     reactions: row.reactions ?? { heart: 0, laugh: 0, hang_loose: 0 },
+  }
+}
+
+/**
+ * Fetch reaction authors for one gallery post (on modal open only).
+ * Server enforces auth + same-game membership; returns display names only.
+ */
+export async function fetchGalleryReactionAuthors(
+  eventId: string,
+): Promise<GalleryReactionAuthorsResult> {
+  if (!eventId) {
+    throw Object.assign(new Error('EVENT_REQUIRED'), { code: 'EVENT_REQUIRED' })
+  }
+  const { data, error } = await rpc('get_gallery_reaction_authors', {
+    p_event_id: eventId,
+  })
+  if (error) throw error
+  const row = data as {
+    ok?: boolean
+    event_id?: string
+    game?: string
+    groups?: unknown
+    code?: string
+    message?: string
+  }
+  if (!row?.ok) {
+    throw Object.assign(new Error(row?.message ?? row?.code ?? 'Reaction authors unavailable'), {
+      code: row?.code ?? 'REACTION_AUTHORS_FAILED',
+    })
+  }
+  return {
+    ok: true,
+    event_id: row.event_id ?? eventId,
+    game: row.game,
+    groups: normalizeReactionAuthorGroups(row.groups),
   }
 }
 

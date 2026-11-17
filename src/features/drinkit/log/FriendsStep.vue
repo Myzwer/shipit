@@ -9,7 +9,7 @@ const props = defineProps<{
   selectedIds: string[]
   status: 'idle' | 'loading' | 'ready' | 'error'
   showBarReminder: boolean
-  /** Assigned crewmate player ids for today's Bar Bounty (excludes self). */
+  /** Assigned crewmate player ids for today's Bar Bounty (excludes self). Empty in standard mode. */
   crewMateIds: string[]
   /** Exact / provisional points banner. */
   barPreviewLabel: string | null
@@ -22,14 +22,32 @@ const emit = defineEmits<{
   continue: []
 }>()
 
+/** Crew-specific Friends chrome — parent gates via empty crewMateIds / hidden preview. */
+const barBountyMode = computed(
+  () =>
+    props.showBarReminder ||
+    props.crewMateIds.length > 0 ||
+    (props.barPreviewKind !== 'hidden' && !!props.barPreviewLabel),
+)
+
+const helperText = computed(() =>
+  barBountyMode.value ? copy.wizard.friendsHelperBarBounty : copy.wizard.friendsHelper,
+)
+
+const sortedCompanions = computed(() =>
+  [...props.companions].sort((a, b) =>
+    a.display_name.localeCompare(b.display_name, undefined, { sensitivity: 'base' }),
+  ),
+)
+
 const crewIdSet = computed(() => new Set(props.crewMateIds))
 
 const crewCompanions = computed(() =>
-  props.companions.filter((c) => crewIdSet.value.has(c.player_id)),
+  sortedCompanions.value.filter((c) => crewIdSet.value.has(c.player_id)),
 )
 
 const otherCompanions = computed(() =>
-  props.companions.filter((c) => !crewIdSet.value.has(c.player_id)),
+  sortedCompanions.value.filter((c) => !crewIdSet.value.has(c.player_id)),
 )
 
 const bannerClass = computed(() => {
@@ -45,7 +63,9 @@ const bannerClass = computed(() => {
     <h2 class="wizard-prompt">
       {{ copy.wizard.friendsPrompt }}
     </h2>
-    <p class="mt-1.5 text-sm" style="color: var(--theme-muted)">{{ copy.wizard.friendsHelper }}</p>
+    <p class="mt-1.5 text-sm" style="color: var(--theme-muted)" data-testid="friends-helper">
+      {{ helperText }}
+    </p>
 
     <p
       v-if="showBarReminder"
@@ -89,42 +109,72 @@ const bannerClass = computed(() => {
     </p>
 
     <template v-else-if="status === 'ready'">
-      <div v-if="crewCompanions.length" class="mt-4" data-testid="friends-crew-group">
-        <p class="friends-group-label">{{ copy.wizard.friendsCrewSection }}</p>
-        <ul class="mt-2 space-y-2.5">
-          <li v-for="c in crewCompanions" :key="c.player_id">
-            <button
-              type="button"
-              class="wizard-choice"
-              :class="selectedIds.includes(c.player_id) ? 'is-selected' : ''"
-              :data-testid="`friend-row-${c.player_id}`"
-              data-crew-mate="true"
-              :aria-pressed="selectedIds.includes(c.player_id)"
-              @click="emit('toggle', c.player_id)"
-            >
-              <AppIcon name="score.friends" class="wizard-choice-icon text-sm" />
-              <span class="wizard-choice-title flex min-w-0 flex-1 items-center gap-2">
-                <span class="truncate">{{ c.display_name }}</span>
-                <span class="friends-crew-badge shrink-0">{{ copy.wizard.friendsCrewBadge }}</span>
-              </span>
-              <AppIcon
-                v-if="selectedIds.includes(c.player_id)"
-                name="status.selected"
-                style-variant="solid"
-                class="text-lg"
-                style="color: var(--theme-primary)"
-              />
-            </button>
-          </li>
-        </ul>
-      </div>
+      <!-- Bar Bounty mode: crew first, then others -->
+      <template v-if="barBountyMode && crewCompanions.length">
+        <div class="mt-4" data-testid="friends-crew-group">
+          <p class="friends-group-label">{{ copy.wizard.friendsCrewSection }}</p>
+          <ul class="mt-2 space-y-2.5">
+            <li v-for="c in crewCompanions" :key="c.player_id">
+              <button
+                type="button"
+                class="wizard-choice"
+                :class="selectedIds.includes(c.player_id) ? 'is-selected' : ''"
+                :data-testid="`friend-row-${c.player_id}`"
+                data-crew-mate="true"
+                :aria-pressed="selectedIds.includes(c.player_id)"
+                @click="emit('toggle', c.player_id)"
+              >
+                <AppIcon name="score.friends" class="wizard-choice-icon text-sm" />
+                <span class="wizard-choice-title flex min-w-0 flex-1 items-center gap-2">
+                  <span class="truncate">{{ c.display_name }}</span>
+                  <span class="friends-crew-badge shrink-0">{{ copy.wizard.friendsCrewBadge }}</span>
+                </span>
+                <AppIcon
+                  v-if="selectedIds.includes(c.player_id)"
+                  name="status.selected"
+                  style-variant="solid"
+                  class="text-lg"
+                  style="color: var(--theme-primary)"
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
 
-      <div v-if="otherCompanions.length" class="mt-4" data-testid="friends-others-group">
-        <p v-if="crewCompanions.length" class="friends-group-label">
-          {{ copy.wizard.friendsOthersSection }}
-        </p>
-        <ul class="mt-2 space-y-2.5" data-testid="friends-list">
-          <li v-for="c in otherCompanions" :key="c.player_id">
+        <div v-if="otherCompanions.length" class="mt-4" data-testid="friends-others-group">
+          <p class="friends-group-label">
+            {{ copy.wizard.friendsOthersSection }}
+          </p>
+          <ul class="mt-2 space-y-2.5" data-testid="friends-list">
+            <li v-for="c in otherCompanions" :key="c.player_id">
+              <button
+                type="button"
+                class="wizard-choice"
+                :class="selectedIds.includes(c.player_id) ? 'is-selected' : ''"
+                :data-testid="`friend-row-${c.player_id}`"
+                data-crew-mate="false"
+                :aria-pressed="selectedIds.includes(c.player_id)"
+                @click="emit('toggle', c.player_id)"
+              >
+                <AppIcon name="score.friends" class="wizard-choice-icon text-sm" />
+                <span class="wizard-choice-title">{{ c.display_name }}</span>
+                <AppIcon
+                  v-if="selectedIds.includes(c.player_id)"
+                  name="status.selected"
+                  style-variant="solid"
+                  class="text-lg"
+                  style="color: var(--theme-primary)"
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </template>
+
+      <!-- Standard mode: one alphabetical list, no crew labels -->
+      <div v-else class="mt-4" data-testid="friends-standard-list">
+        <ul class="space-y-2.5" data-testid="friends-list">
+          <li v-for="c in sortedCompanions" :key="c.player_id">
             <button
               type="button"
               class="wizard-choice"
