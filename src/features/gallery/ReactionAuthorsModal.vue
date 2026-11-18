@@ -9,12 +9,21 @@ import {
 } from '@/lib/gallery/reactionAuthors'
 import { copy } from '@/ui/copy'
 
-const props = defineProps<{
-  open: boolean
-  groups: GalleryReactionAuthorGroup[]
-  loading?: boolean
-  error?: string | null
-}>()
+const props = withDefaults(
+  defineProps<{
+    open: boolean
+    groups: GalleryReactionAuthorGroup[]
+    loading?: boolean
+    error?: string | null
+    /** Game theme on the teleported root so ink/focus tokens resolve. */
+    themeClass?: string
+  }>(),
+  {
+    loading: false,
+    error: null,
+    themeClass: 'theme-drink',
+  },
+)
 
 const emit = defineEmits<{
   close: []
@@ -25,9 +34,64 @@ const closeBtn = ref<HTMLButtonElement | null>(null)
 const previouslyFocused = ref<HTMLElement | null>(null)
 
 const displayGroups = computed(() => normalizeReactionAuthorGroups(props.groups))
+const populatedGroups = computed(() =>
+  displayGroups.value.filter((group) => group.authors.length > 0),
+)
 const isEmpty = computed(
   () => !props.loading && !props.error && reactionAuthorsAreEmpty(displayGroups.value),
 )
+
+interface ScrollSnapshot {
+  active: boolean
+  scrollY: number
+  htmlOverflow: string
+  bodyOverflow: string
+  bodyPosition: string
+  bodyTop: string
+  bodyWidth: string
+}
+
+const scrollSnapshot: ScrollSnapshot = {
+  active: false,
+  scrollY: 0,
+  htmlOverflow: '',
+  bodyOverflow: '',
+  bodyPosition: '',
+  bodyTop: '',
+  bodyWidth: '',
+}
+
+function lockBackgroundScroll() {
+  if (scrollSnapshot.active || typeof document === 'undefined') return
+  const html = document.documentElement
+  const body = document.body
+  scrollSnapshot.active = true
+  scrollSnapshot.scrollY = window.scrollY || 0
+  scrollSnapshot.htmlOverflow = html.style.overflow
+  scrollSnapshot.bodyOverflow = body.style.overflow
+  scrollSnapshot.bodyPosition = body.style.position
+  scrollSnapshot.bodyTop = body.style.top
+  scrollSnapshot.bodyWidth = body.style.width
+  html.style.overflow = 'hidden'
+  body.style.overflow = 'hidden'
+  body.style.position = 'fixed'
+  body.style.top = `-${scrollSnapshot.scrollY}px`
+  body.style.width = '100%'
+}
+
+function unlockBackgroundScroll() {
+  if (!scrollSnapshot.active || typeof document === 'undefined') return
+  const html = document.documentElement
+  const body = document.body
+  const y = scrollSnapshot.scrollY
+  html.style.overflow = scrollSnapshot.htmlOverflow
+  body.style.overflow = scrollSnapshot.bodyOverflow
+  body.style.position = scrollSnapshot.bodyPosition
+  body.style.top = scrollSnapshot.bodyTop
+  body.style.width = scrollSnapshot.bodyWidth
+  scrollSnapshot.active = false
+  window.scrollTo(0, y)
+}
 
 function onClose() {
   emit('close')
@@ -66,22 +130,28 @@ watch(
   () => props.open,
   (isOpen) => {
     if (isOpen) {
+      lockBackgroundScroll()
       previouslyFocused.value =
         document.activeElement instanceof HTMLElement ? document.activeElement : null
       void focusClose()
-    } else if (previouslyFocused.value) {
-      previouslyFocused.value.focus()
-      previouslyFocused.value = null
+    } else {
+      unlockBackgroundScroll()
+      if (previouslyFocused.value) {
+        previouslyFocused.value.focus()
+        previouslyFocused.value = null
+      }
     }
   },
 )
 
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
+  if (props.open) lockBackgroundScroll()
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
+  unlockBackgroundScroll()
 })
 </script>
 
@@ -90,7 +160,7 @@ onUnmounted(() => {
     <div
       v-if="open"
       ref="dialogEl"
-      class="reaction-authors-root"
+      :class="['reaction-authors-root', themeClass]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="reaction-authors-title"
@@ -144,18 +214,19 @@ onUnmounted(() => {
           </p>
           <template v-else>
             <section
-              v-for="(group, index) in displayGroups"
+              v-for="(group, index) in populatedGroups"
               :key="group.emoji"
               class="reaction-authors-group"
               :class="{ 'is-first': index === 0 }"
               :data-testid="`gallery-reaction-authors-group-${group.emoji}`"
             >
               <h3 class="reaction-authors-group-title">
-                <span aria-hidden="true">{{ reactionAuthorGlyph(group.emoji) }}</span>
-                {{ reactionAuthorGroupLabel(group.emoji) }}
+                <span>{{ reactionAuthorGroupLabel(group.emoji) }}</span>
+                <span class="reaction-authors-group-glyph" aria-hidden="true">{{
+                  reactionAuthorGlyph(group.emoji)
+                }}</span>
               </h3>
               <ul
-                v-if="group.authors.length"
                 class="reaction-authors-list"
                 :data-testid="`gallery-reaction-authors-list-${group.emoji}`"
               >
@@ -167,13 +238,6 @@ onUnmounted(() => {
                   {{ name }}
                 </li>
               </ul>
-              <p
-                v-else
-                class="reaction-authors-none"
-                :data-testid="`gallery-reaction-authors-none-${group.emoji}`"
-              >
-                {{ copy.gallery.reactionAuthorsNone }}
-              </p>
             </section>
           </template>
         </div>
@@ -183,27 +247,37 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/*
+  Teleported to body, outside .theme-drink / .theme-ship.
+  A gradient token (--theme-gradient-warm) does not resolve there, so the
+  previous background computed to transparent and the gallery plus bottom
+  nav showed through the card. This fill is the Drink It aqua surface token,
+  with a literal fallback so the card stays opaque.
+  Overlay sits above header (z-20), bottom nav (z-30), and photo viewer (z-50),
+  and below the achievement celebration (z-80).
+*/
 .reaction-authors-root {
   position: fixed;
   inset: 0;
-  z-index: 60;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 1rem 1rem 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .reaction-authors-root {
-    align-items: center;
-  }
+  z-index: 70;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  pointer-events: auto;
 }
 
 .reaction-authors-backdrop {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  margin: 0;
   border: 0;
-  background: rgba(0, 0, 0, 0.45);
+  padding: 0;
+  background: color-mix(in srgb, var(--color-ink, #1f2933) 58%, transparent);
   cursor: pointer;
 }
 
@@ -211,95 +285,112 @@ onUnmounted(() => {
   position: relative;
   z-index: 1;
   display: flex;
-  width: 100%;
-  max-width: 22rem;
-  max-height: min(70vh, 32rem);
+  width: min(19rem, 100%);
+  max-height: min(
+    32rem,
+    calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.5rem)
+  );
   flex-direction: column;
   overflow: hidden;
   border-radius: 1.25rem;
-  background: var(--theme-gradient-warm);
-  color: var(--theme-ink);
-  box-shadow: 0 16px 36px rgba(40, 24, 12, 0.28);
+  background-color: #d7f3f1;
+  background-color: var(--color-drink-surface, #d7f3f1);
+  background-image: none;
+  color: var(--theme-ink, var(--color-ink, #1f2933));
+  box-shadow: 0 16px 40px rgba(31, 41, 51, 0.32);
 }
 
 .reaction-authors-header {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 1rem 1rem 0.65rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--theme-ink) 12%, transparent);
+  justify-content: flex-end;
+  padding: 0.35rem 0.45rem 0;
 }
 
 .reaction-authors-title {
-  margin: 0;
-  font-family: var(--font-display, inherit);
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.25;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .reaction-authors-close {
   flex-shrink: 0;
-  min-height: 2.5rem;
+  min-height: 2.75rem;
   min-width: 2.75rem;
+  border: 0;
   border-radius: 999px;
-  padding: 0.45rem 0.85rem;
+  padding: 0.4rem 0.8rem;
   font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--theme-ink);
+  font-weight: 700;
+  color: inherit;
   background: transparent;
+  cursor: pointer;
 }
 
 .reaction-authors-close:focus-visible {
-  outline: 2px solid var(--theme-primary);
+  outline: 2px solid var(--theme-primary, var(--color-drink-primary, #0a5c6b));
   outline-offset: 2px;
 }
 
 .reaction-authors-body {
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding: 0.35rem 1rem 1.1rem;
+  padding: 0.15rem 1.2rem 1.2rem;
 }
 
 .reaction-authors-status {
-  margin: 0.75rem 0 0.35rem;
-  font-size: 0.9rem;
+  margin: 0.85rem 0 0.35rem;
+  font-size: 0.95rem;
   line-height: 1.4;
-  color: var(--theme-muted);
+  text-align: center;
+  color: var(--theme-muted, var(--color-drink-muted, #5b6770));
 }
 
 .reaction-authors-group {
-  padding: 0.75rem 0 0.15rem;
-  border-top: 1px solid color-mix(in srgb, var(--theme-ink) 10%, transparent);
+  padding-top: 0.95rem;
+  margin-top: 0.85rem;
+  border-top: 1px solid rgba(31, 41, 51, 0.42);
 }
 
 .reaction-authors-group.is-first {
+  margin-top: 0;
+  padding-top: 0.15rem;
   border-top: 0;
 }
 
 .reaction-authors-group-title {
-  margin: 0 0 0.4rem;
-  font-size: 0.95rem;
+  margin: 0 0 0.55rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.reaction-authors-group-glyph {
+  margin-left: 0.28rem;
 }
 
 .reaction-authors-list {
   margin: 0;
-  padding: 0;
+  padding: 0 0.15rem;
   list-style: none;
+  text-align: left;
 }
 
 .reaction-authors-name {
-  padding: 0.28rem 0;
-  font-size: 0.95rem;
+  padding: 0.18rem 0;
+  font-size: 1rem;
   line-height: 1.35;
-}
-
-.reaction-authors-none {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--theme-muted);
+  overflow-wrap: anywhere;
 }
 </style>

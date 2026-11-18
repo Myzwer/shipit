@@ -7,6 +7,7 @@ import {
   markSubmissionCelebrated,
   wasSubmissionCelebrated,
 } from '@/lib/achievements/celebrationMemory'
+import { distinctUnlockCards } from '@/lib/achievements/unlockNotification'
 
 export interface PendingAchievementCelebration {
   game: GameId
@@ -67,8 +68,10 @@ export const useAchievementCelebrationStore = defineStore('achievementCelebratio
       // Stale: another queue/dismiss may have replaced pending mid-flight.
       if (pending.value?.submissionId !== job.submissionId) return
       const wanted = new Set(job.awardIds)
-      const cards = list.achievements.filter(
-        (a) => a.earned && a.award_id && wanted.has(a.award_id),
+      const cards = distinctUnlockCards(
+        list.achievements.filter(
+          (a) => a.earned && a.award_id && wanted.has(a.award_id),
+        ),
       )
       if (cards.length === 0) {
         // Awards may be test-only outside development, or already revoked.

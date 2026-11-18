@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import { resolveAchievementIconKey } from '@/lib/achievements/icons'
+import { distinctUnlockCards } from '@/lib/achievements/unlockNotification'
 import { useAchievementCelebrationStore } from '@/stores/achievementCelebration'
 import type { GameId } from '@/types/game'
 import { copy, formatCopy } from '@/ui/copy'
@@ -26,22 +27,24 @@ const prefersReducedMotion = ref(false)
 
 const RAY_COUNT = 6
 
-const isBatch = computed(() => visibleCards.value.length > 1)
+const distinctCards = computed(() => distinctUnlockCards(visibleCards.value))
+
+const isBatch = computed(() => distinctCards.value.length > 1)
 
 const title = computed(() => {
-  const n = visibleCards.value.length
+  const n = distinctCards.value.length
   if (n <= 1) return copy.achievements.unlockTitleSingular
   return formatCopy(copy.achievements.unlockTitlePlural, { count: n })
 })
 
 const cta = computed(() =>
-  visibleCards.value.length <= 1
+  distinctCards.value.length <= 1
     ? copy.achievements.unlockSeeIt
     : copy.achievements.unlockSeeAll,
 )
 
 const singleCard = computed(() =>
-  visibleCards.value.length === 1 ? visibleCards.value[0] : null,
+  distinctCards.value.length === 1 ? distinctCards.value[0] : null,
 )
 
 const singleIcon = computed<SemanticIconKey>(() => {
@@ -244,22 +247,6 @@ onUnmounted(() => {
           </p>
         </template>
 
-        <ul
-          v-else
-          class="achievement-unlock-list"
-          data-testid="achievement-unlock-list"
-        >
-          <li
-            v-for="card in visibleCards"
-            :key="card.award_id ?? card.definition_id"
-            class="achievement-unlock-list-item ui-display-name"
-            data-testid="achievement-unlock-item"
-            :data-award-id="card.award_id ?? ''"
-          >
-            {{ card.title }}
-          </li>
-        </ul>
-
         <button
           ref="ctaEl"
           type="button"
@@ -459,29 +446,6 @@ onUnmounted(() => {
   line-height: 1.35;
   color: var(--theme-ink, #1f2933);
   opacity: 0.88;
-}
-
-.achievement-unlock-list {
-  margin: 0.7rem 0 0;
-  padding: 0;
-  width: 100%;
-  list-style: none;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  max-height: min(38vh, 14rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  text-align: center;
-}
-
-.achievement-unlock-list-item {
-  margin: 0;
-  font-family: var(--font-display, 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif);
-  font-size: 0.98rem;
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--theme-ink, #1f2933);
 }
 
 .achievement-unlock-cta {

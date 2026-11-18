@@ -924,17 +924,15 @@ export const copy = {
     reactionHeart: 'Heart',
     reactionLaugh: 'Laugh',
     reactionHangLoose: 'Hang Loose',
-    /** Aria: short tap reacts; long-press opens author details. */
-    reactionAriaWithHold: '{label}. Press and hold to see who reacted.',
+    /** Aria: short tap reacts; hold or Shift+F10 opens author details. */
+    reactionAriaWithHold:
+      '{label}. Press and hold, or press Shift+F10 or the context menu key, to see who reacted.',
     reactionFailed: "Couldn't save that reaction. Try again.",
     reactionAuthorsTitle: 'Reactions',
     reactionAuthorsClose: 'Close',
     reactionAuthorsLoading: 'Loading reactions…',
     reactionAuthorsEmpty: 'No reactions yet.',
-    reactionAuthorsNone: 'None',
     reactionAuthorsFailed: "Couldn't load who reacted. Try again.",
-    reactionAuthorsOpen: 'See who reacted',
-    reactionAuthorsOpenAria: 'See who reacted. Reaction buttons also open this list on press and hold.',
     /** Modal group labels (Live / Laugh / Love). Stored keys remain heart / laugh / hang_loose. */
     reactionGroupLove: 'Love',
     reactionGroupLaugh: 'Laugh',
@@ -987,7 +985,7 @@ export const copy = {
     unlockedCompact: 'Achievement unlocked',
     unreadAria: 'Achievements, new awards',
     unlockTitleSingular: 'Achievement Unlocked!',
-    unlockTitlePlural: '{count} Achievements Unlocked!',
+    unlockTitlePlural: 'You unlocked {count} achievements!',
     unlockSeeIt: 'See It',
     unlockSeeAll: 'See All',
     unlockClose: 'Close Achievement',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onUnmounted, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLongPress } from '@/composables/useLongPress'
 import ReactionAuthorsModal from '@/features/gallery/ReactionAuthorsModal.vue'
@@ -26,6 +26,9 @@ const emit = defineEmits<{
 
 const router = useRouter()
 const session = useSessionStore()
+const themeClass = computed(() =>
+  session.currentGame === 'shipit' ? 'theme-ship' : 'theme-drink',
+)
 
 const busy = ref(false)
 const error = ref<string | null>(null)
@@ -141,6 +144,18 @@ function onReactionClick(emoji: GalleryReactionEmoji, event: Event) {
   if (event.defaultPrevented) return
   void toggle(emoji)
 }
+
+/** Keyboard path for the author list. Does not toggle the reaction. */
+function isAuthorShortcut(event: KeyboardEvent): boolean {
+  return event.key === 'ContextMenu' || (event.key === 'F10' && event.shiftKey)
+}
+
+function onReactionKeydown(event: KeyboardEvent) {
+  if (event.repeat || !isAuthorShortcut(event)) return
+  event.preventDefault()
+  event.stopPropagation()
+  void openAuthorsModal()
+}
 </script>
 
 <template>
@@ -165,9 +180,11 @@ function onReactionClick(emoji: GalleryReactionEmoji, event: Event) {
           "
           :style="tone === 'pill' ? undefined : { background: 'var(--theme-gradient-warm)' }"
           :aria-label="reactionAria(opt.label)"
+          aria-keyshortcuts="Shift+F10"
           :aria-pressed="myReaction === opt.id"
           :data-testid="`gallery-react-${opt.id}`"
           :disabled="busy"
+          @keydown="onReactionKeydown"
           @pointerdown="longPress.onPointerDown"
           @pointermove="longPress.onPointerMove"
           @pointerup="longPress.onPointerUp"
@@ -198,15 +215,6 @@ function onReactionClick(emoji: GalleryReactionEmoji, event: Event) {
         </span>
       </div>
     </div>
-    <button
-      type="button"
-      class="gallery-react-who"
-      data-testid="gallery-reaction-authors-open"
-      :aria-label="copy.gallery.reactionAuthorsOpenAria"
-      @click="openAuthorsModal"
-    >
-      {{ copy.gallery.reactionAuthorsOpen }}
-    </button>
     <p
       v-if="error"
       class="gallery-react-error"
@@ -220,6 +228,7 @@ function onReactionClick(emoji: GalleryReactionEmoji, event: Event) {
       :groups="authorGroups"
       :loading="authorsLoading"
       :error="authorsError"
+      :theme-class="themeClass"
       @close="closeAuthorsModal"
     />
   </div>

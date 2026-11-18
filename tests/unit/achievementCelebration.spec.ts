@@ -14,7 +14,7 @@ describe('achievement unlock popup copy', () => {
     expect(copy.achievements.unlockSeeAll).toBe('See All')
     expect(copy.achievements.unlockTitleSingular).toBe('Achievement Unlocked!')
     expect(formatCopy(copy.achievements.unlockTitlePlural, { count: 6 })).toBe(
-      '6 Achievements Unlocked!',
+      'You unlocked 6 achievements!',
     )
   })
 

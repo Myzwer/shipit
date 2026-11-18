@@ -922,28 +922,6 @@ body {
   -webkit-touch-callout: none;
 }
 
-.gallery-react-who {
-  display: inline-flex;
-  margin-top: 0.4rem;
-  min-height: 2.25rem;
-  align-items: center;
-  padding: 0.15rem 0.1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--theme-muted);
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
-  background: transparent;
-  border: 0;
-}
-
-.gallery-react-who:focus-visible {
-  outline: 2px solid var(--theme-primary);
-  outline-offset: 2px;
-  border-radius: 0.35rem;
-}
-
 /* Keep failure copy out of the three-column pill flex row. */
 .gallery-react-error {
   margin-top: 0.45rem;
