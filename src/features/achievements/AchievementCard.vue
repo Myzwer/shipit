@@ -2,6 +2,10 @@
 import { computed } from 'vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import { resolveAchievementIconKey } from '@/lib/achievements/icons'
+import {
+  achievementCardDescription,
+  isSecretAchievementMasked,
+} from '@/lib/achievements/secretReveal'
 import { formatShipEarnedBadge } from '@/lib/shipClockFormat'
 import type { AchievementCard } from '@/types/achievements'
 import { copy, formatCopy } from '@/ui/copy'
@@ -14,7 +18,8 @@ const props = defineProps<{
 }>()
 
 const isEarned = computed(() => props.card.earned)
-const isSecretLocked = computed(() => props.card.secret && !props.card.earned)
+/** Pre-finale unearned secret only — post-finale disclosure uses server `masked: false`. */
+const isSecretMasked = computed(() => isSecretAchievementMasked(props.card))
 const isClaimedOther = computed(
   () =>
     !props.card.earned &&
@@ -27,7 +32,7 @@ const isExclusiveAvailable = computed(
 
 const iconResolution = computed(() =>
   resolveAchievementIconKey(props.card.icon_key, {
-    masked: isSecretLocked.value,
+    masked: isSecretMasked.value,
   }),
 )
 
@@ -41,8 +46,15 @@ const earnedBadge = computed(() => {
   return formatShipEarnedBadge(shipLocal)
 })
 
+const lockedDescription = computed(() =>
+  achievementCardDescription(props.card, {
+    secretLabel: copy.achievements.secretLabel,
+    secretRequirement: copy.achievements.secretRequirement,
+  }),
+)
+
 const progress = computed(() => {
-  if (props.card.earned || isSecretLocked.value) return null
+  if (props.card.earned || isSecretMasked.value) return null
   const p = props.card.progress
   if (!p || p.target <= 0) return null
   if (p.target === 1 && p.current === 0) return null
@@ -184,7 +196,7 @@ const progressPct = computed(() => {
           </div>
 
           <p class="mt-1 text-sm leading-snug opacity-80" style="color: var(--theme-ink)">
-            {{ isSecretLocked ? copy.achievements.secretLabel : card.description }}
+            {{ lockedDescription }}
           </p>
         </template>
       </div>

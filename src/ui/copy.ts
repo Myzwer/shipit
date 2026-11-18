@@ -964,6 +964,8 @@ export const copy = {
     claimedBy: 'Claimed by {name}',
     available: 'Available',
     secretLabel: 'Secret Achievement',
+    /** Post-finale unearned secret requirement; `{requirement}` is canonical display_description. */
+    secretRequirement: 'Secret: {requirement}',
     progress: '{current}/{target}',
     overallProgress: '{earned} of {total} Achievements Earned',
     filterBy: 'Filter by:',
