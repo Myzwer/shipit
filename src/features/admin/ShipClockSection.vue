@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import {
   applyManualCorrection,
+  configureCruiseClock,
   fetchAdminClockDiagnostics,
   newClientRequestId,
   previewManualDelta,
@@ -68,6 +69,9 @@ const unknownAttempt = ref<{
 } | null>(null)
 
 const setTimeInput = ref('')
+const configureDay1 = ref('2026-11-21')
+const configureOffset = ref(-300)
+const configureLabel = ref('production')
 const draftPlan = ref<Record<number, PlanDaySelectValue>>({
   1: '0',
   2: '0',
@@ -221,6 +225,41 @@ async function loadDiagnostics() {
   } catch (err) {
     loadStatus.value = 'error'
     loadError.value = err instanceof Error ? err.message : copy.admin.error
+  }
+}
+
+async function saveCruiseConfigure() {
+  if (busy.value || !configureDay1.value) return
+  feedback.value = null
+  busy.value = true
+  try {
+    const result = await configureCruiseClock({
+      day1ShipDate: configureDay1.value,
+      baseOffsetMinutes: Number(configureOffset.value),
+      label: configureLabel.value.trim() || 'production',
+    })
+    diagnostics.value = result.diagnostics
+    syncDraftFromPlan(result.diagnostics.plan ?? [])
+    if (result.diagnostics.state?.ship_local) {
+      const p = parseShipLocal(result.diagnostics.state.ship_local)
+      if (p) {
+        setTimeInput.value = `${p.date}T${String(p.hours).padStart(2, '0')}:${String(p.minutes).padStart(2, '0')}`
+      }
+    }
+    loadStatus.value = result.diagnostics.state?.configured === false ? 'unavailable' : 'ready'
+    feedback.value = {
+      kind: 'success',
+      title: copy.admin.configureSuccess,
+      body: copy.admin.configureHint,
+    }
+  } catch (err) {
+    feedback.value = {
+      kind: 'error',
+      title: copy.admin.failureTitle,
+      body: err instanceof Error ? err.message : copy.admin.failureBody,
+    }
+  } finally {
+    busy.value = false
   }
 }
 
@@ -469,8 +508,70 @@ async function retrySameUnknownChange() {
       {{ copy.admin.loading }}
     </div>
 
-    <div v-else-if="loadStatus === 'unavailable'" class="mt-4 rounded-2xl px-4 py-3 text-sm" style="background: #ebe6df; color: #5b6770">
-      {{ copy.admin.unavailable }}
+    <div
+      v-else-if="loadStatus === 'unavailable'"
+      class="mt-4 space-y-4 rounded-2xl px-4 py-4 text-sm"
+      style="background: #ebe6df; color: #5b6770"
+      data-testid="ship-clock-configure"
+    >
+      <p>{{ copy.admin.unavailable }}</p>
+      <h3 class="font-display text-base font-bold" style="color: #2f3a44">
+        {{ copy.admin.configureHeading }}
+      </h3>
+      <p>{{ copy.admin.configureHint }}</p>
+      <label class="block">
+        <span class="text-xs font-semibold uppercase tracking-wide">{{ copy.admin.configureDay1Label }}</span>
+        <input
+          v-model="configureDay1"
+          type="date"
+          class="mt-1 w-full rounded-xl border px-3 py-2"
+          style="border-color: #c9c0b4; color: #2f3a44"
+          data-testid="configure-day1"
+        />
+      </label>
+      <label class="block">
+        <span class="text-xs font-semibold uppercase tracking-wide">{{ copy.admin.configureOffsetLabel }}</span>
+        <input
+          v-model.number="configureOffset"
+          type="number"
+          step="60"
+          class="mt-1 w-full rounded-xl border px-3 py-2"
+          style="border-color: #c9c0b4; color: #2f3a44"
+          data-testid="configure-offset"
+        />
+      </label>
+      <label class="block">
+        <span class="text-xs font-semibold uppercase tracking-wide">{{ copy.admin.configureLabelField }}</span>
+        <input
+          v-model="configureLabel"
+          type="text"
+          class="mt-1 w-full rounded-xl border px-3 py-2"
+          style="border-color: #c9c0b4; color: #2f3a44"
+          data-testid="configure-label"
+        />
+      </label>
+      <button
+        type="button"
+        class="rounded-full px-5 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        style="background: #0a5c6b"
+        :disabled="busy"
+        data-testid="configure-save"
+        @click="saveCruiseConfigure"
+      >
+        {{ copy.admin.configureSave }}
+      </button>
+      <div
+        v-if="feedback"
+        class="rounded-xl px-3 py-2"
+        :style="
+          feedback.kind === 'success'
+            ? { background: '#dcefe8', color: '#1d5c4a' }
+            : { background: '#f3dede', color: '#8b3a3a' }
+        "
+      >
+        <p class="font-semibold">{{ feedback.title }}</p>
+        <p class="mt-1">{{ feedback.body }}</p>
+      </div>
     </div>
 
     <div v-else-if="loadStatus === 'error'" class="mt-4 space-y-3">

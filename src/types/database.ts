@@ -156,6 +156,16 @@ export interface Database {
         Args: Record<string, never>
         Returns: Record<string, unknown>
       }
+      admin_configure_cruise_clock: {
+        Args: {
+          p_day1_ship_date: string
+          p_base_offset_minutes: number
+          p_label?: string
+          p_final_hour?: number
+          p_final_minute?: number
+        }
+        Returns: Record<string, unknown>
+      }
       admin_preview_manual_clock_correction: {
         Args: { p_delta_minutes: number }
         Returns: Record<string, unknown>

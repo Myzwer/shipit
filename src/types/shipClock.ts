@@ -23,7 +23,7 @@ export interface ShipClockState {
   finale_at_utc?: string
   finalized?: boolean
   /**
-   * Day 1 ship-local 00:00 → UTC (iterative offset refine).
+   * Day 1 ship-local 14:00 → UTC (iterative offset refine).
    * Ship Clock `pre_cruise` → `active`; shared gameplay open gate.
    */
   cruise_opens_at_utc?: string
@@ -34,7 +34,7 @@ export interface ShipClockState {
    * eligible. First public bounty window is `drinkit_bounty_opens_at_utc`.
    */
   drinkit_opens_at_utc?: string
-  /** Day 1 ship-local 12:00 → UTC — first Drink It! noon bounty / Daily window. */
+  /** Day 1 ship-local 14:00 → UTC — first Drink It! bounty / Daily window. */
   drinkit_bounty_opens_at_utc?: string
   games?: {
     drinkit: ShipClockGameStatus

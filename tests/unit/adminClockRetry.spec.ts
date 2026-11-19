@@ -4,7 +4,15 @@ const rpc = vi.fn()
 
 vi.mock('@/lib/supabase', () => ({
   isSupabaseConfigured: true,
-  supabase: { rpc },
+  supabase: {
+    rpc,
+    auth: {
+      getSession: vi.fn().mockResolvedValue({
+        data: { session: { access_token: 'test-access-token' } },
+        error: null,
+      }),
+    },
+  },
 }))
 
 describe('applyManualCorrection unknown outcomes', () => {

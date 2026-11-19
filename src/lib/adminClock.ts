@@ -30,9 +30,25 @@ function client() {
   return supabase
 }
 
-/** Admin RPC helper — args validated at the Postgres boundary via require_admin. */
+/**
+ * Admin RPC helper — require a signed-in access token before calling.
+ * Without a session the shared anon-key client runs as `anon`, which yields
+ * Postgres `permission denied for function …` (42501) instead of ADMIN_REQUIRED.
+ * Server-side require_admin remains the authorization boundary.
+ */
 async function adminRpc(fn: string, args?: Record<string, unknown>) {
-  const { data, error } = await client().rpc(fn as 'get_ship_clock_state', args as never)
+  const sb = client()
+  const { data: sessionData, error: sessionError } = await sb.auth.getSession()
+  if (sessionError) {
+    throw new AdminClockError(sessionError.message, 'auth')
+  }
+  if (!sessionData.session?.access_token) {
+    throw new AdminClockError(
+      'Sign in required before using Ship Clock admin tools.',
+      'auth',
+    )
+  }
+  const { data, error } = await sb.rpc(fn as 'get_ship_clock_state', args as never)
   return { data, error }
 }
 
@@ -72,6 +88,38 @@ export async function fetchAdminClockDiagnostics(): Promise<AdminClockDiagnostic
     throw new AdminClockError(error.message, kind)
   }
   return data as unknown as AdminClockDiagnostics
+}
+
+export type ConfigureCruiseClockInput = {
+  day1ShipDate: string
+  baseOffsetMinutes: number
+  label?: string
+}
+
+/** Admin-only production cruise_config create/replace. Does not init schedule or start games. */
+export async function configureCruiseClock(
+  input: ConfigureCruiseClockInput,
+): Promise<{ diagnostics: AdminClockDiagnostics; cruiseConfigId: string }> {
+  const { data, error } = await adminRpc('admin_configure_cruise_clock', {
+    p_day1_ship_date: input.day1ShipDate,
+    p_base_offset_minutes: input.baseOffsetMinutes,
+    p_label: input.label ?? 'production',
+    p_final_hour: 18,
+    p_final_minute: 0,
+  })
+  if (error) {
+    const kind = /ADMIN_REQUIRED|42501|permission/i.test(error.message) ? 'auth' : 'rpc'
+    throw new AdminClockError(error.message, kind)
+  }
+  const payload = data as unknown as {
+    cruise_config_id: string
+    diagnostics?: AdminClockDiagnostics
+  }
+  let diagnostics = payload.diagnostics
+  if (!diagnostics) {
+    diagnostics = await fetchAdminClockDiagnostics()
+  }
+  return { diagnostics, cruiseConfigId: payload.cruise_config_id }
 }
 
 export async function findEventByRequestId(requestId: string) {

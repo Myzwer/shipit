@@ -51,10 +51,11 @@ export function deriveHomeBoardPhase(input: {
   if (!ship) return 'unavailable'
 
   const minutes = ship.hours * 60 + ship.minutes
-  const noon = 12 * 60
+  // Day 1 public bounty open is 14:00; Days 2–7 remain noon (server drinkit_lifecycle_at).
+  const openMinutes = clock.cruise_day === 1 ? 14 * 60 : 12 * 60
   const close = 23 * 60
 
-  if (minutes < noon) return 'pre_open'
+  if (minutes < openMinutes) return 'pre_open'
   if (minutes >= close) return 'overnight'
 
   // Mid-window with no public slot (e.g. schedule missing) — do not invent an offer.
@@ -62,38 +63,42 @@ export function deriveHomeBoardPhase(input: {
 }
 
 /**
- * Next public Drink It! opening (noon ship-local) as a UTC ISO string, or null.
- * Uses the frozen offset from the last clock snapshot — not the device timezone.
+ * Next public Drink It! opening as a UTC ISO string, or null.
+ * Day 1 opens 14:00; later days noon. Uses frozen offset from the clock snapshot.
  */
 export function nextOpeningUtcIso(clock: ShipClockState, nowEstimateUtcMs?: number): string | null {
   if (!clock.configured || clock.offset_minutes == null || !clock.ship_local || !clock.ship_date) {
     return null
+  }
+  // Prefer authoritative Day-1 bounty open from the server when still pre-open.
+  if (clock.drinkit_bounty_opens_at_utc && clock.lifecycle === 'pre_cruise') {
+    return clock.drinkit_bounty_opens_at_utc
   }
   const ship = parseShipLocal(clock.ship_local)
   if (!ship) return null
 
   const offset = clock.offset_minutes
   const minutes = ship.hours * 60 + ship.minutes
-  let openDate = clock.ship_date
+  const openHour = clock.cruise_day === 1 ? 14 : 12
+  const wallUtcMs = (date: string, hour: number) =>
+    Date.parse(`${date}T${String(hour).padStart(2, '0')}:00:00Z`) - offset * 60_000
 
-  if (minutes >= 12 * 60) {
-    // After noon → next calendar ship day at noon (overnight / open-but-closed evening).
+  let openDate = clock.ship_date
+  let hour = openHour
+  if (minutes >= openHour * 60) {
+    // After today's open → next calendar ship day at noon.
     const d = new Date(`${clock.ship_date}T12:00:00Z`)
     d.setUTCDate(d.getUTCDate() + 1)
     openDate = d.toISOString().slice(0, 10)
+    hour = 12
   }
 
-  // Day 7 after finale is handled by finale status — callers should not request overnight.
-  const shipNoonAsUtcMs =
-    Date.parse(`${openDate}T12:00:00Z`) - offset * 60_000
-
-  if (nowEstimateUtcMs != null && shipNoonAsUtcMs <= nowEstimateUtcMs) {
-    // Safety: if estimate already past, push one more day.
+  let targetMs = wallUtcMs(openDate, hour)
+  if (nowEstimateUtcMs != null && targetMs <= nowEstimateUtcMs) {
     const d = new Date(`${openDate}T12:00:00Z`)
     d.setUTCDate(d.getUTCDate() + 1)
-    const next = d.toISOString().slice(0, 10)
-    return new Date(Date.parse(`${next}T12:00:00Z`) - offset * 60_000).toISOString()
+    targetMs = wallUtcMs(d.toISOString().slice(0, 10), 12)
   }
 
-  return new Date(shipNoonAsUtcMs).toISOString()
+  return new Date(targetMs).toISOString()
 }

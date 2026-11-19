@@ -43,25 +43,26 @@ beforeEach(async () => {
 })
 
 describe('Pre-Cruise opening instants (clock contract)', () => {
-  it('exposes shared Day-1 midnight open + later Drink It! noon bounty open', async () => {
+  it('exposes shared Day-1 14:00 open (bounty opens at the same Day-1 wall)', async () => {
     if (!fixtures.available) return
 
-    const preUtc = shipLocalToUtcIso(dayDate(1), '00:00:00', DEV_BASE_OFFSET_MIN)
-    // One second before Day 1 midnight ship-local.
-    const beforeOpen = new Date(new Date(preUtc).getTime() - 1000).toISOString()
-    const afterOpen = new Date(new Date(preUtc).getTime() + 1000).toISOString()
-    const noonUtc = shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN)
+    const openUtc = shipLocalToUtcIso(dayDate(1), '14:00:00', DEV_BASE_OFFSET_MIN)
+    // One second before Day 1 14:00 ship-local.
+    const beforeOpen = new Date(new Date(openUtc).getTime() - 1000).toISOString()
+    const afterOpen = new Date(new Date(openUtc).getTime() + 1000).toISOString()
+    const morningUtc = shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN)
 
     const before = await stateAt(fixtures.service!, beforeOpen, false)
     expect(before.lifecycle).toBe('pre_cruise')
     expect(before.accepting_submissions).toBe(false)
-    expect(sameUtcInstant(before.cruise_opens_at_utc, preUtc)).toBe(true)
-    expect(sameUtcInstant(before.shipit_opens_at_utc, preUtc)).toBe(true)
-    expect(sameUtcInstant(before.drinkit_opens_at_utc, preUtc)).toBe(true)
-    expect(sameUtcInstant(before.drinkit_bounty_opens_at_utc, noonUtc)).toBe(true)
-    expect(new Date(before.drinkit_bounty_opens_at_utc).getTime()).toBeGreaterThan(
-      new Date(before.cruise_opens_at_utc).getTime(),
-    )
+    expect(sameUtcInstant(before.cruise_opens_at_utc, openUtc)).toBe(true)
+    expect(sameUtcInstant(before.shipit_opens_at_utc, openUtc)).toBe(true)
+    expect(sameUtcInstant(before.drinkit_opens_at_utc, openUtc)).toBe(true)
+    expect(sameUtcInstant(before.drinkit_bounty_opens_at_utc, openUtc)).toBe(true)
+
+    const morning = await stateAt(fixtures.service!, morningUtc, false)
+    expect(morning.lifecycle).toBe('pre_cruise')
+    expect(morning.accepting_submissions).toBe(false)
 
     const after = await stateAt(fixtures.service!, afterOpen, false)
     expect(after.lifecycle).toBe('active')
@@ -112,7 +113,7 @@ describe('Pre-Cruise opening instants (clock contract)', () => {
     expect(sameUtcInstant(live.shipit_opens_at_utc, live.drinkit_opens_at_utc)).toBe(true)
   })
 
-  it('refines Day-1 noon open when a Day-1 3 AM plan delta applies', async () => {
+  it('refines Day-1 14:00 open when a Day-1 3 AM plan delta applies', async () => {
     if (!fixtures.available) return
 
     const t0 = shipLocalToUtcIso(dayDate(1), '00:30:00', DEV_BASE_OFFSET_MIN)
@@ -124,8 +125,8 @@ describe('Pre-Cruise opening instants (clock contract)', () => {
     })
     expect(planErr).toBeNull()
 
-    const noonNaive = shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN)
-    const noonAfterDelta = shipLocalToUtcIso(dayDate(1), '12:00:00', DEV_BASE_OFFSET_MIN + 60)
+    const openNaive = shipLocalToUtcIso(dayDate(1), '14:00:00', DEV_BASE_OFFSET_MIN)
+    const openAfterDelta = shipLocalToUtcIso(dayDate(1), '14:00:00', DEV_BASE_OFFSET_MIN + 60)
 
     const pre = await stateAt(
       fixtures.service!,
@@ -133,12 +134,9 @@ describe('Pre-Cruise opening instants (clock contract)', () => {
       false,
     )
     expect(pre.lifecycle).toBe('pre_cruise')
-    // Midnight open still uses base offset (3 AM delta is after midnight).
-    expect(
-      sameUtcInstant(pre.cruise_opens_at_utc, shipLocalToUtcIso(dayDate(1), '00:00:00', DEV_BASE_OFFSET_MIN)),
-    ).toBe(true)
-    // Noon must refine through the Day-1 3 AM +60 event — not the pre-cruise offset alone.
-    expect(sameUtcInstant(pre.drinkit_bounty_opens_at_utc, noonAfterDelta)).toBe(true)
-    expect(sameUtcInstant(pre.drinkit_bounty_opens_at_utc, noonNaive)).toBe(false)
+    // 14:00 open must refine through the Day-1 3 AM +60 event — not the pre-cruise offset alone.
+    expect(sameUtcInstant(pre.cruise_opens_at_utc, openAfterDelta)).toBe(true)
+    expect(sameUtcInstant(pre.drinkit_bounty_opens_at_utc, openAfterDelta)).toBe(true)
+    expect(sameUtcInstant(pre.drinkit_bounty_opens_at_utc, openNaive)).toBe(false)
   })
 })

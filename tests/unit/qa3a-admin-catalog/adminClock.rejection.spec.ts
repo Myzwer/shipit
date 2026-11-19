@@ -15,7 +15,15 @@ const rpc = vi.fn()
 
 vi.mock('@/lib/supabase', () => ({
   isSupabaseConfigured: true,
-  supabase: { rpc: (...args: unknown[]) => rpc(...args) },
+  supabase: {
+    rpc: (...args: unknown[]) => rpc(...args),
+    auth: {
+      getSession: vi.fn().mockResolvedValue({
+        data: { session: { access_token: 'test-access-token' } },
+        error: null,
+      }),
+    },
+  },
 }))
 
 import { applyManualCorrection, intentFingerprint } from '@/lib/adminClock'
