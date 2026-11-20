@@ -3,7 +3,7 @@
  * Authoritative player rules UI shared by Pre-Cruise pages and in-game How to Play.
  * Content source: content/precruise/PC1_Player_Rules_Approved_Copy.md
  */
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import AppIcon from '@/components/shared/AppIcon.vue'
 import {
   PRECRUISE_RULE_CATEGORY_OPTIONS,
@@ -11,6 +11,9 @@ import {
 } from '@/content/precruiseRules'
 import { ruleEmphasisRuns } from '@/lib/precruise/parsePlayerRules'
 import type { RulesCategoryKey } from '@/lib/precruise/parsePlayerRules'
+import { resolveShipItAssignment, type ShipItAssignment } from '@/lib/shipit/assignment'
+import { fetchShipItHome } from '@/lib/shipit/api'
+import { useSessionStore } from '@/stores/session'
 import { copy, formatCopy } from '@/ui/copy'
 
 const props = withDefaults(
@@ -24,9 +27,11 @@ const props = withDefaults(
   },
 )
 
+const session = useSessionStore()
 const selected = ref<RulesCategoryKey>('quick')
 const navEl = ref<HTMLElement | null>(null)
 const contentEl = ref<HTMLElement | null>(null)
+const shipAssignment = ref<ShipItAssignment | null>(null)
 
 const rules = computed(() => rulesForGame(props.game))
 const navOptions = PRECRUISE_RULE_CATEGORY_OPTIONS
@@ -56,6 +61,21 @@ const footerAction = computed(() => {
   }
 })
 
+const crewLine = computed(() => shipAssignment.value?.crewNames.join(', ') ?? '')
+
+async function loadShipAssignment() {
+  shipAssignment.value = null
+  if (props.game !== 'shipit') return
+  // Session team is a fast gate: no Ship It! team → omit section entirely.
+  if (!session.teamName) return
+  try {
+    const payload = await fetchShipItHome()
+    shipAssignment.value = resolveShipItAssignment(payload, session.displayName ?? '')
+  } catch {
+    shipAssignment.value = null
+  }
+}
+
 async function selectCategory(key: RulesCategoryKey) {
   selected.value = key
   await nextTick()
@@ -64,6 +84,17 @@ async function selectCategory(key: RulesCategoryKey) {
   const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - 8)
   window.scrollTo({ top, behavior: 'smooth' })
 }
+
+onMounted(() => {
+  void loadShipAssignment()
+})
+
+watch(
+  () => [props.game, session.teamName, session.displayName] as const,
+  () => {
+    void loadShipAssignment()
+  },
+)
 </script>
 
 <template>
@@ -80,6 +111,23 @@ async function selectCategory(key: RulesCategoryKey) {
           <strong v-if="run.strong">{{ run.text }}</strong>
           <template v-else>{{ run.text }}</template>
         </template>
+      </p>
+    </div>
+
+    <div
+      v-if="shipAssignment"
+      class="ship-assignment mb-5 px-1"
+      data-testid="shipit-assignment"
+    >
+      <p class="ship-assignment__line">
+        <span class="ship-assignment__label">{{ copy.precruise.assignedTeamLabel }}</span>
+        {{ ' ' }}
+        <span data-testid="shipit-assignment-team">{{ shipAssignment.teamName }}</span>
+      </p>
+      <p class="ship-assignment__line">
+        <span class="ship-assignment__label">{{ copy.precruise.assignedCrewLabel }}</span>
+        {{ ' ' }}
+        <span data-testid="shipit-assignment-crew">{{ crewLine }}</span>
       </p>
     </div>
 
@@ -174,6 +222,26 @@ async function selectCategory(key: RulesCategoryKey) {
 </template>
 
 <style scoped>
+.ship-assignment {
+  color: var(--theme-ink);
+}
+
+.ship-assignment__line {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.ship-assignment__line + .ship-assignment__line {
+  margin-top: 0.35rem;
+}
+
+.ship-assignment__label {
+  font-weight: 700;
+}
+
 .rules-nav {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

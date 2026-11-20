@@ -64,6 +64,21 @@ describe('parsePlayerRulesMarkdown', () => {
     expect(joined).toContain('attend and participate at the announced time')
   })
 
+  it('uses the updated Ingredient Bounty Full Rules paragraph', () => {
+    const drink = games.find((g) => g.game === 'drinkit')!
+    const full = drink.categories.find((c) => c.key === 'full')!
+    const ingredient = full.sections.find((s) => s.title === 'Ingredient Bounties')!
+    const joined = ingredient.blocks
+      .flatMap((b) => (b.type === 'list' ? b.items ?? [] : [b.text ?? '']))
+      .join('\n')
+    expect(joined).toContain('When you click “Claim it!” on the ingredient bounty')
+    expect(joined).toContain('you are shown which bars have that ingredient, but not which drink')
+    expect(joined).toContain(
+      'The more odd the ingredient, the more niche and specific the drink will be!',
+    )
+    expect(joined).not.toContain('only how many bars have it on the menu')
+  })
+
   it('defaults FAQ accordion count for Ship It!', () => {
     const ship = games.find((g) => g.game === 'shipit')!
     const faq = ship.categories.find((c) => c.key === 'faq')!

@@ -22,6 +22,7 @@ vi.mock('@/stores/session', () => ({
   useSessionStore: () => ({
     isDualGame: false,
     teamName: 'Demo Team Alpha',
+    displayName: 'Demo Both Games',
     setCurrentGame: vi.fn(),
     init: vi.fn(),
   }),

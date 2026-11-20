@@ -27,6 +27,8 @@ export const copy = {
     rulesNavLabel: 'Rules sections',
     nextSection: 'Next: {section}',
     backToQuickRules: 'Back to Quick Rules',
+    assignedTeamLabel: 'Your assigned team:',
+    assignedCrewLabel: 'Your assigned crew:',
     logOut: 'Log Out',
     admin: 'Admin',
     membershipLoading: 'Loading your games…',

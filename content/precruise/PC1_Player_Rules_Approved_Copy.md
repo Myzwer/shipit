@@ -226,7 +226,7 @@ You can claim one Cocktail Bounty per day, choose wisely!
 
 ### Ingredient Bounties
 
-Every two hours, a featured ingredient appears. Unlike the Cocktail Bounty, you are not given a location, only how many bars have it on the menu. Your job is to track down a bar and drink that have it, **with at least one other Drink It! player along for the claim**. That means you'll have to do a little recon of your own, so pay attention to the featured cocktails, you may remember something you saw!
+Every two hours, a featured ingredient appears. When you click “Claim it!” on the ingredient bounty, you are shown which bars have that ingredient, but not which drink. Your job is to track down the bar and then what drink that has it, with at least one other Drink It! player along for the claim. The more odd the ingredient, the more niche and specific the drink will be!
 
 Ingredient Bounties are worth **25–100 points**, depending on how rare the ingredient is across the ship's bars. Lower point ingredients are easier to find, the 100 point tier will require some investigative work. 
 
